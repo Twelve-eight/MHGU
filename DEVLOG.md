@@ -232,3 +232,21 @@ dsv4.1f ×5（effort: hi），报告落 `.tmp/reports-mhgu/`：
 ### 修复方向（待字段表收敛）
 编辑器只能写合法任务位域段（FLAG-GROW 区），避开记录区；
 若需「解锁需前置」再叠加任务依赖链（QuestTable 决定数据vs代码、要不要 Lean 闭包）。
+
+## 2026-10-22 长期目标确立：全面逆向 → 存档每字节可解释/可改
+
+### 目标
+1. 逆向解析游戏到「存档修改器可详细解释、修改存档内一切字节」
+2. 全面调研现有修改器功能（前人阶段成果，其写入偏移=存档布局地图）
+3. 任务解锁修复并入长期目标：完整形态 = 真任务位域边界 + 前置依赖闭包
+   （要不要 Lean 式逻辑判定由 QuestTable 的数据vs代码结论决定）
+
+### 当前编排（6 子代理 dsv4.1f+hi，写集互斥，各配独立报告）
+- 编辑器普查×4：MapItems / MapEquips / MapMonsterCats / MapOtherMain
+  → 每控件→char_off→语义 全表（.tmp/reports-mhgu/editor-map/）
+- 任务逆向×2：QuestPrecheck2(前置判定) / QuestTable(romfs quest 表)
+  → .tmp/reports-mhgu/quest/
+
+### 主会话已补齐
+- 成员#4 完整字段表（0x51dbb4）：0x51dc40 实为顺序读块非查表循环；
+  obj+0x72C/+0x83E 双 274B = 任务位域(cleared vs seen)；+0xD24/D3C/D54 = quest 进度记录组。
