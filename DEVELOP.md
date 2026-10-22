@@ -461,7 +461,7 @@ uStageSet → mBillboard → mSort → mCameraCheck → mCameraClipping → mCam
 | `mPermitLv[N]` | 16 | 15 | — | 特别许可等级 16 项 |
 | `mListData[N]` | 80 | 79 | `cQuestDaily` | 日常委托列表 80 项 |
 
-**结论**：`mItemType/mItemNum` **不是**道具箱槽（2300/2992 不符），是**猫装备栏 160 槽**——此前「猫装备箱 0x17C2E(1000×36)」的推断需重核（名字表说是 160，不是 1000）。
+**结论（定论）**：`mItemType/mItemNum` 的 flat 扫描为 **160 次出现 / 160 个不同下标 / 连续 0..159**（无采样上限）⇒ **160 就是完整声明容量**，不存在 `mItemType[160..999]`。它不是道具箱槽（2300/2992 不符），也不是 0x17C2E 那个 1000槽区的实例库。
 `mListData[79]` = 委托列表容量 **80**，可作任务表容量的参照。
 
 ### 猫装备箱：名字表 160 vs 存档 1000 槽的辨析
@@ -491,7 +491,7 @@ uStageSet → mBillboard → mSort → mCameraCheck → mCameraClipping → mCam
 ### 后续区段（0x17C2E 之后到猫记录 146358）
 | 区间 | 结构 |
 |---|---|
-| `0x208CE..0x21E03` | **40 × 340B** 块（stride 340，每块前 67B 有数据）= 套装名/预设区 |
+| `0x208CE..0x21E03` | **40 × 136B** 套装预设记录（实测 stride **136** 逐块间隔，每录 42B 名 + ~25B 字段）= EquipsForm 写入区（133326 起）|
 | `0x21E03..0x22612` | 2064B 连续块 |
 | `0x22697..0x23BB6` | 稀疏小簇（4B/2B/140B/253B/182B）= 零散标志 |
 | `146358` | **猫记录基址**（84 × 324B，CatsForm `tmpCatDataBy` 从此加载）|
