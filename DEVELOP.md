@@ -165,7 +165,7 @@
 - **导出单槽 bug**：5 处 `1173440`(XX)→`1177760`(MHGU)。已部署 `MHGU存档修改-V2.exe`。
 - **UI 现代化**：ItemsForm 重写（搜索过滤/Segoe UI/CardPanel）。
 
-## 知识库（反编译成果，已入 git：`docs/`）
+## 知识库（反编译成果，已入 git：`docs/save-layout/` + `docs/analysis/`）
 
 > 权威副本在 `docs/save-layout/` 与 `docs/analysis/`；`.tmp/` 下同名文件是工作副本。
 
@@ -448,3 +448,18 @@ uStageSet → mBillboard → mSort → mCameraCheck → mCameraClipping → mCam
 `showMonstersList` 第二循环（`i=71..92`）原起点 **24454/24728/25226 错位**：跳过 `0x5F34..0x5F86` 的 41 个非零计数器（值 6,10,5,11,5,21,19,17,3,3,14,1,13,30,5,26,16,38,10,45…），读到全 0 区 ⇒ i=71..92 **永远显示 0 且写回错位置**。
 - 正确值：**24372 (0x5F34) / 24646 (0x6046) / 25062 (0x61E6)**
 - 已修，编译 0 警告 0 错误
+
+### 名字字典下标容量（实测，2026-10-22）
+
+对 flat.bin 全量扫数组下标（非去重限 3 次的旧扫）：
+
+| 成员名 | 不同下标数 | 最大下标 | 归属类 | 语义 |
+|---|---|---|---|---|
+| `mItemType[N]` / `mItemNum[N]` | **160** | 159 | **`cAcNyanterEquip`** | **随从猫装备栏 160 槽**（类型+数量）|
+| `mGuild[N]` / `mOld[N]` | 3 | 2 | `cTrialArts` | 288B 族 3 槽位 |
+| `mSupperArtsX1[N]` | 5 | 4 | `cAcPlayerEquip` | 狩技组 5 个（对应 obj+0xD24 24B = 5×4B+4）|
+| `mPermitLv[N]` | 16 | 15 | — | 特别许可等级 16 项 |
+| `mListData[N]` | 80 | 79 | `cQuestDaily` | 日常委托列表 80 项 |
+
+**结论**：`mItemType/mItemNum` **不是**道具箱槽（2300/2992 不符），是**猫装备栏 160 槽**——此前「猫装备箱 0x17C2E(1000×36)」的推断需重核（名字表说是 160，不是 1000）。
+`mListData[79]` = 委托列表容量 **80**，可作任务表容量的参照。
