@@ -175,3 +175,22 @@ dsv4.1f ×5（effort: hi），报告落 `.tmp/reports-mhgu/`：
 - [ ] 整合 5 份 .tmp/reports-mhgu/ 子代理报告进 DEVELOP.md 主文档
 - [ ] git commit V7 + 工具 + 文档
 - [ ] known-gap：0x19B1F4 无界预设互拷（idx 无上界，可写越 obj+0x7DB4）
+
+### 子代理台账（§4b/§8e）
+- **V7Builder**: model=dsv4.1f (wb2api/global:deepseek-v4.1-flash), effort=hi, route=wb2api.
+  监督=主会话字节级复核。产出: 91行 V7 + 65处布局站点清单 + 3处遗漏站点 + P0缺陷捕获。
+  主会话复核: 30/30 修正 flat 地址原字 e2800ffa 全过; 65 处 movw 原字 imm 全匹配;
+  vaddr/flat 偏移语义二次确认。verdict=**PASS-after-fix**（捕获了我 30 内联地址未 +0x100
+  的 P0 + 3 处 UI/预设字段遗漏站点，价值高）。能力评估: 静态二进制审计可靠，适合做
+  ARM 常量站点枚举与交叉验证; 弱点=地址标注有时混用 vaddr/flat 需主会话归一。
+
+### yuzu 启动恢复：OpenGL 绕过 Vulkan
+- 根因: Win32 surface `vkGetPhysicalDeviceSurfaceCapabilitiesKHR` 报 ERROR_UNKNOWN
+  (vulkaninfo 同症)，WDDM/呈现栈损坏，疑 Parsec/GameViewer 虚拟显示器所致。驱动
+  2026-07-23 非热替换。
+- **绕过**: `backend\default=false` + `backend=0` (OpenGL)。注意 yuzu `\default=true`
+  会强制用默认后端(Vulkan)忽略用户值——**两个键都要改**。OpenGL/wgl 不走 WSI
+  surface-caps 路径 → 启动成功，游戏进存档加载，patch 全 123 行在 GPU 初始化前应用、
+  无 ARM 异常。**patch 侧已证无害**。
+- **剩余验证**（视觉确认，§2 边界）: 需游戏内开道具箱翻到尾部看 UI 2400-2403/
+  2900-2903 marker + 页数应=30。yuzu1734 无 UI 自动化/内存读接口 → 交用户实机冒烟。

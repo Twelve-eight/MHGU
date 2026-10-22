@@ -115,3 +115,77 @@
 ### 存档修改器关键偏移
 
 `currentHunterBytes`（1,177,760 B）：`+0x278` 道具箱位流；`+0x2EFF` 24×170 组名块（编辑器:5248；main `0x19a84c cmp r1,#0x17`/`mov r2,#0xaa`）；`+0x28` HR；`+146358` 猫区 27216B。
+
+---
+
+# ═══ 2026-10-22 V7 终案（supersedes 上方早期方案） ═══
+
+## 最终结论
+
+**23 页根因**：UI 容量来自 `0x198F04` 混淆函数 `1000+300*popcount(flags)+200*bits`=2300，
+19 个 UI 调用点 → `0x553A74` 网格 → `ceil(2300/100)=23`。非存档/位流问题。
+
+**A 槽物理上限 = 2300**：对象布局 `obj+0x1A`(A槽 2300×4B → +0x240A) → B聚合表
++0x240A → C +0x47FA → D +0x59F2 → 堆ptr +0x62F0 → 预设 +0x62F4。N=2992 的 A[2300+]
+会压 B → 排序时 B 重建摧毁高段道具。**必须做布局后移 +0xAD0**。
+
+## V7 patch（123 行，`patch/1.4.0.pchtxt`，已部署）
+
+组成 = V6(22) + 容量getter(2) + 30内联容量 + 65布局后移 + 4预设guard。
+
+| 段 | 旧偏移 | 新偏移 |
+|---|---|---|
+| A 槽数组 | +0x1A | +0x1A（不动，扩到 2992×4B → +0x2EDA） |
+| B 聚合表 | +0x240A/0x240C | **+0x2EDA/0x2EDC** |
+| C 表 | +0x47FA | **+0x52CA** |
+| D 标志 | +0x59F2 | **+0x64C2** |
+| 清零长度 | 0x59D8/0x47E0 | 0x64A8/0x52B0 |
+| 堆备份 ptr | +0x62F0 | **+0x6DC0**（adj 0x62D6→0x6DA6） |
+| 预设基址 | +0x62F4 | **+0x6DC4** |
+| 预设记录字段 | +0x631D/1E/20/22 | **+0x6DED/EE/F0/F2** |
+| 对象大小 | 0x72E4 | **0x7DB4** |
+
+- 预设 24→14（借位流空间，0x1E3A 起 2437B 块）；4 处 idx≤23 guard 改 ≤13。
+- **3 处易漏 UI/字段站点**：`0x5B817C`(B页基址)/`0x5B8184`(D页基址)/`0x19AD08`(rec+0x2E)。
+- **容量 getter** flat `0x199004/0x199008`：`movw r0,#0xBB0; bx lr`（短路混淆函数）。
+- **30 内联容量** `e2800ffa`→`e3000bb0`（flat 偏移，**勿用 vaddr**——曾酿成 28 处误写 P0）。
+- **known-gap**：`0x19B1F4` 预设互拷无 idx 上界，可写越 obj+0x7DB4（未打）。
+
+## 偏移/位流语义（定案）
+
+- yuzu1734 IPS 行地址 = **flat 文件偏移**（`file_off = vaddr + 0x100`，flat 含 0x100 NSO0 头）。
+  `applied == line`，**无 offset_shift**。
+- 位流正序：`file slot k = UI slot k`（早前"倒序"结论错误）。
+- 位流 19bit/槽 LSB 打包，2992 槽 = 7106B @ `+0x278`；预设块 @ `+0x1E3A`。
+- 存档**无校验和**，任意字节修改合法。MHGU 单槽 = 1177760B（XX=1173440B）。
+
+## 存档修改器修复
+
+`editor-src/`（可 `dotnet build -c Release`，net472 + NuGet ref assemblies）：
+- **导出单槽 bug**：5 处 `1173440`(XX)→`1177760`(MHGU)。已部署 `MHGU存档修改-V2.exe`。
+- **UI 现代化**：ItemsForm 重写（搜索过滤/Segoe UI/CardPanel）。
+
+## 知识库（反编译成果，.tmp/reports-mhgu/）
+
+| 报告 | 内容 |
+|---|---|
+| `ui-page-bound.md` | UI 分页界：`0x198F04` 容量函数、19 调用点、`0x553A74` 网格 100/页 |
+| `preset-deadzone.md` | 预设区死区、guard 站点、`0x19B1F4` 无界互拷 |
+| `equip-box.md` | 装备箱 2000/1000 槽结构（勿动区） |
+| `item-table.md` | `itemData.itm` 2991 条×44B id→name/type/limit/icon（`item-table.tsv`） |
+| `save-load-path.md` | 存档序列化/反序列化全路径 |
+| `editor-ui-redesign.md` | 编辑器 UI 重写设计 |
+| `recovery-report.md` | 会话恢复记录 |
+
+## 工具
+
+- `tools/box-slot-tool.mjs`：`read|write|used <save.hnt>`，19bit LSB 编解码，slot=UI 索引。
+- `tools/build-v7-final.mjs` + `v7-shift-65.json`：V7 生成器（字节级验证源）。
+- `main.140.flat.bin`：25.4MB flat（含 NSO0 头）。
+
+## 实机验证状态
+
+- yuzu Vulkan `VK_ERROR_UNKNOWN`（Win32 surface-caps 损坏，与补丁无关）→ **OpenGL 绕过成功**
+  （`backend\default=false`+`backend=0`）。游戏进存档加载、patch 123 行全应用无 ARM 异常。
+- **剩余**：游戏内开箱翻页看 8 个 marker（2400-2403/2900-2903）+ 页数=30 → 视觉确认交用户（§2）。
+- 猎人A 存档离线复核：605 项、范围 0..2903、marker 全在正确槽位、位流/预设边界正确。
