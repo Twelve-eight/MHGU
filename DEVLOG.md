@@ -300,3 +300,10 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 - 这是修复行为，但意味着「打开编辑器→勾任一勋章→保存」会改写 B 槽。若需「只读不写」，后续可加确认对话框。
 
 **仓库卫生**：新增 `.gitignore` 排除 `editor-src/bin|obj` 与 `save-snapshots/`；存档快照按 AGENTS.md §7 用 robocopy 镜像到 `G:/backups/MHGU/save-snapshots`（9 文件，已镜像）。
+
+## 2026-10-22 代理路线与纪律登记（避免两套上下文混淆）
+- **模型路由**：用户要求改用 **wb2api/global**（dsv-dev 固定该路由，effort=hi）；swe2 停用，新派发一律 dsv-dev。
+- **复活 vs 新建**：本轮先误用 `task(...)` 新建了 4 个同名代理（Rec128Split / Fam288Concept / Fam164Concept / Reader134），已全部 kill；随后按用户要求用 `write agent://<id>` **唤醒原 session**（MapRecords128 / Fam288 / FamSmall / MapOuterSer），其累积上下文与半份分析保留。
+- **旧 session 状态**：4 个原代理均在 idle→revived，报告文件仍为各自唯一交付面（records-128.md / fam-288.md / fam-small.md / member4-header.md），续跑一律**增量追加**不覆盖。
+- **预生成 dump**（子代理无 exec，由主会话产出）：`.tmp/mhgu/analysis/followup-dump.txt`（15×128B 全 hex + 12 反汇编窗口）、`reader134-dump.txt`（0x51dc40 全程 + 0x51dbb4 + 0x51e560..0x51e800）、`families-dump.txt`、`families-disasm.txt`。
+- **codec-verify.mjs 路径坑**：脚本内按 cwd 拼 `MHGU/MHGU/save-snapshots/...`，必须从 `G:/omp works` 运行（不是 `MHGU/`）。已记录，下次勿踩。
