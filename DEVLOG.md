@@ -194,3 +194,16 @@ dsv4.1f ×5（effort: hi），报告落 `.tmp/reports-mhgu/`：
   无 ARM 异常。**patch 侧已证无害**。
 - **剩余验证**（视觉确认，§2 边界）: 需游戏内开道具箱翻到尾部看 UI 2400-2403/
   2900-2903 marker + 页数应=30。yuzu1734 无 UI 自动化/内存读接口 → 交用户实机冒烟。
+
+### Vulkan 根因定案：隐式 layer 损坏（非 WDDM）
+- 判别: `VK_LOADER_LAYERS_DISABLE=* vulkaninfo --summary` → 全 layer 禁用后
+  surface-caps/设备枚举全干净、无 ERROR。锁定 `VK_LAYER_RTSS` + `VK_LAYER_OBS_HOOK`
+  （还有 AMD_switchable/EOS/VALVE 等隐式层被一并禁用）。
+- **yuzu `EnableHooking=0` 挡不住隐式 layer 加载**——它只禁 layer 内部 hook 活动，
+  layer 本体仍注入并在坏显示状态下返回 ERROR_UNKNOWN。
+- 验证: `VK_LOADER_LAYERS_DISABLE=*` 启动 yuzu → Vulkan 完整初始化
+  (CreateGraphicsPipeline/SerializeVulkanPipelineCache 正常)，游戏运行。
+- **恢复步骤修正**: yuzu 现在已在 Vulkan 下运行 V7，用户可**立即**开箱冒烟，
+  无需重启。若想恢复默认 Vulkan（不带 env 启动），重启或修复 RTSS/OBS layer 注册表。
+- 备选判别残留: 若重启后 Vulkan 仍挂 = layer 注册表残留（重装 RTSS/OBS）；
+  若好 = 运行时 wedge 已清。
