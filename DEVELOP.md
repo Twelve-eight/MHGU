@@ -380,3 +380,38 @@ MapOuterSer §8 把成员#4 尾段判为「274B×2 任务位域 + 552B 变长块
 - 三条 stride 正确（`+2 / +2 / +4`，`i==91` 时 `+4/+8` 特殊跳）
 
 **真实功能缺口**：容量 137 条，编辑器只暴露 **71** 条（`for i<71`，数组 93 个名字但循环 71）⇒ 第 71..136 条怪物统计**无法编辑**（不是 bug，是未覆盖）。
+
+### 名字池的真实性质（重要方法论修正）
+
+**不是「名字→偏移」注册表**：对 `rabbitNo/cTrialArts/mGuild[0..2]/mOld[0]` 等 7 个字符串地址做全 .text ldr-literal 扫描，**0 命中** ⇒ 代码不直接引用这些字符串，不存在 `(name, ptr)` 反射表。
+
+**实际是「连续序列化描述符流」**：字符串按声明顺序首尾相接，每串「长度+1」正好等于下一串地址。以 `0x1569000..0x1569800` 为例（152 串）：
+```
+uStageSet → mBillboard → mSort → mCameraCheck → mCameraClipping → mCameraDistance
+→ mCameraCheckPosUse → mCameraCheckPos → mCheckCapsuleUse → mCheckCapsulePos
+→ mCheckCylinderUse → mCheckCylinderHeight → mAlphaAnimation → mControlFlag
+→ mUpdateMatrix → uStageShellOwner → uVillage → sUserInfo
+→ mUserData.rank_quest[no] → rabbitNo → rabbitRecordNo → cTrialArts
+→ mGuild[0..2] → mOld[0..2] → mAirhike[0..2] → mBushi[0..2] → mKizuna[0..2] → mTatsujin[0..2]
+```
+
+**用法（已验证有效）**：
+1. **类名判据**：`cXxx` 后紧跟的连续 `m*` 就是它的成员。`cTrialArts` 后接 18 个 `m*`（6 数组 × 3）= **18 成员**
+2. **尺寸闭合校验**：`18 × 48B = 864` = 写循环 `mla r9,#864` 精确相等 ⇒ 成员大小 48B 由此反推
+3. **不能**靠名字顺序直接推文件偏移（顺序≠偏移），但**能**定成员个数与语义，配合反汇编的 stride/size 即可闭合
+
+### cTrialArts 定案（Fam288 §9 终审）
+
+- **288B 族 = `cTrialArts` 位图**，5 组实例（类码 44..48），每组 864B = 18 成员 × 48B
+- 18 成员 = 6 数组（`mGuild/mOld/mAirhike/mBushi/mKizuna/mTatsujin`）× 3 槽位
+- 每组三个 288B 分片 = 6 成员/片：
+  - 分片① `mGuild[0..2]+mOld[0..2]` → **落盘**（A 槽 0x16C8+g*0x360）
+  - 分片② `mAirhike[0..2]+mBushi[0..2]` → **不落盘**（运行期重算）
+  - 分片③ `mKizuna[0..2]+mTatsujin[0..2]` → **落盘**（B 槽 0x1908+g*0x360）
+- 索引：`bit = rabbitNo*4 + j`（每 rabbit 记录 4 bit）
+- **委托完成仍在 `0x42C/0x52C/0x62C`**，与此族无关
+- 反证 5 组：`g=5` 时基址 = `0x16C8+5*0x360 = 0x27A8` = 68B 族首条，重叠 ⇒ 只有 5 组
+
+**勘误**：`0x13187A4/0x131867C/0x1318554` 不是三张表，是 `ldr r10,[pc,r0]` 的 pc 补偿加数，三者都算到同一全局槽 **`0x1839388`**。Fam288 §7.5 的「每类一张表」作废。
+
+**编辑器**：整族禁写；位号公式 `obj = 0x16C8 + 0x360*类码索引 + 0x30*(风格*3+槽位)`，`word=(rabbitNo*4+j)>>5`，`mask=1<<((rabbitNo*4+j)&31)`。若必修：只移植分片①③，**永不写分片②**。
