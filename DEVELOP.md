@@ -325,3 +325,38 @@ char_off **10175..10250 = 32 槽 × 19bit（id12+cnt7）LSB-first**，与道具�
 2. bit 号来自 `0x6aa9b8` 迭代器返回的 u16 序号（类码 50/51/52/53），**不是 questId 直填**
 
 ⇒ 整族**禁写**；唯一可接受操作 = 整槽 288B 从干净档移植（A/B 各一条）。
+
+### 成员名字典（重大突破，2026-10-22）
+
+flat.bin 全量扫描 NUL 分隔的驼峰标识符，得到 **106 个块 / 4782 个标识符**（`.tmp/reports-mhgu/name-dictionary.txt`，118KB）。
+MHGU 的序列化系统是 **MT Framework mSAVE 风格、成员带名字** —— 这意味着存档布局有权威字典，不必逐字节猜。
+
+**关键块（原文）**：
+
+`sUserInfo` 任务风格记录 @0x1569180：
+```
+mUserData.rank_quest[no] · rabbitNo · rabbitRecordNo · cTrialArts
+mGuild[0..2] · mOld[0..2] · mAirhike[0..2] · mBushi[0..2] · mKizuna[0..2] · mTatsujin[0..2]
+```
+⇒ **288B 族 = 6 组任务/风格完成位图**（`mGuild`=A 槽 / `mOld`=B 槽；`mAirhike/mBushi/mKizuna/mTatsujin` = MHGU 四种狩猎风格）
+
+`cAcPlayerEquipXML` 玩家装备 @0x15606b0：
+```
+mSupperArtsX1[0..4] · mSupperArtsX2[0..4] · mSupperArtsX3[0..4]   ← 狩技 3 组×5（对应 obj+0xD24/0xD3C/0xD54 各 24B）
+mEmType · mHeadType[0..N] · mHeadItemNum[0..N]                    ← 装备槽 类型+数量 交错
+```
+
+`cQuestDaily` 日常委托 @0x15626c0：
+```
+mTargetEmType · mZenny · mItemID[0..5]
+mQuestType · mRequestVillage · mQuestLv · mMonsterLv · mStartType · mQuestTime · mQuestLife
+mAcEquipSetNo · mBGMType · mEntryType_1/2/Combo · mClearType · mGekitaiHp
+mIsClearParam_1 · mClearID_1 · mClearNum_1 （_2 同构）· mSubClearType · mClearID_Sub · mClearNum_Sub
+mHagiLv · mPickLv · mFishingLv · mVillagePoint · mRemMoney · mSubRemMoney
+mClearRemVillagePoint · mFailedRemVillagePoint · mSubRemVillagePoint
+mListData[79].num · mListData[79].itemId
+```
+
+`cAmuletBase` 护石 @0x155364c：`cAmuletSkillBase · cAmuletSkillBaseXML · cAmuletSlotBaseXML · mRare · mMinValue`
+
+**方法论**：任何匿名族都可按「它在 obj 中的相邻字段」反查同块成员名 —— 比逐字段反汇编快一个数量级。
