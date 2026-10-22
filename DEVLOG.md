@@ -207,3 +207,28 @@ dsv4.1f ×5（effort: hi），报告落 `.tmp/reports-mhgu/`：
   无需重启。若想恢复默认 Vulkan（不带 env 启动），重启或修复 RTSS/OBS layer 注册表。
 - 备选判别残留: 若重启后 Vulkan 仍挂 = layer 注册表残留（重装 RTSS/OBS）；
   若好 = 运行时 wedge 已清。
+
+## 2026-10-22 任务解锁卡对话 — 根因追查（进行中）
+
+### 已确认
+- **30 页扩容验证通过**（用户实机确认）✅
+- **卡对话根因初步定案**：编辑器「任务Clear/解锁」把任务**记录区**当位域写 0xFF。
+  - 猎人A 是编辑器污染档：`0x2C77`=0xFE(|=254)、`0x2D06..0x2D09`=FF FF FF 7F(|=127)
+    精确命中编辑器 OR 签名 → 编辑器把结构化任务记录涂成非法态。
+  - 猎人B(HR198)=唯一合法档。任务记录区显示为不规则字节（非位域）。
+- **成员#4 反序列化字段表**（0x51dbb4→0x3df2a8，亲验）：
+  obj+0x72C(274B)=任务位域块#1、+0x83E(274B)=块#2(seen/unlocked 平行)、+0x20(1024B)=统计、
+  +0x42C/0x52C/0x62C(256B×3)、+0xD24/D3C/D54(24B×3=quest 进度记录组) 等。
+  任务位域文件区 char_off 0x2C0B..0x2D1D → obj+0x72C。
+- **块内分界**（HR差分）：0x2C0B..0x2C4B=位域、0x2C5B..0x2CCB=记录区(禁写)、0x2D9B+=位域。
+
+### 进行中（2 子代理 dsv4.1f+hi，写集互斥）
+- QuestPrecheck2：读 obj+0x72C/+0x83E 的任务解锁/对话判定函数 + 前置逻辑 + 卡对话点
+- QuestTable：romfs/kiranico 任务表 + per-quest 前置字段（数据vs代码）
+
+### 早前 3 个 worker (QuestFlagMap/QuestPrecheck/QuestEditorFix) 
+均死于 wb2api `IncompleteRead(0 bytes)` 上游流中断（~4分45秒），非任务问题。上游已重启，重派为 QuestPrecheck2/QuestTable。
+
+### 修复方向（待字段表收敛）
+编辑器只能写合法任务位域段（FLAG-GROW 区），避开记录区；
+若需「解锁需前置」再叠加任务依赖链（QuestTable 决定数据vs代码、要不要 Lean 闭包）。
