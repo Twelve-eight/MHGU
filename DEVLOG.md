@@ -333,3 +333,12 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 - clean 档 delta 镜像后 **A=B=132**（一致）；dirty 档 A=132、**B 保持 33（hex 逐字节未变）**
 
 **`=` 覆写坑评估**：`[12647] = 15` 是 assign 不是 OR，若原值 >0x0F 会被压低。但该位置合法上界本就是 0x0F（132bit 容量），因此该行为等价于「规范化」，且 delta 镜像只做 `|=` 不清 B ⇒ 无副作用。
+
+## 2026-10-22 名字表容量锚点（防重复查证）
+- `mItemType[N]/mItemNum[N]`：下标 **0..159（160 项）**，归 **`cAcNyanterEquip`（随从猫装备）** —— **不是道具箱槽**（2300/2992 不符），别再往箱方向查
+- `mEqDeco1/2/3[N]`：各 **0..29（30 项）**，归 `cAcPlayerEquip`（装备装饰珠三孔）
+- `mGuild[N]/mOld[N]`：各 3 项，`cTrialArts`（288B 族）
+- `mSupperArtsX1/X2/X3[N]`：各 5 项，`cAcPlayerEquip`（狩技）
+- `mPermitLv[N]`：16 项（0..15）
+- `mListData[N]`：**80 项（0..79）**，`cQuestDaily`（委托列表容量锚点）
+- 装备箱尾 `0x17C2E` 实测：36B stride、仅前 20 槽有数据、id 仅 22/23/24、非自增 → **装饰珠候选区**，非图鉴非箱
