@@ -39,7 +39,7 @@
 
 ## 工作规则（沿用 AGENTS.md + HANDOFF-20261022）
 - 用户可见输出全中文；子代理 prompt 仅中/英/法/德/俄 + ASCII。
-- 报告落盘 `.tmp/reports-mhgu/`，**禁止写仓库**。
+- 中间产物落 `.tmp/reports-mhgu/`；**定案后的知识产物必须迁入 `docs/`**（见 `docs/README.md`）并 commit —— `.tmp` 会被清理。
 - 子代理：dsv4.1f（effort: hi）无上限但本轮用户限 ≤5 并发；swe2max ≤3 worker。
 - 每 worker 1–2 文件写范围，契约证据前置，先落盘再继续。
 - 验证 = yuzu 实机读档看道具箱页数/上限；跑不了实机必须明说。
@@ -165,7 +165,9 @@
 - **导出单槽 bug**：5 处 `1173440`(XX)→`1177760`(MHGU)。已部署 `MHGU存档修改-V2.exe`。
 - **UI 现代化**：ItemsForm 重写（搜索过滤/Segoe UI/CardPanel）。
 
-## 知识库（反编译成果，.tmp/reports-mhgu/）
+## 知识库（反编译成果，已入 git：`docs/`）
+
+> 权威副本在 `docs/save-layout/` 与 `docs/analysis/`；`.tmp/` 下同名文件是工作副本。
 
 | 报告 | 内容 |
 |---|---|
