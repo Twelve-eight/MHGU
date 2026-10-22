@@ -328,7 +328,7 @@ char_off **10175..10250 = 32 槽 × 19bit（id12+cnt7）LSB-first**，与道具�
 
 ### 成员名字典（重大突破，2026-10-22）
 
-flat.bin 全量扫描 NUL 分隔的驼峰标识符，得到 **106 个块 / 4782 个标识符**（`.tmp/reports-mhgu/name-dictionary.txt`，118KB）。
+flat.bin 全量扫描 NUL 分隔的驼峰标识符，得到 **106 个块 / 4782 个标识符**（`docs/save-layout/name-dictionary.txt`，118KB）。
 MHGU 的序列化系统是 **MT Framework mSAVE 风格、成员带名字** —— 这意味着存档布局有权威字典，不必逐字节猜。
 
 **关键块（原文）**：
