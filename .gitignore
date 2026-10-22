@@ -1,0 +1,5 @@
+# 构建产物
+editor-src/bin/
+editor-src/obj/
+# 存档快照（非代码数据，按 AGENTS.md §7 用 robocopy 镜像到 G:\backups）
+save-snapshots/
