@@ -380,3 +380,19 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 **审查代理反哺**:MechQuest发现G4写点786-865应785-864、特殊许可944-1174应946-1173(off-by-one待修);MechMonster证实槽93-134有真实击杀数据但MonsterForm够不到(42只DLC怪缺口)
 
 **git**: 31MB(HTML移出index); docs/106MB/2.5M行
+
+## 2026-10-23 KB扩张轮收尾(用户离场自主作业·第二轮)
+**5机制文档全交付**(3625行):quests/monsters/skills-arts/equipment/systems. AnnotateMember4完成member#4 134字段语义标注(定案19/高10/中54/未知51).
+
+**审查反哺的代码修复(已commit)**:
+- G4/Permit写点位域边界:`6eb1e8a`——db sort_order权威定界(G★4=782-862+939-943,Permit=944-1171),原写点越界涂邻段
+- EX关跳位修正:旧二名12×16第16关(959+16k)+新6×每6第6关,共18个;原跳位偏3
+- 矛盾位定案:122个cleared&~seen全是解锁涂的(Permit98/Arena3/G14-16),0真进度,seen|=cleared 100%安全
+
+**新发现(AnnotateMember4勘误+实测验证)**:
+- dirty档`0x4447..0x4598`有182个0xFF=旧版"猫装备解锁"写点涂毁猫装备记录区(clean同区全0)——编辑器历史污染又一证据
+- member#4的134行表不含obj+0x72C/0x83E怪物计数/0x20的1024B/0x950变长块(外层0x51dbb4自读)
+
+**游戏资料查看器上线**:GameDataForm.cs+状态栏按钮,6表非模态浏览,数据自动部署output/data/
+
+**git**: 70+ commits,docs/106MB/2.5M行. 覆盖率:机制数据100%(mhgu.db全库),存档字节测绘~15%(member#4 134字段全标注,其余成员待续)
