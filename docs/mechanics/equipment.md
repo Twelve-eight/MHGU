@@ -6,7 +6,7 @@ MHGU（= MHXX 日版，机制同源）的装备数值模型与存档记录解码
 **核心结论（一句话）**：存档只存「身份 + 等级 + 孔内珠子」，护石额外存两条技能 roll，操虫棍额外存猎虫养成；
 攻击 / 防御 / 属性 / 斩味 / 技能点全部由装备表实时查出，存档里没有这些面板字段。
 
-### 速查
+## 速查
 
 | 项 | 值 |
 |---|---|
@@ -34,6 +34,7 @@ MHGU（= MHXX 日版，机制同源）的装备数值模型与存档记录解码
 | wiki 技能汇总 | `text/2208.txt` | 护石最大值表、珠规格 | 权威（颜色语义丢失，见 §未确认） |
 | wiki 装备解放 | `text/2953.txt` | 委托报酬 → 装备解锁 | 权威 |
 | 武器全量（机读） | `docs/data/weapons/*.json`（14 文件） | 每级一条：id/parentId/familyId/damage/affinity/slots/rarity/elemental/sharpness | 权威 |
+| 武器种枚举 | `docs/data/weapons.json` | 仅 14 个英文类型名（Bow … Sword and Shield） | 权威 |
 | 锤子全树（旧爬取） | `docs/data/hammer.json`（885 条） | 与上表对拍；**斩味数值是 2 倍口径**（见 §未确认） | 参考 |
 | 防具五部位 | `docs/data/armor/{head,body,arms,waist,legs}.json` | `_id`/defense/max_defense/五耐性/num_slots/gender/hunter_type/rarity/skills[] | 权威 |
 | 装饰品 / 技能树 | `docs/data/decorations.json`、`docs/data/json/skill_trees.json` | 珠 id / 孔数 / 技能树 id 联表 | 权威 |
@@ -51,6 +52,9 @@ MHGU（= MHXX 日版，机制同源）的装备数值模型与存档记录解码
 | 武器的 shelling / phial / notes / ammo / final / parent_id | `docs/data/json/weapons.json` |
 | 防具 rarity / skills 技能点 | `docs/data/armor/*.json`（`docs/data/json/armor.json` 无这两项） |
 | 装饰珠技能点 | `docs/data/decorations.json`（`docs/data/json/decorations.json` 只有 `_id`/`num_slots`） |
+
+命名约定：文本页是日文原站点的机翻中文，装备名保留原字形（如 青熊薙）；JSON 为英文名（Arzuros Naginata）；
+两者没有名字字段可直接 join，**只能按 id / family / 数值对齐**。本文引用名字时优先用文本页中文名。
 
 ---
 
@@ -154,7 +158,7 @@ saveLV      = level
 | 20 | 14 | Insect Glaive | `1910`（单页） | `2710` | 547 |
 | 21 | 15 | Charge Blade | `1909`（单页） | `2709` | 528 |
 
-依据：① `EquipsForm.cs:301-306` 的类型名表与上表逐项一致；② 武器选择框 `SelectedIndex = eqmType - 6`，`EquipsForm.cs:2429-2434` 的 16 项列表在 index 6 处正是 `"----"`；③ 全部 14 个 JSON 文件的 `_id >> 16` 只出现 {1,2,3,4,5,7,8,9,10,11,12,13,14,15}，**class 6 无任何武器**，与 type 12 空档吻合。
+依据：① `EquipsForm.cs:301-306` 的类型名表与上表逐项一致；② 武器选择框 `SelectedIndex = eqmType - 6`，`EquipsForm.cs:2429-2434` 的 16 项列表在 index 6 处正是 `"----"`；③ 全部 14 个 JSON 文件的 `_id >> 16` 只出现 {1,2,3,4,5,7,8,9,10,11,12,13,14,15}，**class 6 无任何武器**，与 type 12 空档吻合；④ 同一编辑器的 `MonsterForm.cs:405-406` 另有一份 15 项武器顺序（大剑, 片手, 锤, 长枪, 重弩, 轻弩, 太刀, 斩斧, 铳枪, 弓, 双刀, 猎笛, 虫棍, 盾斧, 猎猫），去掉空档 12 后与上表**逐项一致**——两份独立代码 + Kiranico class 编号三方对齐。
 
 #### 1.4 武器树与最终强化
 
@@ -228,7 +232,7 @@ saveLV      = level
 | `rarity` | 1..11 | **11 = 二名（X）** | 否 |
 | `gender` | 0/1/2 | 0 = 女性专用，1 = 男性专用，2 = 通用 | 否 |
 | `hunter_type` | 0/1/2 | 0 = 剑士，1 = 神枪手，2 = 通用 | 否 |
-| `family` | int | 系列 id（套装分组用，与武器 `family` **不是一个命名空间**） | 否 |
+| `family` | int | 家族 id：**逐项等于 `_id` 的低 16 位**（头/身体全表 0 例外），也就是存档 id；**不是套装分组**，套装请按名称前缀或 wiki 系列页分组 | 是（低 16 位） |
 
 `gender` / `hunter_type` 映射的证据：`Helper Hood`（wiki 支援者系列，标 `[女性专用]`）`gender=0`；
 `Aelucanth`（独角仙系列，标 `[男性专用]`）`gender=1`；`Leather Headgear`（通用）`gender=2`。
@@ -250,8 +254,8 @@ saveLV      = level
 | 4 | Waist | `0x170000`（23<<16） | 1..1282 | 1073 |
 | 5 | Legs | `0x180000`（24<<16） | 1..1282 | 1136 |
 
-即 `base = 0x13 + type`（`0x13` = 19；结果 `0x14..0x18`），`_id = (base<<16) | seq`；存档存 `seq`，也就是 Kiranico `_id` 的低 16 位（u16，≤1286）。
-`seq` 的解释为 **[推断]**：由 Kiranico 的「部位基址 + 自增序号」结构 + 编辑器按 `(type<<16)|id` 查表（`EquipsForm.cs:481`）共同推出，尚无真实存档逐条对拍。
+即 `base = 0x13 + type`（`0x13` = 19；结果 `0x14..0x18`），`_id = (base<<16) | seq`；存档存 `seq`，也就是 Kiranico `_id` 的低 16 位（u16，≤1286）。JSON 的 `family` 字段逐项等于该低 16 位（head/body 全表 0 例外），可作为交叉校验。
+`seq` 的解释为 **[推断]**：由 Kiranico 的「部位基址 + 自增序号」结构、`family == 低16位` 的自洽性、以及编辑器按 `(type<<16)|id` 查表（`EquipsForm.cs:481`）共同推出，尚无真实存档逐条对拍。
 
 #### 2.3 强化与防御上限
 
@@ -543,7 +547,7 @@ palicoArmorId  = ((0x11 或 0x12) << 16) | seq # 头 0x11 / 胴 0x12
 
 ### 6.11 当前装备栏（cAcPlayerEquip）
 
-装备箱只是仓库；「当前穿在身上的 7 件」由另一对象 `cAcPlayerEquip` 持有，引擎成员名（`name-dictionary.txt` @`0x155e943`）：
+装备箱与「当前穿在身上的 7 件」是两个独立对象；后者由 `cAcPlayerEquip` 持有，引擎成员名（`name-dictionary.txt` @`0x155e943`）：
 
 ```
 cAcPlayerEquip
@@ -615,6 +619,8 @@ b17 = 0  b18 = 98 (0x62)  b19 = 1  b20..b35 = 0
 
 ## 未确认/矛盾
 
+以下条目均标 **[未确认]**（UNCONFIRMED）：要么镜像无原文，要么两源冲突且无法用仓库内证据裁决。处置建议写在最后一列。
+
 | # | 事项 | 现状与证据 | 影响 / 建议验证 |
 |---|---|---|---|
 | 1 | `DEVELOP.md` 把首条装备 `type=0x0E` 注为「锤」 | 0x0E = 14；编辑器类型表 14 = 太刀；`class=14-6=8` = 太刀，family 44 = 青熊薙 8 级，与 wiki/JSON 闭合 | 以本文 §1.2 为准；DEVELOP 该行为笔误 |
@@ -636,7 +642,7 @@ b17 = 0  b18 = 98 (0x62)  b19 = 1  b20..b35 = 0
 | 17 | 防具 `+12..35` | 编辑器保存时清零 | 同上；防具除幻化外应无内容，但未证 |
 | 18 | 装饰珠类别限制 | wiki 分「通用 / 剑士用 / 神枪手用」三页，但未写限制规则 | [推断] 剑士珠只能进剑士防具；需实机验证 |
 | 19 | 弓 `coatings` 字符串（如 `1121`） | 4 位数字，与「强/染/毒/麻/睡/减/爆」7 种瓶对不上 | 可能是位掩码或按蓄力段；未解码 |
-| 20 | 弩 `ammo` 32 段 | `4*|3*|…`：数字=装填数、`*`=速射候选；段序→弹种表未给出 | 需要另找弹种枚举表 |
+| 20 | 弩 `ammo` 32 段 | `4*\|3*\|…`：数字=装填数、`*`=速射候选；段序→弹种表未给出 | 需要另找弹种枚举表 |
 | 21 | 面板攻击 vs 真实 raw | wiki/JSON 的 `attack` 是表示值；各武器种的显示倍率（GS/SnS/…）镜像未给 | 伤害计算见 `monsters.md`；装备侧只需存 id/LV |
 | 22 | 期待值公式 / 两个期待值列 | `2700` 页每行在「性能」前有两个数字（如 `442+39` / `465+42`），表头只写「期待值」；链接「期待值计算相关」未镜像 | 无法复算；不要用 期待值 反推攻击 |
 | 23 | 套装 136B 记录的 94B 内容 | 编辑器只解析/写 42B 名；其余未解码 | 禁写；要改套装内容需先测绘 |
