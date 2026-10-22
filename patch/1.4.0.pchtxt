@@ -1,0 +1,33 @@
+@nsobid-FB08F1D20FD1204FE7070672777F869B
+
+# MHGU [0100770008DD8000] v1.4.0 - ITEM BOX EXPANSION V6
+# N=2992 (0xBB0). box bitstream 7106B @0x278; presets 24->14 @0x1E3A (2437B block).
+# V6: lines = flat file offset (vaddr+0x100), NO offset_shift.
+#     Verified vs flat[0]=NSO0 header: .text code starts at flat+0x100.
+# Requires converted save.
+@flag print_values
+
+@enabled
+00199044 D62E02E3   // movw r2,#0x2ED6  rev-scan2 sentinel (was 0x2406)
+00199048 AFCB00E3   // movw r12,#0xBAF  rev-scan2 lane bound (was 0x8FB)
+0019904c B13B00E3   // movw r3,#0xBB1   rev-scan2 lane bound (was 0x8FD)
+001990a0 B0CB00E3   // movw r12,#0xBB0  fwd slot-search bound
+001990ec D82E02E3   // movw r2,#0x2ED8  rev scan end
+001990fc B02B00E3   // movw r2,#0xBB0   rev scan count
+0019a5f8 B07B00E3   // movw r7,#0xBB0   save serializer N
+0019a668 B05B00E3   // movw r5,#0xBB0   save deserializer N
+003e8b10 B01B00E3   // movw r1,#0xBB0   runtime clear loop N
+0019a648 852900E3   // movw r2,#0x985   preset block write len 2437
+0019a6c0 852900E3   // movw r2,#0x985   preset block read  len 2437
+0019ac04 0E005CE3   // cmp  r12,#0x0E   preset idx bound excl (14)
+0019ac4c 0D0051E3   // cmp  r1,#0x0D    preset idx bound incl
+0019acb0 0E0051E3   // cmp  r1,#0x0E    preset idx bound excl
+0019accc 0E0051E3   // cmp  r1,#0x0E    preset idx bound excl
+0019ace8 0D0051E3   // cmp  r1,#0x0D    preset idx bound incl
+0019a9e4 C00E02E3   // movw r0,#0x2EC0  box heap-array alloc size (was 0x23F0)
+0019a9f4 C02E02E3   // movw r2,#0x2EC0  box heap-array copy size
+0019ab44 C02E02E3   // movw r2,#0x2EC0  box heap-array copy size
+0019ab90 C00E02E3   // movw r0,#0x2EC0  box heap-array alloc size
+0019ab9c C02E02E3   // movw r2,#0x2EC0  box heap-array copy size
+0019abb4 C02E02E3   // movw r2,#0x2EC0  box heap-array copy size
+@stop
