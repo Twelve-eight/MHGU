@@ -179,7 +179,8 @@
 
 ## 工具
 
-- `tools/box-slot-tool.mjs`：`read|write|used <save.hnt>`，19bit LSB 编解码，slot=UI 索引。
+- `tools/box-slot-tool.mjs`：`read|write|used <save.hnt> [...]`，19bit LSB 编解码，slot=UI 索引。
+  新增 `--base=<charOff>` / `--slots=<n>` / `--pouch`(=base 10175, slots 32)；默认仍 base 632 / 2992，旧用法不变。
 - `tools/build-v7-final.mjs` + `v7-shift-65.json`：V7 生成器（字节级验证源）。
 - `main.140.flat.bin`：25.4MB flat（含 NSO0 头）。
 
