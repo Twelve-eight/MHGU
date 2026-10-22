@@ -355,3 +355,10 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 | romfs 任务表 | 补丁 NCA 需 11.9GB base 合并；位号已定案，非关键路径 |
 
 **工作区**：git 干净，58 commits；`docs/` 收纳全部权威产物；派生数据（flat.bin/bin/obj/save-snapshots）脱离 git 并镜像 `G:/backups/MHGU/`。
+
+## 2026-10-23 dsv 全量审查 + 双层元审查闭环
+**流程**：dsv-dev×6 并行审 ~10700 行 → 主会话逐行核实 → swe2-supervisor×2 双层元审查 → 补 FIX-INCOMPLETE。
+**产出**：13 CRIT+4 HIGH 首轮修（1c20cb9）→ swe2 判 15 正确/1 假阳性（护石负LV合法,契约拦下误修)/5 不全 → d4023fc → advisory 指 RegionLooksLikeBitstream CJK 误报 → 改周期零块 e82dbc5 → swe2 复审 6/7 对剩 CatsForm:579 raw-byte → 0fb42ab。
+**关键设计**：V7 布局探测弃自动推断（空档无法区分）改「启发式初猜+用户确认+保存前周期零块自检」三层。
+**遗留 known-limitation**：狩技 X3 24B 不落盘、导入尾 356KB 超窗、护石/猎虫未映射字节、猫装备上限（待实机）。
+**git**：4 commits 修复+DEVELOP bug 表更新，0 未提交。

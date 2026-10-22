@@ -220,6 +220,28 @@
 | 不落盘 | 槽标志写 0x04+slot（污文件头）/导入空槽不写文件 | MainForm.cs | 8c0c3f5 |
 | 字段宽 | 套装名/预设名实测 **42B**（非18/20） | MainForm.WriteUtf8Field | a6492ec+ccb935d |
 
+### dsv 全量审查轮（2026-10-23，dsv-dev×6 → swe2×2 元审查）
+
+| 严重 | bug | 位置 | commit |
+|---|---|---|---|
+| 毁档 | V7 布局探测单字节探针双向歧义（空档两布局位流都全零，无法自动判）→ 改启发式初猜+用户确认对话框+保存前周期零块自检 | ItemsForm.cs DetectBoxLayout/ConfirmLayoutBeforeSave | 1c20cb9+e82dbc5 |
+| 崩溃 | 预设组导航 4 处硬编码 23（V7 仅 14 组→itemsGroupName[14] 越界） | ItemsForm.cs | 1c20cb9 |
+| 毁档 | 打开对话框**取消**时缓冲已被清零，再保存整槽写 0 | MainForm.cs bttnOpenFile | 1c20cb9 |
+| 错值 | MonsterForm `i!=91` 跳槽（旧锚点遗留）→槽92不可达+阁螳螂错位；字节判据槽92非零证实应删 | MonsterForm.cs showMonstersList | 1c20cb9 |
+| 崩溃 | grade(=byte>>5,0-7)>下拉4项→越界 | TrainingForm.cs:226/260 | 1c20cb9 |
+| 崩溃 | 护石类型/技能id/装饰珠id/skillsMax/SelectedIndex/还原陈旧索引 6 处越界 | EquipsForm.cs | 1c20cb9 |
+| 错值 | numUDFSvalue.VisibleChanged 误接 ValueChanged（切页改护石 LV01+置脏） | EquipsForm.cs:2231 | 1c20cb9 |
+| 越界 | modityMasterName copy 无 32B 上限→覆盖+188介绍区 | CatsForm.cs | 1c20cb9 |
+| 崩溃 | 存档字节直喂 SelectedIndex/Value/数组索引（CAT-4 内外两层） | CatsForm.cs | 1c20cb9+d4023fc+0fb42ab |
+| 崩溃 | MHGU_DLC.txt 短行 return→dlc null 导出 NRE | DLCForm.cs | 1c20cb9 |
+| 越界 | box-slot-tool write 无 slot/id/count 边界+默认2992无V7确认 | tools/box-slot-tool.mjs | 1c20cb9 |
+| 错值 | 还原清全局 modifyState/unsavedState（丢其他窗体修改） | CatsForm.cs bttnNoModi | d4023fc |
+| 越界 | numUDnFantasyLV.Maximum 20→64（幻化字段 0..63） | EquipsForm.cs:2314 | d4023fc |
+| 错值 | 勋章末字节 [12647]=15→|=15（原清掉高4bit邻字段） | OtherForm.cs:270 | d4023fc |
+
+**假阳性拦下**：dsv 主张护石 LV 钳 ≥0——负技能 LV 合法（攻击-5），NUD -50..50 有意，未误修。
+**known-limitation（非崩溃，待实机/测绘）**：狩技只写 46/72B（X3 24B 不落盘）、导入尾部 356KB 超回写窗不落盘、护石/猎虫未映射字节盲写、猫装备上限未定。
+
 **编辑器 0 覆盖区**（待新功能）：口袋 10175..10250(32×19bit)、猫装备箱 0x17C2E(1000×36)、套装道具 0x21E0E(24×68)、HR 不可编辑。
 
 ## 干净参照档（金标准，`save-snapshots/20261022-clean-reference/`）
