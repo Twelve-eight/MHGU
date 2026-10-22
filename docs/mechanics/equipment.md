@@ -38,6 +38,7 @@ MHGU（= MHXX 日版，机制同源）的装备数值模型与存档记录解码
 | 锤子全树（旧爬取） | `docs/data/hammer.json`（885 条） | 与上表对拍；**斩味数值是 2 倍口径**（见 §未确认） | 参考 |
 | 防具五部位 | `docs/data/armor/{head,body,arms,waist,legs}.json` | `_id`/defense/max_defense/五耐性/num_slots/gender/hunter_type/rarity/skills[] | 权威 |
 | 装饰品 / 技能树 | `docs/data/decorations.json`、`docs/data/json/skill_trees.json` | 珠 id / 孔数 / 技能树 id 联表 | 权威 |
+| 技能阈值 | `docs/data/json/skills.json`、`docs/data/skills.json` | 匠 10/15 → 斩味+1/+2；技能档位与负档 | 权威 |
 | 完整 DB 导出 | `docs/data/json/{weapons,armor,decorations,palico_weapons,palico_armor,items}.json` | 全字段版本（含 shelling/phial/notes/ammo 等） | 权威 |
 | 编辑器源码 | `editor-src/MHGU存档修改/EquipsForm.cs` | **36B 装备记录的唯一完整实现**（读/写/护石/猎虫/幻化） | 权威（作者级实现） |
 | 存档布局 | `DEVELOP.md`、`docs/save-layout/member4-file-layout.txt`、`docs/save-layout/name-dictionary.txt`、`docs/PROGRESS.md` | 装备箱偏移、引擎成员名 | 仓库定论 |
@@ -189,7 +190,7 @@ saveLV      = level
   3. 匠+2（同树 15 点，`Sharpness +2`）。
   依据：`docs/data/json/skills.json` 中 Handicraft(id 35) 的档位正是 10 → +1、15 → +2。
 - 基础段各色求和范围 **15–45**（8721 条近战记录）；数值单位与游戏内点数的换算**镜像未说明**（见 §未确认）。
-- **纯文本 wiki 的斩味列不可用**：每把武器渲染成两行、每行 45 个 `.`，颜色与填充长度在文本镜像中全部丢失；需要数值一律读 JSON。
+- **纯文本 wiki 的斩味列不可用**：每把武器渲染成两行等长的点状条（约 45 格），颜色与填充长度在文本镜像中全部丢失；需要数值一律读 JSON。
 - 存档不存斩味；斩味由 `(家族, 等级)` + 匠技能实时计算。
 
 #### 1.6 属性 / 会心 / 防御 / 孔
