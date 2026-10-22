@@ -137,3 +137,41 @@ dsv4.1f ×5（effort: hi），报告落 `.tmp/reports-mhgu/`：
 - **V7 方案**（构建中）：V6 + 容量 getter 直返 0xBB0 + 30 处内联容量 + **B/C/D/堆指针/预设整体后移 0xAD0**（对象 0x72E4→0x7DB4，约 60 处）+ 5 处预设 guard。
 - 装备箱/猫箱：无交叉（EquipBoxAudit：0 命中 0x8FC 族，存档偏移不变）。
 - 道具表：在 RomFS `itemData.itm`（base NCA `98abd400`），2991×44B；有效英文 id 2940。
+
+## 2026-10-22 V7 完成 + yuzu Vulkan 启动受阻（待用户重启）
+
+### V7 patch 定稿（123 行，已部署）
+`G:/omp works/MHGU/patch/1.4.0.pchtxt` → yuzu load 目录。
+组成 = V6(22) + 容量getter(2) + 30内联容量 + 65布局后移 + 4预设guard。
+- **布局后移 +0xAD0**：B 0x240A/0x240C→0x2EDA/0x2EDC；C 0x47FA→0x52CA；D 0x59F2→0x64C2；
+  heap 0x62F0→0x6DC0；adj 0x62D6→0x6DA6；preset 0x62F4→0x6DC4；
+  rec 0x631D/1E/20/22→0x6DED/EE/F0/F2；obj 0x72E4→0x7DB4。共 65 处 movw 站点字节级验证。
+- **3 处易漏站点**（V7Builder 子代理捕获）：0x5B817C(B页基址)/0x5B8184(D页基址) UI 直读、
+  0x19AD08(rec+0x2E)——vaddr 0x5B807C/0x5B8084/0x19AC08 +0x100。
+- **P0 修正**：初版 30 内联容量误用 vaddr（未+0x100），28 条打到无关指令。已修正为 flat 偏移，
+  全部原字 `e2800ffa` 验证通过。
+- **容量 getter** flat 0x199004/0x199008：`movw r0,#0xBB0; bx lr`（原 push {r4,lr} 函数入口）。
+- 字节级验证：123 行原字全部命中可替换指令，无重复地址。
+
+### 实机验证受阻：yuzu Vulkan 初始化失败
+`VK_ERROR_UNKNOWN` 连续 5+ 次启动均失败（**与补丁无关**——vulkaninfo 本身在
+`vkGetPhysicalDeviceSurfaceCapabilitiesKHR` 也报 `ERROR_UNKNOWN`）。
+诊断：
+- 设备枚举/vkCreateInstance 正常（AMD RX 6600, driver 2.0.353, api 1.4.315）
+- **Win32 surface 呈现能力损坏**——典型 WDDM/显示栈状态损坏
+- 已排除：RTSS(yuzu.exe.cfg HookVulkan=0)、着色器缓存、GPU偏好、OpenGL切换(不生效)
+- 嫌疑：Parsec/GameViewer 虚拟显示适配器挂在图形栈上，抢/坏了 surface 能力
+- **不能擅动**——禁虚拟显示器会断用户远程会话；重启图形驱动/系统也会打断用户
+
+### 恢复步骤（用户醒后）
+1. 重启电脑（最稳）或 `Win+Ctrl+Shift+B` 重启图形驱动
+2. 若仍失败：检查 Parsec/GameViewer 是否该退；或设备管理器禁用虚拟显示适配器
+3. yuzu 能起后：读 猎人A → 开箱 → 翻到尾部看 UI 2400-2403/2900-2903 的 8 个 marker
+   （id2016-2019/cnt50-53、id2020-2023/cnt60-63）+ 页数应=30
+4. 显示 = 真扩容成立；崩溃/丢数据 → 禁 pchtxt + 恢复 `save-snapshots/20261022-v6-ready/`
+
+### 待办
+- [ ] yuzu 可启动后 V7 实机验证（markers + 页数 + 排序 round-trip）
+- [ ] 整合 5 份 .tmp/reports-mhgu/ 子代理报告进 DEVELOP.md 主文档
+- [ ] git commit V7 + 工具 + 文档
+- [ ] known-gap：0x19B1F4 无界预设互拷（idx 无上界，可写越 obj+0x7DB4）
