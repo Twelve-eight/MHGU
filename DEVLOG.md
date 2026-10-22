@@ -362,3 +362,21 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 **关键设计**：V7 布局探测弃自动推断（空档无法区分）改「启发式初猜+用户确认+保存前周期零块自检」三层。
 **遗留 known-limitation**：狩技 X3 24B 不落盘、导入尾 356KB 超窗、护石/猎虫未映射字节、猫装备上限（待实机）。
 **git**：4 commits 修复+DEVELOP bug 表更新，0 未提交。
+
+## 2026-10-23 知识库扩张轮（用户离场自主作业）
+**目标**：机制知识+代码级信源,编辑器可查看,覆盖率向90%推进。
+
+**数据源三件套入库**:
+- `mhgu.db`(MHGenDatabase v2.4.0 APK提取,18MB/39表官方数据) → 20表JSON(35MB)
+- `mhxx-wiki`(mhwiki.axibug.com离线镜像,290页/37MB→text/4.9MB) 中文攻略全库
+- `agroff/mhgu-quest-list` JSON(11MB, Kiranico爬取) — 交叉验证832任务/204技能100%命中db
+
+**机制文档5份(dsv-dev×5,共3625行)**:quests(解锁链/关键紧急表/二名228)/monsters(93槽↔db_id↔HP↔肉质)/skills-arts(阈值+狩技66解锁)/equipment(武器树+护石36B)/systems(调合183+猫饭+猫324B字段表)
+
+**关键资产**:monster-slot-map.json(93槽↔CN↔EN↔db_id,全对拍验证)
+
+**游戏资料查看器上线**:GameDataForm.cs+状态栏右下按钮,6表浏览(非模态),数据自动部署output/data/
+
+**审查代理反哺**:MechQuest发现G4写点786-865应785-864、特殊许可944-1174应946-1173(off-by-one待修);MechMonster证实槽93-134有真实击杀数据但MonsterForm够不到(42只DLC怪缺口)
+
+**git**: 31MB(HTML移出index); docs/106MB/2.5M行
