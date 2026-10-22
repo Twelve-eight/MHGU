@@ -189,3 +189,91 @@
   （`backend\default=false`+`backend=0`）。游戏进存档加载、patch 123 行全应用无 ARM 异常。
 - **剩余**：游戏内开箱翻页看 8 个 marker（2400-2403/2900-2903）+ 页数=30 → 视觉确认交用户（§2）。
 - 猎人A 存档离线复核：605 项、范围 0..2903、marker 全在正确槽位、位流/预设边界正确。
+
+# ═══ 2026-10-22 存档测绘 + 编辑器修复（supersedes 早期盲扫） ═══
+
+## 任务解锁卡对话 — 根因定案（swe2 独立复核版）
+
+- **位图坐标系**：两套位图并存。存档 `obj+0x42C`(cleared)/`+0x52C`(seen)/`+0x62C`(achieve) 各 256B 位域按**记录序号 i**寻址（`0x51e6d8` 逐位 or 写）；运行时 `+0x35F0/+0x35FC/+0x3608` 按 **questId**（`0x523e44` questId→idx→置位，`0x524e58` 每次重建只增不清）。**位号 ≈ questId**（M1：运行时表按全局 id 有序，i==id；OtherForm ArenaQuest 写 char_off 11544-11546=bit1288-1304 恰对斗技 questId 1288-1304，作者级见证）。
+- **卡对话根因**：编辑器「任务Clear/解锁」**只置 cleared 不补 seen** → 造 `cleared=1/seen=0` 矛盾向量。dirty 档 **501 个**（slot0:122 高位 questId 785-1173 G4/deviant + slot1:379 低位 40+ 村下位）。`0x521d4c`/`0x525040` 判定器喂 NPC 不可能态 → 死锁。
+- **修复（已落地）**：`OtherForm.SetBits` cleared 写点（char_off 11383-11546）同位双写 seen(+256)，guard 锁 cleared 段。
+- **脏档收敛**：`seen|=cleared` 位域级 → `system_fixed`（501→0）。待实机验证。
+- **边界**：seen=1/cleared=0（仅解锁未完成）是另一功能；复合门禁类（case12 [mgr+0x3618] 等级腿）双写不充分；锁任务清位需重启生效（运行时位图只增）。
+
+## 成员#4 存档文件布局（权威表，`member4-file-layout.txt`）
+
+- 成员#4 数据 char_off **`0x2C0B..0x59AC`**（159 字段、0x2DA1 字节）。`0x51dc40` 反序列化 `bl 0x3df2a8(reader)` 顺序 = **文件字节序**（非 obj 偏移序）。
+- 关键坐标：`0x42C`→0x2C77、`0x52C`→0x2D77、`0x62C`→0x2E77；狩技 0xD24/0xD3C/0xD54→0x2C13/0x2C2B/0x2C43；委托/许可族 0x2A0C..0x29C8；128B 任务记录族 0x2A78..0x3178；尾块 0x3684(3444B)。
+- **编辑器毁档范围**（clean vs dirty 逐字段差分，`member4-diff.txt`）：除任务位域外，狩技(0xD24 19B/0xD3C 7B)、164B 数组(0x9D0/0xB18)、勋章邻(0xBDC/0xC28)、委托(0x2A0C/0x34A0/0x3510)、**128B 委托记录族 0x2DF8/0x2E78/0x2EF8(63/54/56 FF)** 全被涂——比卡对话严重，损委托任务数据。
+
+## 编辑器 bug 全清单（P0 已修，commit 见各条目）
+
+| 严重 | bug | 位置 | commit |
+|---|---|---|---|
+| 毁档 | ItemsForm 位流 2300 规格 V7 截断+抹预设 | ItemsForm.cs | f23128a |
+| 毁档 | 任务解锁只写 cleared 不补 seen→矛盾向量 | OtherForm.cs SetBits | 156e6a0+1f933af |
+| 崩溃 | 装备 LV/幻化/猎虫无钳制；套名读20B无NUL崩 | EquipsForm.cs ClampNUD | efce3dd+a6492ec |
+| 不落盘 | TrainingForm 写侧不写 data 11bit | TrainingForm.cs | dfb861c |
+| 不落盘 | 槽标志写 0x04+slot（污文件头）/导入空槽不写文件 | MainForm.cs | 8c0c3f5 |
+| 字段宽 | 套装名/预设名实测 **42B**（非18/20） | MainForm.WriteUtf8Field | a6492ec+ccb935d |
+
+**编辑器 0 覆盖区**（待新功能）：口袋 10175..10250(32×19bit)、猫装备箱 0x17C2E(1000×36)、套装道具 0x21E0E(24×68)、HR 不可编辑。
+
+## 干净参照档（金标准，`save-snapshots/20261022-clean-reference/`）
+
+- `system_CLEAN`：**唯一全干净档**（slot1 猎人A@0x2AC560，94 cleared，0 矛盾位）——只读保护
+- `system_Desktop_extra`：**混合档**——slot0 干净(==clean 猎人B 参照，436/1007/0矛盾) + slot1 脏(==dirty slot1)
+- `system_V7_active`：现玩 V7 档
+- `system_fixed`（v6-ready/）：501 矛盾位收敛产物，待实机验证
+
+## 待办（非阻塞）
+
+- M1/M2 实机判据（id946→bit 测试）
+- 501 矛盾位逐位定性（真进度补 seen vs 涂块清 cleared，需对照玩家清单）
+- obj+0x0..0x424 头字段映射（成员#4 文件起点前的外层读取序，`0x51dbb4`）
+- 复合门禁类解锁的等级腿（case12）
+- 成员#15（0x163e0c）/口袋区/romfs questData 测绘
+
+## 2026-10-22 追加测绘（成员#15 / 口袋 / 128B 记录族 / 成员#4 头区）
+
+### 成员#15（反序列化 0x163e0c，swe2 复核 PASS）
+文件 char_off **0x2C6B4..0x335A8**（28404B = 0x6EF4），6 块：
+
+| 块 | 文件 char_off | obj+off | size | 性质 |
+|---|---|---|---|---|
+| B1 | 0x2C6B4..0x2DF6C | +0x20 | 6328 | **13B 头 + zlib 流**，明文 6328B 全零 = 容量占位 |
+| B2 | 0x2DF6C..0x2F09C | +0x18D8 | 4400 | 运行期结构镜像 |
+| B3 | 0x2F09C..0x2F7A4 | +0x2A0C | 1800 | 同上 |
+| B4 | 0x2F7A4..0x2F8B8 | +0x3114 | 276 | 同上 |
+| B5 | 0x2F8B8..0x32EA0 | +0x3228 | 13800 | 同上 |
+| B6 | 0x32EA0..0x335A8 | +0x6810 | 1800 | tail-call 读（易漏）|
+
+- 旧结论 "26604B / 止 0x32EA0" 是**漏掉 B6 尾调用**的产物，作废；member#16 起点顺延 0x335A8。
+- `0x3cf6d4` 被调两次但**不消费 reader**（swe2 证实），不影响块序。
+- **16B/0x180 周期 FF 只存在于 dirty 档**（clean 0 网格 / dirty 17 网格，phase 0xe5），跨 4B 间隙连续 → **文件空间周期图案、外部 char_off 工具所写**，非游戏结构；因 B1 明文全零，破坏的是"容量占位"。
+
+### 口袋区（P3 已完成）
+char_off **10175..10250 = 32 槽 × 19bit（id12+cnt7）LSB-first**，与道具箱 632 起**同一编解码**（32×19/8=76B）。
+- 内存形态：第 3 段成员对象，32×4B 记录（u16 id@+0 / u16 cnt@+2）@ obj+0x1A；序列化即 76B 位流。
+- 单例 GOT：口袋 `0x183A828→0x18584B8`，道具箱 `0x183A81C→0x1858438`（两变量相差 0x80，不是同一对象字段）。
+- 实测 clean 21 槽有货 / dirty 24 槽，id 全合法（10,10 | 88,6 | 16,1 | …）。
+- 编辑器接入：复用 `tools/box-slot-tool.mjs` 的 19bit codec，基址 10175、槽数 32；写区不与箱（≤7737）/预设名（≤9989）重叠。
+
+### 128B 记录族（obj+0x2A78 起，15 条）
+- 15×128B 定长结构化记录，**不是位域**；三组各 15 个 `movw` 站点（0x51D7D8..、0x51E2F0..、0x520FEC）逐条命中记录起点 → 元素数组。
+- 文件落点：i7 0x440F / i8 0x448F / i9 0x450F / i10 0x458F（16B 网格）。
+- **编辑器 `chkBoxCatArmsUnlock` 写点 17479..17816 正落在此族内**（跨记录边界按绝对偏移涂 FF）→ **已停用**（commit 见下），标注"语义未定案，禁写"。
+- i0..i6 = 正常进度差；i11..i14 空槽。勋章在 obj+0xC28（另一族 132bit），"猫装备"标签与目标区不符。
+
+### 成员#4 头区（obj+0x0..0x424）
+- 外层 `0x51dbb4` 自身只读两块 274B（obj+0x72C / obj+0x83E，各 size 0x112）；**不含 obj+0x0..0x2C**。
+- 调 `0x51dc40` 前头区只读 **obj+0x20 起 1024B → 文件 0x280B..0x2C0B**（起点由口袋区 0x27BF+76 锚定，终点由 helper 首字段 0x2C0B 反推）。
+- **obj+0x0..0x28 ≠ 角色头副本**（四重否证：时序/坐标/形状/字节 diff=0），角色头 char_off 0x0..0x2F 是独立对象：名 UTF-8@0x00、playtime u32@0x20、gold u32@0x24、HR u8@0x28、gender u8@0x2A。
+- 权威表 159 行中**只有前 134 行**是真实 reader 调用；第 135..159 行是越界产物。
+
+### 工具坑（已记 DEVLOG）
+`tools/arm32.mjs` 的 `disasm(vaddr, **count**)` 第二参数是**指令条数**不是结束地址；误传结束地址会产生百万级输出（本次触发过 187MB 字符串 + VM 重置）。正确：`disasm(start,(end-start)/4)`。
+
+### romfs 任务表（阻塞，暂缓）
+`extract/0eb59fa8796db5977d393f0a6f938cff.nca` = **v1.4.0 补丁 NCA**，Section 1 `Partition Type: Patch RomFS`，hactool 报 `cannot save BKTR section without base romfs`。
+需 base NCA（XCI secure `98abd400…nca`，约 10.8GB）才能合并。任务位号已定案为 questId，任务名/前置可先用 kiranico/wiki 补齐，romfs 非关键路径。
