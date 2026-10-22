@@ -307,3 +307,20 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 - **旧 session 状态**：4 个原代理均在 idle→revived，报告文件仍为各自唯一交付面（records-128.md / fam-288.md / fam-small.md / member4-header.md），续跑一律**增量追加**不覆盖。
 - **预生成 dump**（子代理无 exec，由主会话产出）：`.tmp/mhgu/analysis/followup-dump.txt`（15×128B 全 hex + 12 反汇编窗口）、`reader134-dump.txt`（0x51dc40 全程 + 0x51dbb4 + 0x51e560..0x51e800）、`families-dump.txt`、`families-disasm.txt`。
 - **codec-verify.mjs 路径坑**：脚本内按 cwd 拼 `MHGU/MHGU/save-snapshots/...`，必须从 `G:/omp works` 运行（不是 `MHGU/`）。已记录，下次勿踩。
+
+## 2026-10-22 勋章镜像改为 delta（移除静默改写副作用）
+**旧实现问题**：`Array.Copy(A→B,17B)` 全量覆盖。干净档 A==B 时无操作，但**已分歧脏档**会把 B 的 33bit 抹成 A 的 132bit = 静默收敛用户存档内容。
+
+**新实现**（OtherForm.cs）：
+1. 写块前快照 `medalBefore = h[12631..12647]`（17B）
+2. 6 个勋章写块（只写 A 槽，行为不变）
+3. **delta 镜像**：`newlySet = after & ~before`；仅当 `newlySet != 0` 时 `h[12651+i] |= newlySet` —— 只把本次新增位置起同步到 B，绝不覆盖 B 既有位
+4. 镜像后比较 A/B：若仍分歧（说明存档操作前就已分歧）→ 消息框额外提示「本存档勋章 A/B 双槽在本次操作前已不一致，本次只同步新增位，B 槽原有内容保持不动」
+
+**模拟验证**（对真实存档字节）：
+| 档 | 操作后 A bits | 操作后 B bits | A/B | B 原有位保留 |
+|---|---|---|---|---|
+| clean 猎人A | 130 | 130 | 一致 | 12 → 是 |
+| dirty 猎人B | 132 | **33（不变）** | 分歧（仅提示） | 33 → 是 |
+
+结论：干净档仍保持 A==B（不变量成立）；脏档 B 不再被静默改写，副作用消除。编译 0 警告 0 错误。
