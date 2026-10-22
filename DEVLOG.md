@@ -285,3 +285,18 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
   - 口袋 76B `pack(unpack(x))` 差异 **0 字节**
   - 道具箱 5463B（2300 槽）`pack(unpack(x))` 差异 **0 字节**，cnt>0 槽 2292 → 重构未改变箱语义
 - 脚本：`.tmp/mhgu/tools/pouch-smoke.ps1`（可重复运行）
+
+## 2026-10-22 编解码验证（codec-verify.mjs 实跑）+ 勋章镜像副作用登记
+**编解码验证结果**（`.tmp/mhgu/tools/codec-verify.mjs`，C# 逻辑镜像 vs box-slot-tool.mjs）：
+- 口袋 32 槽解码 mismatch = 0；前 12 槽 10,10 | 88,6 | 16,1 | 18,5 | 21,5 | 24,5 | 23,4 | 6,1 | 56,20 | 273,1 | 275,1 | 40,1
+- 箱 legacy 2300 解码 mismatch = 0
+- 新 pack == 旧 pack：`[632,6095)` 差异 0；新 pack == 原始存档：差异 0
+- 尾部残位：n=2300 → span 5463B 剩 4bit（末字节 6094 低 4bit 有效，高 4bit 保持 0，与旧版一致）；n=2992 → span 7106B 剩 0bit；n=32 → 76B 剩 0bit
+- 边界：V7 箱末字节 7737 < 预设头 7738（gap 0）；口袋末字节 10250 < MainForm 写点 10251
+
+**勋章镜像副作用（登记，非 bug）**：`Array.Copy(A→B, 17B)` 在「任一勋章勾选」时执行。
+- 对干净档无损（A==B，各 12bit 逐字节相同）
+- 对**已毁脏档**会把 B 的 33bit 抹成 A 的 132bit ⇒ 等于自动收敛旧存档的 A/B 分歧
+- 这是修复行为，但意味着「打开编辑器→勾任一勋章→保存」会改写 B 槽。若需「只读不写」，后续可加确认对话框。
+
+**仓库卫生**：新增 `.gitignore` 排除 `editor-src/bin|obj` 与 `save-snapshots/`；存档快照按 AGENTS.md §7 用 robocopy 镜像到 `G:/backups/MHGU/save-snapshots`（9 文件，已镜像）。
