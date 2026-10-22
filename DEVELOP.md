@@ -498,3 +498,18 @@ uStageSet → mBillboard → mSort → mCameraCheck → mCameraClipping → mCam
 | `0x21E03..0x22612` | 2064B 连续块 |
 | `0x22697..0x23BB6` | 稀疏小簇（4B/2B/140B/253B/182B）= 零散标志 |
 | `146358` | **猫记录基址**（84 × 324B，CatsForm `tmpCatDataBy` 从此加载）|
+
+### 164B 对（obj+0x9D0 / obj+0xB18）— 结构定案，概念名不可达
+
+**已定案（结构层，无可再挖）**：
+- 各 **1312-bit** 状态位图（164B），组 `[A@0x9D0 / 中@0xA74（不落盘）/ B@0xB18]`
+- **`A ⊇ B`**（B 是 A 的子集）；dirty 档两槽 164B 完全相同 = `A\B = ∅`（`B⊆A` 不变量下的合法端点，**不需要**「写 A 后复制到 B」）
+- 全 .text **仅 2 个静态引用**：reader `0x51DE5C` + writer `0x51D344`；因 `0xB18` 不可 `add imm12` 编码，movw 集完备 ⇒ **可证的「无 gameplay 消费者」**
+- 同一手法打掉了勋章的两个候选读取者（`0x295D84` 实为 `movw r1,#0xc28` 尾调用传参，`0xC27/0xC28` 是 **ID** 不是偏移）
+
+**概念名不可达（已验证，不再追）**：
+- flat.bin 全量扫数组下标：**无任何成员名带 ≥1000 下标**（最大 `mItemNum[159]`）
+- `mAppearPermitBit` 是 `sQuest` **运行时**标量（上下文为 `mQuestTimer/mFlgTimeUpSuccess/...`），与存档 164B 无关
+- 结论：164B 与 `0x42C/0x52C/0x62C` 一样是**未命名的原始位域**，名字字典结构上解不出
+
+**处置**：**禁写**。若必须改，只能 A/B 双槽整块移植并保 `B ⊆ A`；中槽 `0xA74` 永不可写。
