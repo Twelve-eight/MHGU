@@ -48,6 +48,10 @@ for(const arg of argv){
       if(val===null||val===""||!Number.isFinite(n)||n<0) badFlag=arg; else N=Math.trunc(n);
     }else if(name==="--pouch"){
       BASE=POUCH_BASE; N=POUCH_N; pouch=true;
+    }else if(name==="--v7"){
+      BASE=DEF_BASE; N=2992;
+    }else if(name==="--legacy"){
+      BASE=DEF_BASE; N=2300;
     }else badFlag=arg;
   }else pos.push(arg);
 }
@@ -64,6 +68,23 @@ const need=BASE+Math.ceil(N*BITS/8);
 // reads past EOF decode as 0 (undefined bytes), so only a write needs the guard
 if(cmd==="write"&&need>buf.length){
   console.error(`field out of range: base=${BASE} slots=${N} needs ${need} bytes, file is ${buf.length}`);
+  process.exit(2);
+}
+// TOOL-1: write must target an existing slot of this field; a stray index would corrupt
+// adjacent regions (e.g. writing slot>=N lands past the declared bitstream).
+if(cmd==="write"&&(isNaN(+a)||+a<0||+a>=N)){
+  console.error(`slot ${a} out of range: field holds ${N} slots (0..${N-1})`);
+  process.exit(2);
+}
+// TOOL-2: reject params that would be silently masked by put() (&0xFFF/&0x7F).
+if(cmd==="write"&&(isNaN(+b)||+b<0||+b>0xFFF)){console.error(`id ${b} out of range 0..4095`);process.exit(2);}
+if(cmd==="write"&&(isNaN(+c)||+c<0||+c>0x7F)){console.error(`count ${c} out of range 0..127`);process.exit(2);}
+// TOOL-4: writing into slots >=2300 is only valid on the V7 (expanded) layout. On a
+// legacy 2300-slot save those bytes are preset-name data. Require explicit --v7 or a
+// custom --slots to write there, so a default-invocation can't clobber a legacy box.
+const explicitLayout = argv.some(x=>x.startsWith("--slots")||x==="--pouch"||x==="--v7"||x==="--legacy");
+if(cmd==="write"&&BASE===DEF_BASE&&+a>=2300&&!explicitLayout){
+  console.error(`slot ${+a} >=2300 is V7-only; pass --v7 (or --slots/--pouch) to confirm the expanded layout`);
   process.exit(2);
 }
 function rd32(byte){return (buf[BASE+byte]|(buf[BASE+byte+1]<<8)|(buf[BASE+byte+2]<<16)|(buf[BASE+byte+3]<<24))>>>0;}
