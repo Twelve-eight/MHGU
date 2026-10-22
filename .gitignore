@@ -3,3 +3,5 @@ editor-src/bin/
 editor-src/obj/
 # 存档快照（非代码数据，按 AGENTS.md §7 用 robocopy 镜像到 G:\backups）
 save-snapshots/
+# 派生的 25MB flat 二进制（可由 XCI 重新提取；工作副本在 .tmp/mhgu/extract/）
+main.140.flat.bin
