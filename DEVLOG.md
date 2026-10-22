@@ -250,3 +250,18 @@ dsv4.1f ×5（effort: hi），报告落 `.tmp/reports-mhgu/`：
 ### 主会话已补齐
 - 成员#4 完整字段表（0x51dbb4）：0x51dc40 实为顺序读块非查表循环；
   obj+0x72C/+0x83E 双 274B = 任务位域(cleared vs seen)；+0xD24/D3C/D54 = quest 进度记录组。
+
+### 任务解锁卡对话 — 终局根因（干净档差分定案）
+- 用户提供 `LOCAL/未解鎖任務存檔`（槽1 猎人A **干净档**，编辑器解锁前备份）
+- dirty vs clean 差分 → 编辑器在 **≥7 个记录/位域区涂 0xFF**：
+  0x2C78..0x2CA0(VgLow/High)、0x2CED..0x2D08(SpecialP)、勋章段 0x2FE1/0x3085/0x3205、
+  猫段 0x32EE/0x3310 —— 全部 `dirty=0xFF, clean≠0xFF` 实锤。
+- **三态位域家族** obj+0x42C/+0x52C/+0x62C（各256B）：
+  cleared(0x42C)/seen-unlocked(0x52C)/成就稀疏(0x62C)。
+  编辑器只乱涂 0x42C 区、缺 0x52C 配对 → cleared≠seen 矛盾 → 对话校验卡死。
+- **修复方向**：解锁=按任务 id 同时写 0x42C+0x52C 对应位（cleared+seen 双写）；
+  完整版需任务依赖闭包（前置任务/HR 门槛 → QuestTable 决定数据vs代码）。
+
+### 路由状态
+wb2api 499 秒级拒绝（两批13 worker 全灭）。§11 全部收回主会话做。
+CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条修正链）。
