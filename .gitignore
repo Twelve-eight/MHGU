@@ -5,3 +5,6 @@ editor-src/obj/
 save-snapshots/
 # 派生的 25MB flat 二进制（可由 XCI 重新提取；工作副本在 .tmp/mhgu/extract/）
 main.140.flat.bin
+docs/reference/mhxx-wiki/data/
+docs/reference/mhxx-wiki/ida/
+docs/reference/mhxx-wiki/cat.html
