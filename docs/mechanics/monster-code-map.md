@@ -26,7 +26,8 @@ add  rD, pc, rB          ; target = (add 指令地址 + 8) + bias
 | **动作号字段** | `u8[this + 0x73E0]` | 每个派发器都是 `movw r0,#0x73e0; ldrb r0,[this,r0]; cmp r0,#17` |
 | 读取该字段的函数 | **477** | 全镜像扫描 |
 | **动作派发器** | **149 个**（`mov r0,r0,lsl#2` + 内联跳转表，case 数 4..45） | 内联表签名：`ldr r0,[r0,r1]; add pc,r0,r1` |
-| **state → motion 名称** | **未解决**（每个 case 的动作名解析结果均为空）| 仅建立「派发器地址 + 每派发器 case 数」；case 目标已解出，但其内部的动作名引用尚未打通 |
+| **state → handler** | **已解决**（53 个派发器全解）：表项 = `handler − 表基址`，表基址 = `add r1,pc,#4` 处的 `指令+8+4` | 详见 `monster-state-machine.md` |
+| **state → motion 名** | **部分解决**：41/53 派发器至少 1 个状态有名字（`em###_##FwMove/ActionMove/FlyMove/...`）；共享 handler 状态未解 | 生成脚本 `tools/mhgu/state-motion2.mjs` |
 | 18 态派发器 | 89 个（`cmp #17` 普查：7 态 247 个、17 态 89 个、10 态 71 个…） | `cmp` 直方图 |
 | 派发器所在方法表 | **58 张** `.data` 连续 `.text` 指针表 | 反查派发器地址 |
 | 每怪方法表簇 | `0x179CBB4 / 0x17B46DC / 0x17C6FE0 …`（固定 8 槽布局，派发器在 +4） | 7 只怪交叉比对 |
