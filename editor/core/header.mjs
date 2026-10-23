@@ -9,7 +9,6 @@ export const NAME_FIELD_BYTES = 32;
 export const PLAYTIME_OFF = 0x0020;
 export const GOLD_OFF = 0x0024;
 export const HR_OFF = 0x0028;
-export const HR_MIRROR_OFF = 0x00B1;
 export const GENDER_OFF = 0x002A;
 
 const utf8Decoder = new TextDecoder('utf-8');
@@ -162,20 +161,18 @@ export function writeGold(view, gold) {
   writeU32LE(view.u8, off, gold);
 }
 
-// Reads the 0x0028 copy. The 0x00B1 copy is a mirror of the same runtime value and is
-// always written together with it, so the two cannot diverge through this module.
+// Reads the 0x0028 copy. The 0x00B1 "second copy" in spec 01 is refuted by data: in all
+// 14 private saves (HR 5 and 198) the u16 at 0x00B1 is 0, so it is not a mirror.
 export function readHr(view) {
   const off = fieldAt(view, 'hr', HR_OFF, 2);
   return readU16LE(view.u8, off);
 }
 
-// Both copies are written in one call: writing one without the other is forbidden.
+// Writes 0x0028 only; 0x00B1 lies in the opaque 224 B block and is preserved byte-exact.
 export function writeHr(view, hr) {
   const off = fieldAt(view, 'hr', HR_OFF, 2);
-  const mirror = fieldAt(view, 'hr (second copy)', HR_MIRROR_OFF, 2);
   requireUint(hr, LIMITS.hr, 'hr');
   writeU16LE(view.u8, off, hr);
-  writeU16LE(view.u8, mirror, hr);
 }
 
 // Returns the raw byte, including the game-produced value 2. Other values are reported

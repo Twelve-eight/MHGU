@@ -94,8 +94,10 @@ MUST-NOT list below is strict.
 2. **Slot completeness.** A slot is offered to the user as used only when all three hold:
    slot-used flag = 1, slot state word = 1, and a full 1,177,760 B block is readable at
    `hunterAdds[slot]`. Any mismatch -> surface as corrupt, do not write.
-3. **HR dual copy.** `char_off 0x0028` and `char_off 0x00B1` are two copies of one runtime
-   `u16`; they must always compare equal in a file the editor produces.
+3. **HR "dual copy" REFUTED (2026-10-23, main session).** In all 14 private saves
+   (`.hnt` and system, HR 5 and 198) the u16 at `char_off 0x00B1` is `0`, never equal to
+   `0x0028`. The editor writes `0x0028` only and preserves `0x00B1` byte-exact as part of
+   the opaque 224 B block. Rows 76-77/80-81 and M4 below that say otherwise are superseded.
 4. **632 B header is a summary, not authority.** The save path rebuilds all 632 B from
    runtime objects (including 4 B of stack residue), and the save-load path (`0x3e0db8`)
    discards the 632 B after `memcpy`. Edits inside `0x0000..0x002A` at best change the
