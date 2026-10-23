@@ -568,3 +568,4 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 - 下一步若要做：改从 .data 扫 `{0,0,0x32c,...}` 形 vtable，再找把该 vtable 写进 [obj,#0] 的构造函数，按构造函数里的类名归类。未派。
 - 主会话按审查给的形状扫 .data（`{0,0,0x32c,code,code,code}`）：只命中 **2 个**，不能作为通用 vtable 识别方法；审查的形状说法只在个例成立。批次 C 暂停，需要先在已知类上（例如 cOtArmorBase 0xf284c）手工找到对象 vtable，再归纳形状。
 - 主会话 RTTI 扫描（Itanium 形 `{0, typeinfo*, f0..}` 且 typeinfo 名为 mangled 串）：.data 中 **649 个带 RTTI 的 vtable**，全部是 SDK 类（`nn::nex` 621、`pead` 26、匿名 2）；**游戏自己的 MT Framework 类没有 RTTI**。这些 vtable 槽共 3,278 个不同函数：2,741 个已在 Tier A，与 Tier A 标签一致 2,711（98.9%，独立交叉验证了 Tier A 的 online-nex 部分）；524 个在 Tier B，可按 vtable 所属类升为 conf=A（online-nex/kernel-os），13 个在 Tier C。游戏类 vtable 仍需走「构造函数写 [obj,#0]」路线，暂停。
+- 那 524 个 Tier B 函数合计约 14,031 条指令（.text 0.27%，函数长度按 push-lr 启发式估）。增益很小，没有改 tiers.csv 和覆盖率数字。
