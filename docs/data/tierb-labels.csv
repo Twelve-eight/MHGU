@@ -1,0 +1,379 @@
+vaddr,label,role,conf,evidence,src
+0x187a60,quest,orchestrator,B,"8 个 callee 全为 quest 票（0x3f8634/0x3ae24c/0x3b3bf0 等），vote quest:8，无字符串",tierB-slice-03.md
+0x187bc4,quest,worker,B,"callee 0x188c84/0x187c90/0x558514 均为 quest 簇，vote quest:4",tierB-slice-03.md
+0x187c90,quest,worker,B,"callee 0x552e90/0x186bb0/0x5546e0 全 quest 票，vote quest:5",tierB-slice-03.md
+0x187d28,quest,worker,B,"以 0x187c90 与 0x558514/0x54f260 为骨架，vote quest:5 otomo-ot:1",tierB-slice-03.md
+0x187e1c,quest,worker,B,"与 0x187d28 同构，callee 0x54ee98/0x54f260/0x5585d0 全 quest，vote quest:6",tierB-slice-03.md
+0x188088,quest,orchestrator,B,"≥15 callee，vote quest:19 otomo-ot:6，调 0x188c84/0x558514/0x3b3bf0 等 quest 簇",tierB-slice-03.md
+0x1885d0,quest,orchestrator,B,"11 callee，vote quest:9 otomo-ot:2，调 0x187c90/0x54fa74/0x54edec",tierB-slice-03.md
+0x188970,quest,worker,C,"仅 2 callee 0x3b39d4/0x65e5bc，票 1:1 平（quest/otomo），按 quest 簇邻域判 quest，?",tierB-slice-03.md
+0x188aec,quest,worker,C,"调 0x3b39d4/0x65e794 且回指 0x187a60(quest)，票 quest:2 otomo-ot:1",tierB-slice-03.md
+0x188bec,quest,worker,C,"6 指令单 callee 0x65cb3c(quest 票)，太小无可辨语义，?",tierB-slice-03.md
+0x188c04,quest,worker,B,"3 callee 0x558514/0x19dab4/0x13efe30，vote quest:3，与 0x188c84 相邻",tierB-slice-03.md
+0x188c84,quest,orchestrator,B,"≥15 callee，vote quest:13，为 0x187bc4/0x188088/0x1885d0 的共同子函数",tierB-slice-03.md
+0x189040,quest,worker,C,"15 指令单 callee 0x7aa47c(quest 票)，vote quest:1 弱",tierB-slice-03.md
+0x18907c,quest,worker,C,"11 指令单 callee 0x7aa47c，vote quest:1 弱，3 个 caller",tierB-slice-03.md
+0x1890a8,quest,worker,C,"单 callee 0x2b8f0(quest 票)，vote quest:1 弱",tierB-slice-03.md
+0x1890f0,quest,worker,B,"264 指令调 0x2b908/0x7aa47c/0x7bb638，vote quest:3，被 0x192530 调用",tierB-slice-03.md
+0x189510,otomo-ot,worker,B,"唯一 callee 0x8261fc 票 otomo-ot:1，无字符串，簇 0x18f7a8/0x189de4 同构",tierB-slice-03.md
+0x189938,quest,worker,C,"单 callee 0x7aa47c(quest 票)，vote quest:1 弱，与 0x189040 同构",tierB-slice-03.md
+0x189974,quest,worker,C,"同 0x18907c 模式（11 指令/0x7aa47c/vote quest:1），?",tierB-slice-03.md
+0x1899a0,quest,worker,C,"单 callee 0x2b8f0，vote quest:1 弱",tierB-slice-03.md
+0x1899c8,quest,worker,B,"263 指令调 0x2b908/0x7aa47c/0x7bb638，vote quest:3，与 0x1890f0 成对",tierB-slice-03.md
+0x189de4,otomo-ot,worker,B,"唯一 callee 0x8261fc(otomo-ot 票)，与 0x189510/0x18f7a8 同构",tierB-slice-03.md
+0x18a3ec,unknown,leaf,C,"6 指令、无 callee、无字符串，caller 1，无法归属",tierB-slice-03.md
+0x18a404,quest,worker,C,"调 0x186920/0x7aa47c，vote quest:2",tierB-slice-03.md
+0x18a438,quest,orchestrator,B,"≥15 callee（0x5bb87c/0x5bb8b0/0x5bc0e8/0x18a5c0），vote quest:16",tierB-slice-03.md
+0x18a5c0,quest,worker,C,"单 callee 0x19d278，vote quest:1，4 caller",tierB-slice-03.md
+0x18a6c4,quest,worker,C,"callee 0x5bb910/0x5bb938/0x5bc390/0x65e67c，票 quest:4 otomo-ot:3 接近",tierB-slice-03.md
+0x18a814,quest,orchestrator,B,"≥15 callee（0x65de34/0x54ecc0/0x65e134），vote quest:13 otomo-ot:5",tierB-slice-03.md
+0x18acf8,quest,worker,B,"调 0x56dfac/0x13efda0/0x7aedcc/0x7aa47c，vote quest:4 monster-em:1",tierB-slice-03.md
+0x18af18,unknown,leaf,C,"17 指令无 callee、无字符串，13 caller（回调/小访问器），无法归属",tierB-slice-03.md
+0x18af5c,quest,worker,C,"单 callee 0x7aa47c，vote quest:1 弱，5 caller",tierB-slice-03.md
+0x18af8c,quest,worker,C,"9 指令单 callee 0x194228(quest 票)，vote quest:1",tierB-slice-03.md
+0x18afb0,quest,worker,C,"11 指令单 callee 0x19463c，vote quest:1",tierB-slice-03.md
+0x18afdc,unknown,leaf,C,"22 指令无 callee、无字符串（疑内联小工具），?",tierB-slice-03.md
+0x18b034,quest,worker,C,"2 callee 0x54f260/0x54ee98（quest 票），vote quest:2",tierB-slice-03.md
+0x18b110,unknown,leaf,C,"6 指令无 callee 无字符串，1 caller，无法归属",tierB-slice-03.md
+0x18b128,quest,worker,C,"单 callee 0x19463c，vote quest:1，与 0x18afb0 同构",tierB-slice-03.md
+0x18b1c4,unknown,thunk,C,"3 指令无 callee 无字符串，纯跳转壳，无法归属",tierB-slice-03.md
+0x18b1d0,quest,worker,C,"单 callee 0x19463c，vote quest:1，4 caller",tierB-slice-03.md
+0x18b254,quest,worker,C,"调 0x1938bc/0x194c50，vote quest:2，被 quest 簇 0x18cdec/0x18ced0/0x18d890 调用",tierB-slice-03.md
+0x18b2f8,quest,worker,C,"票 1:1 平（monster-em/quest），调 0x4ef090/0x194474；邻域 0x18b254/0x18b398 皆 quest，?",tierB-slice-03.md
+0x18b398,quest,worker,B,"调 0x1938bc/0x194c94/0x54f260，vote quest:3",tierB-slice-03.md
+0x18b468,unknown,leaf,C,"9 指令无 callee 无字符串，4 caller，无法归属",tierB-slice-03.md
+0x18b48c,quest,worker,B,"145 指令调 0x1938bc/0x194c50/0x54f260，vote quest:3，与 0x18b254 同族",tierB-slice-03.md
+0x18b6d0,quest,worker,B,"调 0x19b7fc/0x7aa47c，vote quest:2",tierB-slice-03.md
+0x18b7b4,quest,worker,C,"单 callee 0x7aa47c，vote quest:1，3 caller",tierB-slice-03.md
+0x18b850,quest,orchestrator,B,"8 callee（0x194228/0x19b7a8/0x1938bc/0x19cbb4），vote quest:8",tierB-slice-03.md
+0x18bb60,quest,orchestrator,B,"字符串 `cMix`；vote quest:8；9 callee（0x198f90/0x199830/0x19956c）",tierB-slice-03.md
+0x18c030,quest,worker,C,"6 callee（0x54ed74/0x54f3bc/0x13efdac），票 quest:5 otomo-ot:1",tierB-slice-03.md
+0x18c4f0,quest,worker,B,"75 指令自递归 + 0x7aa47c/0x54f42c，vote quest:3（列表遍历模式）",tierB-slice-03.md
+0x18c61c,quest,worker,C,"单 callee 0x13efd7c，vote quest:1，2 caller",tierB-slice-03.md
+0x18c654,quest,orchestrator,B,"≥15 callee（0x18af18/0x54edec/0x18cb50/0x18cdec/0x5cf4b0），vote quest:15",tierB-slice-03.md
+0x18c854,quest,worker,B,"调 0x18d890/0x194d6c/0x194c80，vote quest:3，被 0x18d018 调用",tierB-slice-03.md
+0x18cb50,quest,worker,B,"167 指令调 0x194d6c/0x194c80/0x1938bc/0x194cbc，vote quest:4",tierB-slice-03.md
+0x18cdec,quest,worker,B,"调 0x1938bc/0x18af18/0x18b254，vote quest:3",tierB-slice-03.md
+0x18ced0,quest,worker,B,"调 0x18af18/0x1938bc/0x18b254，vote quest:3，与 0x18cdec 成对",tierB-slice-03.md
+0x18cfec,quest,worker,C,"11 指令单 callee 0x56dfac，vote quest:1",tierB-slice-03.md
+0x18d018,quest,orchestrator,B,"≥15 callee（0x65f914/0x18c854/0x18cb50/0x5c5b50/0x18b034），vote quest:25",tierB-slice-03.md
+0x18d840,quest,worker,C,"单 callee 0x194cbc，vote quest:1",tierB-slice-03.md
+0x18d890,quest,orchestrator,B,"9 callee（0x194c80/0x1938bc/0x18af18/0x5cf4f8/0x18c030），vote quest:8",tierB-slice-03.md
+0x18dd88,quest,worker,B,"7 callee（0x18c030/0x18c4f0/0x65de34），vote quest:7",tierB-slice-03.md
+0x18e07c,quest,orchestrator,B,"字符串 `cMixList`；9 callee（0x65ee6c/0x198f44/0x19945c/0x18b468），vote quest:8",tierB-slice-03.md
+0x18e4ec,quest,worker,C,"10 指令单 callee 0x194228(quest 票)，vote quest:1",tierB-slice-03.md
+0x18e514,online-nex,worker,B,"7 callee（0x276278/0x27c6f8/0x2793a4/0xe19b8/0x27c7ec），vote online-nex:3 领先",tierB-slice-03.md
+0x18e6c4,online-nex,worker,B,"3 callee 0x2793a4/0xe19b8/0xe1a74，vote online-nex:3 唯一",tierB-slice-03.md
+0x18e758,unknown,leaf,C,"17 指令无 callee 无字符串，1 caller，无法归属",tierB-slice-03.md
+0x18e79c,unknown,leaf,C,"6 指令无 callee 无字符串，无法归属",tierB-slice-03.md
+0x18e7b4,unknown,leaf,C,"17 指令无 callee 无字符串，1 caller，无法归属",tierB-slice-03.md
+0x18e7f8,unknown,leaf,C,"7 指令无 callee 无字符串，4 caller，?",tierB-slice-03.md
+0x18e814,unknown,leaf,C,"10 指令无 callee 无字符串，2 caller，?",tierB-slice-03.md
+0x18e83c,unknown,leaf,C,"6 指令无 callee 无字符串，无法归属",tierB-slice-03.md
+0x18e854,unknown,leaf,C,"17 指令无 callee 无字符串，6 caller，?",tierB-slice-03.md
+0x18e898,quest,worker,C,"单 callee 0x194230，vote quest:1，5 caller",tierB-slice-03.md
+0x18e8bc,quest,worker,C,"单 callee 0x194230，vote quest:1，与 0x18e898 成对",tierB-slice-03.md
+0x18e8e8,unknown,leaf,C,"14 指令无 callee 无字符串，2 caller，?",tierB-slice-03.md
+0x18e920,unknown,thunk,C,"4 指令无 callee 无字符串，纯访问器，无法归属",tierB-slice-03.md
+0x18e930,unknown,leaf,C,"10 指令无 callee 无字符串，5 caller，?",tierB-slice-03.md
+0x18e958,quest,worker,C,"调 0x13efda0/0x7aa47c/0x2b8f0，票 quest:2 monster-em:1，按 quest 簇判，?",tierB-slice-03.md
+0x18eaa0,quest,worker,C,"单 callee 0x7aa47c，vote quest:1",tierB-slice-03.md
+0x18eadc,quest,worker,C,"单 callee 0x7aa47c，vote quest:1，3 caller",tierB-slice-03.md
+0x18eb08,quest,worker,C,"单 callee 0x2b8f0，vote quest:1",tierB-slice-03.md
+0x18eb34,quest,worker,B,"81 指令调 0x2b908/0x7aa47c/0x7bb638，vote quest:3，被 0x18f998 调用",tierB-slice-03.md
+0x18ec78,unknown,leaf,C,"14 指令无 callee 无字符串，无法归属",tierB-slice-03.md
+0x18ecb0,quest,worker,A,"字符串 `cOtodokeConditionList`；vote quest:5；5 callee（0x7aa47c/0x2b908/0x7bb638）",tierB-slice-03.md
+0x18efc8,quest,worker,C,"单 callee 0x7aa47c，vote quest:1",tierB-slice-03.md
+0x18f004,quest,worker,C,"单 callee 0x7aa47c，vote quest:1，3 caller",tierB-slice-03.md
+0x18f030,quest,worker,C,"单 callee 0x2b8f0，vote quest:1",tierB-slice-03.md
+0x18f07c,quest,worker,B,"459 指令调 0x2b908/0x7aa47c/0x7bb638，vote quest:3（大列表遍历）",tierB-slice-03.md
+0x18f7a8,otomo-ot,worker,B,"唯一 callee 0x8261fc(otomo-ot 票)，与 0x189510/0x189de4 同构",tierB-slice-03.md
+0x18f998,quest,orchestrator,A,"字符串 `cOtodokeSetList`+`otsc`；≥15 callee（0x8870b8/0x82772c/0x18ecb0），vote quest:26",tierB-slice-03.md
+0x190590,quest,worker,C,"调 0x7aedcc/0x7aa47c/0x887810，票 quest:2 otomo-ot:1",tierB-slice-03.md
+0x190728,quest,worker,C,"单 callee 0x7aa47c，vote quest:1",tierB-slice-03.md
+0x190764,unknown,leaf,C,"12 指令无 callee 无字符串，51 caller（高频内联工具），无法归属",tierB-slice-03.md
+0x190794,unknown,leaf,C,"10 指令无 callee 无字符串，27 caller（高频工具），无法归属",tierB-slice-03.md
+0x1907bc,otomo-ot,worker,C,"单 callee 0x887810（otomo 簇），vote otomo-ot:1",tierB-slice-03.md
+0x19082c,quest,worker,C,"调 0x88784c/0x7aa47c/0x3f865c/0x502a88，票 quest:2 otomo-ot:1 monster-em:1",tierB-slice-03.md
+0x190a64,otomo-ot,worker,B,"533 指令 7 callee（0x3f8a20/0x3f8634/0x65dd68），票 otomo-ot:4 领先 monster-em:2",tierB-slice-03.md
+0x1912b8,otomo-ot,worker,C,"单 callee 0x65dd68（otomo 票），vote otomo-ot:1，5 caller",tierB-slice-03.md
+0x191374,unknown,leaf,C,"23 指令无 callee 无字符串，无法归属",tierB-slice-03.md
+0x1913d0,unknown,leaf,C,"41 指令无 callee 无字符串，1 caller，?",tierB-slice-03.md
+0x191474,quest,worker,C,"单 callee 0x525850，vote quest:1",tierB-slice-03.md
+0x191554,quest,worker,C,"单 callee 0x523194，vote quest:1",tierB-slice-03.md
+0x1915bc,unknown,leaf,C,"8 指令无 callee 无字符串，无法归属",tierB-slice-03.md
+0x1915dc,unknown,leaf,C,"8 指令无 callee 无字符串，无法归属",tierB-slice-03.md
+0x1915fc,unknown,leaf,C,"5 指令无 callee 无字符串，?",tierB-slice-03.md
+0x191610,unknown,leaf,C,"11 指令无 callee 无字符串，?",tierB-slice-03.md
+0x19163c,quest,worker,C,"单 callee 0x525898，vote quest:1，3 caller",tierB-slice-03.md
+0x191688,quest,orchestrator,B,"≥15 callee（0x7aedcc/0x8870b8/0x82772c/0x1841d4），vote quest:16",tierB-slice-03.md
+0x191bd4,quest,orchestrator,B,"字符串 `deco`；≥15 callee（0x8870b8/0x18622c/0x82772c），vote quest:21",tierB-slice-03.md
+0x192530,quest,orchestrator,B,"≥15 callee（0x8870b8/0x1890f0/0x18907c/0x189618），vote quest:17",tierB-slice-03.md
+0x192a08,quest,orchestrator,B,"≥15 callee（0x8870b8/0x1899c8/0x189974/0x189fd4），vote quest:17，与 0x192530 成对",tierB-slice-03.md
+0x192ee0,quest,worker,C,"调 0x7aedcc/0x7aa47c，vote quest:2",tierB-slice-03.md
+0x193014,quest,worker,C,"单 callee 0x7aa47c，vote quest:1",tierB-slice-03.md
+0x193050,otomo-ot,worker,C,"6 callee 0x887810/0x19333c/0x193430(皆 otomo 票)，票 3:3 平，?",tierB-slice-03.md
+0x19333c,otomo-ot,worker,C,"单 callee 0xdaba4，vote otomo-ot:1",tierB-slice-03.md
+0x1933b4,quest,worker,C,"单 callee 0x13efd7c，vote quest:1",tierB-slice-03.md
+0x193430,otomo-ot,worker,C,"单 callee 0xdac14，vote otomo-ot:1，20 caller",tierB-slice-03.md
+0x193548,quest,worker,C,"5 指令单 callee 0x13efdac，vote quest:1",tierB-slice-03.md
+0x19355c,quest,worker,B,"5 callee（0x152960/0x1937c4/0x192a08/0x192530/0x1938c4），vote quest:5",tierB-slice-03.md
+0x1937c4,quest,worker,C,"调 0x7aa47c/0x13efdac，vote quest:2",tierB-slice-03.md
+0x1938bc,unknown,thunk,C,"2 指令无 callee 无字符串，17 caller（纯访问器），无法归属",tierB-slice-03.md
+0x1938c4,quest,worker,B,"261 指令调 0x7aa47c/0x13efdac/0x192530/0x192a08，vote quest:4",tierB-slice-03.md
+0x193cd8,quest,worker,B,"调 0x887660/0x7aa47c，vote quest:2",tierB-slice-03.md
+0x193e38,quest,worker,C,"票 2:2 平（otomo-ot/quest），字符串为乱码 `?@-BC0DE6FG3HI` 不可判，按 0x193cd8 quest 邻域，?",tierB-slice-03.md
+0x193fe0,quest,worker,B,"调 0x7aa47c/0x887660，vote quest:2，与 0x193cd8 同族",tierB-slice-03.md
+0x19406c,otomo-ot,worker,B,"调 0xdad24/0x193e38/0x7aa47c，vote otomo-ot:2 领先 quest:1",tierB-slice-03.md
+0x19412c,quest,worker,B,"单 callee 0x192a08（quest:17 编排器），vote quest:1",tierB-slice-03.md
+0x194228,quest,thunk,B,"2 指令无 callee，290 caller；作为 callee 被 quest 票表全票计入（0x187a60 8 callee→quest:8），疑 quest 全局访问器",tierB-slice-03.md
+0x194230,quest,leaf,B,"8 指令无 callee，24 caller；被 0x18e898/0x18e8bc 计为 quest 票，疑 quest 访问器",tierB-slice-03.md
+0x194250,quest,worker,B,"调 0x192530/0x18e814/0x275a30/0x26fe08，vote quest:3 monster-em:1",tierB-slice-03.md
+0x19435c,unknown,leaf,C,"18 指令无 callee 无字符串，3 caller，无法归属",tierB-slice-03.md
+0x1943a4,unknown,leaf,C,"6 指令无 callee 无字符串，1 caller，无法归属",tierB-slice-03.md
+0x1943bc,unknown,leaf,C,"6 指令无 callee 无字符串，10 caller，被 quest 函数调用但语义不可判",tierB-slice-03.md
+0x1943d4,unknown,leaf,C,"13 指令无 callee 无字符串，10 caller，?",tierB-slice-03.md
+0x194408,unknown,leaf,C,"13 指令无 callee 无字符串，4 caller，?",tierB-slice-03.md
+0x19443c,unknown,leaf,C,"9 指令无 callee 无字符串，34 caller（高频工具），无法归属",tierB-slice-03.md
+0x194460,quest,worker,C,"5 指令单 callee 0x13efdac，vote quest:1",tierB-slice-03.md
+0x194474,quest,worker,B,"114 指令调 0x19463c/0x194754/0x3f8344/0x276278/0x2864c4/0x192ee0，vote quest:4 monster-em:2",tierB-slice-03.md
+0x19463c,quest,worker,B,"调 0x192530/0x192a08（皆 quest 编排器），vote quest:2",tierB-slice-03.md
+0x194754,quest,worker,B,"319 指令 6 callee（0x276278/0x2864c4/0x2864d4/0x19c21c），vote quest:4 monster-em:2",tierB-slice-03.md
+0x194c50,unknown,leaf,C,"12 指令无 callee 无字符串，3 caller，?",tierB-slice-03.md
+0x194c80,unknown,leaf,C,"5 指令无 callee 无字符串，25 caller（访问器），无法归属",tierB-slice-03.md
+0x194c94,unknown,leaf,C,"10 指令无 callee 无字符串，1 caller，?",tierB-slice-03.md
+0x194cbc,unknown,leaf,C,"8 指令无 callee 无字符串，7 caller，?",tierB-slice-03.md
+0x194cdc,unknown,leaf,C,"36 指令无 callee 无字符串，1 caller，?",tierB-slice-03.md
+0x194d6c,unknown,leaf,C,"27 指令无 callee 无字符串，2 caller，?",tierB-slice-03.md
+0x194dd8,unknown,leaf,C,"114 指令无 callee 无字符串，1 caller，疑内联数据表/纯计算，无法归属",tierB-slice-03.md
+0x194fa0,unknown,leaf,C,"7 指令无 callee 无字符串，无法归属",tierB-slice-03.md
+0x194fbc,quest,worker,B,"144 指令调 0x192530/0x7aa47c/0x13efdac，vote quest:3",tierB-slice-03.md
+0x1951fc,quest,worker,B,"调 0x54fed0/0x191bd4（quest:21 编排器），vote quest:2",tierB-slice-03.md
+0x195324,unknown,leaf,C,"20 指令无 callee 无字符串，2 caller，?",tierB-slice-03.md
+0x195374,unknown,leaf,C,"35 指令无 callee 无字符串，6 caller，?",tierB-slice-03.md
+0x195400,unknown,leaf,C,"11 指令无 callee 无字符串，14 caller，?",tierB-slice-03.md
+0x19542c,unknown,leaf,C,"7 指令无 callee 无字符串，23 caller，?",tierB-slice-03.md
+0x195448,unknown,leaf,C,"7 指令无 callee 无字符串，14 caller，?",tierB-slice-03.md
+0x195464,quest,worker,C,"11 指令单 callee 0x13efdd0，vote quest:1",tierB-slice-03.md
+0x195490,unknown,leaf,C,"15 指令无 callee 无字符串，1 caller，?",tierB-slice-03.md
+0x1954cc,quest,worker,B,"调 0x523194/0x2595e4/0xe8178/0x13efd7c，vote quest:4",tierB-slice-03.md
+0x1955b8,unknown,leaf,C,"104 指令无 callee 无字符串，11 caller，疑纯计算/表，无法归属",tierB-slice-03.md
+0x195758,quest,orchestrator,B,"11 callee（0x561b28/0x195dfc/0x4c90a4/0x195f48），vote quest:10 monster-em:1",tierB-slice-03.md
+0x195dfc,unknown,leaf,C,"83 指令无 callee 无字符串，4 caller，?",tierB-slice-03.md
+0x195f48,quest,worker,B,"调 0x2595e4/0xe82e0/0xe715c/0x4c99ac，vote quest:3 otomo-ot:1",tierB-slice-03.md
+0x1961a8,unknown,leaf,C,"5 指令无 callee 无字符串，4 caller，?",tierB-slice-03.md
+0x1961bc,unknown,leaf,C,"5 指令无 callee 无字符串，2 caller，?",tierB-slice-03.md
+0x1961d0,unknown,leaf,C,"7 指令无 callee 无字符串，21 caller，?",tierB-slice-03.md
+0x1961ec,unknown,leaf,C,"121 指令无 callee 无字符串，2 caller，?",tierB-slice-03.md
+0x1963d0,unknown,leaf,C,"41 指令无 callee 无字符串，9 caller，?",tierB-slice-03.md
+0x196474,unknown,leaf,C,"100 指令无 callee 无字符串，1 caller，?",tierB-slice-03.md
+0x196604,quest,worker,C,"383 指令 3 callee（0x14bba8/0xdad24/0x3f8358），票 1:1:1 三方平，按 quest 簇邻域判，?",tierB-slice-03.md
+0x196c00,quest,worker,B,"调 0x18e958/0x13f03c/0x523150/0xdac14，vote quest:3 otomo-ot:1",tierB-slice-03.md
+0x197074,unknown,leaf,C,"36 指令无 callee 无字符串，3 caller，?",tierB-slice-03.md
+0x197104,quest,worker,B,"调 0x18e958/0x13f03c，vote quest:2",tierB-slice-03.md
+0x1971c4,unknown,leaf,C,"11 指令无 callee 无字符串，13 caller，?",tierB-slice-03.md
+0x1971f0,unknown,leaf,C,"6 指令无 callee 无字符串，30 caller，?",tierB-slice-03.md
+0x197208,quest,worker,C,"单 callee 0x197284，vote quest:1",tierB-slice-03.md
+0x197284,quest,worker,C,"单 callee 0x523b0c，vote quest:1",tierB-slice-03.md
+0x19738c,unknown,leaf,C,"61 指令无 callee 无字符串，16 caller，?",tierB-slice-03.md
+0x197480,unknown,leaf,C,"6 指令无 callee 无字符串，14 caller，?",tierB-slice-03.md
+0x197498,unknown,leaf,C,"5 指令无 callee 无字符串，9 caller，?",tierB-slice-03.md
+0x1974ac,unknown,leaf,C,"59 指令无 callee 无字符串，1 caller，?",tierB-slice-03.md
+0x197598,unknown,leaf,C,"35 指令无 callee 无字符串，1 caller，?",tierB-slice-03.md
+0x197624,quest,worker,B,"5 callee（0x39bd1c/0x523da4/0x3b5b28/0x3bd0cc/0x3ba100），vote quest:3 领先",tierB-slice-03.md
+0x1977f8,quest,worker,C,"单 callee 0x197624，vote quest:1",tierB-slice-03.md
+0x1978d0,unknown,leaf,C,"9 指令无 callee 无字符串，4 caller，?",tierB-slice-03.md
+0x1978f4,quest,worker,C,"单 callee 0x152960，vote quest:1",tierB-slice-03.md
+0x1979b0,save-io,worker,B,"476 指令调读原语 0x3df2a8/0x3df22c + otomo 存取器 0xdaba4/0xdac14/0xdad24；vote otomo-ot:5（overridden by 原语证据）",tierB-slice-03.md
+0x198120,save-io,worker,B,"449 指令调写原语 0x3df378/0x3df300 + 同一组 otomo 存取器，为 0x1979b0 的写侧；vote otomo-ot:5",tierB-slice-03.md
+0x198824,quest,worker,B,"字符串 `_rabbitid`；调 0x6aa9b8/0x7aedcc/0x887810；vote quest:4 monster-em:2",tierB-slice-03.md
+0x198c34,quest,worker,C,"单 callee 0x7aa47c，vote quest:1",tierB-slice-03.md
+0x198c70,quest,worker,B,"6 callee（0x887810/0x13efdac/0x7af3e4/0x88784c），vote quest:4 otomo-ot:2",tierB-slice-03.md
+0x198da8,quest,worker,B,"调 0x525878/0x194228/0x1943d4/0x55bc4c，vote quest:5 otomo-ot:1",tierB-slice-03.md
+0x198f04,quest,worker,C,"单 callee 0x525878，vote quest:1，19 caller（小访问器）",tierB-slice-03.md
+0x198f44,unknown,leaf,C,"19 指令无 callee 无字符串，2 caller，?",tierB-slice-03.md
+0x198f90,unknown,leaf,C,"22 指令无 callee 无字符串，2 caller，?",tierB-slice-03.md
+0x198fe8,unknown,leaf,C,"24 指令无 callee 无字符串，2 caller，?",tierB-slice-03.md
+0x199048,quest,worker,C,"单 callee 0x525878，vote quest:1，30 caller",tierB-slice-03.md
+0x1990dc,quest,worker,B,"173 指令调 0x525878/0x1943d4，vote quest:2，51 caller（quest 公共例程）",tierB-slice-03.md
+0x199390,quest,worker,C,"单 callee 0x525878，vote quest:1，51 caller",tierB-slice-03.md
+0x19945c,quest,worker,B,"调 0x525878/0x1990dc，vote quest:2",tierB-slice-03.md
+0x19956c,quest,worker,C,"单 callee 0x525878，vote quest:1",tierB-slice-03.md
+0x1995b4,quest,worker,C,"单 callee 0x525878，vote quest:1，9 caller",tierB-slice-03.md
+0x1996d4,quest,worker,C,"单 callee 0x525878，vote quest:1",tierB-slice-03.md
+0x19974c,quest,worker,B,"调 0x194228/0x525878，vote quest:2",tierB-slice-03.md
+0x199830,quest,worker,B,"调 0x194228/0x525878，vote quest:2，26 caller",tierB-slice-03.md
+0x199934,quest,worker,C,"单 callee 0x525878，vote quest:1，9 caller",tierB-slice-03.md
+0x1999b4,quest,worker,C,"单 callee 0x525878，vote quest:1，14 caller",tierB-slice-03.md
+0x199a58,quest,worker,B,"调 0x525878/0x550148，vote quest:2",tierB-slice-03.md
+0x199ae4,quest,worker,B,"调 0x525878/0x13efdc4/0x194228，vote quest:3",tierB-slice-03.md
+0x199d6c,quest,worker,C,"单 callee 0x525878，vote quest:1",tierB-slice-03.md
+0x199e00,quest,worker,C,"单 callee 0x525878，vote quest:1",tierB-slice-03.md
+0x199e98,quest,worker,B,"401 指令 7 callee（0x525878/0x194c80/0x7af3a0/0x19c58c），vote quest:7",tierB-slice-03.md
+0x19a4dc,unknown,thunk,C,"4 指令无 callee 无字符串，4 caller，无法归属",tierB-slice-03.md
+0x19a4ec,save-io,worker,B,"28 指令调 0x3df1b8/0x3df22c（存档读原语侧），vote otomo-ot:2；直接包裹 I/O 原语",tierB-slice-03.md
+0x19a55c,save-io,worker,B,"30 指令调 0x3df1b8/0x3df300（存档写原语侧），vote otomo-ot:2；为 0x19a4ec 的写侧",tierB-slice-03.md
+0x19a5d4,item,worker,A,"字符串 `mItemBox[i]` `mItemMySet[i]`；6 callee（0x6aa9b8/0x54fa40/0x13efdac）；vote quest:4 但字符串直指道具箱",tierB-slice-03.md
+0x19a7f8,unknown,leaf,C,"21 指令无 callee 无字符串，11 caller，?",tierB-slice-03.md
+0x19a84c,quest,worker,C,"调 0x55bc4c/0x13efe3c/0x13efdac，票 quest:2 otomo-ot:1",tierB-slice-03.md
+0x19a8d8,quest,orchestrator,B,"8 callee（0x7af3a0/0x1418e0/0x143894/0x1990dc/0x7af3e4），vote quest:8",tierB-slice-03.md
+0x19aa88,quest,worker,C,"单 callee 0x7af3a0，vote quest:1",tierB-slice-03.md
+0x19aab0,unknown,leaf,C,"5 指令无 callee 无字符串，5 caller，?",tierB-slice-03.md
+0x19aac4,quest,worker,C,"单 callee 0x7af3e4，vote quest:1",tierB-slice-03.md
+0x19aaec,unknown,leaf,C,"23 指令无 callee 无字符串，1 caller，?",tierB-slice-03.md
+0x19ab48,quest,worker,C,"调 0x55bc4c/0x13effa4，票 1:1 平（otomo/quest），按 quest 簇判，?",tierB-slice-03.md
+0x19aba8,unknown,leaf,C,"7 指令无 callee 无字符串，10 caller，?",tierB-slice-03.md
+0x19abc4,unknown,leaf,C,"7 指令无 callee 无字符串，2 caller，?",tierB-slice-03.md
+0x19abe0,quest,orchestrator,B,"10 callee（0x19b7fc/0x19b670/0x19945c/0x19cfe4/0x19c21c），vote quest:10",tierB-slice-03.md
+0x19b110,quest,worker,B,"调 0x19b670/0x55bc4c/0x13effa4，vote quest:2 otomo-ot:1",tierB-slice-03.md
+0x19b1f4,quest,worker,C,"单 callee 0x13efe3c，vote quest:1",tierB-slice-03.md
+0x19b360,quest,worker,C,"调 0x13efda0/0x7aedcc/0x7aa47c/0x887810，票 quest:2 monster-em:1 otomo-ot:1",tierB-slice-03.md
+0x19b54c,quest,worker,C,"单 callee 0x7aa47c，vote quest:1",tierB-slice-03.md
+0x19b588,otomo-ot,worker,B,"调 0x887810/0x88784c/0x7aa47c（otomo 簇），vote otomo-ot:2 领先 quest:1",tierB-slice-03.md
+0x19b670,quest,worker,B,"调 0x276278/0x27c7ec，vote quest:2，41 caller",tierB-slice-03.md
+0x19b6e4,quest,worker,B,"调 0x276278/0x27c7ec，vote quest:2，与 0x19b670 同构",tierB-slice-03.md
+0x19b7a8,unknown,leaf,C,"21 指令无 callee 无字符串，14 caller，?",tierB-slice-03.md
+0x19b7fc,quest,orchestrator,B,"13 callee（0x19bbe8/0x2772c4/0x2ff1cc/0x2ff768/0x3a5ed0），vote quest:12 monster-em:2",tierB-slice-03.md
+0x19bbe8,quest,worker,B,"调 0x1943a4/0x194228/0x3f8634/0x3f8678/0x1943d4，vote quest:5",tierB-slice-03.md
+0x19bfcc,quest,worker,B,"调 0x276278/0x27c7ec/0x194250，vote quest:3",tierB-slice-03.md
+0x19c21c,unknown,leaf,C,"24 指令无 callee 无字符串，82 caller（高频访问器），无法归属",tierB-slice-03.md
+0x19c27c,unknown,leaf,C,"9 指令无 callee 无字符串，8 caller，?",tierB-slice-03.md
+0x19c2a0,quest,orchestrator,B,"8 callee（0x66eeac/0x3f8634/0x19b7fc/0x670500/0x65de34），vote quest:6 otomo-ot:2",tierB-slice-03.md
+0x19c548,quest,worker,C,"单 callee 0x194228，vote quest:1",tierB-slice-03.md
+0x19c58c,quest,worker,C,"394 指令但只调 0x194228，vote quest:1；28 caller 的公共例程，?",tierB-slice-03.md
+0x19cbb4,unknown,thunk,C,"2 指令无 callee 无字符串，10 caller，无法归属",tierB-slice-03.md
+0x19cbbc,quest,worker,C,"单 callee 0x550148，vote quest:1",tierB-slice-03.md
+0x19cc80,quest,worker,C,"单 callee 0x194228，vote quest:1",tierB-slice-03.md
+0x19cde4,unknown,leaf,C,"7 指令无 callee 无字符串，1 caller，?",tierB-slice-03.md
+0x19ce00,quest,worker,B,"调 0x276278/0x27c7ec/0x194250，vote quest:3",tierB-slice-03.md
+0x19cea4,quest,worker,B,"调 0x276278/0x27c7ec/0x194250，vote quest:3，与 0x19ce00 同构",tierB-slice-03.md
+0x19cf50,quest,worker,B,"调 0x276278/0x27c7ec/0x1943bc，vote quest:3",tierB-slice-03.md
+0x19cfe4,quest,worker,B,"165 指令调 0x3f8634/0x2772c4/0x276278/0x27c7ec/0x194250，vote quest:5",tierB-slice-03.md
+0x3241bc,quest,worker,C,"callees 0x887660/0x7aa47c/自身皆通用 stub，quest:3 全来自通用票；tiers=quest 同向，无字符串",tierB-slice-05.md
+0x324300,quest,leaf,C,"162 指令 0 调用 0 字符串；夹在 0x3241bc(quest) 与 0x324588(quest) 之间，tiers=quest",tierB-slice-05.md
+0x324588,quest,worker,B,"字符串 `008::cSetupParamPl_com_008` + quest:4；callees 0x8870b8/0x887100（另两个通用）。Pl 字样可能指向 player，但结构在 quest 段",tierB-slice-05.md
+0x324aa8,quest,orchestrator,B,"16 callee，quest:14；调 0x8260d4/0x8263f8/0x826fb8/0x82710c/0x82772c/0x827998/0x827bbc 一串 0x82xxxx quest 函数。**tiers 预测 monster-em，与票数冲突，取票**",tierB-slice-05.md
+0x325580,monster-em,worker,C,"唯一 callee 0x7cc110（monster-em，13 指令）；monster-em:1；tiers=monster-em，无字符串",tierB-slice-05.md
+0x325778,monster-em,worker,B,"monster-em:3（0x325580/0x325b48/0x7cc110 三票同向）+ tiers=monster-em",tierB-slice-05.md
+0x325b48,monster-em,worker,C,"非通用票 1:1（monster-em 0x7cc110 对 quest 0x325e80），quest:2 来自通用 0x7aa47c/0x7aedcc；随 tiers=monster-em",tierB-slice-05.md
+0x325e80,quest,worker,B,"quest:4 otomo:2，tiers=quest；callees 0x7af37c/0x7af3a0 + 通用 0x7aa47c/0x13efd7c，另有 otomo 0x887810",tierB-slice-05.md
+0x326390,quest,worker,C,"quest:4 主要来自 0x13efe00/0x887660/0x13efe0c 通用 + 0x7af3e4；audio:1 来自 0x690；tiers 预测 audio，证据不支持",tierB-slice-05.md
+0x3265bc,otomo-ot,worker,C,"39 指令，callees 仅 0x13efe00/0x887660（全通用），quest:2 无意义；随 tiers=otomo-ot",tierB-slice-05.md
+0x326658,otomo-ot,worker,C,"同 0x3265bc 模式（39 指令、同两通用 callee、quest:2）；随 tiers=otomo-ot",tierB-slice-05.md
+0x3266f4,audio,worker,C,"quest:3 全通用 stub + 同区 0x326390；audio:1 来自 0x326390；随 tiers=audio",tierB-slice-05.md
+0x3267d0,quest,worker,C,"callees 0x329308(quest)/0xc067ec，quest:2；tiers=quest 同向但仅 2 票",tierB-slice-05.md
+0x3268cc,quest,thunk,C,"3 指令无调用；夹在 0x3267d0/0x3268d8 两个 quest 之间，tiers=quest",tierB-slice-05.md
+0x3268d8,quest,worker,B,"31 个 caller 的公共入口，quest:3（0x13efe00/0x887648/0x13efe0c）+ tiers=quest",tierB-slice-05.md
+0x326a68,quest,worker,B,"44 指令 5 caller，quest:3（0x13efe00/0x887660/0x887648）+ tiers=quest，与 0x326b18/0x326bc8 同形",tierB-slice-05.md
+0x326b18,quest,worker,B,"44 指令 6 caller，quest:3（0x13efe00/0x887660/0x887648）+ tiers=quest",tierB-slice-05.md
+0x326bc8,quest,worker,B,"44 指令 5 caller，quest:3（同上三通用 callee）+ tiers=quest",tierB-slice-05.md
+0x326c78,unknown,worker,C,"29 caller，quest:5 + audio:1 但 quest 票全来自 0x13efe00/0x887660/0x7aedcc/0x7aa47c/0x13efd7c 通用；tiers=online-nex 且无任何 online 证据，按规则 5 降 unknown",tierB-slice-05.md
+0x326e88,quest,worker,C,"15 指令唯一 callee 0x7aa47c（单例取用器），quest:1；tiers=quest",tierB-slice-05.md
+0x326ec4,quest,orchestrator,B,"12 callee，quest:9；调 0x31d6f0/0x31cd7c/0x31cdb8/0x31be70/0x9b8df8 等本区函数；字符串仅碎片 `age_fre`",tierB-slice-05.md
+0x3273b4,quest,worker,C,"15 指令唯一 callee 0x7aa47c 通用，quest:1；tiers=quest",tierB-slice-05.md
+0x3273f0,monster-em,orchestrator,B,"14 callee，monster-em:10 对 quest:4；调 0x9b8df8/0x9b8ef8/0x9b8f78/0x31be70/0x31c1a0/0x31c03c/0x31d92c",tierB-slice-05.md
+0x3288c4,quest,worker,C,"15 指令唯一 callee 0x7aa47c 通用；tiers=quest，无字符串",tierB-slice-05.md
+0x328900,monster-em,orchestrator,B,"8 callee，monster-em:4 对 render-gfx:2/quest:2；调 0x31be70/0x31beb4/0x32a104/0x31c03c/0x8879b4",tierB-slice-05.md
+0x329308,quest,worker,C,"quest:2/monster-em:1，callees 0x887648(通用)/0x31d834/0x13efddc；tiers=quest",tierB-slice-05.md
+0x329668,monster-em,worker,C,"非通用票 monster-em 1(0x31d7e8) 对 quest 2(0x3273b4/0x32af48 皆通用 stub)；随 tiers=monster-em",tierB-slice-05.md
+0x329908,quest,worker,B,"446 指令，quest:4；callees 含 0x324588(quest，带 cSetupParamPl 字符串)/0x324300 + 0xc067ec；tiers=quest",tierB-slice-05.md
+0x32a000,monster-em,leaf,C,"65 指令 0 调用 0 字符串；tiers=monster-em，且 0x32a0xx..0x32afxx 整块 tiers 均为 monster-em",tierB-slice-05.md
+0x32a104,monster-em,worker,C,"191 指令唯一 callee 0x887660 通用，quest:1；tiers=monster-em（同块）",tierB-slice-05.md
+0x32a400,monster-em,leaf,C,"23 指令 0 调用但 484 caller、无字符串无票；tiers=monster-em（同块）；调用点形如 `bl 0x32a400` 后立即写回（analysis/qp4/fn-10a1240.txt），倾向通用工具，见「最不确定」",tierB-slice-05.md
+0x32a45c,monster-em,leaf,C,"26 指令 0 调用 26 caller，无字符串无票；tiers=monster-em，与 0x32a400 相邻；见「最不确定」",tierB-slice-05.md
+0x32a4c4,monster-em,orchestrator,B,"12 callee，monster-em:7 对 quest:4；调 0x9396a8/0x9bd5a0/0x9bd7b8/0x9bd638/0x9bd50c/0x31cc6c；字符串碎片 `ype[2]`",tierB-slice-05.md
+0x32af48,quest,worker,C,"15 指令唯一 callee 0x7aa47c 通用，quest:1；tiers=quest",tierB-slice-05.md
+0x32af84,monster-em,orchestrator,B,"13 callee，monster-em:9 对 quest:3/item:1；调 0x9396a8/0x93992c/0x31c1a0/0x31c03c/0x31d7e8/0x31d92c/0x890adc",tierB-slice-05.md
+0x32b834,quest,orchestrator,B,"12 callee，quest:10；调本区 0x326c78/0x3288c4/0x328900/0x3267d0/0x3268cc/0x3268d8；字符串 `t[37]`/`aponPreview`",tierB-slice-05.md
+0x32c2b4,quest,worker,C,"15 指令唯一 callee 0x7aa47c 通用；tiers=quest",tierB-slice-05.md
+0x32c2f0,quest,worker,C,"11 指令唯一 callee 0x7aa47c 通用；tiers=quest",tierB-slice-05.md
+0x32c31c,quest,worker,C,"15 指令，callees 0x2b8f0/0x13efd7c 两通用 stub，quest:2；tiers=quest",tierB-slice-05.md
+0x32c358,quest,worker,C,"4078 指令仅 3 callee（0x2b908/0x7aa47c/0x7bb638 全通用），无字符串；tiers=quest；疑大型 switch/状态机",tierB-slice-05.md
+0x333f30,quest,worker,C,"15 指令唯一 callee 0x7aa47c 通用；tiers=quest",tierB-slice-05.md
+0x333f6c,quest,worker,C,"11 指令唯一 callee 0x7aa47c 通用；tiers=quest",tierB-slice-05.md
+0x333f98,quest,worker,C,"15 指令，callees 0x2b8f0/0x13efd7c 通用，quest:2；tiers=quest",tierB-slice-05.md
+0x333fd4,quest,worker,C,"13 指令 7 caller，callees 0x2b908/0x7aa47c 通用，quest:2；tiers=quest",tierB-slice-05.md
+0x334008,player-pl,worker,C,"18767 指令仅调 0x7bb638 一个通用函数，无字符串；tiers=player-pl 但邻域 0x333fxx 全是 quest stub，**冲突且无旁证**，见「最不确定」",tierB-slice-05.md
+0x346544,quest,worker,C,"6124 指令唯一 callee 0x8261fc(otomo-ot 通用)，otomo-ot:1；无字符串；随 tiers=quest，见「最不确定」",tierB-slice-05.md
+0x34c4f4,otomo-ot,leaf,C,"6042 指令 0 调用 0 字符串 0 票；仅凭 tiers=otomo-ot 与邻域",tierB-slice-05.md
+0x3543bc,quest,worker,C,"15 指令唯一 callee 0x7aa47c 通用；tiers=quest",tierB-slice-05.md
+0x3543f8,quest,worker,C,"11 指令唯一 callee 0x7aa47c 通用；tiers=quest",tierB-slice-05.md
+0x354424,quest,worker,C,"12 指令唯一 callee 0x13efd7c 通用，quest:1；tiers=quest",tierB-slice-05.md
+0x60d6f4,unknown,leaf,C,"7 指令、无 callees、无字符串/票；0x60d6xx 稀疏尾部",tierB-slice-08.md
+0x60d710,unknown,leaf,C,"18 指令无调用、无票无字符串 ?",tierB-slice-08.md
+0x60d758,unknown,leaf,C,"7 指令无调用、无票无字符串 ?",tierB-slice-08.md
+0x60e6b0,quest,worker,C,"仅 1 票 quest，callee 0x54ee98（quest）",tierB-slice-08.md
+0x60e798,unknown,leaf,C,"43 指令无调用、无票无字符串 ?",tierB-slice-08.md
+0x60f950,unknown,leaf,C,"6 指令无调用、无票，4 callers 的小访问器 ?",tierB-slice-08.md
+0x60f968,unknown,leaf,C,"6 指令无调用、无票，与 0x60f950 同构 ?",tierB-slice-08.md
+0x613134,unknown,thunk,C,"4 指令无调用，无票无字符串 ?",tierB-slice-08.md
+0x613144,quest,worker,C,"仅 1 票 quest，callee 0x56e60c",tierB-slice-08.md
+0x613d24,unknown,thunk,C,"4 指令无调用 ?",tierB-slice-08.md
+0x613d34,unknown,thunk,C,"4 指令无调用 ?",tierB-slice-08.md
+0x613d44,unknown,thunk,C,"3 指令无调用 ?",tierB-slice-08.md
+0x613d8c,quest,worker,C,"票 quest:1/otomo-ot:1 持平；callee 0x56e528/0x56dc28，按 0x613xxx 邻域取 quest",tierB-slice-08.md
+0x614768,unknown,thunk,C,"4 指令无调用 ?",tierB-slice-08.md
+0x614778,quest,orchestrator,B,"票 quest:8（8 个 0x3b5xxx/0x3b57d0 callees 全 quest）",tierB-slice-08.md
+0x614898,monster-em,orchestrator,B,"票 em:7/quest:3；调 0x3a3778/0x3a5364/0x3a9e40（0x3axxx 为 em 区）",tierB-slice-08.md
+0x614a60,monster-em,worker,C,"票 quest:1/em:1 持平；callee 0x3a5324/0x3a9e38 属 0x3axxx em 区",tierB-slice-08.md
+0x614b14,otomo-ot,worker,C,"票 otomo-ot:2/quest:2 持平；调 0x56e808/0x56fb94",tierB-slice-08.md
+0x619bf8,monster-em,orchestrator,B,"票 em:6/otomo-ot:3/quest:1；调 0x274ce4/0x258ffc/0x54533c",tierB-slice-08.md
+0x61abb8,quest,worker,C,"票 quest:4/otomo-ot:3 接近；调 0x666d08/0x56e5b8/0x7aa47c",tierB-slice-08.md
+0x61b0e0,quest,orchestrator,C,"票 quest:18 与 otomo-ot:18 完全持平；调 0x548204/0x5483c0/0x56d97c",tierB-slice-08.md
+0x61cc6c,monster-em,orchestrator,B,"票 em:6/quest:2；调 0x276278/0x2864c4/0x27c6f8",tierB-slice-08.md
+0x61e5d4,quest,orchestrator,C,"票 quest:3/otomo-ot:3/em:2 持平；调 0x54533c/0x276278/0x5511a4",tierB-slice-08.md
+0x61ecc0,quest,worker,B,"票 quest:4/otomo-ot:2/audio:1；调 0x18ffc/0x54533c/0x56e558",tierB-slice-08.md
+0x61fc1c,quest,worker,C,"票 quest:1/otomo-ot:1 持平；callee 0x3b57d0（quest）+0x61fd0c",tierB-slice-08.md
+0x620c80,unknown,leaf,C,"28 指令无调用、12 callers；无票，疑为取值器对 0x620c80/0x620cf0 ?",tierB-slice-08.md
+0x620cf0,unknown,leaf,C,"37 指令无调用、3 callers，无票 ?",tierB-slice-08.md
+0x620d84,unknown,leaf,C,"28 指令无调用、12 callers，与 0x620c80 成对 ?",tierB-slice-08.md
+0x620df4,unknown,leaf,C,"37 指令无调用、3 callers，与 0x620cf0 成对 ?",tierB-slice-08.md
+0x620e88,quest,worker,C,"仅 1 票 quest，callee 0x56e5b8",tierB-slice-08.md
+0x620fcc,unknown,leaf,C,"125 指令无调用、1 caller，无票无字符串（母表标 quest，属弱推断）?",tierB-slice-08.md
+0x6211c0,quest,worker,C,"仅 1 票 quest，callee 0x620fcc",tierB-slice-08.md
+0x621680,quest,worker,C,"票 quest:2/otomo-ot:1；调 0x3b598c/0x3b57d0/0x62172c",tierB-slice-08.md
+0x62172c,otomo-ot,orchestrator,B,"票 otomo-ot:11/quest:3；调 0x56e808/0x56e528/0x545a40",tierB-slice-08.md
+0x6223f4,unknown,leaf,C,"31 指令无调用、无票 ?",tierB-slice-08.md
+0x622854,unknown,thunk,C,"4 指令无调用 ?",tierB-slice-08.md
+0x6232c0,quest,worker,C,"票 quest:2；调 0x623d50/0x194228",tierB-slice-08.md
+0x6233c4,quest,orchestrator,B,"票 quest:11/otomo-ot:4；调 0x55bba0/0x56e808/0x142a38",tierB-slice-08.md
+0x623748,quest,worker,B,"票 quest:3/otomo-ot:2，0 caller；调 0x551e38/0x55bac0/0x56e808",tierB-slice-08.md
+0x623a04,otomo-ot,worker,C,"票 otomo-ot:1/quest:1 持平；callee 0x546f28/0x56e61c",tierB-slice-08.md
+0x623c08,quest,worker,C,"票 quest:2/otomo-ot:1；调 0x194228/0x56e62c/0x56e530",tierB-slice-08.md
+0x623d50,otomo-ot,orchestrator,C,"票 otomo-ot:9/quest:9/audio:2/item:1 持平；调 0x56e530/0x55bba0/0x3a5ec4",tierB-slice-08.md
+0x655360,otomo-ot,orchestrator,B,"票 otomo-ot:18/quest:6，0 caller；调 0x60217c/0x6025b8/0x27c6f8",tierB-slice-08.md
+0x658ae8,ui,orchestrator,A,"字符串类名 `cUIORegistSrcPanelBase`（面板基类）；otomo:31/quest:16 为其宿主模块票",tierB-slice-08.md
+0x660c80,quest,orchestrator,B,"票 quest:35/otomo-ot:12；调 0x54fd94/0x6650f0/0x54ecc0",tierB-slice-08.md
+0x668da8,quest,orchestrator,B,"票 quest:30/otomo-ot:15；调 0x13efe30/0x5bc4b8/0x65e794",tierB-slice-08.md
+0x67b3a4,otomo-ot,orchestrator,C,"票 otomo-ot:26 vs quest:19、em:3 未拉开；调 0x26e43c/0xdaba4/0x67e130",tierB-slice-08.md
+0x681f50,quest,orchestrator,C,"票 quest:22 与 otomo-ot:20 近持平；调 0x276790/0x3e6434/0x6ba920",tierB-slice-08.md
+0x684588,otomo-ot,orchestrator,B,"票 otomo-ot:28/quest:14；调 0x276790/0x688820/0x688a84",tierB-slice-08.md
+0x68584c,otomo-ot,orchestrator,C,"票 otomo-ot:18/quest:15/em:5；调 0x276790/0x68796c/0x6882c4",tierB-slice-08.md
+0x68b5c4,quest,orchestrator,B,"票 quest:29/otomo-ot:8；调 0x6b7eb4/0x6b6d0c/0x65f270",tierB-slice-08.md
+0x68fdb0,otomo-ot,orchestrator,B,"票 otomo-ot:17/quest:3；调 0xba7f1c/0x693f84/0x22d644",tierB-slice-08.md
+0x6917e8,otomo-ot,orchestrator,B,"票 otomo-ot:26/quest:4；调 0xba7d68/0x693f84/0x694628",tierB-slice-08.md
+0x692940,otomo-ot,orchestrator,B,"票 otomo-ot:28/quest:8；调 0xba7d68/0x693f84/0x694628",tierB-slice-08.md
+0x696440,quest,orchestrator,B,"票 quest:16/otomo-ot:7/render:2；调 0x65c7e8/0x54ed74/0x641e94",tierB-slice-08.md
+0x697478,unknown,orchestrator,C,"票 render:3/quest:3/em:2/audio:2 四向分散；调 0x87ff38/0x8826fc/0x883f74/0x7bb638，与 area 资源簇同构 ?",tierB-slice-08.md
+0x698eb4,unknown,worker,C,"无字符串；与 area 资源簇同构（0x690/0x7aedcc/0x7aa47c/0x7bb638）；票 quest:3/audio:1",tierB-slice-08.md
+0x69c258,unknown,orchestrator,A,"字符串 `areaacttbl \",tierB-slice-08.md
+0x69eb18,unknown,orchestrator,A,"字符串 `areaseldat`(rAreaSelDat 区域选择数据表)；票 otomo:20/quest:16/em:9 属跨模块，标签集无 area 项",tierB-slice-08.md
+0x6a2c78,otomo-ot,orchestrator,B,"票 otomo-ot:20、em:9、quest:8；调 0x56e61c/0x54f9c0/0x6a64dc",tierB-slice-08.md
+0x6b9168,otomo-ot,orchestrator,B,"票 otomo-ot:21/quest:4；调 0x56e6a8/0x55fa04/0x7ca724",tierB-slice-08.md
+0x6c8a2c,render-gfx,orchestrator,B,"调 0x53a058/0x53a164/0x950bcc/0x3f8344（render-gfx 票 3）+0x6cc720；位于 0x6c70c8-0x6c8a2c 渲染簇，票 em:6/quest:5/otomo:5 分散",tierB-slice-08.md
+0x6ccf74,quest,orchestrator,B,"票 quest:20/otomo-ot:4；调 0x3d8028/0x2423b4/0x2450ac",tierB-slice-08.md
+0x6ce288,quest,orchestrator,B,"票 quest:21/otomo-ot:11；调 0x244f5c/0x243bd4/0x3f8390",tierB-slice-08.md
+0x6d3ce4,quest,orchestrator,B,"票 quest:9/em:4/render:4；调 0x6d09b8/0x32a400/0x6c0d88",tierB-slice-08.md
+0x6d4d94,monster-em,orchestrator,C,"票 em:10 与 quest:9 近持平，0 caller（仅 vtable）；调 0x6c70c8/0x6c71e4/0x6cc634",tierB-slice-08.md
+0x6ddf38,quest,orchestrator,B,"票 quest:25/otomo-ot:7；调 0x6e026c/0x6e03f8/0x1963d0",tierB-slice-08.md
+0x6e2468,otomo-ot,orchestrator,C,"票 otomo-ot:23 与 quest:22 持平；调 0x6e46a8/0x6e54b4/0x6e6214",tierB-slice-08.md
+0x6e814c,quest,orchestrator,B,"票 quest:25/otomo-ot:7；调 0x65ca84/0x5d0d44/0x57e938",tierB-slice-08.md
+0x6f0f84,quest,orchestrator,B,"票 quest:36/otomo-ot:9；调 0x63167c/0x5b9d88/0x57e938",tierB-slice-08.md
+0x6f31d8,quest,orchestrator,B,"票 quest:40/otomo-ot:6；调 0x6f9a04/0x6fbf4c/0x6fcfe4",tierB-slice-08.md
+0x6f5940,quest,orchestrator,B,"票 quest:36/otomo-ot:7；调 0x6ff02c/0x6fe2dc/0x6fee28",tierB-slice-08.md
+0x6f7220,quest,orchestrator,B,"票 quest:37/otomo-ot:7；调 0x6ff02c/0x7026b8/0x7045dc",tierB-slice-08.md
+0x6ffd40,quest,orchestrator,B,"票 quest:27/otomo-ot:4；调 0x148340/0xdb568/0x70153c",tierB-slice-08.md
+0x7045dc,quest,orchestrator,B,"票 quest:39/otomo-ot:9；调 0x6fa3d8/0x6fd280/0x6ffd40",tierB-slice-08.md
+0x7129a8,quest,orchestrator,B,"票 quest:30/otomo-ot:12；调 0x26e50c/0x548a08/0x18c4f0",tierB-slice-08.md
+0x714e34,quest,worker,C,"票仅 quest:4、otomo-ot:2（弱）；调 0x19aaec/0x147e10/0x148880",tierB-slice-08.md
+0x721a30,quest,orchestrator,B,"票 quest:35/otomo-ot:10；调 0x718a0c/0x72ab38/0x65f914",tierB-slice-08.md
