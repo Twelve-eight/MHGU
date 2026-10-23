@@ -536,8 +536,10 @@ export function writeEquipmentRecord(view, index, record) {
 
   const type = checkEquipType(record.type);
   if (type === 0) {
-    clearRecordAt(u8, at, index);
-    return;
+    throw new Error(
+      `refusing to clear equipment record ${index} via type 0: deleting box records is BLOCKED by G-14 ` +
+        "(the equipped loadout may reference box indices)"
+    );
   }
 
   const armor = type >= 1 && type <= 5;
@@ -682,30 +684,6 @@ export function writeEquipmentRecord(view, index, record) {
   }
 
   u8.set(bytes, at);
-}
-
-/**
- * Clears one equipment record to 36 zero bytes. Refused when `b0 == 0`: an empty record may
- * carry foreign bytes the game ignores, and a record must never be cleared to "make room"
- * (EQ-12, MN-12).
- * @param {{u8: Uint8Array, base: number}} view
- * @param {number} index 0..1999
- * @returns {void}
- * @throws {Error} when the record is already empty
- */
-export function clearEquipmentRecord(view, index) {
-  const u8 = viewBytes(view);
-  checkIndex(index, EQUIP_BOX_COUNT, "index");
-  const charOff = EQUIP_BOX_BASE + EQUIP_RECORD_SIZE * index;
-  checkField(u8, view.base, charOff, EQUIP_RECORD_SIZE);
-  clearRecordAt(u8, view.base + charOff, index);
-}
-
-function clearRecordAt(u8, at, index) {
-  if (u8[at] === 0) {
-    throw new Error(`refusing to clear equipment record ${index}: b0 is already 0 (EQ-12, MN-12)`);
-  }
-  u8.fill(0, at, at + EQUIP_RECORD_SIZE);
 }
 
 function checkEquipType(type) {
