@@ -114,6 +114,12 @@ from the verified table in `.tmp/reports-mhgu/recovery-report.md` section 6.2
 after this chunk. The `#` column is the **pchtxt line number** (1-based, inside the
 `@enabled` block); the table is in pchtxt order.
 
+**Audit 2026-10-24:** all 123 rows checked against the 1.4.0 disassembly and both pchtxt files
+(`.tmp/reports-mhgu/specaudit-{1..4,review}.md`, review PASS 4/4): every original word and every V7 patched
+word matches. The `patched insn` column is **V7-only**: V8 (`patch/experimental-v8/`) uses the same sites and
+registers with re-encoded immediates (e.g. `0x64C2`->`0x74FA`, `0x6DC4`->`0x80B0`); a V8 port must take
+its immediates from the V8 pchtxt, not from this table.
+
 | # | vaddr | original insn | patched insn | purpose | strategy | block start? |
 |---|---|---|---|---|---|---|
 | 1 | `0x198F44` | `movw r2,#0x2406` | `movw r2,#0x2ED6` | reverse-scan2 sentinel: last A slot moves from `0x1A+4*2300-4` to `0x1A+4*2992-4` | `emulate` at site, or `clone` at site (same pc; covers #1-#3) | **entry**: `tiers.csv` `0x198f44,19` |
@@ -124,7 +130,7 @@ after this chunk. The `#` column is the **pchtxt line number** (1-based, inside 
 | 6 | `0x198FFC` | `movw r2,#0x8FC` | `movw r2,#0xBB0` | reverse-scan count 2300 -> 2992 | `clone` at fn `0x198FE8` (shares #5's clone) | `[I]` interior of fn `0x198FE8` |
 | 7 | `0x19A4F8` | `movw r7,#0x8FC` | `movw r7,#0xBB0` | save serializer slot loop count | `clone` at fn `0x19A4EC` | `[I]` interior |
 | 8 | `0x19A568` | `movw r5,#0x8FC` | `movw r5,#0xBB0` | save deserializer slot loop count | `clone` at fn `0x19A55C` | `[I]` interior |
-| 9 | `0x3E8A10` | `movw r1,#0x8FC` | `movw r1,#0xBB0` | runtime clear-loop count | `emulate` if `is_block(site)`; else `clone` at `B` | `[I]` looks like a routine entry, not in `tiers.csv` |
+| 9 | `0x3E8A10` | `movw r1,#0x8FC` | `movw r1,#0xBB0` | runtime clear-loop count | `clone` at `B` (site is not a block start) | interior: `add r4,r4,#1; cmp r4,#50; bne` falls through into it (audit 2026-10-24) |
 | 10 | `0x19A548` | `mov r2,#0xFF0` (DP imm) | `movw r2,#0x985` | preset block write length 4080 -> 2437 (=14*170+57) | `clone` at fn `0x19A4EC` (shares #7's clone) | `[I]` interior |
 | 11 | `0x19A5C0` | `mov r2,#0xFF0` (DP imm) | `movw r2,#0x985` | preset block read length | `clone` at fn `0x19A55C` (shares #8's clone) | `[I]` interior |
 | 12 | `0x19AB04` | `cmp r12,#0x18` | `cmp r12,#0x0E` | `anyPresetNonEmpty` scan bound 24 -> 14 | `clone` at fn `0x19AAEC` | `[I]` interior (`preset-deadzone` §1.1) |
@@ -152,7 +158,7 @@ Notes for this chunk:
 | 19 | `0x19AA44` | `movw r2,#0x23F0` | `movw r2,#0x2EC0` | heap copy length (third copy routine) | `clone` at `B` (probe) | `[I]` no documented entry; `tiers.csv` has none at this address |
 | 20 | `0x19AA90` | `movw r0,#0x23F0` | `movw r0,#0x2EC0` | heap `malloc` in copy-out routine | `clone` at fn `0x19AA88` | **entry**: `0x19AA88` (`ui-page-bound` §1) |
 | 21 | `0x19AA9C` | `movw r2,#0x23F0` | `movw r2,#0x2EC0` | heap `memcpy` in copy-out routine | `clone` at `0x19AA88` (shares #20) | `[I]` interior |
-| 22 | `0x19AAB4` | `movw r2,#0x23F0` | `movw r2,#0x2EC0` | heap `memcpy` copy-back length | `clone` at fn `0x19AAB0` | **entry**: `0x19AAB0` (`ui-page-bound` §1) |
+| 22 | `0x19AAB4` | `movw r2,#0x23F0` | `movw r2,#0x2EC0` | heap `memcpy` copy-back length | `clone` at block `0x19AAB0` | block start after an unconditional tail-call, **no prologue** (not a `push` entry; audit 2026-10-24) |
 | 23 | `0x198F04` | `push {r4,lr}` | `movw r0,#0xBB0` | capacity getter: short-circuit the obfuscated `1000+300*popcount+200*bits` formula | `replace-fn` at `0x198F04`: `r[0]=0xBB0`, `r[15]=r[14]`, return true | **entry**: `tiers.csv` `0x198f04,16` |
 | 24 | `0x198F08` | `ldr r0,[pc,#0x30]` | `bx lr` | getter return | `not-needed` (covered by #23's hook) | n/a |
 | 25 | `0x198E74` | `add r0,r0,#0x3E8` | `movw r0,#0xBB0` | inline capacity (first of 30) | `clone` at `B` (probe) | `[I]` |
