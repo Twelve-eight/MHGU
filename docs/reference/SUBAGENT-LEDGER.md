@@ -65,3 +65,7 @@
 - EvalMcpDsv（dsv-dev，wb2api/global:deepseek-v4.1-flash，hi）4m：修正后采用；唯一指出 `.tmp/mhgu` 白名单会暴露 prod.keys，并指出子代理会自动继承 MCP 工具，不必改 tools 列表。三方中最细。
 - EvalMcpOpus（新建 kiro-opus-reviewer，northstar-kiro/claude-opus-5.5:high，**用户本次特批**）2.5m：修正后采用；指出 junction 逃逸、schema 无类型、启发式工具描述有误导；自述最后一次性写盘，违反 §8b。
 - 三方未能自行发现、由主会话冒烟发现的问题：目录路径通过检查后返回 size 0。
+
+## 2026-10-24 01:30 pass3 九对（用户：GLM 并发 9，尽量用满）
+- 9 片 × 60 函数（`.tmp/mhgu/tierB3p/slice-01..09.txt`，跳过 pass1/2 已裁定的函数，按指令数降序；540 个函数，736,737 条指令 = .text 的 14.1%）。GlmB3sNN（glm-re，wb2api-remote/glm-5.3-flash:max）↔ DsvB3rNN（dsv-dev，hi）。输出 `docs/analysis/code/tierb-pass3/tierB3-slice-NN.md`，审查 `.tmp/reports-mhgu/b3-review-NN.md`。可用 MCP，最多复看 10 个函数。
+- 前一批 GlmFillOrder、GlmYure3 已停：两者的结论都被审查方用 MCP 独立推导取代（R2 已入库；yure 待独立复核）。
