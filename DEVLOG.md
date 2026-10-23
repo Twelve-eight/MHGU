@@ -580,3 +580,11 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 - 日志写 `AOT: using update ExeFS (0100770008DD8800) rather than the base`，说明 XCI 里带 1.4.0 更新。
 - 导出目录 `user\nand\...\0100770008DD8000\` 里有存档副本（Lay1nn_HR198.hnt、Sakiko_HR5.hnt、system、system_backup）；`user\cache\shader\...\vulkan.bin` 也在。**我没有运行导出的 exe**（§2e：要用户在场）。
 - 13:28 复查：suyu 进程 PID 15592 仍在运行（累计 CPU 221 s，空闲），没有子进程。
+
+## 2026-10-24 SUYU/Forge 种子地址对照
+- SUYU 发布包的 `coverage/fb08f1d2…txt` 只列 3,146 个「游玩中发现未翻译」的代码偏移，不带名字，不能当子系统种子。
+- Forge PC（`GURecomp/forge-pc`，MIT，克隆到 `.tmp/ext/forge-pc`）给出 8 个有作者注释的函数地址（UIFix 的 7 个 GUI 函数、hello 示例的相机投影函数）。对照 tiers.csv：
+  - 相机投影 0x1C358：B/render-gfx，一致。
+  - GUI 绘制 0xA3DA50、0xA39300：A/render-gfx。说得通（GUI 绘制同时属于渲染），不算错。
+  - rGUI 工厂/析构 0xB7F1D4、0xB7F260、0xB7F2E0，以及 0x541254：都是 B/quest；0xA34070 是 B/audio。**5 处 B 级标签与作者注释不符**，再次说明 Tier B 不可信。
+- 种子太少，不足以按区间标注 render/camera/Pia。本项关闭为「已核对，种子不足」，不改 tiers.csv。
