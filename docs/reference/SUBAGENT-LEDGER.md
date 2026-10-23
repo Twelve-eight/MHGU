@@ -48,3 +48,8 @@
 - **监督漏配**：PluginHookSpec 与实现同批未派 swe2 监督（违反 §8），事后补派 Swe2PluginSpecReview；提交信息"审计待回"当时不实。
 - Swe2Pass2Audit Round 2：105 行复核，1 降级（0xaeaefc）已应用，PASS。
 - SuyuRelease（dsv, hi）：4m39s 一次完成，无断流；只读调研、行号引用齐全。
+
+## 2026-10-24 GLM 逆向批次 1（用户指令：逆向交给 glm-5.3-flash，dsv 一对一交叉审）
+- 新建 agent `glm-re`（`.omp/agents/glm-re.md`，model `wb2api-remote/glm-5.3-flash:max`，用户指定路由；只有 max 档）。AGENTS.md §4b 白名单已加入 glm5.3f（备份 `G:/backups/AGENTS.md.20261024-pre-glm`）。
+- 3 对：GlmR2Overflow↔DsvR2Review（插件规格 R2 B 区溢出 / R5 0x5B807C 归属）；GlmDrift↔DsvDriftReview（member#4 4B 漂移）；GlmYure↔DsvYureReview（em_size_yure_data XFS）。报告 `.tmp/reports-mhgu/glm-*.md`，审查 `glm-*-review.md`。
+- 上一轮 Swe2PluginSpecReview 随重启死亡，无报告；R2/R5 由本批 GlmR2Overflow 接手。
