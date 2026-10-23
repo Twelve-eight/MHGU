@@ -535,3 +535,5 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 - `tools/build-v7-final.mjs` 改为输出 V8，`patch/1.4.0.pchtxt` 已重新生成：123 行，偏移与 V7 相同，59 行只改 movw 立即数（解码比对确认操作码与 Rd 不变）。布局与静态检查见插件规格 R2 节。V7 原文件：git 历史 + `.tmp/mhgu/v7-1.4.0.pchtxt`。**未实机**。
 - `editor/core/items.mjs` 新增 `findInvalidItemSlots`、`clearInvalidItemSlots`。在备份副本上验证：r2live 测前与 V6 快照各检出 11 个幽灵格并清除，只改动 20 B；测后副本检出 1 个，只改动 2 B；其余格子不变。roundtrip PASS 3963 / FAIL 0，core smoke PASS 265。UI 提示还没接上。用户实际存档没动。
 - 覆盖率重算的说明里补了抽查结果（5 行降级成立），并注明误差方向未验证（code-metrics §9）。
+
+- 2026-10-24 03:10 公开默认补丁恢复为 V7（`patch/1.4.0.pchtxt` sha1 fa435345），V8 改放 `patch/experimental-v8/1.4.0.pchtxt`（sha1 79b32dca），生成器输出路径同步修改。V8 实机前不作为默认。另：V7 那次实机预设 0–3 没被写坏，原因还没查清，所以 V8 实机即使正常，也只能说明没有回归、没有崩溃，不能证明 R2 已修复。

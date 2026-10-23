@@ -1,0 +1,137 @@
+@nsobid-FB08F1D20FD1204FE7070672777F869B
+
+# MHGU [0100770008DD8000] v1.4.0 - ITEM BOX EXPANSION V8
+# N=2992 (0xBB0). box bitstream 7106B @0x278; presets 24->14 @0x1E3A (2437B block).
+# V8 = V6 + capacity getter + 30 inline capacity + object layout with B/C/D sized for 2992.
+# Layout: B 0x240A/0x240C->0x2EDA/0x2EDC (0x2EC0 B); C 0x47FA->0x5D9A (0x1760 B);
+#   D 0x59F2->0x74FA (0xBB2 B); heap 0x62F0->0x80AC; adj 0x62D6->0x8092; preset 0x62F4->0x80B0;
+#   rec 0x631D/1E/20/22->0x80D9/DA/DC/DE; obj 0x72E4->0x90A0.
+# Save format is identical to V7 (only the runtime object changes); V7 saves load unchanged.
+# Lines = flat file offsets (vaddr+0x100), no offset_shift. 0x19B1F4 = known gap.
+@flag print_values
+
+@enabled
+00199044 D62E02E3   // rev-scan2 sentinel
+00199048 AFCB00E3   // rev-scan2 lane bound
+0019904c B13B00E3   // rev-scan2 lane bound
+001990a0 B0CB00E3   // fwd slot-search bound
+001990ec D82E02E3   // rev scan end
+001990fc B02B00E3   // rev scan count
+0019a5f8 B07B00E3   // save serializer N
+0019a668 B05B00E3   // save deserializer N
+003e8b10 B01B00E3   // runtime clear loop N
+0019a648 852900E3   // preset block write len 2437
+0019a6c0 852900E3   // preset block read len 2437
+0019ac04 0E005CE3   // preset bound excl 14
+0019ac4c 0D0051E3   // preset bound incl 13
+0019acb0 0E0051E3   // preset bound excl 14
+0019accc 0E0051E3   // preset bound excl 14
+0019ace8 0D0051E3   // preset bound incl 13
+0019a9e4 C00E02E3   // heap alloc 0x2EC0
+0019a9f4 C02E02E3   // heap copy 0x2EC0
+0019ab44 C02E02E3   // heap copy 0x2EC0
+0019ab90 C00E02E3   // heap alloc 0x2EC0
+0019ab9c C02E02E3   // heap copy 0x2EC0
+0019abb4 C02E02E3   // heap copy 0x2EC0
+00199004 B00B00E3   // capacity getter -> 0xBB0
+00199008 1EFF2FE1   // bx lr
+00198f74 B00B00E3   // inline capacity
+00199038 B00B00E3   // inline capacity
+001991bc B00B00E3   // inline capacity
+00199274 B00B00E3   // inline capacity
+0019935c B00B00E3   // inline capacity
+001993d8 B00B00E3   // inline capacity
+0019951c B00B00E3   // inline capacity
+001995f0 B00B00E3   // inline capacity
+00199718 B00B00E3   // inline capacity
+001997a0 B00B00E3   // inline capacity
+00199818 B00B00E3   // inline capacity
+0019990c B00B00E3   // inline capacity
+00199a00 B00B00E3   // inline capacity
+00199a98 B00B00E3   // inline capacity
+00199b10 B00B00E3   // inline capacity
+00199bc8 B00B00E3   // inline capacity
+00199c68 B00B00E3   // inline capacity
+00199cec B00B00E3   // inline capacity
+00199ee8 B00B00E3   // inline capacity
+00199f40 B00B00E3   // inline capacity
+0019a034 B00B00E3   // inline capacity
+0019a09c B00B00E3   // inline capacity
+0019a120 B00B00E3   // inline capacity
+0019a2d8 B00B00E3   // inline capacity
+0019a348 B00B00E3   // inline capacity
+0019a3c0 B00B00E3   // inline capacity
+0019a448 B00B00E3   // inline capacity
+0019a4f0 B00B00E3   // inline capacity
+0019a564 B00B00E3   // inline capacity
+0019b0c0 B00B00E3   // inline capacity
+00199d10 DAEE02E3   // shift #0x240a->#0x2eda
+00199d9c DA0E02E3   // shift #0x240a->#0x2eda
+00199e84 DA0E02E3   // shift #0x240a->#0x2eda
+00199c20 DC0E02E3   // shift #0x240c->#0x2edc
+00199d00 DCCE02E3   // shift #0x240c->#0x2edc
+00198f88 801D05E3   // shift #0x47e0->#0x5d80
+00199c04 9A0D05E3   // shift #0x47fa->#0x5d9a
+00198d00 E01407E3   // shift #0x59d8->#0x74e0
+00198d98 E01407E3   // shift #0x59d8->#0x74e0
+00199fec FA0407E3   // shift #0x59f2->#0x74fa
+0019a054 FA0407E3   // shift #0x59f2->#0x74fa
+0019a0bc FA0407E3   // shift #0x59f2->#0x74fa
+0019a21c FA1407E3   // shift #0x59f2->#0x74fa
+0019a2f8 FA0407E3   // shift #0x59f2->#0x74fa
+0019a368 FA0407E3   // shift #0x59f2->#0x74fa
+0019a3e0 FA0407E3   // shift #0x59f2->#0x74fa
+0019a468 FA0407E3   // shift #0x59f2->#0x74fa
+0019a514 FA0407E3   // shift #0x59f2->#0x74fa
+0019a5e0 FA1407E3   // shift #0x59f2->#0x74fa
+00716b28 FA2407E3   // shift #0x59f2->#0x74fa
+00717488 FA2407E3   // shift #0x59f2->#0x74fa
+0071c08c FA3407E3   // shift #0x59f2->#0x74fa
+0071c794 FA3407E3   // shift #0x59f2->#0x74fa
+0019a9fc 921008E3   // shift #0x62d6->#0x8092
+00198ce8 AC1008E3   // shift #0x62f0->#0x80ac
+00198d80 AC1008E3   // shift #0x62f0->#0x80ac
+00198de4 AC0008E3   // shift #0x62f0->#0x80ac
+00198e40 AC0008E3   // shift #0x62f0->#0x80ac
+0019a9ec AC1008E3   // shift #0x62f0->#0x80ac
+0019ab98 AC1008E3   // shift #0x62f0->#0x80ac
+0019abb0 AC1008E3   // shift #0x62f0->#0x80ac
+0019abcc AC0008E3   // shift #0x62f0->#0x80ac
+0019a644 B00008E3   // shift #0x62f4->#0x80b0
+0019a6bc B00008E3   // shift #0x62f4->#0x80b0
+0019a7d4 B00008E3   // shift #0x62f4->#0x80b0
+0019a97c B00008E3   // shift #0x62f4->#0x80b0
+0019ac7c B00008E3   // shift #0x62f4->#0x80b0
+0019acac B03008E3   // shift #0x62f4->#0x80b0
+0019acc8 B03008E3   // shift #0x62f4->#0x80b0
+0019b29c B00008E3   // shift #0x62f4->#0x80b0
+0019b318 B00008E3   // shift #0x62f4->#0x80b0
+0019b370 B00008E3   // shift #0x62f4->#0x80b0
+0019b470 B01008E3   // shift #0x62f4->#0x80b0
+00198f98 D90008E3   // shift #0x631d->#0x80d9
+0019a880 D90008E3   // shift #0x631d->#0x80d9
+0019a990 D90008E3   // shift #0x631d->#0x80d9
+0019b3cc D92008E3   // shift #0x631d->#0x80d9
+0019b41c D92008E3   // shift #0x631d->#0x80d9
+0019acfc DA9008E3   // shift #0x631e->#0x80da
+0019b198 DA9008E3   // shift #0x631e->#0x80da
+0019b32c DA1008E3   // shift #0x631e->#0x80da
+0019b384 DA1008E3   // shift #0x631e->#0x80da
+0019b3dc DA2008E3   // shift #0x631e->#0x80da
+0019b42c DA2008E3   // shift #0x631e->#0x80da
+0019a750 DC0008E3   // shift #0x6320->#0x80dc
+0019a910 DC1008E3   // shift #0x6320->#0x80dc
+0019abec DC1008E3   // shift #0x6320->#0x80dc
+0019af8c DC0008E3   // shift #0x6320->#0x80dc
+0019b228 DC1008E3   // shift #0x6320->#0x80dc
+00198cd4 A01009E3   // shift #0x72e4->#0x90a0
+0019b578 A03009E3   // shift #0x72e4->#0x90a0
+003d935c A00009E3   // shift #0x72e4->#0x90a0
+005b817c DA2E02E3   // shift #0x240a->#0x2eda B page base UI
+005b8184 FA3407E3   // shift #0x59f2->#0x74fa D page base UI
+0019ad08 DE0008E3   // shift #0x6322->#0x80de rec+0x2E applyPreset
+0019a900 0D0051E3   // preset guard r1<14
+0019a94c 0D0051E3   // preset guard r1<14
+0019b21c 0D0054E3   // preset guard r4<14
+0019b460 0D0051E3   // preset guard r1<14
+@stop
