@@ -513,7 +513,7 @@ applier" for the AOT build.
 
 ### R2. B and C are relocated but **not enlarged** - >2300 distinct item ids still overflow
 
-> **Ruling 2026-10-24: CONFIRMED, and worse than stated.** Not only ">2300 distinct ids": the
+> **Ruling 2026-10-24: out-of-bounds write CONFIRMED statically; net harm [U] pending fill-order analysis.** Not only ">2300 distinct ids": the
 > B/C init loop `0x199B30..0x199B70` is bounded by the patched inline capacity at `0x199B68`
 > (pchtxt `00199c68 B00B00E3` -> 2992), so every rebuild zeroes 2992 B records, 0xAD0 B past
 > B's end into C; the C fill likewise runs 0x568 B into D. Evidence:
