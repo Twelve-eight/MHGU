@@ -468,3 +468,13 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 - swe2 pass2 Round 2（Swe2Pass2Audit, devin-northstar/swe-2-max）复核 slice-11..14 全部 conf=A 105 行：仅 0xaeaefc 需降级（类名靠外部 class-inventory + 裸 `bl 0x7aedcc`），已改为 B。重跑 `tools/mhgu/coverage-final.py`：Tier A 51.5% + Tier B conf=A 190 函数 1.7% = **53.1% 指令 / 9046/23885 = 37.9% 函数，定稿**（不再暂定）。
 - `docs/analysis/external/suyu-release-check.md`（SuyuRelease, dsv）：可用预编译版 `v0.10.0-test` windows zip（sha256 3e6af297…3d07），无需自己编译 suyu；导出时必须装 VS 2022 ≥17.14 C++ 工作负载；需自有 XCI/NSP + keys + 1.4.0 更新，约 25 GB 空间。导出产物不可分发。下载与导出列入授权窗口。
 - 插件规格 `item-box-v7-plugin-spec.md`（d1b64c7）提交时写了"swe2 审计待回"但当时未派审计（§8 漏配），已补派 Swe2PluginSpecReview，重点 R2（V7 是否只搬不扩 B 区 → 若成立则为已发布 pchtxt 的已知问题）与 R5。
+
+## 2026-10-24 收工锚点（swe2 429，用户关停会话；复活后从这里继续）
+- 用户指令：不再拉起新代理；之后逆向工作改用用户接入本 harness 的 GLM（模型 id 以用户告知为准，用前确认）。
+- 已完成并推送：editor/help 22 条机制说明（18 个写入函数）；HR 0xB1 证伪（核心库+规格表格 878abde）；按 G-14 移除装备删除；pak 工具（MHRS f621225，实测通过）；覆盖率定稿 53.1%；SUYU 发布包核验。
+- 未收尾的 swe2 审计（复活后只读取结果，不重派）：
+  - Swe2HelpReview：口头核对字段名/子键/出处均通过，但报告 `.tmp/reports-mhgu/help-review.md` 未落盘，已要求写入。
+  - Swe2PluginSpecReview → `.tmp/reports-mhgu/plugin-spec-review.md`（R2：V7 B 区未扩容是否成立；R5：0x5B807C 归属）。R2 成立则记入 HANDOFF，作为 pchtxt 的已知问题。
+  - Swe2PakToolReview → `.tmp/reports-mhrs/pak-tool-review.md`。
+  - Swe2RsReview → `.tmp/reports-mhrs/batch1-review.md`（reflection-rsz.md 终稿）。
+- 待办见 harness todo；下一步：编辑器 UI（字段旁显示 editor/help）、离线往返测试。
