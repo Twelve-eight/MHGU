@@ -180,6 +180,54 @@ export function writePouchSlot(view, index, value) {
 }
 
 // ---------------------------------------------------------------------------
+// Invalid-slot scan and repair (INV-03) for saves written by other tools
+// ---------------------------------------------------------------------------
+
+/**
+ * Lists every item-box and pouch slot that violates INV-03, so the UI can warn on load.
+ * The game shows `id 0, count > 0` ("ghost") as an empty cell but sorts it as the lowest id,
+ * so a box sort packs ghosts into the first cells. Other editors are known to leave them.
+ * @param {{u8: Uint8Array, base: number}} view
+ * @param {"legacy"|"v7"} layout explicit layout, never guessed
+ * @returns {Array<{area:"box"|"pouch", index:number, id:number, count:number,
+ *   kind:"ghost"|"zero-count"|"out-of-range"}>} empty when the slot data is clean
+ */
+export function findInvalidItemSlots(view, layout) {
+  const out = [];
+  const scan = (area, slots) => {
+    for (let i = 0; i < slots.length; i++) {
+      const s = slots[i];
+      if (s.valid) continue;
+      const kind = s.id > ITEM_ID_MAX || s.count > ITEM_COUNT_MAX ? "out-of-range"
+        : s.id === 0 ? "ghost" : "zero-count";
+      out.push({ area, index: i, id: s.id, count: s.count, kind });
+    }
+  };
+  scan("box", readItemBox(view, layout));
+  scan("pouch", readPouch(view));
+  return out;
+}
+
+/**
+ * Clears the slots reported by findInvalidItemSlots to the documented empty value (0, 0).
+ * Only those slots' 19-bit fields change. Slots whose id or count is out of range are left
+ * alone: their intended value is unknown and they need a manual decision.
+ * @param {{u8: Uint8Array, base: number}} view
+ * @param {"legacy"|"v7"} layout
+ * @returns {number} number of slots cleared
+ */
+export function clearInvalidItemSlots(view, layout) {
+  let n = 0;
+  for (const s of findInvalidItemSlots(view, layout)) {
+    if (s.kind === "out-of-range") continue;
+    if (s.area === "box") writeItemBoxSlot(view, layout, s.index, { id: 0, count: 0 });
+    else writePouchSlot(view, s.index, { id: 0, count: 0 });
+    n++;
+  }
+  return n;
+}
+
+// ---------------------------------------------------------------------------
 // Codec internals (shared by the item box and the pouch, BOX-04 / POUCH-02)
 // ---------------------------------------------------------------------------
 

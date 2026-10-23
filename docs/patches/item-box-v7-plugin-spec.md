@@ -523,6 +523,20 @@ applier" for the AOT build.
 > 0x2B2 B past D: the A-backup heap pointer at `obj+0x6DC0` and the first 686 B of the preset block.
 > Reached via fn `0x7437BC`: `0x744184 bl 0x199ae4` then `0x744194 bl 0x199e98` (case 1). The plugin must
 > either keep these three loops at 2300 or relocate D/presets; see HANDOFF 7 #10.
+>
+> **Live check 2026-10-24 (V7, user-driven):** one sort + preset apply + save on the main slot left presets 0..3
+> byte-identical; no visible corruption. The 11 empty-looking cells at the box head were pre-existing
+> `id 0 / count 99` ghosts (present in the 2026-10-22 V6 snapshot, written by another editor), not V7 output.
+> This does not clear R2: the overflow is in the code; the live run only shows it was not visible that time.
+>
+> **Fixed in V8 (2026-10-24, `tools/build-v7-final.mjs`, offline-verified, not yet run in-game):** B/C/D are
+> sized for 2992 entries: B `0x2EDA` (0x2EC0 B), C `0x5D9A` (0x1760 B), D `0x74FA` (0xBB2 B), heap pointer
+> `0x80AC`, adjust `0x8092`, presets `0x80B0..0x89FC`, object `0x90A0` (1700 B tail slack as in V7). Same 123
+> pchtxt offsets as V7; 59 movw immediates re-encoded (opcode/Rd bits unchanged, checked by decode). Clear lengths
+> `0x5D80`/`0x74E0` equal A+B / A+B+C exactly; all 3 allocations of the object (`0x198BD4`, `0x19B478`,
+> `0x3D925C`) are patched. Whole-`.text` scan for unlisted movw of the old immediates found 10 hits, all outside
+> the item-box object; no literal-pool words. The `0x2EBC`-byte stack array at `0x199B78` (B rebuild) holds
+> 2991 u32 and is indexed by item id `0..0xBAE`, so it is unaffected. Save format is unchanged from V7.
 
 The V7 shift moves B to `obj+0x2EDA` and C to `obj+0x52CA`, but keeps
 B = `0x23F0` bytes (2300 records) and C = `0x11F8` (2300 halfwords). The patch's

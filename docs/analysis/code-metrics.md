@@ -183,9 +183,10 @@ pass3 起执行**区段规则**：`conf=A` 要求证据位于真实函数 `[star
 | C | 223 | 184,412 | 3.53% |
 | `unknown`（不计覆盖） | 13 | 8,630 | 0.17% |
 
-- 生产者自报 A 约 40 个，审查后只剩 6 个：0x5bf160（ui，cUIOKitchenUpBase）、0xcf1190（monster-em，em001 动作名）、
+- 审查后 A 只剩 6 个：0x5bf160（ui，cUIOKitchenUpBase）、0xcf1190（monster-em，em001 动作名）、
   0x4fa5e8（item，rSetItemData，`bl 0x7aedcc` + `mov r3,#112`）、0x2c0e50（monster-em，cAISvDynamicPathFinding）、
-  0x13e5168（online-nex）、0x84c850（save-data，`MtNetLocalUserStorage\` 在函数体内）。
+  0x13e5168（online-nex，函数 0x13e5168..0x13e572c 内载入 `machine`/`login`/`password`，是 netrc 解析）、
+  0x84c850（save-data，`MtNetLocalUserStorage\` 在函数体内）。slice-06 的审查早于区段规则，它的 6 个 A 由主会话复核，只有 0x84c850 成立。
 - 审查方最常见的修正是**角色**：生产者把区段级 callee 数当成函数的 bl 数，两个方向都有（区段含多个小函数 → 高估；
   只看 24 行头部 → 低估）。
 - 按 §8 纪律，`conf=B` 只有投票或结构证据，不计入达标。pass3 对**达标指标的贡献是 +0.25%**；
@@ -213,4 +214,8 @@ pass3 起执行**区段规则**：`conf=A` 要求证据位于真实函数 `[star
 
 达标数字从 53.1% 修正为 **52.2%**。差值主要来自 pass1/2 的区段级 A 被降级（−0.9 个百分点），
 pass3 补回 0.25 个百分点。Tier A 的 51.5% 来自 tiers.csv 的投票分层，不受区段规则影响。
-剩余风险：保留的 36 个结构证据 A 没有字符串佐证；机械复核会漏掉通过寄存器多级传递的字符串（会把真 A 误降为 B，只会少算，不会多算）。
+剩余风险：52.2% 是启发式筛查的结果，124 行降级没有逐行人工核对。抽查 5 行（0x18ecb0 cOtodokeConditionList、0xf223c cOtArmorBase、
+0x5b1be8 cUIOHunterNoteLow、0x361c34 cFishData、0x52874 rEnemyDataTable）：所引类名都在函数结束之后的下一个函数里经
+`add rX,pc,rY` 载入，降级成立。误差方向未验证：函数结束按下一个 `push{..,lr}` 估计，函数中途保存寄存器时会提前截断（真 A 被误降）；
+也可能截得过晚，把不属于该函数的字符串算进来（假 A 被保留）。保留的 36 个结构证据 A 没有字符串佐证。
+pass3 的 A 指令数按区段大小计（≈415 条/区段），是上界。
