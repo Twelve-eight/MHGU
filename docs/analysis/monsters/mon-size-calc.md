@@ -343,3 +343,10 @@ dirty 猎人B（slot0，74 条非零）：`mini ≤ maxi` 同样恒成立（唯�
 - **[待核]** `mMonsterIndex` 是 em 编号还是 137 槽号；各 scale 字段的语义需用已知冠尺寸的怪物乘法验算（`mTrueSize × mKingScale` 对照金冠 cm）后再定案。
 - 原表数值不入公开仓（Capcom 数据，§7b），私有副本：`MHGU-private/romfs-extract/`。
 - 解析工具：`tools/mhgu/arc.mjs`（待入库）；数据表本体不公开（Capcom 数据，§7b）。
+
+### 主会话实测核对（2026-10-23）— [B] 表内统计 + [B] 存档对拍
+- `mMonsterIndex` = 0..136 **连续**，即 **行号 = 137 槽号**（与 `monster-slot-map-137.json` 同一键空间）。U5「112..132 无映射」由此可用表直接查。
+- 137 行中 **83 行有效**，**54 行全零**（scale/quest 五个 f32 = 0，占位：槽 29/33/41/46/69/71..111/116..119/133..136）。
+- 83 个有效行**全部**满足 `mQuestSizeMin ≤ mSmallScale < 1 < mBigScale ≤ mKingScale ≤ mQuestSizeMax` ⇒ 字段顺序与成员名串顺序一致 **[B]**，scale 为无量纲倍率。
+- 与存档 §10 的 clean 档 42 条 `[mini%, maxi%]` 对拍：**42/42** 落在该槽 `[mQuestSizeMin, mQuestSizeMax]` 内，也都落在 `[mSmallScale-0.02, mKingScale+0.02]` 内 ⇒ 存档体型记录 = 本表倍率 ×100 **[B]**。
+- 仍未做：代码侧读取偏移（消费者在 exe 中未定位，见 §11 硬边界），`mTrueSize` 单位需对照已知金冠 cm 验算。
