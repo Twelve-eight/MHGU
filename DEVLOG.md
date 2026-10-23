@@ -504,3 +504,6 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 - 01:27 实机准备：yuzu 存档备份到 `G:/backups/MHGU-yuzu-save-20261024`（5 个文件，13 MB，sha1 `G:/backups/MHGU-yuzu-save-20261024.sha1`）。已安装的 V7 `load/.../mhgu-box-expand/exefs/1.4.0.pchtxt` 与仓库 sha1 一致（fa435345）。模拟器位于 `I:\Desktop\yuzu1734`，当前未运行。
 - 静态旁证：两个 V7 私有档（HR198/HR5）的预设区按 V7 布局读，名字与内容都正常、无乱码 → 重建路径在这些档里可能没触发，或越界只发生在内存、存盘前被重建。[U]，需要实机：开道具箱整理后查看预设名。
 - yuzu3 结果：DsvYure3Review 判 FAIL（GlmYure3 没有交付）；审查方用 MCP 独立推出完整格式（51 组 / 1389 条元素，按 EOF 精确闭合），按规范只能算候选，待独立复核。
+- 01:26:28 实机会话：设置 `VK_LOADER_LAYERS_DISABLE=*`，启动 `I:\Desktop\yuzu1734\yuzu.exe -g <用户 XCI>`（PID 21020，进程启动时间晚于授权开始时间，确认是本会话启动的）。yuzu 日志确认 `1.4.0.pchtxt` V7（"ITEM BOX EXPANSION V7"，`0x00199C68` 处写入 B00B00E3）已应用，main build_id FB08F1D2…（窗口标题显示 "1.3.0" 只是 yuzu 的显示问题，补丁按 1.4.0 的 build_id 匹配上了）。只做了启动加载，**没有任何输入、读档或存档**。
+- 01:28 按 PID + 路径 + 启动时间三重核对后关闭这个进程（先 CloseMainWindow，8 秒后才强制结束）。存档核对：4 个存档文件逐字节 `cmp` 与备份完全一致，sha1 与清单相同（`sha1sum -c` 报 FAILED 是路径前缀导致的误报，已用直接哈希比对排除）。
+- 结论：yuzu1734 没有 UI 自动化或内存读取接口，"开道具箱整理 → 看预设是否被盖"这个 R2 实机验证需要人操作，等用户回来手动做，或以后接入内存读取工具。
