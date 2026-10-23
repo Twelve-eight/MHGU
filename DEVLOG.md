@@ -566,3 +566,4 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 - GlmVtblPilot（glm-re, wb2api-remote/glm-5.3-flash max）30 分钟只写了方法段，结果表 0 行，主会话终止；DsvVtblPilotReview（dsv hi）判 FAIL。
 - 审查确认的机制：类注册 `bl 0x7aedcc` 的 DTI 对象全部在 .bss（0x184b060–0x184c188，exefs 只到 image_end+0x100），**静态读不到 DTI vtable**，原方法不可行。名字/大小/存储格可脚本化，但已在 class-inventory 里。真实 vtable 在 .data 中形如 `{0,0,e0,f1..f5}`（e0 通常是 0x32c = `bx lr`）；另有不走 0x7aedcc 的第二种注册形式（0x92e0 直接写 [D,#0]）。
 - 下一步若要做：改从 .data 扫 `{0,0,0x32c,...}` 形 vtable，再找把该 vtable 写进 [obj,#0] 的构造函数，按构造函数里的类名归类。未派。
+- 主会话按审查给的形状扫 .data（`{0,0,0x32c,code,code,code}`）：只命中 **2 个**，不能作为通用 vtable 识别方法；审查的形状说法只在个例成立。批次 C 暂停，需要先在已知类上（例如 cOtArmorBase 0xf284c）手工找到对象 vtable，再归纳形状。
