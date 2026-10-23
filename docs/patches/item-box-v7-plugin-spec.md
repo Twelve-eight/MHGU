@@ -513,6 +513,12 @@ applier" for the AOT build.
 
 ### R2. B and C are relocated but **not enlarged** - >2300 distinct item ids still overflow
 
+> **Ruling 2026-10-24: CONFIRMED, and worse than stated.** Not only ">2300 distinct ids": the
+> B/C init loop `0x199B30..0x199B70` is bounded by the patched inline capacity at `0x199B68`
+> (pchtxt `00199c68 B00B00E3` -> 2992), so every rebuild zeroes 2992 B records, 0xAD0 B past
+> B's end into C; the C fill likewise runs 0x568 B into D. Evidence:
+> `.tmp/reports-mhgu/glm-r2-r5-review.md` (DsvR2Review), main-session re-disasm. See HANDOFF 7 #10.
+
 The V7 shift moves B to `obj+0x2EDA` and C to `obj+0x52CA`, but keeps
 B = `0x23F0` bytes (2300 records) and C = `0x11F8` (2300 halfwords). The patch's
 own constants prove it:
@@ -563,6 +569,10 @@ both indices (`< 14`), and either return or clone the body only when in range. I
 this is not implemented, list it as a residual V7 bug in the release notes.
 
 ### R5. Two sites have a disputed object identity (`0x5B807C`, `0x5B8084`)
+
+> **Ruling 2026-10-24: both sites are item-box page bases** (GOT literal `0x1282760` loaded at
+> `0x5B80A8` in fn `0x5B8014`; `page*0x190+0x240A` / `page*100+0x59F2`), so rows #117/#118
+> are valid hooks. The `ui-page-bound.md:230` "other class" caution was a false lead.
 
 - Pro-patch: `DEVELOP.md:149`, `DEVLOG.md:149` ("3 easy-to-miss UI sites": B page
   base, D page base, rec+0x2E).
