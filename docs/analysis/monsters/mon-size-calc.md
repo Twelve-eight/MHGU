@@ -333,3 +333,11 @@ dirty 猎人B（slot0，74 条非零）：`mini ≤ maxi` 同样恒成立（唯�
 - **U3** 冠判定的比较方向与等号归属 —— 需 romfs 或实机。
 - **U4** dirty i=26 `maxi=154` 是脏数据还是合法极值（clean 同槽为 105/105）。
 - **U5** 槽 112..132 的尺寸记录对应哪些实体（129..132 无 slot 映射）。
+
+## romfs 实测：`em_size_scale_data`（2026-10-23，硬边界解除）
+
+- 载体：romfs `nativeNX/loc/arc/resident.arc` → 条目 `enemy\resident\em_size_scale_data`（type hash `0x5adc692c`，zlib，3,844 B）；同包 `enemy\resident\em_size_yure_data`（type `0x1800eb37`，35,381 B，魔数 `XFS\0`，未解）。base NCA 由用户本机 XCI + hactool 解出（`--basenca` 合并 update NCA），数据只存私有仓。
+- 布局 [B][A]：`f32 1.0` + `u32 count=137` + 137 × 28 B；`8 + 137×28 = 3,844` 闭合；137 = 怪物槽数。
+- 每条 28 B = 上文 rodata 成员顺序 7 × 4 B：`u32 mMonsterIndex | f32 mTrueSize | f32 mSmallScale | f32 mBigScale | f32 mKingScale | f32 mQuestSizeMin | f32 mQuestSizeMax`。
+- 例（idx 0）：（示例值已移除，§7b）
+- 解析工具：`tools/mhgu/arc.mjs`（待入库）；数据表本体不公开（Capcom 数据，§7b）。
