@@ -1,0 +1,225 @@
+prefix	label	basis
+uCamera	render-gfx	uCamera; uCameraEffect; uSubSceneCamera
+sCamera	render-gfx	sCamera
+rCamera	render-gfx	rCameraList
+uFreeCamera	render-gfx	uFreeCamera
+uMotionCamera	render-gfx	uMotionCamera
+uMotionEffectCamera	render-gfx	uMotionEffectCamera
+uSubSceneCamera	render-gfx	uSubSceneCamera
+uQuestCamera	render-gfx	uQuestCamera (camera = render; the keyword rule called it quest)
+uVillageCamera	render-gfx	uVillageCamera
+uFestaCamera	render-gfx	uFestaCamera
+sFestaCamera	render-gfx	sFestaCamera
+rStageCamera	render-gfx	rStageCameraData
+uLight	render-gfx	uLight; uLightShaft; uLightScatteringFog
+uAmbient	render-gfx	uAmbientLight
+uPointLight	render-gfx	uPointLight
+uSynchro	render-gfx	uSynchroPointLight; uSynchroModel; uSynchroGrassWindPoint
+uFog	render-gfx	uFog
+uSky	render-gfx	uSky; uSkyFog
+uModel	render-gfx	uModel; uModelSky; uModelPlaneClip
+uBaseModel	render-gfx	uBaseModel
+uActorModel	render-gfx	uActorModel
+uFest	render-gfx	uFestActorModel; uFestaHemiSphereLight; uFestaInfiniteLight
+uSwingModel	render-gfx	uSwingModel; uSwingJointModel
+uTextureBlend	render-gfx	uTextureBlend
+uProjectionTexture	render-gfx	uProjectionTexture
+uProjectionEffect	render-gfx	uProjectionEffect
+uEffect	render-gfx	uEffect; uEffectEmitter; uEffect2D
+uBaseEffect	render-gfx	uBaseEffect
+uSimpleEffect	render-gfx	uSimpleEffect
+uGrassEffect	render-gfx	uGrassEffect
+uProof	render-gfx	uProofEffect; uProofEffectBase; uProofStandardModel
+uMH	render-gfx	uMHEffectCore; uMHEffectKowareObj; uMHProofEffectModel
+uMhEffect	render-gfx	uMhEffectSequenceManager
+rLt	render-gfx	rLtProceduralTexture
+rRender	render-gfx	rRenderTargetTexture
+sRender	render-gfx	sRender
+rShader	render-gfx	rShader2; rShaderCache; rShaderPackage
+sShader	render-gfx	sShader2
+rTexture	render-gfx	rTexture
+rScene	render-gfx	rSceneTexture
+sScene	render-gfx	sScene
+rModel	render-gfx	rModel
+rMaterial	render-gfx	rMaterial (render resource block, between rChainCol and rModel)
+uMaterial	render-gfx	uMaterialControl (engine render block, next to uModel)
+rNavigation	render-gfx	rNavigationMesh
+rEffect	render-gfx	rEffectList; rEffectStrip; rEffect2D
+sEffect	render-gfx	sEffect
+uScrollCollisionGeometry	render-gfx	uScrollCollisionGeometryGroupModel; uScrollCollisionGeometryModel
+cDraw	render-gfx	cDraw
+sGpuParticle	render-gfx	sGpuParticle
+uShellPlEffect	render-gfx	uShellPlEffect; uShellPlEffectCom; uShellPlEffectW00
+uShellSysEffect	render-gfx	uShellSysEffect000
+uUITalkCutScene	render-gfx	uUITalkCutScene
+cEffect	render-gfx	cEffectUnitGenerator
+cParticle	render-gfx	cParticleGenerator; cParticleManager; cParticleNode
+cMhEffect	render-gfx	cMhEffectSequence
+cProof	render-gfx	cProofEffectSequence; cProofEffectDataObject
+sProof	render-gfx	sProofEffect; sProofEffectSequence
+rProof	render-gfx	rProofEffectList; rProofEffectColorControl
+sFestaProof	render-gfx	sFestaProofEffect
+sFestaRender	render-gfx	sFestaRender
+sFestaScene	render-gfx	sFestaScene
+cGuestEffective	render-gfx	cGuestEffectiveAttr
+rGuestEffective	render-gfx	rGuestEffectiveAttr
+uMulti	render-gfx	uMultiFilter; uMultiBlurFilter; uMultiGodRaysFilter (post-process filters, between uEffectEmitter and uSynchroPointLight)
+rShell	render-gfx	rShell; rShellEffectParam
+cEm	monster-em	cEmDouMouKa_PartsAuraData; cEmSizeYureTbl; cEmSetList
+rEm	monster-em	rEmSizeCalcTblElement; rEmDouMouKaData; rEmSetData
+uEm	monster-em	uEm001_00; uEmXXX
+cEnemy	monster-em	cEnemyDebugSetData; cEnemyResourceBroker
+rEnemy	monster-em	rEnemyCmd; rEnemyDataTable; rEnemyDtBase
+sEnemy	monster-em	sEnemy; sEnemyBase; sEnemyYobi
+uEnemy	monster-em	uEnemyBase; uEnemyCharacter; uEnemyActCustom
+uMonster	monster-em	uMonsterUnitConductor
+rMonster	monster-em	rMonsterPartsManager
+rHitDataEnemy	monster-em	rHitDataEnemy
+uFestaEnemy	monster-em	uFestaEnemy
+uShellEnemy	monster-em	uShellEnemy
+cQuest	quest	cQuestData; cQuestBoard; cQuestGroup
+rQuest	quest	rQuestData; rQuestLink; rQuestPlus
+sQuest	quest	sQuest; sQuestSelector
+rPastQuest	quest	rPastQuestGroup
+uQuestNpc	quest	uQuestNpcBase; uQuestNpcOldMan; uQuestNpcCatCart
+cArea	quest	cAreaConnect; cAreaInfo; cAreaActTblData
+rArea	quest	rAreaInfo; rAreaActTblData; rAreaSelectData
+sArea	quest	sArea
+rStage	quest	rStageAreaInfo; rStageInfoSet
+sStage	quest	sStage; sStageBase
+uStage	quest	uStage; uStageDataSet; uStageShellOwner
+sVillage	quest	sVillage
+uVillage	quest	uVillage
+cVillage	quest	cVillageFirstPos
+rVillage	quest	rVillageFirstPos
+uShellStage	quest	uShellStage
+rOtQuest	quest	rOtQuestExpBias; rOtQuestExpValue
+cGuestQuest	quest	cGuestQuestData
+rGuestQuest	quest	rGuestQuestData
+cOt	otomo-ot	cOtArmorBase; cOtLevel; cOtSkill
+uOtomo	otomo-ot	uOtomo; uOtomoLobby
+sOtomo	otomo-ot	sOtomo
+cMonNyan	otomo-ot	cMonNyanProcBase; cMonNyanExp; cMonNyanReward
+rMonNyan	otomo-ot	rMonNyanExp; rMonNyanReward
+sMonNyan	otomo-ot	sMonNyan
+cOtodoke	otomo-ot	cOtodokeConditionList; cOtodokeSetList
+cDLCOtomo	otomo-ot	cDLCOtomoInfo
+rDLCOtomo	otomo-ot	rDLCOtomoInfo
+cTrialDataNyanter	otomo-ot	cTrialDataNyanter
+cTrialEquipOtomo	otomo-ot	cTrialEquipOtomo
+cTrialOtomoParam	otomo-ot	cTrialOtomoParam
+rTrialDataNyanter	otomo-ot	rTrialDataNyanter
+rTrialEquipOtomo	otomo-ot	rTrialEquipOtomo
+rTrialOtomoParam	otomo-ot	rTrialOtomoParam
+cArenaNyanter	otomo-ot	cArenaNyanter
+cAcNyanter	otomo-ot	cAcNyanterEquip
+rAcNyanter	otomo-ot	rAcNyanterEquip
+uQuestNpcNyan	otomo-ot	uQuestNpcNyanJiro
+uUINyanjiro	otomo-ot	uUINyanjiro
+uPlayerLobbyAirou	otomo-ot	uPlayerLobbyAirou
+uShellOtomo	otomo-ot	uShellOtomo
+cUI	ui	cUIOResultClearing; cUIOAlchemy; cUIObject
+uGUI	ui	uGUI; uGUISubtitles
+cGUI	ui	cGUIObject; cGUIInstAnimation; cGUIMessageAnalyzer
+rGUI	ui	rGUIStyle; rGUIFont; rGUIMessage
+sMenu	ui	sMenu
+cNumSelecter	ui	cNumSelecter
+uUIStartMenu	ui	uUIStartMenu
+uUITitleMenu	ui	uUITitleMenu
+uUIQuestStartMenu	ui	uUIQuestStartMenu
+cKitchenListMenu	ui	cKitchenListMenu
+rKitchenListMenu	ui	rKitchenListMenu
+cSound	audio	cSoundMultiBandEQ
+sSound	audio	sSound; sSoundControl
+rSound	audio	rSoundBank; rSoundCurveSet; rSoundSource
+cSeFs	audio	cSeFsAse
+rSeFs	audio	rSeFsAse
+cFestaSound	audio	cFestaSoundEmitter; cFestaSoundSequence
+rFestaSound	audio	rFestaSoundEmitter; rFestaSoundSequence
+sFestaSound	audio	sFestaSound
+cWeapon	weapon-wp	cWeaponBase; cWeapon00BaseData; cWeaponMsgBase
+rWeapon	weapon-wp	rWeapon00BaseData; rWeaponMsgData; rWeaponCreateData
+cLongWeapon	weapon-wp	cLongWeaponBase; cLongWeaponLevel
+cShortWeapon	weapon-wp	cShortWeaponBase; cShortWeaponLevel
+cBowgun	weapon-wp	cBowgunShellData
+rBowgun	weapon-wp	rBowgunShellData
+cTrialBow	weapon-wp	cTrialBowBottle; cTrialBowShot
+cTrialHeavyBowgun	weapon-wp	cTrialHeavyBowgunData
+cTrialLightBowgun	weapon-wp	cTrialLightBowgun
+rTrialBow	weapon-wp	rTrialBowBottle; rTrialBowShot
+rTrialHeavyBowgun	weapon-wp	rTrialHeavyBowgunData
+rTrialLightBowgun	weapon-wp	rTrialLightBowgun
+rOtWeapon	weapon-wp	rOtWeaponData
+cArmor	weapon-wp	cArmorSeBase (equipment data block: next to cBowgunShellData/cLongWeaponBase; the "Se" is not the audio subsystem)
+rArmor	weapon-wp	rArmorSeData (immediately before rWeapon00BaseData in the weapon/armor data block)
+sSave	save-data	sSavedata
+sFestaSave	save-data	sFestaSaveData
+sFestaFileLoader	save-data	sFestaFileLoader
+cTrialLoadShell	save-data	cTrialLoadShellCount
+rTrialLoadShell	save-data	rTrialLoadShellCount
+cItem	item	cItemBase; cItemPouch; cItemStack
+rItem	item	rItemData; rItemPopSet; rItemCategoryTypeData
+sItem	item	sItem; sItemBox; sItemPouch
+cMix	item	cMix; cMixBox; cMixList
+sEquip	item	sEquipBox
+cDLCItem	item	cDLCItemPackInfo
+rDLCItem	item	rDLCItemPackInfo
+cTrade	item	cTradeItemList; cTradeLimitedItemList; cTradePointItemList
+rTrade	item	rTradeItemList; rTradeLimitedItemList; rTradePointItemList
+cKitchenListGrill	item	cKitchenListGrillItem
+rKitchenListGrill	item	rKitchenListGrillItem
+cArenaItem	item	cArenaItemPouch
+cTrialItem	item	cTrialItemPoach
+rTrialItem	item	rTrialItemPoach
+cSetItem	item	cSetItemData
+rSetItem	item	rSetItemData
+uUISupplyBox	item	uUISupplyBox
+uUIShareBox	item	uUIShareBox
+sCollision	physics-math	sCollision
+rCollision	physics-math	rCollision; rCollisionObj; rCollisionHeightField
+cGridCollision	physics-math	cGridCollision
+cBVHCollision	physics-math	cBVHCollision
+cDynamicBVHCollision	physics-math	cDynamicBVHCollision
+uScrollCollision	physics-math	uScrollCollision; uScrollCollisionSbc
+uChain	physics-math	uChain
+rChain	physics-math	rChain; rChainCol
+uCns	physics-math	uCnsChain; uCnsMatrix; uCnsTinyChain
+rCns	physics-math	rCnsMatrix; rCnsTinyChain
+sHitcheck	physics-math	sHitcheck
+sHitPush	physics-math	sHitPush
+rHitSize	physics-math	rHitSize
+sMhCollision	physics-math	sMhCollision
+rHitDataShell	physics-math	rHitDataShell
+cPl	player-pl	cPlCmd; cPlCmdTbl
+uPl	player-pl	uPlParts; uPlWeapon; uPlWeaponPreview
+cPlayer	player-pl	cPlayerGimmickType; cPlayerManyAttacks; cPlayerWeaponList
+rPlayer	player-pl	rPlayerDummyAction; rPlayerPartsDisp; rPlayerGimmickType
+sPlayer	player-pl	sPlayer
+uPlayer	player-pl	uPlayerBase; uPlayerActor; uPlayerQuest
+cHunterArts	player-pl	cHunterArtsBase
+rHunterArts	player-pl	rHunterArtsData
+sHunterArts	player-pl	sHunterArts
+cAcPlayer	player-pl	cAcPlayerEquip
+rAcPlayer	player-pl	rAcPlayerEquip
+sGuestHunter	player-pl	sGuestHunter
+rVibrationPlayer	player-pl	rVibrationPlayerList
+rHitDataPlayer	player-pl	rHitDataPlayer
+uShellPlayer	player-pl	uShellPlayer
+sNetwork	online-nex	sNetwork
+uNetStorage	online-nex	uNetStorage
+sFestaNetwork	online-nex	sFestaNetwork
+uQuest	unknown	ambiguous: uQuestNpc* = quest but uQuestCamera = render-gfx, no dominant label
+uShell	unknown	ambiguous: uShellEnemy monster-em, uShellOtomo otomo-ot, uShellPlayer player-pl, uShellStage quest, uShellPlEffect* render-gfx
+uUI	unknown	ambiguous: uUIStartMenu ui, uUISupplyBox item, uUINyanjiro otomo-ot, uUITalkCutScene render-gfx
+cTrial	unknown	ambiguous: cTrialBow* weapon-wp, cTrialItemPoach item, cTrialOtomoParam otomo-ot, cTrialLoadShellCount save-data
+cArena	unknown	ambiguous: cArenaItemPouch item, cArenaNyanter otomo-ot
+cDLC	unknown	ambiguous: cDLCItemPackInfo item, cDLCOtomoInfo otomo-ot
+rDLC	unknown	ambiguous: rDLCItemPackInfo item, rDLCOtomoInfo otomo-ot
+cKitchenList	unknown	ambiguous: cKitchenListGrillItem item, cKitchenListMenu ui
+rKitchenList	unknown	ambiguous: rKitchenListGrillItem item, rKitchenListMenu ui
+cGuest	unknown	ambiguous: cGuestQuestData quest, cGuestEffectiveAttr render-gfx
+rGuest	unknown	ambiguous: rGuestQuestData quest, rGuestEffectiveAttr render-gfx
+rOt	unknown	ambiguous: rOtWeaponData weapon-wp, rOtQuestExpBias/rOtQuestExpValue quest
+cAc	unknown	ambiguous: cAcPlayerEquip player-pl, cAcNyanterEquip otomo-ot
+rAc	unknown	ambiguous: rAcPlayerEquip player-pl, rAcNyanterEquip otomo-ot
+sFesta	unknown	ambiguous: sFestaSound audio, sFestaSaveData save-data, sFestaNetwork online-nex, sFestaRender/sFestaScene render-gfx, sFestaArea quest
