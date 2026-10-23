@@ -185,7 +185,7 @@ MHGU/
 | 3 | `MonsterForm` 137 槽显示实机确认 | 待用户 |
 | 4 | 体型/冠阈值数值 | **阻塞**：需 romfs base NCA |
 | 5 | state→motion 剩余 12 个派发器 + 共享 handler 状态 | 未解（可能数据驱动）|
-| 6 | member#4 layout 表 4B 漂移确切位置 | 已界定在 `0x3157..0x5EA2` 之间，未定位到具体行 |
+| 6 | member#4 layout 表 4B 漂移确切位置 | **已解决 2026-10-24**：第 107 行 0x5057 嵌套 4 B 读，第 107..134 行 +4，见 coverage-map.md |
 | 7 | 尾部 928KB 剩余结构 | 已定性为缓存；逐字节标注**不建议**做 |
 | 8 | 32 个类的成员 offset 缺失（`cEmDouMouKaData` 42 成员只解出部分平面）| 未完成 |
 | 9 | `.hnt` 与 system 槽不同步（`hunterA.hnt` vs slot1 仅 86.76% 相同）| 已记录警示，未做一致性检查工具 |

@@ -404,3 +404,9 @@ member[7] 的 108 条 324B 记录**全部是随从猫**：`obj 0x13938 + 108×0x
 
 ⇒ **[INFERENCE，中-高] 尾段主体是某次保存留下的宿主/模拟器（Android）进程内存残留，不是 MHGU 序列化 schema 的固定字段**。旁证：Binder 长度头 `22 00 00 00` + UTF-16LE `android.gui.IGraphicBufferProducer`（slot1 共 7 处，含 member[13] 段内 `0x2E349`/`0x2EB39`）。
 ⇒ 因此「尾部每字节可解释」的正确结论是**判定其为宿主残留/可再生缓存**，继续逐字段标注预计无收益。
+
+### member#4 4B 漂移：已定位（2026-10-24）
+- 漂移点是第 107 行（文件 `0x5057`，`obj+0x35E4`）：`0x51e49c bl 0x55d450` 这个 thunk 跳到 `0x1cab58`，那里多读了 4 B（`mov r2,#4; bl 0x3df2a8`），写入目标是 member[17] 的 `obj+0x45C8`。旧表把这个 thunk 当成 0 B 跳过了。
+- 修正：`member4-file-layout.txt` 插入这 4 B，第 107..134 行整体 +4，表尾结束在 `0x5EA6`，正好与怪物击杀数组 `MON_KILL_OFF=0x5EA6` 对接。member#4 内部跨度为 12,955 B。
+- 证据：GlmDrift（glm-re, wb2api-remote/glm-5.3-flash:max）定位，DsvDriftReview（dsv-dev, effort hi）6 条中 4 条 PASS，C4 引用了私有存档字节、被判不合规，C6 的证明有误但结论成立；主会话重新反汇编 `0x51e494..0x51e4a0`、`0x55d450..0x55d458`、`0x1cab58..0x1cab74`，结果一致。
+- 编辑器的可写字段都在 `0x3157` 及之前，不受这次修正影响。
