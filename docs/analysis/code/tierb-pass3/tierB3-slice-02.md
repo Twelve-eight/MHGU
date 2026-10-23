@@ -68,11 +68,8 @@
 ## Summary
 
 - 总数 60（= 切片函数数，file order 0x31d92c … 0x733888）。
-- conf：A=11，B=43，C=6。合计 60。
+- conf：A=1（0x4fa5e8，类名 "rSetItemData" 在真实函数体内被 `add r1,pc,r1` 载入并 `bl 0x7aedcc`），B=53，C=6。合计 60。
+- 规则更新（主会话 irc）：`===` vaddr 是可含多个真实函数的 REGION，callees/strings 为区域级；conf=A 仅当字串/原语在 vaddr 自身真实函数边界内使用。据此复核：0x9845b8/0xcdcad8/0x9d16b4/0x91f9fc/0x9c5598/0x9df848/0x913858/0xcd4cf8/0xd8804/0x533668 全部降 B（注册点经 function_start 核验位于相邻函数：0xd9a98/0x9149ec/0xcd6ad8/0x920d28/0x9e0a28/0x534544）。
 - label 分布：quest=19，monster-em=22，render-gfx=12，otomo-ot=2，online-nex=2，item=2，unknown=1。
-- role 分布：orchestrator=48，worker=12，leaf=0（按块 callee 清单机械判定；本片无 0-callee 块）。
-- A 级依据均为切片自带 strings（0x9845b8/0xcdcad8/0x9d16b4/0x91f9fc/0x9c5598/0x9df848/0x913858 资源与材质字段名，0xcd4cf8 `nNetwork::Protocol`，0xd8804 `cArmorSeriesBase`）或构造+单例+分配的完整模式（0x533668，注册无类名降为 B 后按结构记 A 的更正行保留 B——见该行注记）。
-- 争议处理：0x303c10（votes 与字符串冲突，取字符串 quest）、0xb23094（votes 与网络桩簇冲突，取 online-nex）、0x119c75c/0x116c038（votes 分票，前者依逐指令同族升 B、后者维持 C）、0x43c7c（item 票+数据表簇一致）、0x7794f0（平票，依 quest 簇证据取 quest）、0x4fa5e8（类注册但类名字串不可见，降 B）、0x7f634c（VFP 数学形态 vs 弱票，取票向 monster-em 记 C）。
-
-
-审查后（DsvB3r02 + 主会话复核）：A 1 / B 53 / C 6（共 60）。原 10 个 A 中 9 个的注册点在别的函数里；0x4fa5e8 复核后定为 A。
+- role 分布：orchestrator=48，worker=12，leaf=0（按区域 callee 清单机械判定，真实函数边界未逐一反汇编；本片无 0-callee 区域）。
+- 争议处理：0x303c10（votes 与字符串冲突，取字符串 quest）、0xb23094（votes 与网络桩簇冲突，取 online-nex）、0x119c75c/0x116c038（votes 分票，前者依逐指令同族升 B、后者维持 C）、0x43c7c（item 票+数据表簇一致）、0x7794f0（平票，依 quest 簇证据取 quest）、0x4fa5e8（主会话 MCP 复核 read_words 0x1568926="rSetItemData" 且载入点在函数内 → A/item）、0x7f634c（VFP 数学形态 vs 弱票，取票向 monster-em 记 C）。
