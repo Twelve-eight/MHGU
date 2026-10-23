@@ -22,3 +22,11 @@
 | Palico324 | `docs/analysis/members/palico-324.md` | PASS（主会话补 24 组名字证据） | 324B 记录字段表；9 组 RGBA；`+0x58..0x5E` 非配信标志；108 条=84+24（24 组有 UTF-8 名，非预留）；i=3 名 @0x23F82="梅露露" 闭环 |
 
 **能力评估**：dsv 在本批「无 exec」限制下仍产出高质量静态分析（自建脚本 + 交叉验证），但每轮需主会话代跑 —— 后续派发应**预先**给出「脚本路径 + 主会话代跑」约定，减少往返。
+
+## 2026-10-23 批次 TierB01..TierB14（14×dsv，Tier B 逐函数裁定）
+- **目标**: 14,863 个 Tier B 函数（两预测分歧）逐函数裁定子系统/角色/置信度/证据
+- **分片**: 按地址切 14 片（每片 1,062 函数），切片数据带 `callee_label_votes`（无字符串函数的唯一线索）
+- **写集**: 各自 `.tmp/reports-mhgu/tierB-slice-NN.md`，互斥
+- **汇合**: `tools/mhgu/tierb-merge.py` → `.tmp/mhgu/inventory/tierb-labels.csv` + 覆盖率统计
+- **纪律**: 每 200 函数 append 落盘；按 insns 降序；不确定标 `unknown`/`conf=C`
+- **状态**: 进行中（首批落盘 TierB03 120 行）
