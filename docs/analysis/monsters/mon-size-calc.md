@@ -338,9 +338,9 @@ dirty 猎人B（slot0，74 条非零）：`mini ≤ maxi` 同样恒成立（唯�
 
 - 载体：romfs `nativeNX/loc/arc/resident.arc` → 条目 `enemy\resident\em_size_scale_data`（type hash `0x5adc692c`，zlib，3,844 B）；同包 `enemy\resident\em_size_yure_data`（type `0x1800eb37`，35,381 B，魔数 `XFS\0`，未解）。base NCA 由用户本机 XCI + hactool 解出（`--basenca` 合并 update NCA），数据只存私有仓。
 - 布局 [B][A]：`f32 1.0` + `u32 count=137` + 137 × 28 B；`8 + 137×28 = 3,844` 闭合；137 = 怪物槽数。
-- 每条 28 B = 上文 rodata 成员顺序 7 × 4 B（[I]，待代码侧复核）：`u32 mMonsterIndex | f32 mTrueSize | f32 mSmallScale | f32 mBigScale | f32 mKingScale | f32 mQuestSizeMin | f32 mQuestSizeMax`。
-- 字段顺序依据：rodata 成员名串顺序（上文 :54-61）+ 28 B 结构闭合 [D+B]。代码侧读取偏移的复核进行中。
-- **[待核]** `mMonsterIndex` 是 em 编号还是 137 槽号；各 scale 字段的语义需用已知冠尺寸的怪物乘法验算（`mTrueSize × mKingScale` 对照金冠 cm）后再定案。
+- 每条 28 B = 上文 rodata 成员顺序 7 × 4 B（[B]，数据侧验证见下节「主会话实测核对」；代码侧读取点不可得，见 §11 硬边界）：`u32 mMonsterIndex | f32 mTrueSize | f32 mSmallScale | f32 mBigScale | f32 mKingScale | f32 mQuestSizeMin | f32 mQuestSizeMax`。
+- 字段顺序依据：rodata 成员名串顺序（上文 :54-61）+ 28 B 结构闭合 + 83 有效行全部满足 `QuestMin ≤ Small < 1 < Big ≤ King ≤ QuestMax` [B]。
+- `mMonsterIndex` = 137 槽号（已定，见下节）。`mTrueSize` 的单位（cm）仍 [I]，需对照已知金冠 cm 验算。
 - 原表数值不入公开仓（Capcom 数据，§7b），私有副本：`MHGU-private/romfs-extract/`。
 - 解析工具：`tools/mhgu/arc.mjs`（待入库）；数据表本体不公开（Capcom 数据，§7b）。
 
@@ -348,5 +348,5 @@ dirty 猎人B（slot0，74 条非零）：`mini ≤ maxi` 同样恒成立（唯�
 - `mMonsterIndex` = 0..136 **连续**，即 **行号 = 137 槽号**（与 `monster-slot-map-137.json` 同一键空间）。U5「112..132 无映射」由此可用表直接查。
 - 137 行中 **83 行有效**，**54 行全零**（scale/quest 五个 f32 = 0，占位：槽 29/33/41/46/69/71..111/116..119/133..136）。
 - 83 个有效行**全部**满足 `mQuestSizeMin ≤ mSmallScale < 1 < mBigScale ≤ mKingScale ≤ mQuestSizeMax` ⇒ 字段顺序与成员名串顺序一致 **[B]**，scale 为无量纲倍率。
-- 与存档 §10 的 clean 档 42 条 `[mini%, maxi%]` 对拍：**42/42** 落在该槽 `[mQuestSizeMin, mQuestSizeMax]` 内，也都落在 `[mSmallScale-0.02, mKingScale+0.02]` 内 ⇒ 存档体型记录 = 本表倍率 ×100 **[B]**。
+- 与存档 §10 的 clean 档 42 条 `[mini%, maxi%]` 对拍：**42/42** 落在该槽 `[mQuestSizeMin, mQuestSizeMax]` 内，也都落在 `[mSmallScale-0.02, mKingScale+0.02]` 内（**该项依赖 ±0.02 容差**；严格区间检验以 Quest 区间那项为准） ⇒ 存档体型记录 = 本表倍率 ×100 **[B]**。
 - 仍未做：代码侧读取偏移（消费者在 exe 中未定位，见 §11 硬边界），`mTrueSize` 单位需对照已知金冠 cm 验算。
