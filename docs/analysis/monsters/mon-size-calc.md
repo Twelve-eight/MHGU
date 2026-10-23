@@ -60,7 +60,7 @@ done
 | **0x155270d** | **`mQuestSizeMin`** | 成员 6 |
 | **0x155271b** | **`mQuestSizeMax`** | 成员 7 |
 | 0x1552729 | `cEmSizeCalcTblElementXML` | ← XML 绑定子类名（暗示存在 XML 装载路径 [I]） |
-| **0x1552742** | **`cEmSizeYureTblElement`** | ← 第二个类：揺れ（尺寸分布）表元素 |
+| **0x1552742** | **`cEmSizeYureTblElement`** | ← 第二个类：尺寸浮动（尺寸分布）表元素 |
 | 0x1552758 | `cEmSizeYureTbl` | ← 容器类 |
 | **0x1552767** | **`mScaleRate`** | 成员 1 |
 | **0x1552772** | **`mProbability`** | 成员 2 |
@@ -148,7 +148,7 @@ done
 
 ⇒ 每行 = `资源类名 + 默认扩展名（4 字符 MT 资源类型）`。体型相关的两条：
 - **`rEmSizeCalcTblElement` ↔ `emsizetbl`**（体型表本体）
-- **`rEmSizeYureTbl` ↔ `emyure`**（揺れ分布表）
+- **`rEmSizeYureTbl` ↔ `emyure`**（尺寸浮动分布表）
 
 `rEnemyDtBase` 后面跟的 `BaseScale/Size/Rank/Nando/SpDieDamageType/DamageOnBit/DropData…` 是**XML 属性名**（`r` 前缀资源的属性表风格），
 说明这套 XML 资源的属性名是"不带 `m` 前缀的驼峰名"。⇒ **体型表的 XML 属性名很可能是 `MonsterIndex/TrueSize/...`（去 `m`）**，
@@ -188,14 +188,14 @@ done
 0x160fdc0  0x036e997e  0x7f2e2ee0   -> rAreaActTblData
 0x160fdc8  0xc781bab9  0x1ee1ed64
 0x160fdd0  0x681b7312  0x5adc692c   -> rEmSizeCalcTblElement   ★ 体型表
-0x160fdd8  0x081b9089  0x1800eb37   -> rEmSizeYureTbl          ★ 揺れ表
+0x160fdd8  0x081b9089  0x1800eb37   -> rEmSizeYureTbl          ★ 尺寸浮动表
 0x160fde0  0x6ad25aeb  0x540d49c1
 0x160fde8  0x86702612  0x540d49c1   (0x540d49c1 在后续 ~20 条里重复 -> 按"类型"分组)
 ```
 
 - 第二列 = 资源**类型**哈希（与 `rEmSizeCalcTblElement` / `rEmSizeYureTbl` 的 `crc32raw` 精确相等）；
   第一列 = 资源**名称**哈希（对应的字符串不在字符串池里 ⇒ 名称含路径/前缀，运行时拼出）。
-- **全镜像里 `0x5adc692c` 只出现 1 次、`0x1800eb37` 只出现 1 次** ⇒ **romfs 中体型表与揺れ表各只有一份**（不是每怪一份）。
+- **全镜像里 `0x5adc692c` 只出现 1 次、`0x1800eb37` 只出现 1 次** ⇒ **romfs 中体型表与尺寸浮动表各只有一份**（不是每怪一份）。
   这与"`mMonsterIndex` 作为元素字段"完全自洽：**一张表，137 个元素，用怪物号索引**。
 - 表按"类型"成簇（同一类型的条目相邻）⇒ 这是资源清单/装载清单，不是哈希索引表。
 - **旁证（另一 worker 的独立扫描，`.tmp/mhgu/mon/mon-desc.out.txt` §B）**：同一张表里
@@ -294,7 +294,7 @@ dirty 猎人B（slot0，74 条非零）：`mini ≤ maxi` 同样恒成立（唯�
 | 1 | `cEmSizeCalcTblElement` 成员名块 | `0x15526be..0x1552728` | 类名 1 + 成员 7 | — | 字段名与"每怪 1 条记录"语义相符 | **高**（字节实测） |
 | 2 | `cEmSizeYureTblElement` 成员名块 | `0x1552742..0x1552779` | 类名 1 + 成员 2 | — | 分布表与"同一怪不同体型"相符 | **高** |
 | 3 | 资源类型 ↔ 扩展名 | `0x1553068..0x155309d` | 2 组（`rEmSizeCalcTblElement`/`emsizetbl`、`rEmSizeYureTbl`/`emyure`） | — | — | **高** |
-| 4 | 资源清单 `{名称哈希, 类型哈希}` | `0x160fdd0`、`0x160fdd8` | 体型表 **1** 条、揺れ表 **1** 条 | — | 单份表 ⇒ 必须用 `mMonsterIndex` 索引 | **高** |
+| 4 | 资源清单 `{名称哈希, 类型哈希}` | `0x160fdd0`、`0x160fdd8` | 体型表 **1** 条、尺寸浮动表 **1** 条 | — | 单份表 ⇒ 必须用 `mMonsterIndex` 索引 | **高** |
 | 5 | 存档体型记录 | char_off `0x60CA`（块头 `0x60C6`，止 `0x62EE`） | 物理 **137**，有效 **129** | clean 92..125 / dirty 88..125（高字节恒 0） | **逐条对拍通过**：42 条 clean 记录与 slot 表名一一对应；`mini ≤ maxi` 恒成立；17 条 `mini == maxi`（只猎过一次） | **高**（字节实测） |
 | 6 | 静态「每怪物真实体型」表 | **不存在于 exe** | 0 | — | — | **高**（4 类检测器全 negative） |
 | 7 | 冠阈值 `mSmallScale/mBigScale/mKingScale` | **不在 exe**，在 romfs `*.emsizetbl` | 每怪 1 组 | — | 无法对拍 | **中**（由"表不在 exe"推出） |

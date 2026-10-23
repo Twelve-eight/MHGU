@@ -57,3 +57,8 @@
 1. **偏移坐标**：`char_off` = `.hnt` 块内偏移（块 1,177,760B）；`file_off = hunterAdds[i] + char_off`，`hunterAdds=[1625244, 2803040, 3980836]`；`vaddr` 对应 `flat_off = vaddr + 0x100`。
 2. **结论分级**：定案 / 高 / 中 / 未知；不确定标 `[INFERENCE]`。
 3. **外部资料**（`reference/mhxx-wiki/`）只用于交叉验证，**不接受为唯一证据**，也不修改。
+
+## 语言文字规范（AGENTS.md §5）
+- **叙述与分析文字**只用中文/英文；**不使用假名**。历史报告已规范化（`狩猟スタイル`→狩猎风格、`揺れ`→尺寸浮动、`二つ名`→二名、`怒り`→愤怒、`・`→`·` 等）。
+- **数据文件例外**：`data/viewer/monsters.txt`、`mechanics/quests.md` 中的日文是**游戏内原名（verbatim 数据）**，来自 `mhgu.db` / 前人 wiki，用于与原始资料对齐，不得翻译或删除（AGENTS.md §6 保真要求）。
+- 外部资料 `reference/mhxx-wiki/` 原样保留，不改动。

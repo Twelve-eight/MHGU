@@ -131,14 +131,14 @@ Ioprey、Cephalos、Popo、Giaprey、Hermitaur、Ceanataur、Slagtoth）指向�
 → `db_id = (variant << 8) | type_id`。
 `variant` 码的**取值**是实测（表中出现 `0,1,2,3,4,5,6`），其**语义**为 `[INFERENCE]`
 （由该码落在 db 里的怪物类别归纳）：`0`=通常、`1`=亚种位（MHGU 几乎全空缺）、
-`2`=希少種、`3`=特殊個体（旧世代码）、`4`=二つ名、`5`=激昂/怒り喰らう/猛り爆ぜる/渾沌 等「极限个体」、`6`=其它（如 `1549 = {13,6}`）。
+`2`=希少種、`3`=特殊個体（旧世代码）、`4`=二名、`5`=激昂/狂击状态/狂爆/浑沌 等「极限个体」、`6`=其它（如 `1549 = {13,6}`）。
 
 **由此大怪 `db_id` 的 67 个基础 type id** 与 db 的对应关系可直接用 `db_id & 0xFF` 取。
 小怪则严格 `db_id = 4096 + type_id`（`4097..4144` → `1..17,19..23,25..27,34,35,39..42,44..48`）。
 
 一致性校验（`SELECT class,COUNT(*),MIN(_id),MAX(_id) FROM monsters GROUP BY class`）：
 `class 0` = 75 行（`db_id>>8 ∈ {0,1,2,5}`）、`class 1` = 36 行（`>>8 = 16`）、
-`class 2` = 18 行（`>>8 = 4`，即全部二つ名 `1025..1107`）。
+`class 2` = 18 行（`>>8 = 4`，即全部二名 `1025..1107`）。
 75 + 18 = **93 只大怪**，36 只小怪，合计 129 —— 与存档 129 槽完全吻合。
 
 ### C5. 完整 `uEm###_00` 表（61 条）→ db_id / 中文名 / 存档槽
@@ -263,7 +263,7 @@ Ioprey、Cephalos、Popo、Giaprey、Hermitaur、Ceanataur、Slagtoth）指向�
    （… 55,56,57,**76**,71,72,**69**,77,79 … 在此处断裂）。
 2. **资源表**：C3 中 `k=58 → roEm069`、`k=61 → roEm076`（`k=0..70` 与槽位逐槽吻合）。
 
-→ 槽 58 = em id 69 = 徹甲虫（Seltas Queen，ゲネル・セルタス）；槽 61 = em id 76 = 重甲虫（Seltas，アルセルタス）。
+→ 槽 58 = em id 69 = 徹甲虫（Seltas Queen，重甲虫）；槽 61 = em id 76 = 重甲虫（Seltas，徹甲虫）。
 
 ---
 
@@ -282,7 +282,7 @@ Ioprey、Cephalos、Popo、Giaprey、Hermitaur、Ceanataur、Slagtoth）指向�
   Gendrome/Iodrome 槽 12/13 与 Giadrome 槽 81 → `roEm014`（`k=12/13/122`）；
   Shagaru 槽 60 → `roEm071`（`k=60`，与 Gore 槽 59 同）；Volvidon 槽 51 → `roEm060`（`k=51`，无 `roEm062`）。
 - 行为上同胞关系成立：Rathalos↔Rathian(1)、Gravios↔Basarios(4)、
-  Gendrome/Iodrome/Giadrome↔Velocidrome(14)（三色ドスランポス系共用骨架与 AI）、
+  Gendrome/Iodrome/Giadrome↔Velocidrome(14)（三色蓝速龙王系共用骨架与 AI）、
   Volvidon↔Lagombi(61)（同为滚动型牙兽）、Shagaru↔Gore(71)（MH4 起共用模型/动作）。
   这与「无独立单元类 → 无独立资源文件」互为印证。
 

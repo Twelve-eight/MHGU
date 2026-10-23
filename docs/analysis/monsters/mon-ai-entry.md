@@ -46,7 +46,7 @@ bl  0x7aedcc          ; 以名查表
 | E7 | `0xcf1688` / `0xcf1898` / `0xcf1e10` / `0xcf2220` / `0xcf2aa4` / `0xcf2d4c` / `0xcf4534` | **单动作装载器**（em001 的 FwMove / ActionMove / MoveMove / FlyMove / HoverMove / AttackMove / RevivalMove），一 (怪, 动作) 一函数 | 每个函数只引用一个动作名串（如 `em001_00AttackMove`），callers=1 | 串引用**高**；"装载器"语义**中高** |
 | E8 | `0x4f078` | `uEm019_00` 单元资源引用点（敌人资源装配路径的样本） | `add rX,pc,bias` → `0x155282E` | 中 |
 | E9 | **`0x6ba8c`** | **动作名模板分支**：引用模板串 `emXXXFwMove` @**`0x15533cf`**（不是我早先误记的 0x15533db —— 那是 `uEnemyActCustom`） | 反汇编 `0x6baf0: ldr r0,[pc,#56]=0x14e78d3; add r1,pc,r0` → `0x6baf4+8+0x14e78d3 = 0x15533cf` = "emXXXFwMove"；随后 `b 0xca10c` | 高（字符串引用已算平） |
-| E10 | **`0x106873c`** | **怒り↔通常 状态切换处理** | 同时引用 `angry_Loop` @`0x1583f76` 与 `normal_Change` @`0x1585338` | 中高 |
+| E10 | **`0x106873c`** | **愤怒↔通常 状态切换处理** | 同时引用 `angry_Loop` @`0x1583f76` 与 `normal_Change` @`0x1585338` | 中高 |
 | E11 | **`0x108021c`** | 同 E10（第二处，疑另一只怪/另一状态机分支） | 同上两串 | 中高 |
 | E12 | `0x865408` / `0x833974` / `0x82b8c4` | 名称池**最热枚举者**（477 / 307 / 231 个串）：全量名表/枚举 dump | pass4 §6；`0x15004c`(298) 同族 | 中（"枚举"高，"用途"中） |
 
@@ -178,7 +178,7 @@ bl  0x7aedcc          ; 以名查表
 
 | 入口 | 证据串 | 推测 |
 |---|---|---|
-| `0xd216a4` | `Angry_Start` | **怒り突入**（N=3） |
+| `0xd216a4` | `Angry_Start` | **进入愤怒**（N=3） |
 | `0xec5440` | `cool_Loop` / `maguma_Loop` / `maguma_End` | 冷却/熔岩状态循环（某只怪） |
 | `0xed0774` | `red_Change` / `red_End` / `blue_End` | 红/蓝形态切换 |
 | `0xe8f928` | `revival_move` / `demo_move`（无 `em` 前缀 = 基类通用名） | 通用复活/演出动作 |
@@ -215,9 +215,9 @@ bl  0x7aedcc          ; 以名查表
 - **入口**：E2 `0x48c30`（运行期 schema 注册）+ 资源名 `rEmSizeCalcTblElement` / `rEmSizeYureTbl`（CRC 常量见 §4.4）
 - 保存侧对应：存档 `0x60CA` 起 129 条 `[mini,0,maxi,0]`（已定案）
 
-### 4.3 怒り / 耐力 / 部位
+### 4.3 愤怒 / 耐力 / 部位
 `StaminaSubRate` @`0x1552649` · `IkariRate` @`0x1552658` · `EatRateChange` @`0x1552662` · `StaminaTimeVal` @`0x1552670` · `iWaza_OtherParts_Bias` @`0x1552600` · `mPartsChangeData` @`0x1552692` · `mPartsAuraData` @`0x15526a3` · `mModifyData` @`0x15526b2` · `cEmDouMouKa_PartsAuraData_Element` @`0x1552294`
-怒り状态的动作名实测存在：`angry_Loop` @`0x1583f76`、`tired_Loop` @`0x1585422`、`tired_Change` @`0x1585293`、`normal_Change` @`0x1585338`。
+愤怒状态的动作名实测存在：`angry_Loop` @`0x1583f76`、`tired_Loop` @`0x1585422`、`tired_Change` @`0x1585293`、`normal_Change` @`0x1585338`。
 
 ### 4.4 资源表（CRC32 键）
 peer 实测：`crc32x(s) = zlib.crc32(s) ^ 0xFFFFFFFF`

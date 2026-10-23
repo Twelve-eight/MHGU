@@ -17,7 +17,7 @@
 
 1. 字面量 `0x1108e58` **不是地址，是 pc 相对偏移**。`add r7,pc,r0` 在 `0x5230ac`，`pc=0x5230b4`，故**表基址 = `0x5230b4 + 0x1108e58` = `0x162bf0c`**（在文件映像内，可静态读）。
 2. 该表是 **166 项 u16**，不是 137。遍历上界来自 `cmp r6,#332`（字节偏移 0,2,…,330）。
-3. 每项编码 `EmId = (variant << 8) | baseId`：低字节 = 基础种编号，高字节 = 变体码（0 原种 / 1 亚种 / 2 稀少种 / 3,5,6 强化个体 / 4 二つ名）。**`EmId` 与 repo 的 `db_id` 完全同一编号空间**。
+3. 每项编码 `EmId = (variant << 8) | baseId`：低字节 = 基础种编号，高字节 = 变体码（0 原种 / 1 亚种 / 2 稀少种 / 3,5,6 强化个体 / 4 二名）。**`EmId` 与 repo 的 `db_id` 完全同一编号空间**。
 4. **表索引 i 不是存档槽号。** i = 怪物主表记录号（0..165）；`0x50b64(EmId)` 才把 EmId 翻成 0..136 的计数器槽号（查不到返回 `-1`）。
 5. `cmp r0,#136` 是**计数器数组 137 槽（0..136）** 的边界检查；`-1` 经无符号比较走 `bhi` 被跳过，等价于「查不到就不计」。
 6. `0x50b64` 查的是**运行期**建的两张表：搜索表 `0x1a523a4`（137 项 × 8 B，key@+0）、取值 `0x1a52ea4 + idx*8 + 4`。两者都在文件映像末尾 `0x184ae78` 之外（`.bss`）⇒ 镜像里读不到内容；但**其静态源已找到 = `0x1597ea4`**（137 × `{u32 EmId, u32 slot}`，slot 逐项等于行号）。
@@ -112,8 +112,8 @@
 | 1 | 亚种 | 259=Red Khezu, 264=Blue Yian Kut-Ku, 265=Purple Gypceros, 269=Crimson Fatalis |
 | 2 | 稀少种 | 513=Gold Rathian, 514=Silver Rathalos, 525=Old Fatalis |
 | 3 | 特殊/激昂个体 | 791=激昂 Rajang(23), 811=Savage Deviljho(43) |
-| 4 | 二つ名 | 1042=Deadeye, 1056=Grimclaw, 1081=Thunderlord, 1104=Hellblade… |
-| 5 | 二つ名/特殊（另一档） | 1303=Furious Rajang, 1343=Raging Brachydios, 1351=Chaotic Gore Magala |
+| 4 | 二名 | 1042=Deadeye, 1056=Grimclaw, 1081=Thunderlord, 1104=Hellblade… |
+| 5 | 二名/特殊（另一档） | 1303=Furious Rajang, 1343=Raging Brachydios, 1351=Chaotic Gore Magala |
 | 6 | 仅 `1549`=0x060D（base 13=Fatalis） | 待定 `[INFERENCE]` |
 
 ```
