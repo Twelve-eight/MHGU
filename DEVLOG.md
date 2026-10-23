@@ -458,3 +458,8 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 - 7 片完成：01/03/05（120 行）、11/12/13（286）、14（282，输入即 282）。11-14 原输入无反汇编，主会话重生成 `.tmp/mhgu/tierB2/slice-NN.asm.txt` 后重做。slice-13 漏 1 行（0x64a198），主会话补为 B。
 - `coverage-final.py`：A + B(confA) = **53.1%** 指令 / 37.9% 函数，Tier B conf=A 191。
 - **暂定**：swe2 round 1 只审了 01/03/05 与 11-14 的早期行（10 行降级已应用）；11-14 完成后的 104 行 conf=A 在 round 2 审计中，结果回来前不作为正式口径。
+
+## 2026-10-23 — Forge PC 与跨作移植先例（取证完成）
+- Forge PC：`GURecomp/forge-pc`（MIT，v0.7.0），**支持第三方插件**：`mods/0100770008DD8000/<Mod>/plugins/*.dll`，API `include/forge_pc.h`。⇒ 我们写 Forge 插件，**不自建 loader**（自建会顶替 Forge，用户已装插件失效）。已有第三方 PC 插件先例（GameBanana Recomp-Plugins：Cam Distance、Better Box）。
+- 跨作先例：MHGU→Rise 仅护甲模型移植（GameBanana 458243 等，主会话打开核对过标题）；**无**怪物行为移植、**无**地图移植；Rise→MHGU 仅音乐包。Nexus 本机 TLS 不可达，相关条目留在 `## Unknown`。
+- **更正**：此前报告中「Nexus mods/3584、764」系未取证说法，作废；以 `docs/analysis/external/forge-pc-and-porting-precedents.md` 为准。
