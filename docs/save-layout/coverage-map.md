@@ -342,3 +342,19 @@ member[7] 的 108 条 324B 记录**全部是随从猫**：`obj 0x13938 + 108×0x
 
 **版本/迁移标志族**（横跨三成员）：member[4] `obj+0x5d/0x72`、member[13] 变长表(`0x3cf6d4`)、member[16] `obj+0xac`（12/10/9/6/5/4/3/2/1 阶梯）。
 **member[16] 工具修正**：`reader-fields.mjs` 在 `0x1c9388` 崩（调用点 r2 未初始化），修法 `const r2 = regs.r2 || U`。
+
+## 尾部易变性的终局证据（pass7/pass8 + .hnt 对照）
+
+**同一 .hnt 与 system 槽的逐区等值率**：
+| 对比 | 成员区 227,386B | 尾中 296,902B | 尾远 653,472B |
+|---|---|---|---|
+| `hunterB.hnt` vs **clean slot0** | **99.31%** | **100.00%** | 50.96% |
+| `hunterB.hnt` vs dirty slot0 | 91.28% | 25.05% | 35.35% |
+| `hunterA.hnt` vs system slot1 | 86.76% | 14.64% | 18.01% |
+
+⇒ **成员区稳定、尾部高度易变**（同一猎人的 .hnt 与 system 槽在尾段可以只剩 15-51% 相同）。尾段 `clean slot0 vs dirty slot0`（同名 猎人B）逐字节 both_eq = **318 / 68,155 = 0.47%**。
+⇒ 结论巩固：尾部是**每次保存整体重写的缓存**，其边界只能是结构性质。
+
+**宿主内存残留取证**：UTF-16 `android.gui.IGraphicBufferProducer` 类 Binder parcel 串出现在 sys slot1（7 处，含成员区 m13 `0x2E349`/`0x2EB39`）、dirty slot0（2 处）、`hunterB.hnt`（4 处），而 sys slot0 与 `hunterA.hnt` 为 0。⇒ **存档确实携带写入宿主（Android 运行时）的内存残留**，与 632B 头里 `0x270..0x273` 的栈垃圾同源。这类字节**无游戏语义**，「每字节可解释」对它们只需判定为「宿主残留」。
+
+**16B 头数组归属**：`sys slot1`=7,292 条、`sys slot0/dirty/.hnt`=0 ⇒ 该数组只出现在 system 文件的特定槽快照，不是 .hnt 数据。
