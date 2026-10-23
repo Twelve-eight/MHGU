@@ -463,3 +463,8 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 - Forge PC：`GURecomp/forge-pc`（MIT，v0.7.0），**支持第三方插件**：`mods/0100770008DD8000/<Mod>/plugins/*.dll`，API `include/forge_pc.h`。⇒ 我们写 Forge 插件，**不自建 loader**（自建会顶替 Forge，用户已装插件失效）。已有第三方 PC 插件先例（GameBanana Recomp-Plugins：Cam Distance、Better Box）。
 - 跨作先例：MHGU→Rise 仅护甲模型移植（GameBanana 458243 等，主会话打开核对过标题）；**无**怪物行为移植、**无**地图移植；Rise→MHGU 仅音乐包。Nexus 本机 TLS 不可达，相关条目留在 `## Unknown`。
 - **更正**：此前报告中「Nexus mods/3584、764」系未取证说法，作废；以 `docs/analysis/external/forge-pc-and-porting-precedents.md` 为准。
+
+## 2026-10-23 — 覆盖率定稿 53.1%；SUYU 发布包核验；插件规格补审
+- swe2 pass2 Round 2（Swe2Pass2Audit, devin-northstar/swe-2-max）复核 slice-11..14 全部 conf=A 105 行：仅 0xaeaefc 需降级（类名靠外部 class-inventory + 裸 `bl 0x7aedcc`），已改为 B。重跑 `tools/mhgu/coverage-final.py`：Tier A 51.5% + Tier B conf=A 190 函数 1.7% = **53.1% 指令 / 9046/23885 = 37.9% 函数，定稿**（不再暂定）。
+- `docs/analysis/external/suyu-release-check.md`（SuyuRelease, dsv）：可用预编译版 `v0.10.0-test` windows zip（sha256 3e6af297…3d07），无需自己编译 suyu；导出时必须装 VS 2022 ≥17.14 C++ 工作负载；需自有 XCI/NSP + keys + 1.4.0 更新，约 25 GB 空间。导出产物不可分发。下载与导出列入授权窗口。
+- 插件规格 `item-box-v7-plugin-spec.md`（d1b64c7）提交时写了"swe2 审计待回"但当时未派审计（§8 漏配），已补派 Swe2PluginSpecReview，重点 R2（V7 是否只搬不扩 B 区 → 若成立则为已发布 pchtxt 的已知问题）与 R5。

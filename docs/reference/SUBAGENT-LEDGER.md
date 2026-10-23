@@ -45,3 +45,6 @@
 - ItemQuestFormats（dsv，断流 5 次后完成）→ `docs/data/romfs-tables.md`：gmd 映射初稿 `str[1+2*id]` 错误（越界），主会话更正为 `str[2*id]`；`.ext` 偏移是记录相对（文件 = +8），主会话 400/400 实测。
 - Swe2RomfsReview（devin-northstar/swe-2-max）：arc.mjs PASS、size 节 PASS；**romfs-tables 判 FAIL 的理由错误**——称 itemData gmd 魔数为 `GMDZ`，主会话 od 实测 eng/fre/quest 均为 `47 4D 44 00`（`GMD\0`）、版本 `02 03 01 00`。该修改**驳回**。能力评估：无 shell 时 swe2 会给出未经字节核实的"已验证"断言，审计结论涉及字节值时必须由主会话复核。
 - PluginHookSpec（dsv，断流 6 次）→ `docs/patches/item-box-v7-plugin-spec.md` 766 行；第 1 节 3 条证据主会话抽验一致；R2 长度算式（0x52B0 = 0x2EC0+0x23F0）主会话复算一致。
+- **监督漏配**：PluginHookSpec 与实现同批未派 swe2 监督（违反 §8），事后补派 Swe2PluginSpecReview；提交信息"审计待回"当时不实。
+- Swe2Pass2Audit Round 2：105 行复核，1 降级（0xaeaefc）已应用，PASS。
+- SuyuRelease（dsv, hi）：4m39s 一次完成，无断流；只读调研、行号引用齐全。
