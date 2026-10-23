@@ -53,7 +53,7 @@ conf A 仅用于有字符串/硬结构证据者。
 | 0x91a7d0 | quest | orchestrator | B | 间接 [vtable+148], 存 [r7,#240], bl 0x887648/0xba1b78/0xb344dc, 位测试 [r0,#104]&1; votes quest:14 |
 | 0xc08558 | quest | orchestrator | B | 巨型宿主对象: movw 0x8718+movt 6 字节门控, 数组 [r9,#1736] 遍历, bl 0xba62a8/0x88ecc0/0x887810; votes quest:4 |
 | 0x434f18 | monster-em | orchestrator | B | bl 0x276278 取全局态 + 摊平 3 个 float 到栈(0x1403bf8), bl 0x4eff24/0x4efb98/0x43b488; votes monster:18 |
-| 0x13aaff4 | online-nex | orchestrator | A | 网络消息层: 检查 [global+324] 启用, 取 [r7]->[msg+0], `ldrb [msg+2]==7`/`[msg+3]<=1` 报文标签分派, bl 0x13a59d0; votes online-nex:28 |
+| 0x13aaff4 | online-nex | orchestrator | B | (2026-10-24 区段规则机械复核：所引字符串未在真实函数体内经 pc 相对载入 → B) 网络消息层: 检查 [global+324] 启用, 取 [r7]->[msg+0], `ldrb [msg+2]==7`/`[msg+3]<=1` 报文标签分派, bl 0x13a59d0; votes online-nex:28 |
 | 0x42c770 | monster-em | orchestrator | B | bl 0x4a1b6c, movw 0x136c 子对象非空检查, 复制 7 个 float 到栈(0x140d420), bl 0x43b8d8/0x43b8f8; votes monster:15 |
 | 0xc2b888 | render-gfx | orchestrator | B | 取 [r4,#128]/[r4,#64], 十余条 VFP vsub/vcmp/vmul 归一化, bl 0xc1ef38/0xc1bf24/0xc45ba8; votes render:5 |
 | 0x6b8828 | otomo-ot | orchestrator | B | `[r0,#76]|=16`、清 [r0,#4..28], 尾 `b 0x13efe3c`; 16 callee 含 0x56ea08/0x55bd0c; votes otomo:13 |
@@ -61,11 +61,11 @@ conf A 仅用于有字符串/硬结构证据者。
 | 0xb29d64 | quest | worker | B | 析构: vptr=[0xd1a1c8]+8 -> [r4,#20], bl 0x80dbbc(子对象析构)+0x13f004c; votes quest:3(otomo:1) |
 | 0x66d330 | quest | orchestrator | B | 构造: bl 0x65c7e8, vptr=[0x11d3550]+8, 全局 [..]+418 置 1, [r0,#56]=16; votes quest:18 |
 | 0x6a5ae0 | otomo-ot | orchestrator | B | 取 [sp,#48] 参数, bl 0x3ae21c(模式查询)+0x551e38, movw 0x967f 常量, 调 0x56e7b8/0x55bc4c; votes otomo:9 |
-| 0x2ba82c | render-gfx | orchestrator | A | strings "mTargetJointNo"/":Match"/"teNum"/"Mode"(关节匹配/动画), 读 ldrb [r4,#0x2749]/[#0x274a] 组合 24 位标记, bl 0x2a6760/0x2a8d10; votes render:16 |
+| 0x2ba82c | render-gfx | orchestrator | B | (2026-10-24 区段规则机械复核：所引字符串未在真实函数体内经 pc 相对载入 → B) strings "mTargetJointNo"/":Match"/"teNum"/"Mode"(关节匹配/动画), 读 ldrb [r4,#0x2749]/[#0x274a] 组合 24 位标记, bl 0x2a6760/0x2a8d10; votes render:16 |
 | 0x3559c0 | unknown | worker | C | 流读取器: 间接 [vtable+8] 取长度 -> [r5,#4], 边界比较 [r4,#12]/[r4,#16], refill bl 0x8261fc, ldrb 写入 [r5,#6]; 仅 otomo:1 |
 | 0x70e9c4 | quest | orchestrator | B | 构造: bl 0x70e7b0(基类), vptr=[0x1132230]+8, 清 [r4,#57..68], bl 0x50adfc(注册, id 26); votes quest:9 |
 | 0x4269d8 | monster-em | orchestrator | B | 析构: movw 0x15e4 写 vptr, 销毁 [r2] via 0x7aa47c+vtable+52, 尾 `b 0x43b488`; votes monster:15 |
-| 0x4f8220 | quest | orchestrator | A | strings "cVillageFirstPos"(村初始坐标); 3 次间接 [vtable+32] 写浮点后 bx [vtable+12], +0x7aedcc/0x82xxxx 序列化簇; votes quest:19 |
+| 0x4f8220 | quest | orchestrator | B | (2026-10-24 区段规则机械复核：所引字符串未在真实函数体内经 pc 相对载入 → B) strings "cVillageFirstPos"(村初始坐标); 3 次间接 [vtable+32] 写浮点后 bx [vtable+12], +0x7aedcc/0x82xxxx 序列化簇; votes quest:19 |
 | 0x774408 | quest | orchestrator | B | switch([r4,#4]) 0..4 跳转表(0x77443c), 读 [r7,#58]/[r7,#18], bl 0x552020/0x7ca404; votes quest:25 |
 | 0x4253a0 | monster-em | orchestrator | B | 析构: movw 0x1614 写 vptr, 释放 [r2] via vtable+52, 尾 `b 0x43b488`; votes monster:14 |
 | 0x5b03c4 | otomo-ot | orchestrator | B | bl 0x5afed0 取状态位, 递减 [r4,#88], 比较 [r4,#96], bl 0x7aa47c+vtable+28 分配(0x10 大小); votes otomo:9 |
@@ -76,7 +76,7 @@ conf A 仅用于有字符串/硬结构证据者。
 | 0x5282d8 | quest | thunk | C | 入口仅 `b 0x2b908`(基类析构尾跳); 仅 votes quest:3 |
 | 0x13e572c | online-nex | worker | B | 全 -1 哨兵初始化([r11,#-32..-40]) 后遍历字符串 ldrb [r0], bl 0x13cbe80/0x13d7348, 7 callee 全在 0x13c-0x13f 网络模块; votes online:7 |
 | 0x4b5674 | quest | thunk | C | 入口仅 `bx lr`; 仅 votes quest:2 |
-| 0x2aeea0 | online-nex | orchestrator | A | strings "lBackgroundProcessJob::DisconnectNetwork"; 53 项跳转表(cmp r1,#53)+ [r4,#176]==0x100 早退, 18 callee; 注: votes monster:13 来自通用 0x28/0x30 工具簇, 与字符串冲突, 按 A 证据取 online-nex |
+| 0x2aeea0 | online-nex | orchestrator | B | (2026-10-24 区段规则机械复核：所引字符串未在真实函数体内经 pc 相对载入 → B) strings "lBackgroundProcessJob::DisconnectNetwork"; 53 项跳转表(cmp r1,#53)+ [r4,#176]==0x100 早退, 18 callee; 注: votes monster:13 来自通用 0x28/0x30 工具簇, 与字符串冲突, 按 A 证据取 online-nex |
 | 0x4bedac | quest | thunk | C | 入口仅 `bx lr`; 仅 votes quest:2 |
 | 0x7e0ba0 | quest | orchestrator | B | 巨帧(824+1024)构造: 写 [r6,#384]=0/[r5,#369]=1, 全局 0x1057f50 -> [r5,#336], bl 0x7e2e78/0x7c0f00; votes quest:8 |
 | 0x807368 | quest | orchestrator | B | 取 [r5,#0..8] 组 vec4 后 VFP, bl 0x808f88/0x808fe8/0x7f5a04/0x809164; votes quest:4 |
@@ -100,13 +100,13 @@ conf A 仅用于有字符串/硬结构证据者。
 | 0x7ea0ec | quest | worker | B | 264B 帧 + 大批 VFP(vec 运算), 入参取自 [r11,#8], bl 0x7e9e94/0x803494/0x808fe8; votes quest:5 |
 | 0x73acf4 | quest | orchestrator | B | bl 0x1c9604 查对象, 非空后用 bl 0x1bbb70 组参 + `mov r0,#9/mov r1,#25/mov r3,#22`, bl 0x1c97cc; votes quest:17 |
 | 0xc387e8 | render-gfx | orchestrator | B | 492B 帧, 从 0xc08360/0xc0b4dc 取 vptr+8 建临时对象, bl 0xc20ec8/0xc16100/0xc1ef38; votes render:10 |
-| 0x13e72fc | online-nex | orchestrator | A | 连接槽表: `mla r8, r9, 276, r10`(stride 276), 状态 [r8+380]==2, [r8+648] 非空, 返回 r7=0/96; bl 0x13f1c90..0x13f1d74 系列; votes online-nex:20 |
+| 0x13e72fc | online-nex | orchestrator | B | (2026-10-24 区段规则机械复核：所引字符串未在真实函数体内经 pc 相对载入 → B) 连接槽表: `mla r8, r9, 276, r10`(stride 276), 状态 [r8+380]==2, [r8+648] 非空, 返回 r7=0/96; bl 0x13f1c90..0x13f1d74 系列; votes online-nex:20 |
 | 0x128e7d0 | online-nex | worker | B | 入口 5 条指令: `mov r1,#2; bl 0x13f16b4` 后 lsl/pop(按 id=2 取网络对象); votes online:20 + kernel:3 |
 | 0xadb3c | monster-em | orchestrator | B | 读 [r5,#0x1428]、ldrb [r0,#442], 清 [r5,#0x7425], 间接 [vtable+948], bl 0xa4cc0/0xa4d50/0xb16e0; votes monster:35 |
 | 0x405144 | monster-em | orchestrator | B | bl 0x43b4bc 校验, 复制 [r6,#32/36/40] 到 movw 0x1650/0x1654/0x1658, bl 0x405a34/0x43b7e0; votes monster:17 |
 | 0x7be068 | quest | worker | C | 转发器: 全局 0x1082d5c + bl 0x7aa47c 取单例, 以 [r6,#28] 与间接 [vtable+32] 转调; votes quest:3 |
 | 0x9f3f30 | quest | orchestrator | B | [r6,#84] 为空时用 vldr 默认值, bl 0x94cf88(资源查表) -> 返回值 +16 或对象 [r6,#84], bl 0x9f5058; votes quest:5 |
-| 0xa1709c | monster-em | orchestrator | A | strings "cAIPathTrace"/"cAIPathTrace::TracePoint"/"cAINavPathTrace"/"cAIWayPathTrace"(AI 路径跟踪); 析构: vptr=[0xe2c080]+8, 逐个释放 [r4,#280] 中 [r4,#268] 项 |
+| 0xa1709c | monster-em | orchestrator | B | (2026-10-24 区段规则机械复核：所引字符串未在真实函数体内经 pc 相对载入 → B) strings "cAIPathTrace"/"cAIPathTrace::TracePoint"/"cAINavPathTrace"/"cAIWayPathTrace"(AI 路径跟踪); 析构: vptr=[0xe2c080]+8, 逐个释放 [r4,#280] 中 [r4,#268] 项 |
 | 0x1c1a84 | quest | thunk | C | 入口仅 `b 0x2b908`(基类析构尾跳); 仅 votes quest:3 |
 | 0x623d50 | otomo-ot | orchestrator | B | 间接 [vtable+28], 大量 bl 0x56e530/0x56e528/0x56e6fc/0x56e7b8(0x56exxx otomo 簇), bl 0x19c21c/0x199048; votes otomo:9 quest:9 平, 按 callee 簇取 otomo |
 | 0xa276e8 | quest | orchestrator | B | 析构: vptr=[0xe1bc0c]+8 -> [r4], 遍历 [r4,#52] 数组再逐个间接 [vtable+?] 释放; votes quest:13 |

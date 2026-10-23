@@ -23,13 +23,13 @@
 | 0x29cec4 | monster-em | orchestrator | B | votes monster-em:18 vs otomo-ot:4；构造函数形态：bl 0x53aa70/0x53aa84 逐成员构造，基址偏移 0x2534/0x14ac/0x27ac/0x27b0（大对象成员表） |
 | 0x2fafc4 | monster-em | orchestrator | B | votes monster-em:29；取全局 0x153dda0 后 bl 0x276278；ldrh [r4,#176] 与常量 0x173/0x5e/25 比较分类（行为/状态 id 判定） |
 | 0x7afafc | quest | orchestrator | B | votes quest:18；入口 tst [r4,#4],#8388608 与 [r4,#28]/[r4,#32] 判空，xor 低 16 位后 ldrb 查表（0x7axxxx 类注册域内的资源/记录匹配） |
-| 0x9ef288 | filesystem | orchestrator | A | 字符串 "mpResource" 与 "resource"；反汇编 str vtable 到 [r4,#0] 与 [r4,#48]（多重继承），bl 0x9f4e20 构造基类，随后写 [r4,#0] 新 vtable（资源管理类） |
+| 0x9ef288 | filesystem | orchestrator | B | (2026-10-24 区段规则机械复核：所引字符串未在真实函数体内经 pc 相对载入 → B) 字符串 "mpResource" 与 "resource"；反汇编 str vtable 到 [r4,#0] 与 [r4,#48]（多重继承），bl 0x9f4e20 构造基类，随后写 [r4,#0] 新 vtable（资源管理类） |
 | 0x69eb18 | save-data | orchestrator | A | 字符串 "areaseldat"（area select 数据文件名）；反汇编为记录查找：循环 [r0,#116] 数组 [lr,r3,lsl#2]，ldrsb [r0,#4]/[r0,#5] 与入参 r1/r2 比较 |
 | 0x513260 | quest | orchestrator | B | votes quest:12 vs monster-em:4；入口 bl 0x515a54 后 ldrb [r9,#388] 且 cmp #10 走 11 项跳转表（0x51328c 起 .word 偏移），bl 0x515a54/0x9c3834/0xc46cfc |
 | 0x134a614 | online-nex | orchestrator | B | votes online-nex:34（唯一票源）；0x13xxxxx 高地址层；bl 0x12297a4 分配 12 字节节点并挂到 [r6,#148] 链表（str [r0,#8], str [r7,#4], str [r0,#0], str [r0,#4]），计数 [r7,#8]++ |
 | 0x121dd8c | filesystem | worker | A | 字符串 "invalid stored block lengths"/"unknown header flags set"/"unknown compression method"/"too many length or distance symbols" → zlib inflate 状态机；callees 6 个（inflate 辅助），非 orchestrator |
 | 0x2e2c64 | monster-em | orchestrator | C | votes monster-em:13 vs render-gfx:11（分票）；字符串 "way_move_rno1"/"ohol"/"eajiBase"/"ucRate[4]"（动作/参数名）；入口按 r1 0/1 分派，间接 blx [r0,#608]，bl 0x2ffea8 |
-| 0x5b1be8 | ui | orchestrator | A | 字符串 "cUIOHunterNoteLow"（UI 对象类名，cUIO 前缀）；反汇编 bl 0x56dc88 后取 [r4,#76] 判空，再 ldr [r1,#60] 尾调用 bx r2（UI 对象基类调用） |
+| 0x5b1be8 | ui | orchestrator | B | (2026-10-24 区段规则机械复核：所引字符串未在真实函数体内经 pc 相对载入 → B) 字符串 "cUIOHunterNoteLow"（UI 对象类名，cUIO 前缀）；反汇编 bl 0x56dc88 后取 [r4,#76] 判空，再 ldr [r1,#60] 尾调用 bx r2（UI 对象基类调用） |
 | 0x4e4224 | otomo-ot | orchestrator | B | votes otomo-ot:11 vs monster-em:3；初始化 [r8+0x1b95..0x1b9f] 一片字节（strb r5=0 / strb #255），movw r4,#0x1b1c（大对象字段清零） |
 | 0xc01cf8 | quest | orchestrator | B | votes quest:23 vs monster-em:10；VFP 数学（vcmp/vdiv 0x13f00d0），取全局 0xc3ae70 后 ldr [r0,#32]，movw #0xed7c 字段偏移 |
 | 0x225e58 | monster-em | orchestrator | C | votes monster-em:21 vs quest:14/otomo-ot:13（三方分票）；析构形态：vtable 0x1615f2c+8，循环 r5=248..363 对 [r4,r5,lsl#2] 取 vtable+4 后 blx 并置 0，再清全局 0x1612ecc |
@@ -50,7 +50,7 @@
 | 0x4e666c | otomo-ot | orchestrator | B | votes otomo-ot:11 vs quest:2；bl 0x507b04(全局 0x1352930,1,...) 取状态，cmp r5,#2 后读 [r0,#0x1c0a] 且 cmp #5，再 sub #1/cmp #13 走跳转表 |
 | 0x11f4220 | render-gfx | orchestrator | C | votes render-gfx:20 vs monster-em:19（分票）；movw #0x3330 ldrb tst #16 判标志，反复 bl 0x2828cc(r0,100/47/46/45/...) 后 rsb/sub 累减 —— 字符码遍历计数模式 |
 | 0x74a3a8 | quest | orchestrator | B | votes quest:42 vs otomo-ot:6；ldr [r4,#76] cmp #9 走 10 项跳转表，同时取全局 0x10eef44 的 0x6bfc/0x6c34 字段并 orr（与 0x74fa74 同族） |
-| 0xce1ba4 | filesystem | orchestrator | A | 字符串 "spkg"（MH 包文件名/后缀）；反汇编为哈希表查找：ldrd r4,[r1,#0] 与 (r2,r3) 做 eor 比较，命中后 ldr [r1,#8] 继续链，表基 [r1,#144]/[r12,#40]/[r12,#36]；votes quest:19 与之矛盾但串证据更强 |
+| 0xce1ba4 | filesystem | orchestrator | B | (2026-10-24 区段规则机械复核：所引字符串未在真实函数体内经 pc 相对载入 → B) 字符串 "spkg"（MH 包文件名/后缀）；反汇编为哈希表查找：ldrd r4,[r1,#0] 与 (r2,r3) 做 eor 比较，命中后 ldr [r1,#8] 继续链，表基 [r1,#144]/[r12,#40]/[r12,#36]；votes quest:19 与之矛盾但串证据更强 |
 | 0x46d810 | monster-em | orchestrator | B | votes monster-em:32；bl 0x4a1b6c 后连续 bl 0x4a30dc(r4,4,-1)/0x4a30dc(r4,5,-1)/0x4a30dc(r4,0,-1) 按 slot 取值，栈帧 352 字节 |
 | 0x511784 | quest | orchestrator | B | votes quest:19；析构形态：vtable 0x132d384+8 → [r4,#0]，释放 [r4,#56]（bl 0x326c78），循环 [r4,#324] 计数与 [r4,#336] 指针数组逐项 blx |
 | 0x1218db8 | monster-em | orchestrator | B | votes monster-em:9（唯一票源）；ldr [r0,#772] 后 blx 取类型，sub #14 且 cmp #40 走 41 项跳转表（类型分派） |
@@ -78,11 +78,11 @@
 
 | vaddr | label | role | conf | evidence |
 |---|---|---|---|---|
-| 0xc61bb4 | render-gfx | worker | A | 字符串 "mpEffectList"（特效列表成员名）与 "resource"；反汇编 5 个 callee，add r12,r1,#176 后连续 vldr 6 个浮点（[r1,#0x30..0x34]）做 vsub/vmul，cmp r2,#0 分支 |
+| 0xc61bb4 | render-gfx | worker | B | (2026-10-24 区段规则机械复核：所引字符串未在真实函数体内经 pc 相对载入 → B) 字符串 "mpEffectList"（特效列表成员名）与 "resource"；反汇编 5 个 callee，add r12,r1,#176 后连续 vldr 6 个浮点（[r1,#0x30..0x34]）做 vsub/vmul，cmp r2,#0 分支 |
 | 0x1169a7c | monster-em | orchestrator | C | votes monster-em:10 vs render-gfx:9（分票）；ldrh [r4,#176] 且 cmp #68 走 69 项跳转表（id 分派），bl 0x2a8d10/0x29b12c/0x2ad23c |
 | 0xc1d5f0 | render-gfx | orchestrator | B | votes render-gfx:7 vs monster-em:2；ldr [r5,#52] 判空 + [r5,#8] 作索引，全局 0xc1bce0 → [r2,#200] 表项 → ldr [r1,#84]；栈帧 248，[r11,#8] 输出槽清零 |
 | 0x6ffd40 | quest | orchestrator | B | votes quest:27 vs otomo-ot:4；入口批量清零 strb [r5,#75]/strh [r5,#100] 与 0x2d66/0x2d7e/0x2d96/0x2dae...（步长 0x18）多组状态字段 |
-| 0x90c508 | render-gfx | orchestrator | A | 字符串 "mpGrass" 与 "resource"（草地资源成员）；反汇编以 1664 字节步长循环 24 次（cmp #39936）调 0xb437b4 并清 [r7,#1664]/[#1668]，再对 0x9590/0x8f10/0x8890/0x8210 子对象调 0xb43f68 |
+| 0x90c508 | render-gfx | orchestrator | B | (2026-10-24 区段规则机械复核：所引字符串未在真实函数体内经 pc 相对载入 → B) 字符串 "mpGrass" 与 "resource"（草地资源成员）；反汇编以 1664 字节步长循环 24 次（cmp #39936）调 0xb437b4 并清 [r7,#1664]/[#1668]，再对 0x9590/0x8f10/0x8890/0x8210 子对象调 0xb43f68 |
 | 0x9ef3c | monster-em | orchestrator | B | votes monster-em:29；movw #0x1428 取 [r7,r0] 后 +0x5dfc 做 VFP 比较，ldrb [r0,#1352] 与 r9 乘加，读 [r5,#0] 判 255 哨兵 |
 | 0x53fe8c | quest | orchestrator | B | votes quest:24 vs render-gfx:7；bl 0x55dd40 取全局 0x12f8d34 子系统，ldrb [r4,#59] cmp #12 走 13 项跳转表；栈帧 540 |
 | 0x69c258 | quest | orchestrator | B | 字符串 "areaacttbl"/"rAreaActTblData"（area action 表资源名）；反汇编 ldr [r2,#104] 校验索引 < 计数，[r2,#116] 取表项后 blx [r0,#20]，与全局 0x11a4710 的 [r1,#4] 比较；votes audio:6/quest:5 分票，取 quest |
@@ -90,7 +90,7 @@
 | 0x104978 | save-io | worker | C | votes otomo-ot:1（弱）；唯一 callee 0x8261fc；反汇编为流反序列化：blx [r0,#12] 读 4 字节存 [r4,#4]，再取 [r5,#8]+[r5,#12] 读 1 字节存 [r4,#8]（缓冲区对象 vtable/pos/len 布局） |
 | 0x10c588 | save-io | worker | C | votes otomo-ot:1（弱）；唯一 callee 0x8261fc；与 0x104978 指令序列完全一致（同一模板的另一实例）：读 dword→[r4,#4]、读 byte→[r4,#8] |
 | 0x458398 | monster-em | orchestrator | B | votes monster-em:18 vs quest:2；写入器/设置器：strb #1 → [r0,#0x16a0]，str [r1,#0] → [r0,#0x16a4]；随后静态表初始化（[r5,#48] 起连续 str） |
-| 0x9c20f4 | filesystem | orchestrator | A | 字符串 "Resource(rCollision)" 与 "resource"（资源调试名）；析构：vtable 0xe80c1c+8 → [r4,#0]，按 ldrb [r4,#176] 条件 bl 0xc482a0(,ldr [r4,#56]) 释放资源句柄并写 -1，再 bl 0x887660 释放 [r4,#52] |
+| 0x9c20f4 | filesystem | orchestrator | B | (2026-10-24 区段规则机械复核：所引字符串未在真实函数体内经 pc 相对载入 → B) 字符串 "Resource(rCollision)" 与 "resource"（资源调试名）；析构：vtable 0xe80c1c+8 → [r4,#0]，按 ldrb [r4,#176] 条件 bl 0xc482a0(,ldr [r4,#56]) 释放资源句柄并写 -1，再 bl 0x887660 释放 [r4,#52] |
 | 0xc3d3d0 | render-gfx | orchestrator | B | votes render-gfx:14 vs quest:6；bl 0xc16100 后 ldm r3 传参，bl 0xc25414 构造 3 个 dword，栈帧 736，[sp,#196]=7；callees 含 0xc1bf24/0xc1ef38（0xc1 渲染簇） |
 | 0x13c5ce0 | kernel-os | worker | A | 字符串 "0123456789abcdefghijklmnopqrstuvwxyz"/"(nil)"/".%ld" 及 `cmp r1,#0x25('%')` 分支 → libc 风格格式串解析（printf 核心）；6 个 callee（数字转换/输出） |
 | 0xb05080 | render-gfx | worker | A | 字符串 "LightMask"/"AmbientMask"/"GBuffer"/"LightAccumulation0"（渲染目标名）；vtable 0xd3eb04+8 → [r11,#0]，清 [r11,#744]/[r11,#644]，bl 0x13efd7c(,600) 清 600 字节 |
@@ -102,14 +102,14 @@
 | 0x6b9168 | otomo-ot | orchestrator | B | votes otomo-ot:21 vs quest:4；连续 bl 0x56e6a8(r4, idx, 3, 5, 17) 且 idx 0,1,5...（参数行注册，常量 3/5/17 为表列值） |
 | 0x8a0a7c | online-nex | worker | B | votes online-nex:5 vs render-gfx:2；movt #0x7f7f + movw #0xffff → 0x7f7fffff(FLT_MAX) 写入 [sp,#288]，ldr [r5,#96]/[r5,#88] 取表与对象，栈帧 312；callees 全为 0x7d12xx/0x7cfxxx |
 | 0x9cde9c | online-nex | worker | B | votes online-nex:5 vs render-gfx:2；与 0x8a0a7c 同一模板（同样 0x7f7fffff 哨兵、[sp,#288]、栈帧 312），仅表偏移不同（[r5,#144]/[r5,#136]）；callee 集合完全相同 |
-| 0x8f83c8 | filesystem | orchestrator | A | 字符串 "mpResource" 与 "resource"；析构：vtable 0xf49d8c+8 → [r8,#0]，movw #0x6d58 取成员后 bl 0x887660 释放并清零，再以 0xea10ffff(-...) 步长遍历子对象重设 vtable 0xf49d30+8 |
+| 0x8f83c8 | filesystem | orchestrator | B | (2026-10-24 区段规则机械复核：所引字符串未在真实函数体内经 pc 相对载入 → B) 字符串 "mpResource" 与 "resource"；析构：vtable 0xf49d8c+8 → [r8,#0]，movw #0x6d58 取成员后 bl 0x887660 释放并清零，再以 0xea10ffff(-...) 步长遍历子对象重设 vtable 0xf49d30+8 |
 | 0xb0e8f8 | render-gfx | orchestrator | C | votes render-gfx:4 vs quest:3（分票）；ldr [r0,#116] 判空，add r4,#340，tst [r0,#80],#32768 位测试，常量 0x3fffc 作索引掩码；VFP 常量 0x13f00d0 |
 | 0x7987ac | otomo-ot | orchestrator | C | votes otomo-ot:20 与 quest:20 平票；状态切换：ldr [r4,#148] → [r4,#160]，[r4,#148]=4、[r4,#152]=0，bl 0x5584f4，cmp #14 时置 [r4,#61]=1 |
 | 0x11bde84 | render-gfx | orchestrator | B | votes render-gfx:19 vs monster-em:11；字节位域重构：ldrb [r1,#0x274a]/[r2,#-1]/[r2,#2] 后 orr 成 24 位并 orr #64 → strb [r2,#0]；清 [r1,#230]；cmp #3 走分派 |
 | 0x799fa0 | quest | orchestrator | B | votes quest:29 vs otomo-ot:14；取全局 0x109f360 的 0x6bfc/0x6c34 字段，再 bl 0x25f840(0)/0x26fcac 与 bl 0x25f840(1)（多单例轮询），栈帧 812 |
 | 0x658ae8 | ui | orchestrator | A | 字符串 "cUIORegistSrcPanelBase"（UI 面板基类名）；反汇编 [r4,#200] 惰性初始化：bl 0x570688 构造栈上对象，vtable 0x11e66d8+8 → [sp,#0]，写 [sp,#100]/[sp,#104]=15 |
 | 0x1291910 | online-nex | orchestrator | B | votes online-nex:10（唯一票源）；blx [r0,#8] 虚调用后比较 [r9,#-56] 与 [r1,#12]→[r1,#28] 上限，取全局 0x5b5998；callees 全为 0x129xxxx 簇 |
-| 0x10680 | ui | orchestrator | A | 字符串 "uUIFacility"/"uUIItemShop"/"uUIKitchen"/"uLobbyNpc"（UI 类名，uUI 前缀）；反汇编 bl 0x15e0 后逐个 bl 0x5073ec/0x507084/0x505ea4/0x193fe0/0x4deaf0 初始化各 UI 单例，含 blx [r1,#44] |
+| 0x10680 | ui | orchestrator | B | (2026-10-24 区段规则机械复核：所引字符串未在真实函数体内经 pc 相对载入 → B) 字符串 "uUIFacility"/"uUIItemShop"/"uUIKitchen"/"uLobbyNpc"（UI 类名，uUI 前缀）；反汇编 bl 0x15e0 后逐个 bl 0x5073ec/0x507084/0x505ea4/0x193fe0/0x4deaf0 初始化各 UI 单例，含 blx [r1,#44] |
 
 ## 表（93-120）
 
@@ -120,7 +120,7 @@
 | 0x1194458 | monster-em | orchestrator | C | votes monster-em:16 vs render-gfx:11（分票）；bl 0x27bcd0 后 cmp #1 早退，bl 0x2ad4f4，add r5,r4,#11136 后 ldrb [r5,#0] 与 bl 0x2fef48 结果比 100 |
 | 0x692940 | otomo-ot | orchestrator | B | votes otomo-ot:28 vs quest:8；ldrb [r4,#6] 且 cmp #23 走 24 项跳转表，另取全局 0x11a69ac 的 0x6bfc 字段；栈帧 292 |
 | 0x93992c | quest | orchestrator | B | votes quest:15 vs render-gfx:3；析构形态：vtable 0xf08bf8+8 → [r6,#0]，依次对 [r6,#4032]/[r6,#4040]/[r6,#4036] 取 vtable+24 后 blx 并清零 |
-| 0x52874 | monster-em | orchestrator | A | 字符串 "rEnemyDataTable"（敌数据表资源名）；反汇编从 [r4,#100] 缓冲取 ldrh [r0,#16] 作条数、[r0,#32] 起表项、条目 64 字节（lsl #6），把 ptr 写 [r4,#108]、条数写 [r4,#104]；votes quest:20 与此冲突，以字符串为准 |
+| 0x52874 | monster-em | orchestrator | B | (2026-10-24 区段规则机械复核：所引字符串未在真实函数体内经 pc 相对载入 → B) 字符串 "rEnemyDataTable"（敌数据表资源名）；反汇编从 [r4,#100] 缓冲取 ldrh [r0,#16] 作条数、[r0,#32] 起表项、条目 64 字节（lsl #6），把 ptr 写 [r4,#108]、条数写 [r4,#104]；votes quest:20 与此冲突，以字符串为准 |
 | 0x7e493c | online-nex | orchestrator | B | votes online-nex:8 vs render-gfx:3；VFP 矩阵变换（vldr r7+0x04..0x18 后 vsub/vmul/vdiv），栈帧 264；callees 为 0x7d12xx/0x7e4xxx/0x7f4xxx 簇 |
 | 0xc411cc | render-gfx | orchestrator | B | votes render-gfx:16；与 0xc26af0 同族 callee（0xc47f50/0xc1703c/0xb79868/0xba5770/0xc1bf24），取 [r10,#232]/[r10,#216]，ldr [r8,#64] 且 cmp #4 |
 | 0x395850 | save-io | worker | C | votes otomo-ot:1（弱）；唯一 callee 0x8261fc；流反序列化：blx [r0,#8] 读 16 位 → strh [r4,#4]，再读 1 字节 → strb [r4,#84]（与 0x104978/0x10c588 同模板，宽度不同） |

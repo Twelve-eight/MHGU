@@ -80,13 +80,13 @@
 | 0x360a90 | quest | worker | C | 14 指令唯一 callee 0x2b8f0 通用，quest:1；tiers=quest |
 | 0x360ac8 | quest | worker | C | 751 指令仅 3 callee（0x2b908/0x7aa47c/0x7bb638 全通用），quest:3 无区分力；tiers=quest |
 | 0x361684 | otomo-ot | worker | C | 364 指令唯一 callee 0x8261fc（通用），otomo-ot:1；tiers=otomo-ot |
-| 0x361c34 | quest | worker | A | 字符串 `cFishData`（钓鱼类数据类名）；quest:4 + tiers=quest 同向 |
+| 0x361c34 | quest | worker | B | (2026-10-24 区段规则机械复核：所引字符串未在真实函数体内经 pc 相对载入 → B) 字符串 `cFishData`（钓鱼类数据类名）；quest:4 + tiers=quest 同向 |
 | 0x362378 | quest | worker | C | 15 指令唯一 callee 0x7aa47c 通用；tiers=quest |
 | 0x3623b4 | quest | worker | C | 11 指令唯一 callee 0x7aa47c 通用；tiers=quest |
 | 0x3623e0 | quest | worker | C | 22 指令唯一 callee 0x2b8f0 通用，quest:1；tiers=quest |
-| 0x362438 | quest | orchestrator | A | 字符串 `mRewardTable[0..3]`/`resource`（任务报酬表数组）；quest:4 render-gfx:1；5 callee 但含 0x7af630 等，实际 5 个→worker 边界，见备注 |
+| 0x362438 | quest | orchestrator | B | (2026-10-24 区段规则机械复核：所引字符串未在真实函数体内经 pc 相对载入 → B) 字符串 `mRewardTable[0..3]`/`resource`（任务报酬表数组）；quest:4 render-gfx:1；5 callee 但含 0x7af630 等，实际 5 个→worker 边界，见备注 |
 | 0x362bbc | quest | worker | C | 71 指令，callees 0x8261fc(通用)/0x23210c（A 级 quest，55 指令），quest:1；tiers=quest |
-| 0x362cd8 | quest | orchestrator | A | 字符串 `cFreeHuntData`/`cHagi`（自由狩猎数据类）；quest:8，callees 含 A 级 0x231d2c；8 callee→orchestrator |
+| 0x362cd8 | quest | orchestrator | B | (2026-10-24 区段规则机械复核：所引字符串未在真实函数体内经 pc 相对载入 → B) 字符串 `cFreeHuntData`/`cHagi`（自由狩猎数据类）；quest:8，callees 含 A 级 0x231d2c；8 callee→orchestrator |
 | 0x367f40 | quest | worker | C | 29 指令唯一 callee 0x2b8f0 通用；tiers=quest |
 | 0x367fb4 | quest | worker | C | 7419 指令仅 3 callee（0x2b908/0x7aa47c/0x7bb638 全通用），无字符串；tiers=quest |
 | 0x36f3a0 | otomo-ot | worker | C | 63 指令唯一 callee 0x8261fc（通用），otomo-ot:1；tiers=otomo-ot |
@@ -100,9 +100,9 @@
 | 0x381134 | quest | worker | C | 15 指令唯一 callee 0x7aa47c 通用；tiers=quest |
 | 0x381170 | quest | worker | C | 11 指令唯一 callee 0x7aa47c 通用；tiers=quest |
 | 0x38119c | quest | leaf | C | 22 指令 0 调用 0 字符串；tiers=quest，邻 0x381170/0x3811f4 皆 quest |
-| 0x3811f4 | quest | worker | A | 字符串 `mResource[0..2]`/`mResource0`（资源数组）；quest:4 render-gfx:1；5 caller |
+| 0x3811f4 | quest | worker | B | (2026-10-24 区段规则机械复核：所引字符串未在真实函数体内经 pc 相对载入 → B) 字符串 `mResource[0..2]`/`mResource0`（资源数组）；quest:4 render-gfx:1；5 caller |
 | 0x3815cc | quest | worker | B | 91 指令，quest:3（0x826c38/0x13efd94/0x23210c）对 online-nex:1（0x13efd88，A 级 online 短函数）；tiers=quest |
-| 0x381738 | quest | worker | A | 字符串 `cResourceSample`（类名）+ quest:5（含 0x231d2c A 级 quest）；tiers=quest |
+| 0x381738 | quest | worker | B | (2026-10-24 区段规则机械复核：所引字符串未在真实函数体内经 pc 相对载入 → B) 字符串 `cResourceSample`（类名）+ quest:5（含 0x231d2c A 级 quest）；tiers=quest |
 | 0x381a78 | quest | worker | C | quest:4 对 monster-em:3（1.33 倍不足 1.5），callees 0x3a5ed0/0x3a9e7c/0x5232cc/0x3c7134 等；tiers=quest |
 | 0x381fec | monster-em | worker | B | monster-em:7（0x3ae5b8/0x3a3284/0x3a3370/0x275a30/0x26fe10/0x3822bc）+ tiers=monster-em |
 | 0x38211c | quest | worker | C | 唯一票 monster-em:1 来自通用 0x3f8344；无字符串；随 tiers=quest |
@@ -195,7 +195,7 @@
 | 0x391ed0 | quest | worker | C | 12 指令 3 caller，唯一 callee 0x7aa47c 通用；tiers=quest |
 | 0x391f00 | quest | worker | C | 3668 指令仅调 0x7bb638 通用，quest:1；tiers=quest；疑巨型状态机 |
 | 0x395850 | otomo-ot | worker | C | 1404 指令仅调 0x8261fc（通用），otomo-ot:1；tiers=otomo-ot |
-| 0x396e40 | quest | worker | A | 字符串 `cSupplyList`（补给品列表类名）；quest:6 + tiers=quest 同向 |
+| 0x396e40 | quest | worker | B | (2026-10-24 区段规则机械复核：所引字符串未在真实函数体内经 pc 相对载入 → B) 字符串 `cSupplyList`（补给品列表类名）；quest:6 + tiers=quest 同向 |
 | 0x3986dc | quest | worker | C | 15 指令唯一 callee 0x7aa47c 通用；tiers=quest |
 | 0x398718 | quest | worker | B | 128 指令 7 callee，quest:6 对 audio:1；callees 0x8870b8/0x887100/0x8260d4/0x826130/0x398918；tiers 预测 audio，票数压倒 |
 | 0x398918 | quest | orchestrator | B | ≥14 callee，quest:19 对 audio:3/otomo-ot:2/monster-em:1；调 0x82772c/0x827ad4/0x827998/0x8278e0/0x827cd0/0x8277c4/0x32c358 |
@@ -507,12 +507,12 @@
 | 0x3d03c0 | quest | worker | C | 13 指令唯一 callee 0x2b8f0 通用；tiers=quest |
 | 0x3d03f4 | quest | worker | C | 236 指令 3 callee（0x2b908/0x7aa47c/0x7bb638 全通用），quest:3 无区分力；tiers=quest |
 | 0x3d07a4 | quest | worker | C | 142 指令，quest:2 对 otomo-ot:1/online-nex:1（0x826c38/0x13efd88/0x13efd94）；邻域 quest |
-| 0x3d09dc | quest | worker | A | 字符串 `cCommonScript`（通用脚本类名）；quest:5（0x827c9c/0x2b8f0 等）+ tiers=quest |
+| 0x3d09dc | quest | worker | B | (2026-10-24 区段规则机械复核：所引字符串未在真实函数体内经 pc 相对载入 → B) 字符串 `cCommonScript`（通用脚本类名）；quest:5（0x827c9c/0x2b8f0 等）+ tiers=quest |
 | 0x3d0e30 | quest | worker | C | 36 指令唯一 callee 0x887660 通用，quest:1；tiers=quest |
 | 0x3d0ec0 | quest | worker | B | 69 指令，quest:3 对 monster-em:1（0x2772c4/0x3f865c/0x3f8678/0x3f8634）；tiers=quest |
 | 0x3d0fd4 | quest | worker | A | 字符串 `[BELNA]`/`[BED]`/`[BAR]`/`[HR]`/`[FESTA_HR]`（任务等级/HUB 标签）；77 caller，quest:3 |
 | 0x3d15a4 | quest | worker | A | 字符串 `[WORK0..4]`（同类等级标签）+ 同族 callee 0x13effa4/0x13efef0/0x276278；28 caller |
-| 0x3d17f8 | quest | orchestrator | A | 字符串 `commonScriptEnum`；≥14 callee，quest:38；调 0x3d0fd4/0x3d15a4/0x3b1964/0x3b1d70/0x523da4/0x244f14；tiers=quest |
+| 0x3d17f8 | quest | orchestrator | B | (2026-10-24 区段规则机械复核：所引字符串未在真实函数体内经 pc 相对载入 → B) 字符串 `commonScriptEnum`；≥14 callee，quest:38；调 0x3d0fd4/0x3d15a4/0x3b1964/0x3b1d70/0x523da4/0x244f14；tiers=quest |
 | 0x3d6880 | quest | worker | C | 15 指令唯一 callee 0x7aa47c 通用；tiers=quest |
 | 0x3d6bc8 | quest | worker | B | 138 指令，quest:3（0x3d17f8/0x1b08c/0x1b794）；tiers=quest |
 | 0x3d6df0 | quest | orchestrator | B | 9 callee，quest:9（0x3d17f8/0x1b08c/0x1b9cc/0x276278/0x1b794/0x3d6bc8）；tiers=quest |

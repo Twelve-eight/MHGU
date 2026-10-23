@@ -30,10 +30,10 @@
 | 0x697478 | unknown | orchestrator | C | 票 render:3/quest:3/em:2/audio:2 四向分散；调 0x87ff38/0x8826fc/0x883f74/0x7bb638，与 area 资源簇同构 ? |
 | 0x6f5940 | quest | orchestrator | B | 票 quest:36/otomo-ot:7；调 0x6ff02c/0x6fe2dc/0x6fee28 |
 | 0x6ffd40 | quest | orchestrator | B | 票 quest:27/otomo-ot:4；调 0x148340/0xdb568/0x70153c |
-| 0x69c258 | unknown | orchestrator | A | 字符串 `areaacttbl \| rAreaActTblData`（区域行动表资源）；调 0x82fb08/0x831b90/0x8870b8 |
+| 0x69c258 | unknown | orchestrator | B | (2026-10-24 区段规则机械复核：所引字符串未在真实函数体内经 pc 相对载入 → B) 字符串 `areaacttbl \| rAreaActTblData`（区域行动表资源）；调 0x82fb08/0x831b90/0x8870b8 |
 | 0x68b5c4 | quest | orchestrator | B | 票 quest:29/otomo-ot:8；调 0x6b7eb4/0x6b6d0c/0x65f270 |
 | 0x6b9168 | otomo-ot | orchestrator | B | 票 otomo-ot:21/quest:4；调 0x56e6a8/0x55fa04/0x7ca724 |
-| 0x658ae8 | ui | orchestrator | A | 字符串类名 `cUIORegistSrcPanelBase`（面板基类）；otomo:31/quest:16 为其宿主模块票 |
+| 0x658ae8 | ui | orchestrator | B | (2026-10-24 区段规则机械复核：所引字符串未在真实函数体内经 pc 相对载入 → B) 字符串类名 `cUIORegistSrcPanelBase`（面板基类）；otomo:31/quest:16 为其宿主模块票 |
 | 0x692940 | otomo-ot | orchestrator | B | 票 otomo-ot:28/quest:8；调 0xba7d68/0x693f84/0x694628 |
 | 0x6d4d94 | monster-em | orchestrator | C | 票 em:10 与 quest:9 近持平，0 caller（仅 vtable）；调 0x6c70c8/0x6c71e4/0x6cc634 |
 | 0x698eb4 | unknown | worker | C | 无字符串；与 area 资源簇同构（0x690/0x7aedcc/0x7aa47c/0x7bb638）；票 quest:3/audio:1 |

@@ -93,13 +93,13 @@
 | 0x18eb08 | quest | worker | C | 单 callee 0x2b8f0，vote quest:1 |
 | 0x18eb34 | quest | worker | B | 81 指令调 0x2b908/0x7aa47c/0x7bb638，vote quest:3，被 0x18f998 调用 |
 | 0x18ec78 | unknown | leaf | C | 14 指令无 callee 无字符串，无法归属 |
-| 0x18ecb0 | quest | worker | A | 字符串 `cOtodokeConditionList`；vote quest:5；5 callee（0x7aa47c/0x2b908/0x7bb638） |
+| 0x18ecb0 | quest | worker | B | (2026-10-24 区段规则机械复核：所引字符串未在真实函数体内经 pc 相对载入 → B) 字符串 `cOtodokeConditionList`；vote quest:5；5 callee（0x7aa47c/0x2b908/0x7bb638） |
 | 0x18efc8 | quest | worker | C | 单 callee 0x7aa47c，vote quest:1 |
 | 0x18f004 | quest | worker | C | 单 callee 0x7aa47c，vote quest:1，3 caller |
 | 0x18f030 | quest | worker | C | 单 callee 0x2b8f0，vote quest:1 |
 | 0x18f07c | quest | worker | B | 459 指令调 0x2b908/0x7aa47c/0x7bb638，vote quest:3（大列表遍历） |
 | 0x18f7a8 | otomo-ot | worker | B | 唯一 callee 0x8261fc(otomo-ot 票)，与 0x189510/0x189de4 同构 |
-| 0x18f998 | quest | orchestrator | A | 字符串 `cOtodokeSetList`+`otsc`；≥15 callee（0x8870b8/0x82772c/0x18ecb0），vote quest:26 |
+| 0x18f998 | quest | orchestrator | B | (2026-10-24 区段规则机械复核：所引字符串未在真实函数体内经 pc 相对载入 → B) 字符串 `cOtodokeSetList`+`otsc`；≥15 callee（0x8870b8/0x82772c/0x18ecb0），vote quest:26 |
 | 0x190590 | quest | worker | C | 调 0x7aedcc/0x7aa47c/0x887810，票 quest:2 otomo-ot:1 |
 | 0x190728 | quest | worker | C | 单 callee 0x7aa47c，vote quest:1 |
 | 0x190764 | unknown | leaf | C | 12 指令无 callee 无字符串，51 caller（高频内联工具），无法归属 |

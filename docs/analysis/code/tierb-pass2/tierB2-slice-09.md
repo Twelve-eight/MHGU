@@ -30,7 +30,7 @@
 | 0xe3750 | quest | worker | B | 连续 `mov r1,#8`…`#12; bl 0xe0b54` 按索引 8-12 读同一 this 的 5 个字段（批量记录装载）；vote quest:2 且 tiers=quest，无字符串 |
 | 0x27697c | monster-em | orchestrator | B | `ldr r10,[r4,#0x13c8]; cmp #5; bhi` + 6 路跳转表按 0x13c8 成员分派（约 5KB 大结构体状态机）；19 callee 全在 0x26e/0x27b 簇；vote em:12 |
 | 0x75c2b8 | quest | orchestrator | B | `bl 0x65cb3c(idx 6)` 取成员后 `mla r1,r2,r10,r1`（行×列）并读 `ldrb [r4,#261/#262]` 查二维表；8 callee 全 quest 簇（0x75cb60/0x25d6bc/0xe9e8c） |
-| 0xa40b00 | ui | worker | A | 字符串 `cGUIInstMessage`（GUI 消息类名）；`cmp r2,#20` 后 21 路跳转表按消息 id 分派，`tst [r4,#380],#2048`；vote quest:4 render:3 与 tiers=quest 均与之冲突，取类名串 |
+| 0xa40b00 | ui | worker | B | (2026-10-24 区段规则机械复核：所引字符串未在真实函数体内经 pc 相对载入 → B) 字符串 `cGUIInstMessage`（GUI 消息类名）；`cmp r2,#20` 后 21 路跳转表按消息 id 分派，`tst [r4,#380],#2048`；vote quest:4 render:3 与 tiers=quest 均与之冲突，取类名串 |
 | 0xb81ddc | quest | worker | B | 对 `[r4,#172/#176/#180]` 逐个 `ldr r2,[vtbl,#72]; blx r2` 释放后清零，典型成员析构/清理；callee 0x887160/0x887660 属 0x887xxx 资源簇；vote quest:3 |
 | 0x2a784c | monster-em | worker | C | callee 全在 0x27bcd0/0x27c7ec/0x285e2c/0x27e774 em 簇；vote em:13 对 otomo:12 近平而 tiers=otomo-ot 相反；strings(pause/body) 疑字符串池误配 |
 | 0x4a0efc | monster-em | worker | C | `ldr r6,[=0x139ce68]; bl 0x7aa47c` 取单例后 `ldr r12,[vtbl,#32]; bx r12` 尾转发壳；vote 1:1 平，随 tiers=em |

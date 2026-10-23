@@ -11,13 +11,13 @@ B=[(s,v[0]) for s,v in tiers.items() if v[1]=='B']
 tot_ins=sum(v[0] for v in tiers.values()); tot_fn=len(tiers)
 # tierB adjudications
 adj={}
-for d,pat in (('tierb-pass2','tierB2-slice-*.md'),('tierb-pass1','tierB-slice-*.md')):
+for d,pat in (('tierb-pass3','tierB3-slice-*.md'),('tierb-pass2','tierB2-slice-*.md'),('tierb-pass1','tierB-slice-*.md')):
     for p in sorted(glob.glob(os.path.join(ROOT,d,pat))):
         for l in open(p,encoding='utf-8',errors='ignore'):
             m=re.match(r'\|\s*`?(0x[0-9a-f]+)`?\s*\|\s*([a-z\-]+)\s*\|\s*(\w+)\s*\|\s*([ABC])\s*\|\s*(.*?)\s*\|',l)
             if not m: continue
             lab=m.group(2)
-            if lab not in LABELS: continue
+            if lab not in LABELS or lab=='unknown': continue
             a=int(m.group(1),16); conf=m.group(4)
             prev=adj.get(a)
             rank={'A':3,'B':2,'C':1}

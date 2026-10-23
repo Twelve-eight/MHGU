@@ -156,7 +156,7 @@ role 明细: leaf = 0xb09e6c, 0x9bcb0c, 0x12213ac; thunk = 0xcc5af8, 0x408b28, 0
 | 0x6b459c | otomo-ot | orchestrator | B | `[r4,#92] <= 11` 十二路 + `ldr [r4,#108] + r0*4 + 4` 取子项; votes otomo-ot:17 |
 | 0x12a8c0 | quest | orchestrator | B | 访问器: `ldr [r2,#100]` 长度检查后 `ldr [r0,#108] + r1*4`; votes quest:22 |
 | 0xb14c38 | quest | thunk | C | 函数体 `ldr r0,[r0,#4]; bx lr` 纯 getter; 仅 votes quest:4 |
-| 0xb4814c | filesystem | orchestrator | A | 直接字符串 "mst.xml" (master 数据 XML); 0x7cbdb4 拼路径 (空串时 pc 相对 0xa08bee) + 0x7aef68 取资源 |
+| 0xb4814c | filesystem | orchestrator | B | (2026-10-24 区段规则机械复核：所引字符串未在真实函数体内经 pc 相对载入 → B) 直接字符串 "mst.xml" (master 数据 XML); 0x7cbdb4 拼路径 (空串时 pc 相对 0xa08bee) + 0x7aef68 取资源 |
 | 0x3e8254 | otomo-ot | orchestrator | B | 756 字节栈 + `ldrb [r0,#0x367f]/[#0x367e]` 全局标志; votes otomo-ot:20 |
 | 0x406050 | monster-em | orchestrator | B | `bl 0x4a1b6c` 后 `ldr [r6,#0x15e0]` 再 `blx [vtable+368]`; votes monster-em:9 |
 | 0x631830 | otomo-ot | orchestrator | B | `bl 0x55bc4c(id 0x4b, 空时 0x47)` + `bl 0x56ea08(...,57,2)`; votes otomo-ot:13 |
