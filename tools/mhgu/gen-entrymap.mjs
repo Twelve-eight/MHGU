@@ -1,0 +1,31 @@
+import * as M from './fn-cluster.mjs';
+import fs from 'node:fs';
+const NAMES={0x72C:'怪物击杀计数器 obj+0x72C（137×u16）',0x83E:'怪物捕获计数器 obj+0x83E（137×u16）',0x42C:'任务 cleared 位图 obj+0x42C（256B）',0x52C:'任务 seen 位图 obj+0x52C（256B）',0x62C:'任务 achieve 位图 obj+0x62C（256B）'};
+let md='# 玩法层访问面地图（M1，2026-10-23）\n\n';
+md+='> 用途：为「游戏代码 90% 可解释」立起点。方法：对存档关键字段的 `movw #imm` 立即数做全 .text 扫描，再按**所属函数**聚类，并按函数体内 ldr/str/ldrh/strh 数量粗分类。\n';
+md+='> 局限：函数起点用「向前找最近的 `push {..,lr}`」启发式，超长函数可能被截断或与邻居合并；分类只反映**访问密度**，不等于语义。\n\n';
+md+='## 坐标系\n`flat_off = vaddr + 0x100`；以下均为 vaddr。\n\n';
+for(const off of [0x72C,0x83E,0x42C,0x52C,0x62C]){
+  const r=M.cluster(off);
+  const total=r.reduce((a,x)=>a+x.sites,0);
+  md+='## `movw #0x'+off.toString(16)+'` — '+NAMES[off]+'\n\n';
+  md+='共 **'+r.length+' 个函数**、'+total+' 个站点。\n\n';
+  md+='| 函数起点 | 站点数 | 首站点 | ldr | str | ldrh | strh | 粗分类 |\n|---|---|---|---|---|---|---|---|\n';
+  for(const x of r) md+='| `'+x.fn+'` | '+x.sites+' | `'+x.first+'` | '+x.reads+' | '+x.writes+' | '+x.ldrh+' | '+x.strh+' | '+(x.strh>x.ldrh*2?'写重型':(x.ldrh>x.strh?'读重型':'混合'))+' |\n';
+  md+='\n';
+}
+md+='## 已识别的具体角色（本轮实证）\n';
+md+='| 函数 | 角色 | 证据 |\n|---|---|---|\n';
+md+='| `0x51dbb4` | 成员#4 外层反序列化 | 读 1024B 头 + 内层 + 274B×2 计数器 |\n';
+md+='| `0x51e6d8` | 成员#4 内层**写侧**（逐字段写）| 含 `0x72C/0x83E` 写站点；非「位设置器」（早前误记）|\n';
+md+='| `0x51dc40` | 成员#4 内层**读侧** | 含 `0x52C/0x62C` 读站点 |\n';
+md+='| `0x52308c` | **计数器访问器** | 遍历 pc 相对 u16 表 → `bl 0x50b64` 过滤 → `cmp r0,#136` 上限 → 汇总 `ldrh[obj+0xB0]+[obj+0xB8]` |\n';
+md+='| `0x2484c0` | **114 分支跳转表调度器** | `cmp r1,#113` + `ldr pc,[r1*4+table]`；内含 3 个 `0x72C` 站点（经 `0x52308c`）|\n';
+md+='| `0x161ac8` | 计数器显示/汇总（疑 UI）| 132 次循环 + `movw #0x270f`(9999) 钳制 + 43 处 strh |\n';
+md+='| `0x6aa9b8` | **记录数组迭代器**（全局原语）| desc 第 5 参 = 键名 `"rabbitNo"` @`0x156922B`；含 `0x83E` 站点 |\n';
+md+='\n## 下一步（M2+）\n';
+md+='1. 解 `0x52308c` 的表（pc 相对 → 绝对，`0x523100` 字面量 `0x1108e58`）得「计数器索引 → 记录 id」映射，与 `docs/data/json/monster-slot-map.json` 对拍（验证 137 槽顺序）。\n';
+md+='2. `0x2484c0` 的 114 分支表：导出每 case 目标，按目标函数聚类 → 「任务结算动作表」。\n';
+md+='3. 找 `0x72C` 的**增量**点：在 39 个函数内搜 `ldrh → add #1 → strh` 数据流三元组（M1 只做了访问密度）。\n';
+fs.writeFileSync('G:/omp works/MHGU/docs/analysis/gameplay/entry-map.md',md);
+console.log('wrote',md.length,'bytes');
