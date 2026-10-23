@@ -478,3 +478,5 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
   - Swe2PakToolReview → `.tmp/reports-mhrs/pak-tool-review.md`。
   - Swe2RsReview → `.tmp/reports-mhrs/batch1-review.md`（reflection-rsz.md 终稿）。
 - 待办见 harness todo；下一步：编辑器 UI（字段旁显示 editor/help）、离线往返测试。
+
+- 2026-10-24: Swe2HelpReview 审计 editor/help 6 个文件 22 条全部 PASS，无需修改（`.tmp/reports-mhgu/help-review.md`）。审计发现术语表只覆盖 StS2，MHGU 术语是按机制文档自身用法核对的。
