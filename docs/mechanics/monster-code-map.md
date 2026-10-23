@@ -84,7 +84,10 @@ add  rD, pc, rB          ; target = (add 指令地址 + 8) + bias
 ## 5. 硬边界（需要用户提供资源）
 
 `mTrueSize` / 三档冠阈值 / 尺寸浮动分布的**数值**只能来自 romfs：
-`main` 的 base romfs 载体（XCI 内 `98abd4…nca`，约 12.3 GB）**不在本机磁盘**，已解出的 `0eb59f…nca` 是 BKTR 补丁 NCA，无 base 无法解。
+`main` 的 base romfs 载体（XCI 内 `98abd400588fccb68509fed7e55e4a47.nca`，**12,168,003,584 B = 12.17 GB / 11.33 GiB**；
+取自 XCI secure 分区 `0x182bbe00..0x2ed70be00`，证据 `.tmp/mhgu/xci-info.txt:50`。
+同一 NCA 的旧说法——本文件 ~~约 12.3 GB~~、`DEVELOP.md` ~~9.1 GB~~ / ~~10.8 GB~~——**均已作废，以本条为准**）
+**不在本机磁盘**，已解出的 `0eb59f…nca` 是 BKTR 补丁 NCA，无 base 无法解。
 ⇒ 需原始 XCI + `hactool -r` 才能补齐。**在此之前，体型数值属「已知结构、未知数值」**。
 
 ## 6. 负结果（已排除，避免重复劳动）

@@ -2,7 +2,8 @@ import re,glob,os,collections
 LABELS={'online-nex','save-data','save-io','render-gfx','audio','ui','monster-em','player-pl','weapon-pw','weapon-wp','otomo-ot','quest','item','filesystem','physics-math','kernel-os','debug-dev','unknown'}
 # tiers
 tiers={}
-for l in open('.tmp/mhgu/inventory/tiers.csv',encoding='utf-8').read().split('\n')[1:]:
+ROOT=os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','..','docs','analysis','code')
+for l in open(os.path.join(ROOT,'inventory','tiers.csv'),encoding='utf-8').read().split('\n')[1:]:
     if not l: continue
     s,ins,t,lab=l.split(','); tiers[int(s,16)]=(int(ins),t,lab)
 A=[(s,v[0]) for s,v in tiers.items() if v[1]=='A']
@@ -10,8 +11,8 @@ B=[(s,v[0]) for s,v in tiers.items() if v[1]=='B']
 tot_ins=sum(v[0] for v in tiers.values()); tot_fn=len(tiers)
 # tierB adjudications
 adj={}
-for pat in ('tierB2-slice-*.md','tierB-slice-*.md'):
-    for p in sorted(glob.glob('.tmp/reports-mhgu/'+pat)):
+for d,pat in (('tierb-pass2','tierB2-slice-*.md'),('tierb-pass1','tierB-slice-*.md')):
+    for p in sorted(glob.glob(os.path.join(ROOT,d,pat))):
         for l in open(p,encoding='utf-8',errors='ignore'):
             m=re.match(r'\|\s*`?(0x[0-9a-f]+)`?\s*\|\s*([a-z\-]+)\s*\|\s*(\w+)\s*\|\s*([ABC])\s*\|\s*(.*?)\s*\|',l)
             if not m: continue

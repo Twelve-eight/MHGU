@@ -7,21 +7,21 @@
 
 ## 0. 长期目标与当前判定
 
-**目标**：① 游戏代码 90%+ 可解释；② 存档编辑器可解释/修改每字节；③ 怪物机制全部了解。
+**目标**：① 游戏代码 90%+ 可解释（口径见 §5：Tier A + Tier B conf=A 的 `.text` 指令占比，函数数并列）；② 存档编辑器可解释/修改每字节；③ 怪物机制全部了解。
 
 **当前实测（诚实口径）**：
 
 | 维度 | 数字 | 是否达标 |
 |---|---|---|
 | 存档：成员层 file 链 | `0x278..0x3783A` = 227,386B **100% 结构级** | ✅ |
-| 存档：成员层字段级 | ~78%（234KB 里的已标注部分）| 部分 |
-| 存档：尾部 950KB | 容器表 C0..C7 尺寸闭合；**判定为透传缓存/宿主残留**（不参与读档、无校验、跨档相异 67%）| ✅（定性完成）|
+| 存档：成员层字段级 | ~78%（分母 = 成员层已标注段合计 **224,643B**；~~234KB~~ 不是猎人块里的任何一段，勿再引用）| 部分 |
+| 存档：尾部 950KB | 容器表 C0..C7 尺寸闭合。**硬证据**：无校验、不在读档路径、跨档相异 67%；**[INFERENCE，中-高]** 透传缓存 = 宿主/模拟器进程内存残留（`coverage-map.md:393`）| ✅ 硬证据；性质仍属推断 |
 | 代码：L0 结构清点 | 23,885 函数 / 5,228,277 指令 / **3,201 类**（名+大小）| **100%** ✅ |
 | 代码：L1 子系统（高置信层）| **Tier A 8,856 函数 / 51.5% 指令，实测精度 94.7%** | 指令加权过半 ✅ |
-| 代码：L1 覆盖率（含 Tier B conf=A）| **52.5% 指令 / 37.3% 函数** | ❌（目标 90%）|
+| 代码：L1 覆盖率（含 Tier B conf=A）| **52.5% 指令 / 37.3% 函数** | ❌（目标 90% **指令**，函数并列；见 §5 口径）|
 | 怪物机制：数据侧 | mhgu.db 全表（HP/肉质/异常/弱点/掉落/栖息地/任务出现）| ✅ |
 | 怪物机制：代码侧 | 类成员 `{名,offset,type}` 110 条 / 状态机 state→handler 全解 / motion 名 41/53 派发器 | ✅ 主要结构 |
-| 怪物机制：数值表 | 体型/冠阈值在 **romfs**，被 12.3GB base NCA 缺失阻塞 | ❌ 硬边界 |
+| 怪物机制：数值表 | 体型/冠阈值在 **romfs**，被 base NCA（`98abd400…nca`，**12,168,003,584 B = 12.17 GB / 11.33 GiB**）缺失阻塞 | ❌ 硬边界 |
 
 **结论**：存档与怪物机制的结构层已基本完成；**代码 90% 的缺口在 Tier B 的 48.5% 指令**，只能靠逐函数裁定（批次化进行中）。
 
@@ -65,7 +65,7 @@
 | `coverage-final.py` | 覆盖率合成（Tier A + Tier B conf=A）|
 | `mon/mon-final.py` | 类大小表 → `docs/data/class-inventory.tsv`（3,201 类，含 `SUSPECT` 标记）|
 | `mon/mon-offsets.py` | 成员 `{offset,type,name}` → `docs/data/member-offsets.tsv`（110 条）|
-| `mon/em-units.py` / `counter-slots*.py` | 137 槽权威表 → `docs/data/json/monster-slot-map.json` |
+| `mon/em-units.py` / `counter-slots*.py` | 137 槽权威表 → `docs/data/json/monster-slot-map-137.json`（`monster-slot-map.json` 是旧表，~~勿引~~ superseded 2026-10-23）|
 | `state-motion2.mjs` | 怪物 state→handler→motion → `docs/mechanics/monster-state-machine.md` |
 
 运行环境：`"G:/omp works/archive/retired/workbuddy-desktop-api/.venv/Scripts/python.exe"`（系统 python 会挂）；
@@ -100,7 +100,7 @@ node 用 `G:/omp works` 为 cwd。
 0x34EB0         member[16] 263B（VFP ×2.05；obj+0xac=迁移级别）
 0x34FB7         member[17] 10371B（99×104B kind-7 master-data 快照库）
 0x3783A         成员结束
-0x3783A..0x11F8A0  尾部 950KB = 透传缓存（16B 记录网格 0x63671..0xBCC20；zlib 网格 50×73B；android Binder 串=宿主残留）
+0x3783A..0x11F8A0  尾部 950KB = 透传缓存（16B 记录网格 0x63671..0xBCC20；zlib 网格 50×73B；android Binder 串=宿主残留【INFERENCE 中-高，非硬结论】）
 ```
 
 ### 3.3 编辑器（`editor-src/MHGU存档修改/`）
@@ -119,19 +119,20 @@ node 用 `G:/omp works` 为 cwd。
 | `docs/mechanics/monster-ai-params.md` | `mParam.*` 131 字段（移动/索敌/蓄积阈值/行动控制/网络）+ 44 动作名 + 225 uEm 单元名 |
 | `docs/mechanics/monster-classes.md` | 27 个类的成员 `{offset,type,name}`（110 条，offset/type 是代码立即数） |
 | `docs/data/class-inventory.tsv` | 3,201 类名+大小（8 个 >0x40000 标 `SUSPECT`）|
-| `docs/data/json/monster-slot-map.json` | **137 条权威表**（slot/emid/cn/en/kind；94 大 + 43 小）|
+| `docs/data/json/monster-slot-map-137.json` | **137 条权威表**（slot/emid/cn/en/kind；94 大 + 43 小）；`monster-slot-map.json` 是旧表（~~137 条权威~~ superseded 2026-10-23）|
 | `docs/analysis/monsters/` | 6 份调查报告（类映射/em 单元/计数器槽/任务派发/AI 入口/体型）|
 
 **137 槽布局（定案，推翻旧的 93+36+8）**：`0..70` 大怪 71 / `71..111` 小怪 41 / `112..134` 大怪 23 / `135..136` 小怪 2。
 三重验证：① 小怪不可捕获（旧布局在槽 112/114/120/123/124/128 出现非零捕获 → 违反）；② volume 137×4=548 精确接 `0x62EE`；③ 静态表 `0x1597EA4` + 资源表 `0x1732050` 一致。
 
-**硬边界**：体型/冠阈值数值表在 romfs（`*.emsizetbl`/`*.emyure`），需原始 XCI + hactool（base NCA ~12.3GB 不在本机）。
+**硬边界**：体型/冠阈值数值表在 romfs（`*.emsizetbl`/`*.emyure`），需原始 XCI + hactool（base NCA `98abd400588fccb68509fed7e55e4a47.nca` = **12,168,003,584 B（12.17 GB / 11.33 GiB）**，取自 XCI secure 分区范围 `0x182bbe00..0x2ed70be00`（`.tmp/mhgu/xci-info.txt:50`）；不在本机）。~~12.3GB / 9.1GB / 10.8GB~~ 三个旧值均作废（superseded 2026-10-23）。
 
 ---
 
 ## 5. 代码 90% 目标的现状与路线
 
 **度量口径（`docs/analysis/code-metrics.md` 为准）**：
+- **主指标** = Tier A + Tier B conf=A，分母 = `.text` 指令 **5,228,277**（唯一主指标）；函数口径（分母 **23,885**）作为第二指标并列报出，不混用、不取平均；「留出 20% 人工标注测全函数子系统正确率 ≥90%」是**验证门（validation gate）**，不是主指标；conf=B/C 不计入。（`docs/analysis/code-metrics.md` §6 验收口径，2026-10-23 定案）
 - 分母：23,885 函数 / 5,228,277 指令；3,201 类
 - **Tier A**（调用图 + 地址局部性**双预测一致**）：8,856 函数 / **51.5% 指令** / **实测精度 94.7%**（10 折留出 1,155 样本）
 - **Tier B**（两预测分歧）：14,863 函数 / 48.5% 指令 → 必须逐函数裁定
@@ -143,7 +144,8 @@ node 用 `G:/omp works` 为 cwd。
 - 第一批 14 代理（1,062 函数/片、仅元数据）→ **11/14 因上游 499 超时失败**，存 378 行；且 `callee 票数` 递归继承 Tier A 错分（循环论证），`quest` 虚占 222
 - 第二批（120 函数/片 + **自带 24 条反汇编**）→ 产出质量显著提升（conf=A 引具体字符串/指令，例如 zlib inflate 状态机、`cUIOHunterNoteLow`）；但仍有多代理 499
 - **当前汇合**：A + B(conf=A) = **52.5% 指令 / 37.3% 函数**
-- **下一步**：继续 pass2 波次（top 2,400 覆盖 Tier B 指令 ~70%），再 pass3；目标「A + confA ≥ 90% 指令」后请 swe2 审计
+- **复算（2026-10-23，repo 内输入）**：`tools/mhgu/coverage-final.py` 从 `docs/analysis/code/inventory/tiers.csv`、`docs/analysis/code/tierb-pass1/`、`docs/analysis/code/tierb-pass2/` 重跑，结果仍为 **52.5% 指令 / 37.3% 函数**，并入的 conf=A 只有 **54 个函数**。`PROJECT-EVAL-20261023.md` §C15 反推的「7 片各 ~15 个 A ⇒ 应有 ~105 个 A」不成立（它把 52.5%−51.5% 的 +1.0pp 全当成 A 的产量）。
+- **下一步**：继续 pass2 波次（top 2,400 覆盖 Tier B 指令 ~70%），再 pass3；**达标 = A + confA ≥ 90% `.text` 指令**（函数数并列报出，conf=B/C 不计入），之后过**验证门**（留出 20% 人工标注子系统正确率 ≥90%）再请 swe2 审计
 
 **报告汇合命令**：
 ```

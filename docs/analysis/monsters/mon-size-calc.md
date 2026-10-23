@@ -326,7 +326,7 @@ dirty 猎人B（slot0，74 条非零）：`mini ≤ maxi` 同样恒成立（唯�
 ## 未知
 
 - **U1 体型表本体不可得（硬边界）**：`emsizetbl` / `emyure` 是 **romfs** 资源；本仓库只解出 exefs。
-  唯一的 base romfs 载体是 XCI secure 分区里的 `98abd400588fccb68509fed7e55e4a47.nca`（`0x182bbe00..0x2ed70be00`，**12.3 GB**，见 `.tmp/mhgu/xci-info.txt`），
+  唯一的 base romfs 载体是 XCI secure 分区里的 `98abd400588fccb68509fed7e55e4a47.nca`（`0x182bbe00..0x2ed70be00`，**12,168,003,584 B ≈ 12.17 GB**（~~12.3 GB~~），见 `.tmp/mhgu/xci-info.txt:50`），
   **该 XCI 不在磁盘上**（`*.xci` 全盘 0 命中），已解出的 `0eb59fa8…nca` 只是 **Patch RomFS（BKTR）**，`nca-info.txt` 明写 `cannot save BKTR section without base romfs`。
   ⇒ 要拿到数值表，需要原始 XCI（或已解密的 base NCA）+ `hactool -r --romfsdir=…`，然后找 `*.emsizetbl` / `*.emyure`。
 - **U2** `mTrueSize` 的单位（米 or 厘米）与 `mSmall/Big/KingScale` 是"百分比阈值"还是"倍率"—— 需 romfs 才能定。
