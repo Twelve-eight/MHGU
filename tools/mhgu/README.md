@@ -23,7 +23,7 @@
 | `fn-cluster.mjs` | （库） | 按 `movw #imm` 站点聚类到所属函数 |
 | `gen-entrymap.mjs` | `docs/analysis/gameplay/entry-map.md` | 玩法访问面地图 |
 | `reader-fields.mjs` / `member-reader-trace.mjs` | （stdout/JSON） | 成员 reader 的字段读取序列 |
-| `decode-registry.py` | `docs/data/resource-registry` 相关 | cResource 注册表（`{名称 crc32, 类型 crc32}`）解码 |
+| `decode-registry.py` | `docs/data/resource-registry.tsv` | cResource 注册表（`{名称 crc32, 类型 crc32}`）解码 |
 | `mon/mon-final.py` | `docs/data/class-inventory.tsv`（3,201 类） | `bl 0x7AEDCC` 的 `r3` = 类大小 + pc 相对取类名 |
 | `mon/mon-offsets.py` | `docs/data/member-offsets.tsv`（110 条） | 成员 `{offset,type,name}`（offset/type 是代码立即数） |
 | `mon/em-units.py` / `counter-slots*.py` | `docs/data/json/monster-slot-map-137.json` | 137 槽 `{EmId,slot}` @`0x1597EA4` + 资源名表 @`0x1732050` |
