@@ -53,3 +53,6 @@
 - 新建 agent `glm-re`（`.omp/agents/glm-re.md`，model `wb2api-remote/glm-5.3-flash:max`，用户指定路由；只有 max 档）。AGENTS.md §4b 白名单已加入 glm5.3f（备份 `G:/backups/AGENTS.md.20261024-pre-glm`）。
 - 3 对：GlmR2Overflow↔DsvR2Review（插件规格 R2 B 区溢出 / R5 0x5B807C 归属）；GlmDrift↔DsvDriftReview（member#4 4B 漂移）；GlmYure↔DsvYureReview（em_size_yure_data XFS）。报告 `.tmp/reports-mhgu/glm-*.md`，审查 `glm-*-review.md`。
 - 上一轮 Swe2PluginSpecReview 随重启死亡，无报告；R2/R5 由本批 GlmR2Overflow 接手。
+- GlmDrift（glm-re）↔ DsvDriftReview（dsv）：漂移定位到第 107 行，审查 4/6 PASS（C4 违规引用私有字节，C6 证明有误），主会话重新反汇编确认后入库（0808e0d）。GLM 前 10 分钟报告一直为空，被催后才开始落盘。
+- **GlmR2Overflow 卡死**：约 17 分钟报告为空（61 B），连续 3 次反汇编后不再调用工具，催了 3 次都没反应，已终止。改派 GlmR2b（glm-re），给它预先切好的 3 项检查，输入改为主会话导出的 `dsvr2-disasm.txt`，不再自己反汇编。DsvR2Review 提出用自己的结论直接充当审查结果，主会话拒绝，以免违反 §8。
+- 能力评估（glm-5.3-flash）：在开放式逆向任务里倾向一直读，不肯写，违反增量落盘规范；给定窄范围、预切好的输入时表现待观察。用户同日新增"完成一步就落盘一步"规范（AGENTS.md §8b，glm-re/dsv-dev 定义已同步）。
