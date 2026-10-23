@@ -59,3 +59,9 @@
 - GlmR2b（glm-re，预切 3 项）：发布 11 条证据后，在读 fn 0x5B8014 时再次卡住，没有给出结论，也没有发 `done`。DsvR2Review 逐条裁定：PASS 3、带保留 PASS 1、FAIL 7（行号写错、范围算错、计数错），并独立裁定 R2 CONFIRMED、R5 有效；主会话复核循环界 `0x199B68` 与 GOT `0x1282760` 后入库。按规范记录：结论由审查方得出，GLM 提供了其中的部分证据。
 - GlmYure（glm-re）被终止后改派 GlmYureB，后者没有覆盖报告就结束了；DsvYureReview 对 GlmYure 的 25 行报告判 FAIL（3 条错误），并把逐字节核实过的事实整理成交接材料写进审查文件。yure 格式仍未解出。
 - **GLM 总评（本批）**：3 个任务中，只有漂移（窄问题）给出了正确结论，R2 和 Yure 两次都卡在长时间读反汇编、读字节上。下次派逆向任务时：输入必须预切，每片 ≤2 项检查，并配合 mhgu-re MCP 工具。
+
+## 2026-10-24 mhgu-re MCP 计划评估
+- EvalMcpSwe2（swe2-supervisor，devin-northstar/swe-2-max）2m：修正后采用；指出 `.omp/mcp.json` 不存在，并认为 GLM 卡死的原因在于工作流形态，而不是缺工具。
+- EvalMcpDsv（dsv-dev，wb2api/global:deepseek-v4.1-flash，hi）4m：修正后采用；唯一指出 `.tmp/mhgu` 白名单会暴露 prod.keys，并指出子代理会自动继承 MCP 工具，不必改 tools 列表。三方中最细。
+- EvalMcpOpus（新建 kiro-opus-reviewer，northstar-kiro/claude-opus-5.5:high，**用户本次特批**）2.5m：修正后采用；指出 junction 逃逸、schema 无类型、启发式工具描述有误导；自述最后一次性写盘，违反 §8b。
+- 三方未能自行发现、由主会话冒烟发现的问题：目录路径通过检查后返回 size 0。
