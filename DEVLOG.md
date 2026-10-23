@@ -543,3 +543,8 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 - vswhere 报告 17.14.42，MSVC 14.44.35207（满足 SUYU 要求的 ≥17.14）；bundled cmake/ninja/link 都在 G:；实际编译运行 hello 成功。
 - C: 占用 2.41 GB（SDK 装在 `C:\Program Files (x86)\Windows Kits\10`），C: 剩余 6.6 GB。
 - 注意：PATH 上 `G:\Git\usr\bin\link.exe` 排在 MSVC link 之后，vcvars 环境内不受影响。
+
+## 2026-10-24 SUYU 导出实机会话（用户在场授权）
+- 包 `G:\suyu\suyu-mhgu-0.10.0-test-windows-x64.zip`，129,987,918 B，SHA-256 与发布页一致；解压到 `G:\suyu\app`。
+- 便携模式：`G:\suyu\app\user`（启动后生成 cache/config/keys/nand 等），`%APPDATA%\suyu` 不存在；keys 从 yuzu 复制过来。suyu PID 15592。
+- 计划：用主存档（Lay1nn）的副本，导出 Build 格式到 `G:\suyu\export`；yuzu 原存档不动。
