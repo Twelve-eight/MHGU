@@ -80,9 +80,9 @@
 
 ### 怪物计数器结构定案
 - 击杀段 `char_off 24230..24502` = **274B = 137×u16，无表头**（推翻旧「4+135×2」）
-- 槽 0-92 = 93 大怪（MonsterForm 数组），**槽 93-128 = 36 小怪**（db _id 4097-4144），槽 129-136 = 8 保留槽全 0
+- 槽 0-92 = 94 大怪（MonsterForm 数组），**槽 93-128 = 43 小怪**（db _id 4097-4144），槽 129-136 = 8 保留槽全 0
 - 捕获/尺寸段小怪位全 0（小怪不可捕获无体型）
-- `monster-slot-map.json`（93 大怪）+ `monster-slot-map-small.json`（36 小怪）全链落盘
+- `monster-slot-map.json`（94 大怪）+ `monster-slot-map-small.json`（43 小怪）全链落盘
 
 ### G4/Permit 写点修正（6eb1e8a）
 - G★4 = quests.stars=14 → sort_order **782-862 + 939-943**（原写 786-865 漏头涂尾）

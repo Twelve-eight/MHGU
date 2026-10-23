@@ -373,7 +373,7 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 
 **机制文档5份(dsv-dev×5,共3625行)**:quests(解锁链/关键紧急表/二名228)/monsters(93槽↔db_id↔HP↔肉质)/skills-arts(阈值+狩技66解锁)/equipment(武器树+护石36B)/systems(调合183+猫饭+猫324B字段表)
 
-**关键资产**:monster-slot-map.json(93槽↔CN↔EN↔db_id,全对拍验证)
+**关键资产**:monster-slot-map.json（**已升级为 137 槽权威表**：slot/emid/cn/en/kind，据静态表 0x1597EA4 + 资源表 0x1732050）
 
 **游戏资料查看器上线**:GameDataForm.cs+状态栏右下按钮,6表浏览(非模态),数据自动部署output/data/
 
