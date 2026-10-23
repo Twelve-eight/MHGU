@@ -14,6 +14,9 @@
 - `G:\suyu\`（导出进行中，suyu PID 15592）。不要杀它、不要读写 `G:\suyu\export`。
 - yuzu 原存档目录、`E:\`、Steam 目录。
 
+## 早上给用户
+- 总结见 DEVLOG「2026-10-24 夜」各节；待用户决定：VS Package Cache 471 MB 是否清理；suyu 导出结果检查。
+
 ## 工作项
 
 | # | 状态 | 项目 | 产出 / 验收 |
