@@ -30,3 +30,12 @@
 - **汇合**: `tools/mhgu/tierb-merge.py` → `.tmp/mhgu/inventory/tierb-labels.csv` + 覆盖率统计
 - **纪律**: 每 200 函数 append 落盘；按 insns 降序；不确定标 `unknown`/`conf=C`
 - **状态**: 进行中（首批落盘 TierB03 120 行）
+
+
+## 2026-10-23 夜 SUYU-GURecomp 吸收
+- **第一批** DsvGameSettings/DsvRuntime（dsv-dev，wb2api/global:deepseek-v4.1-flash，hi）：整文件级任务 → 断流/499 反复，**0 产出**。
+- **第二批** DsvGS1/DsvGS2/DsvRT（同路由，预切输入）：GS1 复活后完成 suyu-gs-part1.md（PASS）；GS2/RT 漂移读错文件，1h 仍为空壳，被杀。
+- **第三批** C01..C17 + CSpk（同路由，每片 3 地址块，先写一行再读下一块）：18/18 完成，单片 44s..3m；产出 docs/analysis/external/chunks/。C13/C14 helper 行经主会话 sdk 证据返工后 VERIFIED。
+- **监督** Swe2Verify（swe2-supervisor，devin-northstar/swe-2-max）：两轮；首轮把 helper 误判 CONTRADICTED（坐标错误），二轮自纠 PASS；0xBC1204 仍沿用错误前提，由主会话改判。
+- **评估**：DsvProjectEval（dsv，hi）→ docs/history/PROJECT-EVAL-20261023.md，9 分钟一次完成。
+- **能力评估**：dsv 在此路由上只适合"极小输入 + 单行落盘"粒度；复活旧上下文易漂移，优先新开最小提示。swe2 审计会继承上一轮预记的结论，必须在派发时显式纠正前提。

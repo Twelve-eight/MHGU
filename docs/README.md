@@ -14,6 +14,7 @@
 | `analysis/fields/` | member#4 内字段族调查（288B / 68B / 128B）| ✅ |
 | `analysis/save-io/` | 序列化与尾部（读/写调度、尾部容器、校验和取证）| ✅ |
 | `analysis/dumps/` | 反汇编原始转储（证据，非结论）| ✅ |
+| `analysis/external/` | 外部项目吸收：SUYU-GURecomp（GPL-3.0，**只记事实不抄代码**，每条带出处 + 本机反汇编核验状态）；入口 `suyu-addr-check.md` / `suyu-gs-part1.md` / `chunks/spk-format.md` / 审计 `suyu-gurecomp-audit.md` | ✅（事实已核验）|
 | `mechanics/` | 游戏机制综述（据 mhgu.db + wiki 校验后整理）| ✅ |
 | `data/` | `mhgu.db`(18MB 权威数据)、viewer 表、派生 JSON | 混合：db 权威，JSON 可再生 |
 | `reference/` | 前人知识库（mhxx-wiki HTML/文本）——**只做交叉验证，不改动、不作为结论来源** | ❌ 外部资料 |

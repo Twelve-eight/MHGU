@@ -15,6 +15,7 @@
 ## 产出对照表
 | 脚本 | 产出 | 说明 |
 |---|---|---|
+| `nso-flat.mjs` | 任意 NSO0 → `*.flat.bin`（+0x100 头，LZ4 段解压）| `node tools/mhgu/nso-flat.mjs <in> <out>`；`FLAT=<out>` 让 arm32.mjs 读 sdk 等其他模块 |
 | `arm32.mjs` | —（库） | `disasm(vaddr,count)`（count=指令条数）、`findCallsTo([vaddr])`、`rd32/rd16/rdb` |
 | `func-inventory5.mjs` | `docs/data/functions.csv.gz`（23,885 函数） | 函数边界/指令数/callers/callees/引用字符串。**字符串 xref 必须走 pc 相对**：`ldr rB,[pc,#imm]` 或 `movw/movt` 取 bias → `add rD,pc,rB` → `target=site+8+bias` |
 | `classify3.mjs` | （stdout） | 字符串关键词 → 子系统标签 + 调用图传播（**注意 taxonomy 不能有裸 `/UI/`**，会误匹配 BUILD/GUID） |

@@ -433,3 +433,14 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 4. **方法论教训（写进工具 README）**：ARM 掩码在 JS 里有符号陷阱；BL 必须带 bit24；字符串走 pc 相对不是绝对指针；`cmp #N` 常是迭代上限不是位宽；类名种子不可靠（57.4%）；callee 票数会继承上层错分（循环论证）。
 5. **代理经验**：dsv 无 exec；**120 函数/片可稳定完成，1,062/片 大面积 499**；必须「每 30 个 append 落盘」。
 6. **外部资料纪律**：`docs/reference/mhxx-wiki/` 是前人知识库，只做交叉验证，**不改动**（曾误操作已恢复并被用户明确要求）。
+
+
+## 2026-10-23 夜 — 吸收 SUYU-GURecomp（GPL-3.0）事实
+- 来源：https://github.com/GURecomp/SUYU-GURecomp @35015f1（浅克隆于 `.tmp/ext/SUYU-GURecomp`）。许可证 GPL-3.0（mod_host_api.h、FSR 为 MIT）。本 repo 无许可证 ⇒ **只记事实、不抄代码**。
+- 坐标：SUYU "main+X" = 我们的 vaddr X（0xBBCD34 = mov r0,#1920 / movw r7,#0x438 实证）。kHelpers 偏移是 **nnSdk 相对**（nvn_trace.cpp:296-324）。
+- 新工具 `tools/mhgu/nso-flat.mjs`：NSO0 → flat(+0x100)；对 main 的输出与 main.140.flat.bin 除 0x100 头外逐字节一致；已产出 `.tmp/mhgu/extract/exefs-0eb5/sdk.flat.bin`。
+- 产出 `docs/analysis/external/`：part1 21 VERIFIED；addr-check 21 VERIFIED / 20 PLAUSIBLE / 9 SKIP / 0 CONTRADICTED；SPK/ARC/romfs 格式（PLAUSIBLE，待 romfs 验证）。swe2 审计 PASS。
+- 纠错两次：①helper 误按 main 核对判 CONTRADICTED → 改按 sdk 核对，均 VERIFIED；②0xBC1204 误判 CONTRADICTED → SUYU 只说 "after its first call"（0xBC1200 = blx r7），Mark() 接受任意内部 pc → VERIFIED。
+- 可用于 Tier B 的种子：相机投影 0x1C358（+0x38 宽高比、+0x3C FOV 度）、渲染尺寸 0xBBCD34/0xBBBDE0、动态模糊 0x8BCD84、滤镜构造、Pia 网络接收路径 0x131xxxx/0x139Dxxx..0x13AAxxx。
+- 路由：dsv-dev = wb2api/global:deepseek-v4.1-flash（effort hi），swe2-supervisor = devin-northstar/swe-2-max。教训：大任务 dsv 反复 499/断流 0 产出；**每代理 3 个地址块 + 先写后读**，17 片 16 片 3 分钟内完成。
+- 评估报告：`docs/history/PROJECT-EVAL-20261023.md`（21 处文档矛盾、52.5% 不可从 git 复现、Top 8 下一步）。
