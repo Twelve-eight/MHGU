@@ -1,0 +1,824 @@
+[
+ {
+  "slot": 0,
+  "emid": 1,
+  "cn": "雌火龙",
+  "en": "Rathian"
+ },
+ {
+  "slot": 1,
+  "emid": 513,
+  "cn": "金火龙",
+  "en": "Gold Rathian"
+ },
+ {
+  "slot": 2,
+  "emid": 1025,
+  "cn": "紫毒姬雌火龙",
+  "en": "Dreadqueen Rathian"
+ },
+ {
+  "slot": 3,
+  "emid": 2,
+  "cn": "火龙",
+  "en": "Rathalos"
+ },
+ {
+  "slot": 4,
+  "emid": 514,
+  "cn": "银火龙",
+  "en": "Silver Rathalos"
+ },
+ {
+  "slot": 5,
+  "emid": 1026,
+  "cn": "黑炎王火龙",
+  "en": "Dreadking Rathalos"
+ },
+ {
+  "slot": 6,
+  "emid": 3,
+  "cn": "白电龙",
+  "en": "Khezu"
+ },
+ {
+  "slot": 7,
+  "emid": 8,
+  "cn": "大怪鸟",
+  "en": "Yian Kut-Ku"
+ },
+ {
+  "slot": 8,
+  "emid": 9,
+  "cn": "毒怪鸟",
+  "en": "Gypceros"
+ },
+ {
+  "slot": 9,
+  "emid": 10,
+  "cn": "水龙",
+  "en": "Plesioth"
+ },
+ {
+  "slot": 10,
+  "emid": 11,
+  "cn": "麒麟",
+  "en": "Kirin"
+ },
+ {
+  "slot": 11,
+  "emid": 14,
+  "cn": "蓝速龙王",
+  "en": "Velocidrome"
+ },
+ {
+  "slot": 12,
+  "emid": 15,
+  "cn": "黄速龙王",
+  "en": "Gendrome"
+ },
+ {
+  "slot": 13,
+  "emid": 16,
+  "cn": "红速龙王",
+  "en": "Iodrome"
+ },
+ {
+  "slot": 14,
+  "emid": 17,
+  "cn": "砂龙王",
+  "en": "Cephadrome"
+ },
+ {
+  "slot": 15,
+  "emid": 18,
+  "cn": "黑狼鸟",
+  "en": "Yian Garuga"
+ },
+ {
+  "slot": 16,
+  "emid": 1042,
+  "cn": "隻眼黑狼鸟",
+  "en": "Deadeye Yian Garuga"
+ },
+ {
+  "slot": 17,
+  "emid": 19,
+  "cn": "大名盾蟹",
+  "en": "Daimyo Hermitaur"
+ },
+ {
+  "slot": 18,
+  "emid": 1043,
+  "cn": "矛碎大名盾蟹",
+  "en": "Stonefist Hermitaur"
+ },
+ {
+  "slot": 19,
+  "emid": 20,
+  "cn": "镰蟹",
+  "en": "Shogun Ceanataur"
+ },
+ {
+  "slot": 20,
+  "emid": 22,
+  "cn": "雪狮子王",
+  "en": "Blangonga"
+ },
+ {
+  "slot": 21,
+  "emid": 23,
+  "cn": "金狮子",
+  "en": "Rajang"
+ },
+ {
+  "slot": 22,
+  "emid": 1303,
+  "cn": "金狮子(激昂)",
+  "en": "Furious Rajang"
+ },
+ {
+  "slot": 23,
+  "emid": 24,
+  "cn": "钢龙",
+  "en": "Kushala Daora"
+ },
+ {
+  "slot": 24,
+  "emid": 25,
+  "cn": "霞龙",
+  "en": "Chameleos"
+ },
+ {
+  "slot": 25,
+  "emid": 27,
+  "cn": "炎王龙",
+  "en": "Teostra"
+ },
+ {
+  "slot": 26,
+  "emid": 30,
+  "cn": "大野猪王",
+  "en": "Bulldrome"
+ },
+ {
+  "slot": 27,
+  "emid": 32,
+  "cn": "轰龙",
+  "en": "Tigrex"
+ },
+ {
+  "slot": 28,
+  "emid": 1056,
+  "cn": "荒钩爪轰龙",
+  "en": "Grimclaw Tigrex"
+ },
+ {
+  "slot": 29,
+  "emid": 33,
+  "cn": "霸龙",
+  "en": "Akantor"
+ },
+ {
+  "slot": 30,
+  "emid": 36,
+  "cn": "熔岩龙",
+  "en": "Lavasioth"
+ },
+ {
+  "slot": 31,
+  "emid": 37,
+  "cn": "迅龙",
+  "en": "Nargacuga"
+ },
+ {
+  "slot": 32,
+  "emid": 1061,
+  "cn": "白疾风迅龙",
+  "en": "Silverwind Nargacuga"
+ },
+ {
+  "slot": 33,
+  "emid": 38,
+  "cn": "崩龙",
+  "en": "Ukanlos"
+ },
+ {
+  "slot": 34,
+  "emid": 43,
+  "cn": "恐暴龙",
+  "en": "Deviljho"
+ },
+ {
+  "slot": 35,
+  "emid": 1323,
+  "cn": "恐暴龙(怒食)",
+  "en": "Savage Deviljho"
+ },
+ {
+  "slot": 36,
+  "emid": 45,
+  "cn": "爆锤龙",
+  "en": "Uragaan"
+ },
+ {
+  "slot": 37,
+  "emid": 1069,
+  "cn": "宝缠爆锤龙",
+  "en": "Crystalbeard Uragaan"
+ },
+ {
+  "slot": 38,
+  "emid": 46,
+  "cn": "海龙",
+  "en": "Lagiacrus"
+ },
+ {
+  "slot": 39,
+  "emid": 47,
+  "cn": "水兽",
+  "en": "Royal Ludroth"
+ },
+ {
+  "slot": 40,
+  "emid": 49,
+  "cn": "炎戈龙",
+  "en": "Agnaktor"
+ },
+ {
+  "slot": 41,
+  "emid": 50,
+  "cn": "煌黑龙",
+  "en": "Alatreon"
+ },
+ {
+  "slot": 42,
+  "emid": 55,
+  "cn": "尾槌龙",
+  "en": "Duramboros"
+ },
+ {
+  "slot": 43,
+  "emid": 56,
+  "cn": "潜口龙",
+  "en": "Nibelsnarf"
+ },
+ {
+  "slot": 44,
+  "emid": 57,
+  "cn": "雷狼龙",
+  "en": "Zinogre"
+ },
+ {
+  "slot": 45,
+  "emid": 1081,
+  "cn": "金雷公雷狼龙",
+  "en": "Thunderlord Zinogre"
+ },
+ {
+  "slot": 46,
+  "emid": 58,
+  "cn": "岚龙",
+  "en": "Amatsu"
+ },
+ {
+  "slot": 47,
+  "emid": 60,
+  "cn": "青熊兽",
+  "en": "Arzuros"
+ },
+ {
+  "slot": 48,
+  "emid": 1084,
+  "cn": "红兜青熊兽",
+  "en": "Redhelm Arzuros"
+ },
+ {
+  "slot": 49,
+  "emid": 61,
+  "cn": "白兔兽",
+  "en": "Lagombi"
+ },
+ {
+  "slot": 50,
+  "emid": 1085,
+  "cn": "大雪主白兔兽",
+  "en": "Snowbaron Lagombi"
+ },
+ {
+  "slot": 51,
+  "emid": 62,
+  "cn": "赤甲兽",
+  "en": "Volvidon"
+ },
+ {
+  "slot": 52,
+  "emid": 63,
+  "cn": "碎龙",
+  "en": "Brachydios"
+ },
+ {
+  "slot": 53,
+  "emid": 65,
+  "cn": "奇猿狐",
+  "en": "Kecha Wacha"
+ },
+ {
+  "slot": 54,
+  "emid": 66,
+  "cn": "鬼娃",
+  "en": "Tetsucabra"
+ },
+ {
+  "slot": 55,
+  "emid": 1090,
+  "cn": "岩穿鬼娃",
+  "en": "Drilltusk Tetsucabra"
+ },
+ {
+  "slot": 56,
+  "emid": 67,
+  "cn": "化鲛",
+  "en": "Zamtrios"
+ },
+ {
+  "slot": 57,
+  "emid": 68,
+  "cn": "绞蛇龙",
+  "en": "Najarala"
+ },
+ {
+  "slot": 58,
+  "emid": 69,
+  "cn": "徹甲虫",
+  "en": "Seltas Queen"
+ },
+ {
+  "slot": 59,
+  "emid": 71,
+  "cn": "黑蚀龙",
+  "en": "Gore Magala"
+ },
+ {
+  "slot": 60,
+  "emid": 72,
+  "cn": "天迴龙",
+  "en": "Shagaru Magala"
+ },
+ {
+  "slot": 61,
+  "emid": 76,
+  "cn": "重甲虫",
+  "en": "Seltas"
+ },
+ {
+  "slot": 62,
+  "emid": 77,
+  "cn": "千刃龙",
+  "en": "Seregios"
+ },
+ {
+  "slot": 63,
+  "emid": 79,
+  "cn": "夜鸟",
+  "en": "Malfestio"
+ },
+ {
+  "slot": 64,
+  "emid": 80,
+  "cn": "斩龙",
+  "en": "Glavenus"
+ },
+ {
+  "slot": 65,
+  "emid": 1104,
+  "cn": "烬灭刃斩龙",
+  "en": "Hellblade Glavenus"
+ },
+ {
+  "slot": 66,
+  "emid": 81,
+  "cn": "电龙",
+  "en": "Astalos"
+ },
+ {
+  "slot": 67,
+  "emid": 82,
+  "cn": "泡狐龙",
+  "en": "Mizutsune"
+ },
+ {
+  "slot": 68,
+  "emid": 83,
+  "cn": "巨兽",
+  "en": "Gammoth"
+ },
+ {
+  "slot": 69,
+  "emid": 84,
+  "cn": "骸龙",
+  "en": "Nakarkos"
+ },
+ {
+  "slot": 70,
+  "emid": 85,
+  "cn": "跳狗龙",
+  "en": "Great Maccao"
+ },
+ {
+  "slot": 71,
+  "emid": 4097,
+  "cn": "草食龙",
+  "en": "Aptonoth"
+ },
+ {
+  "slot": 72,
+  "emid": 4098,
+  "cn": "甲壳草食龙",
+  "en": "Apceros"
+ },
+ {
+  "slot": 73,
+  "emid": 4099,
+  "cn": "灵鹿",
+  "en": "Kelbi"
+ },
+ {
+  "slot": 74,
+  "emid": 4100,
+  "cn": "香菇猪",
+  "en": "Mosswine"
+ },
+ {
+  "slot": 75,
+  "emid": 4101,
+  "cn": "飞虫",
+  "en": "Hornetaur"
+ },
+ {
+  "slot": 76,
+  "emid": 4102,
+  "cn": "爬虫",
+  "en": "Vespoid"
+ },
+ {
+  "slot": 77,
+  "emid": 4103,
+  "cn": "艾露",
+  "en": "Felyne"
+ },
+ {
+  "slot": 78,
+  "emid": 4104,
+  "cn": "梅拉露",
+  "en": "Melynx"
+ },
+ {
+  "slot": 79,
+  "emid": 4105,
+  "cn": "蓝速龙",
+  "en": "Velociprey"
+ },
+ {
+  "slot": 80,
+  "emid": 4106,
+  "cn": "黄速龙",
+  "en": "Genprey"
+ },
+ {
+  "slot": 81,
+  "emid": 4107,
+  "cn": "红速龙",
+  "en": "Ioprey"
+ },
+ {
+  "slot": 82,
+  "emid": 4108,
+  "cn": "砂蛇龙",
+  "en": "Cephalos"
+ },
+ {
+  "slot": 83,
+  "emid": 4109,
+  "cn": "野猪",
+  "en": "Bullfango"
+ },
+ {
+  "slot": 84,
+  "emid": 4110,
+  "cn": "波波",
+  "en": "Popo"
+ },
+ {
+  "slot": 85,
+  "emid": 4111,
+  "cn": "雪鹿",
+  "en": "Giaprey"
+ },
+ {
+  "slot": 86,
+  "emid": 4112,
+  "cn": "羚羊",
+  "en": "Anteka"
+ },
+ {
+  "slot": 87,
+  "emid": 4115,
+  "cn": "蛇龙",
+  "en": "Remobra"
+ },
+ {
+  "slot": 88,
+  "emid": 4116,
+  "cn": "盾虫",
+  "en": "Hermitaur"
+ },
+ {
+  "slot": 89,
+  "emid": 4117,
+  "cn": "镰虫",
+  "en": "Ceanataur"
+ },
+ {
+  "slot": 90,
+  "emid": 4119,
+  "cn": "小雪狮",
+  "en": "Blango"
+ },
+ {
+  "slot": 91,
+  "emid": 4121,
+  "cn": "羚鹿",
+  "en": "Rhenoplos"
+ },
+ {
+  "slot": 92,
+  "emid": 4122,
+  "cn": "飞甲虫",
+  "en": "Bnahabra"
+ },
+ {
+  "slot": 93,
+  "emid": 4123,
+  "cn": "甲虫",
+  "en": "Altaroth"
+ },
+ {
+  "slot": 94,
+  "emid": 4130,
+  "cn": "狗龙",
+  "en": "Jaggi"
+ },
+ {
+  "slot": 95,
+  "emid": 4131,
+  "cn": "雌狗龙",
+  "en": "Jaggia"
+ },
+ {
+  "slot": 96,
+  "emid": 4135,
+  "cn": "水生兽",
+  "en": "Ludroth"
+ },
+ {
+  "slot": 97,
+  "emid": 4136,
+  "cn": "熔岩兽",
+  "en": "Uroktor"
+ },
+ {
+  "slot": 98,
+  "emid": 4137,
+  "cn": "垂皮龙",
+  "en": "Slagtoth"
+ },
+ {
+  "slot": 99,
+  "emid": 4138,
+  "cn": "丸鸟",
+  "en": "Gargwa"
+ },
+ {
+  "slot": 100,
+  "emid": 4140,
+  "cn": "小鬼鲛",
+  "en": "Zamite"
+ },
+ {
+  "slot": 101,
+  "emid": 4141,
+  "cn": "卷贝兽",
+  "en": "Konchu"
+ },
+ {
+  "slot": 102,
+  "emid": 4142,
+  "cn": "跳狗龙",
+  "en": "Maccao"
+ },
+ {
+  "slot": 103,
+  "emid": 4143,
+  "cn": "首鸣龙",
+  "en": "Larinoth"
+ },
+ {
+  "slot": 104,
+  "emid": 4144,
+  "cn": "云羊鹿",
+  "en": "Moofah"
+ },
+ {
+  "slot": 105,
+  "emid": 4196,
+  "cn": "?4196",
+  "en": "?"
+ },
+ {
+  "slot": 106,
+  "emid": 4197,
+  "cn": "?4197",
+  "en": "?"
+ },
+ {
+  "slot": 107,
+  "emid": 4198,
+  "cn": "?4198",
+  "en": "?"
+ },
+ {
+  "slot": 108,
+  "emid": 4199,
+  "cn": "?4199",
+  "en": "?"
+ },
+ {
+  "slot": 109,
+  "emid": 4200,
+  "cn": "?4200",
+  "en": "?"
+ },
+ {
+  "slot": 110,
+  "emid": 4201,
+  "cn": "?4201",
+  "en": "?"
+ },
+ {
+  "slot": 111,
+  "emid": 4202,
+  "cn": "?4202",
+  "en": "?"
+ },
+ {
+  "slot": 112,
+  "emid": 4,
+  "cn": "岩龙",
+  "en": "Basarios"
+ },
+ {
+  "slot": 113,
+  "emid": 5,
+  "cn": "铠龙",
+  "en": "Gravios"
+ },
+ {
+  "slot": 114,
+  "emid": 7,
+  "cn": "角龙",
+  "en": "Diablos"
+ },
+ {
+  "slot": 115,
+  "emid": 1031,
+  "cn": "鏖魔角龙",
+  "en": "Bloodbath Diablos"
+ },
+ {
+  "slot": 116,
+  "emid": 12,
+  "cn": "老山龙",
+  "en": "Lao-Shan Lung"
+ },
+ {
+  "slot": 117,
+  "emid": 13,
+  "cn": "黑龙",
+  "en": "Fatalis"
+ },
+ {
+  "slot": 118,
+  "emid": 269,
+  "cn": "黑龙（红黑龙）",
+  "en": "Crimson Fatalis"
+ },
+ {
+  "slot": 119,
+  "emid": 525,
+  "cn": "黑龙（祖龙）",
+  "en": "Old Fatalis"
+ },
+ {
+  "slot": 120,
+  "emid": 1044,
+  "cn": "铠裂镰蟹",
+  "en": "Rustrazor Ceanataur"
+ },
+ {
+  "slot": 121,
+  "emid": 21,
+  "cn": "桃毛兽王",
+  "en": "Congalala"
+ },
+ {
+  "slot": 122,
+  "emid": 34,
+  "cn": "白速龙王",
+  "en": "Giadrome"
+ },
+ {
+  "slot": 123,
+  "emid": 42,
+  "cn": "冰牙龙",
+  "en": "Barioth"
+ },
+ {
+  "slot": 124,
+  "emid": 44,
+  "cn": "土砂龙",
+  "en": "Barroth"
+ },
+ {
+  "slot": 125,
+  "emid": 1343,
+  "cn": "碎龙（临界）",
+  "en": "Raging Brachydios"
+ },
+ {
+  "slot": 126,
+  "emid": 70,
+  "cn": "影蜘蛛",
+  "en": "Nerscylla"
+ },
+ {
+  "slot": 127,
+  "emid": 1351,
+  "cn": "黑蚀龙（浑沌）",
+  "en": "Chaotic Gore Magala"
+ },
+ {
+  "slot": 128,
+  "emid": 1103,
+  "cn": "胧隐夜鸟",
+  "en": "Nightcloak Malfestio"
+ },
+ {
+  "slot": 129,
+  "emid": 1105,
+  "cn": "青电主雷龙",
+  "en": "Boltreaver Astalos"
+ },
+ {
+  "slot": 130,
+  "emid": 1106,
+  "cn": "天眼泡狐龙",
+  "en": "Soulseer Mizutsune"
+ },
+ {
+  "slot": 131,
+  "emid": 1107,
+  "cn": "银岭巨兽",
+  "en": "Elderfrost Gammoth"
+ },
+ {
+  "slot": 132,
+  "emid": 86,
+  "cn": "天慧龙",
+  "en": "Valstrax"
+ },
+ {
+  "slot": 133,
+  "emid": 87,
+  "cn": "?87",
+  "en": "?"
+ },
+ {
+  "slot": 134,
+  "emid": 88,
+  "cn": "阁螳螂",
+  "en": "Ahtal-Ka"
+ },
+ {
+  "slot": 135,
+  "emid": 4113,
+  "cn": "大雷光虫",
+  "en": "Great Thunderbug"
+ },
+ {
+  "slot": 136,
+  "emid": 4118,
+  "cn": "小桃毛兽",
+  "en": "Conga"
+ }
+]

@@ -8,7 +8,7 @@ main.140.flat.bin
 docs/reference/mhxx-wiki/data/
 docs/reference/mhxx-wiki/ida/
 docs/reference/mhxx-wiki/cat.html
-docs/data/json/
+docs/data/json/*
 
 # --- private data (lives in ../MHGU-private, reached via junction/hardlink; NEVER commit) ---
 save-snapshots/
@@ -55,3 +55,6 @@ docs/data/skillMeta.json
 docs/data/decorations.json
 docs/data/hammer.json
 docs/data/weapons.json
+!docs/data/json/README.md
+!docs/data/json/monster-slot-map.json
+!docs/data/json/monster-slot-map-137.json
