@@ -13,8 +13,8 @@
 | # | 状态 | 项目 | 产出 / 验收 |
 |---|---|---|---|
 | 1 | 进行中 | Tier A otomo-ot 无偏抽样（DsvOtA1/A2 + DsvOtAReview） | `.tmp/reports-mhgu/otomoA-sample-{1,2,review}.md`；审查 PASS 后把错误率写进 DEVLOG 与 `docs/analysis/code-metrics.md` 注记 |
-| 2 | 可做 | 编辑器 UI：本地单页 `editor/ui/`（零依赖 HTML+ESM），读入存档副本 → 显示无效槽警告 → 字段旁显示 `editor/help` 说明 → 改完导出新文件 | 能用浏览器打开样本副本，看到 ghost 槽警告与 help 文字；导出文件过 roundtrip |
-| 3 | 可做 | 插件规格 `docs/patches/item-box-v7-plugin-spec.md` 剩余行抽查审计 | 审计报告；错误行原地修正并提交 |
+| 2 | 进行中(DsvEditorUI+Review) | 编辑器 UI：本地单页 `editor/ui/`（零依赖 HTML+ESM），读入存档副本 → 显示无效槽警告 → 字段旁显示 `editor/help` 说明 → 改完导出新文件 | 能用浏览器打开样本副本，看到 ghost 槽警告与 help 文字；导出文件过 roundtrip |
+| 3 | 进行中(DsvSpecA-D+Review) | 插件规格 `docs/patches/item-box-v7-plugin-spec.md` 剩余行抽查审计 | 审计报告；错误行原地修正并提交 |
 | 4 | 可做 | 批次 C：vtable → 类归属（逆向，glm-re + dsv 审查） | 候选表，只作 B 级，不计入达标 |
 | 5 | 可做 | 批次 A 改进：类名→子系统人工映射表取代关键词规则 | 映射表 + 重算一致率 |
 | 6 | 可做 | MHRS：RSZ typeCRC 抽样核对、引擎无关内容规格 GU/RS 半部 | 只读静态工作，不写 Steam 目录 |
