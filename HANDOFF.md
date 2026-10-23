@@ -218,3 +218,10 @@ MHGU/
    `tierb-gen.mjs` 用绝对路径读 `tierB` 输入，cwd 无关；生成后打印每片 `slice-NN ... header=OK` 自查。
 5. 若要继续怪物：`docs/mechanics/monster-code-map.md` 的「下一步」；romfs 部分需用户提供 XCI
 6. 提交规范：`git -c user.name=Twelve-eight -c user.email=Twelve-eight@users.noreply.github.com commit`
+
+### 7 #10 修补方案（2026-10-24 主会话推导，待用户选择）
+每格大小按溢出量反推：A 4 B/格（0x2EC0 = 2992×4）；B 4 B/格（原 2300 条）；C 2 B/格（溢出 0x568 = 692×2）；D 1 B/格（溢出 0x2B2，D 原长 0x8FE = 2302）。
+1. **只回退 3 处 D 区填充的界为 2300**（vaddr `0x199F34`/`0x199F9C`/`0x19A020`，即 pchtxt 第 57-59 行）：只修了填充时的越界；2300 号以后的格子在 D 区没有存储位置，读写这些格子的 D 区标记照样越界。**不推荐**。
+2. **B/C/D 全部扩到 2992**：B +0xAD0、C +0x568、D +0x2B4，合计 **+0x1E4C**。B 区之后的所有字段（预设、堆指针、对象尾 0x7DB4）都要再后移，对象分配大小、序列化以及所有引用这些偏移的指令都要改，规模和 V7 当初那次 0xAD0 搬移相当或更大。**正确但工作量大**，需要先做一次完整的偏移引用普查（MCP literal_loads/movw 搜索）。
+3. **回退到 V6 的 2300 格**，放弃扩容：最安全。
+插件路线（Forge）同样受此影响：hook 方案必须连同 B/C/D 的存储一起扩容，或者改为外置存储（插件自己 malloc 一块 2992 格的 B/C/D，并重定向所有 B/C/D 的访问）。外置存储在插件里比在 pchtxt 里容易做，倾向在插件里实现。
