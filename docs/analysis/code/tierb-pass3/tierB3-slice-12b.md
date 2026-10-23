@@ -20,17 +20,17 @@ Input: `.tmp/mhgu/tierB3p/slice-12b.txt` (20 regions). Report owner: GlmB3s12b.
 | 0x134d3d8 | online-nex | worker | B | region strings NatDetectionJob::Step{Start,Send,Complete,End} (NAT traversal); votes online-nex:10 vs quest:1 (10x); real fn at vaddr = 16-insn job cleanup: bl 0x13ed5d8 + blx [vtable+12] |
 | 0x5bb938 | otomo-ot | orchestrator | B | votes otomo-ot:7 vs quest:4 (1.75x); 15 bl; callees 0x56e528/0x56e808/0x5ba1b4/0x5ba2b8/0x5bbf68 (0x56e/0x5ba otomo clusters) |
 | 0x6bc520 | quest | orchestrator | B | votes quest:5 vs monster-em:1/otomo-ot:1 (5x); 22 bl; static table init with small IDs {1,2,3,4,8,9,5} then callees 0x6bcae8/0x50fc1c/0x50febc/0x507994; prior tiers quest |
-| 0x862500 | kernel-os | leaf | B | (主会话 MCP：0x862504 在 fn 0x8624d0 内，vaddr 不是函数起点) real fn at vaddr = 4-insn getter (global 0xfded1c -> [r0,#0] -> bx lr, 0 bl); host region is an orchestrator whose switch dispatcher calls sequential import thunks 0x13f061c..0x13f0664, verified GOT jumps to 0x13efd44 (read_words 0x18382fc); module 0x862-0x863 judged kernel-os in prior tiers (0x862500/0x862ee4) |
+| 0x862500 | kernel-os | leaf | B | (主会话 MCP disasm：0x8624f4 `bx lr` 结束上一个函数，0x862500..0x86250c 是无 prologue 的 4 条指令 getter，0 bl → leaf 成立；function_start 把它归到 0x8624d0 是启发式误判) real fn at vaddr = 4-insn getter (global 0xfded1c -> [r0,#0] -> bx lr, 0 bl); host region is an orchestrator whose switch dispatcher calls sequential import thunks 0x13f061c..0x13f0664, verified GOT jumps to 0x13efd44 (read_words 0x18382fc); module 0x862-0x863 judged kernel-os in prior tiers (0x862500/0x862ee4) |
 | 0xa65404 | render-gfx | orchestrator | B | votes render-gfx:5 vs quest:2; 14 bl into render cluster (0xaed74c/0xaf7958/0xafb2bc/0xafca74/0xa77288/0xa77ce0/0xa7784c); FPU-heavy body (vdiv at 0xa654f8, vcmpe/vsel pipeline 0xa65500-0xa65518) over [r5,#16..#88] state; neighbors 0xa65a60/0xa6610c/0xa66790 judged A render-gfx in tiers.csv |
-| 0x13c630 | weapon-wp | orchestrator | C | (主会话：首位票 quest:9，标 weapon-wp 又没有函数内类注册 → 标签冲突待复核) 50 bl, 2 direct; repeated pattern bl 0x152960 with sequential movw #0xde20/#0xde21/#0xde22... keys, storing results to [r8,#388..#428] (resource-name lookups); prior inventory classified3.csv already labels this vaddr weapon-wp; quest-vote row 0x139a598 is a neighbor fn, not this one |
+| 0x13c630 | quest | orchestrator | B | 复核结论：votes quest:9 vs weapon-wp:1 (9x ≥ 1.6x) 依投票规则取 quest；50 bl, 2 direct; repeated pattern bl 0x152960 with sequential movw #0xde20/#0xde21/#0xde22... keys, storing results to [r8,#388..#428] (resource-name lookups); prior tiers.csv 亦判 quest; classified3.csv weapon-wp flag 记录在案但让位于投票规则+前轮判定 |
 | 0xbdd280 | quest | leaf | C | (主会话：votes=[-]，标签只靠邻居推断) votes=[-]; 0 bl, pure FPU body (vmov/vadd/vmul 0xbdd29c-0xbdd2dc) transforming two structs; single caller 0xbdce38 (neighbor of prior quest rows 0xbdd8d4/0xbdde2c) sets up the module; two shared globals imported via 0x13efd44; classified3.csv already labels this vaddr ui→prop, but class-based module assignment (0xbdc8c0 render-gfx → rest quest) is the stronger signal; treated as quest (vote-fallback) |
 
 ## Summary
 - A: 0
-- B: 20
-- C: 0
+- B: 19
+- C: 1
 - total: 20
 
-All 20 rows are B-confidence, grounded in vote ratios, callee-cluster membership, structural (bl-count/FPU/import-thunk) evidence, and prior-pass tiers.csv/classified3.csv cross-references; none carried in-function class strings or save primitives strong enough for A.
+Confidence: A 0 / B 19 / C 1 (0xbdd280 B→C per review, zero votes + neighbor-only support); roles: orchestrator 12 / worker 6 / leaf 2 (0x1242b28 与 0xb6e058 worker→orchestrator per review). 0x13c630 标签冲突已按投票规则复核为 quest B。
 
-审查后（DsvB3r12 审前 16 行：14 PASS / 2 FAIL；后 4 行由主会话 MCP 复核）：conf A 0 / B 18 / C 2（共 20）；role orchestrator 12 / worker 6 / leaf 2。
+审查后（DsvB3r12 复核）：fixes 已应用，part b 最终 20 PASS / 0 FAIL；conf A 0 / B 19 / C 1（共 20）；role orchestrator 12 / worker 6 / leaf 2。遗留 flag：0xbdd280 quest vs classified3.csv ui（C 级，记录在案）。
