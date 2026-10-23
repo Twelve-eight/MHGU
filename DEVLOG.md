@@ -548,3 +548,8 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 - 包 `G:\suyu\suyu-mhgu-0.10.0-test-windows-x64.zip`，129,987,918 B，SHA-256 与发布页一致；解压到 `G:\suyu\app`。
 - 便携模式：`G:\suyu\app\user`（启动后生成 cache/config/keys/nand 等），`%APPDATA%\suyu` 不存在；keys 从 yuzu 复制过来。suyu PID 15592。
 - 计划：用主存档（Lay1nn）的副本，导出 Build 格式到 `G:\suyu\export`；yuzu 原存档不动。
+
+## 2026-10-24 Tier A otomo-ot 复核（DsvOtRecheck + DsvOtRecheckReview，dsv-dev / wb2api/global:deepseek-v4.1-flash，effort hi）
+- 报告：`.tmp/reports-mhgu/tierA-otomo-recheck.md`；审查：`...-review.md`，判 FAIL（可修）：0x571794 应为 ui（producer 判 unclear 错），8 区段指令和为 5,969（producer 内部算术不一致），3 处 CSV 行号错。
+- 共同结论（双方证据一致）：被举报的 8 个区段 7 个有 UI 证据（类名 `cUIO*`、UI 控件基类 0x56e528 调用），审查补证后 8/8；错在 tiers.csv 的区段标签（调用图传播成片染色），不是关键词规则。等距抽 10 个：1 个 UI，9 个头部看不出子系统，0 个有 otomo 证据。
+- 规模（主会话按 tiers.csv 求和）：Tier A 中 otomo-ot 共 1041 行、224,608 条指令 = .text 4.30%，占 Tier A 8.3%。Tier 列不变所以 51.5% 数值不变，但这 4.30% 的标签不可信；**Tier A「94.7% 精度」在 otomo-ot 上不成立**，标签需要逐函数重判。
