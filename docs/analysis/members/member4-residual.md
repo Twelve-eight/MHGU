@@ -6,8 +6,8 @@ dirty = `MHGU/save-snapshots/20261022-v6-ready/system`（slot0 猎人B，基址 
 权威表：`MHGU/docs/save-layout/member4-file-layout.txt`（行号 = 行序 + 6，实测 `行121 = 文件第127行`）、
 `MHGU/docs/save-layout/member4-diff.txt`（重生成版，file 列已按循环修正）。
 
-证据分级：**[D]** = 仓库内既有反汇编转储原文（`docs/analysis/reader134-dump.txt`、`.tmp/mhgu/analysis/reader-window-b.txt`、
-`docs/analysis/followup-dump.txt`、`.tmp/mhgu/analysis/families-disasm.txt`）；**[T]** = 权威表原文；
+证据分级：**[D]** = 仓库内既有反汇编转储原文（`docs/analysis/dumps/reader134-dump.txt`、`.tmp/mhgu/analysis/reader-window-b.txt`、
+`docs/analysis/dumps/followup-dump.txt`、`.tmp/mhgu/analysis/families-disasm.txt`）；**[T]** = 权威表原文；
 **[S]** = 编辑器源码原文；**[M]** = `mhgu.db` 查询结果；**[I]** = 推断（写推断链）；**[X]** = 本 worker 无法取得。
 
 **能力边界（先读）**：本 sub-session 工具集 = `read/grep/glob/edit/write`，**无 exec**，`read` 对二进制只返回

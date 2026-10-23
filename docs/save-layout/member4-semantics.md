@@ -31,10 +31,10 @@
 
 ### 0.3 证据记号
 
-- `R@xxxxxxxx` = 该行的 reader 站点（`bl 0x3df2a8` 的 vaddr），取自 `docs/analysis/member4-header.md` §7.5 / §8.3 / §8.4 的实测表（134 条逐条 vaddr）。
+- `R@xxxxxxxx` = 该行的 reader 站点（`bl 0x3df2a8` 的 vaddr），取自 `docs/analysis/members/member4-header.md` §7.5 / §8.3 / §8.4 的实测表（134 条逐条 vaddr）。
 - `Δ=SAME | PROGRESS | FF<n>` = 取自 `docs/save-layout/member4-diff.txt`（重生成版，42 FF / 56 PROGRESS / 36 SAME）：
   两档字节相同 / 两档真实进度差异 / dirty 档被第三方涂了 n 个 `0xFF` 字节。`SAME` 是强否证：该字段不是玩家进度量。
-- `几何` = 「3 槽一组 [A / 中 / B]，中槽不落盘」的算术闭合，见 `docs/analysis/fam-small.md` §1。
+- `几何` = 「3 槽一组 [A / 中 / B]，中槽不落盘」的算术闭合，见 `docs/analysis/fields/fam-small.md` §1。
 - `名字表` = `docs/save-layout/name-dictionary.txt` + `name-tables-key.md`；`容量` = `docs/data/mhgu.db` 实测计数。
 
 ### 0.4 分节与行号

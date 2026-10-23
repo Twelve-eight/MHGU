@@ -31,7 +31,7 @@
 | wiki 植物 / 消耗品 | `.../2984.txt` `2985.txt` | 道具分类索引（列「入手合计/用途合计」），无机制；仅用于确认道具归类 |
 | 机读任务 | `docs/data/json/quests.json` / `mhgu.db.quests` | `hub`=Village 375 / Guild 569 / Permit 228 / Arena 17 / Event 166 |
 | 空表 | `docs/data/json/felyne_skills.json`、`food_combos.json` | 均为 `[]`（2B）⇒ 猫饭/食事技能**只能**以 wiki 为源 |
-| 存档测绘 | `DEVELOP.md`、`docs/save-layout/CURRENT-RULING.md`、`docs/analysis/fam-288.md`、`docs/analysis/records-128.md`、`editor-src/MHGU存档修改/{MainForm,CatsForm}.cs` | char_off / 位域 / 猫记录 |
+| 存档测绘 | `DEVELOP.md`、`docs/save-layout/CURRENT-RULING.md`、`docs/analysis/fields/fam-288.md`、`docs/analysis/fields/records-128.md`、`editor-src/MHGU存档修改/{MainForm,CatsForm}.cs` | char_off / 位域 / 猫记录 |
 
 两套 id 不要混用：`quests.json`/`mhgu.db` 的 `_id` 是 Kiranico 行号；游戏内 questId 只用于位图（见 §与存档的关联）。
 

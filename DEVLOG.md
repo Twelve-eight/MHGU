@@ -405,7 +405,7 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 - 三类读原语定性：`0x3df2a8`(定长) / `0x3df378`(定长写) / `0x3df1b8`+`0x3df22c`(**位流**，位宽计算+逐位读)
 - `0x521398`/`0x2282a8` = post-load fixup（不读文件流，member[2]校验+全局标志）
 - `0x3e7984` = 写侧调度器（调写版 member reader）
-- 落盘 `docs/analysis/member-census.md`
+- 落盘 `docs/analysis/members/member-census.md`
 
 ### 已定性成员
 | idx | reader | 成员 |

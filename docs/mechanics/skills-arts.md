@@ -23,7 +23,7 @@ MHXX（=MHGU 日版）技能树 / 复合技能 / 装饰珠 / 狩技（Hunter Art
 | `docs/data/skillMeta.json` | 202 条 | 英文名 + 社区评分（非游戏值） | 参考 |
 | `docs/data/json/armor.json` / `weapons.json` | 5637 / 10877 | 孔数上限（各 3 孔） | 权威 |
 | 引擎符号表 | `.tmp/reports-mhgu/name-dictionary.txt` | `cSkillBaseXML` / `cAcPlayerEquip` / `cTrialArts` / `cOtSkill` / `cKitchen*` 成员名 | 机器提取 |
-| 仓库分析文档 | `docs/save-layout/name-tables-key.md`、`docs/analysis/fam-288.md`、`docs/PROGRESS.md`、`DEVELOP.md`、`.tmp/reports-mhgu/equip-box.md`、`equips.md`、`audit-other-train.md`、`other-main.md` | 存档落点与编辑器风险 | 仓库定论 |
+| 仓库分析文档 | `docs/save-layout/name-tables-key.md`、`docs/analysis/fields/fam-288.md`、`docs/PROGRESS.md`、`DEVELOP.md`、`.tmp/reports-mhgu/equip-box.md`、`equips.md`、`audit-other-train.md`、`other-main.md` | 存档落点与编辑器风险 | 仓库定论 |
 
 两份机读源（agroff `skills.json` 与 mhgu.db `json/skills.json`）在**阈值结构上完全一致**（见 §1.2），可互为校验。
 
@@ -174,7 +174,7 @@ wiki `2208` 把技能表**拆成两页**：「无洞护石可发动的技能」�
 | 狩技总数 | **66** = 共通 10 + 14 种武器 × 4 | 1847 |
 | 每条狩技的等级 | 共通技**只有 1 级**；武器技 **LV1 / LV2 / LV3** | 1847 |
 | 可装备槽位 | **3** | 引擎 `mSuperArts1 / mSuperArts2 / mSuperArts3`（`cAcPlayerEquip`）+ 存档 3 组 24B 记录 |
-| 风格（style）维度 | **6** 个风格 × 3 槽 = 18 组状态 | `cTrialArts` 的 18 个成员（`mGuild` / `mOld` / `mAirhike` / `mBushi` / `mKizuna` / `mTatsujin`），`docs/analysis/fam-288.md` §9 |
+| 风格（style）维度 | **6** 个风格 × 3 槽 = 18 组状态 | `cTrialArts` 的 18 个成员（`mGuild` / `mOld` / `mAirhike` / `mBushi` / `mKizuna` / `mTatsujin`），`docs/analysis/fields/fam-288.md` §9 |
 | 狩技槽（gauge） | 战斗中累积，具体每技消耗值 **wiki 未收录** | [未确认] |
 | 等级提升的收益 | 伤害/持续时间/效果随 LV 提升（数值 wiki 未收录） | [未确认] |
 
@@ -186,7 +186,7 @@ wiki 页面没有标注该标志位，列表 [未确认]。
 （MHX 时代的四风格），`2201` 的「无心 / 忍耐」两技能又明确提到 **勇气槽 / 炼金槽** ⇒ 合计 6 个风格：
 工会（Guild）/ 强袭（Striker）/ 空战（Aerial）/ 武士道（Adept）/ 勇气（Valor）/ 炼金（Alchemy）。
 `cTrialArts` 的 6 个成员名与风格的硬对应只有 4 个已定（`mGuild` / `mAirhike` / `mBushi` + 1），
-其余（`mOld` / `mKizuna` / `mTatsujin`）仍为候选（`docs/analysis/fam-288.md` §9.5）。
+其余（`mOld` / `mKizuna` / `mTatsujin`）仍为候选（`docs/analysis/fields/fam-288.md` §9.5）。
 
 #### 6.2 解锁轨结构（重要规律）
 
@@ -526,7 +526,7 @@ D 轨的 LV2/LV3 则统一为 G★2/G★4 各一个任务（**G 级狩技必须�
 - **狩技解锁状态另存**：`cTrialArts` 位图族 —— 5 个实例（记录类码 44..48）× 18 成员（6 风格 × 3 槽）× 48B
   = 384 bit/成员，`bit = rabbitNo*4 + j`（每个 rabbit 记录号占 4 bit）。
   落盘分片 = ①`mGuild`+`mOld`、③`mKizuna`+`mTatsujin`；分片②`mAirhike`+`mBushi` **不落盘、读档后由游戏重算**
-  ⇒ 整族**禁写**（`docs/analysis/fam-288.md` §9、`docs/PROGRESS.md`）。
+  ⇒ 整族**禁写**（`docs/analysis/fields/fam-288.md` §9、`docs/PROGRESS.md`）。
 - 狩技 ID 空间与「任务记录号」共用：解锁位图按 `rabbitRecordNo` 索引（即「哪个委托给了哪个狩技」），
   与 `text/2952.txt` 的任务侧反查表互补。
 
@@ -544,7 +544,7 @@ D 轨的 LV2/LV3 则统一为 G★2/G★4 各一个任务（**G 级狩技必须�
 ### D. 勋章与「村贡献度」
 
 - 勋章 = `obj+0xC28` 的 **132 bit 位域**，A 槽在 char_off `0x3157..0x3167`（末字节只取低 4 位），
-  B 槽 = `0x316B..0x317B`，**必须双写**（`docs/analysis/fam-small.md` §4.3）。
+  B 槽 = `0x316B..0x317B`，**必须双写**（`docs/analysis/fields/fam-small.md` §4.3）。
 - 与技能/狩技**没有直接耦合**：狩技解锁中的「村贡献度 400 以上」（结云/科科特/波克/贝尔纳 各 1 条）与
   「村民的委托 5 回完成」（4 条共通技）是**另一个计数器**，不属于勋章位域，具体落点 [未确认]。
 - 反向结论：改勋章不会解锁狩技；改狩技记录也不会点亮勋章。

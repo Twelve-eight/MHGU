@@ -13,12 +13,12 @@
 ## 2026-10-23 批次（7×dsv，全部完成）
 | 代理 | 交付 | 监督结论 | 要点 |
 |---|---|---|---|
-| Member4Residual | `docs/analysis/member4-residual.md` | PASS（主会话复核循环闭合 0x2A78..0x3178 / 3444B 全零） | 旧 dump 全族早 **0x550**（循环体 840+600B）；128B 族仅 1 个 FF；3444B 两档全 0；68B 族 **544bit**（非 384） |
-| SocialChecksum | `docs/analysis/social-checksum.md` | PASS（四条证据同向，置信≈0.9） | 扩窗安全；**夹紧末块 160B** 必需；勘误 `0f101010`/`0xC85A8` 零洞尺寸 |
-| TailSparse80000 | `docs/analysis/tail-containers.md` | PASS（尺寸闭合 653,472B 校验通过） | C0..C7 容器表；72.62% 非零；zlib 50×73 网格；quest 路径只在 slot0 |
-| WriteSideDesc | `docs/analysis/write-side-desc.md` | PASS（但**一条否决**） | 44B 对象=装备记录非描述符；`0x3e75f8`=18 writer 与读侧同序；632B 头字段全解 + HR 第二副本 @0x0B1 + 性别公式。**否决**其「`0x14b0b0`/`0x14b1c4` 读写标签写反」——主会话精确窗口复核：`0x14b0b0` 11读0写、`0x14b1c4` 0读10写，原标注正确 |
-| Member14to17 | `docs/analysis/member14-17-semantics.md` | PASS | m14 运行时镜像（13×470）、m16 VFP ×2.05 归一化、m17 = 99×104 kind-7 快照库 |
-| TailDense3783A | `docs/analysis/tail-dense-3783A.md`（pass1-8） | PASS | 16B 网格 phase A/B（phase B `0x64000..0xBB000` 每 4KB 恰 256 条 100%）；`android.gui.*` 串在该落在 **m13**（0x2E349/0x2EB39）= 宿主内存残留；16B 数组仅 system 槽（hdr8 7,292 vs .hnt 0）；尾段易变性 0.47% both_eq |
-| Palico324 | `docs/analysis/palico-324.md` | PASS（主会话补 24 组名字证据） | 324B 记录字段表；9 组 RGBA；`+0x58..0x5E` 非配信标志；108 条=84+24（24 组有 UTF-8 名，非预留）；i=3 名 @0x23F82="梅露露" 闭环 |
+| Member4Residual | `docs/analysis/members/member4-residual.md` | PASS（主会话复核循环闭合 0x2A78..0x3178 / 3444B 全零） | 旧 dump 全族早 **0x550**（循环体 840+600B）；128B 族仅 1 个 FF；3444B 两档全 0；68B 族 **544bit**（非 384） |
+| SocialChecksum | `docs/analysis/save-io/social-checksum.md` | PASS（四条证据同向，置信≈0.9） | 扩窗安全；**夹紧末块 160B** 必需；勘误 `0f101010`/`0xC85A8` 零洞尺寸 |
+| TailSparse80000 | `docs/analysis/save-io/tail-containers.md` | PASS（尺寸闭合 653,472B 校验通过） | C0..C7 容器表；72.62% 非零；zlib 50×73 网格；quest 路径只在 slot0 |
+| WriteSideDesc | `docs/analysis/save-io/write-side-desc.md` | PASS（但**一条否决**） | 44B 对象=装备记录非描述符；`0x3e75f8`=18 writer 与读侧同序；632B 头字段全解 + HR 第二副本 @0x0B1 + 性别公式。**否决**其「`0x14b0b0`/`0x14b1c4` 读写标签写反」——主会话精确窗口复核：`0x14b0b0` 11读0写、`0x14b1c4` 0读10写，原标注正确 |
+| Member14to17 | `docs/analysis/members/member14-17-semantics.md` | PASS | m14 运行时镜像（13×470）、m16 VFP ×2.05 归一化、m17 = 99×104 kind-7 快照库 |
+| TailDense3783A | `docs/analysis/save-io/tail-dense-3783A.md`（pass1-8） | PASS | 16B 网格 phase A/B（phase B `0x64000..0xBB000` 每 4KB 恰 256 条 100%）；`android.gui.*` 串在该落在 **m13**（0x2E349/0x2EB39）= 宿主内存残留；16B 数组仅 system 槽（hdr8 7,292 vs .hnt 0）；尾段易变性 0.47% both_eq |
+| Palico324 | `docs/analysis/members/palico-324.md` | PASS（主会话补 24 组名字证据） | 324B 记录字段表；9 组 RGBA；`+0x58..0x5E` 非配信标志；108 条=84+24（24 组有 UTF-8 名，非预留）；i=3 名 @0x23F82="梅露露" 闭环 |
 
 **能力评估**：dsv 在本批「无 exec」限制下仍产出高质量静态分析（自建脚本 + 交叉验证），但每轮需主会话代跑 —— 后续派发应**预先**给出「脚本路径 + 主会话代跑」约定，减少往返。
