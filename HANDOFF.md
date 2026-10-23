@@ -55,7 +55,9 @@
 | `func-inventory5.mjs` | 全函数清单 → `docs/data/functions.csv.gz` |
 | `classify3.mjs` / `validate-repeat.mjs` | 子系统标签 + **10 折重复切分验证**（headline 指标只能用它）|
 | `agreement-tier.mjs` / `tiers-all.mjs` | 双预测一致性分层（Tier A/B/C）+ 规模统计 |
-| `tierb-slices.py` / `tierb-merge.py` / `coverage-final.py` | Tier B 切片生成 / 报告汇合 / 覆盖率合成 |
+| `tierb-gen.mjs` | **Tier B 切片生成器（唯一有效版）**：`node tools/mhgu/tierb-gen.mjs <OFF> <COUNT> <NPROC> <OUTDIR>`，每函数带 24 条反汇编头；文件名与 header 用同一 index；生成后自检 header |
+| `tierb-merge.py` | 把 `tierB*-slice-*.md` 报告解析成 CSV（**按 vaddr 去重，忽略报告里的 slice 号**）|
+| `coverage-final.py` | 覆盖率合成（Tier A + Tier B conf=A）|
 | `mon/mon-final.py` | 类大小表 → `docs/data/class-inventory.tsv`（3,201 类，含 `SUSPECT` 标记）|
 | `mon/mon-offsets.py` | 成员 `{offset,type,name}` → `docs/data/member-offsets.tsv`（110 条）|
 | `mon/em-units.py` / `counter-slots*.py` | 137 槽权威表 → `docs/data/json/monster-slot-map.json` |
@@ -140,7 +142,7 @@ node 用 `G:/omp works` 为 cwd。
 
 **报告汇合命令**：
 ```
-"G:/omp works/archive/retired/workbuddy-desktop-api/.venv/Scripts/python.exe" .tmp/mhgu/tools/coverage-final.py
+cd "G:/omp works" && "G:/omp works/archive/retired/workbuddy-desktop-api/.venv/Scripts/python.exe" MHGU/tools/mhgu/coverage-final.py
 ```
 
 ---
@@ -198,6 +200,13 @@ MHGU/
 1. 读 `docs/PROGRESS.md`（总账）+ `docs/analysis/code-metrics.md`（代码口径）
 2. 读 `docs/save-layout/coverage-map.md`（存档权威布局）
 3. 读 `tools/mhgu/README.md`（工具 + 7 条坑）
-4. 若要继续 Tier B：`tools/mhgu/tierb2-gen.mjs` 生成切片 → 派 dsv 代理（120 函数/片）→ `coverage-final.py` 汇合
+4. 若要继续 Tier B（**精确命令，已验证可跑**）：
+   ```bash
+   cd "G:/omp works/MHGU"
+   node tools/mhgu/tierb-gen.mjs 1200 1200 120 .tmp/mhgu/tierB3   # OFF COUNT NPROC OUTDIR
+   # 派 dsv 代理读 .tmp/mhgu/tierB3/slice-NN.txt，写 .tmp/reports-mhgu/tierB3-slice-NN.md
+   cd "G:/omp works" && "G:/omp works/archive/retired/workbuddy-desktop-api/.venv/Scripts/python.exe" MHGU/tools/mhgu/coverage-final.py
+   ```
+   `tierb-gen.mjs` 用绝对路径读 `tierB` 输入，cwd 无关；生成后打印每片 `slice-NN ... header=OK` 自查。
 5. 若要继续怪物：`docs/mechanics/monster-code-map.md` 的「下一步」；romfs 部分需用户提供 XCI
 6. 提交规范：`git -c user.name=Twelve-eight -c user.email=Twelve-eight@users.noreply.github.com commit`
