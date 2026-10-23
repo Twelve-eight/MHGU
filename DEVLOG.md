@@ -588,3 +588,8 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
   - GUI 绘制 0xA3DA50、0xA39300：A/render-gfx。说得通（GUI 绘制同时属于渲染），不算错。
   - rGUI 工厂/析构 0xB7F1D4、0xB7F260、0xB7F2E0，以及 0x541254：都是 B/quest；0xA34070 是 B/audio。**5 处 B 级标签与作者注释不符**，再次说明 Tier B 不可信。
 - 种子太少，不足以按区间标注 render/camera/Pia。本项关闭为「已核对，种子不足」，不改 tiers.csv。
+
+## 2026-10-24 Forge 插件骨架 BoxProbe
+- `forge/boxprobe/`：只读探针插件，执行插件规格 §5 第 1–4 步（模块基址检查、123 个站点的原指令比对与 is_block、回退找块起点、按块分组），结果写到 `<mods>/BoxProbe/boxprobe.txt`。不写内存、不挂钩。
+- DsvBoxProbe 实现 + DsvBoxProbeReview PASS（30 条，0 FAIL，dsv-dev deepseek-v4.1-flash hi）。主会话用 VS 17.14 编译：`/W4` 无警告，boxprobe.dll 152,576 B，导出 forge_onInit/onLoad/onUnload/setApi。
+- Forge PC 本体（forge.dll）编译需要 Vulkan SDK 头文件，本机没有；运行要等用户在场，在导出的游戏里装 Forge 和本插件。
