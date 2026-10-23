@@ -495,3 +495,5 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 - 冒烟（主会话，`.tmp/mcp-smoke.mjs`，18 个请求）：已知 thunk、函数归属、romfs 头、GOT 字面量均正确；越权路径、`..` 逃逸、两处 prod.keys、目录路径、越界地址、非数组参数全部被拒；批量请求正常。
 - 注册：`G:/omp works/.omp/mcp.json`（项目级）。子代理通过父会话的连接继承 MCP 工具（omp 文档 system-prompt-customization.md:90,95），不用改角色定义的 `tools:`。**需要用户执行 `/mcp reload` 后才会连上；连上后用一次子代理调用验证。**
 - 第 2 阶段（Ghidra）延后：三方均认为当前不划算。若重启，按 dsv 建议把 flat 镜像以 raw ARM:LE:32:v7、基址 -0x100 导入，不需要 NSO 加载器；`~/.ghidra` 先重定向离开 C:，分析产物只放 MHGU-private。
+- 2026-10-24 上线验证：用户重启 omp 后，主会话看到 6 个 `mcp__mhgu_re_*` 工具；子代理 McpProbe（dsv-dev）没有 bash 也能调用 `disasm 0x55d450`，输出与 arm32.mjs 逐字一致；`read_bytes prod.keys` 被拒。另用 PowerShell junction（extract/jtest → .tmp/mhgu/tools）验证：经 realpath 后被拒。**审查方今后自己复核反汇编，不再请主会话代跑。**
+- R2 措辞收紧（HANDOFF 7 #10、规格 R2 裁定段）：越界写是静态确认的，但危害取决于执行顺序，还没裁定；如果 C、D 随后会被重填，前两段越界只是被覆盖。最后一段 D 区填充越界写进其后字段，这是否可达标为 [U]。

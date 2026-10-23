@@ -518,6 +518,8 @@ applier" for the AOT build.
 > (pchtxt `00199c68 B00B00E3` -> 2992), so every rebuild zeroes 2992 B records, 0xAD0 B past
 > B's end into C; the C fill likewise runs 0x568 B into D. Evidence:
 > `.tmp/reports-mhgu/glm-r2-r5-review.md` (DsvR2Review), main-session re-disasm. See HANDOFF 7 #10.
+> **Harm is not yet ruled:** if C and D are refilled after these loops, the spills are overwritten
+> and harmless; the last D fill (`0x199E98`) spilling into the following heap/preset pointers is [U].
 
 The V7 shift moves B to `obj+0x2EDA` and C to `obj+0x52CA`, but keeps
 B = `0x23F0` bytes (2300 records) and C = `0x11F8` (2300 halfwords). The patch's
