@@ -280,11 +280,15 @@ export function writeQuestSeen(view, bit, value) {
 
 // NONE clears both maps; SEEN sets seen and clears cleared; CLEARED sets both. The
 // "unlock" and "complete" operations stay separate on purpose (I2).
+// Writing the state that readQuestState already reports is a no-op, so an untouched field
+// keeps its bytes even when the save holds a dirty cleared=1/seen=0 bit (I1); such a bit is
+// only normalised when the user actually changes that quest.
 export function writeQuestState(view, bit, state) {
   if (state !== QUEST_STATE.NONE && state !== QUEST_STATE.SEEN && state !== QUEST_STATE.CLEARED) {
     throw new RangeError(`quest_state: ${state} is not a QUEST_STATE value`);
   }
   assertQuestBitWritable(bit, 'quest_state');
+  if (readQuestState(view, bit) === state) return;
   const mask = 1 << (bit & 7);
   const seenAt = fieldAt(view, 'quest_seen', QUEST_SEEN_OFF + (bit >> 3), 1);
   const clearedAt = fieldAt(view, 'quest_cleared', QUEST_CLEARED_OFF + (bit >> 3), 1);
