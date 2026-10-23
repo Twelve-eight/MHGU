@@ -561,3 +561,8 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 - 未做：审查剩余 3 个 LOW/INFO（分页丢焦点、提示里的英文 UNCONFIRMED、槽位解析失败提示文字）。
 - UI 三个 LOW 已修（DsvUIPolish + DsvUIPolishReview PASS）；浏览器复测：下一页后焦点仍在 `page-next`，第 2 页从槽 100 开始，无 JS 错误。
 - 冒烟服务器两次都以仓库根为站点根、开着目录列表（仅 127.0.0.1，各运行约 3 分钟和 18 秒，均已停止）。私有数据通过 junction 接在仓库里，所以这样起服务器不对；GOAL.md 已写明以后只从 `editor/` 起，并用 `-d false` 关闭目录列表。
+
+## 2026-10-24 夜 批次 C（vtable→类）先导：负结果
+- GlmVtblPilot（glm-re, wb2api-remote/glm-5.3-flash max）30 分钟只写了方法段，结果表 0 行，主会话终止；DsvVtblPilotReview（dsv hi）判 FAIL。
+- 审查确认的机制：类注册 `bl 0x7aedcc` 的 DTI 对象全部在 .bss（0x184b060–0x184c188，exefs 只到 image_end+0x100），**静态读不到 DTI vtable**，原方法不可行。名字/大小/存储格可脚本化，但已在 class-inventory 里。真实 vtable 在 .data 中形如 `{0,0,e0,f1..f5}`（e0 通常是 0x32c = `bx lr`）；另有不走 0x7aedcc 的第二种注册形式（0x92e0 直接写 [D,#0]）。
+- 下一步若要做：改从 .data 扫 `{0,0,0x32c,...}` 形 vtable，再找把该 vtable 写进 [obj,#0] 的构造函数，按构造函数里的类名归类。未派。
