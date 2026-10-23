@@ -573,3 +573,10 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 ## 2026-10-24 夜 磁盘
 - C: 6.6 → 6.0 GB。近 3 小时 C: 写入：OneDrive `ListSync` 930 MB、Edge 283 MB（都不是本会话写的）；`C:\ProgramData\Package Cache` 471 MB 是 VS 安装器缓存（本会话安装产生，可在用户同意后用 VS Installer 清理）。本会话没往 C: 写入其他东西。
 - G: 25.9 GB 可用；suyu 导出已写 21.33 GB（21 个文件，进程仍在运行）。
+
+## 2026-10-24 SUYU 导出：完成
+- 日志 `G:\suyu\app\user\log\15592_suyu_log.txt` [1603 s] 出现 `Built single-file launcher with the link kit`；导出目录 `G:\suyu\export\MONSTER HUNTER GENERATIONS ULTIMATE\`，主程序 exe 348,669 KB，最后写入 2026-10-24 11:55（本地时间）。
+- AOT 统计（日志原文）：main 937,249 块 / 4,920,852 条指令，0 条未翻译；sdk 有 5 条未翻译，交给 JIT 处理；rtld、subsdk0 均为 0。5 个并行任务，耗时约 27 分钟（之前「要跑一整夜」的估计偏大）。
+- 日志写 `AOT: using update ExeFS (0100770008DD8800) rather than the base`，说明 XCI 里带 1.4.0 更新。
+- 导出目录 `user\nand\...\0100770008DD8000\` 里有存档副本（Lay1nn_HR198.hnt、Sakiko_HR5.hnt、system、system_backup）；`user\cache\shader\...\vulkan.bin` 也在。**我没有运行导出的 exe**（§2e：要用户在场）。
+- 13:28 复查：suyu 进程 PID 15592 仍在运行（累计 CPU 221 s，空闲），没有子进程。

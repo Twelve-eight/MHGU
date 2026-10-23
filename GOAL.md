@@ -15,7 +15,9 @@
 - yuzu 原存档目录、`E:\`、Steam 目录。
 
 ## 早上给用户
-- 总结见 DEVLOG「2026-10-24 夜」各节；待用户决定：VS Package Cache 471 MB 是否清理；suyu 导出结果检查。
+- **suyu 导出已完成**（日志 `Built single-file launcher with the link kit`，exe 在 `G:\suyu\export\MONSTER HUNTER GENERATIONS ULTIMATE\`），未运行，等用户。
+- C: 6.0 GB：OneDrive ListSync 3 小时写入 930 MB，持续增长，建议暂停 OneDrive 或把同步目录移出 C:（用户数据，未动）。VS Package Cache 471 MB 是否清理，待用户决定。
+- 总结见 DEVLOG「2026-10-24 夜」各节。
 
 ## 工作项
 
@@ -27,6 +29,6 @@
 | 4 | 部分完成：SDK RTTI vtable 649 个→Tier A online-nex 交叉验证 98.9%%，Tier B 524 函数可升 A；游戏类无 RTTI，暂停 | 批次 C：vtable → 类归属（逆向，glm-re + dsv 审查） | 候选表，只作 B 级，不计入达标 |
 | 5 | 完成（前缀表 224 项，非 otomo 区段一致率 67.4%%） | 批次 A 改进：类名→子系统人工映射表取代关键词规则 | 映射表 + 重算一致率 |
 | 6 | typeCRC 完成 476/476；RSZ 解析器完成 19/20；GU 半部完成；RS 半部完成 | MHRS：RSZ typeCRC 抽样核对、引擎无关内容规格 GU/RS 半部 | 只读静态工作，不写 Steam 目录 |
-| 7 | 阻塞 | suyu 导出 + 存档互通 | 等导出完成 + 用户在场 |
+| 7 | 导出完成（日志有成功标记），等用户在场试玩与存档互通 | suyu 导出 + 存档互通 | 等导出完成 + 用户在场 |
 | 8 | 阻塞 | V8 补丁实机测试、编辑器实机验证、Forge 实测 | 等用户在场 |
 | 9 | 阻塞 | G-14 当前穿戴装备位置 | 需实机读内存 |
