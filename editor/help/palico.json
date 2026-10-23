@@ -1,0 +1,39 @@
+[
+  {
+    "field": "writePalicoName",
+    "title": "随从猫名字",
+    "summary": "存档里 108 条 324 B 的定长记录各是一只随从猫，记录 +0x000 起的 32 B 就是猫名，UTF-8 编码、NUL 填充。记录下标为 0..107，这个数组不能插入、删除或移位。允许的来源没有记载名字的长度上限，只要求写入不得溢出到 +0x020 的主体块。",
+    "effect": "写档后这只随从猫的名字换成新文本；文档没有记载名字会参与战斗数值、解锁或联机判定。",
+    "risk": "写入前清空整个 32 B 字段，再按 UTF-8 写入并补 NUL，溢出会破坏 +0x020 起只读的主体块。第 84..107 条属于后 24 条记录组，其运行期处理没有记载，改动是否生效未知。",
+    "source": "docs/editor-spec/03-quests-monsters-palico.md:99-112",
+    "conf": "A"
+  },
+  {
+    "field": "writePalicoOwnerName",
+    "title": "随从猫主人名",
+    "summary": "记录 +0x09C 起 32 B 是这只随从猫的主人名，UTF-8 编码、NUL 填充。三条样本记录在该位置的观测值都是同一段「猎人A」，起点精确落在 +0x09C。",
+    "effect": "写档后这只猫记录里的主人名换成新文本；文档没有记载主人名参与战斗、雇用或任务判定，它只是记录里的一个名字串。",
+    "risk": "旧版编辑器复制主人名时没有 32 B 上限，越界覆盖了 +188 起的那段区域；写入要先清空整块，截断到 32 B 再补 NUL。",
+    "source": "docs/editor-spec/03-quests-monsters-palico.md:118",
+    "conf": "A"
+  },
+  {
+    "field": "writePalicoColor#fur",
+    "title": "随从猫毛色",
+    "summary": "记录 +0x11A 起 36 B 是 9 组四字节颜色，每组为 {R,G,B,0xFF}；第 1 组是这只猫的毛色，第 4 组是服装色。其余 7 组在允许的来源里没有记载含义。",
+    "effect": "写档后这只猫的毛色换成新的 RGB 值，服装色（第 4 组）不受影响。",
+    "risk": "每组第 4 字节必须保持 0xFF（27 次采样全是 0xFF）；其余 7 组含义未定，不要写入。",
+    "source": "docs/editor-spec/03-quests-monsters-palico.md:115",
+    "conf": "B"
+  },
+  {
+    "field": "writePalicoColor#clothing",
+    "title": "随从猫服装色",
+    "summary": "第 4 组颜色是这只随从猫的服装色，和毛色（第 1 组）同属记录 +0x11A 起的 36 B 颜色块，结构都是 {R,G,B,0xFF}。其余 7 组的含义在允许的来源里没有记载。",
+    "effect": "写档后这只猫的服装颜色换成新的 RGB 值，毛色（第 1 组）不受影响。",
+    "risk": "9 组共用同一种四字节结构，每组第 4 字节必须保持 0xFF；除第 1 组与第 4 组外，其余 7 组含义未定，不要写入。",
+    "source": "docs/editor-spec/03-quests-monsters-palico.md:115",
+    "conf": "B"
+  }
+]
+

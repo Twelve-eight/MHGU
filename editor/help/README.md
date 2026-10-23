@@ -2,7 +2,7 @@
 
 编辑器 UI 在每个可编辑字段旁显示对应的游戏机制，数据来自本目录的 `<domain>.json`。
 
-内容只能改写自本仓库 `docs/mechanics/*.md` 与 `docs/editor-spec/*.md` 中我们自己的结论；不复制 wiki 或游戏数据表原文，引用的数值也不得超出这些文档已写明的范围。
+内容只能改写自本仓库 `docs/mechanics/`、`docs/editor-spec/`、`docs/analysis/` 中我们自己的结论；不复制 wiki 或游戏数据表原文，引用的数值也不得超出这些文档已写明的范围。
 
 ## 格式
 

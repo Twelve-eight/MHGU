@@ -1,0 +1,29 @@
+[
+  {
+    "field": "writeQuestState",
+    "title": "任务状态（已解锁 / 已完成）",
+    "summary": "每条任务对应 cleared 与 seen 两个 256 B 位域中的同一个 bit：seen 表示已解锁，cleared 表示已完成，字节内按 LSB 优先寻址。硬性不变量是 cleared 必须始终为 seen 的子集，所以置 cleared 时必须在同一 bit 同时置 seen；seen=1/cleared=0 是合法的「已解锁未完成」，cleared=1/seen=0 则违反不变量。写入按单 bit 读改写，禁止 memset 或整段涂写。",
+    "effect": "seen 位决定任务是否出现在列表中，cleared 位决定它是否算完成；写入只改指定任务的 bit，其他任务位不变。",
+    "risk": "bit 0 与 bit 945 保留；1172..1188 是斗技大会的争议候选（1288..1304 只是另一候选），1174..1180 同时是狩猎道场的只读位；1181..1287 与 1305..2047 没有任务映射；866..943 的「猫任务」分区没有出处。这些区间都被核心库拒绝写入，因为写进去会落到相邻任务或未知状态；G4 只能写 782..862 与 939..943，历史的 786..865 会漏头涂尾，achieve 位域语义未定、保持只读。",
+    "source": "docs/editor-spec/03-quests-monsters-palico.md:44-69",
+    "conf": "A"
+  },
+  {
+    "field": "writeQuestCleared",
+    "title": "任务「已完成」位",
+    "summary": "cleared 位记录这条任务是否已经通关。置为完成时核心库会在同一 bit 同时置 seen，因为 cleared 必须始终是 seen 的子集。",
+    "effect": "该任务在任务列表中显示为已完成，并可能满足后续任务或 HR 解锁的前置。",
+    "risk": "cleared=1 而 seen=0 是矛盾状态：游戏的判定函数会让 NPC 对话卡死（脏样本里有 122 个这样的位）。取消完成只清 cleared，不动 seen。",
+    "source": "docs/editor-spec/03-quests-monsters-palico.md:145-154",
+    "conf": "A"
+  },
+  {
+    "field": "writeQuestSeen",
+    "title": "任务「已解锁」位",
+    "summary": "seen 位表示任务已解锁、会出现在列表中；seen=1、cleared=0 是合法的「已解锁未完成」。「解锁」只写 seen，「完成」才同时写两者，两者不应合并成同一个按钮。",
+    "effect": "任务出现在对应村/集会所的任务列表里，但不算通关。",
+    "risk": "清除 seen 时核心库会一并清除 cleared，以免留下 cleared=1/seen=0 的矛盾位。",
+    "source": "docs/editor-spec/03-quests-monsters-palico.md:145-154",
+    "conf": "A"
+  }
+]
