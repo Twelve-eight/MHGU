@@ -39,6 +39,14 @@ import {
 
 const ITEMS_PER_PAGE = 100;
 
+// Stable ids for the rebuilt pager, so focus can be handed back to the control that
+// triggered the page change (see restorePagerFocus).
+const PAGE_CONTROL_IDS = Object.freeze({
+  prev: 'page-prev',
+  next: 'page-next',
+  select: 'page-select',
+});
+
 // Loaded by name: editor/help/index.mjs uses node:fs and cannot run in the browser.
 const HELP_FILES = Object.freeze([
   'header.json',
@@ -71,6 +79,8 @@ const state = {
   slotIndex: 0,
   layout: '',
   view: null,
+  // Error message of the selected slot when hunterView() rejected it; '' when fine.
+  slotError: '',
   help: new Map(),
   page: 0,
 };
@@ -341,7 +351,9 @@ function updateLayoutHint() {
 
 function updateItemsNote() {
   if (!state.view) {
-    dom.itemsNote.textContent = '载入存档并选择布局后显示道具箱。每页 100 槽。';
+    dom.itemsNote.textContent = state.slotError
+      ? `槽位 ${state.slotIndex} 无法解析，未显示道具箱。`
+      : '载入存档并选择布局后显示道具箱。每页 100 槽。';
     return;
   }
   if (!state.layout) {
@@ -365,6 +377,7 @@ function renderDownload() {
 async function handleFile(file) {
   state.file = null;
   state.view = null;
+  state.slotError = '';
   state.slotIndex = 0;
   state.page = 0;
   state.layout = '';
@@ -453,21 +466,25 @@ function handleSlotChange() {
     view = hunterView(state.file, index);
   } catch (error) {
     state.view = null;
+    state.slotError = error.message;
     state.slotIndex = index;
     state.page = 0;
     syncHeaderInputs();
     renderInvalid();
     renderItems();
+    updateItemsNote();
     renderDownload();
     setStatus(`槽位 ${index} 无法解析：${error.message}`);
     return;
   }
   state.view = view;
+  state.slotError = '';
   state.slotIndex = index;
   state.page = 0;
   syncHeaderInputs();
   renderInvalid();
   renderItems();
+  updateItemsNote();
   renderDownload();
   setStatus(`已切换到槽位索引 ${index}（只改内存）。`);
 }
@@ -765,11 +782,26 @@ function handleClearInvalid() {
 // Item box table (100 slots per page)
 // ---------------------------------------------------------------------------
 
-function gotoPage(page) {
+function gotoPage(page, focusId) {
   const slots = state.layout ? itemBoxSlotCount(state.layout) : 0;
   const pageCount = Math.max(1, Math.ceil(slots / ITEMS_PER_PAGE));
   state.page = Math.min(Math.max(page, 0), pageCount - 1);
   renderItems();
+  restorePagerFocus(focusId);
+}
+
+// renderItems() rebuilds the whole items area, so the pager control that was activated
+// is gone by the time the page changed. Refocus it by id; a button that reached an end
+// page is re-rendered disabled and cannot take focus, so fall back to the page select.
+function restorePagerFocus(focusId) {
+  if (!focusId) return;
+  const target = document.getElementById(focusId);
+  if (target && !target.disabled) {
+    target.focus();
+    return;
+  }
+  const fallback = document.getElementById(PAGE_CONTROL_IDS.select);
+  if (fallback && !fallback.disabled) fallback.focus();
 }
 
 function commitSlot(index, idInput, countInput, noteNode, errorNode) {
@@ -862,6 +894,17 @@ function renderItems() {
   dom.itemsBody.replaceChildren();
 
   if (!state.view) {
+    if (state.slotError) {
+      dom.itemsBody.append(
+        el('p', {
+          class: 'error',
+          role: 'alert',
+          text: `槽位 ${state.slotIndex} 无法解析：${state.slotError}`,
+        }),
+        el('p', { class: 'empty', text: '请切换到其他槽位或重新选择存档文件。' }),
+      );
+      return;
+    }
     dom.itemsBody.append(el('p', { class: 'empty', text: '请先载入存档文件。' }));
     return;
   }
@@ -892,7 +935,7 @@ function renderItems() {
   const start = state.page * ITEMS_PER_PAGE;
   const end = Math.min(start + ITEMS_PER_PAGE, slots);
 
-  const pageSelect = el('select', { id: 'page-select', 'aria-label': '跳转到道具箱页码' });
+  const pageSelect = el('select', { id: PAGE_CONTROL_IDS.select, 'aria-label': '跳转到道具箱页码' });
   for (let page = 0; page < pageCount; page += 1) {
     const from = page * ITEMS_PER_PAGE;
     const to = Math.min(from + ITEMS_PER_PAGE, slots) - 1;
@@ -904,24 +947,32 @@ function renderItems() {
     );
   }
   pageSelect.value = String(state.page);
-  pageSelect.addEventListener('change', () => gotoPage(Number(pageSelect.value)));
+  pageSelect.addEventListener('change', () =>
+    gotoPage(Number(pageSelect.value), PAGE_CONTROL_IDS.select),
+  );
 
   const pager = el('div', { class: 'pager' }, [
     el('button', {
       type: 'button',
       class: 'apply',
+      id: PAGE_CONTROL_IDS.prev,
       text: '上一页',
       disabled: state.page === 0,
-      onclick: () => gotoPage(state.page - 1),
+      onclick: () => gotoPage(state.page - 1, PAGE_CONTROL_IDS.prev),
     }),
-    el('label', { class: 'visually-hidden', for: 'page-select', text: '跳转到道具箱页码' }),
+    el('label', {
+      class: 'visually-hidden',
+      for: PAGE_CONTROL_IDS.select,
+      text: '跳转到道具箱页码',
+    }),
     pageSelect,
     el('button', {
       type: 'button',
       class: 'apply',
+      id: PAGE_CONTROL_IDS.next,
       text: '下一页',
       disabled: state.page === pageCount - 1,
-      onclick: () => gotoPage(state.page + 1),
+      onclick: () => gotoPage(state.page + 1, PAGE_CONTROL_IDS.next),
     }),
     el('span', {
       class: 'pager-info',
@@ -987,7 +1038,7 @@ function initHints() {
   dom.hrInput.max = String(LIMITS.hr);
 
   dom.nameHint.textContent =
-    `安全上限 ${LIMITS.nameMaxChars} 个字符 / ${LIMITS.nameMaxBytes} UTF-8 字节（UNCONFIRMED）；` +
+    `安全上限 ${LIMITS.nameMaxChars} 个字符 / ${LIMITS.nameMaxBytes} UTF-8 字节（未确认）；` +
     `字段宽 ${LIMITS.nameFieldBytes} B，超长由核心库拒绝而不是截断。`;
   dom.playtimeHint.textContent =
     `允许 0..${LIMITS.playtime} 秒；游戏侧上限未确认，界面占位参考 ${LIMITS.playtimeUiCap} 秒。`;

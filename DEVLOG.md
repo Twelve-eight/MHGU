@@ -559,3 +559,5 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 - `editor/ui/`（DsvEditorUI 实现 + DsvEditorUIReview 审查 PASS，dsv-dev deepseek-v4.1-flash hi）。主会话修了审查 MEDIUM：载入新文件时重置布局，强制重选。
 - 主会话浏览器冒烟（本机 http-server + 无头 Chromium，样本副本 system_V7_active）：选 V7 后显示 11 个幽灵槽（2289–2299，与先前离线结论一致）；把槽 0 数量改成 42、清除幽灵槽、下载 → 导出文件与只用 core 做同样修改的结果**逐字节一致**（0 字节差，5,159,100 B）；页面无 JS 错误。副本与下载已删。
 - 未做：审查剩余 3 个 LOW/INFO（分页丢焦点、提示里的英文 UNCONFIRMED、槽位解析失败提示文字）。
+- UI 三个 LOW 已修（DsvUIPolish + DsvUIPolishReview PASS）；浏览器复测：下一页后焦点仍在 `page-next`，第 2 页从槽 100 开始，无 JS 错误。
+- 冒烟服务器两次都以仓库根为站点根、开着目录列表（仅 127.0.0.1，各运行约 3 分钟和 18 秒，均已停止）。私有数据通过 junction 接在仓库里，所以这样起服务器不对；GOAL.md 已写明以后只从 `editor/` 起，并用 `-d false` 关闭目录列表。

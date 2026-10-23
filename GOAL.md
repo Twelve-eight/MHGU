@@ -7,6 +7,9 @@
 ## CPU
 - 导出期间 CPU 100%。子代理是远端模型不占本机；本机只跑短命令（MCP 反汇编、roundtrip 测试），不跑长时间本地计算，不开新的编译。
 
+## 本地冒烟服务器
+- 只从 `editor/` 目录起，并关闭目录列表：`npx --yes http-server@14.1.1 editor -p 8765 -a 127.0.0.1 -c-1 -d false`，页面 `/ui/index.html`。不要把仓库根当站点根（私有数据通过 junction 接在仓库里，§7b）。用完立即停。
+
 ## 绝对不要碰
 - `G:\suyu\`（导出进行中，suyu PID 15592）。不要杀它、不要读写 `G:\suyu\export`。
 - yuzu 原存档目录、`E:\`、Steam 目录。
