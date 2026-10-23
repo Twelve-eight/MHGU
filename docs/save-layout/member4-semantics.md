@@ -1,6 +1,6 @@
 # 成员#4 字段语义表（134 行全标注）
 
-> ⚠ **坐标勘误（2026-10-23）**：本文所有 `file_off`/char_off 均**早 0x550**（旧 dump 漏算 `0x51dc40` 两处循环体 840+600B）。**正确值 = 本文值 + 0x550**。权威布局以 `member4-file-layout.txt` + `coverage-map.md` 为准。
+> 注（2026-10-23）：**本表 file_off 列源自权威 `member4-file-layout.txt`，正确**（已用 `cleared ⊆ seen` 与勋章写点双验证）。仅「Δ」列两处已修正（`Δ=PROGRESS 106`→`1`）。
 
 > 目标：把 `member4-file-layout.txt` 的 134 行「文件偏移 -> 对象偏移 -> 长度」翻译成「这块字节在游戏里代表什么数据」。
 > 行序、`file_off`、`obj_off`、`size` 一律以 `docs/save-layout/member4-file-layout.txt`（2026-10-22 重生成版）为唯一权威。

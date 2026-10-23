@@ -1,6 +1,6 @@
 # 成员#4 小族语义判定：68B 族 / 164B 对 / 20B 族 / 尾部 3444B
 
-> ⚠ **坐标勘误（2026-10-23）**：本文所有 `file_off`/char_off 均**早 0x550**（旧 dump 漏算 `0x51dc40` 两处循环体 840+600B）。**正确值 = 本文值 + 0x550**。权威布局以 `member4-file-layout.txt` + `coverage-map.md` 为准。
+> ⚠ **坐标勘误（2026-10-23）**：本文的 **`file_off`/char_off 早 0x550**（旧 dump 漏算 `0x51dc40` 两处循环体 840+600B）——**正确值 = 本文值 + 0x550**；**`obj_off` 不受影响**。权威布局以 `member4-file-layout.txt` + `coverage-map.md` 为准。
 
 坐标系：`vaddr`（flat_off = vaddr + 0x100）；`char_off` = 猎人块内偏移；成员#4 obj 单例 = `*(0x145159C)`。
 clean = `save-snapshots/20261022-clean-reference/system_CLEAN`（slot1 猎人A，基 0x2AC560）；
