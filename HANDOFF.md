@@ -1,7 +1,7 @@
 # MHGU 逆向 — 交接文档（2026-10-23 收盘）
 
 > 新会话读这一份即可接手。所有结论都已落盘到 repo，`.tmp` 只存可再生中间产物与未归档的代理报告。
-> 仓库：`G:/omp works/MHGU`（124 commits，工作区干净）。
+> 仓库：`G:/omp works/MHGU` = **公开** https://github.com/Twelve-eight/MHGU（MIT 代码 + CC-BY-4.0 docs）。不可发内容在本地私有仓 `G:/omp works/MHGU-private`（永不推送），原路径经联接/硬链接可用，见 `docs/PRIVATE-DATA.md`。2026-10-23 已用 filter-repo 重写历史（旧哈希作废；改写前备份 `G:/backups/MHGU-pre-filter-20261023{,.bundle}`）。
 
 ---
 
@@ -26,6 +26,11 @@
 **结论**：存档与怪物机制的结构层已基本完成；**代码 90% 的缺口在 Tier B 的 48.5% 指令**，只能靠逐函数裁定（批次化进行中）。
 
 ---
+
+## 0b. 两条主线（2026-10-23 定）
+- **A 模拟器版**：继续理解代码/存档/机制，产出资料、`.pchtxt`、存档编辑器（编辑器源码在私有仓）。
+- **B 原生重编译版**（SUYU-GURecomp，GPL-3.0，只吸收事实）：用 Forge PC 插件（`mod_host_api.h`，MIT）实现新玩法；验证存档与模拟器互通。其导出版**不支持 pchtxt**（其 INSTALL.md:161）。
+- 实机测试只在用户授权的离开时段进行（AGENTS.md §2e）。
 
 ## 1. 坐标系（最易出错，务必先读）
 

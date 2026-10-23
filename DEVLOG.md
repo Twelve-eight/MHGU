@@ -444,3 +444,12 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 - 可用于 Tier B 的种子：相机投影 0x1C358（+0x38 宽高比、+0x3C FOV 度）、渲染尺寸 0xBBCD34/0xBBBDE0、动态模糊 0x8BCD84、滤镜构造、Pia 网络接收路径 0x131xxxx/0x139Dxxx..0x13AAxxx。
 - 路由：dsv-dev = wb2api/global:deepseek-v4.1-flash（effort hi），swe2-supervisor = devin-northstar/swe-2-max。教训：大任务 dsv 反复 499/断流 0 产出；**每代理 3 个地址块 + 先写后读**，17 片 16 片 3 分钟内完成。
 - 评估报告：`docs/history/PROJECT-EVAL-20261023.md`（21 处文档矛盾、52.5% 不可从 git 复现、Top 8 下一步）。
+
+
+## 2026-10-23 深夜 — 开源与私有拆分
+- 决策：与 SUYU-GURecomp 互补（它=运行平台，我们=内容层：资料/存档/玩法 mod）。主线 A 模拟器 / B 原生重编译版（Forge 插件）。
+- 私有仓 `G:/omp works/MHGU-private`（b95d28d，永不推送）：flat.bin、save-snapshots、mhxx-wiki、mhgu.db 及 Kiranico/MHGenDatabase 导出表、editor-src（第三方编辑器反编译）、analysis/dumps。原路径：目录=mklink /J，文件=硬链接；`.gitignore` 屏蔽。备份 robocopy → `G:/backups/MHGU-private`。
+- filter-repo 两遍：①删上述路径全历史；②替换文本 `USER`/`LOCAL` → 占位。核查：历史 0 条命中，pack 1.54MiB。改写前备份 bundle 已 verify。
+- 冒烟：arm32.mjs 经硬链接读 flat（0xBBCD34=mov r0,#1920）；coverage-final.py 可跑；mhgu.db 经硬链接可查（monsters=129）。
+- 公开：https://github.com/Twelve-eight/MHGU（public），远端树 0 条私有路径。LICENSE=MIT，docs/LICENSE=CC-BY-4.0（官方 legalcode.txt）。
+- AGENTS.md 新增 §2e 实机测试授权窗口。
