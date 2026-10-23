@@ -453,3 +453,8 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 - 冒烟：arm32.mjs 经硬链接读 flat（0xBBCD34=mov r0,#1920）；coverage-final.py 可跑；mhgu.db 经硬链接可查（monsters=129）。
 - 公开：https://github.com/Twelve-eight/MHGU（public），远端树 0 条私有路径。LICENSE=MIT，docs/LICENSE=CC-BY-4.0（官方 legalcode.txt）。
 - AGENTS.md 新增 §2e 实机测试授权窗口。
+
+## 2026-10-23 深夜 — Tier B pass2 收尾（**53.1% 为暂定值**）
+- 7 片完成：01/03/05（120 行）、11/12/13（286）、14（282，输入即 282）。11-14 原输入无反汇编，主会话重生成 `.tmp/mhgu/tierB2/slice-NN.asm.txt` 后重做。slice-13 漏 1 行（0x64a198），主会话补为 B。
+- `coverage-final.py`：A + B(confA) = **53.1%** 指令 / 37.9% 函数，Tier B conf=A 191。
+- **暂定**：swe2 round 1 只审了 01/03/05 与 11-14 的早期行（10 行降级已应用）；11-14 完成后的 104 行 conf=A 在 round 2 审计中，结果回来前不作为正式口径。
