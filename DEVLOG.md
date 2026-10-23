@@ -480,3 +480,18 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 - 待办见 harness todo；下一步：编辑器 UI（字段旁显示 editor/help）、离线往返测试。
 
 - 2026-10-24: Swe2HelpReview 审计 editor/help 6 个文件 22 条全部 PASS，无需修改（`.tmp/reports-mhgu/help-review.md`）。审计发现术语表只覆盖 StS2，MHGU 术语是按机制文档自身用法核对的。
+
+## 2026-10-24 — mhgu-re 只读 MCP 服务（第 1 阶段）
+- 起因：审查方（dsv-dev）没有 shell，今天已 4 次请主会话代跑反汇编；GLM 在开放式长段线性反汇编上卡死。
+- `tools/mcp/mhgu-re.mjs`（零依赖，stdio JSON-RPC）提供 6 个工具：disasm / read_words / calls_to（仅直接 bl/blx）/ literal_loads（仅无条件 ldr）/ function_start（push-lr 启发式）/ read_bytes。工具描述里写明各自的启发式局限。
+- 计划经三方评估（`.tmp/reports-mhgu/mcp-eval-{swe2,dsv,opus}.md`；swe2-max、dsv4.1f、northstar-kiro/claude-opus-5.5 由用户特批），三方结论均为"修正后采用"。已修正：
+  - 白名单两侧都按 realpath 比较，防止通过 junction 或硬链接逃逸；
+  - 白名单从整个 `.tmp/mhgu` 收窄到 extract/yure 等子目录，并按文件名禁读 `*.keys`（原白名单会暴露 `prod.keys`，dsv 指出）；
+  - 只允许读普通文件；
+  - 输入 schema 加上类型；
+  - 地址超出镜像范围时报错；
+  - 只回应受支持的协议版本；
+  - 支持 JSON-RPC 批量请求。
+- 冒烟（主会话，`.tmp/mcp-smoke.mjs`，18 个请求）：已知 thunk、函数归属、romfs 头、GOT 字面量均正确；越权路径、`..` 逃逸、两处 prod.keys、目录路径、越界地址、非数组参数全部被拒；批量请求正常。
+- 注册：`G:/omp works/.omp/mcp.json`（项目级）。子代理通过父会话的连接继承 MCP 工具（omp 文档 system-prompt-customization.md:90,95），不用改角色定义的 `tools:`。**需要用户执行 `/mcp reload` 后才会连上；连上后用一次子代理调用验证。**
+- 第 2 阶段（Ghidra）延后：三方均认为当前不划算。若重启，按 dsv 建议把 flat 镜像以 raw ARM:LE:32:v7、基址 -0x100 导入，不需要 NSO 加载器；`~/.ghidra` 先重定向离开 C:，分析产物只放 MHGU-private。
