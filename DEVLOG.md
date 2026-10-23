@@ -497,3 +497,10 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 - 第 2 阶段（Ghidra）延后：三方均认为当前不划算。若重启，按 dsv 建议把 flat 镜像以 raw ARM:LE:32:v7、基址 -0x100 导入，不需要 NSO 加载器；`~/.ghidra` 先重定向离开 C:，分析产物只放 MHGU-private。
 - 2026-10-24 上线验证：用户重启 omp 后，主会话看到 6 个 `mcp__mhgu_re_*` 工具；子代理 McpProbe（dsv-dev）没有 bash 也能调用 `disasm 0x55d450`，输出与 arm32.mjs 逐字一致；`read_bytes prod.keys` 被拒。另用 PowerShell junction（extract/jtest → .tmp/mhgu/tools）验证：经 realpath 后被拒。**审查方今后自己复核反汇编，不再请主会话代跑。**
 - R2 措辞收紧（HANDOFF 7 #10、规格 R2 裁定段）：越界写是静态确认的，但危害取决于执行顺序，还没裁定；如果 C、D 随后会被重填，前两段越界只是被覆盖。最后一段 D 区填充越界写进其后字段，这是否可达标为 [U]。
+
+## 2026-10-24 实机授权窗口
+- 用户授权 01:18–02:48（洗澡 90 分钟，§2e）。GLM 并发上限 9（用户指令）。下面逐条记录启动的程序、路径、备份与恢复核对结果。
+- 01:25 R2 裁定**有害且可达**（DsvFillOrderReview；GlmFillOrder 只交了 3 条证据就停了，没给结论）。主会话用 MCP 复核：调用顺序 `0x744184 bl 0x199ae4` → `0x744194 bl 0x199e98`；D 区填充循环界 `0x199F9C add r0,#1000`（`.word 0xe1000a81` 处被补丁改为 0xBB0，pchtxt `0019a09c`）；GOT `0x183A81C`=`0x1858438`。D 区仍为 0x8FE，每次写 0xBB0，越界 690 B，盖掉 `obj+0x6DC0` 处的 A 区备份堆指针和预设 0..3。HANDOFF 7 #10 与插件规格 R2 已更新。
+- 01:27 实机准备：yuzu 存档备份到 `G:/backups/MHGU-yuzu-save-20261024`（5 个文件，13 MB，sha1 `G:/backups/MHGU-yuzu-save-20261024.sha1`）。已安装的 V7 `load/.../mhgu-box-expand/exefs/1.4.0.pchtxt` 与仓库 sha1 一致（fa435345）。模拟器位于 `I:\Desktop\yuzu1734`，当前未运行。
+- 静态旁证：两个 V7 私有档（HR198/HR5）的预设区按 V7 布局读，名字与内容都正常、无乱码 → 重建路径在这些档里可能没触发，或越界只发生在内存、存盘前被重建。[U]，需要实机：开道具箱整理后查看预设名。
+- yuzu3 结果：DsvYure3Review 判 FAIL（GlmYure3 没有交付）；审查方用 MCP 独立推出完整格式（51 组 / 1389 条元素，按 EOF 精确闭合），按规范只能算候选，待独立复核。

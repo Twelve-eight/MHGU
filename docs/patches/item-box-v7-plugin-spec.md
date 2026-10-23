@@ -513,13 +513,16 @@ applier" for the AOT build.
 
 ### R2. B and C are relocated but **not enlarged** - >2300 distinct item ids still overflow
 
-> **Ruling 2026-10-24: out-of-bounds write CONFIRMED statically; net harm [U] pending fill-order analysis.** Not only ">2300 distinct ids": the
+> **Ruling 2026-10-24: out-of-bounds write CONFIRMED statically; the D-fill spill is HARMFUL and reachable (below).** Not only ">2300 distinct ids": the
 > B/C init loop `0x199B30..0x199B70` is bounded by the patched inline capacity at `0x199B68`
 > (pchtxt `00199c68 B00B00E3` -> 2992), so every rebuild zeroes 2992 B records, 0xAD0 B past
 > B's end into C; the C fill likewise runs 0x568 B into D. Evidence:
 > `.tmp/reports-mhgu/glm-r2-r5-review.md` (DsvR2Review), main-session re-disasm. See HANDOFF 7 #10.
-> **Harm is not yet ruled:** if C and D are refilled after these loops, the spills are overwritten
-> and harmless; the last D fill (`0x199E98`) spilling into the following heap/preset pointers is [U].
+> **Harm ruled 2026-10-24: HARMFUL and reachable.** D stays 0x8FE (V7 `obj+0x64C2..0x6DC0`) but all three
+> D-fill cases (`0x199E98`, capacity rows pchtxt `0019a034`/`0019a09c`/`0019a120`) write 0xBB0 B, i.e.
+> 0x2B2 B past D: the A-backup heap pointer at `obj+0x6DC0` and the first 686 B of the preset block.
+> Reached via fn `0x7437BC`: `0x744184 bl 0x199ae4` then `0x744194 bl 0x199e98` (case 1). The plugin must
+> either keep these three loops at 2300 or relocate D/presets; see HANDOFF 7 #10.
 
 The V7 shift moves B to `obj+0x2EDA` and C to `obj+0x52CA`, but keeps
 B = `0x23F0` bytes (2300 records) and C = `0x11F8` (2300 halfwords). The patch's
