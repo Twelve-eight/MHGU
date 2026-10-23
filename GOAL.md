@@ -21,7 +21,7 @@
 | 1 | 完成 | Tier A otomo-ot 无偏抽样（DsvOtA1/A2 + DsvOtAReview） | `.tmp/reports-mhgu/otomoA-sample-{1,2,review}.md`；审查 PASS 后把错误率写进 DEVLOG 与 `docs/analysis/code-metrics.md` 注记 |
 | 2 | 完成（剩 3 个 LOW 未修） | 编辑器 UI：本地单页 `editor/ui/`（零依赖 HTML+ESM），读入存档副本 → 显示无效槽警告 → 字段旁显示 `editor/help` 说明 → 改完导出新文件 | 能用浏览器打开样本副本，看到 ghost 槽警告与 help 文字；导出文件过 roundtrip |
 | 3 | 完成 | 插件规格 `docs/patches/item-box-v7-plugin-spec.md` 剩余行抽查审计 | 审计报告；错误行原地修正并提交 |
-| 4 | 暂停（先导 FAIL；形状扫只中 2 个，需先手工定一个已知类的 vtable） | 批次 C：vtable → 类归属（逆向，glm-re + dsv 审查） | 候选表，只作 B 级，不计入达标 |
+| 4 | 部分完成：SDK RTTI vtable 649 个→Tier A online-nex 交叉验证 98.9%%，Tier B 524 函数可升 A；游戏类无 RTTI，暂停 | 批次 C：vtable → 类归属（逆向，glm-re + dsv 审查） | 候选表，只作 B 级，不计入达标 |
 | 5 | 完成（前缀表 224 项，非 otomo 区段一致率 67.4%%） | 批次 A 改进：类名→子系统人工映射表取代关键词规则 | 映射表 + 重算一致率 |
 | 6 | typeCRC 完成 476/476；RSZ 解析器完成 19/20；GU 半部完成；RS 半部完成 | MHRS：RSZ typeCRC 抽样核对、引擎无关内容规格 GU/RS 半部 | 只读静态工作，不写 Steam 目录 |
 | 7 | 阻塞 | suyu 导出 + 存档互通 | 等导出完成 + 用户在场 |
