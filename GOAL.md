@@ -4,6 +4,9 @@
 
 规则摘要：subagent 只用 dsv-dev（effort hi）或 glm-re（仅逆向，≤9 并发），每个实现配一个审查；报告逐步落盘；不碰 suyu/导出目录、不启动游戏、不动用户存档（只用 MHGU-private 里的样本副本）；不写 C:。
 
+## CPU
+- 导出期间 CPU 100%。子代理是远端模型不占本机；本机只跑短命令（MCP 反汇编、roundtrip 测试），不跑长时间本地计算，不开新的编译。
+
 ## 绝对不要碰
 - `G:\suyu\`（导出进行中，suyu PID 15592）。不要杀它、不要读写 `G:\suyu\export`。
 - yuzu 原存档目录、`E:\`、Steam 目录。
