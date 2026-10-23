@@ -537,3 +537,9 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 - 覆盖率重算的说明里补了抽查结果（5 行降级成立），并注明误差方向未验证（code-metrics §9）。
 
 - 2026-10-24 03:10 公开默认补丁恢复为 V7（`patch/1.4.0.pchtxt` sha1 fa435345），V8 改放 `patch/experimental-v8/1.4.0.pchtxt`（sha1 79b32dca），生成器输出路径同步修改。V8 实机前不作为默认。另：V7 那次实机预设 0–3 没被写坏，原因还没查清，所以 V8 实机即使正常，也只能说明没有回归、没有崩溃，不能证明 R2 已修复。
+
+## 2026-10-24 VS Build Tools 安装（用户授权）
+- `vs_buildtools.exe`（Microsoft 签名）安装到 `G:\VS\2022\BuildTools`，cache/shared 均在 `G:\VS`；组件：VCTools、VC.Tools.x86.x64、VC.CMake.Project、Windows11SDK.26100。exit 0。
+- vswhere 报告 17.14.42，MSVC 14.44.35207（满足 SUYU 要求的 ≥17.14）；bundled cmake/ninja/link 都在 G:；实际编译运行 hello 成功。
+- C: 占用 2.41 GB（SDK 装在 `C:\Program Files (x86)\Windows Kits\10`），C: 剩余 6.6 GB。
+- 注意：PATH 上 `G:\Git\usr\bin\link.exe` 排在 MSVC link 之后，vcvars 环境内不受影响。
