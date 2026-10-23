@@ -338,6 +338,8 @@ dirty 猎人B（slot0，74 条非零）：`mini ≤ maxi` 同样恒成立（唯�
 
 - 载体：romfs `nativeNX/loc/arc/resident.arc` → 条目 `enemy\resident\em_size_scale_data`（type hash `0x5adc692c`，zlib，3,844 B）；同包 `enemy\resident\em_size_yure_data`（type `0x1800eb37`，35,381 B，魔数 `XFS\0`，未解）。base NCA 由用户本机 XCI + hactool 解出（`--basenca` 合并 update NCA），数据只存私有仓。
 - 布局 [B][A]：`f32 1.0` + `u32 count=137` + 137 × 28 B；`8 + 137×28 = 3,844` 闭合；137 = 怪物槽数。
-- 每条 28 B = 上文 rodata 成员顺序 7 × 4 B：`u32 mMonsterIndex | f32 mTrueSize | f32 mSmallScale | f32 mBigScale | f32 mKingScale | f32 mQuestSizeMin | f32 mQuestSizeMax`。
-- 例（idx 0）：（示例值已移除，§7b）
+- 每条 28 B = 上文 rodata 成员顺序 7 × 4 B（[I]，待代码侧复核）：`u32 mMonsterIndex | f32 mTrueSize | f32 mSmallScale | f32 mBigScale | f32 mKingScale | f32 mQuestSizeMin | f32 mQuestSizeMax`。
+- 字段顺序依据：rodata 成员名串顺序（上文 :54-61）+ 28 B 结构闭合 [D+B]。代码侧读取偏移的复核进行中。
+- **[待核]** `mMonsterIndex` 是 em 编号还是 137 槽号；各 scale 字段的语义需用已知冠尺寸的怪物乘法验算（`mTrueSize × mKingScale` 对照金冠 cm）后再定案。
+- 原表数值不入公开仓（Capcom 数据，§7b），私有副本：`MHGU-private/romfs-extract/`。
 - 解析工具：`tools/mhgu/arc.mjs`（待入库）；数据表本体不公开（Capcom 数据，§7b）。

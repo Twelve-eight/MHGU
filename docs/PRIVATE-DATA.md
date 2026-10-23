@@ -14,3 +14,10 @@
 
 别处机器：clone 公开仓库后，自行准备上述输入（`tools/mhgu/nso-flat.mjs` 从你自己的 exefs 生成 flat）。
 新增私有文件：放进 `MHGU-private` 同名路径，再在 MHGU 原位置建链接并加入 `.gitignore`。
+
+## 仓库外的私有数据（只读，永不入库、不得 junction 进公开仓工作树）
+| 路径 | 内容 | 来源 |
+|---|---|---|
+| `G:/mhgu-romfs/romfs/` | MHGU 1.4.0 合并后 romfs（12G，35,531 文件） | 用户本机 XCI + 用户 keys，hactool `--basenca` 合并 update NCA（2026-10-23） |
+| `G:/mhgu-romfs/secure/98abd400588fccb68509fed7e55e4a47.nca` | base NCA（12,168,003,584 B） | 同上；其余 secure NCA 已删 |
+| `MHGU-private/romfs-extract/` | 从 romfs 抽出的表（em_size_scale_data 等） | 同上 |
