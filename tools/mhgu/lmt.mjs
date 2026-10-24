@@ -28,11 +28,12 @@ const DECODERS = {
     const v = b.readBigUInt64LE(o), f = n => Number((v >> BigInt(n)) & 0x3fffn);
     return { value: [42, 28, 14, 0].map(s => sext(f(s), 14) / 4096), delta: Number(v >> 56n) };
   } },
-  // 4 x 7 bits; value = B + A * raw / 127. [I] only 10045/10780 unit keys; the game routine uses sqrtf,
-  // so a 3-stored + derived-w layout is still open (docs/reference/formats/lmt.md).
+  // 4 x 7 bits, x from bit 21, y bit 14, z bit 7, w bit 0; value = B + A * (raw - 8) / 112, then
+  // normalised (game routine 0xafee00; 10780/10780 unit before normalising, first key = ref 515/543).
   7: { size: 4, bounds: true, decode(b, o, A, B) {
     const v = b.readUInt32LE(o);
-    return { value: [0, 7, 14, 21].map((s, c) => B[c] + A[c] * ((v >>> s) & 0x7f) / 127), delta: v >>> 28 };
+    const q = [21, 14, 7, 0].map((s, c) => B[c] + A[c] * (((v >>> s) & 0x7f) - 8) / 112), n = Math.hypot(...q) || 1;
+    return { value: q.map(x => x / n), delta: v >>> 28 };
   } },
   // 4 x 11 bits with interleaved fields (game routine 0xaff884).
   14: { size: 6, bounds: true, decode(b, o, A, B) {
@@ -48,13 +49,14 @@ const DECODERS = {
       ((v >>> 7) & 0x1f8) | ((v >>> 16) & 7), ((v >>> 15) & 0x1f0) | ((v >>> 24) & 0xf)];
     return { value: lerp(A, B, raw, 496), delta: v >>> 28 };
   } },
-  // Translation / scale: 3 x u16 / 65535 + u16 frame delta (953/953 delta sums, first key = ref 888/953).
+  // Translation / scale: 3 x u16, value = B + A * (raw - 8) / 65520, u16 frame delta at +6
+  // (game routine 0xafeb00 per the codec table at 0x179110c; 953/953 delta sums, first key = ref 888/953).
   4: { size: 8, bounds: true, decode(b, o, A, B) {
-    return { value: [0, 2, 4, 6].map((k, c) => c < 3 ? B[c] + A[c] * b.readUInt16LE(o + k) / 65535 : B[3]),
+    return { value: [0, 2, 4, 6].map((k, c) => c < 3 ? B[c] + A[c] * (b.readUInt16LE(o + k) - 8) / 65520 : B[3]),
       delta: b.readUInt16LE(o + 6) };
   } },
-  // Translation / scale: 3 x u8, value = B + A * (raw - 8) / 240, delta = byte 3 (61/61 delta sums,
-  // first key = ref 54/61; raw/255 control 5/61). Decoder routine not located (no 1/240 near 0xaff000).
+  // Translation / scale: 3 x u8, value = B + A * (raw - 8) / 240, delta = byte 3 (game routine 0xafec80;
+  // 61/61 delta sums, first key = ref 54/61; raw/255 control 5/61).
   5: { size: 4, bounds: true, decode(b, o, A, B) {
     return { value: [0, 1, 2, 3].map(c => c < 3 ? B[c] + A[c] * (b[o + c] - 8) / 240 : B[3]), delta: b[o + 3] };
   } },
