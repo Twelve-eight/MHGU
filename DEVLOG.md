@@ -628,3 +628,9 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
   - [C] "肩键操作交给扳机"不需要改游戏代码：在 F10 → Controls 里把 L↔ZL、R↔ZR 互换绑定即可（INSTALL.md:121 支持任意重绑）。不需要写插件，用户可直接做；本会话不改用户的配置文件。
   - 快捷轮盘（World 的按住 LB）需要 Forge 插件：ImGui 覆盖层画轮盘 + 截获 LB + 写道具栏光标字段。前置逆向：道具栏当前选中序号在内存中的位置，[U]。
   - C3Pad 报告（.tmp/reports-mhgu/b5/pad.md）：按键掩码在单例 +0x6bfc/+0x6c34/+0x6c3c，写入者不在已转储语料中 [U]。
+- **LMT v0x43 [部分 C]**：条目 0x40 B {+0 轨表, +4 轨数, +8 帧数}；轨 0x24 B {u8 类型, u8 用途, u8 ?, u8 骨号, f32 权重, u32 字节数, u32 键偏移, f32[4] 参考值, u32 bounds 偏移}。
+  - [C] 所有压缩类型的每键帧增量都在键的最高位（type6 是高 8 位，其余高 4 位）：各轨增量之和 == 帧数-1，15258/15258 轨；对照（改从低位取）0/15258。
+  - [C] type6 = 4 x s14/4096，字段从低位起依次为 w,z,y,x：290429/290429 键 |q|=1；首键与轨参考值一致 1670/1916。
+  - [C] type7 = 4 x 7 位，按 bounds 解码，998/998。
+  - [U] type14 (4x11) / type15 (4x9)：|q|=1 判据太弱（字段重叠的布局也能拿到 97%），已转交 glm-re 逆向解码函数。
+- C3 轮盘逆向（主会话，dsv/glm 路由连续 499）：字符串 pc 相对引用扫描（.tmp/mhgu-scratch/strref.mjs）→ cItemPouch 在 0x188f98、sItemPouch 在 0x19e504、cUIOCPanelItemSelectorL 在 0x6520dc。0x6520dc 是 DTI 注册块：bl 0x7aedcc(dti, name, parentDti, size)，ItemSelectorL 实例大小 0xE0，DTI 对象取自 cell 0x1839414 [C]。选中格字段 [U]，下一步：从 DTI 的 new 函数找 vtable 与 update。
