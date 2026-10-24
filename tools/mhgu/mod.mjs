@@ -33,13 +33,15 @@ export function readMod(buf, label = '<buffer>') {
   const bones = [];
   for (let i = 0; i < h.boneCount; i++) {
     const o = h.boneOffset + i * BONE_SIZE;
-    bones.push({ id: u8(o), parent: u8(o + 2), child: u8(o + 3), length: f32(o + 8), offset: [f32(o + 12), f32(o + 16), f32(o + 20)] });
+    // +1 = parent index (255 = root), +2 = mirror partner index (self for centreline bones).
+    bones.push({ id: u8(o), parent: u8(o + 1), mirror: u8(o + 2), length: f32(o + 8), offset: [f32(o + 12), f32(o + 16), f32(o + 20)] });
   }
   const meshes = [];
   for (let i = 0; i < h.meshCount; i++) {
     const o = h.meshOffset + i * MESH_SIZE;
     meshes.push({
-      vertexCount: u16(o + 2), group: u8(o + 4), material: u8(o + 6), lod: u8(o + 7), stride: u8(o + 10),
+      // u16@4 low 12 bits = group, material = u16@4 >> 12 | u8@6 << 4 (values 0..materialCount-1 on 4/4 models).
+      vertexCount: u16(o + 2), group: u16(o + 4) & 0xfff, material: (u16(o + 4) >> 12) | (u8(o + 6) << 4), lod: u8(o + 7), stride: u8(o + 10),
       vertexStart: u32(o + 12), vertexBase: u32(o + 16), format: u32(o + 20),
       indexStart: u32(o + 24), indexCount: u32(o + 28), boneRemapCount: u8(o + 37),
       minIndex: u16(o + 40), maxIndex: u16(o + 42),
