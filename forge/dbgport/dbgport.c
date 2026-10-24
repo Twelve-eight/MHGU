@@ -10,20 +10,28 @@
  *   tap <bits> <frames>      same for <frames> game updates, then stop
  *   stick <L|R> <x> <y> <frames>  force a stick (decimal, -32767..32767; frames 0 = until release)
  *   release                  stop all injection
- *   hooks                    which sdk GetNpadState(s) hooks are active and how often they fired
+ *   hooks                    which sdk GetNpadState(s) hooks are active, how often they fired, and
+ *                            the last out pointer / return / caller LR / buttons each one saw
+ *   shot [path]              next presented frame -> 24-bit BMP (default .tmp\mhgu-scratch\shot.bmp)
  *   rd <addr> <n>            hex dump n (1..256) bytes at guest address addr
  *   rm <off> <n>             same, at main base + off (addresses from the static notes)
  *   w32 <addr> <value>       write a u32 at guest address addr
  *   ptr <off> [o1 o2 ...]    follow [[base+off]+o1]+o2...; prints each step
- * Numbers are hex (0x optional) except <n> and <updates>, which are decimal.
+ * Numbers are hex (0x optional) except <n>, <frames> and <updates>, which are decimal.
  *
- * Every command runs on the game thread inside forge_onUpdate; the socket thread only queues it
- * and waits up to 2 s for the reply (the game must be running, not paused in the Forge menu).
+ * Threads: every command except `shot` runs on the game thread inside forge_onUpdate; the socket
+ * thread only queues it and waits up to 2 s for the reply (the game must be running, not paused in
+ * the Forge menu). `shot` runs on the socket thread: it queues the request, the copy is recorded in
+ * forge_onPresent, and it waits up to 3 s for the reply, so it also works while the game logic is
+ * paused or the window is covered / unfocused.
+ *
  * Injection happens in post hooks on the sdk's nn::hid::GetNpadState / GetNpadStates (FullKey,
  * Handheld, JoyDual): the bits are ORed into the returned state, so the game sees them exactly
- * like a real pad, whether or not the window has focus. Durations count game updates (frames),
- * not milliseconds. State layout (NpadFullKeyState etc.): s64 sampling @0, u64 buttons @8,
- * stick L {s32 x, y} @0x10, stick R @0x18, attributes @0x20, 0x28 bytes.
+ * like a real pad, whether or not the window has focus. While anything is injected the state's
+ * attributes @0x20 has bit0 (IsConnected) forced on: the reader in main 0x86d37c stores attr&1 as
+ * the connected flag and ignores the buttons of a disconnected pad. Durations count game updates
+ * (frames), not milliseconds. State layout (NpadFullKeyState etc.): s64 sampling @0, u64 buttons
+ * @8, stick L {s32 x, y} @0x10, stick R @0x18, attributes @0x20, 0x28 bytes.
  * Bits are raw NpadButton: A 0x1, B 0x2, X 0x4, Y 0x8, L 0x40, R 0x80, ZL 0x100, ZR 0x200,
  * Plus 0x400, Minus 0x800, D-pad Left 0x1000, Up 0x2000, Right 0x4000, Down 0x8000.
  *
@@ -48,8 +56,10 @@ FORGE_PLUGIN_DEFINE_API
 
 #include "shot.h"
 
-/* `shot [path]`: handled on the socket thread; the copy happens in forge_onPresent, so it also
- * works while the game logic is paused (Forge menu) or the window is covered / unfocused. */
+/* `shot [path]`: runs on the socket thread and bypasses the s_pending queue. The copy itself is
+ * recorded in forge_onPresent, so it also works while the game logic is paused (Forge menu) or the
+ * window is covered / unfocused; the reply arrives one present after the request, or after the
+ * 3 s wait below (300 x 10 ms) when no present happens. */
 static void shot_command(const char* line, char* out, size_t cap)
 {
     const char* path = line + 4;
@@ -101,15 +111,32 @@ static void dlog(ForgeLogLevel level, const char* fmt, ...)
     forge_api->log(level, PLUGIN, buf);
 }
 
-static uint32_t s_inject;      /* button bits ORed into every Npad state read */
-static int32_t s_inject_left;  /* game updates left; < 0 = hold until release */
-
 typedef struct StickOverride {
     bool on;
     int32_t x, y;
     int32_t left; /* game updates left; < 0 = until release */
 } StickOverride;
-static StickOverride s_stick[2]; /* 0 = L, 1 = R */
+
+/* Everything the client changes and the Npad post hooks apply, in one struct so a hook can take a
+ * coherent snapshot in one copy: the game thread writes it (execute / forge_onUpdate), while any
+ * emulated-CPU host thread may be inside npad_post at the same time (forge_pc.h:41-42: callbacks
+ * run on the emulated CPU cores' host threads, concurrently for different game threads).
+ * s_inject_lock is shared for the snapshot, exclusive for every write, and is never held across a
+ * guest memory access. SRWLOCK_INIT needs no init and cannot be destroyed. */
+typedef struct InjectState {
+    uint32_t buttons;       /* button bits ORed into every Npad state read */
+    int32_t buttons_left;   /* game updates left; < 0 = hold until release */
+    StickOverride stick[2]; /* 0 = L, 1 = R */
+} InjectState;
+static InjectState s_inj;
+static SRWLOCK s_inject_lock = SRWLOCK_INIT;
+
+static void inject_snapshot(InjectState* out)
+{
+    AcquireSRWLockShared(&s_inject_lock);
+    *out = s_inj;
+    ReleaseSRWLockShared(&s_inject_lock);
+}
 
 /* sdk-relative entry points of the public nn::hid Npad readers (sdk 1.4.0 dynsym). multi = the
  * GetNpadStates(State*, int, const u32&) form, which returns the number of states written. */
@@ -134,8 +161,9 @@ static NpadHook s_hooks[] = {
 #define NPAD_STATE_SIZE 0x28u
 #define NPAD_MAX_STATES 16
 
-/* Apply the current injection to one Npad state at guest address st. */
-static void inject_state(uint32_t st)
+/* Apply one snapshot (taken under the lock by npad_post) to the Npad state at guest address st.
+ * Runs without the lock: guest memory reads/writes must not block the game thread's commands. */
+static void inject_state(uint32_t st, const InjectState* inj)
 {
     uint8_t buf[NPAD_STATE_SIZE];
     if (!forge_api->mem_read(st, buf, sizeof(buf))) {
@@ -143,40 +171,48 @@ static void inject_state(uint32_t st)
     }
     uint64_t buttons;
     memcpy(&buttons, buf + 8, 8);
-    buttons |= s_inject;
+    buttons |= inj->buttons;
     memcpy(buf + 8, &buttons, 8);
-    if (s_inject || s_stick[0].on || s_stick[1].on) {
-        /* attributes @0x20: bit0 IsConnected. The caller (main 0x86d37c) stores attr&1 as the
-         * connected flag and ignores the buttons of a disconnected pad. */
-        buf[0x20] |= 1;
-    }
+    /* attributes @0x20: bit0 IsConnected, forced on while anything is injected. The caller
+     * (main 0x86d37c) stores attr&1 as the connected flag and ignores the buttons of a
+     * disconnected pad. */
+    buf[0x20] |= 1;
     for (int i = 0; i < 2; i++) {
-        if (s_stick[i].on) {
-            memcpy(buf + 0x10 + 8 * i, &s_stick[i].x, 4);
-            memcpy(buf + 0x14 + 8 * i, &s_stick[i].y, 4);
+        if (inj->stick[i].on) {
+            memcpy(buf + 0x10 + 8 * i, &inj->stick[i].x, 4);
+            memcpy(buf + 0x14 + 8 * i, &inj->stick[i].y, 4);
         }
     }
     forge_api->mem_write(st, buf, sizeof(buf));
 }
 
-static bool injecting(void) { return s_inject || s_stick[0].on || s_stick[1].on; }
+static bool injecting(const InjectState* inj)
+{
+    return inj->buttons || inj->stick[0].on || inj->stick[1].on;
+}
 
 /* post hook: args[0] = State* out; multi readers return the count in r0. */
 static void npad_post(ForgeCpu* cpu, const uint32_t args[4], void* user)
 {
+    /* The parameter type only promises four entries, but the loader always passes six: args[4] =
+     * the caller's LR at entry, args[5] = SP ("Since 0.2", forge_pc.h:143-146). Widen through a
+     * pointer so the fifth entry is read through a type that covers it. */
+    const uint32_t* a6 = args;
     NpadHook* h = (NpadHook*)user;
+    InjectState inj;
+    inject_snapshot(&inj); /* copy under the lock, release before touching guest memory */
     h->fired++;
     h->last_out = args[0];
     h->last_r0 = cpu->r[0];
-    h->last_lr = args[4];
+    h->last_lr = a6[4];
     h->last_r1 = args[1];
-    if (injecting()) {
+    if (injecting(&inj)) {
         uint32_t n = h->multi ? cpu->r[0] : 1;
         if (n > NPAD_MAX_STATES) {
             n = NPAD_MAX_STATES;
         }
         for (uint32_t i = 0; i < n; i++) {
-            inject_state(args[0] + i * NPAD_STATE_SIZE);
+            inject_state(args[0] + i * NPAD_STATE_SIZE, &inj);
         }
     }
     forge_api->mem_read(args[0] + 8, &h->last_buttons, 8);
@@ -278,29 +314,37 @@ static void execute(char* line, char* out, size_t cap)
         if (!a || !rd32(a, &b)) {
             snprintf(out, cap, "err input singleton not ready");
         } else {
-            snprintf(out, cap, "ok %08x at %08x inject %08x left %d", b, a, s_inject, s_inject_left);
+            InjectState inj; /* snapshot, so the printed pair is consistent */
+            inject_snapshot(&inj);
+            snprintf(out, cap, "ok %08x at %08x inject %08x left %d", b, a, inj.buttons, inj.buttons_left);
         }
     } else if (!strcmp(argv[0], "hold") && argc == 2 && parse_hex(argv[1], &a)) {
-        s_inject = a;
-        s_inject_left = -1;
+        AcquireSRWLockExclusive(&s_inject_lock);
+        s_inj.buttons = a;
+        s_inj.buttons_left = -1;
+        ReleaseSRWLockExclusive(&s_inject_lock);
         snprintf(out, cap, "ok hold %08x", a);
     } else if (!strcmp(argv[0], "tap") && argc == 3 && parse_hex(argv[1], &a) && parse_dec(argv[2], &n) && n > 0) {
-        s_inject = a;
-        s_inject_left = n;
+        AcquireSRWLockExclusive(&s_inject_lock);
+        s_inj.buttons = a;
+        s_inj.buttons_left = n;
+        ReleaseSRWLockExclusive(&s_inject_lock);
         snprintf(out, cap, "ok tap %08x for %d", a, n);
     } else if (!strcmp(argv[0], "stick") && argc == 5 && (argv[1][0] == 'L' || argv[1][0] == 'R') &&
                parse_dec(argv[2], &x) && parse_dec(argv[3], &y) && parse_dec(argv[4], &n) && n >= 0 &&
                x >= -32767 && x <= 32767 && y >= -32767 && y <= 32767) {
-        StickOverride* s = &s_stick[argv[1][0] == 'R'];
-        s->x = x;
-        s->y = y;
-        s->left = n ? n : -1;
-        s->on = true;
+        const bool right = argv[1][0] == 'R';
+        AcquireSRWLockExclusive(&s_inject_lock);
+        s_inj.stick[right].x = x;
+        s_inj.stick[right].y = y;
+        s_inj.stick[right].left = n ? n : -1;
+        s_inj.stick[right].on = true;
+        ReleaseSRWLockExclusive(&s_inject_lock);
         snprintf(out, cap, "ok stick %c %d %d for %d", argv[1][0], x, y, n);
     } else if (!strcmp(argv[0], "release")) {
-        s_inject = 0;
-        s_inject_left = 0;
-        s_stick[0].on = s_stick[1].on = false;
+        AcquireSRWLockExclusive(&s_inject_lock);
+        memset(&s_inj, 0, sizeof(s_inj)); /* buttons = 0 and both sticks off, one atomic step */
+        ReleaseSRWLockExclusive(&s_inject_lock);
         snprintf(out, cap, "ok release");
     } else if (!strcmp(argv[0], "hooks")) {
         size_t at = (size_t)snprintf(out, cap, "ok");
@@ -467,14 +511,16 @@ FORGE_EXPORT void forge_onUpdate(float dt)
 {
     (void)dt;
     /* durations count game updates; the hooks apply whatever is active this update */
-    if (s_inject_left > 0 && --s_inject_left == 0) {
-        s_inject = 0;
+    AcquireSRWLockExclusive(&s_inject_lock);
+    if (s_inj.buttons_left > 0 && --s_inj.buttons_left == 0) {
+        s_inj.buttons = 0;
     }
     for (int i = 0; i < 2; i++) {
-        if (s_stick[i].on && s_stick[i].left > 0 && --s_stick[i].left == 0) {
-            s_stick[i].on = false;
+        if (s_inj.stick[i].on && s_inj.stick[i].left > 0 && --s_inj.stick[i].left == 0) {
+            s_inj.stick[i].on = false;
         }
     }
+    ReleaseSRWLockExclusive(&s_inject_lock);
     if (s_listen == INVALID_SOCKET) {
         return;
     }
@@ -497,8 +543,9 @@ FORGE_EXPORT void forge_onPresent(const ForgePresent* p)
 FORGE_EXPORT void forge_onUnload(void)
 {
     s_stop = 1;
-    s_inject = 0;
-    s_stick[0].on = s_stick[1].on = false;
+    AcquireSRWLockExclusive(&s_inject_lock);
+    memset(&s_inj, 0, sizeof(s_inj)); /* nothing injected after unload, even if a hook still fires */
+    ReleaseSRWLockExclusive(&s_inject_lock);
     hooks_remove();
     if (s_listen != INVALID_SOCKET) {
         closesocket(s_listen); /* unblocks accept */
