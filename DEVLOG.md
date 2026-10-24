@@ -828,3 +828,21 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
     - 48 是 48 字节私有缓冲，不是格数。
     - vtable 实为 0x1740048。
   - 选中格字段仍未找到。
+- **2026-10-25 实机会话（授权到 02:00）**
+  - 程序：`G:\suyu\export\MONSTER HUNTER GENERATIONS ULTIMATE\MONSTER HUNTER GENERATIONS ULTIMATE.exe`，01:17 启动，PID 2688。
+  - 备份：`G:\backups\MHGU-export-user-20261025`（user/nand + forge.ini，15 个文件）。
+  - **越界**：02:16 才停手，超出授权 16 分钟。收尾方式：
+    - 按 exe 路径匹配 PID 后关闭（CloseMainWindow 无响应，改用 Stop-Process）；
+    - 移除 mods/DbgPort；
+    - 存档 14/14 逐文件哈希与备份一致（存档文件 mtime 停在 10-24，本次没有写入）；
+    - forge.ini 未变。
+  - 首次核对报 9 个 FAILED，是核对方法错了：清单路径带 `./` 前缀、在错误目录下运行。改为逐文件比较后全部一致。
+  - DbgPort 结果：
+    - v1（onUpdate 里写 +0x6bfc）：注入无效，游戏每帧覆盖该值。
+    - v2 改为 post hook sdk 的 nn::hid::GetNpadState / GetNpadStates（FullKey/Handheld/JoyDual：sdk+0x257b80/257bd8/257c34/257c8c/258138/258190）。6 个钩子全部挂上；只有 GetNpadState(FullKey) 命中，约 60 次/秒，out = 0x3068f0。
+    - hold 1 后，返回结构 +8 的按键位确实为 1 [C]。但标题画面没有前进，游戏掩码 +0x6bfc 也没有出现 bit 1 [C]。所以游戏的按键不是（只）从这个调用得来的，或者还要求 attributes（IsConnected）位 [U]。
+    - 读到的 0x28 字节布局看起来不像 FullKeyState（+0x10 起是指针状值），+8 是不是 buttons 还没确认 [U]。
+  - 下次授权要做：
+    - 确认 FullKeyState 布局（sdk 版本对应的结构）；
+    - 检查是否还有 GetNpadStates 的 detail 版或 system 版在被调用（sdk+0x244e30 等）；
+    - 找出 +0x6bfc 的真实来源。
