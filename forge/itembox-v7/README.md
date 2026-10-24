@@ -4,9 +4,12 @@
 (`MHGU/patch/1.4.0.pchtxt`, 123 patch lines) to the recompiled MHGU (1.4.0) PC build.
 
 Status (2026-10-24): BoxProbe ran on the real export (`words matched 123/123, block starts
-123/123, distinct B 103, missing B 0`). An offline run of this plugin against the 1.4.0 image
-and the block starts BoxProbe logged covers all 123 lines: 101 cloned groups + the getter hook,
-8 literal loads re-aimed, clones checked word by word (`.tmp/itembox-sim/`, not shipped).
+123/123, distinct B 103, missing B 0`). The plugin was then run **on a fake host only**
+(`.tmp/itembox-sim/`, not shipped): fake ForgeApi, 1.4.0 flat image for `mem_read`, BoxProbe's
+block starts for `is_block`. There it covers all 123 lines (101 cloned groups + the getter
+hook), re-aims 8 literal loads, 4 of them PIC pairs (`ldr r0,[pc,#n]` + `ldr r0,[pc,r0]`)
+resolved to their absolute data address. That is a static check of the generated words, **not
+an execution test**: no clone has run on the JIT yet.
 
 Read this before installing:
 
@@ -37,7 +40,10 @@ therefore works on the recompiled blocks:
    guest buffer (`mem_alloc`), substitutes the V7 word at each site, and appends an absolute
    return to `last site + 4` (`ldr pc,[pc,#-4]` + address = `0xE51FF004`, spec Appendix A).
 4. Literal loads `ldr rD,[pc,#imm]` (rD != pc) in the copied range are kept: the literal is
-   read from the game and stored after the return veneer, and the load is re-aimed at it. A
+   read from the game and stored after the return veneer, and the load is re-aimed at it. If
+   the literal is a PIC offset consumed by a later `ldr rD,[pc,rD]` (only plain data-processing
+   words in between, none writing rD), the pool holds the absolute address instead and that
+   second load becomes `ldr rD,[rD]`. A
    group is **not** cloned when the range contains any other instruction whose meaning depends
    on its own address or that leaves the range: `b`/`bl`/`blx` to an immediate, `str` or other
    addressing with `pc` as base, `adr`, `mov pc`, `ldr pc`, `pop`/`ldm`/`stm` with `pc`,
@@ -50,6 +56,8 @@ therefore works on the recompiled blocks:
    `FORGE_HOOK_JUMP`. Clones execute on the JIT (they have no recompiled block), so the cost is
    a JIT transition per entry, not the original AOT speed (spec section 4 R7).
 6. The first hit of every hook is logged once.
+7. With `ENABLE` present the plugin first does a full dry pass; the install pass runs only if
+   the dry pass covered all 123 lines, so no hook is ever live in a partial state.
 
 The clone memory is never freed or reused: the JIT caches a translation per guest address, so
 different bytes at the same address would run stale code (spec section 4 R11). For that reason

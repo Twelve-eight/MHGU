@@ -70,6 +70,7 @@ static uint32_t s_block[IBOX_SITE_COUNT];     /* B of every site, 0 = none found
 static uint32_t s_order[IBOX_SITE_COUNT];     /* site indices sorted by (B, vaddr) */
 static uint32_t s_words[WORDS_MAX + POOL_MAX]; /* copy of B..last site + veneer + literal pool */
 static uint32_t s_pool[POOL_MAX];             /* literals of the re-aimed loads */
+static unsigned char s_fixed[WORDS_MAX];      /* 1 = word rewritten by the literal pass */
 static IboxGroup s_group[IBOX_SITE_COUNT];    /* installed groups, in install order */
 static uint32_t s_group_count;
 static uint32_t s_skip_hazard;
@@ -238,9 +239,18 @@ static const char* pc_hazard(uint32_t w)
             return "ldr/str pc offset";
         }
         return NULL;
-    case 0x3u: /* 011: media instructions (parallel add/sub, pack, extend, rev): no pc
-                * operand and no branch exists in this space, so nothing to report */
-        return NULL;
+    case 0x3u: /* 011: bit 4 = 0 is ldr/str with a register offset; bit 4 = 1 is media
+                * (parallel add/sub, pack, extend, rev), which has no pc operand or branch */
+        if ((w & 0x10u) != 0) {
+            return NULL;
+        }
+        if (rn == 0xFu) {
+            return "ldr/str pc + register"; /* e.g. ldr r0,[pc,r0]: pc-relative data access */
+        }
+        if (rd == 0xFu) {
+            return "ldr/str pc";
+        }
+        return rm == 0xFu ? "ldr/str pc offset" : NULL;
     case 0x1u: /* 001: dp immediate, or movw/movt (bits 24-20 = 10000 / 10100) */
         if (op20 == 0x10u || op20 == 0x14u) {
             return rd == 0xFu ? "movw/movt pc" : NULL;
@@ -396,40 +406,68 @@ static bool process_group(uint32_t block, uint32_t first, uint32_t count, bool e
         }
         s_words[index] = site->patched_word;
     }
-    /* Literal loads `ldr rD,[pc,#+-imm]` (rD != pc) are the one pc-relative form the clone can
-     * keep: the literal is read from the live game now and placed in a pool after the return
-     * veneer, and the load is re-aimed at that pool. 5 of the 101 groups need this (offline run
-     * against the BoxProbe result, 2026-10-24). Everything else pc-relative is still refused. */
+    /* Literal loads `ldr rD,[pc,#+-imm]` (rD != pc) are kept: the literal is read from the game
+     * and placed in a pool after the return veneer, and the load is re-aimed at that pool.
+     * When the literal is a pc-relative offset consumed by a later `ldr rD,[pc,rD]` (the PIC
+     * idiom in 4 of the groups: offset load, then `ldr r0,[pc,r0]`), the absolute address
+     * literal + (that ldr + 8) goes into the pool instead and the second load becomes
+     * `ldr rD,[rD]`. Only words rewritten here skip the hazard scan below. */
     npool = 0;
+    memset(s_fixed, 0, sizeof(s_fixed));
     for (k = 0; k < nwords; k++) {
         const uint32_t w = s_words[k];
+        const uint32_t rd = (w >> 12) & 0xFu;
 
-        if ((w & 0x0F7F0000u) == 0x051F0000u && ((w >> 12) & 0xFu) != 0xFu && (w >> 28) != 0xFu) {
+        if ((w & 0x0F7F0000u) == 0x051F0000u && rd != 0xFu && (w >> 28) != 0xFu) {
             const uint32_t imm = w & 0xFFFu;
             const uint32_t at = block + k * 4u + 8u;
             const uint32_t lit = (w & 0x00800000u) ? at + imm : at - imm;
+            const uint32_t pair = (0xE79F0000u | (rd << 12) | rd); /* ldr rD,[pc,rD] */
+            uint32_t value;
             uint32_t off;
+            uint32_t j;
 
-            if (!forge_api->mem_read(lit, &s_pool[npool], 4u)) {
+            if (!forge_api->mem_read(lit, &value, 4u)) {
                 s_skip_memory++;
                 out(FORGE_LOG_ERROR, "[4] B main+%#x rows %s: literal at %#010x unreadable, "
                     "skipped", b_off, rows, lit);
                 return false;
             }
+            /* Pair only across plain data-processing words that do not write rD. */
+            for (j = k + 1u; j < nwords; j++) {
+                const uint32_t v = s_words[j];
+                const uint32_t cls = (v >> 25) & 0x7u;
+                const bool dp = (v >> 28) == 0xEu &&
+                                (cls == 0x1u || (cls == 0x0u && (v & 0x10u) == 0));
+
+                if (v == pair || !dp || ((v >> 12) & 0xFu) == rd) {
+                    break;
+                }
+            }
+            if (j < nwords && s_words[j] == pair) {
+                value += block + j * 4u + 8u;                      /* absolute data address */
+                s_words[j] = 0xE5900000u | (rd << 16) | (rd << 12); /* ldr rD,[rD] */
+                s_fixed[j] = 1;
+            }
             /* pool word npool sits at clone + (nwords + 2 + npool) * 4; pc reads as here + 8 */
             off = (nwords + 2u + npool) * 4u - (k * 4u + 8u);
+            if (off > 0xFFFu) {
+                s_skip_internal++;
+                out(FORGE_LOG_ERROR, "[4] B main+%#x rows %s: literal pool out of ldr range, "
+                    "skipped", b_off, rows);
+                return false;
+            }
+            s_pool[npool++] = value;
             s_words[k] = (w & 0xFF70F000u) | 0x00800000u | 0x000F0000u | off; /* U=1, Rn=pc */
-            npool++;
+            s_fixed[k] = 1;
         }
     }
     /* One straight run of address-independent instructions is required. */
     for (k = 0; k < nwords; k++) {
-        const uint32_t w = s_words[k];
-
-        if ((w & 0x0F7F0000u) == 0x051F0000u && ((w >> 12) & 0xFu) != 0xFu && (w >> 28) != 0xFu) {
-            continue; /* re-aimed literal load from above (rD = pc stays a hazard) */
+        if (s_fixed[k]) {
+            continue;
         }
-        hazard = pc_hazard(w);
+        hazard = pc_hazard(s_words[k]);
         if (hazard != NULL) {
             hazard_at = k;
             break;
@@ -490,10 +528,10 @@ static bool process_group(uint32_t block, uint32_t first, uint32_t count, bool e
     return true;
 }
 
-static void install(void)
+/* One pass over all 123 lines. Returns true when every line is covered. With enable = false
+ * nothing is allocated, written or hooked. */
+static bool install(bool enable)
 {
-    char gate[1024];
-    const bool enable = enable_requested(gate, sizeof(gate));
     const uint32_t base = forge_api->mem_getModuleBase("main");
     const uint32_t size = forge_api->mem_getModuleSize("main");
     uint32_t verified = 0;
@@ -506,33 +544,32 @@ static void install(void)
     size_t i;
 
     s_group_count = 0;
+    s_getter_hook = NULL;
     s_skip_hazard = 0;
     s_skip_memory = 0;
     s_skip_hook = 0;
     s_skip_internal = 0;
 
-    out(FORGE_LOG_INFO, "[0] gate %s %s: %s", gate[0] ? gate : "<mods dir unknown>",
-        enable ? "present" : "missing",
-        enable ? "installing" : "dry run, no hook is created (create the file to install)");
+    out(FORGE_LOG_INFO, "[0] pass: %s", enable ? "install" : "dry run (nothing is changed)");
 
     /* Step 1: module "main" and the range the table needs (spec 5, step 1; risk R0). */
     out(FORGE_LOG_INFO, "[1] main base %#010x, size %#x (%u bytes)", base, size, size);
     if (base == 0 || size == 0) {
         out(FORGE_LOG_ERROR, "[1] FAIL: module \"main\" not found, nothing installed");
-        return;
+        return false;
     }
     if (size < HIGHEST_SITE) {
         out(FORGE_LOG_ERROR, "[1] FAIL: highest site main+%#x is outside the module (size %#x)",
             HIGHEST_SITE, size);
-        return;
+        return false;
     }
     if (!forge_api->mem_read || !forge_api->is_block) {
         out(FORGE_LOG_ERROR, "[1] FAIL: loader lacks mem_read/is_block (Forge PC 0.7 required)");
-        return;
+        return false;
     }
     if (enable && (!forge_api->hook_create || !forge_api->mem_alloc || !forge_api->mem_write)) {
         out(FORGE_LOG_ERROR, "[1] FAIL: loader lacks hook_create/mem_alloc/mem_write");
-        return;
+        return false;
     }
     s_base = base;
 
@@ -561,7 +598,7 @@ static void install(void)
         out(FORGE_LOG_ERROR, "[2] FAIL CLOSED: %u of %u sites do not hold their 1.4.0 "
             "instruction; nothing installed (wrong game version or module base?)",
             mismatches, (unsigned)IBOX_SITE_COUNT);
-        return;
+        return false;
     }
 
     /* Step 3: block start of every site: is_block, else walk back up to 0x400 bytes. */
@@ -680,10 +717,11 @@ static void install(void)
             "lines above); the game runs unmodified",
             (unsigned)IBOX_SITE_COUNT - covered, (unsigned)IBOX_SITE_COUNT,
             enable ? "ALL hooks switched off again" : "an install would be refused");
-    } else {
-        out(FORGE_LOG_INFO, "[6] %s: all %u patch lines covered", enable ? "ACTIVE" : "dry run OK",
-            (unsigned)IBOX_SITE_COUNT);
+        return false;
     }
+    out(FORGE_LOG_INFO, "[6] %s: all %u patch lines covered", enable ? "ACTIVE" : "dry run OK",
+        (unsigned)IBOX_SITE_COUNT);
+    return true;
 }
 
 FORGE_EXPORT void forge_onLoad(ForgePluginInfo* info)
@@ -702,7 +740,20 @@ FORGE_EXPORT void forge_onInit(void)
         out(FORGE_LOG_WARN, "cannot write %s/" MOD_FOLDER "/itembox.txt, logging only",
             forge_api->mods_dir() ? forge_api->mods_dir() : "?");
     }
-    install();
+    {
+        char gate[1024];
+        const bool want = enable_requested(gate, sizeof(gate));
+
+        out(FORGE_LOG_INFO, "[0] gate %s %s", gate[0] ? gate : "<mods dir unknown>",
+            want ? "present: dry run first, install only if all 123 lines pass"
+                 : "missing: dry run only (create the file to install)");
+        /* Two passes so no hook is ever live in a partial state: the install pass runs only
+         * after the dry pass covered all 123 lines. Its own all-or-nothing rollback still
+         * covers failures that only show up there (mem_alloc, hook_create). */
+        if (install(false) && want) {
+            install(true);
+        }
+    }
     if (s_report) {
         fclose(s_report);
         s_report = NULL;
