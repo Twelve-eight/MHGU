@@ -122,38 +122,49 @@ function arcNumber(emid) {
   return emid >= 4096 ? emid - 4096 : emid & 0xff;
 }
 
+// Small monsters live in their own arc family (emsNNN, emid 4096+NNN), large ones in emNNN
+// (emid & 0xFF). Grouping must keep the two families apart: Aptonoth (4097) and Rathian (1)
+// both have number 1 but are different arcs.
+function groupKey(family, num) {
+  return `${family}${String(num).padStart(3, '0')}`;
+}
+
+function slotGroupKey(slot) {
+  return groupKey(slot.emid >= 4096 ? 'ems' : 'em', arcNumber(slot.emid));
+}
+
 function parseArcName(file) {
   const m = /^(em|ems)(\d{3})_(\d{2})\.arc$/i.exec(file);
   if (!m) return null;
   return { file, stem: m[1].toLowerCase() + m[2] + '_' + m[3], family: m[1].toLowerCase(), num: Number(m[2]), variant: Number(m[3]) };
 }
 
-// Slots grouped by enemy-table number, arcs grouped the same way; pair by position.
+// Slots grouped by enemy-table number + arc family, arcs grouped the same way; pair by position.
 function pairArcs(arcs, slots) {
   const byNum = new Map();
   for (const s of slots) {
-    const n = arcNumber(s.emid);
-    if (!byNum.has(n)) byNum.set(n, []);
-    byNum.get(n).push(s);
+    const key = slotGroupKey(s);
+    if (!byNum.has(key)) byNum.set(key, []);
+    byNum.get(key).push(s);
   }
   const arcsByNum = new Map();
   for (const a of arcs) {
-    if (!arcsByNum.has(a.num)) arcsByNum.set(a.num, []);
-    arcsByNum.get(a.num).push(a);
+    const key = groupKey(a.family, a.num);
+    if (!arcsByNum.has(key)) arcsByNum.set(key, []);
+    arcsByNum.get(key).push(a);
   }
   const pairing = new Map();
   const warnings = [];
-  for (const [num, list] of arcsByNum) {
+  for (const [key, list] of arcsByNum) {
     list.sort((a, b) => a.variant - b.variant);
-    const owners = (byNum.get(num) || []).slice();
-    for (const a of list) {
-      const idx = list.indexOf(a);
+    const owners = (byNum.get(key) || []).slice();
+    list.forEach((a, idx) => {
       const owner = owners[idx];
       pairing.set(a.stem, owner ?? null);
-      if (!owner) warnings.push(`${a.stem}: no slot left for enemy-table number ${num} (${list.length} arcs vs ${owners.length} slots)`);
-    }
+      if (!owner) warnings.push(`${a.stem}: no slot left for group ${key} (${list.length} arcs vs ${owners.length} slots)`);
+    });
     if (owners.length > list.length) {
-      for (const s of owners.slice(list.length)) warnings.push(`slot ${s.slot} (emid ${s.emid}, ${s.en}): no arc for enemy-table number ${num}`);
+      for (const s of owners.slice(list.length)) warnings.push(`slot ${s.slot} (emid ${s.emid}, ${s.en}): no arc for group ${key}`);
     }
   }
   return { pairing, warnings, byNum };
@@ -167,36 +178,158 @@ function bytesEq(buf, off, pat) {
   return true;
 }
 
-// Meat table: rows of 9 values + 1 pad byte. Anchor = first db base row; the window scan keeps
-// every hit and scores the following rows, so a table starting 1-2 B early/late still resolves.
+// Meat table: rows of 9 values + 1 pad byte, start offset varies per monster (0x8C / 0x8E / 0x8F /
+// 0x90 seen). Every offset in the window is scored by how many db base rows it reproduces (LCS
+// alignment of the 8 slots), so a monster whose row 0 differs from db by a point still anchors at
+// the right place, and an offset that happens to repeat a common row cannot win over the real one.
+function buildMeatRows(buf, offset) {
+  const rows = [];
+  for (let k = 0; k < 8; k++) {
+    const o = offset + k * MEAT_STRIDE;
+    if (o + 10 > buf.length) break;
+    const row = { offset: o };
+    MEAT_COLS.forEach((c, i) => { row[c] = buf[o + i]; });
+    row.pad = buf[o + 9];
+    row.db_body_part = null;
+    row.ok = null;
+    rows.push(row);
+  }
+  return rows;
+}
+
+function scoreMeatOffset(buf, offset, baseRows) {
+  const rows = buildMeatRows(buf, offset);
+  const align = alignMeatRows(rows, baseRows);
+  const pad = rows.filter(r => r.pad === MEAT_PAD).length;
+  const row0bytes = rows[0] ? MEAT_COLS.reduce((n, c) => n + (rows[0][c] === (baseRows[0]?.[c] ?? 0) ? 1 : 0), 0) : 0;
+  return { offset, matched: align.matched, pad, row0bytes, rows, align };
+}
+
 function locateMeat(buf, baseRows) {
-  if (!baseRows.length) return { offset: null, matched: 0, compared: 0, candidates: [] };
-  const pats = baseRows.map(r => MEAT_COLS.map(c => (r[c] ?? 0) & 0xff));
+  const res = { offset: null, matched: 0, compared: 0, candidates: [], near: [] };
+  if (!baseRows.length) return res;
+  res.compared = baseRows.length;
   const scan = (from, to) => {
     const hits = [];
-    for (let o = Math.max(0, from); o + 9 <= Math.min(to, buf.length); o++) {
-      if (!bytesEq(buf, o, pats[0])) continue;
-      let matched = 1;
-      let pad = buf[o + 9] === MEAT_PAD ? 1 : 0;
-      for (let k = 1; k < Math.min(pats.length, 8); k++) {
-        const p = o + k * MEAT_STRIDE;
-        if (p + 9 > buf.length) break;
-        if (bytesEq(buf, p, pats[k])) matched++;
-        if (buf[p + 9] === MEAT_PAD) pad++;
-      }
-      hits.push({ offset: o, matched, pad });
+    for (let o = Math.max(0, from); o + MEAT_STRIDE * 2 <= Math.min(to, buf.length); o++) {
+      const s = scoreMeatOffset(buf, o, baseRows);
+      if (s.matched > 0) hits.push(s);
     }
     return hits;
   };
-  let hits = scan(MEAT_WINDOW[0], MEAT_WINDOW[1]);
-  if (!hits.length) hits = scan(0, buf.length); // header wider than the window on this monster
-  if (!hits.length) return { offset: null, matched: 0, compared: Math.min(baseRows.length, 8), candidates: [] };
-  hits.sort((a, b) => b.matched - a.matched || b.pad - a.pad || a.offset - b.offset);
-  const best = hits[0];
-  return { offset: best.offset, matched: best.matched, compared: Math.min(baseRows.length, 8), candidates: hits };
+  let pool = scan(MEAT_WINDOW[0], MEAT_WINDOW[1]);
+  if (!pool.length || Math.max(...pool.map(h => h.matched)) < 2) pool = pool.concat(scan(0, buf.length));
+  pool.sort((a, b) => b.matched - a.matched || b.pad - a.pad || b.row0bytes - a.row0bytes || a.offset - b.offset);
+  res.candidates = pool.slice(0, 5).map(c => ({ offset: c.offset, matched: c.matched, pad: c.pad, row0bytes: c.row0bytes }));
+  res.near = res.candidates;
+  if (pool.length) {
+    const best = pool[0];
+    res.offset = best.offset;
+    res.matched = best.matched;
+    res.rows = best.rows;
+    res.align = best.align;
+    res.row0_bytes = best.row0bytes;
+  }
+  return res;
 }
 
 // Status block: 12 B per record, immune rows omitted, +4 B after Poison and +12 B after Jump.
+// The scan keeps the best-scoring offset even when no offset matches perfectly, so a monster whose
+// romfs values disagree with mhgu.db is reported as a located-but-different table instead of
+// silently turning into "absent".
+// When mhgu.db and romfs disagree on more than a couple of fields the db-anchored scan cannot find
+// the block at all. This structural pass looks for the block itself: the first present status row
+// carries A = 600 (0x258), a small B, a frame duration that is a whole number of seconds, and
+// bounded initial/increase/max. It then reuses the same layout walk so the fields stay comparable.
+function findStatusStructural(buf, layout) {
+  let best = null;
+  for (let p = 0x30; p + 4 * 12 <= buf.length; p += 2) {
+    const initial = buf.readUInt16LE(p);
+    const a = buf.readUInt16LE(p + 2);
+    const b = buf.readUInt16LE(p + 4);
+    const dur = buf.readUInt16LE(p + 6);
+    const inc = buf.readUInt16LE(p + 8);
+    const max = buf.readUInt16LE(p + 10);
+    if (!(initial > 0 && initial <= 800)) continue;
+    if (a !== 600) continue;
+    if (!(b >= 1 && b <= 32)) continue;
+    if (!(dur % 60 === 0 && dur <= 18000)) continue;
+    if (!(inc <= 300 && max > 0 && max <= 5000)) continue;
+    let nonZero = 0;
+    for (const st of layout.present) {
+      const o = p + layout.rel.get(st);
+      if (o + 12 > buf.length) { nonZero = -1; break; }
+      if (buf.readUInt16LE(o) !== 0 || buf.readUInt16LE(o + 10) !== 0) nonZero++;
+    }
+    if (nonZero < Math.max(2, layout.present.length - 3)) continue;
+    if (!best || nonZero > best.nonZero) best = { offset: p, nonZero };
+  }
+  return best;
+}
+
+function locateStatus(buf, dbStatus) {
+  const res = { offset: null, matched: 0, total: 0, records: [], full: [], best: null };
+  if (!dbStatus || !dbStatus.size) return res;
+  const layout = statusLayout(dbStatus);
+  if (!layout.present.length) return res;
+  const need = layout.present.length * 4;
+  res.total = layout.present.length;
+  const full = [];
+  let best = null;
+  for (let p = 0x30; p + 4 * 12 <= buf.length; p += 2) {
+    const s = scoreStatusAt(buf, p, dbStatus, layout);
+    if (s.hits < 0) break;
+    if (!best || s.hits > best.hits) best = { offset: p, hits: s.hits, need };
+    if (s.hits === need) full.push(p);
+  }
+  res.full = full;
+  res.best = best;
+  let choose = full.length ? full[0] : (best && best.hits >= need - 2 ? best.offset : null);
+  if (choose === null && layout.present.length >= 2) {
+    const structural = findStatusStructural(buf, layout);
+    if (structural) {
+      choose = structural.offset;
+      res.structural = true;
+      res.structural_rows = structural.nonZero;
+    }
+  }
+  if (choose === null) {
+    if (best) {
+      res.bestRows = layout.present.map(st => ({
+        status: st,
+        values: [0, 1, 2, 3, 4, 5].map(i => buf.readUInt16LE(best.offset + layout.rel.get(st) + i * 2)),
+      }));
+    }
+    return res;
+  }
+  res.offset = choose;
+  let matched = 0;
+  for (const st of layout.present) {
+    const o = choose + layout.rel.get(st);
+    const rec = { status: st, offset: o };
+    STATUS_FIELDS.forEach((f, i) => { rec[f] = buf.readUInt16LE(o + i * 2); });
+    const r = dbStatus.get(st);
+    rec.db = { initial: r.initial, duration: r.duration, increase: r.increase, max: r.max };
+    rec.diffs = [];
+    if (rec.initial !== r.initial) rec.diffs.push(`initial ${rec.initial}/${r.initial}`);
+    const durSec = r.duration ?? 0;
+    if (rec.durationFrames === durSec * 60) {
+      // exact
+    } else if (Math.floor(rec.durationFrames / 60) === durSec) {
+      rec.durationRemainderFrames = rec.durationFrames % 60; // db rounds the duration down to whole seconds
+    } else {
+      rec.diffs.push(`duration ${rec.durationFrames}f/${durSec}s`);
+    }
+    if (rec.increase !== r.increase) rec.diffs.push(`increase ${rec.increase}/${r.increase}`);
+    if (rec.max !== r.max) rec.diffs.push(`max ${rec.max}/${r.max}`);
+    rec.ok = rec.diffs.length === 0;
+    if (rec.ok) matched++;
+    res.records.push(rec);
+  }
+  res.matched = matched;
+  return res;
+}
+
 function statusLayout(dbStatus) {
   const present = [];
   for (const st of STATUS_ORDER) {
@@ -222,41 +355,54 @@ function scoreStatusAt(buf, p, dbStatus, layout) {
     const o = p + layout.rel.get(st);
     if (o + 12 > buf.length) return { hits: -1, need: layout.present.length * 4 };
     const r = dbStatus.get(st);
+    const frames = buf.readUInt16LE(o + 6);
+    const durSec = r.duration ?? 0;
     if (buf.readUInt16LE(o) === r.initial) hits++;
-    if (buf.readUInt16LE(o + 6) === (r.duration ?? 0) * 60) hits++;
+    // mhgu.db stores whole seconds, romfs keeps frames: 464 f = 7.73 s is recorded as 7.
+    if (frames === durSec * 60 || Math.floor(frames / 60) === durSec) hits++;
     if (buf.readUInt16LE(o + 8) === r.increase) hits++;
     if (buf.readUInt16LE(o + 10) === r.max) hits++;
   }
   return { hits, need: layout.present.length * 4 };
 }
 
-function locateStatus(buf, dbStatus) {
-  if (!dbStatus || !dbStatus.size) return { offset: null, matched: 0, total: 0, records: [], full: [] };
-  const layout = statusLayout(dbStatus);
-  if (!layout.present.length) return { offset: null, matched: 0, total: 0, records: [], full: [] };
-  const need = layout.present.length * 4;
-  const full = [];
-  for (let p = 0x30; p + 4 * 12 <= buf.length; p += 2) {
-    const { hits } = scoreStatusAt(buf, p, dbStatus, layout);
-    if (hits === need) full.push(p);
-  }
-  const at = full.length ? full[0] : null;
-  const records = [];
-  let matched = 0;
-  if (at !== null) {
-    for (const st of layout.present) {
-      const o = at + layout.rel.get(st);
-      const rec = { status: st, offset: o };
-      STATUS_FIELDS.forEach((f, i) => { rec[f] = buf.readUInt16LE(o + i * 2); });
-      const r = dbStatus.get(st);
-      rec.db = { initial: r.initial, duration: r.duration, increase: r.increase, max: r.max };
-      rec.ok = rec.initial === r.initial && rec.durationFrames === (r.duration ?? 0) * 60
-        && rec.increase === r.increase && rec.max === r.max;
-      if (rec.ok) matched++;
-      records.push(rec);
+// Some monsters carry an unused extra row in the 8-slot meat table (Mizutsune row 5 repeats Front
+// Legs before Neck/Fin; Kushala pads row 7 with 100s where db has Wings). Align db base rows to
+// dttune rows by longest common subsequence so a skipped slot does not turn into a value mismatch,
+// while a genuinely different value still leaves its db part unmatched.
+function alignMeatRows(rows, baseRows) {
+  const n = baseRows.length;
+  const m = rows.length;
+  const eq = (i, j) => rows[j] && MEAT_COLS.every(c => rows[j][c] === (baseRows[i][c] ?? 0));
+  const dp = Array.from({ length: n + 1 }, () => new Array(m + 1).fill(0));
+  for (let i = 1; i <= n; i++) {
+    for (let j = 1; j <= m; j++) {
+      dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1] + (eq(i - 1, j - 1) ? 1 : 0));
     }
   }
-  return { offset: at, matched, total: layout.present.length, records, full };
+  const pairs = [];
+  let i = n;
+  let j = m;
+  while (i > 0 && j > 0) {
+    if (eq(i - 1, j - 1) && dp[i][j] === dp[i - 1][j - 1] + 1) {
+      pairs.push([i - 1, j - 1]);
+      i--;
+      j--;
+    } else if (dp[i - 1][j] >= dp[i][j - 1]) {
+      i--;
+    } else {
+      j--;
+    }
+  }
+  pairs.reverse();
+  const dbUsed = new Set(pairs.map(p => p[0]));
+  const rowUsed = new Set(pairs.map(p => p[1]));
+  return {
+    pairs,
+    matched: pairs.length,
+    unmatchedDb: baseRows.map((r, k) => k).filter(k => !dbUsed.has(k)),
+    extraRows: rows.map((r, k) => k).filter(k => !rowUsed.has(k)),
+  };
 }
 
 // ---------------------------------------------------------------- per-arc work
@@ -271,8 +417,14 @@ function readDttuneEntry(arcFile) {
   }
   const entries = arc.entries.filter(e => /(^|[\\/])[^\\/]*_dttune$/i.test(e.name));
   if (!entries.length) return { error: `no *_dttune entry among ${arc.count} entries` };
-  if (entries.length > 1) return { error: `${entries.length} *_dttune entries (expected 1)` };
-  const entry = entries[0];
+  // A few arcs ship more than one *_dttune (em084_00 has two): take the one named after the arc.
+  const stem = path.basename(arcFile, '.arc');
+  const own = entries.filter(e => {
+    const base = e.name.split(/[\\/]+/).pop();
+    return base === `${stem}_dttune`;
+  });
+  const entry = (own.length === 1 ? own[0] : entries[0]);
+  const siblings = entries.filter(e => e !== entry).map(e => e.name);
   if (entry.size === 0) return { error: `dttune entry is empty` };
   let data;
   try {
@@ -280,7 +432,7 @@ function readDttuneEntry(arcFile) {
   } catch (err) {
     return { error: `inflate: ${err.message}` };
   }
-  return { data, entry, arcCount: arc.count, typeHash: entry.typeHash };
+  return { data, entry, siblings, arcCount: arc.count, typeHash: entry.typeHash };
 }
 
 function analyseArc(arc, ctx) {
@@ -316,6 +468,7 @@ function analyseArc(arc, ctx) {
   }
   rec.entry = dtt.entry.name;
   rec.type_hash = hex(dtt.typeHash);
+  if (dtt.siblings && dtt.siblings.length) rec.notes.push(`extra dttune entries in arc: ${dtt.siblings.join(', ')}`);
   if (dtt.typeHash !== DTTUNE_TAG) rec.notes.push(`unexpected type hash ${hex(dtt.typeHash)}`);
   rec.size = dtt.data.length;
 
@@ -350,53 +503,109 @@ function analyseArc(arc, ctx) {
       const row = { offset: o };
       MEAT_COLS.forEach((c, i) => { row[c] = dtt.data[o + i]; });
       row.pad = dtt.data[o + 9];
-      const exp = baseRows[k];
-      row.db_body_part = exp ? exp.body_part : null;
-      row.ok = exp ? MEAT_COLS.every(c => row[c] === (exp[c] ?? 0)) : null;
+      row.db_body_part = null;  // set by alignMeatRows for the rows that pair with a db part
+      row.ok = null;
       rows.push(row);
     }
     rec.offsets.meat = hex(meat.offset);
-    rec.meat = { offset: meat.offset, stride: MEAT_STRIDE, matched: meat.matched, compared: meat.compared, rows };
-    rec.meat_rows = meat.matched;
+    const align = alignMeatRows(rows, baseRows);
+    for (const [dbIdx, rowIdx] of align.pairs) {
+      rows[rowIdx].db_body_part = baseRows[dbIdx].body_part;
+      rows[rowIdx].ok = true;
+    }
+    const unmatchedParts = align.unmatchedDb.map(k => baseRows[k].body_part);
+    const extraRows = align.extraRows;
+    // Leftover db rows and leftover dttune slots usually describe the same part with one divergent
+    // value (Kushala Wings impact 20/15, Zinogre Tail Tip impact 20/19). Pair them positionally and
+    // report the field-level difference instead of calling the slot "extra".
+    const valueDiffs = [];
+    const pairedExtra = new Set();
+    for (let k = 0; k < Math.min(align.unmatchedDb.length, extraRows.length); k++) {
+      const dbRow = baseRows[align.unmatchedDb[k]];
+      const rowIdx = extraRows[k];
+      const diffs = MEAT_COLS
+        .filter(c => rows[rowIdx][c] !== (dbRow[c] ?? 0))
+        .map(c => `${c} ${rows[rowIdx][c]}/${dbRow[c] ?? 0}`);
+      pairedExtra.add(rowIdx);
+      valueDiffs.push({ part: dbRow.body_part, row: rowIdx, diffs });
+    }
+    const trueExtras = extraRows.filter(k => !pairedExtra.has(k));
+    rec.meat = {
+      offset: meat.offset,
+      stride: MEAT_STRIDE,
+      matched: align.matched,
+      compared: baseRows.length,
+      row0_bytes: meat.row0_bytes ?? null,
+      unmatched_db_parts: unmatchedParts,
+      unmatched_db_values: align.unmatchedDb.map(k => ({ part: baseRows[k].body_part, v: MEAT_COLS.map(c => baseRows[k][c] ?? 0) })),
+      value_diffs: valueDiffs,
+      extra_dttune_rows: trueExtras,
+      extra_dttune_values: trueExtras.map(k => ({ row: k, v: MEAT_COLS.map(c => rows[k][c]), pad: rows[k].pad })),
+      rows,
+    };
+    rec.meat_rows = align.matched;
     if (meat.candidates.length > 1) rec.notes.push(`${meat.candidates.length} meat anchors in range`);
     if (meat.offset !== 0x8e) rec.notes.push(`meat table starts at ${hex(meat.offset)} (not 0x8e)`);
-    rec.db_match.meat = baseRows.length ? meat.matched === meat.compared && meat.compared > 0 : null;
-    if (baseRows.length && !rec.db_match.meat) {
-      const diff = rows.filter(r => r.ok === false).map(r => `${r.db_body_part ?? '?'}@${hex(r.offset)}`);
-      rec.notes.push(`meat mismatch rows: ${diff.join(', ')}`);
-    }
+    const stillUnmatched = unmatchedParts.slice(valueDiffs.length);
+    const realDiffs = valueDiffs.filter(v => v.diffs.length);
+    // A pure permutation (same values, different slot order - Chaotic Gore swaps Body and R. Wing
+    // Talon) is not a value conflict; the alignment still labels every part correctly.
+    const pureReorder = valueDiffs.length > 0 && !realDiffs.length && !stillUnmatched.length && !trueExtras.length;
+    rec.db_match.meat = baseRows.length ? (align.matched === baseRows.length || pureReorder) : null;
+    if (realDiffs.length) rec.notes.push(`meat value diffs: ${realDiffs.map(v => `${v.part}[${v.diffs.join(', ')}]`).join(' ')}`);
+    if (pureReorder) rec.notes.push(`meat row order differs from db, values identical: ${valueDiffs.map(v => v.part).join(', ')}`);
+    if (stillUnmatched.length) rec.notes.push(`meat unmatched db parts: ${stillUnmatched.join(', ')}`);
+    if (trueExtras.length) rec.notes.push(`dttune meat rows with no db part: ${trueExtras.join(',')}`);
   } else {
     rec.meat_rows = 0;
     rec.notes.push(dbMon
       ? 'meat table not located (db base row 0 pattern not found)'
       : 'no db monster for this arc — meat table not locatable without db anchors');
+    if (meat.near && meat.near.length) {
+      rec.meat_scan = meat.near.map(c => ({ offset: hex(c.offset), rows_matched: c.matched, pad_rows: c.pad, row0_bytes: c.row0bytes }));
+    }
   }
 
   // --- status
   const st = locateStatus(dtt.data, dbStatus);
   if (st.offset !== null) {
     rec.offsets.status = hex(st.offset);
-    rec.status = { offset: st.offset, matched: st.matched, total: st.total, records: st.records, ambiguous_hits: st.full.length };
+    rec.status = { offset: st.offset, matched: st.matched, total: st.total, records: st.records, ambiguous_hits: st.full.length, structural: !!st.structural };
     rec.status_records = st.records.length;
+    if (st.structural) rec.notes.push(`status block located structurally at ${hex(st.offset)} (db-anchored scan failed, ${st.structural_rows} non-zero rows)`);
     if (st.full.length > 1) rec.notes.push(`${st.full.length} full status blocks match (using ${hex(st.offset)})`);
     if (st.offset !== 0x35c) rec.notes.push(`status block starts at ${hex(st.offset)} (not 0x35c)`);
     rec.db_match.status = st.matched === st.total;
-    const bad = st.records.filter(r => !r.ok).map(r => r.status);
-    if (bad.length) rec.notes.push(`status mismatch: ${bad.join(', ')}`);
+    const bad = st.records.filter(r => !r.ok).map(r => `${r.status}[${r.diffs.join(', ')}]`);
+    if (bad.length) rec.notes.push(`status mismatch: ${bad.join(' ')}`);
   } else {
     rec.status_records = 0;
-    if (dbStatus && dbStatus.size) rec.notes.push(`status block not located (db has ${dbStatus.size} rows)`);
-    else rec.notes.push('db has no monster_status rows (not comparable)');
+    if (dbStatus && dbStatus.size) {
+      const bestTxt = st.best ? `, best partial ${st.best.hits}/${st.best.need} @${hex(st.best.offset)}` : '';
+      rec.notes.push(`status block not located (db has ${dbStatus.size} rows${bestTxt})`);
+      if (st.best) rec.status_scan = { offset: hex(st.best.offset), hits: st.best.hits, need: st.best.need, rows: st.bestRows ?? null };
+    } else {
+      rec.notes.push('db has no monster_status rows (not comparable)');
+    }
   }
 
-  rec.db_match.hp = dbMon ? rec.hp === dbMon.base_hp : null;
-  if (rec.db_match.hp === false) {
-    rec.notes.push(`hp ${rec.hp} != db ${dbMon.base_hp}`);
-    // A pairing error and a real data conflict look identical here; distinguish them by asking
-    // whether another slot in the same enemy-table group carries this HP.
-    const group = ctx.byNum.get(arc.num) || [];
-    const alt = group.filter(s => s.slot !== rec.slot && ctx.db.monsters.get(s.emid)?.base_hp === rec.hp);
-    if (alt.length) rec.notes.push(`hp equals db of slot ${alt.map(s => `${s.slot}/${s.en}`).join(', ')} (pairing suspect)`);
+  if (!dbMon) {
+    rec.db_match.hp = null;
+    rec.notes.push('no db monster row (hp not comparable)');
+  } else if (!(dbMon.base_hp > 0)) {
+    // Small monsters and dummy units have base_hp 0/absent in mhgu.db; the romfs value is still real.
+    rec.db_match.hp = null;
+    rec.notes.push(`db base_hp ${dbMon.base_hp} (db carries no HP for this unit); romfs @0x38 = ${rec.hp}`);
+  } else {
+    rec.db_match.hp = rec.hp === dbMon.base_hp;
+    if (!rec.db_match.hp) {
+      rec.notes.push(`hp ${rec.hp} != db ${dbMon.base_hp}`);
+      // A pairing error and a real data conflict look identical here; distinguish them by asking
+      // whether another slot in the same enemy-table group carries this HP.
+      const group = ctx.byNum.get(groupKey(arc.family, arc.num)) || [];
+      const alt = group.filter(s => s.slot !== rec.slot && ctx.db.monsters.get(s.emid)?.base_hp === rec.hp);
+      if (alt.length) rec.notes.push(`hp equals db of slot ${alt.map(s => `${s.slot}/${s.en}`).join(', ')} (pairing suspect)`);
+    }
   }
 
   rec.layout = rec.offsets.meat !== null && rec.offsets.status !== null ? 'std' : 'raw';
@@ -437,17 +646,20 @@ function buildReport(results, ctx, meta) {
   push('| # | arc | slot | emid | name (chs) | hp | db hp | meat @ | rows | status @ | recs | layout | hp | meat | status |');
   push('|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|');
   results.forEach((r, i) => {
-    push(`| ${i} | ${r.arc} | ${r.slot ?? '—'} | ${r.emid ?? '—'} | ${r.chs ?? '—'} | ${r.hp ?? '—'} | ${r.db_values?.base_hp ?? '—'} | ${r.offsets.meat ?? '—'} | ${r.meat_rows ?? 0}/${r.db_values?.base_rows ?? 0} | ${r.offsets.status ?? '—'} | ${r.status_records ?? 0} | ${r.layout} | ${fmtBool(r.db_match.hp)} | ${fmtBool(r.db_match.meat)} | ${fmtBool(r.db_match.status)} |`);
+    push(`| ${i} | ${r.arc} | ${r.slot ?? '—'} | ${r.emid ?? '—'} | ${r.chs ?? '—'} | ${r.hp ?? '—'} | ${r.db_values?.base_hp ?? '—'} | ${r.offsets.meat ?? '—'} | ${r.meat_rows ?? 0}/${r.meat?.compared ?? 0} | ${r.offsets.status ?? '—'} | ${r.status_records ?? 0} | ${r.layout} | ${fmtBool(r.db_match.hp)} | ${fmtBool(r.db_match.meat)} | ${fmtBool(r.db_match.status)} |`);
   });
   push('');
   const counts = {
     arcs: results.length,
     hp_ok: results.filter(r => r.db_match.hp === true).length,
     hp_bad: results.filter(r => r.db_match.hp === false).length,
+    hp_na_db_has_no_hp: results.filter(r => r.db_match.hp === null && r.db_values && !(r.db_values.base_hp > 0)).length,
     meat_ok: results.filter(r => r.db_match.meat === true).length,
     meat_bad: results.filter(r => r.db_match.meat === false).length,
+    meat_na: results.filter(r => r.db_match.meat === null).length,
     status_ok: results.filter(r => r.db_match.status === true).length,
     status_bad: results.filter(r => r.db_match.status === false).length,
+    status_na: results.filter(r => r.db_match.status === null).length,
     std: results.filter(r => r.layout === 'std').length,
     raw: results.filter(r => r.layout === 'raw').length,
   };
@@ -464,11 +676,45 @@ function buildReport(results, ctx, meta) {
     push(`- ${r.arc} (slot ${r.slot}, emid ${r.emid}, ${r.chs} / ${r.en}): ${flags} — ${r.notes.join('; ')}`);
   }
   push('');
+  const hpOnly = mismatch.filter(r => r.db_match.hp === false);
+  push(`## Base-HP conflicts only (${hpOnly.length})`);
+  push('');
+  if (!hpOnly.length) push('- none');
+  for (const r of hpOnly) push(`- ${r.arc} slot ${r.slot} emid ${r.emid} ${r.chs} / ${r.en}: romfs ${r.hp} vs db ${r.db_values?.base_hp}`);
+  push('');
   const notLocated = results.filter(r => r.offsets.meat === null || r.offsets.status === null);
   push(`## Tables not located / layouts outside the standard one (${notLocated.length})`);
   push('');
   if (!notLocated.length) push('- none');
   for (const r of notLocated) push(`- ${r.arc} (slot ${r.slot}, ${r.chs}): meat ${r.offsets.meat ?? 'not found'}, status ${r.offsets.status ?? 'not found'} — ${r.notes.join('; ')}`);
+  push('');
+  const meatDiff = results.filter(r => r.meat && (((r.meat.value_diffs || []).length) || ((r.meat.unmatched_db_parts || []).length)));
+  push(`## Meat row values that differ from mhgu.db (${meatDiff.length})`);
+  push('');
+  push('Values are cut/impact/shot/fire/water/ice/thunder/dragon/ko. "dttune/db" gives the romfs value first.');
+  push('A db part listed as absent means the 8-slot table has no row reproducing it.');
+  push('');
+  if (!meatDiff.length) push('- none');
+  for (const r of meatDiff) {
+    const parts = [];
+    for (const v of r.meat.value_diffs || []) {
+      parts.push(v.diffs.length ? `${v.part}: ${v.diffs.join(', ')} (dttune/db)` : `${v.part}: row order differs, values identical`);
+    }
+    const still = (r.meat.unmatched_db_parts || []).slice((r.meat.value_diffs || []).length);
+    if (still.length) parts.push(`db part(s) absent from the dttune table: ${still.join(', ')}`);
+    const extra = (r.meat.extra_dttune_values || []).map(u => `row ${u.row} = ${u.v.join('/')} (pad ${u.pad})`);
+    if (extra.length) parts.push(`unpaired dttune rows: ${extra.join('; ')}`);
+    push(`- ${r.arc} ${r.chs}: ${parts.join(' | ') || '(see notes)'}`);
+  }
+  push('');
+  const noDb = results.filter(r => r.db_values && !(r.db_values.base_hp > 0) && r.db_values.damage_rows === 0 && r.db_values.status_rows === 0);
+  push(`## Units with no usable db monster row (${noDb.length})`);
+  push('');
+  push('Small monsters and mechanism units: mhgu.db carries base_hp 0 and no damage/status rows, so no');
+  push('dttune field can be cross-checked for them. Their romfs @0x38 HP is still recorded in the index.');
+  push('');
+  if (!noDb.length) push('- none');
+  for (const r of noDb) push(`- ${r.arc} slot ${r.slot} emid ${r.emid} ${r.chs}: romfs hp ${r.hp ?? '—'}`);
   push('');
   push(`## Pairing warnings (${ctx.warnings.length})`);
   push('');
@@ -550,7 +796,9 @@ function main(argv) {
         header_bytes: r.header_bytes,
         layout: r.layout,
         meat: r.meat,
+        meat_scan: r.meat_scan ?? null,
         status: r.status,
+        status_scan: r.status_scan ?? null,
         db_values: r.db_values,
         db_match: r.db_match,
         notes: r.notes,
