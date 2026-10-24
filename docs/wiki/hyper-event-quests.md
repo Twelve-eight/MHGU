@@ -15,8 +15,8 @@
 | 列 / 记号 | 说明 |
 |---|---|
 | 星级 | 由 db `quests.stars` 换算：下位/上位直接写作 `★N`；G 级写作 `G★(stars-10)`；村任务 stars 就是游戏内星级（村★10 那 4 条 db 标 `rank=G`，但游戏内仍叫 ★10）。换算依据：`stars` 11–16 与任务名里的 G 档一一对应（q40113 `Redhelm G3: Hunt` = stars 13、q41614 `Boltreaver G4` = 14、q41015 `Thunderlord G5` = 15）；星级串的官方写法见 `chS/arc/resident_chS.arc :: GUI/06_msg/questMessage_chS` 的 `Star1..Star10`=★…★×10、`Rank_G_01..04`=`G★`…`G★★★★` [B] |
-| 任务名 | **db `quests.name` 原文（英文）**。简中包**没有**任务标题文本：`nativeNX/chS/`、`chT/` 只有 `table/ arc/ GUI/`，而 `quest/questData/*_<lang>.gmd` 只随包 eng/fre/ger/ita/spa 五种（`docs/data/romfs-tables.md` §4、§gmd text）[B]。所以**中文任务名无官方来源，本页不译、不造名** [U] |
-| 狞猛化怪物 | `monster_to_quest` 中该任务 `hyper=1` 的怪物。中文名取官方简中（`chS/arc/resident_chS.arc :: monsterName_chS` 的槽位串，经 `docs/data/json/monster-slot-map.json` 的 en→cn 对齐）[B] |
+| 任务名 | **db `quests.name` 原文（英文）**。**本页这 165/166 条任务在简中包里没有标题文本**：`nativeNX/chS/`、`chT/` 只有 `table/ arc/ GUI/`，逐任务文本 `quest/questData/*_<lang>.gmd` 只随包 eng/fre/ger/ita/spa 五种（`docs/data/romfs-tables.md` §4、§gmd text）[B]；配信表 `guestQuestData_chS` 只有**通用**任务名，不含本页任何一条（见 §7.3）。所以**本页任务不译、不造中文名** [U] |
+| 狞猛化怪物 | `monster_to_quest` 中该任务 `hyper=1` 的怪物。中文名取官方简中（`chS/arc/resident_chS.arc :: monsterName_chS` 的槽位串，经 `docs/data/json/monster-slot-map.json` 的 en→cn 对齐）[B]；唯一例外「激昂金狮子」见 §4 注 |
 | 同场非狞猛 | 同一任务里 `hyper=0` 的大型怪物（19 条任务、23 行）——即"同一个任务里有狞猛也有非狞猛" |
 | 报酬金 / HRP | `quests.reward`（z）/ `quests.hrp`。只来自第三方库 MHGenDatabase v2.4.0，未与 romfs `questData_<id>.ext` 的 `Reward`/`HunterRankPoints` 逐条对拍 → **[I]** |
 | 来源 | `q<id>` = `mhgu.db` → `quests` 表 `_id` 行 |
@@ -31,22 +31,27 @@
 | **[W]** | 镜像 wiki 文本（`docs/mechanics/quests.md` 等） |
 | **[U]** | 未知；**本页不把它写成事实** |
 
+> 本页**没有任何一条断言达到 [C]**：最接近的两项 —— 英文任务标题与 romfs 同源（转述他人对 q101 的对拍结论，按 [W] 计）、狞猛化归属 `hyper`（只有 db，按 [I] 计）—— 都不是本页自己验证过的 romfs 字节。
+
 > 本页两张表的**星级、任务名、目标、狞猛化归属**全部来自 db 字段，属于 **[I]**；其中**狞猛化术语与怪物中文名**是 [B]；**星级串与「狞猛化」这个词**在简中包里逐字可查 [B]（见 §1.1）。
-> db 里的 `quests.name` 与 romfs `eng/quest/questData/questData_<id>_eng.gmd` 的标题同源（`docs/data/romfs-tables.md` §4 已用 q101 三值对拍 [C]），所以英文任务名不是编造。
+> db 里的 `quests.name` 与 romfs `eng/quest/questData/questData_<id>_eng.gmd` 的标题同源（`docs/data/romfs-tables.md` §4 记录过 q101 的三值对拍 —— 本页只是转述他人的对拍结论，故按 [W] 计），所以英文任务名不是编造。
 
 ### 1.1 狞猛化是什么（官方简中原文，逐字）
 
 | 出处 | 原文 | 用途 |
 |---|---|---|
-| `chS/table/HN_HunterTipsMsg_chS.gmd` `HTM_Doumouka`（串 141） | 「狞猛化」 | 官方术语写法 |
-| 同上 `HTM_Doumouka_P1`（串 406） | 「狞猛化指的是\r\n怪物因某种原因\r\n陷入极度兴奋的状态。」 | 定义 |
-| 同上 `HTM_Doumouka_P2`（串 407） | 「狞猛化的怪物会因为\r\n肌肉过于频繁的活动，\r\n而使身体某些部位看起来\r\n像是被黑色的蒸汽所笼罩着。\r\n来自这些部位的攻击将非常危险。」 | 部位外观与危险提示 |
+| `chS/table/HN_HunterTipsMsg_chS.gmd` `HTM_Doumouka`（串 140） | 「狞猛化」 | 官方术语写法 |
+| 同上 `HTM_Doumouka_P1`（串 405） | 「狞猛化指的是\r\n怪物因某种原因\r\n陷入极度兴奋的状态。」 | 定义 |
+| 同上 `HTM_Doumouka_P2`（串 406） | 「狞猛化的怪物会因为\r\n肌肉过于频繁的活动，\r\n而使身体某些部位看起来\r\n像是被黑色的蒸汽所笼罩着。\r\n来自这些部位的攻击将非常危险。」 | 部位外观与危险提示 |
+| 同上 `HTM_Doumouka_P3`（串 407） | 「但是被黑色蒸汽笼罩的部位\r\n并不是只代表着危险。\r\n如果攻击这些部位，\r\n就可以更快地累积狩技槽。」 | **狞猛部位 = 狩技槽累积加速**（打法核心） |
+| 同上 `HTM_Doumouka_P4`（串 408） | 「在狩猎中，\r\n有时会改变频繁运动的部位。\r\n一定要细心观察哪个部位\r\n被黑色蒸汽所笼罩着。」 | 狞猛部位会在狩猎中切换 |
 | `chS/table/itemCategoryTypeData_chS.gmd` 串 13/14 | 「狞猛化素材」 | 素材分类 |
-| `chS/table/Lb_MakaRenkinMsg_chS.gmd` `item_card_01/02/03` | 「狞猛化狩猎之证Ⅰ / Ⅱ / Ⅲ」 | 炼金消耗品（同表 `other_01`：「必须使用狞猛化狩猎之证才能进行」） |
-| `chS/table/GC_Title_1_chS.gmd` `name1_117` / `name1_TXT_117` | 「狞猛」/「狩猎了50头狞猛化怪物」 | 称号与解锁条件 |
-| `chS/table/GC_Medal_chS.gmd` `Medal_TXT_037` | 「有关受特殊因素影响进入\r\n极度兴奋状态的兽龙种的记录。\r\n狩猎了多数狞猛化兽龙种的证明。」 | 勋章（兽龙/飞龙/牙兽/海龙 4 枚同型，串 37/62/77/92） |
+| `chS/table/Lb_MakaRenkinMsg_chS.gmd` `item_card_01/02/03`（串 14/15/16） | 「狞猛化狩猎之证Ⅰ / Ⅱ / Ⅲ」 | 炼金消耗品（同表 `other_01`，串 17：「必须使用狞猛化狩猎之证才能进行」） |
+| `chS/table/GC_Title_1_chS.gmd` `name1_117` / `name1_TXT_117`（串 116/1425） | 「狞猛」/「狩猎了50头狞猛化怪物」 | 称号与解锁条件 |
+| `chS/table/GC_Medal_chS.gmd` `Medal_TXT_037`（串 168） | 「有关受特殊因素影响进入\r\n极度兴奋状态的兽龙种的记录。\r\n狩猎了多数狞猛化兽龙种的证明。」 | 勋章四枚同型：兽龙 168 / 飞龙 193 / 牙兽 208 / 海龙 223 |
 
 > 结论：中文语境里只有 **狞猛化** 一种写法，不存在「狂猛化 / 极限化」等别名。上面的等级标 [B]。
+> **这条机制在游戏里直接写在提示里**：P3 明说攻击被黑蒸汽笼罩的部位「可以更快地累积狩技槽」——所以狞猛任务反而是最快开狩技的场合；P4 提醒这些部位会在狩猎中切换。
 
 ### 1.2 本页的三条边界（先看这里，避免误读）
 
@@ -156,7 +161,7 @@ ORDER BY q.hub, q.stars;
 | ★7 | The Thieving Gypceros | 毒怪鸟 | — | 16800 | 830 | q10736 |
 | ★7 | Steam and Smoke | 碎龙 | — | 15300 | 890 | q10737 |
 | ★7 | The Glowing Embers | 炎戈龙 | — | 13800 | 730 | q10738 |
-| ★7 | Primal Forest Defense | 毒怪鸟 ＋ 绞蛇龙 ＋ 重甲虫 | — | 20100 | 1170 | q10739 ※2 |
+| ★7 | Primal Forest Defense | 毒怪鸟 ＋ 绞蛇龙 ＋ 重甲虫 | 穿甲虫 | 20100 | 1170 | q10739 ※2 |
 | ★7 | The End of the Trials | 轰龙 ＋ 千刃龙 | — | 21300 | 1130 | q10740 |
 | ★7 | The Descending Fog | 黑狼鸟 ＋ 怪鸟 ＋ 雌火龙 | — | 17400 | 1020 | q10741 |
 | ★7 | Searching for Secret Baths | 水兽 ＋ 尾锤龙 ＋ 雷狼龙 | — | 25200 | 1300 | q10742 |
@@ -173,7 +178,7 @@ ORDER BY q.hub, q.stars;
 | ★7 | Fool's Gold | 金火龙 | — | 22800 | 1100 | q10773 |
 | ★7 | Shining Examples | 银火龙 ＋ 金火龙 | — | 31800 | 1770 | q10774 |
 
-> ※2 q10739 的 `goal` 原文是 `Hunt all large monsters, not including Seltas`（全大怪、但不含穿甲虫）—— 目标串里没有点名狞猛怪，所以它是 §1.2 的第 2 条例外。
+> ※2 q10739 的 `goal` 原文是 `Hunt all large monsters, not including Seltas`（全大怪、但不含穿甲虫）—— 目标串里没有点名狞猛怪，所以它是 §1.2 的第 2 条例外。穿甲虫确实在场（`hyper=0`，见同场列），只是不计入目标。
 
 ### 3.3 集会所 G★2（6 条 · `stars=12`, `rank=G`）
 
@@ -388,7 +393,7 @@ GROUP BY mo.name ORDER BY n DESC, mo.name;
 | 变形冰鲨 | Zamtrios | 2 | 集会所 |
 
 > 核对：12+11+11+10+9×3+8+7×4+6×2+5×9+4×12+3×5+2×4 = **235**，与 `SELECT COUNT(*) FROM monster_to_quest WHERE hyper=1` 的 235 一致；怪物种数 **44**。
-> 中文名全部来自 `monsterName_chS` 的槽位串（`monster-slot-map.json` 的 `en`→`cn` 列，每条都带 `cn_src` 槽位号）[B]。
+> 中文名来自 `monsterName_chS` 的槽位串（`monster-slot-map.json` 的 `en`→`cn` 列，每条都带 `cn_src`）[B]。**唯一例外是「激昂金狮子」**：slot map 对 slot 22 的 `cn` 取自 `chS/table/itemData_chS.gmd #2997`（原文「激昂金狮子的毛。…」），而 `monsterName_chS` 的 i22（`EnragedRajang`）只有「金狮子」—— 本页沿用 slot map 的写法，出处见 §7.2 表下注。
 > 上表 44 种里**没有一只古龙、也没有一只二名怪**（`hyper=1` 的 `monster_id` 全落在普通大型怪上；钢龙、炎王龙、霞龙、岚龙、煌黑龙、天彗龙、天廻龙、骸龙、老山龙、霸龙、崩龙、阁螳螂、麒麟都不在其中）。
 
 ---
@@ -765,18 +770,20 @@ WHERE rank='LR' AND _id IN (SELECT quest_id FROM monster_to_quest WHERE hyper=1)
 | 狞猛化归属（`hyper`）与同场怪（`unstable`=乱入） | 同上 → `monster_to_quest`（2305 行） | I |
 | 怪物名 | 同上 → `monsters` | I |
 | 怪物官方简中名 | `chS/arc/resident_chS.arc :: GUI/06_msg/monsterName_chS`（268 串，槽位 i）；本地 JSON `MHGU-private/romfs-extract/gmd-arc/monsterName_chS.gmd.json`；en→cn 对照 `MHGU/docs/data/json/monster-slot-map.json` | B |
-| 狞猛化术语原文 | `chS/table/HN_HunterTipsMsg_chS.gmd` #141/#406/#407；`GC_Title_1_chS` #117/#1426；`itemCategoryTypeData_chS` #13/#14；`Lb_MakaRenkinMsg_chS` #15–17；`GC_Medal_chS` #37/#62/#77/#92 | B |
+| 狞猛化术语原文 | `chS/table/HN_HunterTipsMsg_chS.gmd` #140/#405/#406/#407/#408；`GC_Title_1_chS` #116/#1425；`itemCategoryTypeData_chS` #13/#14；`Lb_MakaRenkinMsg_chS` #14–16（+ `other_01` #17）；`GC_Medal_chS` #168/#193/#208/#223 | B |
 | 星级串写法 | `chS/arc/resident_chS.arc :: GUI/06_msg/questMessage_chS`（`Star1..Star10`、`Rank_G_01..04`） | B |
 | 素材官方简中名 | `chS/table/itemData_chS.gmd`（槽位 `2*items._id`） | B |
 | 狞猛化素材 45 条 | `chS/table/itemData_chS.gmd` #946–#1034 | B |
 | 「龙历院点数」写法 | `chS/table/CommonMsg_chS.gmd` #49；`HN_HunterTipsMsg_chS` #154；`ResultMsg_chS` #42 | B |
-| 英文任务标题与目标同源 | `romfs/nativeNX/eng/quest/questData/questData_<id>_eng.gmd`；`docs/data/romfs-tables.md` §4（q101 三值对拍） | C（结构）/ B（本页未逐条读） |
+| 英文任务标题与目标同源 | `romfs/nativeNX/eng/quest/questData/questData_<id>_eng.gmd`；`docs/data/romfs-tables.md` §4 记录过 q101 的三值对拍 | W（转述；本页未逐条读原文） |
 | 狞猛化任务的开锁门槛、非关键任务结论 | `docs/wiki/quests.md` §6；`docs/wiki/progression-unlocks.md` §6 | W |
 | 配信任务不参与推进 | `docs/mechanics/quests.md` §1（hub 表） | W |
 
+> 例外：**激昂金狮子** 不是 `monsterName_chS` 的槽位串。项目 `monster-slot-map.json` 对 slot 22（`Furious Rajang`）给的 `cn` 是「激昂金狮子」，其 `cn_src` = `chS/table/itemData_chS.gmd #2997`（原文「激昂金狮子的毛。…」，即取素材名里的怪物称谓）；`monsterName_chS` 的 i22（`EnragedRajang`）只有「金狮子」。本页两处用到它（q1029、q41015）均按 slot map 写作 激昂金狮子。
+
 ### 7.3 本页"没有"的东西（避免误用）
 
-- **没有中文任务名**：简中包不含任务标题（`chS/`、`chT/` 无 `quest/` 目录；任务文本只随包 5 种语言）。`chS/table/guestQuestData_chS.gmd` 的 462 串 = 231 组通用任务名/目标（如「狩猎蓝速龙王！」「缴纳深层菇」），**不含**任何一条配信/狞猛任务的标题（对 8 个联动关键词 grep 命中 0）。所以任务名一律保留英文原文。
+- **本页任务没有官方中文标题**：简中包不含逐任务标题（`chS/`、`chT/` 无 `quest/` 目录；`questData_*_<lang>.gmd` 只随包 eng/fre/ger/ita/spa 五种）。唯一的中文任务文本是 `chS/table/guestQuestData_chS.gmd` 的 462 串 = 231 组**通用**任务名/目标（如「狩猎蓝速龙王！」「缴纳深层菇」），**不含**本页任何一条狞猛/配信任务的标题（对 8 个联动关键词 grep 命中 0）。所以本页任务名一律保留英文原文。
 - **没有狞猛化任务的"委托人文案"**：配信/狞猛任务的对话与说明文本同样只有 eng/fre/ger/ita/spa。
 - **没有乱入标记的独立列**：`monster_to_quest.unstable` 是"乱入"标志（全库 483 行为 1），本页只把 `hyper` 当狞猛判据（`docs/spec-crossgame/monster-gu.md` 明确「`hyper` 标志是判断狞猛化任务的唯一字段」）。
 
@@ -788,11 +795,11 @@ WHERE rank='LR' AND _id IN (SELECT quest_id FROM monster_to_quest WHERE hyper=1)
 |---|---|---|---|
 | 1 | `monster_to_quest.hyper` 的**字节级**验证 | 只与 db 对拍；romfs 的 `loc/quest/questData/questData_<id>.ext`（369 B，`Monsters[5]` @0x05C，每条 13 B）**没有已解读的"狞猛标志"字段**（`docs/data/romfs-tables.md` §2 的 13 B 结构；`docs/wiki/monster-parts-hp.md` 只解了 `HealthTbl`/`AtkTbl`/`StaminaTbl`） | 解 `Monsters[]` 里剩余字节，或运行时读任务结构 |
 | 2 | 狞猛化素材 ↔ 任务档次的对应 | 只有 45 条素材名，没有产出表 | `quest_rewards` 里狞猛素材 item_id 的分布（db 有 37370 行报酬，可按 item_id 反查） |
-| 3 | 配信 166 条的中文名与中文目标 | 简中包无任务文本 | 官方中文资料或人工译名（本页不造） |
+| 3 | 配信 166 条的中文名与中文目标 | 本页 166 条无官方中文标题（逐任务文本只有 5 种语言；`guestQuestData_chS` 只有通用任务名，见 §7.3） | 官方中文资料或人工译名（本页不造） |
 | 4 | 「挑战任务」20 条对应的 questId | db 里没有独立 hub，`1288–1304` 是斗技 17 条 | 需要 questData 或运行时任务表 |
 | 5 | 狞猛化计数门槛的分段口径（按星级 or 全局） | wiki 原文只写「集★6 的狞猛化任务 ≥2」 | 实机：只打集★5 的狞猛任务，看集★7 是否开放 |
 | 6 | 狞猛化任务里"同场非狞猛怪"是否真的是乱入 | 本页只按 `hyper=0` 区分。这些同场怪共 **23 行 / 19 条任务**，`unstable` 全为 **0**（连 235 行狞猛怪也全是 0），所以 db 层面无法区分"共斗目标"与"乱入" | 解 `quest\zako\emSetList` / `setEmMain`（`docs/reference/formats/rem.md` 有成员表） |
 
 ---
 
-> 本页所有**数字**都能用 §7.1 的 4 条 SQL 复算；所有**中文名/术语**都能在 §7.2 的 GMD 槽位里逐字对上。英文任务名、报酬、HRP 属第三方库 [I]；狞猛化归属（`hyper`）同样是 [I]，未经 romfs 字节复核（见 §8 #1）。
+> 本页所有**数字**都能用 §7.1 的 4 条 SQL 复算；所有**中文名/术语**都能在 §7.2 的 GMD 槽位里逐字对上（唯一例外「激昂金狮子」的取法见该表下注）。英文任务名、报酬、HRP 属第三方库 [I]；狞猛化归属（`hyper`）同样是 [I]，未经 romfs 字节复核（见 §8 #1）。
