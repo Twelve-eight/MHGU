@@ -103,15 +103,16 @@ const TOOLS = {
   },
   literal_loads: {
     description:
-      'Unconditional ldr rX,[pc,#imm] literal loads of the given u32 values within [start,end). ' +
-      'Misses conditional ldr and movw/movt-built constants.',
+      'Code sites that materialise the given u32 constants within [start,end): ldr rX,[pc,#imm] (any condition), ' +
+      'vldr [pc,#imm], and movw rX,#lo + movt rX,#hi (movt within 8 insns). Misses constants built by ' +
+      'add/orr chains, mov+lsl, or movw/movt split across a branch; 0 hits is not proof of absence.',
     props: { start: VADDR, end: VADDR, values: VLIST },
     required: ['start', 'end', 'values'],
     run: (a) => {
       const start = vaddrIn(a.start, 'start');
       const end = Math.min(num(a.end, 'end'), arm.TEXT_END);
       const hits = arm.findLiteralLoads(start, end, list(a.values, 'values'));
-      return `${hits.length} hit(s)\n` + hits.slice(0, MAX_HITS).map((h) => `${hex(h.from)} ${h.reg} <- [${hex(h.lit)}] = ${hex(h.value)}`).join('\n');
+      return `${hits.length} hit(s)\n` + hits.slice(0, MAX_HITS).map((h) => `${hex(h.from)} ${h.kind} ${h.reg} <- ${h.kind === 'movw/movt' ? `movt@${hex(h.lit)}` : `[${hex(h.lit)}]`} = ${hex(h.value)}`).join('\n');
     },
   },
   function_start: {
@@ -170,7 +171,7 @@ function handle(msg) {
   const { id, method, params } = msg;
   if (method === 'initialize') {
     const v = PROTOCOLS.includes(params?.protocolVersion) ? params.protocolVersion : PROTOCOLS[0];
-    return { protocolVersion: v, capabilities: { tools: {} }, serverInfo: { name: 'mhgu-re', version: '1.1.0' } };
+    return { protocolVersion: v, capabilities: { tools: {} }, serverInfo: { name: 'mhgu-re', version: '1.2.0' } };
   }
   if (method === 'ping') return {};
   if (method === 'tools/list') return { tools: toolList() };

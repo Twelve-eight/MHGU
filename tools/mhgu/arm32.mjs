@@ -120,13 +120,12 @@ export function decode(w, addr) {
       const P = (w >>> 24) & 1, U = (w >>> 23) & 1, I = (w >>> 22) & 1,
         W = (w >>> 21) & 1, L = (w >>> 20) & 1, sh = (w >>> 5) & 3;
       const rn = R[(w >>> 16) & 0xF], rt = R[(w >>> 12) & 0xF];
-      if (sh === 1) { // load/store halfword
-        const mn = (L ? 'ldrh' : 'strh') + cc;
-        const off = I ? ((w & 0xF) | ((w >>> 4) & 0xF0)) : (w & 0xFFF);
-        return `${mn} ${rt}, [${rn}, #${U?'':'-'}${off}]`;
-      }
-      if (sh === 2) return `${(L ? 'ldrsb' : 'ldrd')}${cc} ${rt}, [${rn}, #${U?'':'-'}${w & 0xF}]`;
-      if (sh === 3) return `${(L ? 'ldrsh' : 'strd')}${cc} ${rt}, [${rn}, #${U?'':'-'}${w & 0xF}]`;
+      // Offset: immediate form (I=1) = imm4H:imm4L; register form (I=0) = Rm. P=0 is post-indexed.
+      const mag = I ? `#${U ? '' : '-'}${((w >>> 4) & 0xF0) | (w & 0xF)}` : `${U ? '' : '-'}${R[w & 0xF]}`;
+      const addr = P ? `[${rn}, ${mag}]${W ? '!' : ''}` : `[${rn}], ${mag}`;
+      if (sh === 1) return `${L ? 'ldrh' : 'strh'}${cc} ${rt}, ${addr}`;
+      if (sh === 2) return `${L ? 'ldrsb' : 'ldrd'}${cc} ${rt}, ${addr}`;
+      if (sh === 3) return `${L ? 'ldrsh' : 'strd'}${cc} ${rt}, ${addr}`;
     }
     if (bits76 === 0 && bit4 === 0) {
       // data processing register (and multiply when bits 27:22 = 000000 and 7:4 = 1001 handled above)
@@ -199,21 +198,40 @@ export function findCallsTo(targets) {
   return hits;
 }
 
-// find ldr rx,[pc,#imm] literal loads of a given value inside [start,end)
+// Find code that materialises one of the given u32 constants inside [start,end):
+//   ldr rX,[pc,#imm] (any condition), vldr sX/dX,[pc,#imm], and movw rX,#lo + movt rX,#hi
+//   (movt within the next 8 insns). In this binary movw/movt is the dominant form for
+//   magic numbers (e.g. 0x51EB851F: ~290 movw/movt pairs, 0 ldr-literal).
 export function findLiteralLoads(start, end, values) {
-  const vset = new Set(values);
+  const vset = new Set(values.map((v) => v >>> 0));
   const hits = [];
   for (let a = start; a < end; a += 4) {
     const w = rd32(a);
-    if ((w >>> 28) === 0xE && ((w >>> 26) & 3) === 1 && ((w >>> 25) & 1) === 0 && ((w >>> 20) & 1) === 1) {
-      const rn = (w >>> 16) & 0xF;
-      if (rn !== 15) continue;
-      const rd = (w >>> 12) & 0xF;
-      const off = w & 0xFFF;
-      const U = (w >>> 23) & 1;
+    if ((w >>> 28) === 0xF) continue;
+    if (((w >>> 26) & 3) === 1 && ((w >>> 25) & 1) === 0 && ((w >>> 20) & 1) === 1 && ((w >>> 16) & 0xF) === 15) {
+      const off = w & 0xFFF, U = (w >>> 23) & 1;
       const tgt = (a + 8 + (U ? off : -off)) >>> 0;
       const v = rd32(tgt);
-      if (vset.has(v)) hits.push({ from: a, lit: tgt, value: v, reg: R[rd] });
+      if (vset.has(v)) hits.push({ from: a, lit: tgt, value: v, reg: R[(w >>> 12) & 0xF], kind: 'ldr' });
+      continue;
+    }
+    if ((w & 0x0F3F0E00) === 0x0D1F0A00) {
+      const off = (w & 0xFF) * 4, U = (w >>> 23) & 1;
+      const tgt = (a + 8 + (U ? off : -off)) >>> 0;
+      const v = rd32(tgt);
+      if (vset.has(v)) hits.push({ from: a, lit: tgt, value: v, reg: 'vfp', kind: 'vldr' });
+      continue;
+    }
+    if ((w & 0x0FF00000) === 0x03000000) {
+      const rd = (w >>> 12) & 0xF, lo = ((w >>> 4) & 0xF000) | (w & 0xFFF);
+      for (let b = a + 4; b <= a + 32 && b < TEXT_END; b += 4) {
+        const t = rd32(b);
+        if ((t & 0x0FF00000) === 0x03400000 && ((t >>> 12) & 0xF) === rd) {
+          const v = (((((t >>> 4) & 0xF000) | (t & 0xFFF)) << 16) | lo) >>> 0;
+          if (vset.has(v)) hits.push({ from: a, lit: b, value: v, reg: R[rd], kind: 'movw/movt' });
+          break;
+        }
+      }
     }
   }
   return hits;
