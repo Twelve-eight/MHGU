@@ -13,10 +13,12 @@ const sext = (v, bits) => (v << (32 - bits)) >> (32 - bits);
 const lerp = (A, B, raw, scale) => raw.map((r, c) => B[c] + A[c] * (r - 8) / scale);
 
 // Each decoder returns { value: number[4], delta: frames until the next key }.
+// Single-axis rotations (game routines 0xaff2c4 type 11, 0xaff4b0 type 12): component c and w are
+// stored as 14-bit fields, value = B + A * (raw - 8) / 16368; other components stay at B.
 function axis14(b, o, A, B, c) {
   const v = b.readUInt32LE(o), value = B.slice();
-  value[c] += A[c] * (v & 0x3fff) / 16383;
-  value[3] += A[3] * ((v >>> 14) & 0x3fff) / 16383;
+  value[c] += A[c] * ((v & 0x3fff) - 8) / 16368;
+  value[3] += A[3] * (((v >>> 14) & 0x3fff) - 8) / 16368;
   return { value, delta: v >>> 28 };
 }
 
@@ -51,8 +53,12 @@ const DECODERS = {
     return { value: [0, 2, 4, 6].map((k, c) => c < 3 ? B[c] + A[c] * b.readUInt16LE(o + k) / 65535 : B[3]),
       delta: b.readUInt16LE(o + 6) };
   } },
-  // Single-axis rotations: two 14-bit fields + 4-bit delta. Type 11 stores x,w; type 12 stores y,w;
-  // the other components stay at B (unit length 313908/313908 and 2041/2041 keys).
+  // Translation / scale: 3 x u8, value = B + A * (raw - 8) / 240, delta = byte 3 (61/61 delta sums,
+  // first key = ref 54/61; raw/255 control 5/61). Decoder routine not located (no 1/240 near 0xaff000).
+  5: { size: 4, bounds: true, decode(b, o, A, B) {
+    return { value: [0, 1, 2, 3].map(c => c < 3 ? B[c] + A[c] * (b[o + c] - 8) / 240 : B[3]), delta: b[o + 3] };
+  } },
+  // Type 11 stores x,w; type 12 stores y,w (first key = ref 3603/3963 and 78/85; raw/16383 control 2759, 74).
   11: { size: 4, bounds: true, decode: (b, o, A, B) => axis14(b, o, A, B, 0) },
   12: { size: 4, bounds: true, decode: (b, o, A, B) => axis14(b, o, A, B, 1) },
 };
