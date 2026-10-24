@@ -113,7 +113,7 @@ SELECT _id, hub, rank, stars, name FROM quests WHERE name LIKE '%Sky Render%';
 - `Requirement2` 只用到 5 个值：`0`（1,826 条）、`3`（4）、`8`（5）、`45`（1）、`46`（13）。
 - `ComboRequirement` **1,849 条全部为 0**——这个「组合条件」字段在本版本里完全没用上 `[C]`。
 
-> 值 40/41/45 在 **req1** 里各只出现 1 次，而且都落在**占位任务**上：`questData_0090028` / `0090029` / `1010005`，它们的文本 GMD 内容就是 `DUMMY`（`__dummy` / `dummy`）。所以这三个 req1 值**不是**真实任务的条件；45 在 **req2** 里另有 1 条真实任务（Baki，见 §5）。
+> 值 40/41/45 在 **req1** 里各只出现 1 次，而且都落在**占位任务**上：`questData_0090028` / `0090029` 的文本串只有 `@`、`dummy`、`monster dummy` 这类占位内容，`1010005` 整篇是 `DUMMY`。所以这三个 req1 值**不是**真实任务的条件；45 在 **req2** 里另有 1 条真实任务（Baki，见 §5）。
 
 ---
 
@@ -124,7 +124,7 @@ SELECT _id, hub, rank, stars, name FROM quests WHERE name LIKE '%Sky Render%';
 | 锚点 | 数据侧（字节） | 文本侧 | 说明 |
 |---|---|---|---|
 | 0 | 942 条任务 req1=0，含**全部 375 条村任务**与集会所下位 ★1–★2（下位★3 仅 1 条例外） | 串 48「无条件」 | 村任务确实没有任何承接条件 |
-| 46 | 13 条 req2=46：12 条二名捕获任务 + 配信任务 `Drifters: Isle of Lost Souls` | 串 94「只能携带弹･瓶袋进入」 | 该配信任务的说明文原文：`take no item into battle with you`（`questData_1011005_eng.gmd`）——一句话坐实 46 = 无道具 |
+| 46 | 13 条 req2=46：12 条 MHX 旧二名的捕获任务 + 配信任务 `Drifters: Isle of Lost Souls` | 串 94「只能携带弹･瓶袋进入」 | 该配信任务的说明文原文：`take no item into battle with you`（`questData_1011005_eng.gmd`）——一句话坐实 46 = 无道具 |
 | 48 | 60 条 req1=48：**全部 17 条斗技大会** + 41 条竞技场型配信 + 2 条占位模板 | 串 96「2人以下限定」 | 斗技大会/挑战任务只允许 2 人 |
 | 19 | **全部 18 条二名 EX**（Permit G★16） | 串 67「HR100以上」 | EX 是终盘内容，HR100 正是上限 |
 
@@ -137,6 +137,8 @@ SELECT _id, hub, rank, stars, name FROM quests WHERE name LIKE '%Sky Render%';
 ## 4. 逐 hub / 星级汇总
 
 统计口径：`mhgu.db.quests` 的 `hub` + `stars`（星级），条件值来自同名 `questData_<id>.ext` 的字节。括号内是条数。「—」= 该档没有任务。
+
+**分母说明**：`mhgu.db` 五池合计 **1,355 行**（村 375 + 集会所 569 + 特殊许可 228 + 斗技大会 17 + 配信 166）；romfs 里另有 **494 个 `.ext` 在 db 中没有对应行**（训练/占位/DLC 变体等，其中 457 条 `Requirement1=0`）。下面按 db 行分星级（合计 1,355），而 §2 的计数分母是**全量 1,849** `[C]`。
 
 **速查**：
 
@@ -248,7 +250,7 @@ SELECT _id, hub, rank, stars, name FROM quests WHERE name LIKE '%Sky Render%';
 
 - 配信任务里数量最多的两类是「HR 门槛」与「2人以下」——**挑战任务（Challenge）与竞技场型配信一律 2 人以下**，其余按等级给 HR。
 - 两条配信任务还有**非 HR 的特殊限制**：`Baki: Biggest vs. Strongest`（1010103）为 HR4 + **未装备防具･护石**（req2=45）；`Drifters: Isle of Lost Souls`（1011005）为 HR9 + **只能携带弹･瓶袋进入**（req2=46）。
-- 41 条配信是 2 人以下（竞技场型/挑战型），外加 2 条占位模板（`1020030`、`1120013`，文本为 "Quest Template"/"dummy"）也写着 48。
+- 41 条配信是 2 人以下（竞技场型/挑战型），外加 2 条占位模板也写着 48：`1020030`（标题 `@Arena Instructor`）与 `1120013`（标题 `Quest Template`），两者正文都是 dummy。
 
 ---
 
@@ -261,13 +263,13 @@ SELECT _id, hub, rank, stars, name FROM quests WHERE name LIKE '%Sky Render%';
 | 3 = HR4以上 | 4 | 斗技大会 20005 / 20006 / 20007 / 120003 |
 | 8 = HR9以上 | 5 | 斗技大会 20009 / 20010 / 20011 / 120005 / 120006 |
 | 45 = 未装备防具･护石 | 1 | 配信 `Baki: Biggest vs. Strongest`（1010103） |
-| 46 = 只能携带弹･瓶袋进入 | 13 | 配信 `Drifters: Isle of Lost Souls`（1011005） + 12 条二名捕获任务 |
+| 46 = 只能携带弹･瓶袋进入 | 13 | 配信 `Drifters: Isle of Lost Souls`（1011005） + 12 条 MHX 旧二名的捕获任务 |
 
-**12 条「无道具」二名捕获任务**（每只二名的「提供捕获用补给」那一关，通常是 VII 关）`[C]`：
+**12 条「无道具」二名捕获任务 = MHX 时代的 12 只二名各一条**（「提供捕获用补给」的那一关，通常是 VII 关；MHXX 追加的 6 只二名没有这一档，它们的 G1 捕获关写「补给延迟、请自备」）`[C]`：
 
 `Redhelm VII: Capture`(40107)、`Snowbaron VII: Capture`(40207)、`Stonefist VII: Capture`(40307)、`Dreadqueen VII: Capture`(40407)、`Drilltusk VII: Capture`(40507)、`Silverwind VII: Capture`(40607)、`Crystalbeard VII: Capture`(40707)、`Deadeye VII: Capture`(40807)、`Dreadking VII: Capture`(40907)、`Thunderlord VIII: Capture`(41008)、`Grimclaw VIII: Capture`(41108)、`Hellblade VIII: Capture`(41208)。
 
-这 12 条的说明文一律写「Supplies for capturing will be provided. Use them wisely.」，与「不能自带道具、陷阱由补给箱发」互为印证；其余捕获关（如 `Silverwind II: Capture`、`Redhelm G1: Capture`）明确要求自备捕获道具，因此没有这个限制 `[C]`。
+这 12 条的说明文一律写「Supplies for capturing will be provided. Use them wisely.」，与「不能自带道具、陷阱由补给箱发」互为印证；其余捕获关（如 `Silverwind II: Capture`、`Redhelm G1: Capture`，以及 MHXX 6 只二名的 `Nightcloak G1: Capture`）明确要求自备捕获道具，因此没有这个限制 `[C]`。
 
 ---
 
@@ -284,7 +286,7 @@ SELECT _id, hub, rank, stars, name FROM quests WHERE name LIKE '%Sky Render%';
 | 44 | 稀有度1武器限定 | 0 条 `[U]` |
 | 47 / 49 | 1人限定 / 3人以下 | 0 条 `[U]` |
 
-> 结论：**MHGU 的真实任务只用到 17 个值**（`0`、`1–12`、`19`、`45`、`46`、`48`），即「无条件 / HR / 无防具 / 无道具 / 2人以下」五类；**其余 33 个枚举值**（含 13–18、20–44 中的绝大多数、47、49）在本版本里没有任何真实任务使用 `[C]` 计数 / `[U]` 使用面。
+> 结论：**MHGU 的真实任务只用到 17 个值**（`0`、`1–12`、`19`、`45`、`46`、`48`），即「无条件 / HR / 无防具 / 无道具 / 2人以下」五类；**其余 33 个枚举值全部**（13–18、20–44、47、49）在本版本里没有任何真实任务使用 `[C]` 计数 / `[U]` 使用面。
 
 ---
 
