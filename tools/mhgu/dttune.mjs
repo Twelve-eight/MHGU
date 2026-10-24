@@ -29,18 +29,22 @@ const STATUS_NAMES = ['poison', 'sleep', 'para', 'ko', 'exhaust', 'mount', 'jump
 
 function fail(msg) { throw new Error(`dttune: ${msg}`); }
 
-// ---- meat: locate the 8x10 base-state table --------------------------------------------
+// ---- meat: locate the base table + conditional layers ----------------------------------
+// Column layout (db order): cut,impact,shot,fire,water,ice,thunder,dragon,ko,pad.
+// Element columns (0..7) are 0..100; the KO column can exceed 100 (Chameleos head
+// ko=150) and pads run 0/100/200/255 (rev wiki-hz-all-a). So the scan constraint is:
+// cols 0..7 <= 100; col 8 (ko) <= 200; pad <= 255 (any byte).
 function locateMeat(buf) {
   for (let off = MEAT_SCAN_LO; off <= MEAT_SCAN_HI; off++) {
     let ok = true;
     for (let r = 0; r < MEAT_ROWS && ok; r++) {
       const row = off + r * 10;
       if (row + 10 > buf.length) { ok = false; break; }
-      // base-state rows: all 10 bytes in 0..100; row 0 must not start with a zero byte
-      // (the 0x8A/0x8B lead-in before a 0x8C table can be zeros; true row 0 starts with
-      // the cut value which is >= 1 for every db base row we checked)
+      // row 0 must not start with a zero byte (the 0x8A/0x8B lead-in before a 0x8C
+      // table can be zeros; true row 0 starts with the cut value >= 1)
       if (r === 0 && buf[row] === 0) { ok = false; break; }
-      for (let k = 0; k < 10; k++) if (buf[row + k] > 100) { ok = false; break; }
+      for (let k = 0; k < 8; k++) if (buf[row + k] > 100) { ok = false; break; }
+      if (ok && buf[row + 8] > 200) ok = false;
     }
     if (ok) return off;
   }
@@ -58,6 +62,68 @@ function readMeat(buf, off) {
     rows.push(row);
   }
   return rows;
+}
+
+// ---- conditional meat layers -------------------------------------------------------------
+// After the base 8x10 group there can be more 10-B-row groups (per-part conditional
+// overrides, e.g. em081_00 layer 2 @0xDE; em019_00 has 15 rows so the last "layer" is
+// truncated). Group detection: a group continues while rows look like meat rows
+// (cols 0..7 <= 100, ko <= 200); stop at the tag word / float block / status data.
+// Empty-slot forms: all-0x64, all-zero, or copy-of-base (reported via _form).
+function readMeatLayers(buf, baseOff) {
+  const groups = [{ layer: 0, offset: baseOff, rows: readMeat(buf, baseOff) }];
+  let off = baseOff + 80;
+  let layer = 1;
+  const colsOk = (o) => {
+    if (o + 10 > buf.length) return false;
+    for (let k = 0; k < 8; k++) if (buf[o + k] > 100) return false;
+    if (buf[o + 8] > 200) return false;
+    return true;
+  };
+  while (off + 10 <= buf.length) {
+    // a new group starts if this row and the next look like meat rows and we are
+    // still before the status block / float region (heuristic bound: +0x300)
+    if (off > baseOff + 0x300) break;
+    let rows = [];
+    let o = off;
+    while (o + 10 <= buf.length && colsOk(o) && rows.length < 16) {
+      const row = { _offset: o };
+      for (let i = 0; i < MEAT_COLS.length; i++) row[MEAT_COLS[i]] = buf[o + i];
+      row._pad = buf[o + 9];
+      row._all100 = MEAT_COLS.every(c => row[c] === 100);
+      row._allZero = MEAT_COLS.every(c => row[c] === 0);
+      rows.push(row);
+      o += 10;
+      // stop the group after a full 8 rows unless the next row also looks like meat
+      if (rows.length % 8 === 0 && rows.length >= 8) {
+        if (!(o + 10 <= buf.length && colsOk(o) && buf[o] !== 0)) break;
+      }
+    }
+    // require at least 2 plausible rows to count as a layer (1 row = noise) and no
+    // all-zero cut row inside a values-group (truncated rows before the float block,
+    // e.g. em019 0x124, fail this); float-tag rows ([tag,0,0,0,0,0,0,0,0,pad], e.g.
+    // em081 0x12E `03 00...` before `fa 43` = 500.0f) are rejected by requiring
+    // at least one non-zero byte among impact..dragon for non-empty rows
+    if (rows.length < 2) break;
+    const looksLikeTag = (r) => r.impact === 0 && r.shot === 0 && r.fire === 0 && r.water === 0 &&
+                               r.ice === 0 && r.thunder === 0 && r.dragon === 0 && !r._allZero;
+    let cutIdx = rows.findIndex(looksLikeTag);
+    if (cutIdx >= 0) rows = rows.slice(0, cutIdx);
+    const badRows = rows.filter(r => !r._all100 && !r._allZero && r.cut === 0 && r.impact === 0);
+    if (badRows.length > 0) {
+      rows = rows.slice(0, rows.indexOf(badRows[0]));
+    }
+    if (rows.length < 2) break;
+    const baseRows = groups[0].rows;
+    for (const row of rows) {
+      row._form = row._all100 ? 'empty-100' : row._allZero ? 'empty-zero'
+        : (baseRows.find(b => MEAT_COLS.every(c => b[c] === row[c])) ? 'copy-of-base' : 'values');
+    }
+    groups.push({ layer, offset: off, rows, _truncated: rows.length % 8 !== 0 });
+    layer++;
+    off = baseOff + 80 * layer; // groups are laid out on an 80-B grid when present
+  }
+  return groups;
 }
 
 // ---- status: locate Poison record by db-validated walk ---------------------------------
@@ -193,7 +259,12 @@ export function decodeDttune(buf, file = null) {
   }
   const meatOff = locateMeat(buf);
   const statusOff = locateStatus(buf);
-  const meat = meatOff !== null ? readMeat(buf, meatOff) : null;
+  let meat = null;
+  let meatLayers = null;
+  if (meatOff !== null) {
+    meatLayers = readMeatLayers(buf, meatOff);
+    meat = meatLayers[0].rows;
+  }
   let status = statusOff !== null ? readStatus(buf, statusOff) : null;
   // False-positive guard: monsters without db status rows (e.g. Fatalis) can still have
   // u8-run garbage that mimics records. A real block has >= 2 records and NO record
@@ -216,6 +287,7 @@ export function decodeDttune(buf, file = null) {
     smallInt0x3C: buf.readUInt16LE(0x3c),
     meat: meat ?? { _note: '8x10 base-state table not located in 0x8A..0x94', raw_u16: u16View(buf, 0x8a, 0xdc) },
     meatOffset: meatOff,
+    meatLayers: meatLayers && meatLayers.length > 1 ? meatLayers : undefined,
     status: status ?? { _note: 'status block not located by Poison-record scan', raw_u16_0x35c_0x3cc: u16View(buf, 0x35c, Math.min(0x3cc, buf.length & ~1)) },
     statusOffset: statusOff,
     records0x40_u16: u16View(buf, 0x40, 0x8a),   // semantics unknown

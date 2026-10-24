@@ -24,7 +24,7 @@ File sizes vary per monster (1018..1966 B sampled); the runtime class is only 0x
 
 ## Meat table — locate rule [C per monster]
 
-8 rows × 10 B somewhere in 0x8A..0x94. Each row = 9 × u8 + 1 pad byte, values 0..100:
+8 rows × 10 B somewhere in 0x8A..0x94. Each row = 9 × u8 + 1 pad byte:
 
 ```
 cut, impact, shot, fire, water, ice, thunder, dragon, ko, pad
@@ -32,12 +32,16 @@ cut, impact, shot, fire, water, ice, thunder, dragon, ko, pad
 
 **Column order note [Main/RevHitzones]:** within the element block it is fire, water, ice, thunder (not fire/water/thunder/ice) — the order above matches `mhgu.db monster_damage` columns (fire, water, ice, thunder, then dragon, ko). Earlier drafts swapped ice/thunder; wiki pages citing dttune must use the db order shown here.
 
-**How to locate the table in a new file** (decoder rule, works 8/8):
-1. Scan byte offsets 0x8A..0x94 for the first 10-byte window where 8 consecutive rows keep all bytes ≤ 100 (0x64) and row 0's first byte (cut) is ≥ 1 — cut is non-zero in every db base row.
-2. Confirm row 0 against db `monster_damage` Head row; all-100 filler rows follow the real rows.
-3. The table is a **base-state table only** — conditional-state rows (Enraged / Kushala wind barrier / Zinogre charged …) are **not stored**; unused slots are all-100. db rows beyond the base state have no dttune counterpart.
+Value ranges [C, byte-verified em003 Chameleos]: element columns 0..100, but the **KO column can exceed 100** (Chameleos head ko=150) and pads are 0/100/200/255 — a "values ≤ 100" assumption is wrong for this file family.
 
-Observed starts: em011 0x8C (4 real rows), em001/em002/em043 0x8E (7/7/6 real rows), em013 0x8E (8 real rows), em024/em027/em057 0x8F (8/7/8 real rows). Rathian row 0 @0x8E = `90 80 70 00 0F 0F 14 23 64 64`.
+**Conditional layers [C, byte-verified em003/em081/em019/em011]**: after the base 8×10 group there can be more groups of 10-B rows at `meatStart + 80·k` (em003 layer 2 @0x10C→base 0x8C grid; em081 layer 2 @0xDE; em019 table is 15 rows so layer 1 is truncated at 0x124 with the pre-float record `00 00 32 3c 28 14 0a 23 19 00`). A layer is **per-part conditional overrides**, not a whole-body state snapshot: em019 layer 1 = 6 Guarding rows + 1 Break row; em020 layer 1 carries only Skull-Shell/Softshell slots. Empty slots take three forms: all-`0x64`, all-zero, or copy-of-base. `db` conditional rows (`Head (Enraged)` etc.) correspond to these layers — Kirin layer 1 row 0 `40/40/35/5/5/5/0/5/100` = db `Head (Enraged)` exact. Which byte/timer selects a layer at runtime is unknown [U].
+
+**How to locate the table in a new file** (decoder rule, works on 11/11 sampled files):
+1. Scan byte offsets 0x8A..0x94 for the first 10-byte window where 8 consecutive rows keep element columns 0..7 ≤ 100 and ko ≤ 200, with row 0's first byte (cut) ≥ 1 — cut is non-zero in every db base row.
+2. Confirm row 0 against db `monster_damage` Head row; filler rows (all-100) follow the real rows.
+3. Walk further groups at +80 B; emit every group (`meatLayers` in decoder JSON); rows are tagged `_form`: `empty-100` / `empty-zero` / `copy-of-base` / `values`.
+
+Observed base starts: em011 0x8C, em001/em002/em043/em013 0x8E, em024/em027/em057/em003 0x8C/0x8F family (em003 0x8C). Rathian row 0 @0x8E = `90 80 70 00 0F 0F 14 23 64 64`.
 
 Known value outliers vs db (impact column only, likely db/romfs revision drift [U]): em024 Wings impact 20 vs db 15; em057 Tail Tip impact 20 vs db 19. Everything else matched (295/297 values).
 
@@ -85,9 +89,9 @@ Motion/part tuning: u8 runs (e.g. `150 0 20 25 16 22 16 22 14 18 14 18` @0x3B4 e
 | Item | dttune | mhgu.db | Verdict |
 |---|---|---|---|
 | base HP | 0x38 u32, fixed | monsters.base_hp | **8/8 exact** — fixed offset, cite [C] freely |
-| meat | 8×10 @ 0x8C/0x8E/0x8F, per-monster | monster_damage rows | base-state rows only: decoder `--db` locates & matches the table 8/8 monsters; 2 known impact outliers (em024 Wings 20 vs 15, em057 Tail Tip 20 vs 19); cite [C] **per monster** with located offset |
+| meat | 8×10 @ 0x8C/0x8E/0x8F, per-monster, + conditional layers at +80·k | monster_damage rows | base rows + per-part conditional layers both stored; decoder `--db` locates & matches the base table 8/8 monsters; 2 known impact outliers (em024 Wings 20 vs 15, em057 Tail Tip 20 vs 19); cite [C] **per monster** with located offset; conditional layers are per-part overrides (not whole-body states) |
 | status | variable block 0x1F4..0x4E8, per-monster | monster_status rows | decoder `--db` locates & matches 6/6 monsters with db rows (all records + durations + Blast damage); em013 candidate block correctly rejected (0 db rows); cite [C] **per monster** after location+match |
-| conditional-state meat | absent | monster_damage "Enraged"/"Wind Barrier"/"Charged" rows | **not in dttune** — those db rows stay [I] |
+| conditional-state meat | conditional layers at +80·k (per-part overrides) | monster_damage "Enraged"/"Wind Barrier"/"Charged" rows | **stored** — layer rows byte-match db conditional rows (Kirin L1 = Head (Enraged) exact); cite [C] per matched layer |
 | rage/tuning floats | 0xE6+ | — | no db counterpart found [U] |
 
 `mhgu.db` values are reproduced by the romfs file byte-for-byte wherever a table exists and was located — but because offsets and record sets are per-monster variables, only base HP is [C] without per-monster verification. Index of per-monster offsets: `docs/data/json/monster-dttune-index.json`. Decoder confidence model: without `--db`, located meat/status are positional candidates (`poison?` naming, no db claims); with `--db --emid N`, records get `dbMatch` flags, status names are only assigned on value match, and a candidate block with 0 matching records is reported as rejected.
