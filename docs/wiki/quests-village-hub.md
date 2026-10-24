@@ -854,4 +854,4 @@
 | **合计** | **714** |
 
 - db 导出 714 条，全部列出；其中 714 条在 romfs 任务扫描中找到对应记录，0 条没有；romfs 星级与 db 不一致 0 条。
-- 复现：`.tmp/gen-quests-vh.py`（读 `.tmp/mhgu/vh-quests.tsv`、`.tmp/mhgu/questreq.csv`、`mhgu.db`）。
+- 复现：`tools/wiki-gen/gen-quests-vh.py`（读 `.tmp/mhgu/vh-quests.tsv`、`.tmp/mhgu/questreq.csv`、`mhgu.db`）。
