@@ -624,3 +624,7 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
   - [C] SUYU 的 game_settings 只是每 8 帧把 g_fps 写进 [obj+0x243C]；其 >60 时的 DisplayRateScale 只缩放显示速率，不补偿逻辑。
   - [I] 动作变快说明游戏逻辑按固定帧步进（怪物 AI 每次更新按状态字节 +0x73E0 分派一次）。
   - **下一步需要实机**：在 Forge 插件里对 obj+0x243C 下读断点，记录读取者 PC；或者在 on_frame 里比较 30 与 60 时每秒的更新次数。列入用户实机待办。
+- **C3 手柄（第一步结论）**：导出版的手柄绑定在 user/config/sdl2-config.ini（只读查看）。当前 Xbox 手柄（guid 030000005e04...130b）按 Switch 默认映射：L=LB(button4)、R=RB(button5)、ZL=LT(axis2)、ZR=RT(axis5)、A/B 按位置。
+  - [C] "肩键操作交给扳机"不需要改游戏代码：在 F10 → Controls 里把 L↔ZL、R↔ZR 互换绑定即可（INSTALL.md:121 支持任意重绑）。不需要写插件，用户可直接做；本会话不改用户的配置文件。
+  - 快捷轮盘（World 的按住 LB）需要 Forge 插件：ImGui 覆盖层画轮盘 + 截获 LB + 写道具栏光标字段。前置逆向：道具栏当前选中序号在内存中的位置，[U]。
+  - C3Pad 报告（.tmp/reports-mhgu/b5/pad.md）：按键掩码在单例 +0x6bfc/+0x6c34/+0x6c3c，写入者不在已转储语料中 [U]。
