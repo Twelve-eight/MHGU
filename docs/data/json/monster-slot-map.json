@@ -42,7 +42,8 @@
  {
   "slot": 5,
   "emid": 1026,
-  "cn": "黑炎王火龙",
+  "cn": "黑炎王雄火龙",
+  "cn_src": "chS/table/MonsterDemo_chS.gmd #5",
   "en": "Dreadking Rathalos",
   "kind": "big",
   "ro": null
@@ -50,7 +51,8 @@
  {
   "slot": 6,
   "emid": 3,
-  "cn": "白电龙",
+  "cn": "白电",
+  "cn_src": "chS/table/MonsterDemo_chS.gmd #53",
   "en": "Khezu",
   "kind": "big",
   "ro": null
@@ -58,7 +60,8 @@
  {
   "slot": 7,
   "emid": 8,
-  "cn": "大怪鸟",
+  "cn": "怪鸟",
+  "cn_src": "chS/table/MonsterDemo_chS.gmd #6",
   "en": "Yian Kut-Ku",
   "kind": "big",
   "ro": null
@@ -130,7 +133,8 @@
  {
   "slot": 16,
   "emid": 1042,
-  "cn": "隻眼黑狼鸟",
+  "cn": "独眼黑狼鸟",
+  "cn_src": "chS/table/MonsterDemo_chS.gmd #10",
   "en": "Deadeye Yian Garuga",
   "kind": "big",
   "ro": null
@@ -154,7 +158,8 @@
  {
   "slot": 19,
   "emid": 20,
-  "cn": "镰蟹",
+  "cn": "将军镰蟹",
+  "cn_src": "chS/table/MonsterDemo_chS.gmd #13",
   "en": "Shogun Ceanataur",
   "kind": "big",
   "ro": null
@@ -178,7 +183,8 @@
  {
   "slot": 22,
   "emid": 1303,
-  "cn": "金狮子(激昂)",
+  "cn": "激昂金狮子",
+  "cn_src": "chS/table/itemData_chS.gmd #2997",
   "en": "Furious Rajang",
   "kind": "big",
   "ro": null
@@ -210,7 +216,8 @@
  {
   "slot": 26,
   "emid": 30,
-  "cn": "大野猪王",
+  "cn": "野猪王",
+  "cn_src": "chS/table/MonsterDemo_chS.gmd #16",
   "en": "Bulldrome",
   "kind": "big",
   "ro": null
@@ -282,7 +289,8 @@
  {
   "slot": 35,
   "emid": 1323,
-  "cn": "恐暴龙(怒食)",
+  "cn": "怒食恐暴龙",
+  "cn_src": "chS/table/itemData_chS.gmd #5074",
   "en": "Savage Deviljho",
   "kind": "big",
   "ro": null
@@ -338,7 +346,8 @@
  {
   "slot": 42,
   "emid": 55,
-  "cn": "尾槌龙",
+  "cn": "尾锤龙",
+  "cn_src": "chS/table/HN_MonsterListMsg_chS.gmd #102",
   "en": "Duramboros",
   "kind": "big",
   "ro": null
@@ -386,7 +395,8 @@
  {
   "slot": 48,
   "emid": 1084,
-  "cn": "红兜青熊兽",
+  "cn": "红盔青熊兽",
+  "cn_src": "chS/table/MonsterDemo_chS.gmd #30",
   "en": "Redhelm Arzuros",
   "kind": "big",
   "ro": null
@@ -434,7 +444,8 @@
  {
   "slot": 54,
   "emid": 66,
-  "cn": "鬼娃",
+  "cn": "鬼蛙",
+  "cn_src": "chS/table/MonsterDemo_chS.gmd #35",
   "en": "Tetsucabra",
   "kind": "big",
   "ro": null
@@ -442,7 +453,8 @@
  {
   "slot": 55,
   "emid": 1090,
-  "cn": "岩穿鬼娃",
+  "cn": "岩穿鬼蛙",
+  "cn_src": "chS/table/MonsterDemo_chS.gmd #36",
   "en": "Drilltusk Tetsucabra",
   "kind": "big",
   "ro": null
@@ -450,7 +462,8 @@
  {
   "slot": 56,
   "emid": 67,
-  "cn": "化鲛",
+  "cn": "变形冰鲨",
+  "cn_src": "chS/table/HN_MonsterListMsg_chS.gmd #122",
   "en": "Zamtrios",
   "kind": "big",
   "ro": null
@@ -466,7 +479,8 @@
  {
   "slot": 58,
   "emid": 69,
-  "cn": "徹甲虫",
+  "cn": "重甲虫",
+  "cn_src": "chS/table/HN_MonsterListMsg_chS.gmd #126",
   "en": "Seltas Queen",
   "kind": "big",
   "ro": null
@@ -482,7 +496,8 @@
  {
   "slot": 60,
   "emid": 72,
-  "cn": "天迴龙",
+  "cn": "天廻龙",
+  "cn_src": "chS/table/MonsterDemo_chS.gmd #88",
   "en": "Shagaru Magala",
   "kind": "big",
   "ro": null
@@ -490,7 +505,8 @@
  {
   "slot": 61,
   "emid": 76,
-  "cn": "重甲虫",
+  "cn": "穿甲虫",
+  "cn_src": "chS/table/HN_MonsterListMsg_chS.gmd #132",
   "en": "Seltas",
   "kind": "big",
   "ro": null
@@ -562,7 +578,8 @@
  {
   "slot": 70,
   "emid": 85,
-  "cn": "跳狗龙",
+  "cn": "跳狗龙王",
+  "cn_src": "chS/table/MonsterDemo_chS.gmd #47",
   "en": "Great Maccao",
   "kind": "big",
   "ro": null
@@ -706,7 +723,8 @@
  {
   "slot": 88,
   "emid": 4116,
-  "cn": "盾虫",
+  "cn": "盾蟹",
+  "cn_src": "chS/table/itemData_chS.gmd #1950",
   "en": "Hermitaur",
   "kind": "small",
   "ro": null
@@ -714,7 +732,8 @@
  {
   "slot": 89,
   "emid": 4117,
-  "cn": "镰虫",
+  "cn": "镰蟹",
+  "cn_src": "chS/table/itemData_chS.gmd #1982",
   "en": "Ceanataur",
   "kind": "small",
   "ro": null
@@ -810,7 +829,8 @@
  {
   "slot": 101,
   "emid": 4141,
-  "cn": "卷贝兽",
+  "cn": "盾虫",
+  "cn_src": "chS/table/HN_MonsterListMsg_chS.gmd #178",
   "en": "Konchu",
   "kind": "small",
   "ro": null
@@ -962,7 +982,8 @@
  {
   "slot": 120,
   "emid": 1044,
-  "cn": "铠裂镰蟹",
+  "cn": "铠裂将军镰蟹",
+  "cn_src": "chS/table/itemData_chS.gmd #2007",
   "en": "Rustrazor Ceanataur",
   "kind": "big",
   "ro": null
@@ -1002,7 +1023,8 @@
  {
   "slot": 125,
   "emid": 1343,
-  "cn": "碎龙（临界）",
+  "cn": "临界碎龙",
+  "cn_src": "chS/table/itemData_chS.gmd #5240",
   "en": "Raging Brachydios",
   "kind": "big",
   "ro": null
@@ -1018,7 +1040,8 @@
  {
   "slot": 127,
   "emid": 1351,
-  "cn": "黑蚀龙（浑沌）",
+  "cn": "混沌黑蚀龙",
+  "cn_src": "chS/table/itemData_chS.gmd #5239",
   "en": "Chaotic Gore Magala",
   "kind": "big",
   "ro": null
@@ -1034,7 +1057,8 @@
  {
   "slot": 129,
   "emid": 1105,
-  "cn": "青电主雷龙",
+  "cn": "青电主电龙",
+  "cn_src": "chS/table/itemData_chS.gmd #2589",
   "en": "Boltreaver Astalos",
   "kind": "big",
   "ro": null
@@ -1050,7 +1074,8 @@
  {
   "slot": 131,
   "emid": 1107,
-  "cn": "银岭巨兽",
+  "cn": "银峰巨兽",
+  "cn_src": "chS/table/itemData_chS.gmd #2635",
   "en": "Elderfrost Gammoth",
   "kind": "big",
   "ro": null
@@ -1058,7 +1083,8 @@
  {
   "slot": 132,
   "emid": 86,
-  "cn": "天慧龙",
+  "cn": "天彗龙",
+  "cn_src": "chS/table/MonsterDemo_chS.gmd #91",
   "en": "Valstrax",
   "kind": "big",
   "ro": null
