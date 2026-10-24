@@ -132,13 +132,14 @@ wiki 的单怪页有「道具效果」表（`道具 | 通常 | 怒时 | 疲劳 |
 
 规则（`monsters.md:303-306`）：
 
-- 古龙 / 二名 / 大型甲虫普遍对麻痹陷阱、地洞免疫（`×`），闪光球效力大幅缩短或分状态变化；黑龙系全道具无效。
+- 古龙 / 二名 / 大型甲虫普遍对麻痹陷阱、地洞免疫（`×`），闪光球效力大幅缩短或分状态变化；黑龙系（黑龙 `#117 MillaBoreis` / 红龙 `#118 MillaBoreis_AKA` / 祖龙 `#119 MillaBoreis_SO`）全道具无效。
 - 疲劳状态**通常延长**陷阱与闪光时间（轰龙地洞 16→20、雌火龙 12→25），但阁螳螂是**缩短**（5/8/3）。
 - `mhgu.db.monster_weakness` 的 `pitfall_trap / shock_trap / flash_bomb / sonic_bomb / dung_bomb / meat` 六列是 **0/1 有效位**（不是秒数；抽样 `_id 1-5` 只见 1/0）`[I]`；精确秒数只能回单怪 wiki 页。
 - 音爆弹只对特定怪、特定动作有效（例：潜行/护手时），条件列与秒数一样在单怪页。
 
-> 怪物名取自 `monsters.md:291`；其中「天慧龙」按官方文本订正为 **天彗龙**（`MonsterDemo_chS` 有该名，`HN_MonsterListMsg_chS` 原文亦写「因故称之为“天彗龙”」）。`MonsterDemo_chS` 内没有「煌黑龙」「黑龙」两条，沿用 `monsters.md` 写法 `[I]`。
-> 这些秒数**不在** `*_dttune` 里：该格式已解码的字段是基础体力 `+0x38`、肉质表 `+0x8E`、状态阈值 `+0x35C`（`docs/reference/formats/dttune.md`），没有陷阱/闪光/音爆/异臭球项 ⇒ 只能以 wiki 单怪页为源。
+> 本页怪物名一律取 `chS/arc/resident_chS.arc :: monsterName_chS` 槽内原文（`MHGU-private/romfs-extract/gmd-arc/monsterName_chS.gmd.json`）：雌火龙 `#0 Lioleia`、黑炎王雄火龙 `#5 NamedLiolaes`、轰龙 `#27 Tigrex`、荒钩爪轰龙 `#28 NamedTigrex`、煌黑龙 `#41 Albatorion`、黑龙 `#117 MillaBoreis`、天彗龙 `#132 Valphalk`、阁螳螂 `#134 Atlal_ka`。
+> 注意：来源表 `monsters.md:291-300` **仍写作「天慧龙」**（该文件不在本页修改范围内，全文另有多处同样旧拼写未改）；**本页按官方名取「天彗龙」**，上表已按此写法抄录。
+> 这些秒数**不在** `*_dttune` 里：该格式解出的字段是基础体力（唯一固定偏移 `+0x38`）、肉质表、状态阈值（两者偏移**按怪物变化**：肉质 0x8C/0x8E/0x8F、状态 0x324/0x35C 或缺失；逐怪偏移见 `docs/data/json/monster-dttune-index.json`），没有任何陷阱/闪光/音爆/异臭球项 ⇒ 只能以 wiki 单怪页为源。
 
 ---
 
