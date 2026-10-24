@@ -1,0 +1,116 @@
+# ItemBoxV7
+
+**EXPERIMENTAL - this plugin has not been run yet.** It is a Forge PC 0.7 port of the item-box
+V7 pchtxt (`MHGU/patch/1.4.0.pchtxt`, 123 patch lines) to the recompiled MHGU (1.4.0) PC build.
+
+Read this before installing:
+
+- **Keep it in dry run for now (no `ENABLE` file).** The generic cloner cannot express the
+  capacity getter (rows 23-24, `0x198F04`/`0x198F08`): the pchtxt replaces `push {r4,lr}` and
+  `ldr r0,[pc,#0x30]` with `movw r0,#0xBB0` and `bx lr`, and the latter is a PC write, so the
+  group is refused (step 4 below) and logged. Rows 25-54 (inline capacity) and the whole layout
+  shift still install, i.e. an enabled run today would apply the 0xAD0 shift without the getter
+  that reports 2992 - an inconsistent object. The spec's answer for that site is a hand-written
+  `replace-fn` hook (`r0 = 0xBB0`, return to `lr`, spec section 2), which does not exist yet.
+- **Run [BoxProbe](../boxprobe/) first.** It resolves the same 123 sites, the same block starts
+  and the same original-word check without changing anything. Only install ItemBoxV7 if
+  `BoxProbe/boxprobe.txt` shows `words matched 123/123` and no missing `B`.
+- **This changes the save format to V7.** After a save is written by a game with the item-box
+  expansion applied, the unpatched game can no longer read that save (2300 slots + 24 presets
+  versus 2992 slots + 14 presets; the section sizes differ).
+- **Back up your save files** (and keep the pchtxt/emulator setup you came from) before the
+  first run with V7 enabled.
+
+## What it does
+
+The pchtxt only works on an emulator, because dynarmic decodes guest instructions at run time.
+The AOT export has one native block per basic block, so writing the 123 patched words into
+`.text` changes nothing (spec `docs/patches/item-box-v7-plugin-spec.md` section 1). The plugin
+therefore works on the recompiled blocks:
+
+1. `forge_onInit` resolves module `main`, checks that `main + 0x13F1DEC` is inside it, and reads
+   every one of the 123 sites (`sites.h`). If **any** original 1.4.0 instruction word differs,
+   it logs the mismatches and installs nothing at all.
+2. For every site it probes `is_block(site)`; if the site is not a block start it walks back in
+   4-byte steps (at most `0x400` bytes) to the block start `B`, and groups the sites by `B`.
+3. Per group it copies `B .. last site of the group` from game memory into a freshly allocated
+   guest buffer (`mem_alloc`), substitutes the V7 word at each site, and appends an absolute
+   return to `last site + 4` (`ldr pc,[pc,#-4]` + address = `0xE51FF004`, spec Appendix A).
+4. A group is **not** cloned when the copied range contains an instruction whose meaning depends
+   on its own address or that leaves the copied range: `b`/`bl`/`blx` to an immediate, `ldr`/
+   `str` with `pc` as base, `adr`, `mov pc`, `ldr pc`, `pop`/`ldm`/`stm` with `pc`, `bx`/`blx`
+   register, and the same class of instruction through a register operand. That covers the rows
+   that need a hand-written hook (the capacity getter at `0x198F04`/`0x198F08` is the known
+   one: its patched `bx lr` ends the block). Such a group is logged as
+   `NOT CLONED, needs hand-written handling`, the other groups still install.
+5. Each remaining group gets one pre hook on `B` that sets `r15` to the clone and returns
+   `FORGE_HOOK_JUMP`. Clones execute on the JIT (they have no recompiled block), so the cost is
+   a JIT transition per entry, not the original AOT speed (spec section 4 R7).
+6. The first hit of every hook is logged once.
+
+The clone memory is never freed or reused: the JIT caches a translation per guest address, so
+different bytes at the same address would run stale code (spec section 4 R11). For that reason
+also leave hot reload off for this mod (`[plugins] hot_reload = false` in `forge.ini`).
+
+## Enable / dry run
+
+The plugin always analyses and logs. It only creates hooks when this file exists:
+
+```
+<game>\mods\0100770008DD8000\ItemBoxV7\ENABLE
+```
+
+Without it the run is a dry run: the log says which groups *would* be cloned and which ones
+need hand-written handling, and the game is untouched.
+
+## Build
+
+```
+cd /d "G:\omp works\MHGU\forge\itembox-v7"
+build.bat
+```
+
+`build.bat` finds VS 2022 through `vswhere` and compiles with `cl /O2 /MT /W4 /LD` (same flags
+as boxprobe); the include path points at `..\..\..\.tmp\ext\forge-pc\include` (the workspace's
+forge-pc checkout), so no Vulkan SDK is needed. Result:
+`dist\mods\0100770008DD8000\ItemBoxV7\plugins\itembox.dll`.
+
+## Install
+
+Copy `dist\mods\0100770008DD8000\ItemBoxV7` into `<game>\mods\0100770008DD8000\`, so that the DLL
+ends up at
+
+```
+<game>\mods\0100770008DD8000\ItemBoxV7\plugins\itembox.dll
+```
+
+Start the game once (dry run), compare `ItemBoxV7\itembox.txt` with `BoxProbe\boxprobe.txt`,
+then create the empty `ENABLE` file in the same folder to install the hooks on the next start.
+
+## Log
+
+`<game>\mods\0100770008DD8000\ItemBoxV7\itembox.txt`, one line per step, plus every line in
+Forge's log (`user/forge.log`) under the plugin name `itembox`:
+
+```
+[0] gate ... present|missing
+[1] main base ..., size ...
+[2] original words verified 123/123          (or FAIL CLOSED: n of 123 ...)
+[3] block start found for 123/123 sites, 0 without B
+[4] B main+... rows ...: would clone ... / NOT CLONED, needs hand-written handling: ...
+[5] B main+... rows ...: installed, N words cloned at ..., returns to main+...
+[6] summary: install|dry run; words ...; groups ..., installed ... (... sites), skipped ...
+[6] skips: N pc-hazard/not-one-block, N memory, N hook, N internal
+```
+
+## Limits (inherited from V7, not fixed by this plugin)
+
+- **B and C are moved but not enlarged** (spec section 4 R2): B keeps 2300 records while the box
+  has 2992 slots, so a box with more than 2300 distinct item ids still overflows into C/D on a
+  sort/compress. The plugin does not change that; V8 is the patch series that sizes B/C/D.
+- **`0x19B1F4` has no bound to patch** (spec section 4 R4): the unbounded preset-record copy can
+  write past the object. Not one of the 123 lines, not fixed here.
+- Rows the generic cloner refuses (see step 4 above) stay unpatched. The summary line counts
+  them; the `[4]` lines name the address and the reason.
+- The plugin checks the 123 original words at start-up only. A different game build, a different
+  module base or another plugin that patches the same blocks is not detected after that.
