@@ -12,7 +12,7 @@
 
 | 代号 | 文件 | 取用内容 | 等级 |
 |---|---|---|---|
-| **ASD** | romfs `nativeNX/table/armorSeriesData.asd` | 8 B 头（f32 `38.0` + u32 **1287**）+ 1287 × 127 B；只用于**系列号空间**（0–1286），字段偏移仍未解（§9 #2） | B（字节整除 + 系列号与 `armorSeriesData_chS` 条数互证） |
+| **ASD** | romfs `nativeNX/table/armorSeriesData.asd` | 8 B 头（f32 `38.0` + u32 **1287**）+ 1287 × 127 B；只用于**系列号空间**（0–1286）。127 B 记录的字段布局已反推，见 [formats/asd.md](../reference/formats/asd.md) | B（字节整除 + 系列号与 `armorSeriesData_chS` 条数互证；字段表多数 [A]/[B]，详见格式页） |
 | **T** | `chS/table/armorSeriesData_chS.gmd` | 12,870 串 = 1287 系列 × 10；`series N` 的五个部件名 = `strings[10N+0..4]`（头/胴/腕/腰/脚），说明 = `10N+5..9` | B（romfs 原文；多段抽样回验，§1.2） |
 | **A** | `MHGU/docs/data/armor/{head,body,arms,waist,legs}.json` | 逐件的 `defense` / `max_defense` / 五耐性 / `num_slots` / `rarity` / `family` / `hunter_type` / `skills[]` | B（与镜像 wiki 单件面板对拍，`armor-talismans.md` §6） |
 | **D** | `MHGU/docs/data/mhgu.db` | `armor_families`（1242 行：`name` / `rarity` / `hunter_type` / 五部位 id）、`armor`（5637 行）、`item_to_skill_tree`（14,510 行：`item_id`→树 id + 点数）、`skills`（326 行：阈值 + 技能名） | I（第三方 MHGenDatabase v2.4.0） |
@@ -830,7 +830,7 @@ MHGU 有一批**单件/少件系列**：腰带（`皮制轻量腰带`[13]、`铁
 | # | 事项 | 现状 | 需要什么 |
 |---|---|---|---|
 | 1 | 皮制（Leather）系列合计防御 **2 倍差** | 本页 5 / 125（JSON 单件 1/25 × 5），镜像 wiki 合计行 `5 / 250`；同页合金 60/310 与 JSON 一致 → 只此一条异常 | 实机看稀有度 1 的强化上限；已在 `armor-talismans.md` §7 #10 登记 |
-| 2 | `armorSeriesData.asd` 的 127 B 字段偏移 | 只确认容量（1287 × 127 B）与头，**没有**定位到 `mEnableParts` / `mXxxSkillPoint[0..4]` / `mDefLvUpTblIndex` 的字节位置；本页的点数走 DS 而非 ASD | 反汇编 `rArmorSeriesData` 的 reader，或按已知系列逐字节对拍（`armor-talismans.md` §7 #4） |
+| 2 | `armorSeriesData.asd` 的 127 B 字段偏移 | 已反推大部分字段（见 [formats/asd.md](../reference/formats/asd.md)）：`mEnableParts` @+0x06、`mXxxSkillPoint` 技能块 @+0x1C、防御 @+0x6A、孔数 @+0x6C 等为 [A]；强化上限、价格等仍为 [B]/[U] | 对 `+0x11` 价格与 `+0x67`–`+0x69` 做逐系列对拍（`armor-talismans.md` §7 #4） |
 | 3 | 44 个空/重复块为什么留在名称表里 | 其中 696/697、704/705、1120/1121 与 db 的 160/464/928 同名重复；1257–1270 是活动系（小杰 / 烈火 / 和歌），db 无部件 | 比对 `armorCreateA0x.acrd` 是否有对应产线；[U] |
 | 4 | 无标记（base）系列里稀有度 4 的下位 / 上位分界 | 34 个无标记稀有度 4 系列按规则归下位（`结云之笠･天`[209]、`奇猿狐`[309]…），但本地没有逐系列的等级字段 | `armorCreateA0x.acrd` 的生产素材等级（上鳞 / 厚鳞）+ 任务 rank 交叉 |
 | 5 | R 系列（59 个）与 EX 活动系列的等级 | R 按稀有度二分（4–7 上位、8–10 G）；EX 按所在稀有度归级 | 同上；标 **[I]** |
