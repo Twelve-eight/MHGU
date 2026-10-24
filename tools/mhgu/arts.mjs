@@ -56,10 +56,12 @@ const RECORD_OFF = {
   mXTimer: 0x15,
 };
 
-// Arts-id -> weapon. Each weapon owns 4 consecutive arts ids; the ids 31..34 have no art at all
-// (their 12 records are the `@` placeholder groups in the zh gmd). The weapon of every other group
-// is the one docs/wiki/styles-arts.md lists those 4 official names under.
+// Arts-id -> weapon. The 10 common arts (ids 1..10) are usable by every weapon. Each weapon then
+// owns 4 consecutive arts ids; the ids 31..34 have no art at all (their 12 records are the `@`
+// placeholder groups in the zh gmd). The weapon of every other group is the one
+// docs/wiki/styles-arts.md lists those 4 official names under.
 const WEAPONS = [
+  [1, 10, '共通'],
   [11, 14, '大剑'],
   [15, 18, '片手剑'],
   [19, 22, '大锤'],
@@ -78,7 +80,7 @@ const WEAPONS = [
 ];
 
 const FIELD_NOTES = {
-  mPointSP: 'arts id points (u16). Engine member name [C]; whether this is the activation cost is [U]',
+  mPointSP: 'gauge points (u16). Engine member name [C]; whether this is the activation cost is [U]',
   mXTimer: 'f32 timer field. Engine member name [C]; semantics [U]. Equals 3.5 * mPointSP on retail data',
   unk04: 'unnamed u32 record field, 250..2000 in steps of 10 — only unregistered numeric slot, likely the arts-gauge cost [I]',
   index: 'unnamed u32 record field, strictly 0..190 — a record/level index',
@@ -127,10 +129,15 @@ export function readHeader(buf) {
 }
 
 // `gmd` = parsed hunterArtsData_chS.gmd.json (optional). Returns record index -> {name, longName,
-// descShort, descLong}.
+// descShort, descLong}. String slots are keyed by the JSON entry's own `i` (not by array position).
 export function namesFromGmd(gmd) {
   const s = gmd && Array.isArray(gmd.strings) ? gmd.strings : [];
-  const at = i => (s[i] && typeof s[i].text === 'string' ? s[i].text : null);
+  const text = new Map();
+  s.forEach((e, pos) => {
+    const i = e && Number.isInteger(e.i) ? e.i : pos;
+    if (e && typeof e.text === 'string') text.set(i, e.text);
+  });
+  const at = i => (text.has(i) ? text.get(i) : null);
   const max = Math.floor(s.length / 4);
   const out = new Map();
   for (let n = 0; n < max; n++) {
