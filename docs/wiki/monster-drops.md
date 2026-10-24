@@ -24,10 +24,10 @@
 
 | 通道 | db 条件名 | 每次狩猎结算次数 | 触发条件 | 该档最稀件单次量级 | 来源 |
 |---|---|---|---|---|---|
-| 本体剥取 | `Body Carve` | 3 次（巨兽 **4 次**） | 无 | 稀有件 0–5% | [C] db↔wiki 10 只逐条比对；romfs `hagi` 剥取表字节核对（6 只 / 51 表） |
-| 断尾剥取 | `Tail Carve` | 1 次 | 尾部切断（斩击系） | 2–15% | [C] 同上；romfs `hagi` 断尾表（同上 6 只；巨兽无断尾表） |
+| 本体剥取 | `Body Carve` | 3 次（巨兽 **4 次**） | 无 | 稀有件 0–5% | [C] db↔wiki 10 只逐条比对；romfs `hagi` 剥取表字节核对（10 只 / 87 表） |
+| 断尾剥取 | `Tail Carve` | 1 次 | 尾部切断（斩击系） | 2–15% | [C] 同上；romfs `hagi` 断尾表（同上 10 只；巨兽无断尾表） |
 | 捕获报酬 | `Capture` | 每格一次（格数 [U]，见 §8） | 捕获而非击杀 | 2–7% | [C] 数值；格数无来源；**不在 `hagi` 内** |
-| 落物 | `Shiny` | 1–3 次（各怪不同，见 §2 表注） | 壁登顶失败 / 进食 / 吃陷阱肉 / 放电状态解除 / 音爆弹等 | 1–5% | [C] 同上；romfs `hagi` 落物表（同上 6 只） |
+| 落物 | `Shiny` | 1–3 次（各怪不同，见 §2 表注） | 壁登顶失败 / 进食 / 吃陷阱肉 / 放电状态解除 / 音爆弹等 | 1–5% | [C] 同上；romfs `hagi` 落物表（同上 10 只） |
 | 部位破坏 | `Break <部位>` | 每部位 1 次（头部等多需耐久归零 2 次；两次归零是否各结算 1 次未验证 [U]） | 该部位耐久归零 | 1–40%（稀有行 1–12%） | [C] 同上 |
 | 虫网 / 身体采集 | `Body Gather` / `Insect Gather Back` | 雷狼龙：**转倒时**从背部用虫网，wiki 表头记作 **∞ 回**（次数无上限） | 仅少数怪，且需倒地/特定状态 | 雷狼龙 `Insect Gather Back`：下位 超电雷光虫 90 / 带电毛 10%；上位 超电雷光虫 82 / 高电毛 10 / 带电毛 8%；G 超电雷光虫 82 / 雷电毛 10 / 高电毛 8（均 %，各组闭合 100） | [C] db 与 [wiki 1853] L490-500 逐行一致，且 romfs `hagi_s1/s2/s4_em057_00` 的**第 4 张表**逐项相同；db 条件名映射仍 [I] |
 | 猫任务行 | `Meowster Hunter` | 3 行固定 50/30/20 | 随从猫任务 | 出余料（Scrap） | [I] |
@@ -41,7 +41,7 @@
 
 ## 2. 十只封面怪的稀有素材：单次概率
 
-本表挑的"该档最稀有件"在十只封面怪上正好构成 稀有度 5（下位）/ 7（上位）/ 9（G 级）三档；同稀有度还有次级素材（如雌火龙的棘 = 5、雌火龙的上等棘 = 7、雌火龙的秘棘 = 9）。"—"= 该通道没有这一行（抽不到）。**本体剥取列中，雌火龙 / 火龙 / 轰龙 / 雷狼龙 / 斩龙 / 巨兽 6 只已与 romfs `hagi` 字节核对 [C]**；迅龙 / 碎龙 / 电龙 / 泡狐龙 4 只为 db + wiki 双源 [C]（未抽样）。
+本表挑的"该档最稀有件"在十只封面怪上正好构成 稀有度 5（下位）/ 7（上位）/ 9（G 级）三档；同稀有度还有次级素材（如雌火龙的棘 = 5、雌火龙的上等棘 = 7、雌火龙的秘棘 = 9）。"—"= 该通道没有这一行（抽不到）。**本体剥取列的 10 只全部已与 romfs `hagi` 字节核对 [C]**（87 张剥取/断尾/落物表 + 雷狼龙 3 张采集表，逐项与 `hunting_rewards` 相同）；"断尾""落物"两列同理。
 
 | 怪物（db id） | 档 | 稀有素材 | 稀有度 | 本体剥取 | 断尾 | 捕获 | 落物 | 部位破坏（部位） | 单次最优 | 来源 |
 |---|---|---|---|---|---|---|---|---|---|---|
@@ -209,7 +209,7 @@ WHERE mq.monster_id = 2 ORDER BY q._id;
 | 中文素材名（官方） | `MHGU-private/romfs-extract/gmd/table/itemData_chS.gmd.json`（源 `chS/table/itemData_chS.gmd`，5982 串） | `.strings[2 × items._id].text`（奇数为说明文） | [B] 官方文本 |
 | 中文怪物名（官方，主源） | `MHGU-private/romfs-extract/gmd-arc/monsterName_chS.gmd.json`（源 `chS/arc/resident_chS.arc :: chS\GUI\06_msg\monsterName_chS`，268 条 keyed） | `#i` = 槽位（0..136）：`#0` 雌火龙、`#3` 火龙、`#27` 轰龙、`#31` 迅龙、`#44` 雷狼龙、`#52` 碎龙、`#64` 斩龙、`#66` 电龙、`#67` 泡狐龙、`#68` 巨兽（label 依次 Lioleia / Liolaes / Tigrex / Nargacuga / Zinogre / Bracchidios / Dinovalde / Raizex / Tamamitsune / Gamute） | [B] 官方文本；取该怪自己槽位的名字，不缩短 |
 | 中文名交叉校验 | `MHGU-private/docs/reference/mhxx-wiki/text/18xx.txt`；`MHGU/docs/mechanics/systems.md:600-628` | 怪物页行号 | [wiki] 与官方文本逐条一致，仅用字差异（wiki「鱗/骨髄/靭尾/大粒泪/端材」→ 官方「鳞/骨髓/韧尾/大颗龙泪/余料」；怪物名 wiki 作「雄火龙」，官方 monsterName_chS `#3` = 火龙 Liolaes） |
-| romfs 侧掉落表（carve/断尾/落物） | `arc/enemy/emNNN_XX.arc :: enemy\hagi\hagi_s1/s2/s4_*`（s1 下位 / s2 上位 / s4 G；表序 剥取 → 断尾 → 落物 →（采集），缺项省略） | type `0x33a84e14`，346 B，`{chance,count,itemId}` @0x1A | [C] 6 只封面怪 51 张表与 db 逐项一致（em001/002/032/057/080/083）；其余 4 只仅 db+wiki |
+| romfs 侧掉落表（carve/断尾/落物） | `arc/enemy/emNNN_XX.arc :: enemy\hagi\hagi_s1/s2/s4_*`（s1 下位 / s2 上位 / s4 G；表序 剥取 → 断尾 → 落物 →（采集），缺项省略） | type `0x33a84e14`，346 B，`{chance,count,itemId}` @0x1A | [C] 10 只封面怪 87 张表 + 3 张采集表与 db 逐项一致（em001/002/032/037/057/063/080/081/082/083） |
 | romfs 侧任务报酬 | `loc/arc/quest/q<7位 id>.arc :: quest\rem\rem_*` | type `0x5b3c302d`，184 B，8 组 × `{chance,count,itemId}` | [C] 任务 101/11413/11460 与 db `quest_rewards` 逐条一致（`rem.md`） |
 
 ### §2 稀有素材名 → `itemData_chS` 索引（索引 = 2 × db item_id；本表已由两名核对者独立读取一遍）
@@ -281,7 +281,7 @@ SELECT _id, name FROM items WHERE name = 'Rathalos Mantle';   -- → 1215
 
 | # | 缺口 | 现状 | 补法 |
 |---|---|---|---|
-| 1 | romfs 侧掉落表载体 | **已定位并解码**：`arc/enemy/emNNN_XX.arc :: enemy\hagi\hagi_s1/s2/s4_*`（type `0x33a84e14`，346 B，zlib 存在 arc 内）；`s1`=下位、`s2`=上位、`s4`=G，表按固定顺序 **本体剥取 → 断尾 → 落物 →（虫网采集）**，缺项直接省略（巨兽无断尾表，故只有 2 表；雷狼龙有采集表，故 4 表）；行格式 `{u8 chance, u8 count, u16 itemId}` @0x1A，`FF FF 00 00` 收尾，每表合计 100。**6 只封面怪、51 张表已字节核对，与 `hunting_rewards` 逐项一致 [C]**：em001 雌火龙 9/9、em002 火龙 9/9、em032 轰龙 9/9、em057 雷狼龙 9/9（含采集表 3/3）、em080 斩龙 9/9、em083 巨兽 6/6（无断尾表）。**仍缺**：(a) `Capture` / `Break *` / `Meowster Hunter` 三族**不在 hagi 内**（em002 的 LR 捕获行 db 有、hagi 无）；(b) `s0`（各怪 1–3 张低阶表，如 Rathalos 1202@35/1205@25/460@20/409@20）与 `s3`（1–3 张表，均 1716@100）语义 [U]；(c) 迅龙 / 碎龙 / 电龙 / 泡狐龙 4 只未抽样 | 任务报酬另走 `loc/arc/quest/q<id>.arc :: quest\rem\rem_*`（184 B）；解码 `node tools/mhgu/rem.mjs hagi-arc <arc> --json` / `arc <quest.arc>`。剩余 4 只照抄同一命令即可（em037/em063/em081/em082） |
+| 1 | romfs 侧掉落表载体 | **已定位并解码**：`arc/enemy/emNNN_XX.arc :: enemy\hagi\hagi_s1/s2/s4_*`（type `0x33a84e14`，346 B，zlib 存在 arc 内）；`s1`=下位、`s2`=上位、`s4`=G，表按固定顺序 **本体剥取 → 断尾 → 落物 →（虫网采集）**，缺项直接省略（巨兽无断尾表，故只有 2 表；雷狼龙有采集表，故 4 表）；行格式 `{u8 chance, u8 count, u16 itemId}` @0x1A，`FF FF 00 00` 收尾，每表合计 100。**10 只封面怪、90 张表已字节核对，与 `hunting_rewards` 逐项一致 [C]**：em001 9/9、em002 9/9、em032 9/9、em037 9/9、em057 9/9 + 采集 3/3、em063 9/9、em080 9/9、em081 9/9、em082 9/9、em083 6/6（无断尾表）。**仍缺**：(a) `Capture` / `Break *` / `Meowster Hunter` 三族**不在 hagi 内**（em002 的 LR 捕获行 db 有、hagi 无）；(b) `s0`（各怪 1–3 张低阶表，如 Rathalos 1202@35/1205@25/460@20/409@20）与 `s3`（1–3 张表，均 1716@100）语义 [U] | 任务报酬另走 `loc/arc/quest/q<id>.arc :: quest\rem\rem_*`（184 B）；解码 `node tools/mhgu/rem.mjs hagi-arc <arc> --json` / `arc <quest.arc>`。其余 128 只怪照抄同一命令即可（body/tail/shiny 三族都能这样核对） |
 | 2 | 等级段条件（`Body Carve Lv1-3` … `G5-6`）的语义 | 条件名存在、行数为数千，但对应哪段任务等级未验证 | 用 `quests.level`（1..15 = ★1..G5）与本表等级段做分布交叉 |
 | 3 | 捕获每次几格 | 无来源；§3 因此不折算捕获 | wiki 怪物页未标注；可从代码侧（任务结算函数，见 `MHGU/docs/analysis/code/tierb-pass1/tierB-slice-05.md` 的 `mRewardTable[0..3]`）或实机计数确认 |
 | 4 | 雌火龙本体剥取次数 | wiki 文本作 1 回，与系列惯例矛盾 [U] | 实机计数，或解 §8.1 的 rem 表 |

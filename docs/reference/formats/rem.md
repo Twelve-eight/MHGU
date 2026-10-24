@@ -133,7 +133,15 @@ em002 = Rathalos. Extract with `arc.mjs ... "^enemy.hagi"`; decode with `node to
 | 0x1A | `{u8 chance, u8 count, u16 itemId}` | 4 B entries; 80 slots fit (26 + 80×4 = 346) |
 | — | `FF FF 00 00` | closes a table; the same 4 bytes repeat to EOF as padding |
 
-Table order inside a rank file: **0 = Body Carve, 1 = Tail Carve, 2 = Shiny** [C].
+Table order inside a rank file is **Body Carve → Tail Carve → Shiny → (Insect Gather Back)**, but
+**absent tables are omitted**, so the position is *not* a fixed semantic per index: Gammoth (`em083`)
+has only two tables per rank and its `tables[1]` matches db `Shiny` (no tail table at all), while
+Zinogre (`em057`) has four, the 4th being `Insect Gather Back` (s1 90/10, s2 and s4 82/10/8). Read the
+tables as an ordered subsequence, not by index. [C]
+
+Verified scope (fingerprint `length : Σchance : Σitem : Σ(item×chance)` computed from the decoded JSON
+and from `hunting_rewards`, all equal): the 10 flagships — em001/002/032/037/057/063/080/081/082 at 9/9
+tables each, em083 at 6/6 (no tail) — **87 carve/tail/shiny tables + 3 gather tables**. [C]
 
 ### Rank mapping (em002/Rathalos) [C]
 
