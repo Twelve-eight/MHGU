@@ -28,7 +28,7 @@
 | 事实 | 内容 | 证据 |
 |---|---|---|
 | arc 编号 | `emNNN_00.arc` 的 NNN = 敌人表编号 **低 8 位**；小型怪 = 编号 − 4096 后补零成 `emsNNN` | 对 129 个有 db 行的编号逐一求 `& 0xFF`，`arc/enemy/` 下全部存在同名 arc（另有 `em087_00.arc` 无 db 行，即机偶） |
-| 编号高位 | `0x1000` = 小型（ems）；`0x400` = 二名区；`0x500`（= 0x400 + 0x100）= 特殊个体；`0x200` = 稀少种；`0x100` = 亚种（269 红黑龙） | 与 `monsters.class` 计数闭合（见下） |
+| 编号高位 | `0x1000` = 小型（ems）；`0x400` = 二名区；`0x500`（= 0x400 + 0x100）= 特殊个体；`0x200` = 稀少种；`0x100` = 亚种（269 红龙） | 与 `monsters.class` 计数闭合（见下） |
 | 变体归类核对 | `class=0` 共 75 = 普通 67 + 稀少种 3 + 亚种 1 + 特殊个体 4；`class=2` 共 18 = 二名 | 75 + 18 + 36（`class=1` 小型）= 129，与 db 行数一致 |
 | 机偶 | `em087` 无 db 行，是阁螳螂的「机偶 / 瓦砾」单元（与 `em088` 共享 `roEm087.cro`） | `docs/analysis/monsters/mon-em-units.md` §C5 |
 | 机制单元 | `ems100`–`ems106`（编号 4196–4202）无 db 行，`roEms100.cro` 在 C3 表里被连续引用 7 次（k=105..111） | 同上 §C6 |
@@ -120,7 +120,7 @@
 | 115 | em007 / 1031 | 鏖魔角龙 | Bloodbath Diablos | 二名 | 许可★G1 | [肉质](hitzones.md#em007-1031)｜[状态](status.md#em007-1031)｜[素材](drops.md#em007-1031) |
 | 116 | em012 / 12 | 老山龙 | Lao-Shan Lung | 大型 | — ｜ 集★13G | [肉质](hitzones.md#em012)｜[状态](status.md#em012)｜[素材](drops.md#em012) |
 | 117 | em013 / 13 | 黑龙 | Fatalis | 大型 | — ｜ 集★14G | [肉质](hitzones.md#em013)｜[状态](status.md#em013)｜[素材](drops.md#em013) |
-| 118 | em013 / 269 | 红黑龙 | Crimson Fatalis | 亚种 | — ｜ 集★14G※ | [肉质](hitzones.md#em013-269)｜[状态](status.md#em013-269)｜[素材](drops.md#em013-269) |
+| 118 | em013 / 269 | 红龙 | Crimson Fatalis | 亚种 | — ｜ 集★14G※ | [肉质](hitzones.md#em013-269)｜[状态](status.md#em013-269)｜[素材](drops.md#em013-269) |
 | 119 | em013 / 525 | 祖龙 | Old Fatalis | 稀少种 | — ｜ 集★14G※ | [肉质](hitzones.md#em013-525)｜[状态](status.md#em013-525)｜[素材](drops.md#em013-525) |
 | 120 | em020 / 1044 | 铠裂将军镰蟹 | Rustrazor Ceanataur | 二名 | 许可★G1 | [肉质](hitzones.md#em020-1044)｜[状态](status.md#em020-1044)｜[素材](drops.md#em020-1044) |
 | 121 | em021 / 21 | 桃毛兽王 | Congalala | 大型 | 村★7HR ｜ 集★5HR | [肉质](hitzones.md#em021)｜[状态](status.md#em021)｜[素材](drops.md#em021) |
@@ -139,7 +139,9 @@
 
 **二名许可等级**：`许可★N` 的 N 就是许可等级，按 `quests.rank` 分档——**★1–3 = LR、★4–10 = HR、★11–16 = G**（11–15 = G1–G5，16 = EX）。例：`quests._id = 40401`（紫毒姬 I）的 `rank` 是 `LR`。本页出现的 `许可★1` 即 LR 段首战，`许可★G1` 即 ★11 = G1。
 
-> 本表来源：`槽`/`em id`/`English` = `docs/data/json/monster-slot-map.json` 的 `slot`/`emid`/`en`；`归类` = 由 em id 高位判定（§1）并与 `mhgu.db.monsters.class` 交叉核对（槽表的 `kind` 只有 big/small，**不含**变体归类）；`中文名` = 槽表 `cn` 经 §5 校正（官方串来自 `MonsterDemo_chS.gmd`、`itemData_chS.gmd`、`HN_MonsterListMsg_chS.gmd`）；`首次出现` = `mhgu.db` 的 `quests` ⨝ `monster_to_quest`（SQL 见 §7）。
+> 本表来源：`槽`/`em id`/`English` = `docs/data/json/monster-slot-map.json` 的 `slot`/`emid`/`en`；`归类` = 由 em id 高位判定（§1）并与 `mhgu.db.monsters.class` 交叉核对（槽表的 `kind` 只有 big/small，**不含**变体归类）；`中文名` = `monsterName_chS #<槽>` 的文本（§5 列出与槽表 `cn` 的全部差异）；`首次出现` = `mhgu.db` 的 `quests` ⨝ `monster_to_quest`（SQL 见 §7）。
+
+> 变体例外（4 条）：槽 **22 / 35 / 125 / 127** 在 `monsterName_chS` 里与本体同名（#22 金狮子、#35 恐暴龙、#125 碎龙、#127 黑蚀龙），为避免与本体重名，这四行采用 itemData 别名 **激昂金狮子 / 怒食恐暴龙 / 临界碎龙 / 混沌黑蚀龙**；其余 89 只大型怪均逐字取名称表的槽位文本。
 
 ---
 
@@ -150,26 +152,26 @@
 | 槽 | em id（arc / 编号） | 中文名 | English | 归类 | 首次出现（村 / 集） | 专题页 |
 |---|---|---|---|---|---|---|
 | 71 | ems001 / 4097 | 草食龙 | Aptonoth | 小型 | — | [肉质](hitzones.md#ems001)｜[状态](status.md#ems001)｜[素材](drops.md#ems001) |
-| 72 | ems002 / 4098 | 甲壳草食龙 | Apceros | 小型 | — | [肉质](hitzones.md#ems002)｜[状态](status.md#ems002)｜[素材](drops.md#ems002) |
-| 73 | ems003 / 4099 | 灵鹿 | Kelbi | 小型 | — | [肉质](hitzones.md#ems003)｜[状态](status.md#ems003)｜[素材](drops.md#ems003) |
-| 74 | ems004 / 4100 | 香菇猪 | Mosswine | 小型 | — | [肉质](hitzones.md#ems004)｜[状态](status.md#ems004)｜[素材](drops.md#ems004) |
-| 75 | ems005 / 4101 | 飞虫 | Hornetaur | 小型 | — | [肉质](hitzones.md#ems005)｜[状态](status.md#ems005)｜[素材](drops.md#ems005) |
-| 76 | ems006 / 4102 | 爬虫 | Vespoid | 小型 | — ｜ 集★2LR | [肉质](hitzones.md#ems006)｜[状态](status.md#ems006)｜[素材](drops.md#ems006) |
-| 77 | ems007 / 4103 | 艾露 | Felyne | 小型 | — | [肉质](hitzones.md#ems007)｜[状态](status.md#ems007)｜[素材](drops.md#ems007) |
+| 72 | ems002 / 4098 | 背甲龙 | Apceros | 小型 | — | [肉质](hitzones.md#ems002)｜[状态](status.md#ems002)｜[素材](drops.md#ems002) |
+| 73 | ems003 / 4099 | 精灵鹿 | Kelbi | 小型 | — | [肉质](hitzones.md#ems003)｜[状态](status.md#ems003)｜[素材](drops.md#ems003) |
+| 74 | ems004 / 4100 | 蘑菇猪 | Mosswine | 小型 | — | [肉质](hitzones.md#ems004)｜[状态](status.md#ems004)｜[素材](drops.md#ems004) |
+| 75 | ems005 / 4101 | 巨甲虫 | Hornetaur | 小型 | — | [肉质](hitzones.md#ems005)｜[状态](status.md#ems005)｜[素材](drops.md#ems005) |
+| 76 | ems006 / 4102 | 巨蜂 | Vespoid | 小型 | — ｜ 集★2LR | [肉质](hitzones.md#ems006)｜[状态](status.md#ems006)｜[素材](drops.md#ems006) |
+| 77 | ems007 / 4103 | 艾露猫 | Felyne | 小型 | — | [肉质](hitzones.md#ems007)｜[状态](status.md#ems007)｜[素材](drops.md#ems007) |
 | 78 | ems008 / 4104 | 梅拉露 | Melynx | 小型 | 村★3LR ｜ — | [肉质](hitzones.md#ems008)｜[状态](status.md#ems008)｜[素材](drops.md#ems008) |
 | 79 | ems009 / 4105 | 蓝速龙 | Velociprey | 小型 | 村★2LR ｜ 集★1LR | [肉质](hitzones.md#ems009)｜[状态](status.md#ems009)｜[素材](drops.md#ems009) |
 | 80 | ems010 / 4106 | 黄速龙 | Genprey | 小型 | 村★2LR ｜ 集★11G | [肉质](hitzones.md#ems010)｜[状态](status.md#ems010)｜[素材](drops.md#ems010) |
 | 81 | ems011 / 4107 | 红速龙 | Ioprey | 小型 | 村★3LR ｜ 集★2LR | [肉质](hitzones.md#ems011)｜[状态](status.md#ems011)｜[素材](drops.md#ems011) |
-| 82 | ems012 / 4108 | 砂蛇龙 | Cephalos | 小型 | 村★7HR ｜ — | [肉质](hitzones.md#ems012)｜[状态](status.md#ems012)｜[素材](drops.md#ems012) |
+| 82 | ems012 / 4108 | 砂龙 | Cephalos | 小型 | 村★7HR ｜ — | [肉质](hitzones.md#ems012)｜[状态](status.md#ems012)｜[素材](drops.md#ems012) |
 | 83 | ems013 / 4109 | 野猪 | Bullfango | 小型 | 村★2LR ｜ 集★2LR | [肉质](hitzones.md#ems013)｜[状态](status.md#ems013)｜[素材](drops.md#ems013) |
 | 84 | ems014 / 4110 | 波波 | Popo | 小型 | — | [肉质](hitzones.md#ems014)｜[状态](status.md#ems014)｜[素材](drops.md#ems014) |
-| 85 | ems015 / 4111 | 雪鹿 | Giaprey | 小型 | 村★2LR ｜ 集★1LR | [肉质](hitzones.md#ems015)｜[状态](status.md#ems015)｜[素材](drops.md#ems015) |
-| 86 | ems016 / 4112 | 羚羊 | Anteka | 小型 | 村★3LR ｜ — | [肉质](hitzones.md#ems016)｜[状态](status.md#ems016)｜[素材](drops.md#ems016) |
+| 85 | ems015 / 4111 | 白速龙 | Giaprey | 小型 | 村★2LR ｜ 集★1LR | [肉质](hitzones.md#ems015)｜[状态](status.md#ems015)｜[素材](drops.md#ems015) |
+| 86 | ems016 / 4112 | 雪鹿 | Anteka | 小型 | 村★3LR ｜ — | [肉质](hitzones.md#ems016)｜[状态](status.md#ems016)｜[素材](drops.md#ems016) |
 | 87 | ems019 / 4115 | 蛇龙 | Remobra | 小型 | 村★5LR ｜ 集★7HR | [肉质](hitzones.md#ems019)｜[状态](status.md#ems019)｜[素材](drops.md#ems019) |
 | 88 | ems020 / 4116 | 盾蟹 | Hermitaur | 小型 | 村★2LR ｜ 集★1LR | [肉质](hitzones.md#ems020)｜[状态](status.md#ems020)｜[素材](drops.md#ems020) |
 | 89 | ems021 / 4117 | 镰蟹 | Ceanataur | 小型 | 村★4LR ｜ 集★3LR | [肉质](hitzones.md#ems021)｜[状态](status.md#ems021)｜[素材](drops.md#ems021) |
-| 90 | ems023 / 4119 | 小雪狮 | Blango | 小型 | 村★2LR ｜ 集★2LR | [肉质](hitzones.md#ems023)｜[状态](status.md#ems023)｜[素材](drops.md#ems023) |
-| 91 | ems025 / 4121 | 羚鹿 | Rhenoplos | 小型 | 村★2LR ｜ 集★2LR | [肉质](hitzones.md#ems025)｜[状态](status.md#ems025)｜[素材](drops.md#ems025) |
+| 90 | ems023 / 4119 | 雪狮子 | Blango | 小型 | 村★2LR ｜ 集★2LR | [肉质](hitzones.md#ems023)｜[状态](status.md#ems023)｜[素材](drops.md#ems023) |
+| 91 | ems025 / 4121 | 硬甲龙 | Rhenoplos | 小型 | 村★2LR ｜ 集★2LR | [肉质](hitzones.md#ems025)｜[状态](status.md#ems025)｜[素材](drops.md#ems025) |
 | 92 | ems026 / 4122 | 飞甲虫 | Bnahabra | 小型 | 村★3LR ｜ 集★2LR | [肉质](hitzones.md#ems026)｜[状态](status.md#ems026)｜[素材](drops.md#ems026) |
 | 93 | ems027 / 4123 | 甲虫 | Altaroth | 小型 | — | [肉质](hitzones.md#ems027)｜[状态](status.md#ems027)｜[素材](drops.md#ems027) |
 | 94 | ems034 / 4130 | 狗龙 | Jaggi | 小型 | 村★1LR ｜ 集★1LR | [肉质](hitzones.md#ems034)｜[状态](status.md#ems034)｜[素材](drops.md#ems034) |
@@ -178,15 +180,15 @@
 | 97 | ems040 / 4136 | 熔岩兽 | Uroktor | 小型 | 村★4LR ｜ — | [肉质](hitzones.md#ems040)｜[状态](status.md#ems040)｜[素材](drops.md#ems040) |
 | 98 | ems041 / 4137 | 垂皮龙 | Slagtoth | 小型 | — | [肉质](hitzones.md#ems041)｜[状态](status.md#ems041)｜[素材](drops.md#ems041) |
 | 99 | ems042 / 4138 | 丸鸟 | Gargwa | 小型 | — | [肉质](hitzones.md#ems042)｜[状态](status.md#ems042)｜[素材](drops.md#ems042) |
-| 100 | ems044 / 4140 | 小鬼鲛 | Zamite | 小型 | — ｜ 集★5HR | [肉质](hitzones.md#ems044)｜[状态](status.md#ems044)｜[素材](drops.md#ems044) |
+| 100 | ems044 / 4140 | 变形幼冰鲨 | Zamite | 小型 | — ｜ 集★5HR | [肉质](hitzones.md#ems044)｜[状态](status.md#ems044)｜[素材](drops.md#ems044) |
 | 101 | ems045 / 4141 | 盾虫 | Konchu | 小型 | 村★3LR ｜ 集★2LR | [肉质](hitzones.md#ems045)｜[状态](status.md#ems045)｜[素材](drops.md#ems045) |
 | 102 | ems046 / 4142 | 跳狗龙 | Maccao | 小型 | 村★1LR ｜ 集★1LR | [肉质](hitzones.md#ems046)｜[状态](status.md#ems046)｜[素材](drops.md#ems046) |
 | 103 | ems047 / 4143 | 首鸣龙 | Larinoth | 小型 | — | [肉质](hitzones.md#ems047)｜[状态](status.md#ems047)｜[素材](drops.md#ems047) |
 | 104 | ems048 / 4144 | 云羊鹿 | Moofah | 小型 | — | [肉质](hitzones.md#ems048)｜[状态](status.md#ems048)｜[素材](drops.md#ems048) |
 | 135 | ems017 / 4113 | 大雷光虫 | Great Thunderbug | 小型 | 村★8HR ｜ 集★12G | [肉质](hitzones.md#ems017)｜[状态](status.md#ems017)｜[素材](drops.md#ems017) |
-| 136 | ems022 / 4118 | 小桃毛兽 | Conga | 小型 | 村★7HR ｜ 集★11G | [肉质](hitzones.md#ems022)｜[状态](status.md#ems022)｜[素材](drops.md#ems022) |
+| 136 | ems022 / 4118 | 桃毛兽 | Conga | 小型 | 村★7HR ｜ 集★11G | [肉质](hitzones.md#ems022)｜[状态](status.md#ems022)｜[素材](drops.md#ems022) |
 
-> 本表来源同 §2：名称与编号 = `monster-slot-map.json`（4116/4117/4141 三行经 §5 校正）；`首次出现` = `mhgu.db`（SQL 见 §7）；小型怪的「目标命中」档次与「出现」档次全部相同，故无 `※` 行。
+> 本表来源同 §2：`名称` = `monsterName_chS #<槽>` 的文本；`编号` = 槽表 `emid`；与仓库名的差异见 §5；`首次出现` = `mhgu.db`（SQL 见 §7）；小型怪的「目标命中」档次与「出现」档次全部相同，故无 `※` 行。
 
 ---
 
@@ -195,7 +197,7 @@
 | 槽 | em id（arc / 编号） | 名称 | 说明 | 证据 |
 |---|---|---|---|---|
 | 133 | em087 / 无 db 行 | 阁螳螂·机偶（瓦砾 / 女王龙椅） | 阁螳螂战斗中的机偶形态，与 `em088` 共享 `roEm087.cro`；图鉴里没有独立条目 | `mon-em-units.md` §C5 |
-| 105–111 | ems100–ems106 / 4196–4202 | 机制单元（无名称） | `roEms100.cro` 在 C3 表被连续引用 7 次（k=105..111），是唯一 id ≥ 100 的小型怪资源，属特殊/机制单元，不是图鉴怪 | `mon-em-units.md` §C6 |
+| 105–111 | ems100–ems106 / 4196–4202 | dummy1–dummy7（`monsterName_chS` #105–111 原样为占位名） | `roEms100.cro` 在 C3 表被连续引用 7 次（k=105..111），是唯一 id ≥ 100 的小型怪资源，属特殊/机制单元，不是图鉴怪 | `mon-em-units.md` §C6＋`monsterName_chS` |
 
 > 本表来源：`mon-em-units.md` §C5–C6（`uEm087_00` / `uEms100_00` 的类名串与 `ro*.cro` 引用计数）；`arc/enemy/` 下 `em087_00.arc` 与 `ems100_00.arc`～`ems106_00.arc` 均存在。
 
@@ -203,7 +205,7 @@
 
 ## 5. 名称勘误：仓库名 ↔ 游戏自带简体中文
 
-下表是**本页已改用的官方写法**（按核对顺序排列）。左列是 `monster-slot-map.json` 里的仓库名，右列是 `chS` 文本/道具名中直接读到的写法（引号内为原文）。
+**主源已定为 `chS/arc/resident_chS.arc :: chS\GUI\06_msg\monsterName_chS`（268 串；i=0..136 与本页槽号一一对应，i137 起是 `KANJI_` 重复与种类名）。** 下表只列「仓库名 → 官方名」有差异的条目（按核对顺序排列）；证据列是独立旁证，`monsterName_chS` 的索引就是该怪槽位（已核：重甲虫 #58、穿甲虫 #61、大名盾蟹 #17、将军镰蟹 #19、雪狮子王 #20、桃毛兽王 #121）。变体 22/35/125/127 在名称表里与本体同名（金狮子/恐暴龙/碎龙/黑蚀龙），按「变体保留 itemData 别名」的裁决，页面仍用 激昂金狮子 / 怒食恐暴龙 / 临界碎龙 / 混沌黑蚀龙。
 
 | em id | 仓库名 | 本页采用（官方 chS） | 原文依据 | 等级 |
 |---|---|---|---|---|
@@ -222,24 +224,38 @@
 | 6 | 白电龙 | **白电** | 道具名「白电的皮」「白电的肋骨」；说明文「白电会爬上墙壁或洞顶」 | B |
 | 7 | 大怪鸟 | **怪鸟** | 道具名「怪鸟的鳞」「怪鸟的耳」；说明文「因怪鸟的听觉非常发达」 | B |
 | 22 | 金狮子（激昂） | **激昂金狮子** | 道具说明「激昂金狮子的毛」 | B |
-| 26 | 大野猪王 | **野猪王** | `MonsterDemo_chS.gmd #64`（`DosFango`）「野猪王」 | B |
+| 26 | 大野猪王 | **野猪王** | `monsterName_chS #26`（`DosFango`）；`MonsterDemo_chS.gmd #64` 同 | B |
 | 35 | 恐暴龙（怒食） | **怒食恐暴龙** | 道具「怒食恐暴龙的？？」 | B |
 | 120 | 铠裂镰蟹 | **铠裂将军镰蟹** | 道具说明「铠裂将军镰蟹作为居所的甲壳」 | B |
 | 125 | 碎龙（临界） | **临界碎龙** | 道具「临界碎龙的？？？」 | B |
 | 127 | 黑蚀龙（浑沌） | **混沌黑蚀龙** | `itemData_chS.gmd` #4903 / #5239（「混沌的龙鳞」等，官方用「混沌」而非「浑沌」） | B |
 | 131 | 银岭巨兽 | **银峰巨兽** | 道具「银峰巨兽的体毛」「银峰巨兽的甲壳」 | B |
 | 129 | 青电主雷龙 | **青电主电龙** | 「「青电主」。电龙的特殊个体」＋道具说明「从青电主电龙身上取下的贵重鳞」 | B |
-| 4116 | 盾虫 | **盾蟹** | 与大型「大名盾蟹」同族（内部单元 `uEms020_00`）；`盾虫` 一名已被 4141 占用 | I |
-| 4117 | 镰虫 | **镰蟹** | 与大型「将军镰蟹」同族（内部单元 `uEms021_00`） | I |
-| 4141 | 卷贝兽 | **盾虫** | 「生活在各种环境下的「盾虫」……有团起身体保护自己的习性」 | B |
+| 4116 | 盾虫 | **盾蟹** | `monsterName_chS #88`（`YaoZami`）；与大型「大名盾蟹」(#17) 同族，`盾虫` 一名属 4141 | B |
+| 4117 | 镰虫 | **镰蟹** | `monsterName_chS #89`（`GamiZami`）；与大型「将军镰蟹」(#19) 同族 | B |
+| 4141 | 卷贝兽 | **盾虫** | 「生活在各种环境下的「盾虫」……有团起身体保护自己的习性」；`monsterName_chS #101`（`Kunchu`） | B |
+| 118（槽 118） | 红黑龙 | **红龙** | `monsterName_chS #118`（`MillaBoreis_AKA`） | B |
+| 4098（槽 72） | 甲壳草食龙 | **背甲龙** | `monsterName_chS #72`（`Apkeros`） | B |
+| 4099（槽 73） | 灵鹿 | **精灵鹿** | `monsterName_chS #73`（`Kervi`） | B |
+| 4100（槽 74） | 香菇猪 | **蘑菇猪** | `monsterName_chS #74`（`Moz`） | B |
+| 4101（槽 75） | 飞虫 | **巨甲虫** | `monsterName_chS #75`（`Kanthalos`） | B |
+| 4102（槽 76） | 爬虫 | **巨蜂** | `monsterName_chS #76`（`Langosta`） | B |
+| 4103（槽 77） | 艾露 | **艾露猫** | `monsterName_chS #77`（`Airou`） | B |
+| 4108（槽 82） | 砂蛇龙 | **砂龙** | `monsterName_chS #82`（`Gareos`） | B |
+| 4111（槽 85） | 雪鹿 | **白速龙** | `monsterName_chS #85`（`Gianos`） | B |
+| 4112（槽 86） | 羚羊 | **雪鹿** | `monsterName_chS #86`（`Gawshika`） | B |
+| 4119（槽 90） | 小雪狮 | **雪狮子** | `monsterName_chS #90`（`Blango`） | B |
+| 4121（槽 91） | 羚鹿 | **硬甲龙** | `monsterName_chS #91`（`Rhenoplos`） | B |
+| 4140（槽 100） | 小鬼鲛 | **变形幼冰鲨** | `monsterName_chS #100`（`Skagil`） | B |
+| 4118（槽 136） | 小桃毛兽 | **桃毛兽** | `monsterName_chS #136`（`Konga`） | B |
 
 **别名保留**（官方文本里常只出现二名本体）：银峰巨兽 → 别名「银峰」；青电主电龙 → 别名「青电主」；红盔青熊兽 → 别名「红盔」；铠裂将军镰蟹 → 别名「铠裂」；天眼泡狐龙 → 别名「天眼」。其余二名（紫毒姬、矛碎、荒钩爪、白疾风、宝缠、金雷公、大雪主、岩穿、烬灭刃、鏖魔、胧隐）的别名部分与仓库名一致。
 
-> `MonsterDemo_chS.gmd` 同一怪物可能有两个标签（例：`Kanji_DosGareos` → 「砂龙」，`DosGareos` → 「砂龙王」）；`@` = 该槽无名称（稀少种槽），`???` = 官方未公开（`Unclear` 槽）。本页一律取全名：`怪鸟`、`白电` 另有道具名佐证，`野猪王` 取 `MonsterDemo_chS.gmd #64`。
+> `MonsterDemo_chS.gmd` 只作历史旁证：同一怪物可能有两个标签、含 `@` / `???` 占位与缩短写法。**名称一律以 `monsterName_chS` 的槽位文本为准**（本页即如此）。
 
 > **别把这两只并了**：`天廻龙` = Shagaru Magala（em072，槽 60），`天彗龙` = Valstrax（em086，槽 132）。`MonsterDemo_chS.gmd` 里 `Kanji_Tenkairyu`（#88）与 `Shagaru` 槽（#89）都写「天廻龙」，`Kanji_Valphalk`（#91）与 `Valphalk`（#94）才是「天彗龙」。
 
-> 影响：仓库的 `monster-slot-map.json` 与 `-137.json` 仍带旧写法（69/76 互换、尾槌龙、青电主雷龙、银岭巨兽、白电龙、大怪鸟、大野猪王、金狮子（激昂）、恐暴龙（怒食）、铠裂镰蟹、碎龙（临界）、黑蚀龙（浑沌）、4141 卷贝兽、4116/4117 盾虫/镰虫；明细见上表）。引用本页时以本表为准。
+> 影响：仓库的 `monster-slot-map.json` 与 `-137.json` 的 `cn` 仍是旧写法（含 69/76 两组互换、尾槌龙、白电龙、大怪鸟、大野猪王、红黑龙等，明细见上表 39 条）。引用本页时以本表与 `monsterName_chS` 为准。
 
 ---
 
@@ -264,7 +280,8 @@
 | 英文名 / 日文名对照（未在本页展示） | `MHGU/docs/data/mhgu.db` → `monsters` 表；`docs/data/json/monsters.json` | I（第三方 MHGenDatabase v2.4.0，非 romfs） |
 | 首次出现任务档次 | `MHGU/docs/data/mhgu.db` → `quests` ⨝ `monster_to_quest` | I（同上库；任务 id/星级/据点字段本身与 romfs `questData_*.ext` 的结构一致，见 `docs/data/romfs-tables.md`） |
 | 官方简体中文写法 | `HN_MonsterListMsg_chS.gmd`（猎人笔记说明文，220 串：9 索引 + 1 种类 + 210 提示），JSON 见 `MHGU-private/romfs-extract/gmd/table/HN_MonsterListMsg_chS.gmd.json` | B（原文引用，见 §5） |
-| 中文展示名 | `MonsterDemo_chS.gmd`（96 串，`label` ↔ `text` 按 `entry.index` 一一对应），JSON 见 `…/gmd/table/MonsterDemo_chS.gmd.json`；引用格式 `chS/table/MonsterDemo_chS.gmd #<index>` | B（GmdText 字节实测） |
+| 官方中文怪物名（**主源**） | `chS/arc/resident_chS.arc :: chS\GUI\06_msg\monsterName_chS`（268 串；#0–#136 = 槽位顺序名称，#105–#111 = dummy1–7，#133 = 空串），JSON `MHGU-private/romfs-extract/gmd-arc/monsterName_chS.gmd.json`；引用 `monsterName_chS #<i> (<Label>)` | B（KbInventory 逐槽核对） |
+| 展示名（历史旁证） | `MonsterDemo_chS.gmd`（96 串，`label` ↔ `text` 按 `entry.index` 配对，含 `@` / `???` 与缩短写法） | B |
 | 名称佐证 | `itemData_chS.gmd`（5982 串 = 2991 件 × 名称 + 说明），JSON 见 `…/gmd/table/itemData_chS.gmd.json`；道具名/说明文里的「XX的皮」「XX的鳞」可直接证明怪物写法 | B |
 | arc 存在性 | `G:/mhgu-romfs/romfs/nativeNX/arc/enemy/`：94 个 `em*` + 43 个 `ems*` 文件、68 个唯一 em 编号 | B（目录枚举） |
 | 机偶 / 机制单元 | `MHGU/docs/analysis/monsters/mon-em-units.md` §C5–C6 | B |
@@ -297,9 +314,8 @@ SELECT class, COUNT(*) FROM monsters GROUP BY class;  -- class 0=75 / 1=36 / 2=1
 
 | 缺口 | 影响 | 需要的信源 |
 |---|---|---|
-| 少数名称仍属推定 | **只剩黑龙 / 红黑龙** 没有直接字符串写明全名；祖龙、胧隐夜鸟、混沌黑蚀龙已由道具/文本证据确认（见审计记录 `.tmp/reports-mhgu/rev-wiki-index.md`）。romfs 里**不存在**完整中文名表（`chS/arc/village/hunter_note_chS.arc` 只有 5 个 HN 文本，`common_chS.arc` 是 table 的打包副本，`chS/arc/ui` 无 monster 条目） | 说明文/道具/武器名旁证：`GC_Title_1`（「狩猎了10头金火龙」）、`armorSeriesData_chS`、`weapon00..14MsgData_chS`；或实机图鉴截图 |
 | 「任务目标 vs 同场」只按英文 `goal` 子串判定 | 带 `※` 的格子只能说明最早那条不是目标；目标任务可能更早但名字写法不同（如复数、别名） | `questData_*.ext` 的 `ClearConditions` + `Monsters[5]` 目标槽位（361 B 记录，`docs/data/romfs-tables.md`） |
 | 小型怪的肉质 / 状态 / 掉落 | 专题页 `hitzones.md` / `status.md` / `drops.md` 对 36 只小型怪大概率无数据 | 两个现有信源都缺（`monster_damage` 仅覆盖 93 只大型；wiki 2502 表为空） |
 | 各怪「种类」（飞龙种 / 兽龙种…） | 本页没放这一列 | `docs/mechanics/monsters.md` §12 已有 93 只大型的种类列，可直接搬 |
 | 各怪栖息地图（初期 / 移动 / 休息区域） | 本页只给「首次出现任务」，不给地图 | `mhgu.db` → `monster_habitat`（303 行，第三方库 `[I]`）＋官方地图名 `chS/table/GuestHunterMsg_chS.gmd`：`OldForest`=古代森林、`Desert`=旧沙漠、`Forest`=山林、`SnowyMountain`=雪山、`MistyPeaks`=溪流、`DesertIsland`=孤岛、`Swamp`=沼泽、`Volcano`=火山、`RuinsField`=遗迹平原、`VirginForest`=原生林、`IceSea`=冰海、`CaveVolcano`=地底火山、`DosDesert`=沙漠、`DosJungle`=密林、`Highland`=无人山岭；特殊：`GC_Title_1` 的 `name1_101`=塔之秘境、`name1_102`=灵峰（**不要**用 `mhgu.db.locations.name_ja`，那是日文字段，不是中文名） |
-| 基础体力（可选列） | 本页没放 HP 列，故未用到 | romfs `arc/enemy/emNNN_00.arc :: *_dttune` 的 **base HP @0x38**（格式 `docs/reference/formats/dttune.md`，解码器 `MHGU/tools/mhgu/dttune.mjs`；批量产物 `MHGU/docs/data/json/monster-dttune-index.json`）——落地后这一列可从 `[I]`（mhgu.db）升级为 `[C]` |
+| 基础体力（可选列） | 本页没放 HP 列，故未用到 | romfs `arc/enemy/emNNN_00.arc :: *_dttune` 的 **base HP @0x38**（唯一固定偏移；格式 `docs/reference/formats/dttune.md`，解码器 `MHGU/tools/mhgu/dttune.mjs`；批量产物 `MHGU/docs/data/json/monster-dttune-index.json`）。**注意**：肉质表偏移逐怪不同（见过 0x8C/0x8E/0x8F），状态表 0x324 或 0x35C、有的怪缺失——必须按该 index 的逐怪偏移读取；没定位到该怪的表就不得标 `[C]`。落地后本列（仅 HP）可由 `[I]` 升 `[C]` |
