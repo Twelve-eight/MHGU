@@ -2,7 +2,7 @@
 
 **这一页能查到什么**：MHGU（Switch 1.4.0）全部 205 个技能系统的中文名、每档发动点数（+10/+15/+20 与 −10/−15/−20）、发动后的技能中文名与效果，以及「哪颗装饰珠给这棵树点数」。
 **技能怎么发动**：同一棵树按点数取**已达成的最高正向档**，或**最低负向档**，正负档不会同时存在；复合技能是独立的一棵树，自己凑够 10 点才发动。
-**数据口径**：中文名与说明取自游戏本体 chS 文本表（`romfs/nativeNX/chS/table/*_chS.gmd`），点数阈值取自 romfs 技能表导出的 `docs/data/json/skills.json`，珠取自 `docs/data/decorations.json`（并用 romfs `decoData.deco` 逐字节复核）。
+**数据口径**：中文名与说明取自游戏本体 chS 文本表（`romfs/nativeNX/chS/table/*_chS.gmd`），点数阈值取自 mhgu.db 导出的 `docs/data/json/skills.json`（romfs 技能表 `skillTypeData.skt` 只钉到 5 点宽的档位，逐格核对见 [skill-trees-full.md](skill-trees-full.md)），珠取自 `docs/data/decorations.json`（并用 romfs `decoData.deco` 逐字节复核）。
 
 ---
 
