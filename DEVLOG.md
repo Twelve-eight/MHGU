@@ -788,3 +788,13 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
   - C3：BitAct4000（glm-re）判 0x4000 = NpadButton bit14 = 十字键右 [I]（6 处 + 3 个分支，见 `.tmp/reports-mhgu/c3-bit-4000.md`）。
   - 按 Npad 位序：0x1000 = 左、0x2000 = 上、0x8000 = 下。所以之前"0x1000..0x8000 是肩键候选"的推断作废。
   - 若此掩码是 Npad 原始位，L/R/ZL/ZR 应为 0x40 / 0x80 / 0x100 / 0x200 [I]。直方图：0x80 测 5 次、0x40 测 2 次，0x100 / 0x200 在 movw 0x6bfc 后的 10 条指令内没有出现。
+- **2026-10-25 C2/C3 批次续报**
+  - C2FrameTick（glm-re，28m）：
+    - 帧时间来源 nn::os::GetSystemTick（GOT 0x18381cc，31 处）+ ConvertToTimeSpan [C]。
+    - 主循环计时器在 0xbf7814：delta ns 写入 [r4+0x34] [C]。
+    - 读取方：只找到作业执行器 0xbf78d0 和网络发包节奏 0x959ac0。
+    - 报告标题写"逻辑按实测 dt"[C]，但它自己也说游戏对象的积分点是 [U]。复核 RevFrameTick 进行中。
+  - BitAct2000（glm-re）：0x2000 用于菜单导航，判为十字键上 [I]。
+  - BitAct1000_8000（glm-re）：0x1000 = 确认、0x8000 = 取消，有反例。
+  - 这与"Npad 原始位序"的说法冲突，裁决交给 RevBits，进行中。
+  - SlotViaCursorWrap（glm-re）：0x640000..0x6a0000 范围内没有光标回绕。网格选择器 0x6603bc 只读光标（index@+100），光标的移动可能在共享的方向沿处理 0x54ee98 / 0x54edec 里 [I]。
