@@ -107,7 +107,9 @@
 
 在**散落树**（`chS/table` 的 385 个 gmd JSON）里搜 `森丘`、`遗群岭`、`禁足`、`水上斗技场` —— 0 命中（[B] 全量检索）。**但 arc 内的文本补上了竞技场**：`questMessage_chS` 串块里有 `斗技场`、`立体斗技场`、`水上斗技场`，所以上句的 0 命中只对散落树成立。`森丘` / `遗群岭` / `禁足地` 在已读的两处地图文本（`GC_Title_1` 79..104、`questMessage_chS`）里都不存在；`禁入区域` 是否就是「禁足地」仍 [U]。
 
-**arc.mjs 解出的成员名不是 `.gmd`**：格式是 `<原名>.<类型哈希>`，gmd 的类型哈希在本作里是 `242bb29a`（例如 `monsterName_chS.242bb29a`）；同目录里 `.3a793672`/`.7c163ff5` 一类是 `.wNNm` 武器文案索引，不是 gmd。`gmd.mjs batch` 按魔数 `GMD\0` 识别（不看扩展名），所以可以直接对整个解包目录跑 batch，非 gmd 文件计入 `skipped`。
+**arc.mjs 解出的成员名不是 `.gmd`**：格式是 `<原名>.<类型哈希>`，gmd 的类型哈希在本作里是 `242bb29a`（例如 `monsterName_chS.242bb29a`）；同目录里 `.3a793672`/`.7c163ff5` 一类是 `.wNNm` 武器文案索引，不是 gmd。`gmd.mjs batch` 按魔数 `GMD\0` 识别（不看扩展名），非 gmd 文件计入 `skipped`。
+
+实测盘点（`chS/arc/resident_chS.arc` → `gmd-arc/resident/chS/table`）：**58 个成员 = 44 个 gmd + 14 个非 gmd**；`batch` 结果 **44 处理 / 14 跳过 / 0 失败**。44 个 gmd 与散落 `chS/table` 同名同尺寸（抽样：`itemData_chS` 318.5 KB、`armorSeriesData_chS` 668.1 KB 两边一致）⇒ 该 arc 的 table 部分是副本，**arc 独有的文本只有 `GUI\06_msg` 那 3 个**（`monsterName_chS`、`questMessage_chS`、`Common_chS`）。
 
 其余 `chS/table/*.gmd`（`weaponNNMsgData`、`otArmorData`、`NpcName`、`MapName`、`QuestMsg`、`LbHelp`、`tutorial/tutoMsg*`、`npc/script/npc_*_td` 等）同容器，跑 `batch` 即可得到全量 `index.json`（路径 → 串数）。`chS/arc/*.arc` 里还有另一批文本，需先按 `tools/mhgu/arc.mjs` 解包，本工具不处理 arc。
 
