@@ -31,11 +31,13 @@
 
 | 名称类别 | 来源 | 说明 |
 |---|---|---|
-| 怪物中文名 | `chS/table/MonsterDemo_chS.gmd.json`（96 条，游戏内短名） | 例：`#0` 雌火龙、`#5` 黑炎王雄火龙、`#12` 矛碎大名盾蟹、`#30` 红盔青熊兽、`#58` 砂龙王、`#91` 天彗龙、`#95` 阁螳螂 |
+| 怪物中文名 | `docs/data/json/monster-slot-map.json` 的 `cn` / `cn_src`（把官方 chS 串与 emid 对齐的汇总表；短名本体在 `MonsterDemo_chS`，该表未收录者取 `HN_MonsterListMsg_chS` / `itemData_chS`） | 例：`#0` 雌火龙、`#5` 黑炎王雄火龙、`#91` 天彗龙；`尾锤龙` = HN `#102`、`变形冰鲨` = HN `#122`、`铠裂将军镰蟹` = itemData `#2007`、`银峰巨兽` = itemData `#2635`、`激昂金狮子` = itemData `#2997`、`怒食恐暴龙` = itemData `#5074` |
 | 道具中文名 | `chS/table/itemData_chS.gmd.json`，索引 `i = 2 × items._id` | 例：`#26` 解毒药（items 13）、`#50` 消散剂（25）、`#610` 打消果实（305） |
 | 地图中文名 | `chS/table/GuestHunterMsg_chS.gmd.json` `#6`–`#20`（游荡猎人的地图倾向表，15 张图与 `monster_habitat` 用到的 15 张一一对应） | 例：`#6` 古代森林 / `#8` 山林 / `#12` 沼泽 / `#20` 无人山岭。`chS/table/MapName_chS.gmd` 本身仍是模板桩（只 2 条，1 条为 `@`），不能用 |
 
 `MonsterDemo_chS` 里金火龙 / 银火龙两条是 `@` 占位符（`#1` / `#4`），所以这两个名字只能沿用仓库通用写法 `[U]`。
+
+甲虫种一对不在 `MonsterDemo_chS` 里，官方名改由 `HN_MonsterListMsg_chS` 定：`P2_3_hint_117`（`#126`）「被称为"重甲虫"的大型甲虫种……与"穿甲虫"互为雌雄关系，通过散发荷尔蒙来使唤雄性的"穿甲虫"」⇒ Seltas Queen（69）= **重甲虫**；`P2_3_hint_123`（`#132`）「名为"穿甲虫"的中型甲虫种」⇒ Seltas（76）= **穿甲虫**。仓库旧文档里的「徹甲虫」是异写，且槽位 58/61 说法互相矛盾，本页不沿用。
 
 ---
 
@@ -417,7 +419,7 @@
 | 火山（8） | 3 | 4,5,7,9 | 6 | 142 |
 | 地底火山（12） | 8 | 2 | 9 | 143 |
 
-**55 尾槌龙 Duramboros**（`monster_id=55`）
+**55 尾锤龙 Duramboros**（`monster_id=55`）
 
 | 地图 | 起始区 | 移动区 | 休息区 | 行 `_id` |
 |---|---|---|---|---|
@@ -492,7 +494,7 @@
 | 地底火山（12） | 2,8 | 1,2,3,8 | 9 | 173 |
 | 冰海（14） | 6,9 | 3,4,5,7,9 | 6 | 172 |
 
-**67 化鲛 Zamtrios**（`monster_id=67`）
+**67 变形冰鲨 Zamtrios**（`monster_id=67`）
 
 | 地图 | 起始区 | 移动区 | 休息区 | 行 `_id` |
 |---|---|---|---|---|
@@ -506,7 +508,7 @@
 | 沼泽（7） | 6 | 4,5,8 | 2 | 176 |
 | 原生林（13） | 5 | 1,3,4 | 8 | 177 |
 
-**69 彻甲虫 Seltas Queen**（`monster_id=69`）
+**69 重甲虫 Seltas Queen**（`monster_id=69`）
 
 | 地图 | 起始区 | 移动区 | 休息区 | 行 `_id` |
 |---|---|---|---|---|
@@ -530,7 +532,7 @@
 | 原生林（13） | 5 | 1,2,3,4 | 8 | 185 |
 | 无人山岭（24） | 7 | 1,2,5,6 | 8 | 184 |
 
-**76 重甲虫 Seltas**（`monster_id=76`）
+**76 穿甲虫 Seltas**（`monster_id=76`）
 
 | 地图 | 起始区 | 移动区 | 休息区 | 行 `_id` |
 |---|---|---|---|---|
@@ -667,7 +669,7 @@
 | 孤岛（6） | 5 | 2,7,10 | 6 | 241 |
 | 沙漠（22） | 3 | 1,2,5,7,9 | 3 | 243 |
 
-**1044 铠裂镰蟹 Rustrazor Ceanataur**（`monster_id=1044`）
+**1044 铠裂将军镰蟹 Rustrazor Ceanataur**（`monster_id=1044`）
 
 | 地图 | 起始区 | 移动区 | 休息区 | 行 `_id` |
 |---|---|---|---|---|
@@ -735,7 +737,7 @@
 | 地底火山（12） | 2,8 | 1,2,8 | 9 | 269 |
 | 冰海（14） | 3,9 | 3,4,9 | 7 | 271 |
 
-**1103 朧隠夜鸟 Nightcloak Malfestio**（`monster_id=1103`）
+**1103 胧隐夜鸟 Nightcloak Malfestio**（`monster_id=1103`）
 
 | 地图 | 起始区 | 移动区 | 休息区 | 行 `_id` |
 |---|---|---|---|---|
@@ -771,14 +773,14 @@
 | 原生林（13） | 3 | 1,4,5 | 3 | 287 |
 | 密林（23） | 10 | 2,3,4,7 | 5 | 286 |
 
-**1107 银岭巨兽 Elderfrost Gammoth**（`monster_id=1107`）
+**1107 银峰巨兽 Elderfrost Gammoth**（`monster_id=1107`）
 
 | 地图 | 起始区 | 移动区 | 休息区 | 行 `_id` |
 |---|---|---|---|---|
 | 雪山（3） | 8,6 | 6,8 | 7 | 289 |
 | 冰海（14） | 3 | 6,7,9 | 5 | 288 |
 
-**1303 金狮子（激昂）Furious Rajang**（`monster_id=1303`）
+**1303 激昂金狮子 Furious Rajang**（`monster_id=1303`）
 
 | 地图 | 起始区 | 移动区 | 休息区 | 行 `_id` |
 |---|---|---|---|---|
@@ -786,7 +788,7 @@
 | 火山（8） | 2 | 4,5,6,7 | 8 | 290 |
 | 遗迹平原（11） | 4 | 2,3,8 | 9 | 292 |
 
-**1323 恐暴龙（怒食）Savage Deviljho**（`monster_id=1323`）
+**1323 怒食恐暴龙 Savage Deviljho**（`monster_id=1323`）
 
 | 地图 | 起始区 | 移动区 | 休息区 | 行 `_id` |
 |---|---|---|---|---|
@@ -847,7 +849,7 @@
 | 水兽 Royal Ludroth（47） | Waterblight(131) | 1 |
 | 炎戈龙 Agnaktor（49） | Small Roar(132), Tremor(133), Fireblight(134) | 3 |
 | 煌黑龙 Alatreon（50） | Large Roar(135), Dragon Wind Pressure(136), Tremor(137), Snowman(138), Fireblight(139), Dragonblight(140), Thunderblight(141), Iceblight(142) | 8 |
-| 尾槌龙 Duramboros（55） | Large Roar(143), Tremor(144), Stun(145) | 3 |
+| 尾锤龙 Duramboros（55） | Large Roar(143), Tremor(144), Stun(145) | 3 |
 | 潜口龙 Nibelsnarf（56） | Waterblight(146) | 1 |
 | 雷狼龙 Zinogre（57） | Small Roar(147), Large Wind Pressure(148), Thunderblight(149) | 3 |
 | 岚龙 Amatsu（58） | Small Roar(154), Large Wind Pressure(155) | 2 |
@@ -856,12 +858,12 @@
 | 碎龙 Brachydios（63） | Small Roar(169), Blastblight(170) | 2 |
 | 奇猿狐 Kecha Wacha（65） | Small Roar(171), Tremor(172), Iceblight(173) | 3 |
 | 鬼蛙 Tetsucabra（66） | Small Roar(174), Tremor(175), Environmental(176) | 3 |
-| 化鲛 Zamtrios（67） | Large Roar(180), Tremor(181), Snowman(182), Iceblight(183), Waterblight(184) | 5 |
+| 变形冰鲨 Zamtrios（67） | Large Roar(180), Tremor(181), Snowman(182), Iceblight(183), Waterblight(184) | 5 |
 | 绞蛇龙 Najarala（68） | Large Roar(185), Paralysis(186), Stun(187) | 3 |
-| 彻甲虫 Seltas Queen（69） | Tremor(188), Soiled(189), Waterblight(190) | 3 |
+| 重甲虫 Seltas Queen（69） | Tremor(188), Soiled(189), Waterblight(190) | 3 |
 | 黑蚀龙 Gore Magala（71） | Large Roar(191), Small Wind Pressure(192), Tremor(193), Frenzy Virus(194) | 4 |
 | 天廻龙 Shagaru Magala（72） | Large Roar(195), Tremor(196), Frenzy Virus(197) | 3 |
-| 重甲虫 Seltas（76） | Defense Down(198) | 1 |
+| 穿甲虫 Seltas（76） | Defense Down(198) | 1 |
 | 千刃龙 Seregios（77） | Small Roar(199), Large Wind Pressure(200), Bleeding(201) | 3 |
 | 夜鸟 Malfestio（79） | Small Roar(202), Small Wind Pressure(203), Confusion(204), Sleep(205) | 4 |
 | 斩龙 Glavenus（80） | Small Roar(206), Fireblight(207) | 2 |
@@ -883,7 +885,7 @@
 | 大雪主白兔兽 Snowbaron Lagombi（1085） | Small Roar(162), Tremor(163), Snowman(164), Iceblight(165) | 4 |
 | 岩穿鬼蛙 Drilltusk Tetsucabra（1090） | Small Roar(177), Tremor(178), Environmental(179) | 3 |
 | 烬灭刃斩龙 Hellblade Glavenus（1104） | Large Roar(208), Large Wind Pressure(209), Blastblight(210), Fireblight(211) | 4 |
-| 恐暴龙（怒食）Savage Deviljho（1323） | Large Roar(115), Tremor(116), Defense Down(117), Dragonblight(118), Environmental(119) | 5 |
+| 怒食恐暴龙 Savage Deviljho（1323） | Large Roar(115), Tremor(116), Defense Down(117), Dragonblight(118), Environmental(119) | 5 |
 
 ### 3.1 30 个标签与施加者数
 
@@ -988,7 +990,7 @@
 
 ### 5.3 有栖息地但库内没有异常行 → 是库的覆盖缺口，不是「不会施加异常」
 
-21 只怪有栖息行但 `monster_ailment` 无行：`4` 岩龙、`5` 铠龙、`7` 角龙、`14` 蓝速龙王、`21` 桃毛兽王、`30` 野猪王、`34` 白速龙王、`42` 冰牙龙、`44` 土砂龙、`60` 青熊兽、`70` 影蜘蛛、`85` 跳狗龙王、`86` 天彗龙、`1031` 鏖魔角龙、`1044` 铠裂镰蟹、`1103` 朧隠夜鸟、`1105` 青电主电龙、`1106` 天眼泡狐龙、`1107` 银岭巨兽、`1303` 金狮子（激昂）、`1351` 混沌黑蚀龙。
+21 只怪有栖息行但 `monster_ailment` 无行：`4` 岩龙、`5` 铠龙、`7` 角龙、`14` 蓝速龙王、`21` 桃毛兽王、`30` 野猪王、`34` 白速龙王、`42` 冰牙龙、`44` 土砂龙、`60` 青熊兽、`70` 影蜘蛛、`85` 跳狗龙王、`86` 天彗龙、`1031` 鏖魔角龙、`1044` 铠裂将军镰蟹、`1103` 胧隐夜鸟、`1105` 青电主电龙、`1106` 天眼泡狐龙、`1107` 银峰巨兽、`1303` 激昂金狮子、`1351` 混沌黑蚀龙。
 
 > 其中岩龙 / 铠龙（毒气）、桃毛兽王（臭气）、青熊兽等在实际游戏里明显带异常，而 db 该表无行 ⇒ **`monster_ailment` 只覆盖 66 只，属第三方库的收录不全** `[I]`，玩家向结论要回查 `monster-status.md` 或实测。
 
