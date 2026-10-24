@@ -634,3 +634,8 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
   - [C] type7 = 4 x 7 位，按 bounds 解码，998/998。
   - [U] type14 (4x11) / type15 (4x9)：|q|=1 判据太弱（字段重叠的布局也能拿到 97%），已转交 glm-re 逆向解码函数。
 - C3 轮盘逆向（主会话，dsv/glm 路由连续 499）：字符串 pc 相对引用扫描（.tmp/mhgu-scratch/strref.mjs）→ cItemPouch 在 0x188f98、sItemPouch 在 0x19e504、cUIOCPanelItemSelectorL 在 0x6520dc。0x6520dc 是 DTI 注册块：bl 0x7aedcc(dti, name, parentDti, size)，ItemSelectorL 实例大小 0xE0，DTI 对象取自 cell 0x1839414 [C]。选中格字段 [U]，下一步：从 DTI 的 new 函数找 vtable 与 update。
+- MOD 蒙皮（初步）：
+  - [C] cb68015（步长 20）：权重是 +12 的 4 x u8，和为 255（4055/4055）。
+  - [I] 其他蒙皮格式：+16 是 4 x u8 骨号，+24 是 f16 权重（6194..18207 顶点全部落在 [0,1]，但这个判据很弱），最后一个权重可能由 1 减去其余得到。
+  - [C] 骨号会超过网格的 +37 重映射个数，所以骨号指向的是全局重映射表，不是网格局部表；表的位置 [U]。
+  - 这是 B1b（GU 权重 → Rise mesh）的前置。
