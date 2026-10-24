@@ -107,6 +107,8 @@
 
 在**散落树**（`chS/table` 的 385 个 gmd JSON）里搜 `森丘`、`遗群岭`、`禁足`、`水上斗技场` —— 0 命中（[B] 全量检索）。**但 arc 内的文本补上了竞技场**：`questMessage_chS` 串块里有 `斗技场`、`立体斗技场`、`水上斗技场`，所以上句的 0 命中只对散落树成立。`森丘` / `遗群岭` / `禁足地` 在已读的两处地图文本（`GC_Title_1` 79..104、`questMessage_chS`）里都不存在；`禁入区域` 是否就是「禁足地」仍 [U]。
 
+**arc.mjs 解出的成员名不是 `.gmd`**：格式是 `<原名>.<类型哈希>`，gmd 的类型哈希在本作里是 `242bb29a`（例如 `monsterName_chS.242bb29a`）；同目录里 `.3a793672`/`.7c163ff5` 一类是 `.wNNm` 武器文案索引，不是 gmd。`gmd.mjs batch` 按魔数 `GMD\0` 识别（不看扩展名），所以可以直接对整个解包目录跑 batch，非 gmd 文件计入 `skipped`。
+
 其余 `chS/table/*.gmd`（`weaponNNMsgData`、`otArmorData`、`NpcName`、`MapName`、`QuestMsg`、`LbHelp`、`tutorial/tutoMsg*`、`npc/script/npc_*_td` 等）同容器，跑 `batch` 即可得到全量 `index.json`（路径 → 串数）。`chS/arc/*.arc` 里还有另一批文本，需先按 `tools/mhgu/arc.mjs` 解包，本工具不处理 arc。
 
 **arc 里有没有更全的文本？**（[B] 条目表实测）**有，而且全量怪名表就在 arc 里**：`chS/arc/resident_chS.arc`（119 条目，含 `chS\GUI\06_msg\monsterName_chS` = 268 条带键怪名，见上表）+ 其他 GUI 消息表。其余 arc：`chS/arc/village/hunter_note_chS.arc` 只有 5 个条目，就是 `chS\table\HN_{Hunternote,BasicControl,MonsterList,HunterTips,WeaponControls}Msg_chS` 这 5 个已散落文件的打包副本；`chS/arc/village/common_chS.arc` 是 115 条目的 `chS\table\*` 打包副本（另有 GUI/音效）；`chS/arc/ui` 下只有 `manual/` 电子说明书与 `questUI*`。**结论：找中文名先看 `resident_chS.arc`，别只看 `chS/table/`。**（本行初稿曾据 village/ui 两处 arc 断言"romfs 没有全量名表"，那是漏查 `chS/arc/resident_chS.arc` 得出的错误结论，已更正。）

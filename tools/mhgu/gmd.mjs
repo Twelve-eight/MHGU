@@ -2,7 +2,8 @@
 // Runs on the player's own extracted files; contains no game data.
 //   node tools/mhgu/gmd.mjs list <file.gmd> [--all]        header + strings on stdout
 //   node tools/mhgu/gmd.mjs json <file.gmd> <out.json>     one file -> one JSON
-//   node tools/mhgu/gmd.mjs batch <langDir> <outDir>       every *.gmd below <langDir> -> mirrored JSON + index.json
+//   node tools/mhgu/gmd.mjs batch <dir> <outDir>           every GMD below <dir> (magic-detected, so arc.mjs
+//                                                          members like "x.242bb29a" work) -> mirrored JSON + index.json
 //
 // Layout (little endian), measured on chS/table/*.gmd:
 //   0x00 char[4] "GMD\0" | 0x04 u32 version 0x00010302 | 0x08 u32 0 | 0x0C u32 timestamp [I]
@@ -244,11 +245,23 @@ function cmdJson(file, out) {
   console.log(`${file}: ${summarise(gmd)} -> ${out}`);
 }
 
-function* walkGmd(dir) {
+function* walkFiles(dir) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     const full = path.join(dir, entry.name);
-    if (entry.isDirectory()) yield* walkGmd(full);
-    else if (entry.name.toLowerCase().endsWith('.gmd')) yield full;
+    if (entry.isDirectory()) yield* walkFiles(full);
+    else yield full;
+  }
+}
+
+// arc.mjs names extracted members `<name>.<typeHash>` (gmd = ".242bb29a"), so batch must not rely on the
+// file extension: sniff the magic instead.
+function looksLikeGmd(file) {
+  const fd = fs.openSync(file, 'r');
+  try {
+    const head = Buffer.alloc(4);
+    return fs.readSync(fd, head, 0, 4, 0) === 4 && head.toString('latin1') === MAGIC;
+  } finally {
+    fs.closeSync(fd);
   }
 }
 
@@ -257,9 +270,14 @@ function cmdBatch(dir, outDir) {
   const base = path.resolve(outDir);
   const index = [];
   const failures = [];
-  for (const file of walkGmd(root)) {
+  let skipped = 0;
+  for (const file of walkFiles(root)) {
     const rel = path.relative(root, file).split(path.sep).join('/');
     const target = path.join(base, rel + '.json');
+    if (!looksLikeGmd(file)) {
+      skipped++;
+      continue;
+    }
     try {
       const gmd = readGmdFile(file);
       fs.mkdirSync(path.dirname(target), { recursive: true });
@@ -286,6 +304,7 @@ function cmdBatch(dir, outDir) {
     root: path.basename(root),
     generatedBy: 'tools/mhgu/gmd.mjs batch',
     files: index.length,
+    skipped,
     failed: failures.length,
     strings: index.reduce((n, e) => n + e.stringCount, 0),
     index,
@@ -293,7 +312,7 @@ function cmdBatch(dir, outDir) {
   };
   fs.mkdirSync(base, { recursive: true });
   fs.writeFileSync(path.join(base, 'index.json'), JSON.stringify(summary, null, 2) + '\n');
-  console.log(`\n${index.length} file(s) -> ${base}, ${failures.length} failed, index.json written`);
+  console.log(`\n${index.length} file(s) -> ${base}, ${skipped} non-GMD skipped, ${failures.length} failed, index.json written`);
   if (failures.length) process.exitCode = 1;
 }
 

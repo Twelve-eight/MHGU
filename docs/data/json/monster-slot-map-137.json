@@ -33,21 +33,21 @@
   "slot": 5,
   "emid": 1026,
   "cn": "黑炎王雄火龙",
-  "cn_src": "chS/table/MonsterDemo_chS.gmd #5",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #5 (NamedLiolaes)",
   "en": "Dreadking Rathalos"
  },
  {
   "slot": 6,
   "emid": 3,
   "cn": "白电",
-  "cn_src": "chS/table/MonsterDemo_chS.gmd #53",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #6 (Furfur)",
   "en": "Khezu"
  },
  {
   "slot": 7,
   "emid": 8,
   "cn": "怪鸟",
-  "cn_src": "chS/table/MonsterDemo_chS.gmd #6",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #7 (Yiankutku)",
   "en": "Yian Kut-Ku"
  },
  {
@@ -102,7 +102,7 @@
   "slot": 16,
   "emid": 1042,
   "cn": "独眼黑狼鸟",
-  "cn_src": "chS/table/MonsterDemo_chS.gmd #10",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #16 (NamedYianGaruga)",
   "en": "Deadeye Yian Garuga"
  },
  {
@@ -121,7 +121,7 @@
   "slot": 19,
   "emid": 20,
   "cn": "将军镰蟹",
-  "cn_src": "chS/table/MonsterDemo_chS.gmd #13",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #19 (ShogunGizami)",
   "en": "Shogun Ceanataur"
  },
  {
@@ -165,7 +165,7 @@
   "slot": 26,
   "emid": 30,
   "cn": "野猪王",
-  "cn_src": "chS/table/MonsterDemo_chS.gmd #16",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #26 (DosFango)",
   "en": "Bulldrome"
  },
  {
@@ -263,7 +263,7 @@
   "slot": 42,
   "emid": 55,
   "cn": "尾锤龙",
-  "cn_src": "chS/table/HN_MonsterListMsg_chS.gmd #102",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #42 (Doboruberk)",
   "en": "Duramboros"
  },
  {
@@ -300,7 +300,7 @@
   "slot": 48,
   "emid": 1084,
   "cn": "红盔青熊兽",
-  "cn_src": "chS/table/MonsterDemo_chS.gmd #30",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #48 (NamedAoashira)",
   "en": "Redhelm Arzuros"
  },
  {
@@ -337,21 +337,21 @@
   "slot": 54,
   "emid": 66,
   "cn": "鬼蛙",
-  "cn_src": "chS/table/MonsterDemo_chS.gmd #35",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #54 (Tetsukabura)",
   "en": "Tetsucabra"
  },
  {
   "slot": 55,
   "emid": 1090,
   "cn": "岩穿鬼蛙",
-  "cn_src": "chS/table/MonsterDemo_chS.gmd #36",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #55 (NamedTetsukabura)",
   "en": "Drilltusk Tetsucabra"
  },
  {
   "slot": 56,
   "emid": 67,
   "cn": "变形冰鲨",
-  "cn_src": "chS/table/HN_MonsterListMsg_chS.gmd #122",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #56 (Zaboazagil)",
   "en": "Zamtrios"
  },
  {
@@ -364,7 +364,7 @@
   "slot": 58,
   "emid": 69,
   "cn": "重甲虫",
-  "cn_src": "chS/table/HN_MonsterListMsg_chS.gmd #126",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #58 (GenelSeltas)",
   "en": "Seltas Queen"
  },
  {
@@ -377,14 +377,14 @@
   "slot": 60,
   "emid": 72,
   "cn": "天廻龙",
-  "cn_src": "chS/table/MonsterDemo_chS.gmd #88",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #60 (ShagalMagala)",
   "en": "Shagaru Magala"
  },
  {
   "slot": 61,
   "emid": 76,
   "cn": "穿甲虫",
-  "cn_src": "chS/table/HN_MonsterListMsg_chS.gmd #132",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #61 (Alseltas)",
   "en": "Seltas"
  },
  {
@@ -439,7 +439,7 @@
   "slot": 70,
   "emid": 85,
   "cn": "跳狗龙王",
-  "cn_src": "chS/table/MonsterDemo_chS.gmd #47",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #70 (DosMaccao)",
   "en": "Great Maccao"
  },
  {
@@ -451,37 +451,43 @@
  {
   "slot": 72,
   "emid": 4098,
-  "cn": "甲壳草食龙",
+  "cn": "背甲龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #72 (Apkeros)",
   "en": "Apceros"
  },
  {
   "slot": 73,
   "emid": 4099,
-  "cn": "灵鹿",
+  "cn": "精灵鹿",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #73 (Kervi)",
   "en": "Kelbi"
  },
  {
   "slot": 74,
   "emid": 4100,
-  "cn": "香菇猪",
+  "cn": "蘑菇猪",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #74 (Moz)",
   "en": "Mosswine"
  },
  {
   "slot": 75,
   "emid": 4101,
-  "cn": "飞虫",
+  "cn": "巨甲虫",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #75 (Kanthalos)",
   "en": "Hornetaur"
  },
  {
   "slot": 76,
   "emid": 4102,
-  "cn": "爬虫",
+  "cn": "巨蜂",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #76 (Langosta)",
   "en": "Vespoid"
  },
  {
   "slot": 77,
   "emid": 4103,
-  "cn": "艾露",
+  "cn": "艾露猫",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #77 (Airou)",
   "en": "Felyne"
  },
  {
@@ -511,7 +517,8 @@
  {
   "slot": 82,
   "emid": 4108,
-  "cn": "砂蛇龙",
+  "cn": "砂龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #82 (Gareos)",
   "en": "Cephalos"
  },
  {
@@ -529,13 +536,15 @@
  {
   "slot": 85,
   "emid": 4111,
-  "cn": "雪鹿",
+  "cn": "白速龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #85 (Gianos)",
   "en": "Giaprey"
  },
  {
   "slot": 86,
   "emid": 4112,
-  "cn": "羚羊",
+  "cn": "雪鹿",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #86 (Gawshika)",
   "en": "Anteka"
  },
  {
@@ -548,26 +557,28 @@
   "slot": 88,
   "emid": 4116,
   "cn": "盾蟹",
-  "cn_src": "chS/table/itemData_chS.gmd #1950",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #88 (YaoZami)",
   "en": "Hermitaur"
  },
  {
   "slot": 89,
   "emid": 4117,
   "cn": "镰蟹",
-  "cn_src": "chS/table/itemData_chS.gmd #1982",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #89 (GamiZami)",
   "en": "Ceanataur"
  },
  {
   "slot": 90,
   "emid": 4119,
-  "cn": "小雪狮",
+  "cn": "雪狮子",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #90 (Blango)",
   "en": "Blango"
  },
  {
   "slot": 91,
   "emid": 4121,
-  "cn": "羚鹿",
+  "cn": "硬甲龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #91 (Rhenoplos)",
   "en": "Rhenoplos"
  },
  {
@@ -621,14 +632,15 @@
  {
   "slot": 100,
   "emid": 4140,
-  "cn": "小鬼鲛",
+  "cn": "变形幼冰鲨",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #100 (Skagil)",
   "en": "Zamite"
  },
  {
   "slot": 101,
   "emid": 4141,
   "cn": "盾虫",
-  "cn_src": "chS/table/HN_MonsterListMsg_chS.gmd #178",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #101 (Kunchu)",
   "en": "Konchu"
  },
  {
@@ -730,20 +742,22 @@
  {
   "slot": 118,
   "emid": 269,
-  "cn": "黑龙（红黑龙）",
+  "cn": "红龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #118 (MillaBoreis_AKA)",
   "en": "Crimson Fatalis"
  },
  {
   "slot": 119,
   "emid": 525,
-  "cn": "黑龙（祖龙）",
+  "cn": "祖龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #119 (MillaBoreis_SO)",
   "en": "Old Fatalis"
  },
  {
   "slot": 120,
   "emid": 1044,
   "cn": "铠裂将军镰蟹",
-  "cn_src": "chS/table/itemData_chS.gmd #2007",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #120 (NamedShogunGizami)",
   "en": "Rustrazor Ceanataur"
  },
  {
@@ -800,7 +814,7 @@
   "slot": 129,
   "emid": 1105,
   "cn": "青电主电龙",
-  "cn_src": "chS/table/itemData_chS.gmd #2589",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #129 (NamedRaizex)",
   "en": "Boltreaver Astalos"
  },
  {
@@ -813,14 +827,14 @@
   "slot": 131,
   "emid": 1107,
   "cn": "银峰巨兽",
-  "cn_src": "chS/table/itemData_chS.gmd #2635",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #131 (NamedGamoot)",
   "en": "Elderfrost Gammoth"
  },
  {
   "slot": 132,
   "emid": 86,
   "cn": "天彗龙",
-  "cn_src": "chS/table/MonsterDemo_chS.gmd #91",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #132 (Valphalk)",
   "en": "Valstrax"
  },
  {
@@ -844,7 +858,8 @@
  {
   "slot": 136,
   "emid": 4118,
-  "cn": "小桃毛兽",
+  "cn": "桃毛兽",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #136 (Konga)",
   "en": "Conga"
  }
 ]
