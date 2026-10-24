@@ -610,3 +610,11 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 - 还没实机启用。
 - 追加修正（同日）：第一版字面量池漏掉了 PIC 惯用法 `ldr r0,[pc,#n]` + `ldr r0,[pc,r0]`（0x198be4/c7c/cd0/d2c）：只搬字面量，克隆里第二条 ldr 会按克隆地址取数，读错内存。根因是 `pc_hazard` 的 011 类（寄存器偏移 ldr/str）没检查 Rn=pc，已修。现在会把 PIC 配对解析成绝对数据地址（4 处都是 0x1e8dc48），第二条改为 `ldr r0,[r0]`。安装改两遍：先全量演练，全部通过才启用。演练（伪宿主）：101 组 + getter，8 个字面量，4 对 PIC，0 错误。只是静态核对，没在 JIT 上执行过。新代码复核：DsvItemboxV7Rev2。
 - 第二轮复核 DsvItemboxV7Rev2（dsv-dev wb2api-remote）：getter、编码、pc_hazard、两遍安装、缓冲区都 PASS。修了 3 处：F1 配对时中间的指令不能读写 rD；F2 补上 `<string.h>`；F3 更新头注释和 getter 注释。重编 /W4 零警告；伪宿主演练 102 个 hook（含 getter）、8 个字面量、120 个改写字、0 错误。
+- 2026-10-24 夜：方向调整为 MHGU→MHRS 怪物移植 + MHGU 高帧/手柄现代化，武器暂不碰。完整计划：docs/project/PLAN-20261025-gu2rs.md（压缩后从这里恢复）。
+- MHGU MOD v212 [C]：头 +36..+60 = bone/group/mat/mesh/vert/face/eof 偏移；网格记录 48 B（+2 vc, +4 group, +6 mat, +7 lod, +10 stride, +12 vpos, +16 voff, +20 fmt, +24 fpos, +28 fcnt, +37 骨骼重映射个数, +40/+42 min/max 索引）；索引是 u16 条带，0xFFFF 断开，42/42 网格的索引落在 [min,max]；vbEnd==vbSize。量化位置原始值 0..29961，归一化 [U]。
+- em001 线框 [C 肉眼]：量化位置按统一比例 pos=bbox_min+raw*(1660.13/29961) 渲染出完整雄火龙（MHGU-private/render/em001-uni.png）；按轴单独 /65535 或 /32767 都变形。比例来源 [I]（拟合，待第二只怪验证）。f32 格式 5e7f2030 直接读 3xf32。
+- 类型哈希：MOD=58a15856、TEX=241f5deb、LMT=76820d81（版本 0x43）、MRL=2749c8a8、XFS=7cd0e77e [C]。
+- Silvris/MH-Tools-and-Scripts 无许可证（API 返回 license 404）：只吸收事实，模板放 .tmp/ext/silvris 不入库。
+- **MOD 位置量化 [C 4/4]**：pos[k] = bbmin[k] + u16 * Q，Q = (max(bbmax) - min(bbmin)) / 32767（立方量化盒，原点在 bbmin）。em001/002/007/011 的观测比例与公式在 5 位小数一致；三轴比例相同。bbmin @+80、bbmax @+96。头部 +112..: 1000, 3000, 0x80000001, 0, 每怪不同的计数（含义 [U]）。
+- **MRL v34 [C em001/em002]**：头 28 B（+8 材质数, +12 贴图数, +20 贴图表, +24 材质表）。贴图记录 76 B {u32 类型哈希 241f5deb, 8 B, char[64] 路径}；类型哈希 = ~crc32(类名) & 0x7fffffff，对 "rTexture" 得 241f5deb [C]。材质记录 60 B {+4 名字哈希, +8 块大小, +12 shader 哈希, +52 块起点}，块互不重叠且铺满文件。名字哈希同一规则，与 MOD 材质名匹配 3/4（m01_eye 不匹配 [U]）。块内 12 B 资源绑定项，贴图槽索引位置 [U]。
+- **MHGU TEX [C 肉眼]**：头 16 B；+8 位域 mips:6 / w:13 / h:13；+12 低 8 位 = 面数，次 8 位 = 格式；+16 u32 = 数据总字节；+20 起 mips x u32 = 各级 mip 相对数据区的偏移；数据区从 20+4*mips 开始；数据是 Tegra 块线性（GOB 64Bx8 行，块高 16 GOB）。格式：0x17=BC3（雄火龙底色图正确）、0x1F=BC5（法线图正确）、0x19=BC4（单通道图像正确）、0x07=R8G8B8A8 [I]（64 B/块 = 4 B/像素）、0x13 [U]。
