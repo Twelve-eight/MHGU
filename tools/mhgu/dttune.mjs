@@ -7,9 +7,12 @@
 //
 // Verified layout ([C] = byte cross-checked vs mhgu.db monster_damage / monster_status /
 // monsters.base_hp for Rathian em001, Rathalos em002, Fatalis em013):
+//   NOTE: only base HP @0x38 is a fixed offset; meat/status offsets vary per monster
+//   (Main IRC: meat 0x8C/0x8E/0x8F, status 0x324/0x35C or absent). Offsets below are
+//   the em001/em002 variants (meat @0x8E verified for em013 too).
 //   0x00  char[4]  "DTT\0" magic
 //   0x04  u8[4]    header bytes (6c a0 33 01 in sampled files) [unknown]
-//   0x38  u32      monster base HP (== db monsters.base_hp)
+//   0x38  u32      monster base HP (== db monsters.base_hp)   ← fixed offset
 //   0x3C  u16      small int, meaning unknown
 //   0x40  ..       fixed records (u16 view) [semantics unknown]
 //   0x8E  meat[8]  8 rows x 10 B = 9 x u8 + pad (cut,impact,shot,fire,water,ice,thunder,dragon,ko)
@@ -23,6 +26,7 @@
 //
 // Everything not marked [C] in the spec is dumped positionally without invented names.
 import fs from 'node:fs';
+import { pathToFileURL } from 'node:url';
 
 const MEAT_OFF = 0x8e;
 const MEAT_ROWS = 8;
@@ -119,17 +123,23 @@ export function decodeDttune(buf, file = null) {
   };
 }
 
-const argv = process.argv.slice(2).filter(a => a !== '--raw');
-const raw = process.argv.includes('--raw');
-if (!argv[0] || process.argv.includes('-h') || process.argv.includes('--help')) {
-  console.error('usage: node tools/mhgu/dttune.mjs <file_dttune> [--raw]');
-  process.exit(argv[0] ? 0 : 1);
-}
-const buf = fs.readFileSync(argv[0]);
-console.log(JSON.stringify(decodeDttune(buf, argv[0]), null, 2));
-if (raw) {
-  console.error('== 0x40..0x8e (records0x40) ==');
-  console.error(buf.slice(0x40, Math.min(0x8e, buf.length)).toString('hex').replace(/(..)/g, '$1 '));
-  console.error('== 0xde..end (unmapped) ==');
-  console.error(buf.slice(0xde).toString('hex').replace(/(..)/g, '$1 '));
+// `import.meta.main` (Node >= 22.18) when present, path comparison otherwise — same guard as arc.mjs,
+// so `import { decodeDttune } from './dttune.mjs'` does not run the CLI.
+const invoked = import.meta.main === true
+  || (process.argv[1] !== undefined && import.meta.url === pathToFileURL(process.argv[1]).href);
+if (invoked) {
+  const argv = process.argv.slice(2).filter(a => a !== '--raw');
+  const raw = process.argv.includes('--raw');
+  if (!argv[0] || process.argv.includes('-h') || process.argv.includes('--help')) {
+    console.error('usage: node tools/mhgu/dttune.mjs <file_dttune> [--raw]');
+    process.exit(argv[0] ? 0 : 1);
+  }
+  const buf = fs.readFileSync(argv[0]);
+  console.log(JSON.stringify(decodeDttune(buf, argv[0]), null, 2));
+  if (raw) {
+    console.error('== 0x40..0x8e (records0x40) ==');
+    console.error(buf.slice(0x40, Math.min(0x8e, buf.length)).toString('hex').replace(/(..)/g, '$1 '));
+    console.error('== 0xde..end (unmapped) ==');
+    console.error(buf.slice(0xde).toString('hex').replace(/(..)/g, '$1 '));
+  }
 }
