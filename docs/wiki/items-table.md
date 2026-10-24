@@ -6,7 +6,7 @@
 
 - `[C]` 同一数值在 romfs `itemData.itm` 与 `mhgu.db.items` 双源一致。
 - `[X]` 两源不一致，见 §2 冲突表。
-- `[B]` 仅 romfs 有字节，db 无对应行（`_id` 超出 db 覆盖）。
+- `[B]` 仅 romfs 有字节，`mhgu.db.items` 中无同 `_id` 行（共 90 条，id 均 < 2991）。
 - 字节布局、解码脚本与 db 对拍结果见 `.tmp/reports-mhgu/wit-diag.txt`；原始 TSV 为 `.tmp/reports-mhgu/wit-items.tsv`。
 - 「种类」列为 `.itm` 的 `0x05 cat` 原值。其枚举含义未解码，本页只按原值分组，不命名 [U]。
 - 「卖/买/携带」为 `.itm` 字段 `mSell`/`mBuy`/`mMaxCount`，单位为游戏内金额与个数。

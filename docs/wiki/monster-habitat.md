@@ -31,61 +31,66 @@
 
 | 名称类别 | 来源 | 说明 |
 |---|---|---|
-| 怪物中文名 | `docs/data/json/monster-slot-map.json` 的 `cn` / `cn_src`（把官方 chS 串与 emid 对齐的汇总表；短名本体在 `MonsterDemo_chS`，该表未收录者取 `HN_MonsterListMsg_chS` / `itemData_chS`） | 例：`#0` 雌火龙、`#5` 黑炎王雄火龙、`#91` 天彗龙；`尾锤龙` = HN `#102`、`变形冰鲨` = HN `#122`、`铠裂将军镰蟹` = itemData `#2007`、`银峰巨兽` = itemData `#2635`、`激昂金狮子` = itemData `#2997`、`怒食恐暴龙` = itemData `#5074` |
+| 怪物中文名 | `chS/arc/resident_chS.arc :: chS\GUI\06_msg\monsterName_chS`（268 条带 key 的怪物名表，JSON `MHGU-private/romfs-extract/gmd-arc/monsterName_chS.gmd.json`；label 形如 `Lioleia` / `RareLioleia` / `NamedLioleia`） | 例：`#0` 雌火龙、`#1` 金火龙、`#4` 银火龙、`#5` 黑炎王雄火龙、`#18` 矛碎大名盾蟹、`#58` 重甲虫、`#61` 穿甲虫、`#132` 天彗龙 |
 | 道具中文名 | `chS/table/itemData_chS.gmd.json`，索引 `i = 2 × items._id` | 例：`#26` 解毒药（items 13）、`#50` 消散剂（25）、`#610` 打消果实（305） |
-| 地图中文名 | `chS/table/GuestHunterMsg_chS.gmd.json` `#6`–`#20`（游荡猎人的地图倾向表，15 张图与 `monster_habitat` 用到的 15 张一一对应） | 例：`#6` 古代森林 / `#8` 山林 / `#12` 沼泽 / `#20` 无人山岭。`chS/table/MapName_chS.gmd` 本身仍是模板桩（只 2 条，1 条为 `@`），不能用 |
+| 地图中文名 | `chS/arc/resident_chS.arc :: chS\GUI\06_msg\questMessage_chS`（120 条带 key 的地图表，含白天/夜晚与全部斗技场；JSON `MHGU-private/romfs-extract/gmd-arc/questMessage_chS.gmd.json`） | 例：`#4` 古代森林（白天）、`#6` 山林（白天）、`#14` 沼泽、`#28` 水上斗技场、`#116` 无人山岭、`#117` 修雷德城。`chS/table/MapName_chS.gmd` 仍是模板桩（只有 2 条），不能用；`GuestHunterMsg_chS` 可作交叉验证 |
 
-`MonsterDemo_chS` 里金火龙 / 银火龙两条是 `@` 占位符（`#1` / `#4`），所以这两个名字只能沿用仓库通用写法 `[U]`。
+`monsterName_chS` 里三个「个体强化」条目只写基础名：`EnragedRajang`（`#22`）= 金狮子、`SavageEviljho`（`#35`）= 恐暴龙、`NamedGoreMagala`（`#127`）= 黑蚀龙。本页为区分同种不同个体，改用素材 / 装备串的前缀写法——激昂金狮子（`itemData_chS` `#2997`）、怒食恐暴龙（`#5074`）、混沌黑蚀龙（`#4903`）；前缀本身也是官方串，只是出自不同的表。
 
-甲虫种一对不在 `MonsterDemo_chS` 里，官方名改由 `HN_MonsterListMsg_chS` 定：`P2_3_hint_117`（`#126`）「被称为"重甲虫"的大型甲虫种……与"穿甲虫"互为雌雄关系，通过散发荷尔蒙来使唤雄性的"穿甲虫"」⇒ Seltas Queen（69）= **重甲虫**；`P2_3_hint_123`（`#132`）「名为"穿甲虫"的中型甲虫种」⇒ Seltas（76）= **穿甲虫**。仓库旧文档里的「徹甲虫」是异写，且槽位 58/61 说法互相矛盾，本页不沿用。
+**取名规则**：按该怪自身的 **slot 索引**取 `monsterName_chS` 原文，**不做缩短**。i17 大名盾蟹（Daimyo Hermitaur）、i19 将军镰蟹（Shogun Ceanataur）、i20 雪狮子王（Blangonga）、i121 桃毛兽王（Congalala）都是大型怪；裸名 `盾蟹`(i88 `YaoZami`)、`镰蟹`(i89 `GamiZami`)、`雪狮子`(i90 `Blango`)、`桃毛兽`(i136 `Konga`) 是各自的**小型怪**，两者不可混用。`白电`(i6)、`怪鸟`(i7) 则是大型怪本身的官方短名，不是缩写。
+
+甲虫种一对由 `monsterName_chS` 直接给出：`GenelSeltas`（`#58`）= **重甲虫**（Seltas Queen，`monster_id` 69）、`Alseltas`（`#61`）= **穿甲虫**（Seltas，`monster_id` 76）；语义由 `HN_MonsterListMsg_chS` `P2_3_hint_117`（`#126`）「被称为"重甲虫"的大型甲虫种……使唤雄性的"穿甲虫"」与 `P2_3_hint_123`（`#132`）「名为"穿甲虫"的中型甲虫种」确认。仓库旧文档里的「徹甲虫」是异写，且槽位 58/61 的说法互相矛盾，本页不沿用。
 
 ---
 
 ## 1 地图表（栖息地用到的 15 张）
 
-地图中文名改用**官方 chS 文本**（`GuestHunterMsg_chS` 的地图标签），括号里保留仓库/玩家惯用旧译名便于对照。`name` 为库内英文名，`map` 为缩略图文件。
+地图中文名改用**官方 chS 文本**（`questMessage_chS` 的键表，`GuestHunterMsg_chS` 交叉验证），括号里保留仓库/玩家惯用旧译名便于对照。`name` 为库内英文名，`map` 为缩略图文件。
 
 | `_id` | 官方中文（chS） | 仓库旧译名 | English (`locations.name`) | 缩略图 | 怪物数 | chS 索引 |
-|---:|---|---|---|---|---:|---:|
-| 1 | **古代森林** | 古代林 | Jurassic Frontier | `01.png` | 31 | `#6` |
-| 2 | **山林** | 森丘 | Verdant Hills | `02.png` | 16 | `#8` |
-| 3 | **雪山** | 雪山 | Arctic Ridge | `03.png` | 16 | `#9` |
-| 4 | **溪流** | 溪流 | Misty Peaks | `04.png` | 19 | `#10` |
-| 5 | **旧沙漠** | 旧沙漠 | Dunes | `05.png` | 18 | `#7` |
-| 6 | **孤岛** | 孤岛 | Deserted Island | `06.png` | 21 | `#11` |
-| 7 | **沼泽** | 沼地 | Marshlands | `07.png` | 20 | `#12` |
-| 8 | **火山** | 火山 | Volcano | `08.png` | 20 | `#13` |
-| 11 | **遗迹平原** | 遗迹平原 | Ancestral Steppe | `11.png` | 19 | `#14` |
-| 12 | **地底火山** | 地底火山 | Volcanic Hollow | `12.png` | 17 | `#17` |
-| 13 | **原生林** | 原生林 | Primal Forest | `13.png` | 21 | `#15` |
-| 14 | **冰海** | 冰海 | Frozen Seaway | `14.png` | 16 | `#16` |
-| 22 | **沙漠** | 沙漠 | Desert | `22.png` | 18 | `#18` |
-| 23 | **密林** | 密林 | Jungle | `23.png` | 25 | `#19` |
-| 24 | **无人山岭** | 遗群岭 | Ruined Pinnacle | `24.png` | 26 | `#20` |
+|---:|---|---|---|---|---:|---|
+| 1 | **古代森林** | 古代林 | Jurassic Frontier | `01.png` | 31 | `#4` OldForestDay |
+| 2 | **山林** | 森丘 | Verdant Hills | `02.png` | 16 | `#6` ForestHillDay |
+| 3 | **雪山** | 雪山 | Arctic Ridge | `03.png` | 16 | `#8` SnowyMountainDay |
+| 4 | **溪流** | 溪流 | Misty Peaks | `04.png` | 19 | `#10` MistyPeaksDay |
+| 5 | **旧沙漠** | 旧沙漠 | Dunes | `05.png` | 18 | `#12` DesertDay |
+| 6 | **孤岛** | 孤岛 | Deserted Island | `06.png` | 21 | `#13` DesertIslandDay |
+| 7 | **沼泽** | 沼地 | Marshlands | `07.png` | 20 | `#14` SwampDay |
+| 8 | **火山** | 火山 | Volcano | `08.png` | 20 | `#15` VolcanoDay |
+| 11 | **遗迹平原** | 遗迹平原 | Ancestral Steppe | `11.png` | 19 | `#16` RuinsFiled |
+| 12 | **地底火山** | 地底火山 | Volcanic Hollow | `12.png` | 17 | `#19` CaveVolcano |
+| 13 | **原生林** | 原生林 | Primal Forest | `13.png` | 21 | `#17` VirginForest |
+| 14 | **冰海** | 冰海 | Frozen Seaway | `14.png` | 16 | `#18` IceSea |
+| 22 | **沙漠** | 沙漠 | Desert | `22.png` | 18 | `#114` Desert |
+| 23 | **密林** | 密林 | Jungle | `23.png` | 25 | `#115` Jungle |
+| 24 | **无人山岭** | 遗群岭 | Ruined Pinnacle | `24.png` | 26 | `#116` RuinedPeak |
 
 > 上表 15 行之和 = 303，与 `monster_habitat` 总行数闭合，说明**没有任何一只怪把栖息地写在这 15 张图之外**。
-> **映射依据**：`GuestHunterMsg_chS` 的标签是英文语义标签（`OldForest` / `Forest` / `MistyPeaks` / `DesertIsland` / `DosDesert` / `DosJungle` / `Highland`…），与 `locations.name` 的英文逐条对应；其中 `Highland`= 24 号图另有旁证：`npc_014_td_chS` 写「在"无人山岭"狩猎"桃毛兽王"」，而桃毛兽王（`monster_id` 21）的 5 张图里只有 `_id=24` 是 MH4 系地图。该对应属 `[I]`（按标签与旁证推定，不是同一张表的直连）。
-**从未被 `monster_habitat` 引用的另外 16 行 `locations`**（官方 chS 名可查到的都列出）：
+> **映射依据**：`questMessage_chS` 的 key 本身就是英文语义标签（`OldForestDay` / `ForestHillDay` / `MistyPeaksDay` / `DesertIslandDay` / `SwampDay` / `RuinsFiled` / `VirginForest` / `IceSea` / `CaveVolcano` / `Desert` / `Jungle` / `RuinedPeak`…），与 `locations.name` 逐条对得上；其中 `RuinedPeak`（`#116`）= `Ruined Pinnacle` = `locations._id` 24 是一条直证（早先用 `npc_014_td_chS`「在"无人山岭"狩猎"桃毛兽王"」做的旁证与此一致）。`GuestHunterMsg_chS` `#6`–`#20` 给出同一组 15 张图，可交叉验证。
+> **键名一律照抄原文**：`#16` 是 `RuinsFiled`（原文把 Field 拼成 Filed）、单时段图同样带 `Day` 后缀（`DesertDay` / `DesertIslandDay` / `SwampDay` / `VolcanoDay`）、`#20` 是 `UnexploredTowner`（原文拼写）。不要「修正」这些键名，否则与 romfs 对不上。
+**从未被 `monster_habitat` 引用的另外 16 行 `locations`**（全部取自同一张 `questMessage_chS` 键表）：
 
-| `_id` | English (`locations.name`) | 官方中文 | 依据 |
+| `_id` | English (`locations.name`) | 官方中文 | chS 索引（key） |
 |---:|---|---|---|
-| 9 | Arena | 斗技场 | `HN_HunterTipsMsg_chS` `HTM_Colosseum_P1`「在斗技场、立体斗技场等地图中……」 |
-| 10 | V. Slayground | 立体斗技场 | 同上 |
-| 15 | F. Slayground | 水上斗技场 `[I]` | chS 全文检索无「水上斗技场」，按仓库旧译名推断 `[I]` |
-| 16 | Sanctuary | 禁入区域 | `GC_Title_1_chS` `#99`（`name1_100`） |
-| 17 | Forlorn Arena | 塔之秘境 | `GC_Title_1_chS` `#100`（`name1_101`） |
-| 18 | Sacred Pinnacle | 灵峰 | `GC_Title_1_chS` `#101`（`name1_102`） |
-| 19 | Ingle Isle | 熔岩岛 | `GC_Title_1_chS` `#102`（`name1_103`）；官方用「熔」，仓库 `systems.md:630` 写「溶」 |
-| 20 | Polar Field | 极圈 | `GC_Title_1_chS` `#103`（`name1_104`） |
-| 21 | Wyvern's End | 龙之坟场 | `GC_Title_1_chS` `#104`（`name1_105`）；**不是**「龙之墓场」 |
-| 25 | Castle Schrade | 修雷德城 | `GC_Title_1_chS` `RabbitName1_TXT_6`「完成20次修雷德城的任务」 |
-| 26 | Fortress | 要塞 | `GC_Title_1_chS` `name1_605`「要塞」 |
-| 27 | Forlorn Citadel | 要塞废墟 | `GC_Title_1_chS` `RabbitName1_5`「要塞废墟」 |
-| 101–104 | 夜版 1–4 号图 | 同名 +（夜晚） | `GC_Title_1_chS` `#80`「古代森林（夜晚）」、`#83`「山林（夜晚）」、`#86`「雪山（夜晚）」、`#89`「溪流（夜晚）」 |
-
-> 「仓库旧译名」列的 **森丘 / 遗群岭 / 禁足地 / 水上斗技场** 在 chS 文本里没有对应串，只是仓库与玩家惯用写法，一律 `[I]`；本页正文与表头只用官方名（山林 / 无人山岭 / 禁入区域 …）。
+| 9 | Arena | 斗技场 | `#26` `Arena` |
+| 10 | V. Slayground | 立体斗技场 | `#27` `SolidArena` |
+| 15 | F. Slayground | **水上斗技场** | `#28` `WaterArena` |
+| 16 | Sanctuary | 禁入区域 | `#21` `UnexploredPlace` |
+| 17 | Forlorn Arena | 塔之秘境 | `#20` `UnexploredTowner` |
+| 18 | Sacred Pinnacle | 灵峰 | `#24` `SoulSummit` |
+| 19 | Ingle Isle | 熔岩岛 | `#22` `LavaIsland`（官方用「熔」，`systems.md:630` 写「溶」） |
+| 20 | Polar Field | 极圈 | `#23` `PolerWorld` |
+| 21 | Wyvern's End | 龙之坟场 | `#25` `BoneSea`（不是「龙之墓场」） |
+| 25 | Castle Schrade | 修雷德城 | `#117` `Castle` |
+| 26 | Fortress | 要塞 | `#118` `Fortress` |
+| 27 | Forlorn Citadel | 要塞废墟 | `#119` `OldFortRuins` |
+| 101 | Jurassic Frontier (N) | 古代森林（夜晚） | `#5` `OldForestNight` |
+| 102 | Verdant Hills (N) | 山林（夜晚） | `#7` `ForestHillNight` |
+| 103 | Arctic Ridge (N) | 雪山（夜晚） | `#9` `SnowyMountainNight` |
+| 104 | Misty Peaks (N) | 溪流（夜晚） | `#11` `MistyPeaksNight` |
 
 > 这些图不出现在 `monster_habitat`，所以不影响 §2 的表；列出只为把 `locations` 31 行讲全。
+> **旧译名的状态**：`森丘` / `遗群岭` / `沼地` / `古代林` 是仓库与玩家惯用写法，chS 表里没有对应串（官方分别是 山林 / 无人山岭 / 沼泽 / 古代森林）；`禁足地` → `禁入区域` 的等号**未证实** `[U]`；`水上斗技场` 现由 `#28` 直接给出，不再是 `[I]`。
 
 ---
 
@@ -980,9 +985,9 @@
 | 72 | Shagaru Magala 天廻龙 | 有异常行，无栖息行 |
 | 84 | Nakarkos 骸龙 | 有异常行，无栖息行 |
 | 88 | Ahtal-Ka 阁螳螂 | 最终 boss |
-| 269 | Crimson Fatalis 红黑龙 | 古龙 |
+| 269 | Crimson Fatalis 红龙 | 古龙（`monsterName_chS` `#118` `MillaBoreis_AKA`） |
 | 525 | Old Fatalis 祖龙 | 古龙 |
-| 1343 | Raging Brachydios | 特殊个体；库内无中文名，故只给英文 `[U]` |
+| 1343 | Raging Brachydios 临界碎龙 | 特殊个体；`monsterName_chS` `#125` `NamedBracchidios` 只写基础名「碎龙」，前缀取 `itemData_chS` `#5240`「临界碎龙的？？？」（`monster-slot-map.json` slot 125 的 `cn_src` 即该串） |
 
 ### 5.2 36 只小型怪也没有栖息行
 

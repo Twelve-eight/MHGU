@@ -265,7 +265,8 @@ export function buildMotionValues({
 }
 
 // Public file: array of {weapon, zh, count, records:[{i, mv, hitType, hitsize}]}, one record per line.
-// Numbers are decoded game values only - no offsets, no romfs paths.
+// `count` is just records.length (derived), kept so a reader can check completeness without parsing the list.
+// Numbers are decoded game values only - no offsets, no file paths.
 export function serialise(weapons) {
   const blocks = weapons.map(w => {
     const recs = w.records

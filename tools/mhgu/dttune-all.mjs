@@ -172,12 +172,6 @@ function pairArcs(arcs, slots) {
 
 // ---------------------------------------------------------------- table location
 
-function bytesEq(buf, off, pat) {
-  if (off < 0 || off + pat.length > buf.length) return false;
-  for (let i = 0; i < pat.length; i++) if (buf[off + i] !== pat[i]) return false;
-  return true;
-}
-
 // Meat table: rows of 9 values + 1 pad byte, start offset varies per monster (0x8C / 0x8E / 0x8F /
 // 0x90 seen). Every offset in the window is scored by how many db base rows it reproduces (LCS
 // alignment of the 8 slots), so a monster whose row 0 differs from db by a point still anchors at
@@ -689,10 +683,11 @@ function buildReport(results, ctx, meta) {
   for (const r of notLocated) push(`- ${r.arc} (slot ${r.slot}, ${r.chs}): meat ${r.offsets.meat ?? 'not found'}, status ${r.offsets.status ?? 'not found'} — ${r.notes.join('; ')}`);
   push('');
   const meatDiff = results.filter(r => r.meat && (((r.meat.value_diffs || []).length) || ((r.meat.unmatched_db_parts || []).length)));
-  push(`## Meat row values that differ from mhgu.db (${meatDiff.length})`);
+  push(`## Meat rows where romfs and db disagree (${meatDiff.length} arcs)`);
   push('');
-  push('Values are cut/impact/shot/fire/water/ice/thunder/dragon/ko. "dttune/db" gives the romfs value first.');
-  push('A db part listed as absent means the 8-slot table has no row reproducing it.');
+  push('Values are cut/impact/shot/fire/water/ice/thunder/dragon/ko, romfs value first. "row order differs,');
+  push('values identical" is a slot permutation and not a value conflict; "absent from the dttune table" means');
+  push('the 8-slot table has no row reproducing that db part.');
   push('');
   if (!meatDiff.length) push('- none');
   for (const r of meatDiff) {
