@@ -71,8 +71,12 @@ function isPlausibleRecord(buf, o) {
   if (o + 12 > buf.length) return false;
   const initial = buf.readUInt16LE(o), a = buf.readUInt16LE(o + 2), b = buf.readUInt16LE(o + 4);
   const dur = buf.readUInt16LE(o + 6), inc = buf.readUInt16LE(o + 8), max = buf.readUInt16LE(o + 10);
+  // db initial/max across all sampled statuses are < 1000 (max seen: KO 750, Jump 850,
+  // Blast max 1030) — cap initial at 2000 so u8-run garbage (e.g. em001 0x3BE
+  // [4622,70,0,0,0,30]) cannot pass as a record. max must be > 0: every enabled status
+  // has a positive cap (post-blast garbage like em011 [100,1036,0,0,0,0] fails this).
   return a <= 2000 && b <= 2000 && (dur === 0 || (dur % 60 === 0 && dur < 7201)) &&
-         initial >= 1 && initial <= 9999 && inc <= 999 && max <= 9999 && max >= inc;
+         initial >= 1 && initial <= 2000 && inc <= 999 && max > 0 && max <= 9999 && max >= inc;
 }
 
 function isPlausiblePoison(buf, o) {
@@ -101,32 +105,63 @@ function readStatus(buf, poisonOff) {
     for (let k = 0; k < 6; k++) v.push(buf.readUInt16LE(o + k * 2));
     const placeholder = v.every(x => x === 0) || v.every(x => x === 0xffff) ||
                         (v[0] === 0 && v[3] === 0 && v[5] === 0);
+    // Blast = last record, untimed (A=0, B=0, duration 0). Jump is ALSO untimed, so
+    // this rule fires one record too early if applied at the first untimed record —
+    // only treat an untimed record as Blast if the next plausible slot is NOT another
+    // record (i.e. nothing follows but the damage u16 / next region).
+    const untimed = !placeholder && v[1] === 0 && v[2] === 0 && v[3] === 0 && i >= 4;
+    let isBlast = false;
+    if (untimed) {
+      // check hops 12..24 for another plausible/disabled record; records in a block are
+      // mutually 2-aligned (bases 0x1F4/0x351/0x35C/0x3A1/0x4E8 all %2==1 consistently
+      // within a file), so step 2 from the current record offset
+      const step = 2;
+      let follower = false;
+      for (let hop = 12; hop <= 24 && o + hop + 12 <= buf.length; hop += step) {
+        const t = o + hop;
+        const w = [];
+        for (let k = 0; k < 6; k++) w.push(buf.readUInt16LE(t + k * 2));
+        const disabled = w.every(x => x === 0xffff) || (w[0] === 0xffff && w[5] === 0xffff);
+        if (isPlausiblePoison(buf, t) || isPlausibleRecord(buf, t) || disabled) { follower = true; break; }
+      }
+      isBlast = !follower;
+    }
     recs.push({
-      status: STATUS_NAMES[i],
+      // name is CANDIDATE ONLY: records may be absent (db-zero statuses) and
+      // placeholders present, so the k-th record is not guaranteed to be the k-th
+      // status. Validate against db per value before publishing names.
+      status: STATUS_NAMES[i] + '?',
       _offset: o,
       initial: v[0], a: v[1], b: v[2], durationFrames: v[3], increase: v[4], max: v[5],
       _placeholder: placeholder,
+      _untimed: !placeholder && v[1] === 0 && v[2] === 0 && v[3] === 0,
     });
     // advance: next record may be (a) directly adjacent, (b) after the poison trailing
-    // pair, (c) after a placeholder/disabled record, or (d) absent (status with no
-    // record). Walk forward until a plausible record, a placeholder, or the block end.
+    // pair, (c) after a placeholder/disabled record (0xFFFF-filled), or (d) absent.
+    // Placeholder runs can be long (e.g. em027 0x26B..0x276), so hop up to 6 records.
     let next = null;
-    for (let hop = 12; hop <= 52 && o + hop + 12 <= buf.length; hop += 2) {
+    for (let hop = 12; hop <= 72 && o + hop + 12 <= buf.length; hop += 1) {
       const t = o + hop;
       const w = [];
       for (let k = 0; k < 6; k++) w.push(buf.readUInt16LE(t + k * 2));
-      const disabled = w.every(x => x === 0xffff) ||
-                       (w[0] === 0xffff && w[3] === 0 && w[5] === 0) ||
-                       w.slice(0, 2).every(x => x === 0) && w[3] === 0xffff;
+      const disabled = w.every(x => x === 0xffff) || (w[0] === 0xffff && w[5] === 0xffff);
       if (isPlausiblePoison(buf, t) || (i > 0 && isPlausibleRecord(buf, t)) || disabled) { next = t; break; }
     }
     if (next === null) break;
     o = next;
   }
-  // Blast damage: u16 after the Blast record (standard layout)
-  const blast = recs.find(r => r.status === 'blast' && !r._placeholder);
-  if (blast && blast._offset + 14 <= buf.length) {
-    recs.push({ status: 'blast_damage', _offset: blast._offset + 12, value: buf.readUInt16LE(blast._offset + 12) });
+  // Blast = the LAST non-placeholder untimed record (Jump is untimed too, so we can
+  // only know which one is last once the walk ends). Its damage u16 follows the record.
+  const lastUntimed = [...recs].reverse().find(r => r._untimed);
+  if (lastUntimed) {
+    lastUntimed.status = 'blast?';
+    if (lastUntimed._offset + 14 <= buf.length) {
+      recs.push({
+        status: 'blast_damage',
+        _offset: lastUntimed._offset + 12,
+        value: buf.readUInt16LE(lastUntimed._offset + 12),
+      });
+    }
   }
   return recs;
 }
@@ -159,9 +194,20 @@ export function decodeDttune(buf, file = null) {
   const meatOff = locateMeat(buf);
   const statusOff = locateStatus(buf);
   const meat = meatOff !== null ? readMeat(buf, meatOff) : null;
-  const status = statusOff !== null ? readStatus(buf, statusOff) : null;
+  let status = statusOff !== null ? readStatus(buf, statusOff) : null;
+  // False-positive guard: monsters without db status rows (e.g. Fatalis) can still have
+  // u8-run garbage that mimics records. A real block has >= 2 records and NO record
+  // with max === 0 among non-placeholders (db max is always >= increase > 0 when a
+  // status is enabled). If that fails, drop to raw.
+  if (status) {
+    const act = status.filter(r => !r._placeholder && r.status !== 'blast_damage');
+    const badMax = act.some(r => r.max === 0);
+    if (act.length < 2 || badMax) {
+      status = null;
+    }
+  }
   const afterMeat = meatOff !== null ? meatOff + MEAT_ROWS * 10 : 0x8e + 0x50;
-  return {
+  const out = {
     file,
     size: buf.length,
     magic: 'DTT',
@@ -175,6 +221,69 @@ export function decodeDttune(buf, file = null) {
     records0x40_u16: u16View(buf, 0x40, 0x8a),   // semantics unknown
     tuneFloats: floatCandidates(buf, afterMeat, buf.length), // heuristic, unmapped regions
   };
+  return out;
+}
+
+// ---- db cross-check (optional) ----------------------------------------------------------
+// --db mhgu.db --emid N: tag each located table dbMatch true/false. Status names are
+// assigned only when the value-match against db succeeds; otherwise status stays raw.
+function checkDb(d, dbPath, emid) {
+  let DatabaseSync;
+  try {
+    DatabaseSync = process.getBuiltinModule?.('node:sqlite')?.DatabaseSync;
+    if (!DatabaseSync) {
+      // ESM-safe fallback to CJS require
+      const req = (0, eval)('typeof require === "function" ? require : null');
+      if (!req) return { _note: 'node:sqlite unavailable' };
+      ({ DatabaseSync } = req('node:sqlite'));
+    }
+  } catch { return { _note: 'node:sqlite unavailable' }; }
+  const db = new DatabaseSync(dbPath);
+  const mon = db.prepare('SELECT _id,name,base_hp FROM monsters WHERE _id=?').get(emid);
+  if (!mon) return { _note: `no monsters row _id=${emid}` };
+  const out = { monster: mon.name, hpMatch: mon.base_hp === d.baseHp };
+
+  if (d.meatOffset !== null) {
+    const cols = ['cut', 'impact', 'shot', 'fire', 'water', 'ice', 'thunder', 'dragon', 'ko'];
+    const dbRows = db.prepare('SELECT body_part,cut,impact,shot,fire,water,ice,thunder,dragon,ko FROM monster_damage WHERE monster_id=? ORDER BY _id').all(emid);
+    let matched = 0;
+    const used = new Set();
+    for (const row of d.meat) {
+      if (row._all100) continue; // filler rows have no db counterpart
+      const si = dbRows.findIndex((x, ix) => !used.has(ix) && cols.every(c => x[c] === row[c]));
+      if (si >= 0) { matched++; used.add(si); row.dbPart = dbRows[si].body_part; }
+    }
+    out.meat = { rows: d.meat.filter(r => !r._all100).length, matched, dbMatch: matched === d.meat.filter(r => !r._all100).length };
+  }
+
+  if (Array.isArray(d.status)) {
+    const dbSt = db.prepare('SELECT status,initial,increase,max,duration,damage FROM monster_status WHERE monster_id=? ORDER BY _id').all(emid);
+    let matched = 0;
+    const used = new Set();
+    for (const r of d.status) {
+      if (r._placeholder || r.status === 'blast_damage') continue;
+      const si = dbSt.findIndex((x, ix) => !used.has(ix) && x.initial === r.initial && x.increase === r.increase &&
+        x.max === r.max && (x.duration === 0 ? r.durationFrames === 0 : r.durationFrames === x.duration * 60));
+      if (si >= 0) {
+        matched++; used.add(si);
+        r.status = dbSt[si].status.toLowerCase(); // confirmed name
+        r.dbMatch = true;
+      }
+    }
+    const bd = d.status.find(x => x.status === 'blast_damage');
+    const dbBd = dbSt.find(x => x.status === 'Blast');
+    if (bd && dbBd) { bd.dbMatch = bd.value === dbBd.damage; bd.expected = dbBd.damage; }
+    const active = d.status.filter(r => !r._placeholder && r.status !== 'blast_damage').length;
+    // A "block" where zero records match the db is a false positive (e.g. em013
+    // Fatalis: motion-value garbage mimics records; db has no status rows at all).
+    if (matched === 0) {
+      d.status = { _note: `candidate block at 0x${d.statusOffset.toString(16)} rejected: 0/${active} records match db monster_status`, raw: d.status };
+      out.status = { records: 0, matched: 0, dbMatch: false, rejected: true };
+    } else {
+      out.status = { records: active, matched, dbMatch: matched === active };
+    }
+  }
+  return out;
 }
 
 // ---- CLI (only when run directly; importing modules like dttune-all.mjs must not trigger it)
@@ -183,12 +292,18 @@ const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv
 if (isMain) {
   const argv = process.argv.slice(2).filter(a => a !== '--raw');
   const raw = process.argv.includes('--raw');
+  const dbIdx = argv.indexOf('--db');
+  const idIdx = argv.indexOf('--emid');
+  const dbPath = dbIdx >= 0 ? argv[dbIdx + 1] : null;
+  const emid = idIdx >= 0 ? Number(argv[idIdx + 1]) : null;
   if (!argv[0] || process.argv.includes('-h') || process.argv.includes('--help')) {
-    console.error('usage: node tools/mhgu/dttune.mjs <file_dttune> [--raw] [--db mhgu.db]');
+    console.error('usage: node tools/mhgu/dttune.mjs <file_dttune> [--raw] [--db mhgu.db --emid N]');
     process.exit(argv[0] ? 0 : 1);
   }
   const buf = fs.readFileSync(argv[0]);
-  console.log(JSON.stringify(decodeDttune(buf, argv[0]), null, 2));
+  const d = decodeDttune(buf, argv[0]);
+  if (dbPath && emid) d.db = checkDb(d, dbPath, emid);
+  console.log(JSON.stringify(d, null, 2));
   if (raw) {
     const meatOff = locateMeat(buf);
     console.error(`== meat table @0x${meatOff !== null ? meatOff.toString(16) : '??'} ==`);
