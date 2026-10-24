@@ -18,29 +18,30 @@
 | [I] | 仅 [db] 单一来源，未找到第二来源 |
 | [U] | 未知 / 存疑 |
 
-**中文名来源（官方 chS 文本）**：素材名 = `chS/table/itemData_chS.gmd`，**索引 = 2 × db `items._id`**（偶数位是名称、奇数位是说明；已用 id 1 = `#2` 调和书1入门篇 验证）；怪物名 = `chS/table/MonsterDemo_chS.gmd`（如 `#3` 火龙、`#0` 雌火龙、`#17` 轰龙、`#19` 迅龙、`#27` 雷狼龙、`#34` 碎龙、`#41` 斩龙、`#43` 电龙、`#44` 泡狐龙、`#45` 巨兽）。提取产物路径：`MHGU-private/romfs-extract/gmd/table/`。本页中文名全部为官方文本，行内以 `#索引` 标注（如 `#2406` 火龙的上等鳞、`#4258` 大颗龙泪、`#2780` 轰龙的颚）；§7 附 §2 那 30 件稀有素材的完整索引表。
+**中文名来源（官方 chS 文本）**：素材名 = `chS/table/itemData_chS.gmd`，**索引 = 2 × db `items._id`**（偶数位是名称、奇数位是说明；已用 id 1 = `#2` 调和书1入门篇 验证）；怪物名 = `chS/arc/resident_chS.arc :: chS\GUI\06_msg\monsterName_chS`（268 条带 key 的串，产物 `MHGU-private/romfs-extract/gmd-arc/monsterName_chS.gmd.json`；**`i` = 存档怪物槽位，0..136 与 `MHGU/docs/data/json/monster-slot-map-137.json` 同序**，i105..111 为机制单位、i133 为 `Atlal_nest`（空）；命名规则：取该怪**自己槽位**的名字、不做缩短——大怪沿用长名（如 `i17` 大名盾蟹、`i19` 将军镰蟹、`i20` 雪狮子王、`i121` 桃毛兽王）；`i88` Hermitaur / `i89` Ceanataur / `i90` Blango 那些短名属于小怪。确认过的短名只有 `i6` 白电、`i7` 怪鸟。本页十只的槽位 ↔ db id：火龙 `#3`/db 2、雌火龙 `#0`/db 1、轰龙 `#27`/db 32、迅龙 `#31`/db 37、雷狼龙 `#44`/db 57、碎龙 `#52`/db 63、斩龙 `#64`/db 80、电龙 `#66`/db 81、泡狐龙 `#67`/db 82、巨兽 `#68`/db 83。素材名提取产物在 `MHGU-private/romfs-extract/gmd/table/`。本页中文名全部为官方文本，行内以 `#索引` 标注（如 `#2406` 火龙的上等鳞、`#4258` 大颗龙泪、`#2780` 轰龙的颚）；§7 附 §2 那 30 件稀有素材的完整索引表。
 
 ## 1. 八条通道一览：各有几次结算
 
 | 通道 | db 条件名 | 每次狩猎结算次数 | 触发条件 | 该档最稀件单次量级 | 来源 |
 |---|---|---|---|---|---|
-| 本体剥取 | `Body Carve` | 3 次（巨兽 **4 次**） | 无 | 稀有件 0–5% | [C] 10 只怪逐条比对 |
-| 断尾剥取 | `Tail Carve` | 1 次 | 尾部切断（斩击系） | 2–15% | [C] 同上 |
-| 捕获报酬 | `Capture` | 每格一次（格数 [U]，见 §8） | 捕获而非击杀 | 2–7% | [C] 数值；格数无来源 |
-| 落物 | `Shiny` | 1–3 次（各怪不同，见 §2 表注） | 壁登顶失败 / 进食 / 吃陷阱肉 / 放电状态解除 / 音爆弹等 | 1–5% | [C] 同上 |
+| 本体剥取 | `Body Carve` | 3 次（巨兽 **4 次**） | 无 | 稀有件 0–5% | [C] db↔wiki 10 只逐条比对；romfs `hagi` 剥取表字节核对（6 只 / 51 表） |
+| 断尾剥取 | `Tail Carve` | 1 次 | 尾部切断（斩击系） | 2–15% | [C] 同上；romfs `hagi` 断尾表（同上 6 只；巨兽无断尾表） |
+| 捕获报酬 | `Capture` | 每格一次（格数 [U]，见 §8） | 捕获而非击杀 | 2–7% | [C] 数值；格数无来源；**不在 `hagi` 内** |
+| 落物 | `Shiny` | 1–3 次（各怪不同，见 §2 表注） | 壁登顶失败 / 进食 / 吃陷阱肉 / 放电状态解除 / 音爆弹等 | 1–5% | [C] 同上；romfs `hagi` 落物表（同上 6 只） |
 | 部位破坏 | `Break <部位>` | 每部位 1 次（头部等多需耐久归零 2 次；两次归零是否各结算 1 次未验证 [U]） | 该部位耐久归零 | 1–40%（稀有行 1–12%） | [C] 同上 |
-| 虫网 / 身体采集 | `Body Gather` / `Insect Gather Back` | 不限次（雷狼龙背部 ∞） | 仅少数怪 | 该怪专用素材（雷狼龙＝雷光虫系） | [I][wiki 1853] 条件名存在于 db，本次未展开 |
+| 虫网 / 身体采集 | `Body Gather` / `Insect Gather Back` | 雷狼龙：**转倒时**从背部用虫网，wiki 表头记作 **∞ 回**（次数无上限） | 仅少数怪，且需倒地/特定状态 | 雷狼龙 `Insect Gather Back`：下位 超电雷光虫 90 / 带电毛 10%；上位 超电雷光虫 82 / 高电毛 10 / 带电毛 8%；G 超电雷光虫 82 / 雷电毛 10 / 高电毛 8（均 %，各组闭合 100） | [C] db 与 [wiki 1853] L490-500 逐行一致，且 romfs `hagi_s1/s2/s4_em057_00` 的**第 4 张表**逐项相同；db 条件名映射仍 [I] |
 | 猫任务行 | `Meowster Hunter` | 3 行固定 50/30/20 | 随从猫任务 | 出余料（Scrap） | [I] |
 | 任务报酬 | `quest_rewards` 表（按**任务**存） | 每任务 A/B 两槽 | 任务完成 | 稀有 1% 量级 | [A][db] |
 
-补充两条硬事实：
+补充几条硬事实：
 - 同一（怪物, 档位, 通道）分组内百分比合计 = 100（全库 2,030 / 2,032 组；两组例外见 §8 #7），所以表里的数字就是"这一刀 / 这一次结算抽中它的概率"。[A]
 - 上表「该档最稀件单次量级」的取数是**每只怪每档最稀有的那一件**（§2 口径）。若把 `rarity ≥ 7` 的所有行都算进去，极值会到 剥取 70% / 断尾 96% / 破坏 100%——那不是稀有件，别混用。
 - db 还存了**按等级段细分**的条件名：`Body Carve Lv1-3` / `Lv1-4` / `Lv4-5` / `Lv5-8` / `Lv6-8` / `Lv9-10`（下位/上位）与 `G1-2` / `G3-4` / `G5-6`（G 级）。含义未解，本页只用不带段名的"整档表"。[U]
+- **雷狼龙虫网三档的英文↔中文配对是反直觉的，别"顺手改回来"**：`Zinogre Shockfur` = 带电毛（#2482）、`Zinogre Electrofur` = 高电毛（#2484）、`Zinogre Electrofur+` = 雷电毛（#2486）。所以上位 10% 是**高电毛**、8% 是**带电毛**，G 档 10% 是**雷电毛**、8% 是**高电毛**——看起来像两档互换，实际与 db 逐行相符（[C]）。
 
 ## 2. 十只封面怪的稀有素材：单次概率
 
-本表挑的"该档最稀有件"在十只封面怪上正好构成 稀有度 5（下位）/ 7（上位）/ 9（G 级）三档；同稀有度还有次级素材（如雌火龙的棘 = 5、雌火龙的上等棘 = 7、雌火龙的秘棘 = 9）。"—"= 该通道没有这一行（抽不到）。
+本表挑的"该档最稀有件"在十只封面怪上正好构成 稀有度 5（下位）/ 7（上位）/ 9（G 级）三档；同稀有度还有次级素材（如雌火龙的棘 = 5、雌火龙的上等棘 = 7、雌火龙的秘棘 = 9）。"—"= 该通道没有这一行（抽不到）。**本体剥取列中，雌火龙 / 火龙 / 轰龙 / 雷狼龙 / 斩龙 / 巨兽 6 只已与 romfs `hagi` 字节核对 [C]**；迅龙 / 碎龙 / 电龙 / 泡狐龙 4 只为 db + wiki 双源 [C]（未抽样）。
 
 | 怪物（db id） | 档 | 稀有素材 | 稀有度 | 本体剥取 | 断尾 | 捕获 | 落物 | 部位破坏（部位） | 单次最优 | 来源 |
 |---|---|---|---|---|---|---|---|---|---|---|
@@ -101,7 +102,7 @@
 
 ### 少见的例外：火龙两家的逆鳞 / 红玉 / 天鳞根本不在剥取表里
 
-火龙三档的 `Body Carve` 里没有逆鳞 / 红玉 / 天鳞（下位 5 行 = 鳞 40 / 甲壳 28 / 翼膜 19 / 火炎袋 8 / 骨髓 5，合计 100%）；雌火龙同样没有（下位 5 行 = 鳞 40 / 甲壳 30 / 翼膜 15 / 火炎袋 10 / 棘 5）。也就是说无论剥多少次，这些稀有件只能从断尾、头 / 背破坏、落物、捕获出。这是"剥取次数多就一定有"的反例。
+火龙三档的 `Body Carve` 里没有逆鳞 / 红玉 / 天鳞（下位 5 行 = 鳞 40 / 甲壳 28 / 翼膜 19 / 火炎袋 8 / 骨髓 5，合计 100%）；雌火龙同样没有（下位 5 行 = 鳞 40 / 甲壳 30 / 翼膜 15 / 火炎袋 10 / 棘 5）。romfs 侧也如此：em001 / em002 的 `hagi` 剥取表里**不含 1183 / 1184 / 1185**（逆鳞 / 红玉 / 天鳞）——字节级佐证。也就是说无论剥多少次，这些稀有件只能从断尾、头 / 背破坏、落物、捕获出。这是"剥取次数多就一定有"的反例。
 
 ## 4. 五条实用结论
 
@@ -113,7 +114,7 @@
 
 ## 5. 完整示例：火龙（Rathalos, db id 2）三档全表
 
-三张透视表，左侧素材、右侧各通道单次概率（"—"=该通道无此行）。每列合计 = 100%，可直接验算。来源：[db] `hunting_rewards` WHERE `monster_id=2`；数值与 [wiki] `text/1863.txt` 逐条一致 [C]；中文名 = `chS/table/itemData_chS.gmd`（本节用到的锚点：`#2404` 火龙的鳞、`#2406` 火龙的上等鳞、`#2424` 火龙的韧尾、`#4258` 大颗龙泪，全表见 §7 索引）。
+三张透视表，左侧素材、右侧各通道单次概率（"—"=该通道无此行）。每列合计 = 100%，可直接验算。来源：[db] `hunting_rewards` WHERE `monster_id=2`；数值与 [wiki] `text/1863.txt` 逐条一致 [C]；**三档 9 张表另与 romfs `enemy\hagi\hagi_s1/s2/s4_em002_00` 字节核对，逐行一致** [C]（`MHGU/docs/reference/formats/rem.md`）；中文名 = `chS/table/itemData_chS.gmd`（本节用到的锚点：`#2404` 火龙的鳞、`#2406` 火龙的上等鳞、`#2424` 火龙的韧尾、`#4258` 大颗龙泪，全表见 §7 索引）。
 
 ### 下位（LR）
 
@@ -136,7 +137,7 @@
 |---|---|---|---|---|---|---|---|
 | 火龙的上等鳞 Rathalos Scale+ | 38% | 18% | — | 23% | 57% | — | — |
 | 火龙的坚壳 Rathalos Carapace | 29% | — | 38% | — | 25% | 59% | — |
-| 火龙的坚壳（×2） | — | — | — | — | 8% | — | — |
+| 火龙的甲壳（×2） Rathalos Shell | — | — | — | — | 8% | — | — |
 | 火龙的翼膜（×2） Rathalos Webbing | — | — | 18% | — | — | — | — |
 | 爆炎袋 Inferno Sac | 15% | — | — | — | — | — | — |
 | 火龙的翼 Rathalos Wing | 13% | — | 10% | — | — | — | 20% |
@@ -189,7 +190,7 @@
 | 火炎袋 Flame Sac | 8% | 1 |
 | 火龙的逆鳞 Rathalos Plate | 1% | 1 |
 
-要点：任务报酬里的稀有素材是 **1% 量级**（只有 1 行、1 次机会），所以"刷任务报酬"通常不如"打部位破坏 + 断尾 + 落物"。想查某只怪出现在哪些任务里：
+要点：任务报酬里的稀有素材是 **1% 量级**（只有 1 行、1 次机会），所以"刷任务报酬"通常不如"打部位破坏 + 断尾 + 落物"。romfs 侧对应物是 `loc/arc/quest/q0000512.arc :: quest\rem\rem_*`（184 B，结构见 §7 与 `rem.md`；本次未对该任务解码，表内数值取自 db）。想查某只怪出现在哪些任务里：
 
 ```sql
 SELECT q._id, q.name, q.rank, q.stars
@@ -206,11 +207,12 @@ WHERE mq.monster_id = 2 ORDER BY q._id;
 | 素材名 / 稀有度 | `MHGU/docs/data/mhgu.db` → `items` | `_id` = `hunting_rewards.item_id` | [I] |
 | 怪物 id ↔ 英文名 | `MHGU/docs/data/mhgu.db` → `monsters`（`_id`, `name`） | 本页 10 只：1/2/32/37/57/63/80/81/82/83 | [I] |
 | 中文素材名（官方） | `MHGU-private/romfs-extract/gmd/table/itemData_chS.gmd.json`（源 `chS/table/itemData_chS.gmd`，5982 串） | `.strings[2 × items._id].text`（奇数为说明文） | [B] 官方文本 |
-| 中文怪物名（官方） | `…/gmd/table/MonsterDemo_chS.gmd.json` | `#0` 雌火龙、`#3` 火龙、`#17` 轰龙、`#19` 迅龙、`#27` 雷狼龙、`#34` 碎龙、`#41` 斩龙、`#43` 电龙、`#44` 泡狐龙、`#45` 巨兽 | [B] 官方文本 |
-| 中文名交叉校验 | `MHGU-private/docs/reference/mhxx-wiki/text/18xx.txt`；`MHGU/docs/mechanics/systems.md:600-628` | 怪物页行号 | [wiki] 与官方文本逐条一致，仅用字差异（wiki「鱗/骨髄/靭尾/大粒泪/端材」→ 官方「鳞/骨髓/韧尾/大颗龙泪/余料」；怪物名 wiki 作「雄火龙」，官方 `#3` = 火龙） |
-| romfs 侧掉落二进制 | **未定位**，见 §8 | — | [U] |
+| 中文怪物名（官方，主源） | `MHGU-private/romfs-extract/gmd-arc/monsterName_chS.gmd.json`（源 `chS/arc/resident_chS.arc :: chS\GUI\06_msg\monsterName_chS`，268 条 keyed） | `#i` = 槽位（0..136）：`#0` 雌火龙、`#3` 火龙、`#27` 轰龙、`#31` 迅龙、`#44` 雷狼龙、`#52` 碎龙、`#64` 斩龙、`#66` 电龙、`#67` 泡狐龙、`#68` 巨兽（label 依次 Lioleia / Liolaes / Tigrex / Nargacuga / Zinogre / Bracchidios / Dinovalde / Raizex / Tamamitsune / Gamute） | [B] 官方文本；取该怪自己槽位的名字，不缩短 |
+| 中文名交叉校验 | `MHGU-private/docs/reference/mhxx-wiki/text/18xx.txt`；`MHGU/docs/mechanics/systems.md:600-628` | 怪物页行号 | [wiki] 与官方文本逐条一致，仅用字差异（wiki「鱗/骨髄/靭尾/大粒泪/端材」→ 官方「鳞/骨髓/韧尾/大颗龙泪/余料」；怪物名 wiki 作「雄火龙」，官方 monsterName_chS `#3` = 火龙 Liolaes） |
+| romfs 侧掉落表（carve/断尾/落物） | `arc/enemy/emNNN_XX.arc :: enemy\hagi\hagi_s1/s2/s4_*`（s1 下位 / s2 上位 / s4 G；表序 剥取 → 断尾 → 落物 →（采集），缺项省略） | type `0x33a84e14`，346 B，`{chance,count,itemId}` @0x1A | [C] 6 只封面怪 51 张表与 db 逐项一致（em001/002/032/057/080/083）；其余 4 只仅 db+wiki |
+| romfs 侧任务报酬 | `loc/arc/quest/q<7位 id>.arc :: quest\rem\rem_*` | type `0x5b3c302d`，184 B，8 组 × `{chance,count,itemId}` | [C] 任务 101/11413/11460 与 db `quest_rewards` 逐条一致（`rem.md`） |
 
-### §2 稀有素材名 → `itemData_chS` 索引（索引 = 2 × db item_id）
+### §2 稀有素材名 → `itemData_chS` 索引（索引 = 2 × db item_id；本表已由两名核对者独立读取一遍）
 
 | 素材（db 名） | chS # | 素材（db 名） | chS # |
 |---|---|---|---|
@@ -279,12 +281,12 @@ SELECT _id, name FROM items WHERE name = 'Rathalos Mantle';   -- → 1215
 
 | # | 缺口 | 现状 | 补法 |
 |---|---|---|---|
-| 1 | romfs 里的掉落表二进制载体 | 已排除：`nativeNX/table/` 只有随从猫报酬（`MonNyanReward*`、`MonNyanLot*`）；`nativeNX/loc/arc/resident.arc` 的 197 个条目只含 `enemy\resident\em_size_scale_data` 等经验表。任务侧 `questLink_<id>.qdl` 指向 `rem_main` / `rem_add` / `rem_sub` 资源，但松散 romfs 中没有对应文件 | 用 `MHGU/tools/mhgu/arc.mjs` 列出全部 arc 的条目名、搜 `rem` / `reward`；再从 main 侧 quest 资源的加载路径（`mRewardTable[0..3]`，见 §8 #3）反查资源类名。解出后以"素材 id + 百分比"与 db 对照 |
+| 1 | romfs 侧掉落表载体 | **已定位并解码**：`arc/enemy/emNNN_XX.arc :: enemy\hagi\hagi_s1/s2/s4_*`（type `0x33a84e14`，346 B，zlib 存在 arc 内）；`s1`=下位、`s2`=上位、`s4`=G，表按固定顺序 **本体剥取 → 断尾 → 落物 →（虫网采集）**，缺项直接省略（巨兽无断尾表，故只有 2 表；雷狼龙有采集表，故 4 表）；行格式 `{u8 chance, u8 count, u16 itemId}` @0x1A，`FF FF 00 00` 收尾，每表合计 100。**6 只封面怪、51 张表已字节核对，与 `hunting_rewards` 逐项一致 [C]**：em001 雌火龙 9/9、em002 火龙 9/9、em032 轰龙 9/9、em057 雷狼龙 9/9（含采集表 3/3）、em080 斩龙 9/9、em083 巨兽 6/6（无断尾表）。**仍缺**：(a) `Capture` / `Break *` / `Meowster Hunter` 三族**不在 hagi 内**（em002 的 LR 捕获行 db 有、hagi 无）；(b) `s0`（各怪 1–3 张低阶表，如 Rathalos 1202@35/1205@25/460@20/409@20）与 `s3`（1–3 张表，均 1716@100）语义 [U]；(c) 迅龙 / 碎龙 / 电龙 / 泡狐龙 4 只未抽样 | 任务报酬另走 `loc/arc/quest/q<id>.arc :: quest\rem\rem_*`（184 B）；解码 `node tools/mhgu/rem.mjs hagi-arc <arc> --json` / `arc <quest.arc>`。剩余 4 只照抄同一命令即可（em037/em063/em081/em082） |
 | 2 | 等级段条件（`Body Carve Lv1-3` … `G5-6`）的语义 | 条件名存在、行数为数千，但对应哪段任务等级未验证 | 用 `quests.level`（1..15 = ★1..G5）与本表等级段做分布交叉 |
 | 3 | 捕获每次几格 | 无来源；§3 因此不折算捕获 | wiki 怪物页未标注；可从代码侧（任务结算函数，见 `MHGU/docs/analysis/code/tierb-pass1/tierB-slice-05.md` 的 `mRewardTable[0..3]`）或实机计数确认 |
 | 4 | 雌火龙本体剥取次数 | wiki 文本作 1 回，与系列惯例矛盾 [U] | 实机计数，或解 §8.1 的 rem 表 |
 | 5 | 二名怪 / 亚种掉落 | 本页只做 10 只封面怪；db 有 129 只（含 1025 紫毒姬、1104 烬灭刃等） | 同一 SQL 食谱 3，换 `monster_id` |
-| 6 | 虫网采集 / 猫任务行 / 余料 | 只列了条件名与示例（雷狼龙背部 ∞ 次） | db `meow_rewards`（1168 行）与 `Body Gather` / `Insect Gather Back` 条件细查 |
+| 6 | 虫网采集 / 猫任务行 / 余料 | 雷狼龙 `Insect Gather Back` 已与 db 逐行对上（[C]，三档见 §1）；db 覆盖范围：`Body Gather` 6 只怪 / 55 行（另有 `Body Gather Lv5-8`、`Lv9-10` 各 1 只 / 6 行）、`Insect Gather Back` 仅雷狼龙 1 只（+`Lv1-4`/`Lv5-8`/`Lv9-10` 共 14 行）、`Neset Gather` 1 只 / 5 行；猫任务行与余料未展开 | 同一 SQL 换 `condition LIKE '%Gather%'` 逐怪取；猫任务/余料查 db `meow_rewards`（1168 行）与 `Meowster Hunter` 分组 |
 | 7 | `hunting_rewards` 两组异常 | 桃毛兽王（Congalala, id 21）`Meowster Hunter` 上位 / G 各 3 行合计 **110**，与"每组 100"不符；其余 2,030 组均 100 | 核对源库或实机；不影响本页 10 只封面怪 |
 
 ## 9. 一句话自查清单
