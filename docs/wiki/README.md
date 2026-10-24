@@ -28,7 +28,7 @@
 - `复核中` = 审核报告仍标 IN PROGRESS；
 - `未复核` = 尚无审核报告。
 
-顺序：怪物（名录/栖息/肉质/状态/愤怒/体力/掉落/小怪）→ 任务与推进（含狞猛与配信）→ 勋章 → 技能/技能树/装饰珠/风格/武器/动作值/装备/道具/笛旋律 → 地图/村庄/随从猫/联机 → 伤害总表。状态只说明「页面与审核报告是否一致」，不等于全量验证——各页自己的 `[U]` 待补项仍以该页 §0 为准。
+顺序：怪物（名录/栖息/肉质/状态/愤怒/体力/掉落/小怪）→ 任务与推进（含 HR 上限、狞猛与配信）→ 勋章 → 技能/技能树/装饰珠/风格（含勇气/炼金）/武器/动作值/装备/道具（含弹药）/笛旋律 → 地图/村庄/随从猫/联机 → 伤害总表。状态只说明「页面与审核报告是否一致」，不等于全量验证——各页自己的 `[U]` 待补项仍以该页 §0 为准。
 
 | 页 | 中文标题 | 一句话覆盖 | 复核状态 |
 |---|---|---|---|
@@ -49,10 +49,10 @@
 | [hyper-event-quests.md](hyper-event-quests.md) | 狞猛化任务与配信任务 | 165 条狞猛化任务 + 166 条配信任务，逐条星级、报酬金、HRP 与狞猛化怪物 | 复核中（RevHyperEvent：计数与报酬 3 项 PASS，名字/标签项未跑完） |
 | [medals-guild-card.md](medals-guild-card.md) | 勋章与公会卡片 | 132 条勋章的官方名与条件原文 + 132 bit 位域与存档偏移 | PASS（RevMedals 8/8；4 处小文本已改，含 38 张表与 `§4.1` 引用） |
 | [skills.md](skills.md) | 技能全表 | 205 棵技能树的中文名/档位/效果、242 颗装饰珠、65 条复合技能组成 | PASS（RevSkills：205/205、65/65、242/242 全对；英文列与串号注已补正） |
-| [skill-trees-full.md](skill-trees-full.md) | 技能树全表（数据表体） | 205 棵树的档位链与各档发动技能（chS 名）、326 条技能的官方说明/英文名/串号、romfs `skt`/`skd` 字节布局 | 复核中（RevSkillTrees：skt 头与 19 B 步长已验；§4.2 skd 模式计数 307≠328 待修） |
+| [skill-trees-full.md](skill-trees-full.md) | 技能树全表（数据表体） | 205 棵树的档位链与各档发动技能（chS 名）、326 条技能的官方说明/英文名/串号、romfs `skt`/`skd` 字节布局 | 已修（RevSkillTrees 复审 PASS：§4.2 uniform 262 = all0 1 + all1 143 + all2 118，行数 205/326 与原始字节一致） |
 | [decorations.md](decorations.md) | 装饰珠全表 | 242 颗珠的官方名、孔数、技能点增减、完整制作配方，以及「解锁」只看原珠档位这一结论 | 复核中（RevDecos：字节与 12 行样本检查在跑，verdict pending） |
 | [styles-arts.md](styles-arts.md) | 狩猎风格与狩技 | 6 风格的按键差异、14 武器 × 4 风格表、66 狩技官方名与解锁轨、`mPointSP` 参数表 | PASS（RevArts2 六项复检全 PASS；E1「表内格数」措辞待改） |
-| [valor-alchemy.md](valor-alchemy.md) | 英勇与炼金风格 | 两风格的槽/状态/SP 规则、逐武器专属动作（`HN_WeaponControlsMsg_chS`）、奇异炼金桶 12 种产物与分档 | 复核中（RevValorAlchemy：已跑 8 组检查当前全 PASS，3 组未完） |
+| [valor-alchemy.md](valor-alchemy.md) | 勇气与炼金风格 | 两风格的槽/状态/SP 规则、逐武器专属动作（`HN_WeaponControlsMsg_chS`）、奇异炼金桶 12 种产物与分档 | 复核中（RevValorAlchemy：已跑 8 组检查当前全 PASS，3 组未完） |
 | [weapons-overview.md](weapons-overview.md) | 武器总览 | 14 种武器的官方名、核心机制、LR/HR/G 面板区间与升级树导航 | 已修（RevWeapons：大锤改「空战空中蓄力」、LV9 档位、§2.3 例） |
 | [motion-values.md](motion-values.md) | 动作值 | `pl_weNN_hitdata` 的 56 B 记录格式 + 大剑 61 条 / 太刀 85 条全部动作值 | PASS（RevMV：改版后 61/61、85/85、16/16；§0.3 步长已改 ×12） |
 | [moves-blademaster-a.md](moves-blademaster-a.md) | 近战动作值（一）：大剑 / 太刀 / 单手剑 / 双剑 | 4 把武器逐条动作值（61/85/74/152 条）+ 招名与按键（镜像 wiki `[W]`；大剑/太刀有锚点，单手剑/双剑全 `[U]`） | 复核中（RevMoves：A 页必检 8 样本与 w11 152/152 PASS；A 的 JSON 对拍未完） |
@@ -79,11 +79,12 @@
 | 问题含 | 首查 | 次查 |
 |---|---|---|
 | 怎么解锁 / 升星 / HR / 二名 / EX / 狞猛 | `wiki/progression-unlocks.md` §2–§8 | `wiki/quests.md` §3–§6、`mechanics/quests.md` §4–§8 |
+| HR 上限 / 等级解放 / 每级要多少 HRP | `wiki/hr-caps.md` | `wiki/progression-unlocks.md` §6、db `quests.hrp` |
 | 关键任务 / 任务报酬 / 哪张图 / 乱入 | `wiki/quests.md` 行级表 | `mechanics/quests.md` §2（questId↔`_id`） |
 | 这任务我能不能接（HR / 武器 / 风格 / 人数） | `wiki/quest-requirements.md` §2–§7 | `mechanics/quests.md`、db `quests` |
 | 狞猛任务有哪些 / 配信（Event）任务 | `wiki/hyper-event-quests.md` §1–§5 | db `monster_to_quest.hyper`、`quests.hub='Event'` |
 | 某怪在哪 / 给我上什么异常 / 怎么防吼风震 | `wiki/monster-habitat.md` | `mechanics/monsters.md` §6–§7 |
-| 弱点属性 / 肉质 / 打哪疼 | `wiki/hitzones-all-a.md`（槽 0–46 逐行）、`wiki/monster-hitzones.md` §3（格式与 10 只样板） | 官方弱点提示 `gmd:table/HN_MonsterListMsg_chS`，db `monster_damage`；romfs `arc/enemy/emNNN_00.arc :: *_dttune` |
+| 弱点属性 / 肉质 / 打哪疼 | `wiki/hitzones-all-a.md`（槽 0–46）、`wiki/hitzones-all-b.md`（槽 47–136）、`wiki/monster-hitzones.md` §3（格式与 10 只样板） | 官方弱点提示 `gmd:table/HN_MonsterListMsg_chS`，db `monster_damage`；romfs `arc/enemy/emNNN_00.arc :: *_dttune` |
 | 要打多少异常值 / 持续多久 / 陷阱吃不吃 | `wiki/monster-status.md` | db `monster_status`；romfs `*_dttune` 状态区 |
 | 什么时候发怒 / 怒时多疼 / 疲惫多久 | `wiki/monster-rage-tired.md` | romfs `*_dttune` Exhaust/参数区 |
 | 这怪多少血 / 部位破坏 / 断尾 / 捕获 | `wiki/monster-parts-hp.md` | `wiki/multiplayer.md` §2、romfs `em_nando_tbl` |
@@ -91,9 +92,10 @@
 | 小怪（速龙/甲虫/草食）打哪、掉什么 | `wiki/small-monsters.md` | romfs `arc/enemy/emsNNN_00.arc :: *_dttune` |
 | 技能 / 珠 / 护石 / 防具 | `wiki/skills.md`、`wiki/skill-trees-full.md`（逐树档位与技能说明）、`wiki/decorations.md`、`wiki/armor-talismans.md`、`wiki/armor-sets.md` | `mechanics/skills-arts.md` §5、`mechanics/equipment.md` §2 |
 | 风格 / 狩技 / 某武器动作 | `wiki/styles-arts.md` | `mechanics/skills-arts.md` §6，官方效果文 `gmd:table/hunterArtsData_chS` |
+| 勇气 / 炼金怎么玩（槽、状态、炼金桶） | `wiki/valor-alchemy.md` | `gmd:table/HN_WeaponControlsMsg_chS`（`WC_*_skillnote_*`）、`CommonMsg_chS` 风格说明 |
 | 武器面板 / 升级树 / 这把要什么素材 | `wiki/weapons-overview.md` | db `weapons`、`docs/data/weapons/*.json` |
 | 这一招多少动作值 | `wiki/moves-blademaster-a.md` / `-b` / `-c`（11 把近战逐条）；记录格式见 `wiki/motion-values.md` | romfs `player/wNN/player/hit/`、`table/weaponProcessWNN.wpd` |
-| 道具 / 调合 / 弹药 / 容量 | `wiki/items-combat.md`、`wiki/items-combination.md`（183 条配方） | `mechanics/systems.md` §1，db `items`/`combining` |
+| 道具 / 调合 / 弹药 / 容量 | `wiki/items-combat.md`、`wiki/items-combination.md`（183 条配方）、`wiki/gunner-ammo.md`（弩弹/弓瓶/箭种） | `mechanics/systems.md` §1，db `items`/`combining`、`weapons.ammo` |
 | 笛子旋律 / 音色组合 / 哪把笛吹什么 | `wiki/hunting-horn-songs.md` | db `horn_melodies`、`gmd:table/fueMusicInfData_chS` |
 | 交易 / 猫饭 / 食材 / 点数 | `wiki/farm-trade-canteen.md` | `mechanics/systems.md` §2/§3，db `meow_rewards` |
 | 采集点 / 这张图有什么 / 秘境在哪 | `wiki/maps-gathering.md` | db `gathering`/`locations`；官方地图名见 §二 的 GuestHunterMsg 表 |
@@ -104,21 +106,21 @@
 | 某怪叫什么 / 一共多少怪 | `wiki/monsters-index.md` | `monsterName_chS`、`docs/data/json/monster-slot-map.json` |
 | 存档 / 备份 / 位域 / 改存档 | `docs/save-layout/` | `editor-spec/03-quests-monsters-palico.md` |
 
-**中文名统一**：任何页面用到中文名时，优先 `MHGU-private/romfs-extract/gmd/`（官方 chS 文本，385 文件 / 61,941 串 / 0 失败；提取器 `tools/mhgu/gmd.mjs`，格式 `docs/reference/formats/gmd.md`），引用格式 `chS/table/<file>.gmd #<index>`；没有的（普通任务名）用 wiki 译名并标 `[W]`。关键文件：`table/itemData_chS`（道具名+说明 5,982 串，索引 **名 = `2 × items._id`，说明 = `2 × items._id + 1`**，三锚点已验）、`table/skillData_chS`（技能 656）、`table/skillTypeData_chS`（技能树 412）、`table/hunterArtsData_chS`（狩技 764，含 D 轨效果文）、`table/armorSeriesData_chS`（防具系列）、`table/weapon00..14MsgData_chS`（武器名）、`table/HN_MonsterListMsg_chS`（弱点提示 220）、`table/HN_BasicControlMsg_chS`（操作/按键 105）、`table/HN_WeaponControlsMsg_chS`（武器操作页的招名与按键，`WC_<武器>_skilltitle_*` / `commandnote_*`）、`table/guestQuestData_chS`（DLC 任务名 462；村/集普通任务名 chS 树无）。
+**命名优先级（先民间、后官方）**：中文名先取**民间/社区叫法**——只要它能在既有中文资料（镜像 wiki 文本 `docs/reference/mhxx-wiki/text/*.txt`）里被**完整字符串**命中、且指同一对象，就用它作正名，并在首次出现处括注一次官方 chS 写法与出处（例：勇气（官方：英勇，`CommonMsg_chS #181`））。镜像里找不到的才用官方名。**执行方式**：怪物 / 道具 / 地图的民间名统一由 `MHGU/docs/data/folk-names.json`（official → folk，带出处；FolkNameMap 产出中，**尚未落地**）提供，落地后按映射统一改写，**不要手工逐页替换**；未落地前这些名字仍写官方 chS 名。**风格名已定稿**：写 勇气（官方：英勇）与 炼金。官方文本与括注来源：`MHGU-private/romfs-extract/gmd/`（官方 chS 文本，385 文件 / 61,941 串 / 0 失败；提取器 `tools/mhgu/gmd.mjs`，格式 `docs/reference/formats/gmd.md`），引用格式 `chS/table/<file>.gmd #<index>`；没有官方名的（普通任务名）用 wiki 译名并标 `[W]`。关键文件：`table/itemData_chS`（道具名+说明 5,982 串，索引 **名 = `2 × items._id`，说明 = `2 × items._id + 1`**，三锚点已验）、`table/skillData_chS`（技能 656）、`table/skillTypeData_chS`（技能树 412）、`table/hunterArtsData_chS`（狩技 764，含 D 轨效果文）、`table/armorSeriesData_chS`（防具系列）、`table/weapon00..14MsgData_chS`（武器名）、`table/HN_MonsterListMsg_chS`（弱点提示 220）、`table/HN_BasicControlMsg_chS`（操作/按键 105）、`table/HN_WeaponControlsMsg_chS`（武器操作页的招名与按键，`WC_<武器>_skilltitle_*` / `commandnote_*`）、`table/guestQuestData_chS`（DLC 任务名 462；村/集普通任务名 chS 树无）。
 
-**风格名（官方 chS）**：6 个狩猎风格里，MHX 的 4 个（公会 / 强袭 / 空战 / 武士道）与 MHXX 的 2 个都以官方文本为准——**英勇**（`CommonMsg_chS` 的 `style_tatsujin` = 「英勇」、`style_tatsujin_Formal` = 「英勇风格」、`style_tatsujin_memo` 写「英勇槽」；`skillData_chS #401/#403` 写「狩技槽、英勇槽和炼金槽」）与**炼金**；镜像 wiki 里的「勇气」是 MHX 时代旧译名 `[W]`，写作时统一用「英勇」。`wiki/styles-arts.md` 若仍写「勇气」，引用时按官方名改写。
+**风格名**：按上述优先级写 **勇气**（官方：英勇，`CommonMsg_chS #181`；`#183` memo 写「英勇槽」、`#185` = 「英勇风格」；`skillData_chS #401/#403` 写「狩技槽、英勇槽和炼金槽」）与**炼金**（官方同名，`#182`／`#186` = 炼金风格）。镜像 `docs/reference/mhxx-wiki/text/2201.txt` 用「勇气 / 炼金」；`wiki/styles-arts.md` 已按本规则改写；`wiki/valor-alchemy.md` 仍用官方名，读到时按本规则理解，逐武器/机制细节见后者。
 
-**官方怪名（第一信源）**：`chS/arc/resident_chS.arc :: GUI/06_msg/monsterName_chS`，268 条带 label（`Lioleia`/`RareLioleia`/`NamedLioleia` 等），JSON 在 `MHGU-private/romfs-extract/gmd-arc/monsterName_chS.gmd.json`，仓库副本 `docs/data/json/monster-names-chs.json`；金火龙/银火龙在此有正式名（`MonsterDemo_chS` 的 `@` 占位被它覆盖）。引用格式 `monsterName_chS #i (label)`。`resident_chS.arc`（119 条）已解包在 `gmd-arc/resident/chS/`，还含其他 GUI 消息表——**判某中文名缺失前先查这里**。
+**官方怪名（第一信源）**：`chS/arc/resident_chS.arc :: GUI/06_msg/monsterName_chS`，268 条带 label（`Lioleia`/`RareLioleia`/`NamedLioleia` 等），JSON 在 `MHGU-private/romfs-extract/gmd-arc/monsterName_chS.gmd.json`，仓库副本 `docs/data/json/monster-names-chs.json`；金火龙/银火龙在此有正式名（`MonsterDemo_chS` 的 `@` 占位被它覆盖）。引用格式 `monsterName_chS #i (label)`。社区叫法见镜像 `docs/reference/mhxx-wiki/text/1829.txt` 的怪物一览（彻甲虫 / 大怪鸟 / 白电龙 / 天慧龙 等）；**本页暂用官方名**，民间名待 `folk-names.json` 落地后统一替换。`resident_chS.arc`（119 条）已解包在 `gmd-arc/resident/chS/`，还含其他 GUI 消息表——**判某中文名缺失前先查这里**。
 
 **官方地图名**：`table/MapName_chS` 只是模板占位（两条占位串：一条 `@`、一条日文模板字样），**不是**地图名表；真正的官方地图名在 `table/GuestHunterMsg_chS.gmd`（带 label）：OldForest=古代森林、Desert=旧沙漠、Forest=山林、SnowyMountain=雪山、MistyPeaks=溪流、DesertIsland=孤岛、Swamp=沼泽、Volcano=火山、RuinsField=遗迹平原、VirginForest=原生林、IceSea=冰海、CaveVolcano=地底火山、DosDesert=沙漠、DosJungle=密林、Highland=无人山岭；另 `GC_Title_1_chS` 的 `name1_101`=塔之秘境、`name1_102`=灵峰。**mhgu.db `locations.name_ja` 是日文汉字（渓流/沼地/孤島/闘技場），不要当中文用**——与官方名不一致处（溪流 vs 渓流、孤岛 vs 孤島）以 GMD 为准。**森丘/遗群岭/禁足地/水上斗技场** 4 个图名在 GMD 无官方源，维持仓库写法标 `[I]`（`wiki/quests.md` §1 用键控名 + 排除法，把这 4 个的 `[I]` 口径写清了）。
 
 **怪名锚点与口径**：
 - `monsterName_chS` i=0..136 = 官方名（按槽序对应怪物）；i105..111 为占位单位、i133 `Atlal_nest` 为空串。**取怪自身槽位的名字逐字发布，绝不截短**。
 - **大型怪保留长名**：i17 大名盾蟹（Daimyo Hermitaur）、i19 将军镰蟹（Shogun Ceanataur）、i20 雪狮子王（Blangonga）、i121 桃毛兽王（Congalala）；短名 盾蟹/镰蟹/雪狮子/桃毛兽 是**小怪**（i88 Hermitaur / i89 Ceanataur / i90 Blango / i136 Conga）。
-- **正确短形**（槽位本身就短）：i6 白电、i7 怪鸟；变形幼冰鲨（= Skagil，槽 100）。
+- **正确短形**（槽位本身就短）：i6 白电、i7 怪鸟（镜像 wiki 作 白电龙 / 大怪鸟，见 `1829.txt`；按 `folk-names.json` 落地后统一，勿手改）；变形幼冰鲨（= Skagil，槽 100）两边同形。
 - **变体怪**（激昂金狮子/怒食恐暴龙/混沌黑蚀龙）槽位只含基础名，名字取 itemData 锚点；红龙 = Crimson Fatalis（i118）。
-- **天彗龙 = Valphalk**（`Kanji_Valphalk`，i=91 / slot 132）；天廻龙 = Shagaru Magala（`Kanji_Tenkairyu`）是**不同**怪，勿合并。
-- **穿甲虫 = Seltas**（slot 61 主导名：`HN_MonsterListMsg` hint_123/124、`itemData` #2030–2041、`GC_Title_1` name1_548）；「彻甲虫」仅见于 `weapon10 #43` / `weapon11 #277`，不作标准名。重甲虫 = Seltas Queen（slot 58）不变。
+- **天彗龙 = Valphalk**（`Kanji_Valphalk`，i=91 / slot 132；镜像作「天慧龙」）；天廻龙 = Shagaru Magala（`Kanji_Tenkairyu`）是**不同**怪，勿合并。
+- **穿甲虫 = Seltas**（slot 61 主导名：`HN_MonsterListMsg` hint_123/124、`itemData` #2030–2041、`GC_Title_1` name1_548）；镜像 wiki 作「彻甲虫」（`weapon10 #43` / `weapon11 #277` 亦见），民间名待 `folk-names.json` 落地后统一。重甲虫 = Seltas Queen（slot 58）不变。
 
 ## 三、mhgu.db 查询方法
 
@@ -187,10 +189,10 @@ WHERE monster_id = (SELECT _id FROM monsters WHERE name_zh LIKE '%雌火龙%');
 | 优先级 | 缺口 | 玩家会怎样问 | 现状 / 补齐路径 |
 |---|---|---|---|
 | ★★★☆☆ | 动作值缺射手三武器 / 记录↔招名无官方键 | 「这一刀比那一刀强多少」 | 近战 11 把已逐条落地（`wiki/motion-values.md` + `moves-blademaster-a/b/c.md`，合计 854 条，动作值 = 记录 `+0x04` `[C]`）；射手 w04/w06/w10 的伤害在弹表，`weaponProcessWNN.wpd` 只给派生顺序 ⇒ 逐招归属仍 `[U]` |
-| ★★☆☆☆ | 槽 0–46 肉质表仍在追加 | 「这只怪的愤怒肉质多少」 | 槽 47–136 已由 `wiki/hitzones-all-b.md` 全列（42 只 / 484 行）；槽 0–46 的 `wiki/hitzones-all-a.md` 仍在逐槽追加（未到槽 46），`wiki/monster-hitzones.md` 给格式与 10 只样板 |
-| ★★☆☆☆ | 英勇 / 炼金的数值（槽容量 / 秒数） | 「英勇槽要攒多久」「炼金桶几次一充」 | 机制已由 `wiki/valor-alchemy.md` 从官方文本落地（收刀持续 → 英勇槽 → 英勇状态、炼金桶 12 种产物与分档、SP 强化）；官方只给定性规则，槽容量/时长/消耗速率仓库内无源 ⇒ `[U]`，逐武器按键表亦无源 |
 | ★★★☆☆ | 会心乘算点 / 任务级全体防御率 | 「白比蓝强多少」「会心乘在哪条指令上」 | 锋利度与会心的**数值**已定位（`wiki/damage-formula.md` §4.3/§5.2，`.rodata` 表 + 指针数组）；乘算点与全体防御率 `[U]` |
 | ★★★☆☆ | 狩技槽消耗 / SP 型名单 | 「这技要攒多久」 | `wiki/styles-arts.md` §8 已给 `hunterArtsData.hta`（191 × 25 B）的 `mPointSP` 与 `mXTimer = 3.5 × mPointSP`；SP 型名单与实际冷却 `[U]` |
+| ★★☆☆☆ | 槽 0–46 肉质表仍在追加 | 「这只怪的愤怒肉质多少」 | 槽 47–136 已由 `wiki/hitzones-all-b.md` 全列（42 只 / 484 行）；槽 0–46 的 `wiki/hitzones-all-a.md` 仍在逐槽追加（未到槽 46），`wiki/monster-hitzones.md` 给格式与 10 只样板 |
+| ★★☆☆☆ | 勇气 / 炼金的数值（槽容量 / 秒数） | 「勇气槽要攒多久」「炼金桶几次一充」 | 机制已由 `wiki/valor-alchemy.md` 从官方文本落地（收刀持续 → 勇气槽 → 勇气状态、炼金桶 12 种产物与分档、SP 强化）；官方只给定性规则，槽容量/时长/消耗速率仓库内无源 ⇒ `[U]`，逐武器按键表亦无源 |
 | ★★☆☆☆ | 捕获 HP 阈值 / 大小金冠 | 「多少血能抓」 | `wiki/monster-parts-hp.md` 把 `0xF513A0/A4` 的 0.35/0.65 改判为插值权重（`[I]`），捕获阈值本身 `[U]` |
 | ★★☆☆☆ | 任务级 HP 倍率的函数级证据 | 「这怪多少血」 | 表本体已解（`em_nando_tbl` 141 × 32 B，col A 0.1→6.5）且任务只存表号（`wiki/monster-parts-hp.md` §2、`wiki/multiplayer.md` §2）；「col A 就是 HP 倍率」仍缺 `rEnemyNandoData` 的读取函数交叉引用 |
 | ★★☆☆☆ | 集会所任务的 HR35–100 门槛来源 | 「我 HR40 能接这条吗」 | `wiki/quest-requirements.md` §7：这些数字不在任务记录里（枚举最大到 HR100，G★4 实际只写 HR9/12/13），出现条件在 main 侧 `[I]` |

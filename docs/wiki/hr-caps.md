@@ -23,6 +23,7 @@
 | `npc_NNN #i` | `chS/table/npc/script/npc_NNN_td.gmd` 第 `i` 串（解包件 `MHGU-private/romfs-extract/gmd/table/npc/script/npc_NNN_td_chS.gmd.json`） | **官方简中**的 HR 阶梯原句、上限解除原句、HRP 说明 |
 | `CommonMsg #i` / `ResultMsg #i` / `KeyboardMsg #i` / `TitleMsg #i` / `GC_Title_1 #i` | `chS/table/<file>.gmd` 第 `i` 串 | 官方文案：术语「HR」「猎人等级点数」「下一级」「HR 0–999」「HR达到N」称号 |
 | `q<id>` | `MHGU/docs/data/mhgu.db` → `quests._id`（1,355 行） | 任务名（英）、星级、HRP、目标怪物（经 `monster_to_quest`） |
+| `monsterName_chS` | `chS/arc/resident_chS.arc :: GUI/06_msg/monsterName_chS`（解包 `MHGU-private/romfs-extract/gmd-arc/monsterName_chS.gmd.json`） | 本页全部怪物中文名（按 label 取：`Ganothotos` 水龙 / `Dodoblango` 雪狮子王 / `Selegioth` 千刃龙 / `Raizex` 电龙 / `Tamamitsune` 泡狐龙 / `Gamute` 巨兽 / `Ostgaloa` 骸龙 / `Diablos` 角龙 / `Lao_ShanLung` 老山龙 / `Borboros` 土砂龙 / `Valphalk` 天彗龙 / `Atlal_ka` 阁螳螂），逐字照抄官方简中 |
 | `<id>.html` | `MHGU/docs/reference/mhxx-wiki/data/<id>.html` | 集会所/村关键任务卡片：**每条任务的「出现条件」写在自己面板末尾**（raw HTML，判归属的唯一可靠方式） |
 | `W§N` | `MHGU/docs/mechanics/quests.md` 同名小节 | 关键/紧急归属总述 |
 | `prog§N` / `req§N` | `MHGU/docs/wiki/progression-unlocks.md` / `quest-requirements.md` | 交叉引用（本页不重复其表） |
@@ -385,6 +386,7 @@ disasm 0x5253e4 count=40     # case12：movw r2,#0x3618 → tst r0,#0x7F000
 | `npc_NNN #i` | `MHGU-private/romfs-extract/gmd/table/npc/script/npc_NNN_td_chS.gmd.json`（源自 `chS/table/npc/script/npc_NNN_td.gmd`） |
 | `CommonMsg` / `ResultMsg` / `KeyboardMsg` / `TitleMsg` / `GC_Title_1` | `MHGU-private/romfs-extract/gmd/table/<file>_chS.gmd.json` |
 | `q<id>` | `MHGU/docs/data/mhgu.db` → `quests` / `monster_to_quest` / `monsters` |
+| `monsterName_chS` | `MHGU-private/romfs-extract/gmd-arc/monsterName_chS.gmd.json`（官方简中怪物名，按 label 取；本页 12 个怪名即取自此处） |
 | `2987.html` / `2953.html` | `MHGU/docs/reference/mhxx-wiki/data/`（raw HTML 面板） |
 | `2016` / `2020` / `2027` / `2506` | `MHGU/docs/reference/mhxx-wiki/text/` |
 | `W§N` | `MHGU/docs/mechanics/quests.md` |
