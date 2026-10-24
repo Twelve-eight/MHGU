@@ -46,6 +46,34 @@
 
 FORGE_PLUGIN_DEFINE_API
 
+#include "shot.h"
+
+/* `shot [path]`: handled on the socket thread; the copy happens in forge_onPresent, so it also
+ * works while the game logic is paused (Forge menu) or the window is covered / unfocused. */
+static void shot_command(const char* line, char* out, size_t cap)
+{
+    const char* path = line + 4;
+    while (*path == ' ') {
+        path++;
+    }
+    if (!*path) {
+        path = "G:\\omp works\\.tmp\\mhgu-scratch\\shot.bmp";
+    }
+    snprintf(s_shot_path, sizeof(s_shot_path), "%s", path);
+    InterlockedExchange(&s_shot_state, 0);
+    InterlockedExchange(&s_shot_req, 1);
+    for (int i = 0; i < 300 && s_shot_state != 2 && s_shot_state != 3; i++) {
+        Sleep(10);
+    }
+    if (s_shot_state == 2 || s_shot_state == 3) {
+        snprintf(out, cap, "%s", s_shot_msg);
+    } else {
+        InterlockedExchange(&s_shot_req, 0);
+        snprintf(out, cap, "err timeout (no present in 3 s; window minimised?)");
+    }
+    InterlockedExchange(&s_shot_state, 0);
+}
+
 #define PLUGIN "dbgport"
 #define GOT_INPUT 0x183931Cu /* GOT cell holding &input singleton pointer (main-relative) */
 #define MASK_OFF 0x6BFCu
@@ -91,7 +119,7 @@ typedef struct NpadHook {
     bool multi;
     ForgeHook* hook;
     uint32_t fired;
-    uint32_t last_out, last_r0;   /* State* and return value of the latest call */
+    uint32_t last_out, last_r0, last_lr, last_r1; /* args[0], return r0, caller LR, r1 at entry */
     uint64_t last_buttons;        /* buttons word after injection */
 } NpadHook;
 static NpadHook s_hooks[] = {
@@ -117,6 +145,11 @@ static void inject_state(uint32_t st)
     memcpy(&buttons, buf + 8, 8);
     buttons |= s_inject;
     memcpy(buf + 8, &buttons, 8);
+    if (s_inject || s_stick[0].on || s_stick[1].on) {
+        /* attributes @0x20: bit0 IsConnected. The caller (main 0x86d37c) stores attr&1 as the
+         * connected flag and ignores the buttons of a disconnected pad. */
+        buf[0x20] |= 1;
+    }
     for (int i = 0; i < 2; i++) {
         if (s_stick[i].on) {
             memcpy(buf + 0x10 + 8 * i, &s_stick[i].x, 4);
@@ -135,6 +168,8 @@ static void npad_post(ForgeCpu* cpu, const uint32_t args[4], void* user)
     h->fired++;
     h->last_out = args[0];
     h->last_r0 = cpu->r[0];
+    h->last_lr = args[4];
+    h->last_r1 = args[1];
     if (injecting()) {
         uint32_t n = h->multi ? cpu->r[0] : 1;
         if (n > NPAD_MAX_STATES) {
@@ -275,8 +310,9 @@ static void execute(char* line, char* out, size_t cap)
         }
         for (size_t i = 0; i < HOOK_COUNT && at < cap; i++) {
             if (s_hooks[i].fired) {
-                at += (size_t)snprintf(out + at, cap - at, " | %s out=%08x r0=%08x btn=%llx", s_hooks[i].name,
-                                       s_hooks[i].last_out, s_hooks[i].last_r0,
+                at += (size_t)snprintf(out + at, cap - at, " | %s out=%08x r1=%08x r0=%08x lr=%08x btn=%llx",
+                                       s_hooks[i].name, s_hooks[i].last_out, s_hooks[i].last_r1,
+                                       s_hooks[i].last_r0, s_hooks[i].last_lr,
                                        (unsigned long long)s_hooks[i].last_buttons);
             }
         }
@@ -330,6 +366,17 @@ static void serve(SOCKET c)
         }
         line[len] = 0;
         len = 0;
+
+        if (!strncmp(line, "shot", 4) && (line[4] == 0 || line[4] == ' ')) {
+            char reply[REPLY_CAP];
+            shot_command(line, reply, sizeof(reply) - 1);
+            size_t rl = strlen(reply);
+            reply[rl++] = '\n';
+            if (send(c, reply, (int)rl, 0) != (int)rl) {
+                break;
+            }
+            continue;
+        }
 
         EnterCriticalSection(&s_lock);
         strcpy(s_cmd, line);
@@ -440,6 +487,13 @@ FORGE_EXPORT void forge_onUpdate(float dt)
     LeaveCriticalSection(&s_lock);
 }
 
+FORGE_EXPORT void forge_onPresent(const ForgePresent* p)
+{
+    if (p->size >= sizeof(ForgePresent)) {
+        shot_present(p);
+    }
+}
+
 FORGE_EXPORT void forge_onUnload(void)
 {
     s_stop = 1;
@@ -459,6 +513,10 @@ FORGE_EXPORT void forge_onUnload(void)
         s_thread = NULL;
     }
     WSACleanup();
+    if (s_vk.device && s_vk.DeviceWaitIdle) {
+        s_vk.DeviceWaitIdle(s_vk.device);
+        vk_free_buf();
+    }
     DeleteCriticalSection(&s_lock);
     dlog(FORGE_LOG_INFO, "unload");
 }

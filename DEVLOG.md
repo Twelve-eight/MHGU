@@ -846,3 +846,11 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
     - 确认 FullKeyState 布局（sdk 版本对应的结构）；
     - 检查是否还有 GetNpadStates 的 detail 版或 system 版在被调用（sdk+0x244e30 等）；
     - 找出 +0x6bfc 的真实来源。
+- **2026-10-25 03:25 起实机会话（授权：用户叫停为止）**
+  - 程序：导出版 exe，PID 21032。备份沿用 `G:\backups\MHGU-export-user-20261025`。
+  - **进程内截图**：DbgPort `shot [path]` 命令。在 forge_onPresent 里把交换链图像（格式 44 = B8G8R8A8，1280×720）拷贝到 host-visible buffer，再写成 BMP。不占屏幕、不依赖焦点 [C]。
+  - **按键注入修通** [C]：
+    - 调用方 main 0x86d37c 调用 GetNpadState(FullKey) 到栈缓冲，取 `attributes(+0x20)&1` 作为是否连接，未连接时丢弃按键。
+    - 注入时把 attributes bit0 置 1 后，生效：tap 1 → 标题画面进入主菜单；tap 8000 → 光标 Continue→Options。
+    - 由此确认 0x8000 = 十字键下，A = 0x1 [C]。
+  - 上一版"写进 +8 但无效"的原因就是缺这个连接位。另外 out 0x3068f0 是调用方栈帧，不是共享内存。
