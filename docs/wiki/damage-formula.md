@@ -124,7 +124,7 @@
 | `cut` | 斩击肉质 | 0..100（%） |
 | `impact` | 打击肉质 | 0..100 |
 | `shot` | 弹肉质 | 0..100 |
-| `fire` `water` `thunder` `ice` `dragon` | 五属性肉质 | 0..100，0 = 免疫 |
+| `fire` `water` `ice` `thunder` `dragon` | 五属性肉质（**文件/db 就是 火→水→冰→雷→龙** 这个顺序） | 0..100，0 = 免疫 |
 | `ko` | 气绝（眩晕）蓄积值 | u8 |
 
 **术语**：官方文本区分物理攻击类型时用「**切断属性**」「**打击**」（例：`chS/table/skillData_chS.gmd #185`「切断属性武器的拔刀攻击能积累昏厥效果」），弓/弩等射击类对应上表的「弹」列。
@@ -141,7 +141,7 @@ em001（雌火龙）的肉质表已在该怪自己的文件里定位（**@0x8E**
 >
 > 取名规则：**按该怪自己的槽位号查名，不要用短名/长名互换**。大型怪在表里就是长名（例：i17 大名盾蟹、i19 将军镰蟹、i20 雪狮子王、i121 桃毛兽王），短名另有所指（i88 盾蟹、i89 镰蟹、i90 雪狮子、i136 桃毛兽 都是小型怪）；也有确实该用短名的（i6 白电、i7 怪鸟）。
 
-| 部位 | 斩 | 打 | 弹 | 火 | 水 | 雷 | 冰 | 龙 | 气绝 |
+| 部位 | 斩 | 打 | 弹 | 火 | 水 | 冰 | 雷 | 龙 | 气绝 |
 |---|---|---|---|---|---|---|---|---|---|
 | 头 | **90** | 80 | 70 | 0 | 15 | 15 | 20 | 35 | 100 |
 | 颈 | 40 | 40 | 40 | 0 | 10 | 10 | 15 | 20 | 0 |
@@ -151,7 +151,7 @@ em001（雌火龙）的肉质表已在该怪自己的文件里定位（**@0x8E**
 | 翼 | 25 | 20 | 25 | 0 | 10 | 10 | 15 | 20 | 0 |
 | 脚 | 44 | 40 | 45 | 0 | 5 | 5 | 10 | 10 | 0 |
 
-来源：`mhgu.db` `SELECT * FROM monster_damage WHERE monster_id=1`（第三方源，`[I]`）；与 romfs `arc/enemy/em001_00.arc :: enemy\dt_tune\em001_00_dttune` 中**该怪的**肉质表（偏移 **+0x8E**，逐怪偏移不同）逐值一致——`[B]`，本次直接读解压件 `MHGU-private/romfs-extract/dttune/em001_00/enemy/dt_tune/em001_00_dttune.48e8ac29` 的 `@0x8E..0xDD`（80 B）：Head 行 `5A 50 46 00 0F 0F 14 23 64 64`、Legs 行 `2C 28 2D 00 05 05 0A 0A 00 64`。该表同时与 `docs/mechanics/monsters.md:85` 记录的 wiki 逐值一致。
+来源：`mhgu.db` `SELECT * FROM monster_damage WHERE monster_id=1`（第三方源，`[I]`）；与 romfs `arc/enemy/em001_00.arc :: enemy\dt_tune\em001_00_dttune` 中**该怪的**肉质表（偏移 **+0x8E**，逐怪偏移不同）逐值一致——`[B]`，本次直接读解压件 `MHGU-private/romfs-extract/dttune/em001_00/enemy/dt_tune/em001_00_dttune.48e8ac29` 的 `@0x8E..0xDD`（80 B）：Head 行 `5A 50 46 00 0F 0F 14 23 64 64`、Legs 行 `2C 28 2D 00 05 05 0A 0A 00 64`。该表同时与 `docs/mechanics/monsters.md:85` 记录的 wiki 逐值一致。**列序 = 火→水→冰→雷→龙**（与 `monster_damage` 字段及 dttune 字节序一致，`0x8E` 的 Head 行第 5–8 字节就是 `0F 0F 14 23` = 冰15/雷20）。
 
 读表要点：
 
@@ -308,7 +308,7 @@ a < 0（负会心率 a）：E = 1 + a × (1 − 0.75) = 1 + 0.25a     ← 同一
 
 | 项 | 说明 | 来源 |
 |---|---|---|
-| 属性种类 | 火 / 水 / 雷 / 冰 / 龙；状态异常（毒/麻/眠/爆）共用同一字段 | `docs/mechanics/equipment.md:198` `[C]` |
+| 属性种类 | 火 / 水 / 雷 / 冰 / 龙（此处按官方文案顺序；**存储列序见 §3.1**：火→水→冰→雷→龙）；状态异常（毒/麻/眠/爆）共用同一字段 | `docs/mechanics/equipment.md:198` `[C]` |
 | 属性值 | `elemental.amount`，两位数（例：水 36、40） | `weapons.json` 例见 §2.2(c) |
 | 双属性 | 仅 56 条记录有第二属性（`element_2`） | `docs/mechanics/equipment.md` §1.1（:66）`[C]` |
 | 属性肉质 | `monster_damage` 的 5 列，0 = 免疫 | §3.1 |
