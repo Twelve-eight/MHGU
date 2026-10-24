@@ -1,19 +1,19 @@
 # ItemBoxV7
 
-**EXPERIMENTAL - this plugin has not been run yet.** It is a Forge PC 0.7 port of the item-box
-V7 pchtxt (`MHGU/patch/1.4.0.pchtxt`, 123 patch lines) to the recompiled MHGU (1.4.0) PC build.
+**EXPERIMENTAL - not run in game yet.** It is a Forge PC 0.7 port of the item-box V7 pchtxt
+(`MHGU/patch/1.4.0.pchtxt`, 123 patch lines) to the recompiled MHGU (1.4.0) PC build.
+
+Status (2026-10-24): BoxProbe ran on the real export (`words matched 123/123, block starts
+123/123, distinct B 103, missing B 0`). An offline run of this plugin against the 1.4.0 image
+and the block starts BoxProbe logged covers all 123 lines: 101 cloned groups + the getter hook,
+8 literal loads re-aimed, clones checked word by word (`.tmp/itembox-sim/`, not shipped).
 
 Read this before installing:
 
-- **Keep it in dry run for now (no `ENABLE` file).** The generic cloner cannot express the
-  capacity getter (rows 23-24, `0x198F04`/`0x198F08`): the pchtxt replaces `push {r4,lr}` and
-  `ldr r0,[pc,#0x30]` with `movw r0,#0xBB0` and `bx lr`, and the latter is a PC write, so the
-  group is refused (step 4 below) and logged. Rows 25-54 (inline capacity) and the whole layout
-  shift still install, i.e. an enabled run today would apply the 0xAD0 shift without the getter
-  that reports 2992 - an inconsistent object. The spec's answer for that site is a hand-written
-  `replace-fn` hook (`r0 = 0xBB0`, return to `lr`, spec section 2), which does not exist yet.
-- **Run [BoxProbe](../boxprobe/) first.** It resolves the same 123 sites, the same block starts
-  and the same original-word check without changing anything. Only install ItemBoxV7 if
+- **All or nothing.** If any of the 123 lines cannot be applied, every hook is switched off
+  again and the game runs unmodified (spec R3: a half-applied layout writes a save no build can
+  read). The last log line says `ACTIVE: all 123 patch lines covered` or why not.
+- **Run [BoxProbe](../boxprobe/) first** on a new exe. Only install ItemBoxV7 if
   `BoxProbe/boxprobe.txt` shows `words matched 123/123` and no missing `B`.
 - **This changes the save format to V7.** After a save is written by a game with the item-box
   expansion applied, the unpatched game can no longer read that save (2300 slots + 24 presets
@@ -36,13 +36,16 @@ therefore works on the recompiled blocks:
 3. Per group it copies `B .. last site of the group` from game memory into a freshly allocated
    guest buffer (`mem_alloc`), substitutes the V7 word at each site, and appends an absolute
    return to `last site + 4` (`ldr pc,[pc,#-4]` + address = `0xE51FF004`, spec Appendix A).
-4. A group is **not** cloned when the copied range contains an instruction whose meaning depends
-   on its own address or that leaves the copied range: `b`/`bl`/`blx` to an immediate, `ldr`/
-   `str` with `pc` as base, `adr`, `mov pc`, `ldr pc`, `pop`/`ldm`/`stm` with `pc`, `bx`/`blx`
-   register, and the same class of instruction through a register operand. That covers the rows
-   that need a hand-written hook (the capacity getter at `0x198F04`/`0x198F08` is the known
-   one: its patched `bx lr` ends the block). Such a group is logged as
-   `NOT CLONED, needs hand-written handling`, the other groups still install.
+4. Literal loads `ldr rD,[pc,#imm]` (rD != pc) in the copied range are kept: the literal is
+   read from the game and stored after the return veneer, and the load is re-aimed at it. A
+   group is **not** cloned when the range contains any other instruction whose meaning depends
+   on its own address or that leaves the range: `b`/`bl`/`blx` to an immediate, `str` or other
+   addressing with `pc` as base, `adr`, `mov pc`, `ldr pc`, `pop`/`ldm`/`stm` with `pc`,
+   `bx`/`blx` register, and the same class through a register operand. Such a group is logged
+   as `NOT CLONED, needs hand-written handling` (and then all-or-nothing applies).
+   The capacity getter (rows 23, 24, 26 at `0x198F04`) is not cloned: one pre hook sets
+   `r0 = 0xBB0` and returns `FORGE_HOOK_RETURN`, which is what the patched
+   `movw r0,#0xBB0; bx lr` does (spec section 2 `replace-fn`).
 5. Each remaining group gets one pre hook on `B` that sets `r15` to the clone and returns
    `FORGE_HOOK_JUMP`. Clones execute on the JIT (they have no recompiled block), so the cost is
    a JIT transition per entry, not the original AOT speed (spec section 4 R7).

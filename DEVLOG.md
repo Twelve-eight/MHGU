@@ -599,3 +599,12 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 - 影响：今后可以吸收 GPL 项目（SUYU-GURecomp、MH4U-port-to-MHGU 等）的代码，前提是保留其版权声明并注明出处。MIT 的旧提交在历史中仍是 MIT。
 - dsv-dev 路由迁到 `wb2api-remote/deepseek-v4.1-flash:max`（探针 ProbeDsv 实测可用）。
 - suyu 原生版：Sakiko 存档能读（用户实测）；其余（任务、保存、回 yuzu）待测。
+
+## 2026-10-24 BoxProbe 实机结果 + V7 插件可整套安装
+- 用户在原生导出上用 Lay1nn 存档实测（Lay1nn 存档能读取）：Forge PC 0.7.0 加载成功；BoxProbe `words matched 123/123, block starts 123/123, distinct B 103, missing B 0`，主模块基址 0x00653000。原始输出：`docs/patches/runs/boxprobe-20261024.txt`。
+- `forge/itembox-v7`（DsvItemboxV7 + DsvItemboxV7Review，dsv-dev wb2api-remote）复核 PASS，但提出 F1：容量 getter 不能克隆；F2：会出现半套布局。主会话修复：
+  - getter（第 23/24/26 行）改用替换函数 hook，设 r0=0xBB0 后直接返回；
+  - 字面量加载 `ldr rD,[pc,#imm]` 读出原值放进克隆后面的字面量池，并把加载重定向过去；
+  - 安装改成全有或全无：只要有一行装不上，就关掉全部 hook。
+- 离线演练 `.tmp/itembox-sim/sim.c`（伪 ForgeApi + 1.4.0 flat 镜像 + BoxProbe 记录的块起点）：101 组克隆 + getter hook 覆盖 123/123 行；8 处字面量重定向；克隆逐字核对，120 个改写字、0 错误；游戏镜像没有被写入。
+- 还没实机启用。

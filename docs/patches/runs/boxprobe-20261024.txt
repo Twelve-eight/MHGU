@@ -1,0 +1,328 @@
+[1] main base 0x00653000, size 0x2147000 (34893824 bytes)
+[1] OK: base + 0x13f1dec <= base + size
+[2] row 1 site main+0x198f44 is_block 1 word E3022406 expect E3022406 match 1
+[2] row 2 site main+0x198f48 is_block 0 word E300C8FB expect E300C8FB match 1
+[2] row 3 site main+0x198f4c is_block 0 word E30038FD expect E30038FD match 1
+[2] row 4 site main+0x198fa0 is_block 0 word E300C8FC expect E300C8FC match 1
+[2] row 5 site main+0x198fec is_block 0 word E3022408 expect E3022408 match 1
+[2] row 6 site main+0x198ffc is_block 0 word E30028FC expect E30028FC match 1
+[2] row 7 site main+0x19a4f8 is_block 0 word E30078FC expect E30078FC match 1
+[2] row 8 site main+0x19a568 is_block 0 word E30058FC expect E30058FC match 1
+[2] row 9 site main+0x3e8a10 is_block 0 word E30018FC expect E30018FC match 1
+[2] row 10 site main+0x19a548 is_block 0 word E3A02EFF expect E3A02EFF match 1
+[2] row 11 site main+0x19a5c0 is_block 0 word E3A02EFF expect E3A02EFF match 1
+[2] row 12 site main+0x19ab04 is_block 0 word E35C0018 expect E35C0018 match 1
+[2] row 13 site main+0x19ab4c is_block 0 word E3510017 expect E3510017 match 1
+[2] row 14 site main+0x19abb0 is_block 0 word E3510018 expect E3510018 match 1
+[2] row 15 site main+0x19abcc is_block 0 word E3510018 expect E3510018 match 1
+[2] row 16 site main+0x19abe8 is_block 0 word E3510017 expect E3510017 match 1
+[2] row 17 site main+0x19a8e4 is_block 0 word E30203F0 expect E30203F0 match 1
+[2] row 18 site main+0x19a8f4 is_block 0 word E30223F0 expect E30223F0 match 1
+[2] row 19 site main+0x19aa44 is_block 0 word E30223F0 expect E30223F0 match 1
+[2] row 20 site main+0x19aa90 is_block 0 word E30203F0 expect E30203F0 match 1
+[2] row 21 site main+0x19aa9c is_block 0 word E30223F0 expect E30223F0 match 1
+[2] row 22 site main+0x19aab4 is_block 0 word E30223F0 expect E30223F0 match 1
+[2] row 23 site main+0x198f04 is_block 1 word E92D4010 expect E92D4010 match 1
+[2] row 24 site main+0x198f08 is_block 0 word E59F0030 expect E59F0030 match 1
+[2] row 25 site main+0x198e74 is_block 0 word E2800FFA expect E2800FFA match 1
+[2] row 26 site main+0x198f38 is_block 0 word E2800FFA expect E2800FFA match 1
+[2] row 27 site main+0x1990bc is_block 0 word E2800FFA expect E2800FFA match 1
+[2] row 28 site main+0x199174 is_block 0 word E2800FFA expect E2800FFA match 1
+[2] row 29 site main+0x19925c is_block 0 word E2800FFA expect E2800FFA match 1
+[2] row 30 site main+0x1992d8 is_block 0 word E2800FFA expect E2800FFA match 1
+[2] row 31 site main+0x19941c is_block 0 word E2800FFA expect E2800FFA match 1
+[2] row 32 site main+0x1994f0 is_block 0 word E2800FFA expect E2800FFA match 1
+[2] row 33 site main+0x199618 is_block 0 word E2800FFA expect E2800FFA match 1
+[2] row 34 site main+0x1996a0 is_block 0 word E2800FFA expect E2800FFA match 1
+[2] row 35 site main+0x199718 is_block 0 word E2800FFA expect E2800FFA match 1
+[2] row 36 site main+0x19980c is_block 0 word E2800FFA expect E2800FFA match 1
+[2] row 37 site main+0x199900 is_block 0 word E2800FFA expect E2800FFA match 1
+[2] row 38 site main+0x199998 is_block 0 word E2800FFA expect E2800FFA match 1
+[2] row 39 site main+0x199a10 is_block 0 word E2800FFA expect E2800FFA match 1
+[2] row 40 site main+0x199ac8 is_block 0 word E2800FFA expect E2800FFA match 1
+[2] row 41 site main+0x199b68 is_block 0 word E2800FFA expect E2800FFA match 1
+[2] row 42 site main+0x199bec is_block 0 word E2800FFA expect E2800FFA match 1
+[2] row 43 site main+0x199de8 is_block 0 word E2800FFA expect E2800FFA match 1
+[2] row 44 site main+0x199e40 is_block 0 word E2800FFA expect E2800FFA match 1
+[2] row 45 site main+0x199f34 is_block 0 word E2800FFA expect E2800FFA match 1
+[2] row 46 site main+0x199f9c is_block 0 word E2800FFA expect E2800FFA match 1
+[2] row 47 site main+0x19a020 is_block 0 word E2800FFA expect E2800FFA match 1
+[2] row 48 site main+0x19a1d8 is_block 0 word E2800FFA expect E2800FFA match 1
+[2] row 49 site main+0x19a248 is_block 0 word E2800FFA expect E2800FFA match 1
+[2] row 50 site main+0x19a2c0 is_block 0 word E2800FFA expect E2800FFA match 1
+[2] row 51 site main+0x19a348 is_block 0 word E2800FFA expect E2800FFA match 1
+[2] row 52 site main+0x19a3f0 is_block 0 word E2800FFA expect E2800FFA match 1
+[2] row 53 site main+0x19a464 is_block 0 word E2800FFA expect E2800FFA match 1
+[2] row 54 site main+0x19afc0 is_block 0 word E2800FFA expect E2800FFA match 1
+[2] row 55 site main+0x199c10 is_block 0 word E302E40A expect E302E40A match 1
+[2] row 56 site main+0x199c9c is_block 0 word E302040A expect E302040A match 1
+[2] row 57 site main+0x199d84 is_block 1 word E302040A expect E302040A match 1
+[2] row 58 site main+0x199b20 is_block 0 word E302040C expect E302040C match 1
+[2] row 59 site main+0x199c00 is_block 0 word E302C40C expect E302C40C match 1
+[2] row 60 site main+0x198e88 is_block 0 word E30417E0 expect E30417E0 match 1
+[2] row 61 site main+0x199b04 is_block 1 word E30407FA expect E30407FA match 1
+[2] row 62 site main+0x198c00 is_block 0 word E30519D8 expect E30519D8 match 1
+[2] row 63 site main+0x198c98 is_block 0 word E30519D8 expect E30519D8 match 1
+[2] row 64 site main+0x199eec is_block 1 word E30509F2 expect E30509F2 match 1
+[2] row 65 site main+0x199f54 is_block 1 word E30509F2 expect E30509F2 match 1
+[2] row 66 site main+0x199fbc is_block 1 word E30509F2 expect E30509F2 match 1
+[2] row 67 site main+0x19a11c is_block 0 word E30519F2 expect E30519F2 match 1
+[2] row 68 site main+0x19a1f8 is_block 1 word E30509F2 expect E30509F2 match 1
+[2] row 69 site main+0x19a268 is_block 1 word E30509F2 expect E30509F2 match 1
+[2] row 70 site main+0x19a2e0 is_block 1 word E30509F2 expect E30509F2 match 1
+[2] row 71 site main+0x19a368 is_block 1 word E30509F2 expect E30509F2 match 1
+[2] row 72 site main+0x19a414 is_block 1 word E30509F2 expect E30509F2 match 1
+[2] row 73 site main+0x19a4e0 is_block 0 word E30519F2 expect E30519F2 match 1
+[2] row 74 site main+0x716a28 is_block 0 word E30529F2 expect E30529F2 match 1
+[2] row 75 site main+0x717388 is_block 0 word E30529F2 expect E30529F2 match 1
+[2] row 76 site main+0x71bf8c is_block 0 word E30539F2 expect E30539F2 match 1
+[2] row 77 site main+0x71c694 is_block 0 word E30539F2 expect E30539F2 match 1
+[2] row 78 site main+0x19a8fc is_block 0 word E30612D6 expect E30612D6 match 1
+[2] row 79 site main+0x198be8 is_block 0 word E30612F0 expect E30612F0 match 1
+[2] row 80 site main+0x198c80 is_block 0 word E30612F0 expect E30612F0 match 1
+[2] row 81 site main+0x198ce4 is_block 0 word E30602F0 expect E30602F0 match 1
+[2] row 82 site main+0x198d40 is_block 0 word E30602F0 expect E30602F0 match 1
+[2] row 83 site main+0x19a8ec is_block 1 word E30612F0 expect E30612F0 match 1
+[2] row 84 site main+0x19aa98 is_block 1 word E30612F0 expect E30612F0 match 1
+[2] row 85 site main+0x19aab0 is_block 1 word E30612F0 expect E30612F0 match 1
+[2] row 86 site main+0x19aacc is_block 0 word E30602F0 expect E30602F0 match 1
+[2] row 87 site main+0x19a544 is_block 1 word E30602F4 expect E30602F4 match 1
+[2] row 88 site main+0x19a5bc is_block 1 word E30602F4 expect E30602F4 match 1
+[2] row 89 site main+0x19a6d4 is_block 0 word E30602F4 expect E30602F4 match 1
+[2] row 90 site main+0x19a87c is_block 0 word E30602F4 expect E30602F4 match 1
+[2] row 91 site main+0x19ab7c is_block 0 word E30602F4 expect E30602F4 match 1
+[2] row 92 site main+0x19abac is_block 0 word E30632F4 expect E30632F4 match 1
+[2] row 93 site main+0x19abc8 is_block 0 word E30632F4 expect E30632F4 match 1
+[2] row 94 site main+0x19b19c is_block 0 word E30602F4 expect E30602F4 match 1
+[2] row 95 site main+0x19b218 is_block 0 word E30602F4 expect E30602F4 match 1
+[2] row 96 site main+0x19b270 is_block 0 word E30602F4 expect E30602F4 match 1
+[2] row 97 site main+0x19b370 is_block 0 word E30612F4 expect E30612F4 match 1
+[2] row 98 site main+0x198e98 is_block 0 word E306031D expect E306031D match 1
+[2] row 99 site main+0x19a780 is_block 0 word E306031D expect E306031D match 1
+[2] row 100 site main+0x19a890 is_block 1 word E306031D expect E306031D match 1
+[2] row 101 site main+0x19b2cc is_block 0 word E306231D expect E306231D match 1
+[2] row 102 site main+0x19b31c is_block 0 word E306231D expect E306231D match 1
+[2] row 103 site main+0x19abfc is_block 0 word E306931E expect E306931E match 1
+[2] row 104 site main+0x19b098 is_block 0 word E306931E expect E306931E match 1
+[2] row 105 site main+0x19b22c is_block 1 word E306131E expect E306131E match 1
+[2] row 106 site main+0x19b284 is_block 1 word E306131E expect E306131E match 1
+[2] row 107 site main+0x19b2dc is_block 0 word E306231E expect E306231E match 1
+[2] row 108 site main+0x19b32c is_block 0 word E306231E expect E306231E match 1
+[2] row 109 site main+0x19a650 is_block 0 word E3060320 expect E3060320 match 1
+[2] row 110 site main+0x19a810 is_block 0 word E3061320 expect E3061320 match 1
+[2] row 111 site main+0x19aaec is_block 1 word E3061320 expect E3061320 match 1
+[2] row 112 site main+0x19ae8c is_block 1 word E3060320 expect E3060320 match 1
+[2] row 113 site main+0x19b128 is_block 0 word E3061320 expect E3061320 match 1
+[2] row 114 site main+0x198bd4 is_block 0 word E30712E4 expect E30712E4 match 1
+[2] row 115 site main+0x19b478 is_block 0 word E30732E4 expect E30732E4 match 1
+[2] row 116 site main+0x3d925c is_block 0 word E30702E4 expect E30702E4 match 1
+[2] row 117 site main+0x5b807c is_block 1 word E302240A expect E302240A match 1
+[2] row 118 site main+0x5b8084 is_block 0 word E30539F2 expect E30539F2 match 1
+[2] row 119 site main+0x19ac08 is_block 0 word E3060322 expect E3060322 match 1
+[2] row 120 site main+0x19a800 is_block 0 word E3510017 expect E3510017 match 1
+[2] row 121 site main+0x19a84c is_block 1 word E3510017 expect E3510017 match 1
+[2] row 122 site main+0x19b11c is_block 0 word E3540017 expect E3540017 match 1
+[2] row 123 site main+0x19b360 is_block 1 word E3510017 expect E3510017 match 1
+[2] words matched 123/123
+[3] row 2: B main+0x198f44, site-B 0x4
+[3] row 3: B main+0x198f44, site-B 0x8
+[3] row 4: B main+0x198f90, site-B 0x10
+[3] row 5: B main+0x198fe8, site-B 0x4
+[3] row 6: B main+0x198fe8, site-B 0x14
+[3] row 7: B main+0x19a4ec, site-B 0xc
+[3] row 8: B main+0x19a55c, site-B 0xc
+[3] row 9: B main+0x3e8a08, site-B 0x8
+[3] row 10: B main+0x19a544, site-B 0x4
+[3] row 11: B main+0x19a5bc, site-B 0x4
+[3] row 12: B main+0x19aafc, site-B 0x8
+[3] row 13: B main+0x19ab48, site-B 0x4
+[3] row 14: B main+0x19aba8, site-B 0x8
+[3] row 15: B main+0x19abc4, site-B 0x8
+[3] row 16: B main+0x19abe0, site-B 0x8
+[3] row 17: B main+0x19a8d8, site-B 0xc
+[3] row 18: B main+0x19a8ec, site-B 0x8
+[3] row 19: B main+0x19aa40, site-B 0x4
+[3] row 20: B main+0x19aa88, site-B 0x8
+[3] row 21: B main+0x19aa98, site-B 0x4
+[3] row 22: B main+0x19aab0, site-B 0x4
+[3] row 24: B main+0x198f04, site-B 0x4
+[3] row 25: B main+0x198e54, site-B 0x20
+[3] row 26: B main+0x198f1c, site-B 0x1c
+[3] row 27: B main+0x1990a0, site-B 0x1c
+[3] row 28: B main+0x199158, site-B 0x1c
+[3] row 29: B main+0x199240, site-B 0x1c
+[3] row 30: B main+0x1992bc, site-B 0x1c
+[3] row 31: B main+0x199400, site-B 0x1c
+[3] row 32: B main+0x1994d4, site-B 0x1c
+[3] row 33: B main+0x199600, site-B 0x18
+[3] row 34: B main+0x199684, site-B 0x1c
+[3] row 35: B main+0x1996f4, site-B 0x24
+[3] row 36: B main+0x1997e8, site-B 0x24
+[3] row 37: B main+0x1998e0, site-B 0x20
+[3] row 38: B main+0x199980, site-B 0x18
+[3] row 39: B main+0x199a04, site-B 0xc
+[3] row 40: B main+0x199aac, site-B 0x1c
+[3] row 41: B main+0x199b4c, site-B 0x1c
+[3] row 42: B main+0x199bd0, site-B 0x1c
+[3] row 43: B main+0x199dd0, site-B 0x18
+[3] row 44: B main+0x199e24, site-B 0x1c
+[3] row 45: B main+0x199f1c, site-B 0x18
+[3] row 46: B main+0x199f84, site-B 0x18
+[3] row 47: B main+0x19a004, site-B 0x1c
+[3] row 48: B main+0x19a1b8, site-B 0x20
+[3] row 49: B main+0x19a230, site-B 0x18
+[3] row 50: B main+0x19a2a8, site-B 0x18
+[3] row 51: B main+0x19a330, site-B 0x18
+[3] row 52: B main+0x19a3d4, site-B 0x1c
+[3] row 53: B main+0x19a44c, site-B 0x18
+[3] row 54: B main+0x19af98, site-B 0x28
+[3] row 55: B main+0x199bf8, site-B 0x18
+[3] row 56: B main+0x199c98, site-B 0x4
+[3] row 58: B main+0x199b04, site-B 0x1c
+[3] row 59: B main+0x199bf8, site-B 0x8
+[3] row 60: B main+0x198e84, site-B 0x4
+[3] row 62: B main+0x198be4, site-B 0x1c
+[3] row 63: B main+0x198c7c, site-B 0x1c
+[3] row 67: B main+0x19a118, site-B 0x4
+[3] row 73: B main+0x19a4dc, site-B 0x4
+[3] row 74: B main+0x716a24, site-B 0x4
+[3] row 75: B main+0x717368, site-B 0x20
+[3] row 76: B main+0x71bf6c, site-B 0x20
+[3] row 77: B main+0x71c674, site-B 0x20
+[3] row 78: B main+0x19a8ec, site-B 0x10
+[3] row 79: B main+0x198be4, site-B 0x4
+[3] row 80: B main+0x198c7c, site-B 0x4
+[3] row 81: B main+0x198cc8, site-B 0x1c
+[3] row 82: B main+0x198d24, site-B 0x1c
+[3] row 86: B main+0x19aac4, site-B 0x8
+[3] row 89: B main+0x19a69c, site-B 0x38
+[3] row 90: B main+0x19a878, site-B 0x4
+[3] row 91: B main+0x19ab78, site-B 0x4
+[3] row 92: B main+0x19aba8, site-B 0x4
+[3] row 93: B main+0x19abc4, site-B 0x4
+[3] row 94: B main+0x19b198, site-B 0x4
+[3] row 95: B main+0x19b1f4, site-B 0x24
+[3] row 96: B main+0x19b260, site-B 0x10
+[3] row 97: B main+0x19b368, site-B 0x8
+[3] row 98: B main+0x198e94, site-B 0x4
+[3] row 99: B main+0x19a77c, site-B 0x4
+[3] row 101: B main+0x19b2c8, site-B 0x4
+[3] row 102: B main+0x19b318, site-B 0x4
+[3] row 103: B main+0x19abf0, site-B 0xc
+[3] row 104: B main+0x19b090, site-B 0x8
+[3] row 107: B main+0x19b2c8, site-B 0x14
+[3] row 108: B main+0x19b318, site-B 0x14
+[3] row 109: B main+0x19a64c, site-B 0x4
+[3] row 110: B main+0x19a808, site-B 0x8
+[3] row 113: B main+0x19b124, site-B 0x4
+[3] row 114: B main+0x198bc4, site-B 0x10
+[3] row 115: B main+0x19b430, site-B 0x48
+[3] row 116: B main+0x3d9258, site-B 0x4
+[3] row 118: B main+0x5b807c, site-B 0x8
+[3] row 119: B main+0x19abf0, site-B 0x18
+[3] row 120: B main+0x19a7f8, site-B 0x8
+[3] row 122: B main+0x19b110, site-B 0xc
+[4] B main+0x198f44: rows 1 2 3
+[4] B main+0x198f90: rows 4
+[4] B main+0x198fe8: rows 5 6
+[4] B main+0x19a4ec: rows 7
+[4] B main+0x19a55c: rows 8
+[4] B main+0x3e8a08: rows 9
+[4] B main+0x19a544: rows 10 87
+[4] B main+0x19a5bc: rows 11 88
+[4] B main+0x19aafc: rows 12
+[4] B main+0x19ab48: rows 13
+[4] B main+0x19aba8: rows 14 92
+[4] B main+0x19abc4: rows 15 93
+[4] B main+0x19abe0: rows 16
+[4] B main+0x19a8d8: rows 17
+[4] B main+0x19a8ec: rows 18 78 83
+[4] B main+0x19aa40: rows 19
+[4] B main+0x19aa88: rows 20
+[4] B main+0x19aa98: rows 21 84
+[4] B main+0x19aab0: rows 22 85
+[4] B main+0x198f04: rows 23 24
+[4] B main+0x198e54: rows 25
+[4] B main+0x198f1c: rows 26
+[4] B main+0x1990a0: rows 27
+[4] B main+0x199158: rows 28
+[4] B main+0x199240: rows 29
+[4] B main+0x1992bc: rows 30
+[4] B main+0x199400: rows 31
+[4] B main+0x1994d4: rows 32
+[4] B main+0x199600: rows 33
+[4] B main+0x199684: rows 34
+[4] B main+0x1996f4: rows 35
+[4] B main+0x1997e8: rows 36
+[4] B main+0x1998e0: rows 37
+[4] B main+0x199980: rows 38
+[4] B main+0x199a04: rows 39
+[4] B main+0x199aac: rows 40
+[4] B main+0x199b4c: rows 41
+[4] B main+0x199bd0: rows 42
+[4] B main+0x199dd0: rows 43
+[4] B main+0x199e24: rows 44
+[4] B main+0x199f1c: rows 45
+[4] B main+0x199f84: rows 46
+[4] B main+0x19a004: rows 47
+[4] B main+0x19a1b8: rows 48
+[4] B main+0x19a230: rows 49
+[4] B main+0x19a2a8: rows 50
+[4] B main+0x19a330: rows 51
+[4] B main+0x19a3d4: rows 52
+[4] B main+0x19a44c: rows 53
+[4] B main+0x19af98: rows 54
+[4] B main+0x199bf8: rows 55 59
+[4] B main+0x199c98: rows 56
+[4] B main+0x199d84: rows 57
+[4] B main+0x199b04: rows 58 61
+[4] B main+0x198e84: rows 60
+[4] B main+0x198be4: rows 62 79
+[4] B main+0x198c7c: rows 63 80
+[4] B main+0x199eec: rows 64
+[4] B main+0x199f54: rows 65
+[4] B main+0x199fbc: rows 66
+[4] B main+0x19a118: rows 67
+[4] B main+0x19a1f8: rows 68
+[4] B main+0x19a268: rows 69
+[4] B main+0x19a2e0: rows 70
+[4] B main+0x19a368: rows 71
+[4] B main+0x19a414: rows 72
+[4] B main+0x19a4dc: rows 73
+[4] B main+0x716a24: rows 74
+[4] B main+0x717368: rows 75
+[4] B main+0x71bf6c: rows 76
+[4] B main+0x71c674: rows 77
+[4] B main+0x198cc8: rows 81
+[4] B main+0x198d24: rows 82
+[4] B main+0x19aac4: rows 86
+[4] B main+0x19a69c: rows 89
+[4] B main+0x19a878: rows 90
+[4] B main+0x19ab78: rows 91
+[4] B main+0x19b198: rows 94
+[4] B main+0x19b1f4: rows 95
+[4] B main+0x19b260: rows 96
+[4] B main+0x19b368: rows 97
+[4] B main+0x198e94: rows 98
+[4] B main+0x19a77c: rows 99
+[4] B main+0x19a890: rows 100
+[4] B main+0x19b2c8: rows 101 107
+[4] B main+0x19b318: rows 102 108
+[4] B main+0x19abf0: rows 103 119
+[4] B main+0x19b090: rows 104
+[4] B main+0x19b22c: rows 105
+[4] B main+0x19b284: rows 106
+[4] B main+0x19a64c: rows 109
+[4] B main+0x19a808: rows 110
+[4] B main+0x19aaec: rows 111
+[4] B main+0x19ae8c: rows 112
+[4] B main+0x19b124: rows 113
+[4] B main+0x198bc4: rows 114
+[4] B main+0x19b430: rows 115
+[4] B main+0x3d9258: rows 116
+[4] B main+0x5b807c: rows 117 118
+[4] B main+0x19a7f8: rows 120
+[4] B main+0x19a84c: rows 121
+[4] B main+0x19b110: rows 122
+[4] B main+0x19b360: rows 123
+[5] summary: words matched 123/123, block starts 123/123, distinct B 103, missing B 0

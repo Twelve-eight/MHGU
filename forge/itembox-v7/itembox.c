@@ -50,6 +50,7 @@ FORGE_PLUGIN_DEFINE_API
 #define WALK_LIMIT 0x400u       /* how far back a block start is searched (spec 5, step 3) */
 #define LINE_MAX 2048
 #define WORDS_MAX (WALK_LIMIT / 4u + 3u) /* 257 copied words + the 2-word return veneer */
+#define POOL_MAX (WALK_LIMIT / 4u + 1u)  /* at most one literal per copied word */
 #define LDR_PC_M4 0xE51FF004u            /* ldr pc,[pc,#-4]: pc = here+8, so -4 = next word */
 
 static FILE* s_report;
@@ -59,12 +60,16 @@ typedef struct IboxGroup {
     uint32_t block;        /* absolute guest address of B, the hooked block start */
     uint32_t clone;        /* absolute guest address of the cloned words */
     volatile uint32_t hit; /* first-hit logging flag, written from the game threads */
+    ForgeHook* hook;       /* kept so a failed install can switch every hook off again */
 } IboxGroup;
+
+static ForgeHook* s_getter_hook;
 
 static uint32_t s_base;                       /* absolute address of module "main" */
 static uint32_t s_block[IBOX_SITE_COUNT];     /* B of every site, 0 = none found */
 static uint32_t s_order[IBOX_SITE_COUNT];     /* site indices sorted by (B, vaddr) */
-static uint32_t s_words[WORDS_MAX];           /* copy of B..last site + veneer */
+static uint32_t s_words[WORDS_MAX + POOL_MAX]; /* copy of B..last site + veneer + literal pool */
+static uint32_t s_pool[POOL_MAX];             /* literals of the re-aimed loads */
 static IboxGroup s_group[IBOX_SITE_COUNT];    /* installed groups, in install order */
 static uint32_t s_group_count;
 static uint32_t s_skip_hazard;
@@ -309,6 +314,30 @@ static ForgeHookAction ibox_pre(ForgeCpu* cpu, void* user)
     return FORGE_HOOK_JUMP;
 }
 
+/* Rows 23, 24 and 26 (spec section 2): the capacity getter at main+0x198F04. V7 turns its
+ * first two words into `movw r0,#0xBB0; bx lr`, so the function returns 2992 at once and its
+ * epilogue (row 26) never runs. A clone cannot express the `bx lr`; a pre hook that sets the
+ * return value and returns FORGE_HOOK_RETURN does exactly the same (forge_pc.h:136-139). */
+#define GETTER_VADDR 0x198F04u
+#define GETTER_VALUE 0xBB0u
+static volatile int s_getter_hit;
+
+static bool is_getter_row(uint32_t row)
+{
+    return row == 23u || row == 24u || row == 26u;
+}
+
+static ForgeHookAction getter_pre(ForgeCpu* cpu, void* user)
+{
+    (void)user;
+    cpu->r[0] = GETTER_VALUE;
+    if (s_getter_hit == 0) {
+        s_getter_hit = 1;
+        forge_api->log(FORGE_LOG_INFO, PLUGIN, "first hit: capacity getter -> 0xBB0");
+    }
+    return FORGE_HOOK_RETURN;
+}
+
 static bool site_less(uint32_t a, uint32_t b)
 {
     if (s_block[a] != s_block[b]) {
@@ -331,6 +360,7 @@ static bool process_group(uint32_t block, uint32_t first, uint32_t count, bool e
     uint32_t k;
     const char* hazard = NULL;
     uint32_t hazard_at = 0;
+    uint32_t npool;
     ForgeHook* hook;
 
     row_list(rows, sizeof(rows), first, count);
@@ -366,9 +396,40 @@ static bool process_group(uint32_t block, uint32_t first, uint32_t count, bool e
         }
         s_words[index] = site->patched_word;
     }
+    /* Literal loads `ldr rD,[pc,#+-imm]` (rD != pc) are the one pc-relative form the clone can
+     * keep: the literal is read from the live game now and placed in a pool after the return
+     * veneer, and the load is re-aimed at that pool. 5 of the 101 groups need this (offline run
+     * against the BoxProbe result, 2026-10-24). Everything else pc-relative is still refused. */
+    npool = 0;
+    for (k = 0; k < nwords; k++) {
+        const uint32_t w = s_words[k];
+
+        if ((w & 0x0F7F0000u) == 0x051F0000u && ((w >> 12) & 0xFu) != 0xFu && (w >> 28) != 0xFu) {
+            const uint32_t imm = w & 0xFFFu;
+            const uint32_t at = block + k * 4u + 8u;
+            const uint32_t lit = (w & 0x00800000u) ? at + imm : at - imm;
+            uint32_t off;
+
+            if (!forge_api->mem_read(lit, &s_pool[npool], 4u)) {
+                s_skip_memory++;
+                out(FORGE_LOG_ERROR, "[4] B main+%#x rows %s: literal at %#010x unreadable, "
+                    "skipped", b_off, rows, lit);
+                return false;
+            }
+            /* pool word npool sits at clone + (nwords + 2 + npool) * 4; pc reads as here + 8 */
+            off = (nwords + 2u + npool) * 4u - (k * 4u + 8u);
+            s_words[k] = (w & 0xFF70F000u) | 0x00800000u | 0x000F0000u | off; /* U=1, Rn=pc */
+            npool++;
+        }
+    }
     /* One straight run of address-independent instructions is required. */
     for (k = 0; k < nwords; k++) {
-        hazard = pc_hazard(s_words[k]);
+        const uint32_t w = s_words[k];
+
+        if ((w & 0x0F7F0000u) == 0x051F0000u && ((w >> 12) & 0xFu) != 0xFu && (w >> 28) != 0xFu) {
+            continue; /* re-aimed literal load from above (rD = pc stays a hazard) */
+        }
+        hazard = pc_hazard(w);
         if (hazard != NULL) {
             hazard_at = k;
             break;
@@ -378,11 +439,6 @@ static bool process_group(uint32_t block, uint32_t first, uint32_t count, bool e
         s_skip_hazard++;
         out(FORGE_LOG_WARN, "[4] B main+%#x rows %s: NOT CLONED, needs hand-written handling: "
             "main+%#x is %s", b_off, rows, b_off + hazard_at * 4u, hazard);
-        if (rows_include(first, count, 23u) || rows_include(first, count, 24u)) {
-            out(FORGE_LOG_WARN, "[4] B main+%#x: rows 23-24 are the capacity getter; spec "
-                "section 2 wants a replace-fn hook here (r0 = 0xBB0, return to lr), which a "
-                "clone cannot express", b_off);
-        }
         return false;
     }
     if (!enable) {
@@ -394,7 +450,7 @@ static bool process_group(uint32_t block, uint32_t first, uint32_t count, bool e
      * `call`: "code a plugin loaded into mem_alloc memory ... runs on the JIT"). A fresh buffer
      * per group, never reused: the JIT caches a translation per guest address (spec R11), so
      * different bytes at the same address would run stale code. */
-    bytes = (nwords + 2u) * 4u;
+    bytes = (nwords + 2u + npool) * 4u;
     clone = forge_api->mem_alloc(bytes, 16u);
     if (clone == 0) {
         s_skip_memory++;
@@ -404,6 +460,9 @@ static bool process_group(uint32_t block, uint32_t first, uint32_t count, bool e
     }
     s_words[nwords] = LDR_PC_M4;                   /* ldr pc,[pc,#-4] */
     s_words[nwords + 1u] = s_base + last + 4u;     /* -> the instruction after the last site */
+    for (k = 0; k < npool; k++) {
+        s_words[nwords + 2u + k] = s_pool[k];      /* literals, never executed */
+    }
     if (!forge_api->mem_write(clone, s_words, bytes)) {
         /* Deliberately not mem_free'd: the page must never come back with other bytes (R11). */
         s_skip_memory++;
@@ -424,6 +483,7 @@ static bool process_group(uint32_t block, uint32_t first, uint32_t count, bool e
     /* A created hook is active already; the explicit enable keeps the intent readable and
      * covers a loader that hands out disabled hooks. */
     forge_api->hook_enable(hook, true);
+    g->hook = hook;
     s_group_count++;
     out(FORGE_LOG_INFO, "[5] B main+%#x rows %s: installed, %u words cloned at %#010x, returns "
         "to main+%#x", b_off, rows, nwords, clone, last + 4u);
@@ -442,6 +502,7 @@ static void install(void)
     uint32_t groups = 0;
     uint32_t installed = 0;
     uint32_t covered = 0;
+    uint32_t getter_rows = 0;
     size_t i;
 
     s_group_count = 0;
@@ -548,7 +609,8 @@ static void install(void)
         s_order[j] = key;
     }
 
-    /* Step 5: clone and hook one group per distinct B. */
+    /* Step 5: clone and hook one group per distinct B. The getter rows (23, 24, 26) are not
+     * cloned: one replace-fn hook at the getter entry covers all three (spec section 2). */
     i = 0;
     while (i < IBOX_SITE_COUNT && s_block[s_order[i]] == 0) {
         i++; /* no B: reported in step 3 */
@@ -557,29 +619,70 @@ static void install(void)
         const uint32_t block = s_block[s_order[i]];
         const uint32_t first = (uint32_t)i;
         size_t j = i;
+        bool getter = true;
+        size_t k;
 
         while (j < IBOX_SITE_COUNT && s_block[s_order[j]] == block) {
             j++;
         }
-        groups++;
-        if (process_group(block, first, (uint32_t)(j - i), enable)) {
-            installed++;
-            covered += (uint32_t)(j - i);
+        for (k = i; k < j; k++) {
+            getter = getter && is_getter_row(kIboxSites[s_order[k]].row);
+        }
+        if (getter) {
+            covered += (uint32_t)(j - i); /* withdrawn below if the getter hook fails */
+            getter_rows += (uint32_t)(j - i);
+            out(FORGE_LOG_INFO, "[4] B main+%#x: getter rows, handled by the replace-fn hook",
+                block - base);
+        } else {
+            groups++;
+            if (process_group(block, first, (uint32_t)(j - i), enable)) {
+                installed++;
+                covered += (uint32_t)(j - i);
+            }
         }
         i = j;
     }
+    if (getter_rows != 3u) {
+        out(FORGE_LOG_ERROR, "[5] getter rows found %u/3 (rows 23, 24, 26 must each have a B)",
+            getter_rows);
+        covered -= getter_rows;
+    } else if (enable) {
+        s_getter_hook = forge_api->hook_create(base + GETTER_VADDR, getter_pre, NULL, NULL);
+        if (s_getter_hook == NULL) {
+            out(FORGE_LOG_ERROR, "[5] getter main+%#x: hook_create refused", GETTER_VADDR);
+            covered -= getter_rows;
+        } else {
+            forge_api->hook_enable(s_getter_hook, true);
+            out(FORGE_LOG_INFO, "[5] getter main+%#x: installed, returns 0xBB0", GETTER_VADDR);
+        }
+    } else {
+        out(FORGE_LOG_INFO, "[5] getter main+%#x: would install (dry run)", GETTER_VADDR);
+    }
 
     out(FORGE_LOG_INFO, "[6] summary: %s; words %u/%u; sites with a B %u/%u; groups %u, "
-        "installed %u (%u sites), skipped %u; sites left unpatched %u",
+        "installed %u (%u sites incl. getter), skipped %u; sites left unpatched %u",
         enable ? "install" : "dry run", verified, (unsigned)IBOX_SITE_COUNT,
         (unsigned)IBOX_SITE_COUNT - no_block, (unsigned)IBOX_SITE_COUNT, groups, installed,
         covered, groups - installed, (unsigned)IBOX_SITE_COUNT - covered);
     out(FORGE_LOG_INFO, "[6] skips: %u pc-hazard/not-one-block, %u memory, %u hook, %u internal",
         s_skip_hazard, s_skip_memory, s_skip_hook, s_skip_internal);
     if (covered != (uint32_t)IBOX_SITE_COUNT) {
-        out(FORGE_LOG_WARN, "[6] %u of %u patch lines are not applied: the remaining groups "
-            "need a hand-written hook (see the [4]/[5] lines above)",
-            (unsigned)IBOX_SITE_COUNT - covered, (unsigned)IBOX_SITE_COUNT);
+        /* All or nothing (spec R3): a half-applied layout writes a save no build can read. */
+        uint32_t g;
+
+        for (g = 0; g < s_group_count; g++) {
+            forge_api->hook_enable(s_group[g].hook, false);
+        }
+        if (s_getter_hook != NULL) {
+            forge_api->hook_enable(s_getter_hook, false);
+        }
+        out(FORGE_LOG_ERROR, "[6] %u of %u patch lines cannot be applied: %s (see the [4]/[5] "
+            "lines above); the game runs unmodified",
+            (unsigned)IBOX_SITE_COUNT - covered, (unsigned)IBOX_SITE_COUNT,
+            enable ? "ALL hooks switched off again" : "an install would be refused");
+    } else {
+        out(FORGE_LOG_INFO, "[6] %s: all %u patch lines covered", enable ? "ACTIVE" : "dry run OK",
+            (unsigned)IBOX_SITE_COUNT);
     }
 }
 
