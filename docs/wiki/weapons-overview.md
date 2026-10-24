@@ -67,6 +67,8 @@
 | `defense` | int | 武器自带防御加成（0–60） | 同上 |
 | `sharpness` | str×3 | 红.橙.黄.绿.蓝.白.紫 七色；三段 = 基础 / 匠+1 / 匠+2；仅近战有 | `docs/mechanics/equipment.md` §1.5（`[C]`） |
 
+斩味的数值来源见 `damage-formula.md` §4.2：各等级的斩味段是 romfs `kireajiData.kad` 的某一行按上限截断的结果，匠+1 / 匠+2 分别再加 20 / 50 点（即 2 / 5 格），上限 450 点 `[C via db+mirror]`。
+
 ### 2.2 三个必须知道的陷阱
 
 1. **`rarity` 不是稀有度**。抽检 5 类（大剑 136 家族 / 大锤 131 / 弓 107 / 盾斧 79 / 双剑 124）**没有一个是族内 `rarity` 变化的**（同一 `familyId` 的多个等级 rarity 全同）；家族 257（化石大剑）11 级全部 `rarity=1`，可它的末级攻击是 320。⇒ 该字段只能当「家族档」，当不了武器档，也不能当 rank（`[I]`，复核 jq：`[.[]|{f:.familyId,r:.rarity}]|group_by(.f)|map(select((map(.r)|unique|length)>1))|length` 返回 0）。
