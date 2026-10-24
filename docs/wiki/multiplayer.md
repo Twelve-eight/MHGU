@@ -15,8 +15,8 @@
 
 | 池 | 条数 | 能否联机 | 出处 |
 |---|---|---|---|
-| 村（Village） | 375 | **单人专属**（集会所任务板不列） | `mhgu.db.quests.hub='Village'` `[C]` |
-| 集会所（Guild） | 569 | 联机池（★1–★7 上位 + G★1–G★4） | 同上 `hub='Guild'` `[C]` |
+| 村（Village） | 375 | **单人专属**（集会所任务板不列） `[I]` | 条数：`mhgu.db.quests.hub='Village'` `[C]` |
+| 集会所（Guild） | 569 | 联机池（★1–★3 下位 + ★4–★7 上位 + G★1–G★4） | 同上 `hub='Guild'` `[C]` |
 | 特殊许可（Permit，二名） | 228 | 集会所侧，可联机 | 同上 `hub='Permit'` `[C]` |
 | 斗技大会（Arena） | 17 | 斗技场规则，独立装备套 | 同上 `hub='Arena'` `[C]` |
 | 配信（Event） | 166 | DLC 任务 | 同上 `hub='Event'` `[C]` |
@@ -35,17 +35,19 @@
 任务体力倍率 由 任务记录的 HealthTbl 表号 索引（不是写死的百分比）
 ```
 
-- `base_hp`：`mhgu.db` `monsters.base_hp`（93 只大型全覆盖，`docs/mechanics/monsters.md` §2，`[I]` 第三方 MHGenDatabase 源）。例：鬼蛙 3200、轰龙 5000、骸龙 14000、老山龙 25000。
-- `HealthTbl`：任务记录 `Monsters[5]` 数组里每个目标怪 13 B 记录的一个字节（`questData_<7位id>.ext`，记录偏移 `0x05C` 起，每条 `{Id:u16, SubType, AuraType, Restore, HealthTbl, AtkTbl, OtherTbl, Difficulty, Size:u16, SizeTbl, StaminaTbl}`，`docs/data/romfs-tables.md` §2，`[C]` 布局）。
+- `base_hp`：每只怪自己的 romfs 资源里有——`romfs/nativeNX/arc/enemy/emNNN_00.arc` 内 `enemy\dt_tune\emNNN_00_dttune` 成员的 **`+0x38` u32**（`docs/reference/formats/dttune.md`，已对 em001/em002/em013 逐字节核对 = `mhgu.db monsters.base_hp`，`[C]`）。db 同字段可作查表入口（93 只大型，`docs/mechanics/monsters.md` §2，`[I]`）。例：鬼蛙 4000、轰龙 5000、骸龙 14000、老山龙 25000。
+- `HealthTbl`：任务记录的 `Monsters[5]` 数组（数组基址 = 记录偏移 `0x05C`，每条 13 B，第 n 条在 `0x05C+13n`）里每个目标怪的一个字节——**`HealthTbl` 字节本身在记录 `0x061`（即 `0x05C+5`），第 n 条在 `0x061+13n`**（`questData_<7位id>.ext`；13 B 记录 = `{Id:u16, SubType, AuraType, Restore, HealthTbl, AtkTbl, OtherTbl, Difficulty, Size:u16, SizeTbl, StaminaTbl}`，`docs/data/romfs-tables.md` §2，`[C]` 布局）。
 
 **直接读到的一对样本**（`[B]`，同一只怪鬼蛙 id `0x42`）：
 
 | 任务 | 文件 | EnemyLevel | HealthTbl | Difficulty |
 |---|---|---|---|---|
-| 村★3「Tusked Tantrum」（制服鬼面猎人） | `questData_0000303.ext` | 0（村） | **12** | 1 |
+| 村★3「Tusked Tantrum」（制服鬼面猎人） | `questData_0000303.ext` | 0（村下位） | **12** | 1 |
 | 集会所★1「Tackling the Tetsucabra」（鬼蛙的狩猎） | `questData_0010107.ext` | 1（下位） | **17** | 2 |
 
 ⇒ 「集会所比村血厚」在数据层的实现方式是：**村任务和集会所任务发不同的 `HealthTbl` 表号**。血量倍率是**按任务固定**的——同一个 `HealthTbl` 下，1 人进任务和 4 人进任务读到的是**同一个表号** `[B]` + `[I]`（任务记录里不存在按人数的字段，全 361 B 布局已闭合，见下）。
+
+> `EnemyLevel` 的取值按 `romfs-tables.md` §2 枚举为 1 下位 / 3 上位 / 5 G 级；实测村任务还会出现 0（村下位），村★10 任务读出过 3 `[B]`。
 
 ### 2.2 「联机怪会变厚吗」——能回答与不能回答的
 
@@ -79,12 +81,12 @@
 
 | 玩家问题 | 现状 | 数据在哪 |
 |---|---|---|
-| 联机怪血是不是 ×N？ | `[U]` | ① 任务侧只给 `HealthTbl` 表号；② 倍率表本体是以 **CRC32 为键的资源**（`docs/analysis/monsters/mon-ai-entry.md` §4.4），运行期字段名 `mVitalTblNo_N` @`0x1562a79` 起；③ 资源读入函数 `rEnemyDataTable` @`0x52874`、`rEnemyDtBase` @`0x53ea0`（main 1.4.0 代码地址）；④ 表实体在 `romfs/arc/enemy/emNNN_00.arc` 的 `.edt`/`.dtb`/`.dtt` 成员里（`docs/analysis/monsters/mon-size-calc.md` 资源类名表） |
+| 联机怪血是不是 ×N？ | `[U]` | ① 任务侧只给 `HealthTbl` 表号；② 已核实怪物自己的 `*_dttune`（`arc/enemy/emNNN_00.arc :: enemy\dt_tune\emNNN_00_dttune`）**只含 base_hp @`+0x38`，没有按表号的倍率数组**（`docs/reference/formats/dttune.md`）⇒ 倍率表不在这只怪的资源里；③ 剩余候选：`main` 侧共享难度倍率表（运行期字段名 `mVitalTblNo_N` @`0x1562a79` 起，资源以 CRC32 为键，`docs/analysis/monsters/mon-ai-entry.md` §4.4），或敌数据表 `.edt`（读入函数 `rEnemyDataTable` @`0x52874`）/`.dtb`（`rEnemyDtBase` @`0x53ea0`） |
 | 单机进集会所，血量和 4 人一样吗？ | 方向性「一样」 `[I]`（任务记录无按人数字段），精确倍率 `[U]` | 同上；另查 `main` 里按在场人数取系数的点——若有，在怪物生成/初始化路径（消费 `mVitalTblNo` 处）附近 |
 | 这条任务我 HR 不够 / 要几人才能接？ | 字段在、枚举未整理 `[I]`→`[U]` | `questData_<id>.ext` `0x012/0x013/0x014`（`Requirement1/2/ComboRequirement`，48 值枚举） |
 | 非 3 猫的任务有哪些？ | 未扫描 `[I]` | 同一记录 `0x00F` `Faints`，逐文件扫 1,849 个 `.ext` 即得 |
 | 联机奖励分配规则 | `[U]` | 奖励表无人数维度；规则若在代码，查 `netQuestClear` 族函数（`docs/data/class-inventory.tsv`：`nFestaNetwork::netQuestClear*` 于 `0x217a30` 一带） |
-| 本地 vs 网络联机差别 | `[U]` | 网络层 `sFestaNetwork` @`0x22ee68`、`nFestaNetwork::netMureEm*` 族（同文件）；玩家层面两入口共用同一任务池 `[C]` |
+| 本地 vs 网络联机差别 | `[U]` | 网络层 `sFestaNetwork`（`docs/analysis/code/batchA-classname-xref.md`，注册点 `0x22ee68`）、`nFestaNetwork::netMureEm*` 族（`docs/data/class-inventory.tsv`）；玩家层面两入口共用同一任务池 `[C]` |
 
 ---
 
@@ -106,7 +108,7 @@
 | 任务总表 | `docs/data/mhgu.db` → `quests`（1,355 行） | hub/type/stars/time_limit/fee/reward/hrp；**无 HP/人数列** |
 | 任务↔怪 | `monster_to_quest`（2,305 行） | `unstable`/`hyper` 标志 |
 | 任务奖励 | `quest_rewards`（37,370）+ `hunting_rewards`（8,044） | 全奖励槽 |
-| 怪物基础体力 | `monsters.base_hp` / `docs/data/json/monsters.json` | 93 只大型 |
+| 怪物基础体力 | `arc/enemy/emNNN_00.arc :: *_dttune +0x38`（romfs `[C]`）；查表入口 `monsters.base_hp` / `docs/data/json/monsters.json` | 93 只大型 |
 | 任务二进制记录 | `romfs/nativeNX/loc/quest/questData/questData_<7id>.ext`（1,849 个，369 B） | 全部战斗参数含 `Faints`/`Requirement`/`Monsters[].HealthTbl` |
 | 任务资源链接 | `romfs/nativeNX/loc/quest/questLink/questLink_<id>.qdl`（1,854 个，308 B） | 怪组/报酬表/补给链接 |
-| 倍率表本体 | **未定位** ⇒ `[U]` | 预期在 `main`（CRC 键资源）或 `arc/enemy/em*_00.arc` 的 `.edt/.dtb/.dtt` |
+| 倍率表本体 | **未定位** ⇒ `[U]` | 已排除 `*_dttune`（只含 base_hp）；预期在 `main` 共享难度表（`mVitalTblNo` 索引）或 `.edt/.dtb` |
