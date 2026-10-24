@@ -593,3 +593,9 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 - `forge/boxprobe/`：只读探针插件，执行插件规格 §5 第 1–4 步（模块基址检查、123 个站点的原指令比对与 is_block、回退找块起点、按块分组），结果写到 `<mods>/BoxProbe/boxprobe.txt`。不写内存、不挂钩。
 - DsvBoxProbe 实现 + DsvBoxProbeReview PASS（30 条，0 FAIL，dsv-dev deepseek-v4.1-flash hi）。主会话用 VS 17.14 编译：`/W4` 无警告，boxprobe.dll 152,576 B，导出 forge_onInit/onLoad/onUnload/setApi。
 - Forge PC 本体（forge.dll）编译需要 Vulkan SDK 头文件，本机没有；运行要等用户在场，在导出的游戏里装 Forge 和本插件。
+
+## 2026-10-24 许可证改为 GPL-3.0-or-later（用户指令）
+- `LICENSE` 换成 GPL-3.0 全文（取自 SUYU-GURecomp 的 LICENSE.txt，sha256 230184f6…）；8 个源文件的 SPDX 行改成 `GPL-3.0-or-later`；README、HANDOFF、跨作规格的说明同步更新。文档仍是 CC BY 4.0。
+- 影响：今后可以吸收 GPL 项目（SUYU-GURecomp、MH4U-port-to-MHGU 等）的代码，前提是保留其版权声明并注明出处。MIT 的旧提交在历史中仍是 MIT。
+- dsv-dev 路由迁到 `wb2api-remote/deepseek-v4.1-flash:max`（探针 ProbeDsv 实测可用）。
+- suyu 原生版：Sakiko 存档能读（用户实测）；其余（任务、保存、回 yuzu）待测。

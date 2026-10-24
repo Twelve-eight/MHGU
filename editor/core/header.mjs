@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: GPL-3.0-or-later
 // Spec 01: character header at char_off 0x0000..0x002A (name, playtime, gold, HR with
 // its 0x00B1 second copy, gender). Every writer touches only the bytes of its field.
 

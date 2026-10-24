@@ -6,7 +6,7 @@
  * every site, and group the sites by B. Nothing is patched and no hook is created: this
  * plugin only reads game memory, logs, and writes <mods>/BoxProbe/boxprobe.txt.
  *
- * SPDX-License-Identifier: MIT
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdarg.h>

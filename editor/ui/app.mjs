@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: GPL-3.0-or-later
 // Browser UI for the MHGU save core (MHGU/editor/core/*.mjs).
 //
 // The page reads one file into memory with <input type=file>, edits it through the core

@@ -17,7 +17,7 @@ dump. Tools that read the game expect a flat image you produce yourself
 | `patch/1.4.0.pchtxt` | Item-box expansion patch (emulator / console; not applicable to the recompiled build). |
 
 ## License
-- Code and tools: MIT (`LICENSE`).
+- Code and tools: GPL-3.0-or-later (`LICENSE`). Relicensed from MIT on 2026-10-24.
 - Documentation under `docs/`: CC BY 4.0 (`docs/LICENSE`).
 - Monster Hunter is a trademark of Capcom. Not affiliated with Capcom or Nintendo. Game data
   facts (addresses, field layouts) are described for interoperability.

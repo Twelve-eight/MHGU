@@ -1,6 +1,6 @@
 /* Generated from docs/patches/item-box-v7-plugin-spec.md section 2 (123 rows).
  * vaddr = offset inside module "main"; word = original 1.4.0 instruction word
- * (read from main.140.flat.bin at vaddr + 0x100). SPDX-License-Identifier: MIT */
+ * (read from main.140.flat.bin at vaddr + 0x100). SPDX-License-Identifier: GPL-3.0-or-later */
 #pragma once
 #include <stdint.h>
 typedef struct BoxSite { uint32_t row; uint32_t vaddr; uint32_t word; } BoxSite;

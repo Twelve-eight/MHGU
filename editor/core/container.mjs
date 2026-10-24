@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: GPL-3.0-or-later
 // Spec 01: system container, slot offset table, slot blocks and the .hnt single-slot
 // export. Slot block starts are derived from the file header, never hard-coded.
 

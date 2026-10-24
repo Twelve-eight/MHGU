@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: GPL-3.0-or-later
 // Spec 03: quest progress bitfields, 137-slot monster counters and palico records.
 //   sections A/B - quest cleared/seen bitfields and the documented task bit ranges
 //   section C    - monster kill / capture / size counters

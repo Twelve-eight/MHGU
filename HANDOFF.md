@@ -1,7 +1,7 @@
 # MHGU 逆向 — 交接文档（2026-10-23 收盘）
 
 > 新会话读这一份即可接手。所有结论都已落盘到 repo，`.tmp` 只存可再生中间产物与未归档的代理报告。
-> 仓库：`G:/omp works/MHGU` = **公开** https://github.com/Twelve-eight/MHGU（MIT 代码 + CC-BY-4.0 docs）。不可发内容在本地私有仓 `G:/omp works/MHGU-private`（永不推送），原路径经联接/硬链接可用，见 `docs/PRIVATE-DATA.md`。2026-10-23 已用 filter-repo 重写历史（旧哈希作废；改写前备份 `G:/backups/MHGU-pre-filter-20261023{,.bundle}`）。
+> 仓库：`G:/omp works/MHGU` = **公开** https://github.com/Twelve-eight/MHGU（代码 GPL-3.0-or-later，2026-10-24 由 MIT 改；docs CC-BY-4.0）。不可发内容在本地私有仓 `G:/omp works/MHGU-private`（永不推送），原路径经联接/硬链接可用，见 `docs/PRIVATE-DATA.md`。2026-10-23 已用 filter-repo 重写历史（旧哈希作废；改写前备份 `G:/backups/MHGU-pre-filter-20261023{,.bundle}`）。
 
 ---
 

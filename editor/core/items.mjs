@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: GPL-3.0-or-later
 // Spec sections implemented: 02-items-equipment.md A (item box), B (pouch), C (hunter
 // equipment box), D (palico box extent, read-only), F (item set presets), G (id domains).
 //
