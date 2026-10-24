@@ -867,3 +867,50 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
   - 这解释了村内 hold 期间读数始终为 0：按住时只有第一帧会置位。
   - 当前状态来自 0x3DE4F8（位重排），原始掩码在 [X + idx*0xB50 + 0x1D0]，X = [*0x183CBFC] [C]。
   - DbgPort 在 sdk GetNpadState 层注入，处在这条链的上游，已实测生效，不需要改。
+
+## 2026-10-25 Wiki batch — wiki 文档批（18 页 + 工具/格式 10 项）
+
+### 路由与流程
+- 全部走 `wb2api-remote`：`dsv-dev` = `wb2api-remote/deepseek-v4.1-flash`（effort hi），`glm-re` = `wb2api-remote/glm-5.3-flash`，`swe2-supervisor` = `swe-2-max`。报告落 `.tmp/reports-mhgu/`。
+- 一页一作者 + 一独立上下文复核；判 FAIL 的由原作者就地返工，不另开复核。
+
+### 页面判定（`MHGU/docs/wiki/`）
+
+| 页面 | 作者 | 复核 | 判定 |
+|---|---|---|---|
+| `monster-parts-hp.md` | WikiPartsHP | RevPartsHP | FAIL → 已修并提交 |
+| `monster-rage-tired.md` | WikiRageTired | RevRage | FAIL → 已修 |
+| `monster-status.md` | WikiStatus | RevStatus | FAIL（5 处）→ 已修 |
+| `monster-hitzones.md` | WikiHitzones | RevHitzones | FAIL（冰/雷两列互换）→ 修复进行中 |
+| `monster-drops.md` | WikiDrops | — | 剥取表 10/10 只字节核对（87 张 + 3 张采集表）；本批未记复核判定 |
+| `styles-arts.md` | WikiArtsStyles | RevArts2 | PASS（补 §8 术技参数表） |
+| `armor-talismans.md` | WikiArmor | RevArmor | PASS（+1 处修） |
+| `palico-prowler.md` | WikiPalico | RevPalico | FAIL（引用）→ 已修 |
+| `farm-trade-canteen.md` | WikiFarm | RevFarm | FAIL（11 处）→ 已修 |
+| `weapons-overview.md` | WikiWeapons | RevWeapons | FAIL（范围过窄）→ 已修 |
+| `progression-unlocks.md` | WikiProgress | RevProgress | FAIL（6 处）→ 已修 |
+| `motion-values.md` | Swe2MotionValues | RevMV | 数据 PASS + 字段修正 |
+| `hunting-horn-songs.md` | WikiHorn | RevHorn | FAIL（3 处）→ 已修 |
+| `damage-formula.md` | WikiWeaponMech | RevDamage | FAIL（4 处）→ 已修 |
+| `medals-guild-card.md` | WikiMedals | RevMedals | PASS（+小修） |
+| `small-monsters.md` | WikiSmallMon | — | 进行中 |
+| `hyper-event-quests.md` | WikiHyperEvent | — | 进行中 |
+| `quest-requirements.md` | WikiQuestReq | — | 进行中 |
+
+### 工具与格式（`MHGU/tools/mhgu`、`MHGU/docs/reference/formats`）
+- `hitdata.mjs`（MvDecoder，dsv）：14 种武器 / 870 条记录；`+0x30` 是独立 u16、`+0x19` 恒为 0；w06 沿用旧版 `pl_we04_hitdata`。
+- `dttune-all.mjs`（DtTuneAll，dsv）：137 个 arc；HP 79/14/44、肉质 76/17/44、状态 72/1/64；29 个 arc 结论冲突，需逐怪人工定表起点。
+- `dttune.mjs` + `formats/dttune.md`（DtTuneFormat，glm-re；RevDtTune 复核）：只有 HP `@0x38` 是定长，肉质与状态块必须逐怪定位。
+- `dtbase.mjs` + `formats/dtbase.md`（DtBaseFormat，glm-re；RevDtBase 复核 PASS 6 字段，2 处修：行数、注册函数 `0x54028`）。
+- `rem.mjs` + `formats/rem.md`（RemTables，dsv）：任务 rem 与 hagi 剥取表；s1=LR、s2=HR、s4=G，表序 本体→断尾→落物→采集，缺项省略。
+- `arts.mjs`（ArtsParams，dsv）：`hunterArtsData.hta` 8 + 191×25 B；`mXTimer = 3.5 × mPointSP`。
+- `vitaltbl.mjs`（VitalTbl，glm-re）：`em_nando_tbl` 141 × 8 f32，A 列 = HP 倍率；quest `Monsters[5]` 基址 `0x64`（旧文档的 `0x05C` 是错的）。
+- 只读逆向（无工具）：SharpTable 定位斩味表 `0x1624b4c` / `0x1624b68`；CritConst 定位会心常量 `0x16287ac` / `0x15a0014` / `0x16a5758`。
+- AlignNames（dsv）：137/137 槽与 cn_src 对齐；槽位表的 `-137` 版是投影，不是独立数据源。
+
+### 未决
+- **斩味橙色槽 [U]**：物理 `0x1624b4c` / 属性 `0x1624b68` 两张七槽表已定位，橙格的语义仍未定。
+- **伤害乘算点 [U]**：会心/超会心常量地址已定位，消费点（在哪儿乘）没有证据。
+- **hitzones 冰/雷列互换**修复未收尾；小怪、狞猛任务、任务条件 3 页在建。
+- **`docs/reference/formats/mod.md` 笔误已改**：原文「雄火龙 em001」→ 实为 em001 = 雌火龙（Rathian）、em002 = 火龙（Rathalos）。依据：体型表逐槽比对 + `monsterName_chS` 槽 0；`formats/rem.md` 与 `formats/dttune.md` 早已按 em001 = Rathian 写。
+- **工具问题**：`mhgu_re_disasm` 丢弃 `ldrsb` 立即数的 imm4H（已立 issue）。

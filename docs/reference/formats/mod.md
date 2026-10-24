@@ -1,6 +1,8 @@
 # MHGU MOD v212（模型）
 
-工具：`tools/mhgu/mod.mjs`（`info` / `obj`）。样本：雄火龙 em001_00/02/04、雌火龙 em002_00、角龙 em007_00、麒麟 em011_00，以及各自的 `_tail`。这些样本只放在 `MHGU-private/`，不入库。
+工具：`tools/mhgu/mod.mjs`（`info` / `obj`）。样本：雌火龙 em001_00/02/04、火龙 em002_00、角龙 em007_00、麒麟 em011_00，以及各自的 `_tail`。这些样本只放在 `MHGU-private/`，不入库。
+
+> `emNNN` 对应关系：**em001 = 雌火龙（Rathian）**，**em002 = 火龙（Rathalos）**。本文旧版把 em001 写成「雄火龙」，是错的。依据：体型表逐槽比对 + `chS/arc/resident_chS.arc :: monsterName_chS` 槽 0（雌火龙）；同一对照见 `docs/wiki/monster-hitzones.md` §1、`docs/reference/formats/dttune.md`、`docs/reference/formats/rem.md`。
 
 ARC 类型哈希：MOD = `58a15856`，TEX = `241f5deb`，MRL = `2749c8a8`，LMT = `76820d81`，XFS = `7cd0e77e`。
 
