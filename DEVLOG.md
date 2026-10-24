@@ -815,3 +815,16 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
   - 按 Npad 位序 [I]：L = 0x40、R = 0x80、ZL = 0x100、ZR = 0x200。动作表 0x162d0c0 直接引用 ZL/ZR。
   - 每帧写入 +0x6bfc 的点未定位，只找到构造清零 0x3dda0c/0x3dde08 [U]。
   - 改键插件可以在读掩码前交换 0x40↔0x100、0x80↔0x200。不过 SUYU F10 Controls 已能做到同样效果，暂不写插件。
+- **2026-10-25 DbgPort 插件（`forge/dbgport/`）**
+  - 回环 TCP 调试口：按键注入（hold/tap/release，OR 进 [[GOT 0x183931c]+0x6bfc]），内存 rd/rm/w32/ptr。
+  - 命令在 forge_onUpdate 里执行；没有认证，只绑定 127.0.0.1。
+  - 冒烟（假宿主 `.tmp/mhgu-scratch/dbgport-host.c` 提供 forge_api 与假内存）：
+    - base/mask/hold/tap/release/rm/ptr/w32/rd、越界与未知命令，全部按预期返回；
+    - hold 后 mask = 0x101；tap 3 次更新后自动清除；
+    - 卸载打印 unload，进程正常退出。
+  - 实机效果 [U]：注入时机若晚于游戏重写掩码，或游戏另有边沿字段，可能不生效。
+  - RevSlotItemUse（dsv-dev，6m9s）复核 SlotViaItemUse：0x1b607c 的网格是菜单面板，不是狩猎中的快捷道具栏 [C]。
+    - 只测 0x4000/0x2000，没有 L/Y/A 位。
+    - 48 是 48 字节私有缓冲，不是格数。
+    - vtable 实为 0x1740048。
+  - 选中格字段仍未找到。
