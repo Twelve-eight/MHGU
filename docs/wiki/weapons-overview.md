@@ -79,9 +79,9 @@
 
 | 占位符道具 id | 名字（db） | 例 |
 |---|---|---|
-| 1966084 / 1966085 / 1966086 | `LR/HR/G Ore Materials` | 化石大剑 LV2–5 用 `LR Ore Materials`，LV10 用 `G Ore Materials` |
-| 1966087 / 1966088 / 1966089 | `LR/HR/G Insect Materials` | 同上 LV4–5 = LR，LV11 = G |
-| 1966081–1966083 等 | `LR/HR/G … Materials` | 整段占位符 id 落在 1966081–1966417（该段含空号，实际存在的是「档位 × 素材类别」笛卡尔积） |
+| 1966084 / 1966085 / 1966086 | `LR/HR/G Ore Materials` | 化石大剑 LV2–3 用 `LR Ore Materials`，LV10 用 `G Ore Materials` |
+| 1966087 / 1966088 / 1966089 | `LR/HR/G Insect Materials` | 同族 LV4–5 = `LR Insect Materials`，LV11 = `G Insect Materials` |
+| 1966081–1966083 等 | `LR/HR/G … Materials` | 整段占位符 id 落在 1966081–1966417：共 **277 个**（60 个 id 空号），内容是「档位 × 素材来源」的组合——既有通用类（Ore/Bone/Insect/Monster…），也有按怪/按小怪类（`LR Rathalos Materials`、`G Tigrex Materials`…），以及只有 HR 的 Hyper/Deviant 两种、只有 G 的怪；**不是完整笛卡尔积** |
 
 **关键验证：三档互斥**。带占位符的 5,685 条武器记录里，「同时含 LR 与 HR」「同时含 LR 与 G」「同时含 HR 与 G」的记录数**都是 0** ⇒ 占位符前缀唯一确定该级的 rank，可放心当分档键。
 
@@ -94,9 +94,13 @@
 本页每张分档表都标了 `条数`，就是该档**有占位符**的记录数；未进表的那部分不是「不存在」，而是「配方里没写通用素材，无法证明档位」。复核 SQL（可直接跑）：
 
 ```sql
--- 每种武器 × rank 的攻击/会心/属性区间
-SELECT w.wtype, r.rk, COUNT(*) n, MIN(w.attack), MAX(w.attack),
-       MIN(CAST(w.affinity AS int)), MAX(CAST(w.affinity AS int))
+-- 每种武器 × rank 的攻击/会心/有属性/属性值（与各节表格同口径）
+SELECT w.wtype, r.rk, COUNT(*) n,
+       MIN(w.attack) atk_min, MAX(w.attack) atk_max,
+       MIN(CAST(w.affinity AS int)) aff_min, MAX(CAST(w.affinity AS int)) aff_max,
+       SUM(w.element<>'' AND w.element_attack>0) with_elem,
+       MIN(CASE WHEN w.element<>'' AND w.element_attack>0 THEN w.element_attack END) elem_min,
+       MAX(CASE WHEN w.element<>'' AND w.element_attack>0 THEN w.element_attack END) elem_max
 FROM weapons w
 JOIN (SELECT c.created_item_id wid,
              CASE WHEN MAX(i.name LIKE 'LR %')=1 THEN 'LR'
@@ -106,6 +110,8 @@ JOIN (SELECT c.created_item_id wid,
       GROUP BY c.created_item_id) r ON r.wid = w._id
 GROUP BY w.wtype, r.rk;
 ```
+
+口径校验：`element<>''` 与 `element<>'' AND element_attack>0` 在全库等价（5,736 = 5,736，`element_attack=0` 的有种类记录为 0），所以上表的 `with_elem` 就是各节「有属性」列。
 
 ### 2.4 属性名与「有属性」口径
 
@@ -166,7 +172,9 @@ WHERE c.component_item_id = (SELECT _id FROM items WHERE name = 'Eltalite Ore')
 
 wiki 镜像侧另有同名树页可交叉看（节点带 `[生产]`/`[购入]`/`[生产G]`/`[XX]` 标记与攻击/斩味/孔）：剑士用 `text/1900`–`1909`（大剑 1900、太刀 1901、片手剑 1902、双剑 1903、大锤 1904、狩猎笛 1905、长枪 1906、铳枪 1907、斩击斧 1908、盾斧 1909），神枪手用 `1910`–`1913`（操虫棍 1910、弓 1911、轻弩 1912、重弩 1913），G 级追加部分在 `2882`–`2895`，各武器种「最终强化一览」在 `2700`–`2713`（`docs/mechanics/equipment.md` §数据源，`[W]`）。
 
-### 3.4 完整示例：家族 257（化石大剑线，11 级）
+### 3.4 完整示例：家族 257（Petrified → Scholarly → Sophos，11 级）
+
+先消歧：**家族 257 不是「Buster」线**。Buster 系是另一个家族（`family 276`，9 级：`Buster Sword 1`–`6` / `Buster Blade 7`–`8` / `Buster Falx 9`，末级攻击 340），本节这条是化石系（`Petrified Blade 1–7` / `Scholarly Blade 8–10` / `Sophos Blade 11`，末级攻击 320）。两条家族互不派生，查素材时按 `family` 值区分。
 
 中文名分段：贝鲁纳大剑（LV1–7）/ 贤者大剑（LV8–10）/ 智慧大剑（LV11）。依据 `weapon00MsgData_chS` #6/#8/#10，与英文名 `Petrified`/`Scholarly`/`Sophos` 一一对应（`[B]` + `[I]` 对齐）。素材里的 `LR/HR/G … Materials` 是占位符，按档位读作「下位/上位/G 通用矿石（或甲虫）素材」。
 
@@ -180,7 +188,7 @@ wiki 镜像侧另有同名树页可交叉看（节点带 `[生产]`/`[购入]`/`
 | 6 | Petrified Blade 6 | 140 | 未标 | 贝鲁纳大剑5 ×1 + 贝鲁纳票券 ×1 + 灵鹤石 ×4 + 大独角仙 ×2 | 同上 |
 | 7 | Petrified Blade 7 | 170 | HR | 贝鲁纳大剑6 ×1 + 稀有金龟子 ×2 + 狗龙的上等鳞 ×4 + HR 矿石素材 ×5 | 同上 |
 | 8 | Scholarly Blade 8 | 210 | HR | 贝鲁纳大剑7 ×1 + 勇气之证G ×2 + 龙历院票券 ×2 + 璀璨水晶 ×1 + HR 甲虫素材 ×8 | 同上 |
-| 9 | Scholarly Blade 9 | 240 | G | 贤者大剑8 ×1 + 桃毛兽的豪刚毛 ×3 + 绯鸢石 ×4 + 皇帝蚱蜢 ×2 | 同上 |
+| 9 | Scholarly Blade 9 | 240 | 未标（素材是 G 级，但配方无占位符） | 贤者大剑8 ×1 + 桃毛兽的豪刚毛 ×3 + 绯鸢石 ×4 + 皇帝蚱蜢 ×2 | 同上 |
 | 10 | Scholarly Blade 10 | 290 | G | 贤者大剑9 ×1 + 终极结晶 ×2 + 贝鲁纳票券G ×1 + G 矿石素材 ×5 | 同上 |
 | 11 | Sophos Blade 11 | 320 | G | 贤者大剑10 ×1 + 勇气之证XX ×2 + 龙历院票券G ×2 + 纯水晶 ×1 + G 甲虫素材 ×8 | 同上 |
 
@@ -269,8 +277,8 @@ wiki 镜像侧另有同名树页可交叉看（节点带 `[生产]`/`[购入]`/`
 | 起始代表武器（chS） | 贝鲁纳大锤 | `weapon02 #6` `[B]` |
 
 **核心机制**
-- **蓄力 3 段**：`R` 长按蓄力，武士道下空中也能蓄力（`styles-arts.md` §3 `[W]`）。
-- 全武器种里**唯一以打击 + 气绝为主**的近战：基础描述「沉重的打击可剥夺猎物的耐力与意识」（`weapon02 #7` `[B]`）。气绝（KO）蓄积按部位计算（`damage-formula.md` §3 `[C]`）。
+- **蓄力 3 段**：`R` 按住不放，按蓄力时长分 3 档。风格差异照 wiki 1954「前置任务」行：公会/强袭 = 按住即可三段蓄力；**空战 = 空中也能蓄力**；**武士道 = 精准回避后可出更强的蓄力攻击**（`text/1954` 第 78–81 行 + `styles-arts.md` §3 `[W]`）。
+- 以**打击 + 气绝**为主要输出手段（狩猎笛同样吃打击/气绝）：基础描述「沉重的打击可剥夺猎物的耐力与意识」（`weapon02 #7` `[B]`）。气绝（KO）蓄积按部位计算（`damage-formula.md` §3 `[C]`）。
 - 无瓶/炮击/弹种；面板吃蓄力倍率与斩味。
 - 狩技 4 条：台风预警（旋转中按 X 出猛力上钩）、冲击浪潮（一段时间内蓄力 I–III 攻击变化）等（`styles-arts.md` §4.2 `[W]`）。
 
