@@ -10,11 +10,17 @@
  *   2. find the recompiled block start B <= site by walking back in 4-byte steps with is_block;
  *   3. group the sites by B, copy B..last site of the group into a fresh mem_alloc buffer with
  *      the patched words substituted, and append an absolute return to last site + 4
- *      (ldr pc,[pc,#-4] + address, spec Appendix A);
- *   4. refuse to clone a group whose copied range contains an instruction that reads or writes
- *      r15 or branches (its meaning depends on the address, spec section 4 R7/R11): such a group
- *      is logged as needing hand-written handling, the other groups still install;
- *   5. hook B with a pre hook that sets r15 to the clone and returns FORGE_HOOK_JUMP.
+ *      (ldr pc,[pc,#-4] + address, spec Appendix A); literal loads ldr rD,[pc,#imm] are
+ *      re-aimed at a pool after that return, and a PIC pair (offset load + ldr rD,[pc,rD]) is
+ *      resolved to the absolute data address;
+ *   4. refuse to clone a group whose copied range contains any other instruction that reads or
+ *      writes r15 or branches (its meaning depends on the address, spec section 4 R7/R11);
+ *   5. hook B with a pre hook that sets r15 to the clone and returns FORGE_HOOK_JUMP. The
+ *      capacity getter (rows 23, 24, 26) gets one pre hook that returns 0xBB0 instead, because
+ *      its patch ends in `bx lr` and the clone's return veneer would run the old epilogue.
+ *
+ * All or nothing: a dry pass runs first, and the install pass only if it covered all 123
+ * lines; if the install pass still fails anywhere, every hook is switched off again.
  *
  * Everything is logged to forge.log and to <mods>/0100770008DD8000/ItemBoxV7/itembox.txt.
  * Hooks are only created when <mods>/0100770008DD8000/ItemBoxV7/ENABLE exists; without it the
@@ -29,6 +35,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdarg.h>
 #include <stdint.h>
+#include <string.h>
 #include <stdio.h>
 
 #include "forge_pc.h"
@@ -326,8 +333,9 @@ static ForgeHookAction ibox_pre(ForgeCpu* cpu, void* user)
 
 /* Rows 23, 24 and 26 (spec section 2): the capacity getter at main+0x198F04. V7 turns its
  * first two words into `movw r0,#0xBB0; bx lr`, so the function returns 2992 at once and its
- * epilogue (row 26) never runs. A clone cannot express the `bx lr`; a pre hook that sets the
- * return value and returns FORGE_HOOK_RETURN does exactly the same (forge_pc.h:136-139). */
+ * epilogue (row 26) never runs. A clone would end in `bx lr`, which pc_hazard refuses, and its
+ * return veneer is never reached; a pre hook that sets the return value and returns
+ * FORGE_HOOK_RETURN does exactly what the patch does (forge_pc.h:136-139). */
 #define GETTER_VADDR 0x198F04u
 #define GETTER_VALUE 0xBB0u
 static volatile int s_getter_hit;
@@ -433,14 +441,30 @@ static bool process_group(uint32_t block, uint32_t first, uint32_t count, bool e
                     "skipped", b_off, rows, lit);
                 return false;
             }
-            /* Pair only across plain data-processing words that do not write rD. */
+            /* Pair only across plain data-processing words that neither read nor write rD (the
+             * rewrite changes rD from an offset to an absolute address, so a reader in between
+             * would see a different value) and do not write pc. */
             for (j = k + 1u; j < nwords; j++) {
                 const uint32_t v = s_words[j];
                 const uint32_t cls = (v >> 25) & 0x7u;
+                const uint32_t vrd = (v >> 12) & 0xFu;
+                const uint32_t vrn = (v >> 16) & 0xFu;
+                const uint32_t vrm = v & 0xFu;
+                const uint32_t op = (v >> 21) & 0xFu;
+                const bool movw_movt = cls == 0x1u && (v & 0x01B00000u) == 0x01000000u;
                 const bool dp = (v >> 28) == 0xEu &&
-                                (cls == 0x1u || (cls == 0x0u && (v & 0x10u) == 0));
+                                (cls == 0x1u || (cls == 0x0u && (v & 0x10u) == 0)) &&
+                                ((v & 0x01900000u) != 0x01000000u || movw_movt); /* no misc/msr */
+                /* mov/mvn (op 1101/1111) and movw/movt have no Rn operand */
+                const bool reads_rn = !movw_movt && op != 0xDu && op != 0xFu;
+                const bool reads_rm = cls == 0x0u;
 
-                if (v == pair || !dp || ((v >> 12) & 0xFu) == rd) {
+                if (v == pair) {
+                    break;
+                }
+                if (!dp || vrd == rd || vrd == 0xFu || (reads_rn && vrn == rd) ||
+                    (reads_rm && vrm == rd)) {
+                    j = nwords; /* no safe pair: keep the literal as a plain constant */
                     break;
                 }
             }

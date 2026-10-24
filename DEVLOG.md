@@ -609,3 +609,4 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 - 离线演练 `.tmp/itembox-sim/sim.c`（伪 ForgeApi + 1.4.0 flat 镜像 + BoxProbe 记录的块起点）：101 组克隆 + getter hook 覆盖 123/123 行；8 处字面量重定向；克隆逐字核对，120 个改写字、0 错误；游戏镜像没有被写入。
 - 还没实机启用。
 - 追加修正（同日）：第一版字面量池漏掉了 PIC 惯用法 `ldr r0,[pc,#n]` + `ldr r0,[pc,r0]`（0x198be4/c7c/cd0/d2c）：只搬字面量，克隆里第二条 ldr 会按克隆地址取数，读错内存。根因是 `pc_hazard` 的 011 类（寄存器偏移 ldr/str）没检查 Rn=pc，已修。现在会把 PIC 配对解析成绝对数据地址（4 处都是 0x1e8dc48），第二条改为 `ldr r0,[r0]`。安装改两遍：先全量演练，全部通过才启用。演练（伪宿主）：101 组 + getter，8 个字面量，4 对 PIC，0 错误。只是静态核对，没在 JIT 上执行过。新代码复核：DsvItemboxV7Rev2。
+- 第二轮复核 DsvItemboxV7Rev2（dsv-dev wb2api-remote）：getter、编码、pc_hazard、两遍安装、缓冲区都 PASS。修了 3 处：F1 配对时中间的指令不能读写 rD；F2 补上 `<string.h>`；F3 更新头注释和 getter 注释。重编 /W4 零警告；伪宿主演练 102 个 hook（含 getter）、8 个字面量、120 个改写字、0 错误。
