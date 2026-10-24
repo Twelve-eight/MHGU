@@ -761,3 +761,12 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
   - C3：`movw #0x6bfc` 之后紧跟的位测试，按次数统计：0x4000 共 99、0x2000 共 96、0x1000 共 34、0x8000 共 16，其余位每个 ≤5。
     - [I] 0x1000–0x8000 这 4 位是肩键/扳机候选：频率高，并且常在同一个函数里成组测试（1ca200/1ca208/1ca214；3a2c84/3a2c8c）。
     - 哪一位对应 L、R、ZL、ZR 还是 [U]。
+- **2026-10-25 C2 来源审查**
+  - FpsMainLoop（dsv-dev, wb2api-remote/deepseek-v4.1-flash）的报告由 RevMainLoop（dsv-dev）复核：49 条中 47 PASS，2 FAIL 都是措辞或行号范围问题。
+  - 结论 1：SUYU 不把 +0x243C 当作每帧时间（dt）用。`OnFrame` 每 8 帧读一次，只用来判断要不要回写。
+  - 结论 2：引擎本身有帧增量机制 [C 文档+字节]。见 `port-checklist.md:305-306`：每个单元按 this+28 的增量推进，任务倒计时 sQuest+0x1c 按"30 fps 帧数"推进（0x3a0160）。相关函数：计时器 0x53aa84（在 fn 0x53a9fc 内）、回合 0xc0e78（在 fn 0xc0dfc 内）、调度器 0x966164（函数入口）。
+  - 下一步：查清 this+28 的增量由谁写入、单位是不是 30 fps 帧。如果是，补偿方法就是把这个增量按 30/fps 缩放，而不是把逻辑锁到 30 Hz。
+  - ItemSlotField（glm-re, wb2api-remote/glm-5.3-flash）找选中格字段，18 分钟，未定案。
+    - 候选 1：fn 0xdf440c 的 u8 [obj+0x58]，7 格回绕，经指针分派，对象不可达。
+    - 候选 2：面板 +0x90/+0x91。
+    - 报告：`.tmp/reports-mhgu/c3-slot-field.md`。
