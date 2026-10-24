@@ -3,6 +3,7 @@
   "slot": 0,
   "emid": 1,
   "cn": "雌火龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #0 (Lioleia)",
   "en": "Rathian",
   "kind": "big",
   "ro": null
@@ -11,6 +12,7 @@
   "slot": 1,
   "emid": 513,
   "cn": "金火龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #1 (RareLioleia)",
   "en": "Gold Rathian",
   "kind": "big",
   "ro": null
@@ -19,6 +21,7 @@
   "slot": 2,
   "emid": 1025,
   "cn": "紫毒姬雌火龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #2 (NamedLioleia)",
   "en": "Dreadqueen Rathian",
   "kind": "big",
   "ro": null
@@ -27,6 +30,7 @@
   "slot": 3,
   "emid": 2,
   "cn": "火龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #3 (Liolaes)",
   "en": "Rathalos",
   "kind": "big",
   "ro": null
@@ -35,6 +39,7 @@
   "slot": 4,
   "emid": 514,
   "cn": "银火龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #4 (RareLiolaes)",
   "en": "Silver Rathalos",
   "kind": "big",
   "ro": null
@@ -70,6 +75,7 @@
   "slot": 8,
   "emid": 9,
   "cn": "毒怪鸟",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #8 (Gereios)",
   "en": "Gypceros",
   "kind": "big",
   "ro": null
@@ -78,6 +84,7 @@
   "slot": 9,
   "emid": 10,
   "cn": "水龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #9 (Ganothotos)",
   "en": "Plesioth",
   "kind": "big",
   "ro": null
@@ -86,6 +93,7 @@
   "slot": 10,
   "emid": 11,
   "cn": "麒麟",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #10 (Kirin)",
   "en": "Kirin",
   "kind": "big",
   "ro": null
@@ -94,6 +102,7 @@
   "slot": 11,
   "emid": 14,
   "cn": "蓝速龙王",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #11 (DosRhamphos)",
   "en": "Velocidrome",
   "kind": "big",
   "ro": null
@@ -102,6 +111,7 @@
   "slot": 12,
   "emid": 15,
   "cn": "黄速龙王",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #12 (DosGenephos)",
   "en": "Gendrome",
   "kind": "big",
   "ro": null
@@ -110,6 +120,7 @@
   "slot": 13,
   "emid": 16,
   "cn": "红速龙王",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #13 (DosEaos)",
   "en": "Iodrome",
   "kind": "big",
   "ro": null
@@ -118,6 +129,7 @@
   "slot": 14,
   "emid": 17,
   "cn": "砂龙王",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #14 (DosGareos)",
   "en": "Cephadrome",
   "kind": "big",
   "ro": null
@@ -126,6 +138,7 @@
   "slot": 15,
   "emid": 18,
   "cn": "黑狼鸟",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #15 (YianGaruga)",
   "en": "Yian Garuga",
   "kind": "big",
   "ro": null
@@ -143,6 +156,7 @@
   "slot": 17,
   "emid": 19,
   "cn": "大名盾蟹",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #17 (DaimyoZazami)",
   "en": "Daimyo Hermitaur",
   "kind": "big",
   "ro": null
@@ -151,6 +165,7 @@
   "slot": 18,
   "emid": 1043,
   "cn": "矛碎大名盾蟹",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #18 (NamedDaimyoZazami)",
   "en": "Stonefist Hermitaur",
   "kind": "big",
   "ro": null
@@ -168,6 +183,7 @@
   "slot": 20,
   "emid": 22,
   "cn": "雪狮子王",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #20 (Dodoblango)",
   "en": "Blangonga",
   "kind": "big",
   "ro": null
@@ -176,6 +192,7 @@
   "slot": 21,
   "emid": 23,
   "cn": "金狮子",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #21 (Rajang)",
   "en": "Rajang",
   "kind": "big",
   "ro": null
@@ -193,6 +210,7 @@
   "slot": 23,
   "emid": 24,
   "cn": "钢龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #23 (KushalaDaora)",
   "en": "Kushala Daora",
   "kind": "big",
   "ro": null
@@ -201,6 +219,7 @@
   "slot": 24,
   "emid": 25,
   "cn": "霞龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #24 (Ohnazuchi)",
   "en": "Chameleos",
   "kind": "big",
   "ro": null
@@ -209,6 +228,7 @@
   "slot": 25,
   "emid": 27,
   "cn": "炎王龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #25 (TeoTexkator)",
   "en": "Teostra",
   "kind": "big",
   "ro": null
@@ -226,6 +246,7 @@
   "slot": 27,
   "emid": 32,
   "cn": "轰龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #27 (Tigrex)",
   "en": "Tigrex",
   "kind": "big",
   "ro": null
@@ -234,6 +255,7 @@
   "slot": 28,
   "emid": 1056,
   "cn": "荒钩爪轰龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #28 (NamedTigrex)",
   "en": "Grimclaw Tigrex",
   "kind": "big",
   "ro": null
@@ -242,6 +264,7 @@
   "slot": 29,
   "emid": 33,
   "cn": "霸龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #29 (Akantor)",
   "en": "Akantor",
   "kind": "big",
   "ro": null
@@ -250,6 +273,7 @@
   "slot": 30,
   "emid": 36,
   "cn": "熔岩龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #30 (Volganos)",
   "en": "Lavasioth",
   "kind": "big",
   "ro": null
@@ -258,6 +282,7 @@
   "slot": 31,
   "emid": 37,
   "cn": "迅龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #31 (Nargacuga)",
   "en": "Nargacuga",
   "kind": "big",
   "ro": null
@@ -266,6 +291,7 @@
   "slot": 32,
   "emid": 1061,
   "cn": "白疾风迅龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #32 (NamedNargacuga)",
   "en": "Silverwind Nargacuga",
   "kind": "big",
   "ro": null
@@ -274,6 +300,7 @@
   "slot": 33,
   "emid": 38,
   "cn": "崩龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #33 (Ukambas)",
   "en": "Ukanlos",
   "kind": "big",
   "ro": null
@@ -282,6 +309,7 @@
   "slot": 34,
   "emid": 43,
   "cn": "恐暴龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #34 (Eviljho)",
   "en": "Deviljho",
   "kind": "big",
   "ro": null
@@ -299,6 +327,7 @@
   "slot": 36,
   "emid": 45,
   "cn": "爆锤龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #36 (Uragankin)",
   "en": "Uragaan",
   "kind": "big",
   "ro": null
@@ -307,6 +336,7 @@
   "slot": 37,
   "emid": 1069,
   "cn": "宝缠爆锤龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #37 (NamedUragankin)",
   "en": "Crystalbeard Uragaan",
   "kind": "big",
   "ro": null
@@ -315,6 +345,7 @@
   "slot": 38,
   "emid": 46,
   "cn": "海龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #38 (Lagiacrus)",
   "en": "Lagiacrus",
   "kind": "big",
   "ro": null
@@ -323,6 +354,7 @@
   "slot": 39,
   "emid": 47,
   "cn": "水兽",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #39 (RoaLudroth)",
   "en": "Royal Ludroth",
   "kind": "big",
   "ro": null
@@ -331,6 +363,7 @@
   "slot": 40,
   "emid": 49,
   "cn": "炎戈龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #40 (Agnaktor)",
   "en": "Agnaktor",
   "kind": "big",
   "ro": null
@@ -339,6 +372,7 @@
   "slot": 41,
   "emid": 50,
   "cn": "煌黑龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #41 (Albatorion)",
   "en": "Alatreon",
   "kind": "big",
   "ro": null
@@ -356,6 +390,7 @@
   "slot": 43,
   "emid": 56,
   "cn": "潜口龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #43 (Happupokka)",
   "en": "Nibelsnarf",
   "kind": "big",
   "ro": null
@@ -364,6 +399,7 @@
   "slot": 44,
   "emid": 57,
   "cn": "雷狼龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #44 (Zinogre)",
   "en": "Zinogre",
   "kind": "big",
   "ro": null
@@ -372,6 +408,7 @@
   "slot": 45,
   "emid": 1081,
   "cn": "金雷公雷狼龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #45 (NamedZinogre)",
   "en": "Thunderlord Zinogre",
   "kind": "big",
   "ro": null
@@ -380,6 +417,7 @@
   "slot": 46,
   "emid": 58,
   "cn": "岚龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #46 (AmatsuMagatsuchi)",
   "en": "Amatsu",
   "kind": "big",
   "ro": null
@@ -388,6 +426,7 @@
   "slot": 47,
   "emid": 60,
   "cn": "青熊兽",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #47 (Aoashira)",
   "en": "Arzuros",
   "kind": "big",
   "ro": null
@@ -405,6 +444,7 @@
   "slot": 49,
   "emid": 61,
   "cn": "白兔兽",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #49 (Urcusis)",
   "en": "Lagombi",
   "kind": "big",
   "ro": null
@@ -413,6 +453,7 @@
   "slot": 50,
   "emid": 1085,
   "cn": "大雪主白兔兽",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #50 (NamedUrcusis)",
   "en": "Snowbaron Lagombi",
   "kind": "big",
   "ro": null
@@ -421,6 +462,7 @@
   "slot": 51,
   "emid": 62,
   "cn": "赤甲兽",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #51 (Rangrotora)",
   "en": "Volvidon",
   "kind": "big",
   "ro": null
@@ -429,6 +471,7 @@
   "slot": 52,
   "emid": 63,
   "cn": "碎龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #52 (Bracchidios)",
   "en": "Brachydios",
   "kind": "big",
   "ro": null
@@ -437,6 +480,7 @@
   "slot": 53,
   "emid": 65,
   "cn": "奇猿狐",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #53 (KechaWacha)",
   "en": "Kecha Wacha",
   "kind": "big",
   "ro": null
@@ -472,6 +516,7 @@
   "slot": 57,
   "emid": 68,
   "cn": "绞蛇龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #57 (GararaAjara)",
   "en": "Najarala",
   "kind": "big",
   "ro": null
@@ -489,6 +534,7 @@
   "slot": 59,
   "emid": 71,
   "cn": "黑蚀龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #59 (GoreMagala)",
   "en": "Gore Magala",
   "kind": "big",
   "ro": null
@@ -515,6 +561,7 @@
   "slot": 62,
   "emid": 77,
   "cn": "千刃龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #62 (Selegioth)",
   "en": "Seregios",
   "kind": "big",
   "ro": null
@@ -523,6 +570,7 @@
   "slot": 63,
   "emid": 79,
   "cn": "夜鸟",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #63 (HoloroHoluru)",
   "en": "Malfestio",
   "kind": "big",
   "ro": null
@@ -531,6 +579,7 @@
   "slot": 64,
   "emid": 80,
   "cn": "斩龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #64 (Dinovalde)",
   "en": "Glavenus",
   "kind": "big",
   "ro": null
@@ -539,6 +588,7 @@
   "slot": 65,
   "emid": 1104,
   "cn": "烬灭刃斩龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #65 (NamedDinovalde)",
   "en": "Hellblade Glavenus",
   "kind": "big",
   "ro": null
@@ -547,6 +597,7 @@
   "slot": 66,
   "emid": 81,
   "cn": "电龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #66 (Raizex)",
   "en": "Astalos",
   "kind": "big",
   "ro": null
@@ -555,6 +606,7 @@
   "slot": 67,
   "emid": 82,
   "cn": "泡狐龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #67 (Tamamitsune)",
   "en": "Mizutsune",
   "kind": "big",
   "ro": null
@@ -563,6 +615,7 @@
   "slot": 68,
   "emid": 83,
   "cn": "巨兽",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #68 (Gamute)",
   "en": "Gammoth",
   "kind": "big",
   "ro": null
@@ -571,6 +624,7 @@
   "slot": 69,
   "emid": 84,
   "cn": "骸龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #69 (Ostgaloa)",
   "en": "Nakarkos",
   "kind": "big",
   "ro": null
@@ -588,6 +642,7 @@
   "slot": 71,
   "emid": 4097,
   "cn": "草食龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #71 (Apthonos)",
   "en": "Aptonoth",
   "kind": "small",
   "ro": null
@@ -650,6 +705,7 @@
   "slot": 78,
   "emid": 4104,
   "cn": "梅拉露",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #78 (Merarou)",
   "en": "Melynx",
   "kind": "small",
   "ro": null
@@ -658,6 +714,7 @@
   "slot": 79,
   "emid": 4105,
   "cn": "蓝速龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #79 (Rhamphos)",
   "en": "Velociprey",
   "kind": "small",
   "ro": null
@@ -666,6 +723,7 @@
   "slot": 80,
   "emid": 4106,
   "cn": "黄速龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #80 (Genephos)",
   "en": "Genprey",
   "kind": "small",
   "ro": null
@@ -674,6 +732,7 @@
   "slot": 81,
   "emid": 4107,
   "cn": "红速龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #81 (Eaos)",
   "en": "Ioprey",
   "kind": "small",
   "ro": null
@@ -691,6 +750,7 @@
   "slot": 83,
   "emid": 4109,
   "cn": "野猪",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #83 (Bulfango)",
   "en": "Bullfango",
   "kind": "small",
   "ro": null
@@ -699,6 +759,7 @@
   "slot": 84,
   "emid": 4110,
   "cn": "波波",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #84 (Popo)",
   "en": "Popo",
   "kind": "small",
   "ro": null
@@ -725,6 +786,7 @@
   "slot": 87,
   "emid": 4115,
   "cn": "蛇龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #87 (Gabbras)",
   "en": "Remobra",
   "kind": "small",
   "ro": null
@@ -769,6 +831,7 @@
   "slot": 92,
   "emid": 4122,
   "cn": "飞甲虫",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #92 (Bnahabra)",
   "en": "Bnahabra",
   "kind": "small",
   "ro": null
@@ -777,6 +840,7 @@
   "slot": 93,
   "emid": 4123,
   "cn": "甲虫",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #93 (Altaroth)",
   "en": "Altaroth",
   "kind": "small",
   "ro": null
@@ -785,6 +849,7 @@
   "slot": 94,
   "emid": 4130,
   "cn": "狗龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #94 (Jaggi)",
   "en": "Jaggi",
   "kind": "small",
   "ro": null
@@ -793,6 +858,7 @@
   "slot": 95,
   "emid": 4131,
   "cn": "雌狗龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #95 (Jaggia)",
   "en": "Jaggia",
   "kind": "small",
   "ro": null
@@ -801,6 +867,7 @@
   "slot": 96,
   "emid": 4135,
   "cn": "水生兽",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #96 (Ludroth)",
   "en": "Ludroth",
   "kind": "small",
   "ro": null
@@ -809,6 +876,7 @@
   "slot": 97,
   "emid": 4136,
   "cn": "熔岩兽",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #97 (Urokotol)",
   "en": "Uroktor",
   "kind": "small",
   "ro": null
@@ -817,6 +885,7 @@
   "slot": 98,
   "emid": 4137,
   "cn": "垂皮龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #98 (Zuwaropos)",
   "en": "Slagtoth",
   "kind": "small",
   "ro": null
@@ -825,6 +894,7 @@
   "slot": 99,
   "emid": 4138,
   "cn": "丸鸟",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #99 (Gargwa)",
   "en": "Gargwa",
   "kind": "small",
   "ro": null
@@ -851,6 +921,7 @@
   "slot": 102,
   "emid": 4142,
   "cn": "跳狗龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #102 (Maccao)",
   "en": "Maccao",
   "kind": "small",
   "ro": null
@@ -859,6 +930,7 @@
   "slot": 103,
   "emid": 4143,
   "cn": "首鸣龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #103 (Rhemosethos)",
   "en": "Larinoth",
   "kind": "small",
   "ro": null
@@ -867,6 +939,7 @@
   "slot": 104,
   "emid": 4144,
   "cn": "云羊鹿",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #104 (Mufa)",
   "en": "Moofah",
   "kind": "small",
   "ro": null
@@ -875,6 +948,7 @@
   "slot": 105,
   "emid": 4196,
   "cn": "小型怪物#4196",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #105 dummy",
   "en": "?",
   "kind": "small",
   "ro": "roEms100"
@@ -883,6 +957,7 @@
   "slot": 106,
   "emid": 4197,
   "cn": "小型怪物#4197",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #106 dummy",
   "en": "?",
   "kind": "small",
   "ro": "roEms100"
@@ -891,6 +966,7 @@
   "slot": 107,
   "emid": 4198,
   "cn": "小型怪物#4198",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #107 dummy",
   "en": "?",
   "kind": "small",
   "ro": "roEms100"
@@ -899,6 +975,7 @@
   "slot": 108,
   "emid": 4199,
   "cn": "小型怪物#4199",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #108 dummy",
   "en": "?",
   "kind": "small",
   "ro": "roEms100"
@@ -907,6 +984,7 @@
   "slot": 109,
   "emid": 4200,
   "cn": "小型怪物#4200",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #109 dummy",
   "en": "?",
   "kind": "small",
   "ro": "roEms100"
@@ -915,6 +993,7 @@
   "slot": 110,
   "emid": 4201,
   "cn": "小型怪物#4201",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #110 dummy",
   "en": "?",
   "kind": "small",
   "ro": "roEms100"
@@ -923,6 +1002,7 @@
   "slot": 111,
   "emid": 4202,
   "cn": "小型怪物#4202",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #111 dummy",
   "en": "?",
   "kind": "small",
   "ro": "roEms100"
@@ -931,6 +1011,7 @@
   "slot": 112,
   "emid": 4,
   "cn": "岩龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #112 (Basalmos)",
   "en": "Basarios",
   "kind": "big",
   "ro": null
@@ -939,6 +1020,7 @@
   "slot": 113,
   "emid": 5,
   "cn": "铠龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #113 (Gravimos)",
   "en": "Gravios",
   "kind": "big",
   "ro": null
@@ -947,6 +1029,7 @@
   "slot": 114,
   "emid": 7,
   "cn": "角龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #114 (Diablos)",
   "en": "Diablos",
   "kind": "big",
   "ro": null
@@ -955,6 +1038,7 @@
   "slot": 115,
   "emid": 1031,
   "cn": "鏖魔角龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #115 (NamedDiablos)",
   "en": "Bloodbath Diablos",
   "kind": "big",
   "ro": null
@@ -963,6 +1047,7 @@
   "slot": 116,
   "emid": 12,
   "cn": "老山龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #116 (Lao_ShanLung)",
   "en": "Lao-Shan Lung",
   "kind": "big",
   "ro": null
@@ -971,6 +1056,7 @@
   "slot": 117,
   "emid": 13,
   "cn": "黑龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #117 (MillaBoreis)",
   "en": "Fatalis",
   "kind": "big",
   "ro": null
@@ -1006,6 +1092,7 @@
   "slot": 121,
   "emid": 21,
   "cn": "桃毛兽王",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #121 (Babakonga)",
   "en": "Congalala",
   "kind": "big",
   "ro": null
@@ -1014,6 +1101,7 @@
   "slot": 122,
   "emid": 34,
   "cn": "白速龙王",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #122 (DosGianos)",
   "en": "Giadrome",
   "kind": "big",
   "ro": null
@@ -1022,6 +1110,7 @@
   "slot": 123,
   "emid": 42,
   "cn": "冰牙龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #123 (Berioros)",
   "en": "Barioth",
   "kind": "big",
   "ro": null
@@ -1030,6 +1119,7 @@
   "slot": 124,
   "emid": 44,
   "cn": "土砂龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #124 (Borboros)",
   "en": "Barroth",
   "kind": "big",
   "ro": null
@@ -1047,6 +1137,7 @@
   "slot": 126,
   "emid": 70,
   "cn": "影蜘蛛",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #126 (Nelskyura)",
   "en": "Nerscylla",
   "kind": "big",
   "ro": null
@@ -1055,7 +1146,7 @@
   "slot": 127,
   "emid": 1351,
   "cn": "混沌黑蚀龙",
-  "cn_src": "chS/table/itemData_chS.gmd #5239",
+  "cn_src": "chS/table/itemData_chS.gmd #4903",
   "en": "Chaotic Gore Magala",
   "kind": "big",
   "ro": null
@@ -1064,6 +1155,7 @@
   "slot": 128,
   "emid": 1103,
   "cn": "胧隐夜鸟",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #128 (NamedHoloroHoluru)",
   "en": "Nightcloak Malfestio",
   "kind": "big",
   "ro": null
@@ -1081,6 +1173,7 @@
   "slot": 130,
   "emid": 1106,
   "cn": "天眼泡狐龙",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #130 (NamedTamamitsune)",
   "en": "Soulseer Mizutsune",
   "kind": "big",
   "ro": null
@@ -1107,6 +1200,7 @@
   "slot": 133,
   "emid": 87,
   "cn": "阁螳螂(机偶)",
+  "cn_src": "none (official empty)",
   "en": "?",
   "kind": "big",
   "ro": null
@@ -1115,6 +1209,7 @@
   "slot": 134,
   "emid": 88,
   "cn": "阁螳螂",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #134 (Atlal_ka)",
   "en": "Ahtal-Ka",
   "kind": "big",
   "ro": null
@@ -1123,6 +1218,7 @@
   "slot": 135,
   "emid": 4113,
   "cn": "大雷光虫",
+  "cn_src": "chS/arc/resident_chS.arc :: monsterName_chS #135 (GreatThunderbug)",
   "en": "Great Thunderbug",
   "kind": "small",
   "ro": null
