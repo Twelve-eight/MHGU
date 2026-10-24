@@ -7,7 +7,7 @@
 
 状态标记：`[B]` = 本次直接读到 romfs/main 字节；`[C]` = 仓库既有文档/数据的定论；`[I]` = 推断；`[U]` = 未核实。
 
-**用词说明**：村（Village）任务 = 单人内容；集会所（Guild/Hub）任务 = 设计给联机（也可单机进）。本作集会所同时支持**本地联机**（面联）与**网络联机**，两套入口共用同一个任务池。
+**用词说明**：村（Village）任务 = 单人内容；集会所（Guild/Hub）任务 = 设计给联机（也可单机进）。本作集会所同时支持**本地联机**（面联）与**网络联机**，两套入口共用同一个任务池。怪物中文名以 `chS/arc/resident_chS.arc :: monsterName_chS` 为准（如 鬼蛙 = `Tetsukabura` #54、骸龙 = `Ostgaloa` #69）`[B]`。
 
 ---
 
@@ -81,7 +81,7 @@
 
 | 玩家问题 | 现状 | 数据在哪 |
 |---|---|---|
-| 联机怪血是不是 ×N？ | `[U]` | ① 任务侧只给 `HealthTbl` 表号；② 已核实怪物自己的 `*_dttune`（`arc/enemy/emNNN_00.arc :: enemy\dt_tune\emNNN_00_dttune`）**只含 base_hp @`+0x38`，没有按表号的倍率数组**（`docs/reference/formats/dttune.md`）⇒ 倍率表不在这只怪的资源里；③ 剩余候选：`main` 侧共享难度倍率表（运行期字段名 `mVitalTblNo_N` @`0x1562a79` 起，资源以 CRC32 为键，`docs/analysis/monsters/mon-ai-entry.md` §4.4），或敌数据表 `.edt`（读入函数 `rEnemyDataTable` @`0x52874`）/`.dtb`（`rEnemyDtBase` @`0x53ea0`） |
+| 联机怪血是不是 ×N？ | `[U]` | ① 任务侧只给 `HealthTbl` 表号；② 已核实怪物自己的 `*_dttune`（`arc/enemy/emNNN_00.arc :: enemy\dt_tune\emNNN_00_dttune`）：**只有 base_hp @`+0x38` 是固定偏移；文件另含按怪而异的肉质/状态表，但其中没有按 `HealthTbl` 表号的倍率数组**（`docs/reference/formats/dttune.md`）⇒ 倍率表不在这只怪的资源里；③ 剩余候选：`main` 侧共享难度倍率表（运行期字段名 `mVitalTblNo_N` @`0x1562a79` 起，资源以 CRC32 为键，`docs/analysis/monsters/mon-ai-entry.md` §4.4），或敌数据表 `.edt`（读入函数 `rEnemyDataTable` @`0x52874`）/`.dtb`（`rEnemyDtBase` @`0x53ea0`） |
 | 单机进集会所，血量和 4 人一样吗？ | 方向性「一样」 `[I]`（任务记录无按人数字段），精确倍率 `[U]` | 同上；另查 `main` 里按在场人数取系数的点——若有，在怪物生成/初始化路径（消费 `mVitalTblNo` 处）附近 |
 | 这条任务我 HR 不够 / 要几人才能接？ | 字段在、枚举未整理 `[I]`→`[U]` | `questData_<id>.ext` `0x012/0x013/0x014`（`Requirement1/2/ComboRequirement`，48 值枚举） |
 | 非 3 猫的任务有哪些？ | 未扫描 `[I]` | 同一记录 `0x00F` `Faints`，逐文件扫 1,849 个 `.ext` 即得 |
@@ -108,7 +108,8 @@
 | 任务总表 | `docs/data/mhgu.db` → `quests`（1,355 行） | hub/type/stars/time_limit/fee/reward/hrp；**无 HP/人数列** |
 | 任务↔怪 | `monster_to_quest`（2,305 行） | `unstable`/`hyper` 标志 |
 | 任务奖励 | `quest_rewards`（37,370）+ `hunting_rewards`（8,044） | 全奖励槽 |
-| 怪物基础体力 | `arc/enemy/emNNN_00.arc :: *_dttune +0x38`（romfs `[C]`）；查表入口 `monsters.base_hp` / `docs/data/json/monsters.json` | 93 只大型 |
+| 怪物基础体力 | `arc/enemy/emNNN_00.arc :: *_dttune +0x38`（romfs；已逐字节核对仅 em001/em002/em013 `[C]`，其余怪暂记 `[I]`，待 `docs/data/json/monster-dttune-index.json` 发布后统一升 `[C]`）；查表入口 `monsters.base_hp` / `docs/data/json/monsters.json` | 93 只大型 |
+| 怪物官方中文名 | `chS/arc/resident_chS.arc :: monsterName_chS`（268 条带 label；JSON `MHGU-private/romfs-extract/gmd-arc/monsterName_chS.gmd.json`） | 全怪物 `[B]` |
 | 任务二进制记录 | `romfs/nativeNX/loc/quest/questData/questData_<7id>.ext`（1,849 个，369 B） | 全部战斗参数含 `Faints`/`Requirement`/`Monsters[].HealthTbl` |
 | 任务资源链接 | `romfs/nativeNX/loc/quest/questLink/questLink_<id>.qdl`（1,854 个，308 B） | 怪组/报酬表/补给链接 |
 | 倍率表本体 | **未定位** ⇒ `[U]` | 已排除 `*_dttune`（只含 base_hp）；预期在 `main` 共享难度表（`mVitalTblNo` 索引）或 `.edt/.dtb` |
