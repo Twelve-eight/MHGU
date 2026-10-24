@@ -2,7 +2,7 @@
 
 Source files: `romfs/nativeNX/arc/enemy/emNNN_00.arc` → `enemy\dt_base\emNNN_00_dtbase` (type `0x59d9c3da`) and `emNNN_00_dtbparts` (type `0x1bbc291e`), zlib-compressed in the arc. Extract with `node tools/mhgu/arc.mjs extract <arc> <outdir> "_dtbase$|_dtbparts$"`; decode with `node tools/mhgu/dtbase.mjs <file|arc>`.
 
-Resource class: `rEnemyDtBase`, tag `dtb`, class size `0xD0`, registration fn `0x53ea0` (22 property records; name pool 0x15530d7, 26 names — the 4 `Pos[i]` slots + 2 share-group members are registered through sub-object bases, hence 22 records for 26 names). Loader: fn `0x538bc`, stream object `{u8* base @+8, pos @+0xC, size @+0x10}`, bulk read = `memcpy` fn `0x82710c` (`if([r4+0xC]+count <= [r4+0x10]) memcpy; [r4+0xC]+=count`). `rEnemyDtBaseParts`, tag `dtp`, class size `0xD8`, class-name registration `bl 0x7aedcc` @0x5639c with `r3=0xD8` (`e3a030d8` @0x5636c).
+Resource class: `rEnemyDtBase`, tag `dtb`, class size `0xD0`, property-registration fn `0x54028` (22 records; `0x53ea0` is the destructor; name pool 0x15530d7, 26 names — the 4 `Pos[i]` slots + 2 share-group members are registered through sub-object bases, hence 22 records for 26 names). Loader: fn `0x538bc`, stream object `{u8* base @+8, pos @+0xC, size @+0x10}`, bulk read = stream reader fn `0x82710c` (fast path `pos+count <= size` copies in memory — bcs @0x82712C falls back to `memcpy` fn `0x13EFE30`). `rEnemyDtBaseParts`, tag `dtp`, class size `0xD8`, class-name registration `bl 0x7aedcc` @0x5639c with `r3=0xD8` (`e3a030d8` @0x5636c).
 
 Evidence tags: [C] = verified against instruction words and/or file bytes of em001/em020/em022; [B] = inferred from data shape; [U] = unknown.
 
@@ -31,16 +31,16 @@ Loader order = file order (strictly sequential memcpy reads). "obj+X" = the rEne
 
 Field values (em001/em020/em022): BaseScale 1.0/1.0/1.2; Size 8/8/8; Rank 2/2/2; Nando 0; SpDieDamageType 0; DamageOnBit 0x08400066/0x72/0x66; DropDataCount 0; DropData f32 [500,0,0,100,0] / [300,0,0,0,-1100] / [0,0,0,0,-500].
 
-Member names for the loader offsets are the registered property names from fn `0x53ea0` (monster-classes.md "0x53ea0 — 22 个成员", re-verified: all 22 sites are `add r1, r10/r4/r5, #imm` immediates matching the table there). Registration/reader pairing ⇒ the 22 named members live across two sub-objects; the loader file order corresponds to the flat prefix above plus the conditional tail below.
+Member names for the loader offsets are the registered property names from fn `0x54028` (monster-classes.md "0x53ea0 — 22 个成员" lists the same records under the old fn attribution; re-verified: all 22 sites are `add r1, r10/r4/r5, #imm` immediates matching the table there). Registration/reader pairing ⇒ the 22 named members live across two sub-objects; the loader file order corresponds to the flat prefix above plus the conditional tail below.
 
 ## dtb conditional tail [C structure / U semantics]
 
 After the prefix, driven by flags13 (obj+0xBC..0xC8):
 
 1. if flags13[0xC8] (obj+0xC8): 1 byte "kind" (em001=02, em020/em022=03) → +0x94buf[0] [C]
-2. if flags13[0xC5] (obj+0xC5) > 0: template row 0x34 B, then `flags13[0xC5]` rows 0x34 B → +0x88buf [C]
+2. if flags13[0xC5] (obj+0xC5) > 0: **flags13[0xC5] rows of 0x34 B total** — row 0 read to sp scratch @0x53b70, rows 1..count-1 loop @0x53b88 (r7=1..count-1) into +0x84buf; alloc = 52×count (smulbb) → +0x84ptr [C]
    - **0x34-row = u32 + 4×vec3 f32** (52 = 4+48), floats row-relative +4..+0x34 [C]
-   - em001 template: (200,0,0) (-200,0,0) (0,0,0) (-200,0,350); row1: (200,0,0) (-100,0,0) (0,0,0) (-100,0,330) [C]
+   - em001 template (200,0,0) (-200,0,0) (0,0,0) (-200,0,350); row1: (200,0,0) (-100,0,0) (0,0,0) (-100,0,330) [C]
    - semantics = PushHit/offset vec3 group (PushHitStandOfs/PushHitFlyOfs/PushHitKabeOfs family) [B]
 3. Blocks A..J (loader 0x53bb0..0x53d50): conditional reads of 0x34 B→+0x88buf, 0x40 B→+0x74buf, 0x0C B→+0x78buf, 4 B→+0x8Cbuf, then 6 variable-size blocks whose guards are the flags13 pointer bytes ([sp]=obj+0xBE, [sp+4]=0xC0, [sp+8]=0xBC, [sp+0xC]=0xC1, [sp+0x10]=0xC2, [sp+0x14]=0xBF — `str r1,[sp,#n]` @0x539b4..0x53a2c). Guards read buffer[0] of other allocations (chained). Variable sizes (`e1a05100` r5 = X<<2, `e0600180` r0*7) not fully pinned down ⇒ remaining bytes emitted raw as `tailRaw` by the decoder [U].
 
@@ -55,7 +55,7 @@ These tail regions carry the remaining registered members (DamageSel, Pos[0..3],
 | 0x08 | 12×u8 | `04 06 02 00 01 00 00 0e 02 05 01 01` | counts block (4/6/2/0/1/0/0/14/2/5/1/1) [U per-field] |
 | 0x14 | … | f32 1785, 1.5, 1000×4, 500, 100 … | part-parameter floats [U] |
 
-rEnemyDtBaseParts has no member-name registration in the 0x53ea0 chain (like rEnemyDtTune); its loader and per-field semantics are not decoded yet [U].
+rEnemyDtBaseParts has no member-name registration in the 0x54028 chain (like rEnemyDtTune); its loader and per-field semantics are not decoded yet [U].
 
 ## Cross-check vs mhgu.db
 

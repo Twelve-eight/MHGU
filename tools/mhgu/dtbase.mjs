@@ -4,8 +4,8 @@
 //   - loader fn 0x538bc; stream = {u8* base @+8, pos @+0xC, size @+0x10}; bulk read = memcpy fn 0x82710c
 //   - header: "DTB\0" (u32 0x00425444) + version u32 0x15022601
 //   - strictly sequential fields; see DTB_FIELDS below for code evidence addresses.
-// Member names/offsets from the property-registration chain (fn 0x53ea0, 22 records; see
-// docs/mechanics/monster-classes.md and docs/reference/formats/dtbase.md).
+// Member names/offsets from the property-registration chain (fn 0x54028, 22 records; 0x53ea0 is
+// the destructor; see docs/mechanics/monster-classes.md and docs/reference/formats/dtbase.md).
 //
 // Usage:
 //   node tools/mhgu/dtbase.mjs <file>              decode one extracted .59d9c3da/.1bbc291e file
@@ -82,10 +82,12 @@ function decodeDtb(buf, label = 'dtb') {
 
   if (flag(0xC8) !== 0) tail.kindByte = r.u8();                    // 0x53b40 → +0x94buf[0]
   if (flag(0xC5) > 0) {                                            // 0x53b44..0x53bac
-    tail.templateRow = decodeRow(r.bytes(0x34));                   // 0x53b70 → sp scratch
+    // rows TOTAL = flags13[0xC5] (row 0 = template read @0x53b70; loop r7=1..count-1 @0x53b88);
+    // alloc = 52*count (smulbb). First row goes to sp scratch, rows 1.. to +0x84buf[i*0x34].
     const rows = [];
-    for (let i = 0; i < flag(0xC5); i++) rows.push(decodeRow(r.bytes(0x34))); // → +0x88buf[i*0x34]
-    tail.rows = rows;
+    for (let i = 0; i < flag(0xC5); i++) rows.push(decodeRow(r.bytes(0x34)));
+    tail.templateRow = rows[0];
+    tail.rows = rows.slice(1);
   }
   // Blocks A..J (guards partially decoded, sizes partly data-dependent) — emit the rest raw.
   tail.tailRaw = { offset: '0x' + r.pos.toString(16), bytes: hex(r.bytes(r.left)) };
