@@ -48,7 +48,7 @@
 | 触发方式 = 伤害蓄积 | [I] 游戏内观察；代码 0x106873c 按伤害事件推进 | 结构已定位 |
 | 触发阈值（多少伤害进怒） | **[U]** — dttune 内候选数值区已定位（见下方「分组阈值」），但**没有字段名或代码交叉验证，不能断言** | `emNNN_00_dttune` 分组区（偏移逐怪浮动），spec `docs/reference/formats/dttune.md` 同标 [U] |
 | 愤怒持续秒数 | **[U]** — 同上数值区；20 B 参数记录（`[f32, u16×2, u32×3]`）与 24 B `cAngryParam` 类大小候选相关，字段语义未验证 | 同上 + class-inventory `cAngryParam`=24 B |
-| 怒时攻击/速度倍率 | **数值数组已定位 [C bytes / 语义 B]**——每怪 30 个 f32 倍率数组在 dttune 内（见 §3bis）；代码侧：`AttackRate`（+0x08/+0x14）、`MotionSpeedRate`（+0x0C）、`MotionSpeedRateLimit`（+0x10）、`PowerRate`（+0x18）为 0x46498 注册器的 XML 成员名 [C]；**数组下标→具名字段的绑定 [U]** | 见 §3bis 与下方代码链 |
+| 怒时攻击/速度倍率 | **数值数组已定位 [C bytes / 语义 B]**——每怪 30 个 f32 倍率数组在 dttune 内（见 §3bis）；代码侧：`AttackRate`（+0x08/+0x14）、`MotionSpeedRate`（+0x0C）、`MotionSpeedRateLimit`（+0x10）、`PowerRate`（+0x18）为 0x46498 注册器的 XML 成员名 [C]；**下标 idx0=AttackRate [B]、idx1=MotionSpeedRate [B]、idx2=MotionSpeedRateLimit [B]，idx3..12 [U]** | 见 §3bis 与下方代码链 |
 | 疲惫触发 | ✅ **[C]/[I] 见 §4 总表** | dttune Exhaust 记录 |
 | 疲惫持续时间 | ✅ 部分怪有固定计时（如角龙 10 秒）；多数怪 durF=0 = 无计时（由进食/超时结束）[B]，见 §4 | dttune duration 帧 |
 
@@ -56,7 +56,13 @@
 
 ## 3bis. 怒时倍率数组与代码链（2026-10-25 补充 RE）
 
-**数值来源 [C bytes / 语义 B]**：每只怪的 `emNNN_00_dttune` 内含一个 **30 个 f32 的倍率数组**（120 B，值域 0.5..5.0，前 ~13 项随怪变化、其余为 1.0 默认值）；由 dttune 装载器 `0x57740` 以整块浮点读入（`0x5811c..0x58170`，计数 [r11+254]，落入 rEnemyDtTune [+148] 块 [+8] 指针）。**数组下标 0..12 → AttackRate/MotionSpeedRate/PowerRate 的逐项绑定未定 [U]**（运行期经参数槽对象中转，见代码链；直接读 rEnemyDtTune+148 的消费点全局扫描为零）。
+**数值来源 [C bytes / 语义 B]**：每只怪的 `emNNN_00_dttune` 内含一个 **30 个 f32 的倍率数组**（120 B，值域 0.5..5.0，前 ~13 项随怪变化、其余为 1.0 默认值）；由 dttune 装载器 `0x57740` 以整块浮点读入（`0x5811c..0x58170`，计数 [r11+254]，落入 rEnemyDtTune [+148] 块 [+8] 指针）。数值只从 dttune 流入，主程序内无数值副本 [C]（直接读 rEnemyDtTune+148 的消费点全局扫描为零）。
+
+**数组下标 → 具名字段的绑定**（运行期经参数槽对象中转）：
+- idx0 = **AttackRate** [B]：怒分支参数槽 21 经 `0x6f6e8` 读取后 ×0.5（vmul，`0x1068e50`）。
+- idx1 = **MotionSpeedRate** [B]：参数槽 36 的浮点倍率作用于动作速度 s16 字段（`[x+0x1428]+177`），下限钳制 ≥ 1.0（`0x10690ac..0x10690c4`）。
+- idx2 = **MotionSpeedRateLimit** [B]。
+- idx3..12 = [U]，推测为非怒状态的条件倍率（爆破、骑乘等特殊状态仅为推测，未确认），数值跨度 0.5..5.0，超出怒时常见范围。
 
 5 只怪数组前 14 项（其余 16 项全 1.0；数组起点与前后界 u16 逐怪记录）：
 
@@ -179,7 +185,7 @@
 
 ## 7. 待补（数据源已明确，后续可解）
 
-1. **愤怒触发阈值/持续秒数**：dttune 分组阈值区 + 20 B 参数记录（结构 [A]，语义 [U]）；下一步 = 把 30-f32 倍率数组的下标 0..12 绑定到具名字段（需经注册表 0x3ccff8 dump 每怪初始化节点的名字）。
+1. **愤怒触发阈值/持续秒数**：dttune 分组阈值区 + 20 B 参数记录（结构 [A]，语义 [U]）；怒时倍率数组的下标 idx0..2 已绑定（AttackRate、MotionSpeedRate、MotionSpeedRateLimit，见 §3bis），idx3..12 仍需经注册表 0x3ccff8 dump 每怪初始化节点的名字才能绑定。
 2. 其余 ~20 只怪 Exhaust 的 dttune 级验证：状态块偏移逐怪浮动（0x324/0x35C/0x39C 均有），等 `monster-dttune-index.json`（DtTuneAll 批量）落盘后逐行升级 [C]。
 3. 疲惫的"进食恢复"细节（吃什么、恢复多少、有没有 CD）：需动作表（`*_cmdtbl`）或代码侧 tired_Loop 分析。
-4. **怒时倍率的"玩家侧解读"**：30-f32 数组已给出（§3bis），但在"哪个下标 = 攻击力/速度/威力"绑定完成之前（[U]），本页不把任何单值宣称为"怒时攻击倍率 X 倍"。
+4. **怒时倍率的"玩家侧解读"**：idx0..2 已绑定（AttackRate、MotionSpeedRate、MotionSpeedRateLimit，见 §3bis）；idx3..12 仍为 [U]，本页不把这些下标宣称为具体倍率。
