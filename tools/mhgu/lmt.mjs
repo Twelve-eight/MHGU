@@ -13,13 +13,21 @@ const sext = (v, bits) => (v << (32 - bits)) >> (32 - bits);
 const lerp = (A, B, raw, scale) => raw.map((r, c) => B[c] + A[c] * (r - 8) / scale);
 
 // Each decoder returns { value: number[4], delta: frames until the next key }.
+function axis14(b, o, A, B, c) {
+  const v = b.readUInt32LE(o), value = B.slice();
+  value[c] += A[c] * (v & 0x3fff) / 16383;
+  value[3] += A[3] * ((v >>> 14) & 0x3fff) / 16383;
+  return { value, delta: v >>> 28 };
+}
+
 const DECODERS = {
   // 4 x signed 14 / 4096, fields from bit 0 are w,z,y,x; frame delta in the top 8 bits.
   6: { size: 8, decode(b, o) {
     const v = b.readBigUInt64LE(o), f = n => Number((v >> BigInt(n)) & 0x3fffn);
     return { value: [42, 28, 14, 0].map(s => sext(f(s), 14) / 4096), delta: Number(v >> 56n) };
   } },
-  // 4 x 7 bits; value = B + A * raw / 127 (10045/10780 unit keys, better than the (raw-8)/112 variant).
+  // 4 x 7 bits; value = B + A * raw / 127. [I] only 10045/10780 unit keys; the game routine uses sqrtf,
+  // so a 3-stored + derived-w layout is still open (docs/reference/formats/lmt.md).
   7: { size: 4, bounds: true, decode(b, o, A, B) {
     const v = b.readUInt32LE(o);
     return { value: [0, 7, 14, 21].map((s, c) => B[c] + A[c] * ((v >>> s) & 0x7f) / 127), delta: v >>> 28 };
@@ -38,6 +46,15 @@ const DECODERS = {
       ((v >>> 7) & 0x1f8) | ((v >>> 16) & 7), ((v >>> 15) & 0x1f0) | ((v >>> 24) & 0xf)];
     return { value: lerp(A, B, raw, 496), delta: v >>> 28 };
   } },
+  // Translation / scale: 3 x u16 / 65535 + u16 frame delta (953/953 delta sums, first key = ref 888/953).
+  4: { size: 8, bounds: true, decode(b, o, A, B) {
+    return { value: [0, 2, 4, 6].map((k, c) => c < 3 ? B[c] + A[c] * b.readUInt16LE(o + k) / 65535 : B[3]),
+      delta: b.readUInt16LE(o + 6) };
+  } },
+  // Single-axis rotations: two 14-bit fields + 4-bit delta. Type 11 stores x,w; type 12 stores y,w;
+  // the other components stay at B (unit length 313908/313908 and 2041/2041 keys).
+  11: { size: 4, bounds: true, decode: (b, o, A, B) => axis14(b, o, A, B, 0) },
+  12: { size: 4, bounds: true, decode: (b, o, A, B) => axis14(b, o, A, B, 1) },
 };
 
 export function readLmt(buf, label = '<buffer>') {
