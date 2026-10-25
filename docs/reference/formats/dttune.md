@@ -1,6 +1,6 @@
 # `*_dttune` (rEnemyDtTune) — format spec
 
-> **Per-monster offsets — read this first.** Only base HP @0x38 is a fixed offset. The meat table and the status block live at variable offsets (meat seen at 0x8C/0x8E/0x8F; status at 0x1F4/0x22F/0x351/0x35C/0x3A1/0x4E8 or absent) with variable record stride and placeholder/disabled records. A monster's meat/status may be cited [C] only if the table was located in *that* file and its values cross-check against `mhgu.db`. Per-monster offsets are published in `docs/data/json/monster-dttune-index.json` (DtTuneAll).
+> **Per-monster offsets — read this first.** Only base HP @0x38 is a fixed offset. The meat table and the status block live at variable offsets (meat seen at 0x8C/0x8E/0x8F; status at 0x1F4/0x22F/0x351/0x35C/0x3A1/0x4E8 or absent) with variable record stride, a 12-B non-record slot before Blast, and bases that may sit on an odd byte offset. A monster's meat/status may be cited [C] only if the table was located in *that* file and its values cross-check against `mhgu.db`. Per-monster offsets are published in `docs/data/json/monster-dttune-index.json` (DtTuneAll).
 
 Source files: `romfs/nativeNX/arc/enemy/emNNN_00.arc` → entry `enemy\dt_tune\emNNN_00_dttune`, type hash `0x48e8ac29`, zlib-compressed inside the arc. Extract with `node tools/mhgu/arc.mjs extract <arc> <outdir> "_dttune$"`; decode with `node tools/mhgu/dttune.mjs <file>`.
 
@@ -57,34 +57,40 @@ The `pad` byte reads 100 (0x64) in all sampled rows; semantics unknown [U].
 
 ## Status thresholds — locate rule [C per monster]
 
-Variable block (0x1F4/0x22F/0x351/0x35C/0x3A1/0x4E8 observed; sometimes absent, e.g. Fatalis), variable length and stride. Records for a subset of Poison, Sleep, Para(ylsis), KO, Exhaust(ion), Mount, Jump, Blast (db `monster_status` order; statuses that are db-zero rows may have no active record, and a db row may be absent from the file — em027 Teostra has no Sleep record despite a non-zero db row [U why]).
+Variable block (0x1F4/0x22F/0x351/0x35C/0x3A1/0x4E8 observed; sometimes absent, e.g. em087_00 and the `ems*` small-monster arcs — `.tmp/reports-dsv/stat-ofs-E.md` §0), variable length and stride. Records for a subset of Poison, Sleep, Para(ylsis), KO, Exhaust(ion), Mount, Jump, Blast (db `monster_status` order; statuses that are db-zero rows may have no active record, and a db row may be absent from the file). A "missing" record is usually a **locator** miss, not an absent record: em027 Teostra does carry Sleep @0x22F (`200/600/5/2400/100/600`, db-exact) behind its odd-aligned base 0x21F, and em013 Fatalis carries a full 6-record block @0x232 although db has no `monster_status` rows for emid 13 at all (`.tmp/reports-rds/rev-stat-ofs-C.md` #8, `rev-stat-ofs-B.md` C2/C4).
 
 Record shape (12 B = 6 × u16):
 
 ```
 u16 initial      build-up to trigger (db `initial`)
-u16 A            meaning [U]; value varies per monster, not a shape gate [B] — see the A/B note below
-u16 B            meaning [U]; value varies per monster, not a shape gate [B] — see the A/B note below
+u16 A            decay period in frames, reloaded into the per-status f32 timer on expiry (`0xa3bf4 ldrsh r0,[r7,#2]` → `0xa3c00 vstr`; Poison instance `0xa3a80`) [C disassembly]; varies per monster, not a shape gate [B] — see the A/B note below
+u16 B            points removed from the build-up counter per period (`0xa3bdc ldrh r0,[r7,#4]` / `0xa3be4 sub` / clamp 0 `0xa3bec`; Poison instance `0xa3a68`) [C disassembly]; varies per monster, not a shape gate [B] — see the A/B note below
 u16 duration     frames (db `duration` seconds × 60): 3600=60 s, 2400=40 s, 600=10 s
 u16 increase     build-up growth per application (db `increase`)
 u16 max          build-up cap (db `max`)
 ```
 
-**A/B note [B]**: A/B are **not constant** per monster, so they are not a shape gate. Across the 70 db-located Poison records the observed (A,B) pairs are 600/5 ×41, 300/10 ×15, 300/5 ×9, 600/10 ×4, 150/10 ×1 (byte sweep, `.tmp/reports-swe2/review-gu2rise-params.md` L258-260); in em001 the Mount/Jump/Blast records carry 0/0. Gating a scan on 600/5 rejects 29 of those 70 db-verified Poison records (em004 then loses 7 of 8 records; em011 drifts into float data and "finds" an invented Blast). What A/B mean at runtime is still [U].
+**A/B semantics [C for Exhaust/Poison, [U] elsewhere]**: the GU walker ticks the per-status f32 timer at X+0x5D88 down by dt·1.0 (`0xa3bc8 bl 0x72128` with `vmov.f32 s0,#1`), and when the timer reaches 0 the counter loses B and the timer reloads A (`0xa3be4 sub`, `0xa3c00 vstr`; exhaust instance `0xa3b88..0xa3c04`, poison instance `0xa3a60..0xa3a8c` — `.tmp/reports-rds/rev-gu-stamina.md` §H, re-disassembled 2026-10-26). So A = decay period in frames, B = points removed per period; A=0/B=0 (Mount/Jump/Blast in em001) makes the tick fire every frame and remove nothing, i.e. no decay [B]. Whether Sleep/Para/KO/Mount/Jump consume A/B the same way is not disassembled [U].
+
+**A/B note [B]**: A/B are **not constant** per monster, so they are not a shape gate. Across the full 89 arcs with a non-trivial db Poison row (88 strict db matches + em030_00, whose file initial reads 27 against db 30) the observed (A,B) pairs are 600/5 ×44, 300/10 ×17, 600/10 ×17, 150/10 ×1, 300/5 ×10 (`.tmp/reports-rds/rev-ab-doc.md` #3, byte-granular sweep — the earlier 70-record figures came from a u16-grid scan); in em001 the Mount/Jump/Blast records carry 0/0. A gate on 600/5 keeps only the 44 records that carry exactly that pair (45 of 89 rejected), and em004 then loses 7 of 8 records while em011 drifts into float data and "finds" an invented Blast.
 
 Extras that break a fixed stride:
 - **Poison trailing pair**: 2 extra u16 after the Poison record, value varies per monster ([5,120] em001/em002; [10,300] em011/em024; [5,60] em027/em057; [8,60] em043).
-- **Placeholder/disabled records**: e.g. em011 record @0x234, em024 @0x3A9, em027 @0x26F — all-zero or sentinel-filled records that occupy a slot.
-- **Compact Blast (em043)**: 5-u16 record `130/0/45/1030/300` — db Blast values initial 130/increase 45/max 1030/damage 300 all present but the record is 2 u16 shorter than standard; exact field mapping [U].
-- **Blast damage [C]**: with the standard 6×u16 Blast record, the next u16 after the record is db `damage` (em001 100, em011 100, em024 100, em027 100, em057 100; em043 carries 300 inside the compact record). 6/6 db Blast-damage values reproduced.
+- **Non-record slot before Blast (S)**: 12 B of `0x0096` + 10 tuning u8, or a `ff ff`-led filler (em027 @0x26B `ff ff 10 ff 0c ff 0c ff 08 ff 08 ff`; em011 @0x234; em024 @0x3A9) — a slot, not a sextet: skip it by position, never parse it. S = 1 in 31 of the 32 block-bearing arcs of the em060..em088 slice, S = 0 only in em088_00 (`.tmp/reports-dsv/stat-ofs-E.md` §1). Earlier drafts called these "placeholder records" and put em027's slot at 0x26F — it starts at 0x26B (`.tmp/reports-rds/rev-stat-ofs-C.md` Difficulties).
+- **em043 Blast is standard, not compact [C]**: em043_00 and em043_05 both carry the normal 7-u16 shape at 0x54C — `82 00 00 00 00 00 00 00 2d 00 06 04 2c 01` = `130/0/0/0/45/1030` plus damage u16 `2c 01` = 300 @0x558. The old "5-u16 `130/0/45/1030/300`" reading dropped the two zero u16; no shortened variant exists (`.tmp/reports-rds/rev-ab-doc.md`, secondary note; bytes re-read 2026-10-26).
+- **Blast damage [C]**: with the standard 6×u16 Blast record, the next u16 after the record is db `damage` (em001 100, em011 100, em024 100, em027 100, em057 100; em043 300 @0x558). 6/6 db Blast-damage values reproduced.
 
-**How to locate/parse the block in a new file** [B]: scan u16 offsets for the Poison record shape (initial = db `initial`, duration = multiple of 60, plausible increase/max, A/B unrestricted — they are per-monster, see the A/B note) confirmed against db values; walk records sequentially, skipping the poison trailing pair and placeholder records, until Blast. Validate every record against db before citing.
+**How to locate/parse the block in a new file** [B]: scan **byte** offsets — every offset, not the u16 grid — for the Poison record shape (initial = db `initial`, duration = multiple of 60, plausible increase/max, A/B unrestricted — they are per-monster, see the A/B note) confirmed against db values. **18 of the 89** db-verified Poison records start on an odd byte offset (em024_00 0x351, em027_00 0x21F, em057_00 0x3A1, em063_00 0x2F5, em071_00 0x329, em080_00 0x34B, em086_00 0x1F7, … — full list `.tmp/reports-rds/rev-ab-doc.md` #10), so a u16-grid scan is blind to them; most index entries with `layout: "raw"` / `status: null` are such misses rather than missing blocks (em087_00 is the one block-less arc of the em060..em088 slice).
+
+**Block-start marker — a hint, never the rule [C]**: in most non-Fatalis arcs the 4 bytes immediately before the block read `ff ff ff 00` (em014_00 0x262..0x265, base 0x266), but the pattern is **not unique**: a non-Fatalis file carries 3 hits (em014_00 @0x219 / 0x262 / 0x369) and only the middle one precedes the base — the others sit inside `ff ff ff ff 00 00 00 00` runs. The Fatalis family has **no** marker in front: em013_00 starts its first record at 0x232, right after three f32 `1.0` (`00 00 80 3f` @0x226/0x22A/0x22E), and its single `ff ff ff 00` hit (@0x35F) is a decoy. em011_00 is the same shape (no pad; poison follows ten 1.0 floats). Use the marker only to confirm a base already found by content (`.tmp/reports-rds/rev-stat-ofs-A.md` Errata 1, `rev-stat-ofs-B.md` C1b/C2b).
+
+**Offset-shift rule once `p` = Poison start is known [C]**: `blast = p + 16 + 12·(N + S)` and `damage = blast + 12`, where N = the 12-B records physically present after the poison pair (Sleep/Para/KO/Exhaust/Mount/Jump in that order, an absent status costing 0 B — em084_00 carries one leftover record although its db has only Poison) and S = the non-record slot above (1 normally). With S = 1 this is the convenient `blast = p + 28 + 12·N` (em001_00 p=0x35C, N=6 → blast 0x3C0, damage 0x3CC); the one S = 0 arc of the em060..em088 slice is em088_00 (p=0x340, N=6 → blast 0x398 `130/0/0/0/50/1030`, damage 0x3A4 = 100), where `p + 28 + 12·N` would land on the damage u16 (`.tmp/reports-dsv/stat-ofs-E.md` §1, re-read from bytes). Where the emid's db Blast row is all-zero (em088, em084) the pair at that position is a disabled default and must not be ported. Walk records sequentially, skipping the poison trailing pair and the S slot, until Blast. Validate every record against db before citing.
 
 Values that exist are db-exact across all 6 monsters checked (108/108 initial+increase+max, 18/18 durations = db s×60).
 
 ## After the status block [U]
 
-Motion/part tuning: u8 runs (e.g. `150 0 20 25 16 22 16 22 14 18 14 18` @0x3B4 em001), staggered f32s (multipliers like 1.25/1.1/1.05/1.5/3/0.5/2 @0x1B6..), record structures with float pairs, all unverified against db. See decoder `--raw` dump for exact bytes.
+Motion/part tuning: u8 runs (the 12-B S slot itself reads as one — `150 0 20 25 16 22 16 22 14 18 14 18` @0x3B4 em001), staggered f32s (multipliers like 1.25/1.1/1.05/1.5/3/0.5/2 @0x1B6..), record structures with float pairs, all unverified against db. See decoder `--raw` dump for exact bytes.
 
 ## Cross-check verdict
 
@@ -92,7 +98,7 @@ Motion/part tuning: u8 runs (e.g. `150 0 20 25 16 22 16 22 14 18 14 18` @0x3B4 e
 |---|---|---|---|
 | base HP | 0x38 u32, fixed | monsters.base_hp | **8/8 exact** — fixed offset, cite [C] freely |
 | meat | 8×10 @ 0x8C/0x8E/0x8F, per-monster, + conditional layers at +80·k | monster_damage rows | base rows + per-part conditional layers both stored; decoder `--db` locates & matches the base table 8/8 monsters; 2 known impact outliers (em024 Wings 20 vs 15, em057 Tail Tip 20 vs 19); cite [C] **per monster** with located offset; conditional layers are per-part overrides (not whole-body states) |
-| status | variable block 0x1F4..0x4E8, per-monster | monster_status rows | decoder `--db` locates & matches 6/6 monsters with db rows (all records + durations + Blast damage); em013 candidate block correctly rejected (0 db rows); cite [C] **per monster** after location+match |
+| status | variable block 0x1F4..0x4E8, per-monster (base may be odd) | monster_status rows | decoder `--db` locates & matches 6/6 monsters with db rows (all records + durations + Blast damage); em013's 6-record block @0x232 is rejected as a *db match* only because emid 13 has no db rows at all; cite [C] **per monster** after location+match |
 | conditional-state meat | conditional layers at +80·k (per-part overrides) | monster_damage "Enraged"/"Wind Barrier"/"Charged" rows | **stored** — layer rows byte-match db conditional rows (Kirin L1 = Head (Enraged) exact); cite [C] per matched layer |
 | rage/tuning floats | 0xE6+ | — | no db counterpart found [U] |
 
