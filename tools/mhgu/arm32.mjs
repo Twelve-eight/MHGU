@@ -82,6 +82,21 @@ export function decode(w, addr) {
       W = (w >>> 21) & 1, L = (w >>> 20) & 1;
     const rn = R[(w >>> 16) & 0xF], rt = R[(w >>> 12) & 0xF];
     const mn = (L ? 'ldr' : 'str') + (B ? 'b' : '') + cc;
+    // Media instructions (bit25 = 1 and bit4 = 1) are not loads/stores.
+    if (I && ((w >>> 4) & 1)) {
+      // Extend (+add): bits 27:23 = 01101, bits 9:4 = 000111; op = bits 22:20, rotate = bits 11:10 * 8.
+      if (((w >>> 23) & 0x1F) === 0x0D && ((w >>> 4) & 0x3F) === 0x07) {
+        const op = (w >>> 20) & 7, rn = (w >>> 16) & 0xF, rot = ((w >>> 10) & 3) * 8;
+        // [plain form (Rn = pc), accumulate form]
+        const name = { 0: ['sxtb16', 'sxtab16'], 2: ['sxtb', 'sxtab'], 3: ['sxth', 'sxtah'],
+                       4: ['uxtb16', 'uxtab16'], 6: ['uxtb', 'uxtab'], 7: ['uxth', 'uxtah'] }[op];
+        if (name) {
+          const rd = R[(w >>> 12) & 0xF], rm = R[w & 0xF], r = rot ? `, ror #${rot}` : '';
+          return rn === 15 ? `${name[0]}${cc} ${rd}, ${rm}${r}` : `${name[1]}${cc} ${rd}, ${R[rn]}, ${rm}${r}`;
+        }
+      }
+      return `.word 0x${(w>>>0).toString(16).padStart(8,'0')} ; media`;
+    }
     if (I) return `${mn} ${rt}, [${rn}, ${shifter(w)}]`;
     const off = w & 0xFFF;
     if (rn === 'pc') {
