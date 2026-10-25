@@ -7,6 +7,7 @@ Read this before any GU binary work. Every item below cost a previous agent hour
 - **ARM A32 only, not Thumb.** Every verified call site has cond 0xE words. Thumb scans are invalid.
 - Tools: CLI `node "G:/omp works/.tmp/re-cli.mjs" disasm|words|calls|lits|fn <vaddr> [n]`, or the mhgu-re MCP (v1.3.0+). Both use `MHGU/tools/mhgu/arm32.mjs`.
 - Decoder history: before v1.2.0 ldrh/ldrsb/ldrsh/strd offsets were wrong; before v1.3.0 `E6BFxx7x` (SXTH) and the whole sxt*/uxt* family printed as `ldr ... [pc, rX, ror rY]`. If a report says "UNPREDICTABLE" or "pc ror load", re-disassemble with the current tool. Other media ops still print as `.word ... ; media`: decode by hand from the ARM ARM, do not guess.
+- **The mhgu-re MCP server loads the decoder once at start.** A long-running session can still serve an old build (seen 2026-10-25: halfword register offsets printed as `#0`, SXTH as `ldr ... ror`). If MCP output disagrees with the CLI, trust the CLI (`.tmp/re-cli.mjs` re-imports `arm32.mjs` on every run).
 - `E79Fxxxx` = `ldr rX, [pc, rY]` (PC-relative register-offset load, real). Pattern: `ldr r0,[pc,#imm]` then `ldr r0,[pc,r0]` = load from a global; resolve with `words`.
 
 ## 2. Finding code
