@@ -97,15 +97,20 @@ export function decode(w, addr) {
       }
       return `.word 0x${(w>>>0).toString(16).padStart(8,'0')} ; media`;
     }
-    if (I) return `${mn} ${rt}, [${rn}, ${shifter(w)}]`;
+    // Addressing (ARM ARM A5.3): P=1 pre-indexed ([rn, off], '!' when W=1); P=0 post-indexed ([rn], off;
+    // W=1 there means the unprivileged ldrt/strt form). U=0 subtracts the offset.
+    const sgn = U ? '' : '-';
+    const fmt = (o) => (P ? `[${rn}, ${o}]${W ? '!' : ''}` : `[${rn}], ${o}`);
+    const mnT = !P && W ? (L ? 'ldr' : 'str') + (B ? 'b' : '') + 't' + cc : mn;
+    if (I) return `${mnT} ${rt}, ${fmt(sgn + shifter(w))}`;
     const off = w & 0xFFF;
-    if (rn === 'pc') {
+    if (rn === 'pc' && P && !W) {
       const tgt = (addr + 8 + (U ? off : -off)) >>> 0;
       let lit = '';
       try { lit = ` ; [0x${tgt.toString(16)}]=0x${rd32(tgt).toString(16)}`; } catch {}
-      return `${mn} ${rt}, [pc, #${U?'':'-'}${off}]${lit}`;
+      return `${mn} ${rt}, [pc, #${sgn}${off}]${lit}`;
     }
-    return `${mn} ${rt}, [${rn}, #${U?'':'-'}${off}]${P ? '' : ' (post)'}`;
+    return `${mnT} ${rt}, ${fmt(`#${sgn}${off}`)}`;
   }
 
   // ---- bits 27:26 = 00 or 11 ----
