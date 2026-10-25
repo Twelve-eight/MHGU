@@ -63,12 +63,14 @@ Record shape (12 B = 6 × u16):
 
 ```
 u16 initial      build-up to trigger (db `initial`)
-u16 A            600 for timed statuses, else 0 [B]
-u16 B            5 for timed statuses, else 0 [B]
+u16 A            meaning [U]; value varies per monster, not a shape gate [B] — see the A/B note below
+u16 B            meaning [U]; value varies per monster, not a shape gate [B] — see the A/B note below
 u16 duration     frames (db `duration` seconds × 60): 3600=60 s, 2400=40 s, 600=10 s
 u16 increase     build-up growth per application (db `increase`)
 u16 max          build-up cap (db `max`)
 ```
+
+**A/B note [B]**: A/B are **not constant** per monster, so they are not a shape gate. Across the 70 db-located Poison records the observed (A,B) pairs are 600/5 ×41, 300/10 ×15, 300/5 ×9, 600/10 ×4, 150/10 ×1 (byte sweep, `.tmp/reports-swe2/review-gu2rise-params.md` L258-260); in em001 the Mount/Jump/Blast records carry 0/0. Gating a scan on 600/5 rejects 29 of those 70 db-verified Poison records (em004 then loses 7 of 8 records; em011 drifts into float data and "finds" an invented Blast). What A/B mean at runtime is still [U].
 
 Extras that break a fixed stride:
 - **Poison trailing pair**: 2 extra u16 after the Poison record, value varies per monster ([5,120] em001/em002; [10,300] em011/em024; [5,60] em027/em057; [8,60] em043).
@@ -76,7 +78,7 @@ Extras that break a fixed stride:
 - **Compact Blast (em043)**: 5-u16 record `130/0/45/1030/300` — db Blast values initial 130/increase 45/max 1030/damage 300 all present but the record is 2 u16 shorter than standard; exact field mapping [U].
 - **Blast damage [C]**: with the standard 6×u16 Blast record, the next u16 after the record is db `damage` (em001 100, em011 100, em024 100, em027 100, em057 100; em043 carries 300 inside the compact record). 6/6 db Blast-damage values reproduced.
 
-**How to locate/parse the block in a new file** [B]: scan u16 offsets for the Poison record shape (initial = db `initial`, A=600, B=5, duration = multiple of 60, plausible increase/max) confirmed against db values; walk records sequentially, skipping the poison trailing pair and placeholder records, until Blast. Validate every record against db before citing.
+**How to locate/parse the block in a new file** [B]: scan u16 offsets for the Poison record shape (initial = db `initial`, duration = multiple of 60, plausible increase/max, A/B unrestricted — they are per-monster, see the A/B note) confirmed against db values; walk records sequentially, skipping the poison trailing pair and placeholder records, until Blast. Validate every record against db before citing.
 
 Values that exist are db-exact across all 6 monsters checked (108/108 initial+increase+max, 18/18 durations = db s×60).
 
