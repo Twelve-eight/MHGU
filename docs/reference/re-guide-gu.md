@@ -1,0 +1,35 @@
+# MHGU 1.4.0 main reverse-engineering guide (for agents)
+
+Read this before any GU binary work. Every item below cost a previous agent hours.
+
+## 1. Binary facts
+- File: `G:/omp works/.tmp/mhgu/extract/exefs-0eb5/main.140.flat.bin`. vaddr = flat offset - 0x100.
+- **ARM A32 only, not Thumb.** Every verified call site has cond 0xE words. Thumb scans are invalid.
+- Tools: CLI `node "G:/omp works/.tmp/re-cli.mjs" disasm|words|calls|lits|fn <vaddr> [n]`, or the mhgu-re MCP (v1.3.0+). Both use `MHGU/tools/mhgu/arm32.mjs`.
+- Decoder history: before v1.2.0 ldrh/ldrsb/ldrsh/strd offsets were wrong; before v1.3.0 `E6BFxx7x` (SXTH) and the whole sxt*/uxt* family printed as `ldr ... [pc, rX, ror rY]`. If a report says "UNPREDICTABLE" or "pc ror load", re-disassemble with the current tool. Other media ops still print as `.word ... ; media`: decode by hand from the ARM ARM, do not guess.
+- `E79Fxxxx` = `ldr rX, [pc, rY]` (PC-relative register-offset load, real). Pattern: `ldr r0,[pc,#imm]` then `ldr r0,[pc,r0]` = load from a global; resolve with `words`.
+
+## 2. Finding code
+- **Small immediates** (skill ids, state numbers, tree ids < 256) are `mov rN,#imm` / `cmp rN,#imm`. `lits` will not find them. Scan disasm for the mov/cmp, then check the next `bl`.
+- `lits` finds pc-relative literals plus movw+movt pairs (movt within 8 insns) and vldr pc. A 0-hit `lits` on a type hash does not mean "unused": resource type hashes appear only in per-arc (pathHash, typeHash) manifests (around flat 0x15dccd4); loaders are data-driven.
+- `calls` lists direct `bl`/`blx imm` only. Thunks and tail calls (`b`) hide callers: when a census of a function shows no expected ids, look for thunks that jump to it.
+- No 'wind'/'Wind'/'HDE' strings in main. Do not search for English names of mechanics.
+
+## 3. Known anchors (verified, cite them, do not rediscover)
+- Active-skill test: thunk `0x2864c4(player, skillId)` -> `0xe0da0` bitmask test at `[[pl+0x13C4]+4+392]`, word `988 + 4*(id>>5)`. `0x2864e0` -> `0xe1e08` compares the 8-entry active list (`ldrb [588..595]`). Skill ids = `mhgu.db skills._id` (10 HG Earplugs, 11 Earplugs, 12/13 Windproof Hi/Lo, 14 Tremor Res). 978 static call sites; the `mov r1,#id` before each `bl` names the skill.
+- Wind/roar reaction gate `0x2f2874(this, kind)`; tremor gate in `0x2ee508` at `0x2f02f8`. Player hit-reaction executor `0x2ee508`, dispatcher `0x2f22e8` (79-case table at 0x2f2320).
+- Monster abnormal-state subsystem `0x2EF000..0x2F5FFF`; status buildup add `0x2F58B4` (u16 @em+0x298C, s16 @em+0x298E), potency `0x2F595C`, called from `0x1711DC..0x171204`.
+- Reports with full evidence: `G:/omp works/.tmp/reports-mech/wind-gu-code.md`, `status-gu.md`, `interrupt-gu-data.md`.
+
+## 4. Data files
+- romfs `G:/mhgu-romfs/romfs/nativeNX/`; `node "G:/omp works/MHGU/tools/mhgu/arc.mjs" list|extract`.
+- Monster id -> monster: ONLY `MHGU/docs/data/json/monster-slot-map.json` (emid, slot, cn, en, cn_src). em001 = Rathian (slot 0), em002 = Rathalos (slot 3), em010 = Plesioth (slot 9), em016 = Iodrome (slot 13), em023 = Rajang (slot 21), em024 = Kushala Daora (slot 23). Never from memory.
+- dttune: layout notes in `MHGU/docs/wiki/hitzones-all-a.md` §1, offsets per monster in `MHGU/docs/data/json/monster-dttune-index.json` (offsets are hex strings: parse with int(x,16)).
+- attackdata (`enemy\hit_data\emNNN_00_attackdata`): `HDE\0`, count@8 = slots+1, 0x20 B slots from 0x30, `FFFF/FE` slots are list separators (some monsters have two lists).
+- Cross-check against `MHGU/docs/data/mhgu.db` (third-party db: second source, not ground truth) and the wiki pages under `MHGU/docs/wiki/`.
+
+## 5. Method
+1. Write ONE decoder script for a file family and run it on every monster; exceptions show up only across all monsters.
+2. For a classifier claim, report hits/misses/leaks on all monsters, not examples.
+3. Tag every claim [C]/[B]/[I]/[U] at the claim; cite file + offset or vaddr.
+4. Append to your report after every step, including dead ends (Ruled out section), so the next agent skips them.
