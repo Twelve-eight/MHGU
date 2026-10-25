@@ -20,6 +20,8 @@ Read this before any GU binary work. Every item below cost a previous agent hour
 - Active-skill test: thunk `0x2864c4(player, skillId)` -> `0xe0da0` bitmask test at `[[pl+0x13C4]+4+392]`, word `988 + 4*(id>>5)`. `0x2864e0` -> `0xe1e08` compares the 8-entry active list (`ldrb [588..595]`). Skill ids = `mhgu.db skills._id` (10 HG Earplugs, 11 Earplugs, 12/13 Windproof Hi/Lo, 14 Tremor Res). 978 static call sites; the `mov r1,#id` before each `bl` names the skill.
 - Wind/roar reaction gate `0x2f2874(this, kind)`; tremor gate in `0x2ee508` at `0x2f02f8`. Player hit-reaction executor `0x2ee508`, dispatcher `0x2f22e8` (79-case table at 0x2f2320).
 - Monster abnormal-state subsystem `0x2EF000..0x2F5FFF`; status buildup add `0x2F58B4` (u16 @em+0x298C, s16 @em+0x298E), potency `0x2F595C`, called from `0x1711DC..0x171204`.
+- Monster AI script (rEnemyCmd / EMC): monster holds it at em+0x2588; interpreter 0x82f80, loop 0x83770, 256-way table 0x837ac; instruction length 0x50ce0 with table 0x1732c8c; block matcher 0x8e144. Format + decoder: `MHGU/docs/reference/formats/emc.md`, `MHGU/tools/mhgu/emc.mjs`.
+- Monster rage/tired pipeline (MechRageGU, under glm review): 0x1069d8c -> 0x106aef0 -> 0x1068dd8 -> 0x106b04c.
 - Reports with full evidence: `G:/omp works/.tmp/reports-mech/wind-gu-code.md`, `status-gu.md`, `interrupt-gu-data.md`.
 
 ## 4. Data files
