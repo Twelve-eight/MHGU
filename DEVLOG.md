@@ -922,3 +922,7 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 
 ## 2026-10-25 11:30 附带提交说明
 - 043a1e3 用 `commit -a` 时连带提交了工作区里已有的 `docs/analysis/code/tierb-pass3/tierB3-slice-13c.md` 改动（Roles 行 worker 5/leaf 2 → worker 3/leaf 4，与同文件审查结论一致）。来源是此前未提交的修正，内容核对无误，保留。以后只 add 指名文件。
+
+## 2026-10-25 wiki 合入
+- gunner-ammo.md：表头 f32 改为 1.2（字节核实）；内藏弹名字映射记为冲突 [X]。
+- re-item-param 的陷阱值拒收（实为肉质字节）。
