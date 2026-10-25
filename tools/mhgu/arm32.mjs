@@ -175,10 +175,87 @@ export function decode(w, addr) {
 
   if (b27_26 === 3) {
     if ((w & 0x0F000000) === 0x0F000000) return `svc${cc} #${w & 0xFFFFFF}`;
+    const v = decodeVfp(w, addr, cc);
+    if (v) return v;
     return `.word 0x${(w>>>0).toString(16).padStart(8,'0')} ; coproc`;
   }
 
   return `.word 0x${(w>>>0).toString(16).padStart(8,'0')}`;
+}
+
+// VFPv3 (cp10 = single, cp11 = double), A32 encodings from the ARM ARM (ARMv7-A/R, A7.5-A7.9).
+// Returns null for anything not covered so the caller prints a raw `.word ; coproc`.
+function decodeVfp(w, addr, cc) {
+  const cp = (w >>> 8) & 0xF;
+  if (cp !== 10 && cp !== 11) return null;
+  const dbl = cp === 11, ty = dbl ? '.f64' : '.f32';
+  const S = (v, b) => `s${(v << 1) | b}`, D = (v, b) => `d${(b << 4) | v}`;
+  const vd = (w >>> 12) & 0xF, Dbit = (w >>> 22) & 1, vn = (w >>> 16) & 0xF, Nbit = (w >>> 7) & 1;
+  const vm = w & 0xF, Mbit = (w >>> 5) & 1;
+  const rd = dbl ? D(vd, Dbit) : S(vd, Dbit), rn = dbl ? D(vn, Nbit) : S(vn, Nbit), rm = dbl ? D(vm, Mbit) : S(vm, Mbit);
+  // 64-bit transfers: vmov dM, rt, rt2 / vmov rt, rt2, dM (and the two-single form)
+  if ((w & 0x0FE00FD0) === 0x0C400B10 || (w & 0x0FE00FD0) === 0x0C400A10) {
+    const toCore = (w >>> 20) & 1, rt = R[(w >>> 12) & 0xF], rt2 = R[(w >>> 16) & 0xF];
+    const v = dbl ? D(vm, Mbit) : `${S(vm, Mbit)}, s${((vm << 1) | Mbit) + 1}`;
+    return toCore ? `vmov${cc} ${rt}, ${rt2}, ${v}` : `vmov${cc} ${v}, ${rt}, ${rt2}`;
+  }
+  // load/store: bits 27:25 = 110
+  if (((w >>> 25) & 7) === 6) {
+    const P = (w >>> 24) & 1, U = (w >>> 23) & 1, W = (w >>> 21) & 1, L = (w >>> 20) & 1;
+    const rnI = (w >>> 16) & 0xF, imm8 = w & 0xFF;
+    if (P === 1 && W === 0) {
+      const off = imm8 * 4, sgn = U ? '' : '-';
+      const tgt = rnI === 15 ? ` ; =0x${(((addr + 8) & ~3) + (U ? off : -off)).toString(16)}` : '';
+      return `${L ? 'vldr' : 'vstr'}${cc} ${rd}, [${R[rnI]}${off ? `, #${sgn}0x${off.toString(16)}` : ''}]${tgt}`;
+    }
+    if (P === U) return null; // undefined
+    const n = dbl ? imm8 >> 1 : imm8, first = dbl ? (Dbit << 4) | vd : (vd << 1) | Dbit, p = dbl ? 'd' : 's';
+    const list = n === 1 ? `${p}${first}` : `${p}${first}-${p}${first + n - 1}`;
+    if (rnI === 13 && W && P === 1 && !U && !L) return `vpush${cc} {${list}}`;
+    if (rnI === 13 && W && P === 0 && U && L) return `vpop${cc} {${list}}`;
+    return `${L ? 'vldm' : 'vstm'}${P ? 'db' : 'ia'}${cc} ${R[rnI]}${W ? '!' : ''}, {${list}}`;
+  }
+  if (((w >>> 24) & 0xF) !== 0xE) return null;
+  if ((w >>> 4) & 1) {
+    if ((w & 0x0FFF0FFF) === 0x0EF10A10) {
+      const rt = (w >>> 12) & 0xF;
+      return `vmrs${cc} ${rt === 15 ? 'APSR_nzcv' : R[rt]}, fpscr`;
+    }
+    if ((w & 0x0FFF0FFF) === 0x0EE10A10) return `vmsr${cc} fpscr, ${R[(w >>> 12) & 0xF]}`;
+    if ((w & 0x0FE00F7F) === 0x0E000A10) {
+      const rt = R[(w >>> 12) & 0xF], s = S(vn, Nbit);
+      return (w >>> 20) & 1 ? `vmov${cc} ${rt}, ${s}` : `vmov${cc} ${s}, ${rt}`;
+    }
+    if ((w & 0x0F900F1F) === 0x0E000B10 && !((w >>> 22) & 1) && !((w >>> 5) & 1)) {
+      const rt = R[(w >>> 12) & 0xF], d = `${D(vn, Nbit)}[${(w >>> 21) & 1}]`;
+      return (w >>> 20) & 1 ? `vmov.32${cc} ${rt}, ${d}` : `vmov.32${cc} ${d}, ${rt}`;
+    }
+    return null;
+  }
+  // data processing: opc1 = bit23:bits21-20, op = bit6
+  const opc1 = (((w >>> 23) & 1) << 2) | ((w >>> 20) & 3), op = (w >>> 6) & 1;
+  const three = { 0: ['vmla', 'vmls'], 1: ['vnmls', 'vnmla'], 2: ['vmul', 'vnmul'], 3: ['vadd', 'vsub'], 4: ['vdiv', null] }[opc1];
+  if (three) return three[op] ? `${three[op]}${cc}${ty} ${rd}, ${rn}, ${rm}` : null;
+  if (opc1 !== 7) return null;
+  if (!op) {
+    // vmov immediate: VFPExpandImm(imm8 = abcdefgh) = (-1)^a * (1 + efgh/16) * 2^(b ? cd-3 : cd+1)
+    const imm8 = (((w >>> 16) & 0xF) << 4) | (w & 0xF);
+    const a = imm8 >> 7, b = (imm8 >> 6) & 1, cd = (imm8 >> 4) & 3, efgh = imm8 & 0xF;
+    const val = (a ? -1 : 1) * (1 + efgh / 16) * 2 ** (b ? cd - 3 : cd + 1);
+    return `vmov${cc}${ty} ${rd}, #${val}`;
+  }
+  const opc2 = vn, hi7 = Nbit; // bits 19:16 and bit 7
+  const sm = S(vm, Mbit);
+  switch (opc2) {
+    case 0: return `${hi7 ? 'vabs' : 'vmov'}${cc}${ty} ${rd}, ${rm}`;
+    case 1: return `${hi7 ? 'vsqrt' : 'vneg'}${cc}${ty} ${rd}, ${rm}`;
+    case 4: return `${hi7 ? 'vcmpe' : 'vcmp'}${cc}${ty} ${rd}, ${rm}`;
+    case 5: return `${hi7 ? 'vcmpe' : 'vcmp'}${cc}${ty} ${rd}, #0.0`;
+    case 7: return hi7 ? (dbl ? `vcvt${cc}.f32.f64 ${S(vd, Dbit)}, ${rm}` : `vcvt${cc}.f64.f32 ${D(vd, Dbit)}, ${rm}`) : null;
+    case 8: return `vcvt${cc}${ty}.${hi7 ? 's32' : 'u32'} ${rd}, ${sm}`;
+    case 12: case 13: return `vcvt${hi7 ? '' : 'r'}${cc}.${opc2 === 13 ? 's32' : 'u32'}${ty} ${S(vd, Dbit)}, ${rm}`;
+    default: return null; // half-precision and fixed-point conversions
+  }
 }
 
 export function disasm(vaddr, count, opts = {}) {

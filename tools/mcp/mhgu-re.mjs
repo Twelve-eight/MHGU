@@ -171,7 +171,7 @@ function handle(msg) {
   const { id, method, params } = msg;
   if (method === 'initialize') {
     const v = PROTOCOLS.includes(params?.protocolVersion) ? params.protocolVersion : PROTOCOLS[0];
-    return { protocolVersion: v, capabilities: { tools: {} }, serverInfo: { name: 'mhgu-re', version: '1.3.0' } };
+    return { protocolVersion: v, capabilities: { tools: {} }, serverInfo: { name: 'mhgu-re', version: '1.4.0' } };
   }
   if (method === 'ping') return {};
   if (method === 'tools/list') return { tools: toolList() };
