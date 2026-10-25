@@ -52,3 +52,7 @@ Read this before any GU binary work. Every item below cost a previous agent hour
 - `calls` finds only bl/blx. Targets reached through `add pc, rN, rM` jump tables (e.g. 0x2efc3c via T3 0x2ef994) show 0 callers. Decode the table words (target = table base + word) before concluding "unreachable".
 - Function bounds: `fn` and ad-hoc scanners must treat every `push {...,lr}` as a start (fly-gu scanner missed push {r4,r5,r6,lr} and attributed a shared tail to 7 wrong variants).
 - List test 0x2864e0 -> 0xe1e08 compares an 8-entry list at ctx+588; its ids (26/30/31/63) are not skills._id nor skill_trees._id.
+
+## Note: lits only finds pc-relative constants (2026-10-25)
+- Field reads like `vldr s0,[r0,#0x370]` are not literals; to find readers of a field, grep the full disasm dump (e.g. .tmp/scratch-t4c/full.txt) for the offset. op5f (handler 0x84db0) reads HP that way.
+- vt[247] thunks 0xca10c/0xca118 = `ldr r1,[r0]; ldr r1,[r1,#988]; bx r1`: r1 (name) is clobbered; slot 247 of em001 vtable 0x179acf8 = 0x75224 (action end).
