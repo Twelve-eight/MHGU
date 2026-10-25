@@ -309,7 +309,7 @@
 
 | shotId | 官方名（itemData_chS） | 道具 id | db 英文名 | 速射 发数/攻击%/属性 | 蹲射 class |
 |---|---|---|---|---|---|
-| 32 | — unnamed/unused shot type [U] | — | — | — | (no record) |
+| 32 | （未使用）`[U]` | — | — | — | （无记录） |
 | 33 | 龙击弹 | 165 | Wyvern S | — | 1 |
 | 34 | LV1斩裂弹 | 166 | Slicing S Lv1 | 2,90,1 | 5 |
 | 35 | LV2斩裂弹 | 167 | Slicing S Lv2 | 2,90,2 | 5 |
@@ -318,15 +318,15 @@
 | 38 | LV1强装弹 | 174 | Force S Lv1 | 3,70,2 | 5 |
 | 39 | LV2强装弹 | 175 | Force S Lv2 | 3,70,3 | 5 |
 | 40 | LV1重击弹 | 176 | Heavy S Lv1 | 2,70,2 | 5 |
-| 41 | LV2重击弹 | 177 | (db mislabels 'Heavy S Lv1') | 2,70,2 | 5 |
+| 41 | LV2重击弹 | 177 | `Heavy S Lv1`（db 误标） | 2,70,2 | 5 |
 | 42 | 痛击弹 | 178 | Sting S | 2,70,2 | 12 |
-| 43 | LV1火炎弹 (内藏) | 179 | Flaming S Lv2 | 3,70,1 | 12 |
+| 43 | LV1火炎弹 （内藏） | 179 | Flaming S Lv2 | 3,70,1 | 12 |
 | 44 | LV2水冷弹 | 180 | Water S Lv2 | 3,70,1 | 12 |
 | 45 | LV2电击弹 | 181 | Thunder S Lv2 | 3,70,1 | 12 |
 | 46 | LV2冰结弹 | 182 | Freeze S Lv2 | 3,70,1 | 12 |
 | 47 | LV2灭龙弹 | 183 | Dragon S Lv2 | 2,60,3 | 12 |
 | 48 | LV1贯穿火炎弹 | 184 | P.Flaming S Lv1 | 3,70,0 | 12 |
-| 49 | LV1贯穿火炎弹 (chS dup name) | 185 | P.Flaming S Lv2 | 3,70,1 | 12 |
+| 49 | LV1贯穿火炎弹 （chS 文本与上一行同名） | 185 | P.Flaming S Lv2 | 3,70,1 | 12 |
 | 50 | LV1贯穿水冷弹 | 186 | P.Water S Lv1 | 3,70,0 | 12 |
 | 51 | LV2贯穿水冷弹 | 187 | P.Water S Lv2 | 3,70,1 | 12 |
 | 52 | LV1贯穿电击弹 | 188 | P.Thunder S Lv1 | 3,70,0 | 12 |
