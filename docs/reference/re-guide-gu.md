@@ -43,3 +43,7 @@ Read this before any GU binary work. Every item below cost a previous agent hour
 - Rise motfsm callback numbers were tree indices, and EnemyHitAttackTrack key floats were frame numbers; both matched hit ids on a few samples.
 - Before binding a field to an id space, run a full scan: the value domain must stay inside the id set (count values outside it), and a second monster with a disjoint id set must agree.
 - Append to your report after every step (AGENTS.md 8b); agents that write only at the end lose work on abort.
+
+## Anchor: monster HP (2026-10-25)
+- X = [em+0x1428]; s32 HP current @X+0x370, max @X+0x374. Hit consumer 0x97ddc subtracts damage at 0x98b04. Not stamina (tired-gu.md got this wrong).
+- Literal pools: read the word the vldr actually loads (pc+8+imm), not the neighbouring one. 0x106afdc loads 0.1 @0x106b044; 0.30 @0x106b048 is another branch.
