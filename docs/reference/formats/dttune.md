@@ -18,9 +18,19 @@ Evidence base: 8 monsters byte-checked so far. em001 Rathian 雌火龙, em002 Ra
 | 0x04 | u8[4] | `6c a0 33 01` in all 8 sampled files — unknown [U] |
 | 0x08 | u8[] | small header, layout monster-dependent [U] |
 | 0x38 | u32 | **monster base HP** — byte-equal `mhgu.db monsters.base_hp` on 8/8 monsters (fixed offset) [C] |
-| 0x3C | u16 | unknown small int (140/150/700/250/260/320/350/280) [U] |
+| 0x3C | u32 | durability of the body part 胴 (em001 140, em002 150) — first item of the part-durability block below [C em001/em002] |
 
 File sizes vary per monster (1018..1966 B sampled); the runtime class is only 0x128 B, so the file is parsed by dedicated loader code, not mapped 1:1 onto the class [B].
+
+## Part durability block (0x3C .. meat start) [C em001/em002, 2026-10-26]
+
+GU uses one durability value per part for both flinch and break (`MHGU-private/.../mhxx-wiki/text/1862.txt:174`). Layout (em001/em002; source `.tmp/reports-rds/gu-break-values.md`, Main re-read em001 bytes):
+
+- u32 @0x3C = 胴 durability.
+- From 0x40: 7 records of 10 B `{u16 0, u16 0xFFFF, u16 kind [U], u16 durability, u16 tailFlag}`; slot order 翼L, 翼R, 脚L, 脚R, 首, 头, 尾 [B].
+- After the record with tailFlag = 1: a sever record `{u16 0xFF01, u16 sever durability, ...}`.
+- em001 Rathian: 胴 140, 翼 100/100, 脚 180/180, 首 90, 头 190, 尾 150, sever 230. em002 Rathalos: 胴 150, 翼 100/100, 脚 190/190, 首 90, 头 230, 尾 120, sever 320. Both match the wiki tables.
+- Block length varies (80–83 B) before the meat table; other monsters unverified [U].
 
 ## Meat table — locate rule [C per monster]
 
