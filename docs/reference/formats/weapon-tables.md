@@ -52,7 +52,7 @@
 
 ## 升级素材（`weaponProcessWNN.wpd`），32 B，n = Level 条数 − 1
 
-- +0 u8 idx、+2 u8 fam（和 Level 同序）。
+- +0 u8 fam、+2 u8 idx（fam 在前，和 Level 同序；w00 record 1–5 = fam 1、idx 2..6，Main 核字节）。
 - 素材从 +4 开始，**3 B 步长** `{u16 item, u8 count}`，最多 4 项。和 `components` 的 Improve 行对照 10,077/10,077 一致 `[C]`。原报告写的 4 B 步长对照结果是 0/10,077。
 
 ## 生产配方（`weaponCreateWNN.wcd`），38 B
