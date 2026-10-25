@@ -38,3 +38,8 @@ Read this before any GU binary work. Every item below cost a previous agent hour
 2. For a classifier claim, report hits/misses/leaks on all monsters, not examples.
 3. Tag every claim [C]/[B]/[I]/[U] at the claim; cite file + offset or vaddr.
 4. Append to your report after every step, including dead ends (Ruled out section), so the next agent skips them.
+
+## Trap: numbers that coincide with ids (seen twice, 2026-10-25)
+- Rise motfsm callback numbers were tree indices, and EnemyHitAttackTrack key floats were frame numbers; both matched hit ids on a few samples.
+- Before binding a field to an id space, run a full scan: the value domain must stay inside the id set (count values outside it), and a second monster with a disjoint id set must agree.
+- Append to your report after every step (AGENTS.md 8b); agents that write only at the end lose work on abort.
