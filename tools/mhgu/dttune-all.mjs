@@ -5,8 +5,10 @@
 //   2. decodes it with tools/mhgu/dttune.mjs (fixed-offset view);
 //   3. re-localizes the two monster-dependent tables against mhgu.db:
 //        - meat   : 8 rows x 10 B (9 x u8 + pad), start offset varies (0x8C / 0x8E / 0x8F seen)
-//        - status : 8 records x 12 B with variable strides (poison +4 B, jump +12 B, immune rows
-//                   omitted), start offset varies (0x324 / 0x35C seen, absent on some monsters)
+//        - status : 8 records x 12 B with variable strides (poison +4 B, variable pad after jump,
+//                   immune rows omitted), start offset varies and is not u16-aligned (0x1F4 /
+//                   0x35C / 0x3F5 seen, absent on some monsters); records are anchored on db
+//                   values, never on the A/B fields
 //      Only HP @0x38 is a fixed offset (spec docs/reference/formats/dttune.md);
 //   4. writes one JSON per arc, the public index and a generated report section.
 //
@@ -46,6 +48,10 @@ const MEAT_PAD = 100;              // pad byte reads 100 on every sampled row (s
 const MEAT_WINDOW = [0x60, 0x140]; // observed starts 0x8C..0x8F; window covers header slack
 const STATUS_ORDER = ['Poison', 'Sleep', 'Para', 'KO', 'Exhaust', 'Mount', 'Jump', 'Blast'];
 const STATUS_FIELDS = ['initial', 'a', 'b', 'durationFrames', 'increase', 'max'];
+const STATUS_ANCHOR = 4;           // db-comparable fields per record: initial / duration / increase / max
+const STATUS_MIN_ANCHOR = 3;       // a record must reproduce 3 of the 4, 4 preferred
+const STATUS_WINDOW = 64;          // per-record forward search window: 12 B stride, the 4 B poison
+                                   // pair and the post-Jump pad (12 B in the surveyed arcs)
 
 const hex = v => '0x' + v.toString(16);
 
@@ -227,79 +233,87 @@ function locateMeat(buf, baseRows) {
   return res;
 }
 
-// Status block: 12 B per record, immune rows omitted, +4 B after Poison and +12 B after Jump.
-// The scan keeps the best-scoring offset even when no offset matches perfectly, so a monster whose
-// romfs values disagree with mhgu.db is reported as a located-but-different table instead of
-// silently turning into "absent".
-// When mhgu.db and romfs disagree on more than a couple of fields the db-anchored scan cannot find
-// the block at all. This structural pass looks for the block itself: the first present status row
-// carries A = 600 (0x258), a small B, a frame duration that is a whole number of seconds, and
-// bounded initial/increase/max. It then reuses the same layout walk so the fields stay comparable.
-function findStatusStructural(buf, layout) {
-  let best = null;
-  for (let p = 0x30; p + 4 * 12 <= buf.length; p += 2) {
-    const initial = buf.readUInt16LE(p);
-    const a = buf.readUInt16LE(p + 2);
-    const b = buf.readUInt16LE(p + 4);
-    const dur = buf.readUInt16LE(p + 6);
-    const inc = buf.readUInt16LE(p + 8);
-    const max = buf.readUInt16LE(p + 10);
-    if (!(initial > 0 && initial <= 800)) continue;
-    if (a !== 600) continue;
-    if (!(b >= 1 && b <= 32)) continue;
-    if (!(dur % 60 === 0 && dur <= 18000)) continue;
-    if (!(inc <= 300 && max > 0 && max <= 5000)) continue;
-    let nonZero = 0;
-    for (const st of layout.present) {
-      const o = p + layout.rel.get(st);
-      if (o + 12 > buf.length) { nonZero = -1; break; }
-      if (buf.readUInt16LE(o) !== 0 || buf.readUInt16LE(o + 10) !== 0) nonZero++;
+// Status block: 12 B per record, immune rows omitted, +4 B after Poison, variable pad after Jump.
+// The block start is per-monster and NOT u16-aligned — 18 of the 137 arcs start on an odd byte
+// (em007_04 0x3F5, em024_00 0x351, em025_00 0x1F7, em057_00 0x3A1, ...) — so every byte offset is a
+// candidate. A record is anchored on mhgu.db monster_status the way
+// MHRS/tools/gu2rise-params.mjs readStatusBlock does it: initial / increase / max /
+// floor(durationFrames / 60) are compared with the db row, 4 of 4 preferred and 3 of 4 accepted,
+// and every record is searched in a forward window from the end of the previous one because the
+// post-Jump pad before Blast is not a fixed length. A and B are never part of the anchor: they vary
+// per monster (600/5, 300/10, 150/10, 0/0, ...; docs/reference/formats/dttune.md), so a shape gate
+// on them drops real blocks. A block whose records cannot be anchored stays "not located" and its
+// best partial walk is reported, never guessed from record shape alone.
+
+// How many of the four db-comparable fields the 12-byte record at `o` reproduces for db row `row`.
+function statusRecordHits(buf, o, row) {
+  return (buf.readUInt16LE(o) === row.initial)
+    // mhgu.db stores whole seconds, romfs keeps frames: 464 f = 7.73 s is recorded as 7.
+    + (Math.floor(buf.readUInt16LE(o + 6) / 60) === (row.duration ?? 0))
+    + (buf.readUInt16LE(o + 8) === row.increase)
+    + (buf.readUInt16LE(o + 10) === row.max);
+}
+
+// Walk the whole block from `start`: every present status row must find its record within
+// STATUS_WINDOW bytes of the previous record's end. `complete` turns false as soon as one record
+// cannot be anchored, so a start that only happens to reproduce the first row cannot claim the block.
+function walkStatusBlock(buf, start, dbStatus, present) {
+  const records = [];
+  let pos = start;
+  for (const st of present) {
+    const row = dbStatus.get(st);
+    const limit = Math.min(pos + STATUS_WINDOW, buf.length - 12);
+    let off = -1;
+    for (let want = STATUS_ANCHOR; want >= STATUS_MIN_ANCHOR && off < 0; want--) {
+      for (let o = pos; o <= limit; o++) {
+        if (statusRecordHits(buf, o, row) === want) { off = o; break; }
+      }
     }
-    if (nonZero < Math.max(2, layout.present.length - 3)) continue;
-    if (!best || nonZero > best.nonZero) best = { offset: p, nonZero };
+    if (off < 0) return { records, complete: false };
+    records.push({ status: st, offset: off, hits: statusRecordHits(buf, off, row) });
+    pos = off + 12;
+    if (st === 'Poison') pos += 4; // the poison record is followed by its 2-u16 trailing pair
   }
-  return best;
+  return { records, complete: true };
 }
 
 function locateStatus(buf, dbStatus) {
   const res = { offset: null, matched: 0, total: 0, records: [], full: [], best: null };
   if (!dbStatus || !dbStatus.size) return res;
-  const layout = statusLayout(dbStatus);
-  if (!layout.present.length) return res;
-  const need = layout.present.length * 4;
-  res.total = layout.present.length;
-  const full = [];
-  let best = null;
-  for (let p = 0x30; p + 4 * 12 <= buf.length; p += 2) {
-    const s = scoreStatusAt(buf, p, dbStatus, layout);
-    if (s.hits < 0) break;
-    if (!best || s.hits > best.hits) best = { offset: p, hits: s.hits, need };
-    if (s.hits === need) full.push(p);
+  const present = statusLayout(dbStatus);
+  if (!present.length) return res;
+  res.total = present.length;
+  const need = present.length * STATUS_ANCHOR;
+  // Candidate starts are the byte offsets that reproduce the first present db row (3 of 4 fields);
+  // the whole block is then walked from each. The first-row test is only a filter — a candidate
+  // counts when every record anchors — and the block is the walk that reproduces the most db
+  // fields, earliest start first.
+  const first = dbStatus.get(present[0]);
+  const walks = [];
+  for (let p = 0x30; p + 12 <= buf.length; p++) {
+    if (statusRecordHits(buf, p, first) < STATUS_MIN_ANCHOR) continue;
+    const w = walkStatusBlock(buf, p, dbStatus, present);
+    w.offset = p;
+    w.hits = w.records.reduce((n, r) => n + r.hits, 0);
+    walks.push(w);
   }
-  res.full = full;
-  res.best = best;
-  let choose = full.length ? full[0] : (best && best.hits >= need - 2 ? best.offset : null);
-  if (choose === null && layout.present.length >= 2) {
-    const structural = findStatusStructural(buf, layout);
-    if (structural) {
-      choose = structural.offset;
-      res.structural = true;
-      res.structural_rows = structural.nonZero;
-    }
-  }
-  if (choose === null) {
+  walks.sort((a, b) => ((b.complete ? 1 : 0) - (a.complete ? 1 : 0)) || b.hits - a.hits || a.offset - b.offset);
+  res.full = walks.filter(w => w.complete && w.hits === need).map(w => w.offset).sort((a, b) => a - b);
+  const win = walks[0]?.complete ? walks[0] : null;
+  if (!win) {
+    const best = walks[0] ?? null;
     if (best) {
-      res.bestRows = layout.present.map(st => ({
-        status: st,
-        values: [0, 1, 2, 3, 4, 5].map(i => buf.readUInt16LE(best.offset + layout.rel.get(st) + i * 2)),
+      res.best = { offset: best.offset, hits: best.hits, need };
+      res.bestRows = best.records.map(r => ({
+        status: r.status,
+        values: [0, 1, 2, 3, 4, 5].map(i => buf.readUInt16LE(r.offset + i * 2)),
       }));
     }
     return res;
   }
-  res.offset = choose;
+  res.offset = win.offset;
   let matched = 0;
-  for (const st of layout.present) {
-    const o = choose + layout.rel.get(st);
+  for (const { status: st, offset: o } of win.records) {
     const rec = { status: st, offset: o };
     STATUS_FIELDS.forEach((f, i) => { rec[f] = buf.readUInt16LE(o + i * 2); });
     const r = dbStatus.get(st);
@@ -324,6 +338,8 @@ function locateStatus(buf, dbStatus) {
   return res;
 }
 
+// Statuses that occupy a record, in db order: an absent or all-zero db row is immune and takes no
+// space in the file.
 function statusLayout(dbStatus) {
   const present = [];
   for (const st of STATUS_ORDER) {
@@ -332,32 +348,7 @@ function statusLayout(dbStatus) {
     if (r.initial === 0 && r.increase === 0 && r.max === 0) continue; // immune, row omitted
     present.push(st);
   }
-  const rel = new Map();
-  let off = 0;
-  for (const st of present) {
-    rel.set(st, off);
-    off += 12;
-    if (st === 'Poison') off += 4;
-    if (st === 'Jump') off += 12;
-  }
-  return { present, rel };
-}
-
-function scoreStatusAt(buf, p, dbStatus, layout) {
-  let hits = 0;
-  for (const st of layout.present) {
-    const o = p + layout.rel.get(st);
-    if (o + 12 > buf.length) return { hits: -1, need: layout.present.length * 4 };
-    const r = dbStatus.get(st);
-    const frames = buf.readUInt16LE(o + 6);
-    const durSec = r.duration ?? 0;
-    if (buf.readUInt16LE(o) === r.initial) hits++;
-    // mhgu.db stores whole seconds, romfs keeps frames: 464 f = 7.73 s is recorded as 7.
-    if (frames === durSec * 60 || Math.floor(frames / 60) === durSec) hits++;
-    if (buf.readUInt16LE(o + 8) === r.increase) hits++;
-    if (buf.readUInt16LE(o + 10) === r.max) hits++;
-  }
-  return { hits, need: layout.present.length * 4 };
+  return present;
 }
 
 // Some monsters carry an unused extra row in the 8-slot meat table (Mizutsune row 5 repeats Front
@@ -564,9 +555,8 @@ function analyseArc(arc, ctx) {
   const st = locateStatus(dtt.data, dbStatus);
   if (st.offset !== null) {
     rec.offsets.status = hex(st.offset);
-    rec.status = { offset: st.offset, matched: st.matched, total: st.total, records: st.records, ambiguous_hits: st.full.length, structural: !!st.structural };
+    rec.status = { offset: st.offset, matched: st.matched, total: st.total, records: st.records, ambiguous_hits: st.full.length };
     rec.status_records = st.records.length;
-    if (st.structural) rec.notes.push(`status block located structurally at ${hex(st.offset)} (db-anchored scan failed, ${st.structural_rows} non-zero rows)`);
     if (st.full.length > 1) rec.notes.push(`${st.full.length} full status blocks match (using ${hex(st.offset)})`);
     if (st.offset !== 0x35c) rec.notes.push(`status block starts at ${hex(st.offset)} (not 0x35c)`);
     rec.db_match.status = st.matched === st.total;
