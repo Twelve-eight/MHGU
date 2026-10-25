@@ -47,3 +47,8 @@ Read this before any GU binary work. Every item below cost a previous agent hour
 ## Anchor: monster HP (2026-10-25)
 - X = [em+0x1428]; s32 HP current @X+0x370, max @X+0x374. Hit consumer 0x97ddc subtracts damage at 0x98b04. Not stamina (tired-gu.md got this wrong).
 - Literal pools: read the word the vldr actually loads (pc+8+imm), not the neighbouring one. 0x106afdc loads 0.1 @0x106b044; 0.30 @0x106b048 is another branch.
+
+## Trap: jump-table targets have no callers (seen twice, 2026-10-25)
+- `calls` finds only bl/blx. Targets reached through `add pc, rN, rM` jump tables (e.g. 0x2efc3c via T3 0x2ef994) show 0 callers. Decode the table words (target = table base + word) before concluding "unreachable".
+- Function bounds: `fn` and ad-hoc scanners must treat every `push {...,lr}` as a start (fly-gu scanner missed push {r4,r5,r6,lr} and attributed a shared tail to 7 wrong variants).
+- List test 0x2864e0 -> 0xe1e08 compares an 8-entry list at ctx+588; its ids (26/30/31/63) are not skills._id nor skill_trees._id.
