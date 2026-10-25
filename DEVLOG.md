@@ -919,3 +919,6 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 - `docs/wiki/weapon-trees.md`：`tools/wiki-gen/gen-weapon-trees.py` 从 mhgu.db 生成 1585 把终形。复核：逐行回查 db（family/attack/affinity/slots/rarity）1585/1585 一致。haiku 初稿 14 行不符，弃用。
 - `docs/wiki/monster-weakness-cheatsheet.md`：`tools/wiki-gen/gen-weakness.py` 生成 93 只（weakness 只取 state=Normal；按 db id = emid 连 slot-map 取官方中文名）。haiku 初稿只有 16 只，弃用。
 - 两页数值均为 db 值 [I]；斩味三组与匠等级的对应 [U]。提交 2593a10。
+
+## 2026-10-25 11:30 附带提交说明
+- 043a1e3 用 `commit -a` 时连带提交了工作区里已有的 `docs/analysis/code/tierb-pass3/tierB3-slice-13c.md` 改动（Roles 行 worker 5/leaf 2 → worker 3/leaf 4，与同文件审查结论一致）。来源是此前未提交的修正，内容核对无误，保留。以后只 add 指名文件。
