@@ -11,7 +11,9 @@ const MESH_SIZE = 48, BONE_SIZE = 24, MAT_NAME_SIZE = 128, GROUP_SIZE = 32;
 // Vertex formats whose position is 3 x f32 instead of quantised 3 x u16.
 // 0xafa63031 / 0x9399c037: em071_00_tail prop (MeshEm071 2026-10-27: f32 read fits the header bbox and is a
 // rigid copy of main group 101, nn median 0.32 cm; the u16 read overshoots the header bbox by 10x).
-const FLOAT_POSITION = new Set([0x5e7f2030, 0xafa63031, 0x9399c037]);
+// 0xa7d7d03a / 0xd829702c / 0x49b4f02d: boneless side-MOD formats (OpusGuFormats 2026-10-27: f32 read puts all
+// 8836 vertices inside their header bbox; the u16 read escaped it on 47 meshes).
+const FLOAT_POSITION = new Set([0x5e7f2030, 0xafa63031, 0x9399c037, 0xa7d7d03a, 0xd829702c, 0x49b4f02d]);
 
 export function readMod(buf, label = '<buffer>') {
   if (buf.toString('latin1', 0, 4) !== MAGIC) throw new Error(`${label}: not a MOD file`);
