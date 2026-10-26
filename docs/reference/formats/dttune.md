@@ -33,7 +33,8 @@ GU uses one durability value per part for both flinch and break (`MHGU-private/.
 
 ## Meat table — locate rule [C per monster]
 
-8 rows × 10 B somewhere in 0x8A..0x94. Each row = 9 × u8 + 1 pad byte:
+8 rows × 10 B starting at 0x8C or later (the part-durability block occupies 0x3C..0x8B in every
+arc, so the grid cannot start earlier). Each row = 9 × u8 + 1 pad byte:
 
 ```
 cut, impact, shot, fire, water, ice, thunder, dragon, ko, pad
@@ -43,18 +44,22 @@ cut, impact, shot, fire, water, ice, thunder, dragon, ko, pad
 
 Value ranges [C, byte-verified em003 Chameleos]: element columns 0..100, but the **KO column can exceed 100** (Chameleos head ko=150) and pads are 0/100/200/255 — a "values ≤ 100" assumption is wrong for this file family.
 
-**Conditional layers [C, byte-verified em003/em081/em019/em011]**: after the base 8×10 group there can be more groups of 10-B rows at `meatStart + 80·k` (em003 layer 2 @0x10C→base 0x8C grid; em081 layer 2 @0xDE; em019 table is 15 rows so layer 1 is truncated at 0x124 with the pre-float record `00 00 32 3c 28 14 0a 23 19 00`). A layer is **per-part conditional overrides**, not a whole-body state snapshot: em019 layer 1 = 6 Guarding rows + 1 Break row; em020 layer 1 carries only Skull-Shell/Softshell slots. Empty slots take three forms: all-`0x64`, all-zero, or copy-of-base. `db` conditional rows (`Head (Enraged)` etc.) correspond to these layers — Kirin layer 1 row 0 `40/40/35/5/5/5/0/5/100` = db `Head (Enraged)` exact. Which byte/timer selects a layer at runtime is unknown [U].
+**Conditional layers [C, byte-verified em003/em081/em019/em011]**: after the base 8×10 group there can be more groups of 10-B rows at `meatStart + 80·k` (em003 layer 2 @0xDC = base 0x8C + 0x50, re-read 2026-10-26 — the old text said 0x10C, which is row 5 of that same group and not on the 80-B grid; em081 layer 2 @0xDE; em019 table is 15 rows so layer 1 is truncated at 0x124 with the pre-float record `00 00 32 3c 28 14 0a 23 19 00`). A layer is **per-part conditional overrides**, not a whole-body state snapshot: em019 layer 1 = 6 Guarding rows + 1 Break row; em020 layer 1 carries only Skull-Shell/Softshell slots. Empty slots take three forms: all-`0x64`, all-zero, or copy-of-base. `db` conditional rows (`Head (Enraged)` etc.) correspond to these layers — Kirin layer 1 row 0 `40/40/35/5/5/5/0/5/100` = db `Head (Enraged)` exact. Which byte/timer selects a layer at runtime is unknown [U].
 
-**How to locate the table in a new file** (decoder rule, works on 11/11 sampled files):
-1. Scan byte offsets 0x8A..0x94 for the first 10-byte window where 8 consecutive rows keep element columns 0..7 ≤ 100 and ko ≤ 200, with row 0's first byte (cut) ≥ 1 — cut is non-zero in every db base row.
-2. Confirm row 0 against db `monster_damage` Head row; filler rows (all-100) follow the real rows.
-3. Walk further groups at +80 B; emit every group (`meatLayers` in decoder JSON); rows are tagged `_form`: `empty-100` / `empty-zero` / `copy-of-base` / `values`.
+**How to locate the table in a new file** (decoder rule, 138/138 extracted arcs):
+1. Scan byte offsets 0x8C..0x94 and take the first 10-byte window where all 8 rows satisfy: cut/impact/shot ≤ 200, fire/water/ice/thunder/dragon ≤ 100, ko ≤ 200, and row 0's cut ≥ 1. Do **not** start at 0x8A: in 10 arcs (em008_00, em009_00, em010_00, em012_00, em017_00, em020_00, em030_00, em066_00, em066_04, em069_00) the 0x8A window is a 2-byte-shifted grid that also satisfies a value gate and steals the hit (2026-10-26 fix in `MHGU/tools/mhgu/dttune.mjs`). The `02 00`/`04 00`/`00 00` u16 at 0x8A is the *kind* field of the truncated 8th durability entry, not grid data.
+2. Confirm row 0 against db `monster_damage` Head row; filler rows (all-100) follow the real rows. em012_00 (Lao-Shan Lung) proof: the 0x8A window reads 2/0/28/21/30/20/5/5/15 and matches 0 db rows, while 0x8C reads 28/21/30/20/5/5/15/20 = db row 136 (Head) and rows 1..7 reproduce db 137/138/139/140/141 + 142, plus one extra row 32/37/25/20/5/5/15/20 that has no db counterpart. The physical cap must stay at 200, not 255: 0xFF is the durability-marker byte that sits right in front of the grid (ems099_00 @0x8C `7e ff`, em045_00 @0x8C `01 00 ff`), and a ≤ 255 cap puts 64 large arcs on a shifted 0x8C window.
+3. Walk further groups at +80 B; emit every group (`meatLayers` in decoder JSON); rows are tagged `_form`: `empty-100` / `empty-zero` / `copy-of-base` / `values`. A group that is only empty slots is the fill region, not a layer (em022_00/em088_00 all-0x64 from base+0x50 to the float block, em012_00 all-zero from 0xDC); a real layer may be mostly empty with one overridden part (em012_00 row 3, em020_00 rows 2 and 6, em087_00 row 6).
 
-Observed base starts: em011 0x8C, em001/em002/em043/em013 0x8E, em024/em027/em057/em003 0x8C/0x8F family (em003 0x8C). Rathian row 0 @0x8E = `90 80 70 00 0F 0F 14 23 64 64`.
+Observed base starts (138 arcs of `.tmp/mhgu/emall/enemy/dt_tune/`): 0x8C ×70, 0x8E ×49, 0x8F ×18, 0x90 ×1 — em011 0x8C, em001/em002/em043/em013 0x8E, em024/em027/em057 0x8F, em003 0x8C, em049_00 0x90 (the only 0x90). Rathian row 0 @0x8E = `90 80 70 00 0F 0F 14 23 64 64`. The extra 0/2/3/4 bytes before the grid are the sever entry (`01 ff` = 0xFF01) and deviant entry tails (`7e ff` = 0xFF7E in ems099_00, `01 00 ff` em045_00, `01 7e ff` em007_04).
+
+**Small monsters (`ems*`, 44 arcs) [C 2026-10-26]**: the same 8×10 grid is present (emid = 4096 + N, no `monster_damage` rows in `mhgu.db`), but the physical columns exceed 100 — ems020_00/ems021_00 row 0 @0x8C = 80/**110**/50/30/5/20/60/0/**200**/100 (`50 6e 32 1e 05 14 3c 00 c8 64`), ems004_00 row 0 @0x8E = **150/150/120**/100/100/100/100/10/0/100 (`96 96 78 64 64 64 64 0a 00 64`) — which is why a cut/impact/shot ≤ 100 gate skipped ems020_00/ems021_00 entirely and mislocated ems004_00 at 0x91. Cross-check against Rise's own small-monster meat files (`natives/stm/enemy/emsNNN/00/user_data/emsNNN_00_meat_data.user.2`, 27 extracted, 22 with a GU arc of the same id): 15 reproduce the Rise slot-0 row 9/9 at the located offset (ems007/008/009/019/020/021/025/027/034/035/039/040/041/042/044, exact incl. `_Piyo`), 3 match 8/9 with only the last column differing (ems005_00/ems006_00/ems026_00: GU ko 0 vs Rise `_Piyo` 100), and 4 differ outright because Rise rebalanced those species (ems003/ems013/ems014/ems016, e.g. ems013 100/100/100/50/50/40/100/10 in GU vs 70/85/75/20/20/20/60/5 in Rise). All 44 small arcs locate: 40 at 0x8C, 4 at 0x8E (ems004, ems023, ems048, ems099).
+
+`em087_00` **is not block-less**: its grid is at 0x8C with pad 0 and ko 0 (`05 05 05 00 00 00 00 00 00 00` row 0, row 6 `78 78 96 0f 19 0a 0a 00 00 00` = 120/120/150), it was skipped by the old physical ≤ 100 cap. The status block is still absent there.
 
 Known value outliers vs db (impact column only, likely db/romfs revision drift [U]): em024 Wings impact 20 vs db 15; em057 Tail Tip impact 20 vs db 19. Everything else matched (295/297 values).
 
-The `pad` byte reads 100 (0x64) in all sampled rows; semantics unknown [U].
+The `pad` byte is **not** constant 100: 1561 of the 1640 located rows carry 100, and 15 arcs deviate — 0 (em012_00, em084_00, ems099_00, and rows of em019_04/em058_00/em062_00/em066_00/em066_04/em087_00/em088_00), 120 (em055_00, em070_00), 130 and 150 and 200 (em070_00), 200 (em003_00, em067_00), 255 (em003_00 layer rows), 10 (ems045_00 layer). Semantics unknown [U] — it is **not** a usable locator signal and must not be gated.
 
 ## Rage / staggered float region [B]
 
@@ -106,7 +111,7 @@ Motion/part tuning: u8 runs (the 12-B S slot itself reads as one — `150 0 20 2
 | Item | dttune | mhgu.db | Verdict |
 |---|---|---|---|
 | base HP | 0x38 u32, fixed | monsters.base_hp | **8/8 exact** — fixed offset, cite [C] freely |
-| meat | 8×10 @ 0x8C/0x8E/0x8F, per-monster, + conditional layers at +80·k | monster_damage rows | base rows + per-part conditional layers both stored; decoder `--db` locates & matches the base table 8/8 monsters; 2 known impact outliers (em024 Wings 20 vs 15, em057 Tail Tip 20 vs 19); cite [C] **per monster** with located offset; conditional layers are per-part overrides (not whole-body states) |
+| meat | 8×10 @ 0x8C/0x8E/0x8F/0x90, per-monster, + conditional layers at +80·k; same grid in all 44 small-monster arcs | monster_damage rows (large monsters only — db has none for emid > 4000) | base rows + per-part conditional layers both stored; decoder `--db` locates & matches the base table for every large arc (93/94 offsets agree with `monster-dttune-index.json`, the 94th is em087_00 which the index still lists as null); 2 known impact outliers (em024 Wings 20 vs 15, em057 Tail Tip 20 vs 19); small-monster rows validated against Rise's `emsNNN_00_meat_data.user.2` (18/25 sampled arcs 9/9); cite [C] **per monster** with located offset; conditional layers are per-part overrides (not whole-body states), and a fill-only group is not a layer |
 | status | variable block 0x1F4..0x4E8, per-monster (base may be odd) | monster_status rows | decoder `--db` locates & matches 6/6 monsters with db rows (all records + durations + Blast damage); em013's 6-record block @0x232 is rejected as a *db match* only because emid 13 has no db rows at all; cite [C] **per monster** after location+match |
 | conditional-state meat | conditional layers at +80·k (per-part overrides) | monster_damage "Enraged"/"Wind Barrier"/"Charged" rows | **stored** — layer rows byte-match db conditional rows (Kirin L1 = Head (Enraged) exact); cite [C] per matched layer |
 | rage/tuning floats | 0xE6+ | — | no db counterpart found [U] |

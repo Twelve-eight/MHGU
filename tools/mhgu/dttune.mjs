@@ -10,20 +10,31 @@
 // base HP u32 @0x38 (== db monsters.base_hp).
 // Everything else is located by scanning (offsets are per-monster variables):
 //   meat:   8 rows x 10 B (9 x u8 + pad) = cut,impact,shot,fire,water,ice,thunder,
-//           dragon,ko,pad. Base group start 0x8C/0x8E/0x8F/0x90 observed (94 arcs);
-//           scanner tries 0x8A..0x94 and takes the first window with cols 0..7 <= 100,
-//           ko <= 200, row0 cut >= 1 (em012_00 wrongly ties at 0x8A on its `02 00`
-//           lead-in; its real 0x8C grid equals db rows 136..142 exactly).
+//           dragon,ko,pad. The 80-B part-durability block occupies 0x3C..0x8B in every
+//           arc (docs/reference/formats/dttune.md "Part durability block"), so a grid can
+//           never start before 0x8C; observed starts over the 138 extracted arcs are
+//           0x8C (70) / 0x8E (49) / 0x8F (18) / 0x90 (1) and all 138 are located. The
+//           scanner tries 0x8C..0x94 and takes the first window whose 8 rows satisfy
+//           isMeatRow: cut/impact/shot <= 200 (small monsters carry 110 and 150:
+//           ems020_00 row0 impact 110, ems004_00 row0 150/150/120, em087_00 row6
+//           120/120/150 -- a <= 100 cap skipped those three whole files),
+//           fire..dragon <= 100, ko <= 200, and row0 cut >= 1.
+//           Starting the scan at 0x8A is wrong: in 10 arcs (em008/em009/em010/em012/
+//           em017/em020/em030/em066_00/em066_04/em069_00) the shifted 0x8A window also
+//           passes the value gate and steals the hit. em012_00 (Lao-Shan Lung) proof: the
+//           0x8A window reads 2/0/28/21/30/20/5/5/15 and matches 0 db rows, while 0x8C
+//           reads 28/21/30/20/5/5/15/20 = db row 136 (Head) and rows 1..7 reproduce db
+//           137/138/139/140/141 + 142 (plus one row 32/37/25 not present in db). The
+//           `02 00` at 0x8A is the kind u16 of the truncated 8th durability entry.
 //           Conditional layers ARE stored: more 10-B-row groups at base+0x50*k
 //           (em005_00 @0xDE = 0x8E+0x50 = 25/35/25/0/15/5/5/30/100; em081_00 @0xDE;
 //           em019_00 group @0xDE truncated at 0x124) -- emitted as meatLayers[k]
-//           (dttune.md "Conditional layers").
+//           (dttune.md "Conditional layers"). A group with no real row is not a layer but
+//           the all-0x64 fill tail (em022_00/em088_00 @base+0x50, em012_00 @0xDC zeros),
+//           so it is dropped.
 //           Empty slots are not all-100: all-100, all-zero (em088_00 @0xC8) or
-//           copy-of-base; the pad byte is not constant (em070_00 @0x8C pad=150).
-//           Values above 100 do occur and make the gate above skip the whole file:
-//           em087_00 (@0xC8 = 120/120/150) and small-monster ems020_00/ems021_00
-//           (row 0 @0x8C impact=110, ko=200); the other 42/44 ems arcs are located
-//           (37 at 0x8C, 4 at 0x8E).
+//           copy-of-base; the pad byte is not constant (em070_00 @0x8C pad=150,
+//           em012_00 pad=0).
 //   status: variable block somewhere in 0x1F4..0x4E8 (or absent). Poison-shaped record
 //           located by scanning; walk forward: 6 x u16 per record
 //           [initial, A, B, durationFrames, increase, max], optional trailing u16 pair
@@ -31,10 +42,18 @@
 //           Layout validated per record; anything unrecognized is reported raw.
 import fs from 'node:fs';
 
-const MEAT_SCAN_LO = 0x8a;
+const MEAT_SCAN_LO = 0x8c;   // 0x3C + 80: first byte after the fixed part-durability block
 const MEAT_SCAN_HI = 0x94;
 const MEAT_ROWS = 8;
 const MEAT_COLS = ['cut', 'impact', 'shot', 'fire', 'water', 'ice', 'thunder', 'dragon', 'ko'];
+// Row gate. Column caps per `mhgu.db monster_damage` for large monsters (cut <= 90,
+// impact <= 85, elements <= 50, ko <= 150) plus the small-monster facts in the header:
+// physical columns reach 110/150 there, ko reaches 200, while 0xFF is never a stat value
+// (it is the durability-block marker byte that sits right before the grid), so the
+// physical cap is 200 and not 255.
+const MEAT_PHYS_MAX = 200;   // cut, impact, shot
+const MEAT_ELEM_MAX = 100;   // fire, water, ice, thunder, dragon
+const MEAT_KO_MAX = 200;     // ko
 const STATUS_SCAN_LO = 0x1e0;
 const STATUS_SCAN_HI = 0x520;
 const STATUS_NAMES = ['poison', 'sleep', 'para', 'ko', 'exhaust', 'mount', 'jump', 'blast'];
@@ -43,21 +62,24 @@ function fail(msg) { throw new Error(`dttune: ${msg}`); }
 
 // ---- meat: locate the base table + conditional layers ----------------------------------
 // Column layout (db order): cut,impact,shot,fire,water,ice,thunder,dragon,ko,pad.
-// Element columns (0..7) are 0..100; the KO column can exceed 100 (Chameleos head
-// ko=150) and pads run 0/100/200/255 (rev wiki-hz-all-a). So the scan constraint is:
-// cols 0..7 <= 100; col 8 (ko) <= 200; pad <= 255 (any byte).
+// One row gate for both the base grid and the layer groups: isMeatRow.
+// Caps: cut/impact/shot <= MEAT_PHYS_MAX, fire..dragon <= MEAT_ELEM_MAX, ko <= MEAT_KO_MAX.
+// The pad byte is not gated: over the 138 located arcs it takes 0 (60 rows), 10, 100
+// (1561), 120, 130, 150, 200 and 255 -- so no value test is possible there.
+function isMeatRow(buf, o) {
+  if (o + 10 > buf.length) return false;
+  for (let k = 0; k < 3; k++) if (buf[o + k] > MEAT_PHYS_MAX) return false;
+  for (let k = 3; k < 8; k++) if (buf[o + k] > MEAT_ELEM_MAX) return false;
+  if (buf[o + 8] > MEAT_KO_MAX) return false;
+  return true;
+}
+
 function locateMeat(buf) {
   for (let off = MEAT_SCAN_LO; off <= MEAT_SCAN_HI; off++) {
-    let ok = true;
-    for (let r = 0; r < MEAT_ROWS && ok; r++) {
-      const row = off + r * 10;
-      if (row + 10 > buf.length) { ok = false; break; }
-      // row 0 must not start with a zero byte (the 0x8A/0x8B lead-in before a 0x8C
-      // table can be zeros; true row 0 starts with the cut value >= 1)
-      if (r === 0 && buf[row] === 0) { ok = false; break; }
-      for (let k = 0; k < 8; k++) if (buf[row + k] > 100) { ok = false; break; }
-      if (ok && buf[row + 8] > 200) ok = false;
-    }
+    // row 0 must start with the cut value >= 1: the block tail before a 0x8E/0x8F grid is
+    // `01 ff` / `01 7e ff` / `00 00`, so a cut of 0 means the window is not the grid yet
+    let ok = buf[off] !== 0;
+    for (let r = 0; r < MEAT_ROWS && ok; r++) ok = isMeatRow(buf, off + r * 10);
     if (ok) return off;
   }
   return null;
@@ -79,19 +101,16 @@ function readMeat(buf, off) {
 // ---- conditional meat layers -------------------------------------------------------------
 // After the base 8x10 group there can be more 10-B-row groups (per-part conditional
 // overrides, e.g. em081_00 layer 2 @0xDE; em019_00 has 15 rows so the last "layer" is
-// truncated). Group detection: a group continues while rows look like meat rows
-// (cols 0..7 <= 100, ko <= 200); stop at the tag word / float block / status data.
+// truncated). Group detection: a group continues while rows pass isMeatRow; stop at the
+// tag word / float block / status data, and drop a group that holds no real row (fill tail).
 // Empty-slot forms: all-0x64, all-zero, or copy-of-base (reported via _form).
 function readMeatLayers(buf, baseOff) {
   const groups = [{ layer: 0, offset: baseOff, rows: readMeat(buf, baseOff) }];
   let off = baseOff + 80;
   let layer = 1;
-  const colsOk = (o) => {
-    if (o + 10 > buf.length) return false;
-    for (let k = 0; k < 8; k++) if (buf[o + k] > 100) return false;
-    if (buf[o + 8] > 200) return false;
-    return true;
-  };
+  // same row gate as the base grid (isMeatRow): the layer rows carry the same columns,
+  // so the small-monster physical values above 100 must pass here too
+  const colsOk = (o) => isMeatRow(buf, o);
   while (off + 10 <= buf.length) {
     // a new group starts if this row and the next look like meat rows and we are
     // still before the status block / float region (heuristic bound: +0x300)
@@ -106,8 +125,12 @@ function readMeatLayers(buf, baseOff) {
       row._allZero = MEAT_COLS.every(c => row[c] === 0);
       rows.push(row);
       o += 10;
-      // stop the group after a full 8 rows unless the next row also looks like meat
+      // stop the group after a full 8 rows unless the group is still dense: a fill row
+      // (all-100 / all-zero) terminates it, so a fill tail does not swallow the first row
+      // of the next region (em087_00 would otherwise report 8 fillers + 1 real row)
       if (rows.length % 8 === 0 && rows.length >= 8) {
+        const last = rows[rows.length - 1];
+        if (last._all100 || last._allZero) break;
         if (!(o + 10 <= buf.length && colsOk(o) && buf[o] !== 0)) break;
       }
     }
@@ -131,20 +154,30 @@ function readMeatLayers(buf, baseOff) {
       row._form = row._all100 ? 'empty-100' : row._allZero ? 'empty-zero'
         : (baseRows.find(b => MEAT_COLS.every(c => b[c] === row[c])) ? 'copy-of-base' : 'values');
     }
-    groups.push({ layer, offset: off, rows, _truncated: rows.length % 8 !== 0 });
+    // A group whose rows are all empty slots is not a conditional layer: it is the fill
+    // region between the last group and the float block (em022_00/em088_00 read all-0x64 up
+    // to the floats, em012_00 all-zero from 0xDC). Skip it but keep walking the 80-B grid --
+    // a real layer can still follow (em003_00 layer 1 is 6 copy-of-base rows + 2 fillers).
+    const hasContent = rows.some(r => r._form === 'values' || r._form === 'copy-of-base');
+    if (hasContent) groups.push({ layer, offset: off, rows, _truncated: rows.length % 8 !== 0 });
     layer++;
     off = baseOff + 80 * layer; // groups are laid out on an 80-B grid when present
   }
   return groups;
 }
 
-// ---- status: locate Poison record by db-validated walk ---------------------------------
+// ---- status: locate the Poison record by shape scan, then walk forward ------------------
 // Record: [initial, A, B, durationFrames, increase, max]. A/B vary per record/monster
-// (em011 Poison A=300,B=10 / Sleep A=1200,B=5; em001 Poison A=600,B=5), so shape-only
-// detection needs guards. Observed invariants across 8 monsters: duration is 0 or a
-// multiple of 60 < 7201; db Poison initial >= 50 (min sampled 100); the record always
-// starts 4-aligned relative to 0x1F4-type block bases seen so far is NOT guaranteed
-// (em024 base 0x351, em057 0x3A1 — odd alignments), so scan on every u16 offset.
+// (em011 Poison A=300,B=10 / Sleep A=1200,B=5; em001 Poison A=600,B=5), so they are not a
+// shape gate. The gate used below (isPlausibleRecord + isPlausiblePoison) is: duration 0 or
+// a multiple of 60 < 7201, initial/A/B <= 2000, increase <= 999, 0 < max <= 9999,
+// max >= increase, and for Poison initial >= 50 with a timed duration.
+// The record offset is per-monster AND MAY BE ODD — 18 of the 89 db-verified Poison records
+// start on an odd byte offset (docs/reference/formats/dttune.md "How to locate/parse the
+// block": em024_00 0x351, em027_00 0x21F, em057_00 0x3A1, em063_00 0x2F5, em071_00 0x329,
+// em080_00 0x34B, em086_00 0x1F7) — so locateStatus scans EVERY BYTE offset. A u16-grid scan
+// is blind to those records; the earlier "scan on every u16 offset" note was wrong on both
+// counts (the bases are record starts, and u16 stepping skips the odd ones).
 function isPlausibleRecord(buf, o) {
   if (o + 12 > buf.length) return false;
   const initial = buf.readUInt16LE(o), a = buf.readUInt16LE(o + 2), b = buf.readUInt16LE(o + 4);
@@ -165,7 +198,9 @@ function isPlausiblePoison(buf, o) {
 }
 
 function locateStatus(buf) {
-  // block bases can be ODD (em024 0x351, em057 0x3A1) — scan every byte offset
+  // a Poison record can start on an ODD byte offset (em024_00 0x351, em027_00 0x21F,
+  // em057_00 0x3A1, em086_00 0x1F7 -- 18 of the 89 db-verified records in dttune.md), so
+  // step by one byte: a u16 grid would miss every second-base record
   for (let o = STATUS_SCAN_LO; o <= STATUS_SCAN_HI; o++) {
     if (isPlausiblePoison(buf, o)) return o;
   }
@@ -297,7 +332,7 @@ export function decodeDttune(buf, file = null) {
     headerBytes: [...buf.slice(4, 8)],
     baseHp: buf.readUInt32LE(0x38),           // fixed offset [C 8/8]
     smallInt0x3C: buf.readUInt16LE(0x3c),
-    meat: meat ?? { _note: '8x10 base-state table not located in 0x8A..0x94', raw_u16: u16View(buf, 0x8a, 0xdc) },
+    meat: meat ?? { _note: '8x10 base-state table not located in 0x8C..0x94', raw_u16: u16View(buf, 0x8a, 0xdc) },
     meatOffset: meatOff,
     meatLayers: meatLayers && meatLayers.length > 1 ? meatLayers : undefined,
     status: status ?? { _note: 'status block not located by Poison-record scan', raw_u16_0x35c_0x3cc: u16View(buf, 0x35c, Math.min(0x3cc, buf.length & ~1)) },
