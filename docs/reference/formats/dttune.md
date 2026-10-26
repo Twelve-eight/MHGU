@@ -18,19 +18,18 @@ Evidence base: 8 monsters byte-checked so far. em001 Rathian 雌火龙, em002 Ra
 | 0x04 | u8[4] | `6c a0 33 01` in all 8 sampled files — unknown [U] |
 | 0x08 | u8[] | small header, layout monster-dependent [U] |
 | 0x38 | u32 | **monster base HP** — byte-equal `mhgu.db monsters.base_hp` on 8/8 monsters (fixed offset) [C] |
-| 0x3C | u32 | durability of the body part 胴 (em001 140, em002 150) — first item of the part-durability block below [C em001/em002] |
+| 0x3C | u16 + u16 | durability of the body part 胴 (em001 140, em002 150) + an unknown u16 (non-zero in 16/138 files) — head of the part-durability block below [C, 138 files] |
 
 File sizes vary per monster (1018..1966 B sampled); the runtime class is only 0x128 B, so the file is parsed by dedicated loader code, not mapped 1:1 onto the class [B].
 
-## Part durability block (0x3C .. meat start) [C em001/em002, 2026-10-26]
+## Part durability block (fixed 80 B at 0x3C) [C 138 files, 2026-10-26]
 
-GU uses one durability value per part for both flinch and break (`MHGU-private/.../mhxx-wiki/text/1862.txt:174`). Layout (em001/em002; source `.tmp/reports-rds/gu-break-values.md`, Main re-read em001 bytes):
+GU uses one durability value per part for both flinch and break (`MHGU-private/.../mhxx-wiki/text/1862.txt:174`). Sources: `.tmp/reports-rds/gu-break-values.md` and its review `.tmp/reports-rds/rev-gu-break-values.md` (loader `0x57740` reads exactly 80 B after the 4-byte HP).
 
-- u32 @0x3C = 胴 durability.
-- From 0x40: 7 records of 10 B `{u16 0, u16 0xFFFF, u16 kind [U], u16 durability, u16 tailFlag}`; slot order 翼L, 翼R, 脚L, 脚R, 首, 头, 尾 [B].
-- After the record with tailFlag = 1: a sever record `{u16 0xFF01, u16 sever durability, ...}`.
-- em001 Rathian: 胴 140, 翼 100/100, 脚 180/180, 首 90, 头 190, 尾 150, sever 230. em002 Rathalos: 胴 150, 翼 100/100, 脚 190/190, 首 90, 头 230, 尾 120, sever 320. Both match the wiki tables.
-- Block length varies (80–83 B) before the meat table; other monsters unverified [U].
+- 0x3C: `{u16 胴 durability, u16 unknown}`.
+- From 0x40: 10-byte entries `{u16 prefix, u16 marker, u16 kind [U], u16 durability, u16 tailFlag}`. Prefix/marker is usually `0, 0xFFFF` but deviates in 44/138 files (`0xFF7E`, `0x0AFF`, `0x0000`). The block size cuts an 8th entry at 0x86.
+- A sever entry has prefix `0xFF01` and is an ordinary 10-byte entry whose own durability is the sever value. In 49/49 files it immediately follows the entry with tailFlag = 1; elsewhere it can sit at any entry index (em027 e2, em032 e3, em043/em080 e6). Monsters without a severable tail have none (em011 Kirin).
+- em001 Rathian: 胴 140, then 100, 100, 180, 180, 90, 190, 150 (kinds 2,4,4,3,3,1,1), sever 230. em002 Rathalos: 胴 150, then 100, 100, 190, 190, 90, 230, 120, sever 320. em007 Diablos: 350 + 150, 150, 250, 250, 150, 250, 250, sever 500. All match the wiki multisets. Entry → part order [B] (翼L, 翼R, 脚L, 脚R, 首, 头, 尾 for em001).
 
 ## Meat table — locate rule [C per monster]
 
