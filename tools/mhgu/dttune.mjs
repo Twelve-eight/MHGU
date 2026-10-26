@@ -9,9 +9,21 @@
 // Fixed facts (8/8 monsters): magic "DTT\0" @0x00, header bytes 6c a0 33 01 @0x04,
 // base HP u32 @0x38 (== db monsters.base_hp).
 // Everything else is located by scanning (offsets are per-monster variables):
-//   meat:   8 rows x 10 B (9 x u8 + pad) starting in 0x8A..0x92; first window with all
-//           bytes <= 100. Base-state rows only (conditional rows are not stored; unused
-//           slots are all-100).
+//   meat:   8 rows x 10 B (9 x u8 + pad) = cut,impact,shot,fire,water,ice,thunder,
+//           dragon,ko,pad. Base group start 0x8C/0x8E/0x8F/0x90 observed (94 arcs);
+//           scanner tries 0x8A..0x94 and takes the first window with cols 0..7 <= 100,
+//           ko <= 200, row0 cut >= 1 (em012_00 wrongly ties at 0x8A on its `02 00`
+//           lead-in; its real 0x8C grid equals db rows 136..142 exactly).
+//           Conditional layers ARE stored: more 10-B-row groups at base+0x50*k
+//           (em005_00 @0xDE = 0x8E+0x50 = 25/35/25/0/15/5/5/30/100; em081_00 @0xDE;
+//           em019_00 group @0xDE truncated at 0x124) -- emitted as meatLayers[k]
+//           (dttune.md "Conditional layers").
+//           Empty slots are not all-100: all-100, all-zero (em088_00 @0xC8) or
+//           copy-of-base; the pad byte is not constant (em070_00 @0x8C pad=150).
+//           Values above 100 do occur and make the gate above skip the whole file:
+//           em087_00 (@0xC8 = 120/120/150) and small-monster ems020_00/ems021_00
+//           (row 0 @0x8C impact=110, ko=200); the other 42/44 ems arcs are located
+//           (37 at 0x8C, 4 at 0x8E).
 //   status: variable block somewhere in 0x1F4..0x4E8 (or absent). Poison-shaped record
 //           located by scanning; walk forward: 6 x u16 per record
 //           [initial, A, B, durationFrames, increase, max], optional trailing u16 pair
