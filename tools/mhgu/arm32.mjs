@@ -133,23 +133,44 @@ export function decode(w, addr) {
       if (opc === 13 || opc === 15) return `${m}${cc} ${rd}, #${imm}`;
       return `${m}${cc} ${rd}, ${rn}, #${imm}`;
     }
-    // bit25 = 0
-    const bits76 = (w >>> 6) & 3, bit4 = (w >>> 4) & 1;
-    // extra load/store halfword: bits 7:4 = 1xx1 and bits 6:5 != 00
-    if (bit4 === 1 && bits76 !== 0) {
+    // bit25 = 0 (ARM ARM A5.2.1). bits 7 and 4 split the space: bit4 = 0 -> data processing with an
+    // immediate shift (bits 11:7 amount, bits 6:5 type, so bits 7 and 6 are operand bits, not opcode bits);
+    // bit7 = 0, bit4 = 1 -> data processing shifted by a register; bit7 = 1, bit4 = 1 -> multiply /
+    // extra load-store (bits 6:5 = 00 is the multiply/swap group, handled below). Opcodes 8-11 with S = 0
+    // are not data processing but the misc group (MRS/MSR/BX/BLX/CLZ/BKPT/saturating/halfword multiply).
+    const bit7 = (w >>> 7) & 1, bit4 = (w >>> 4) & 1, sh65 = (w >>> 5) & 3;
+    if (bit7 === 1 && bit4 === 1 && sh65 !== 0) {
       const P = (w >>> 24) & 1, U = (w >>> 23) & 1, I = (w >>> 22) & 1,
-        W = (w >>> 21) & 1, L = (w >>> 20) & 1, sh = (w >>> 5) & 3;
+        W = (w >>> 21) & 1, L = (w >>> 20) & 1;
       const rn = R[(w >>> 16) & 0xF], rt = R[(w >>> 12) & 0xF];
       // Offset: immediate form (I=1) = imm4H:imm4L; register form (I=0) = Rm. P=0 is post-indexed.
       const mag = I ? `#${U ? '' : '-'}${((w >>> 4) & 0xF0) | (w & 0xF)}` : `${U ? '' : '-'}${R[w & 0xF]}`;
       const addr = P ? `[${rn}, ${mag}]${W ? '!' : ''}` : `[${rn}], ${mag}`;
-      if (sh === 1) return `${L ? 'ldrh' : 'strh'}${cc} ${rt}, ${addr}`;
-      if (sh === 2) return `${L ? 'ldrsb' : 'ldrd'}${cc} ${rt}, ${addr}`;
-      if (sh === 3) return `${L ? 'ldrsh' : 'strd'}${cc} ${rt}, ${addr}`;
+      if (sh65 === 1) return `${L ? 'ldrh' : 'strh'}${cc} ${rt}, ${addr}`;
+      if (sh65 === 2) return `${L ? 'ldrsb' : 'ldrd'}${cc} ${rt}, ${addr}`;
+      return `${L ? 'ldrsh' : 'strd'}${cc} ${rt}, ${addr}`;
     }
-    if (bits76 === 0 && bit4 === 0) {
-      // data processing register (and multiply when bits 27:22 = 000000 and 7:4 = 1001 handled above)
-      const opc = (w >>> 21) & 0xF, S = (w >>> 20) & 1;
+    const opc = (w >>> 21) & 0xF, S = (w >>> 20) & 1;
+    if ((opc & 0xC) === 0x8 && S === 0) {
+      // misc: MRS/MSR/BX/BLX/CLZ/BKPT
+      if ((w & 0x0FFFFFF0) === 0x012FFF10) return `bx${cc} ${R[w & 0xF]}`;
+      if ((w & 0x0FFFFFF0) === 0x012FFF30) return `blx${cc} ${R[w & 0xF]}`;
+      if ((w & 0x0FFF0FF0) === 0x016F0F10) return `clz${cc} ${R[(w>>>12)&0xF]}, ${R[w & 0xF]}`;
+      if ((w & 0x0FBF0FFF) === 0x010F0000) return `mrs${cc} ${R[(w>>>12)&0xF]}, cpsr`;
+      if ((w & 0x0FB0FFF0) === 0x0120F000) return `msr${cc} cpsr, ${R[w & 0xF]}`;
+      if ((w & 0x0FF000F0) === 0x01200070) return `bkpt #${w & 0xFFFF}`;
+      if (bit7 === 1 && bit4 === 0 && ((w >>> 23) & 0x1F) === 0x02) {
+        // signed halfword multiplies (ARM ARM A5.2.7): SMLA<x><y>, SMLAW<y>/SMULW<y>, SMLAL<x><y>, SMUL<x><y>
+        const op = (w >>> 21) & 3, x = (w >>> 5) & 1 ? 't' : 'b', y = (w >>> 6) & 1 ? 't' : 'b';
+        const r16 = R[(w >>> 16) & 0xF], r12 = R[(w >>> 12) & 0xF], rm = R[(w >>> 8) & 0xF], rn = R[w & 0xF];
+        if (op === 0) return `smla${x}${y}${cc} ${r16}, ${rn}, ${rm}, ${r12}`;
+        if (op === 1) return x === 'b' ? `smlaw${y}${cc} ${r16}, ${rn}, ${rm}, ${r12}` : `smulw${y}${cc} ${r16}, ${rn}, ${rm}`;
+        if (op === 2) return `smlal${x}${y}${cc} ${r12}, ${r16}, ${rn}, ${rm}`;
+        return `smul${x}${y}${cc} ${r16}, ${rn}, ${rm}`;
+      }
+      if (!(bit7 === 1 && bit4 === 1)) return `.word 0x${(w>>>0).toString(16).padStart(8,'0')} ; (misc)`;
+    } else if (!(bit7 === 1 && bit4 === 1)) {
+      // data processing register, immediate shift (bit4 = 0) or register shift (bit4 = 1)
       const rn = R[(w >>> 16) & 0xF], rd = R[(w >>> 12) & 0xF];
       const m = DPOP[opc];
       const sfx = S ? 's' : '';
@@ -160,14 +181,6 @@ export function decode(w, addr) {
       }
       return `${m}${sfx}${cc} ${rd}, ${rn}, ${shifter(w)}`;
     }
-    // misc: MRS/MSR/BX/BLX/CLZ/BKPT
-    if ((w & 0x0FFFFFF0) === 0x012FFF10) return `bx${cc} ${R[w & 0xF]}`;
-    if ((w & 0x0FFFFFF0) === 0x012FFF30) return `blx${cc} ${R[w & 0xF]}`;
-    if ((w & 0x0FFF0FF0) === 0x016F0F10) return `clz${cc} ${R[(w>>>12)&0xF]}, ${R[w & 0xF]}`;
-    if ((w & 0x0FBF0FFF) === 0x010F0000) return `mrs${cc} ${R[(w>>>12)&0xF]}, cpsr`;
-    if ((w & 0x0FB0FFF0) === 0x0120F000) return `msr${cc} cpsr, ${R[w & 0xF]}`;
-    if ((w & 0x0FF000F0) === 0x01200070) return `bkpt #${w & 0xFFFF}`;
-    if (bit4 === 1 && bits76 === 1) return `.word 0x${(w>>>0).toString(16).padStart(8,'0')} ; (media?)`;
   }
 
   // multiply: bits 27:22 = 000000, bits 7:4 = 1001
@@ -176,6 +189,11 @@ export function decode(w, addr) {
     const rd = R[(w >>> 16) & 0xF], rn = R[(w >>> 12) & 0xF], rs = R[(w >>> 8) & 0xF], rm = R[w & 0xF];
     if (A) return `mla${S?'s':''}${cc} ${rd}, ${rm}, ${rs}, ${rn}`;
     return `mul${S?'s':''}${cc} ${rd}, ${rm}, ${rs}`;
+  }
+  // long multiply: bits 27:23 = 00001, bits 7:4 = 1001 (UMULL/UMLAL/SMULL/SMLAL)
+  if (((w >>> 23) & 0x1F) === 1 && ((w >>> 4) & 0xF) === 9) {
+    const op = ['umull', 'umlal', 'smull', 'smlal'][(w >>> 21) & 3], S = (w >>> 20) & 1;
+    return `${op}${S ? 's' : ''}${cc} ${R[(w >>> 12) & 0xF]}, ${R[(w >>> 16) & 0xF]}, ${R[w & 0xF]}, ${R[(w >>> 8) & 0xF]}`;
   }
 
   if (b27_26 === 3) {
