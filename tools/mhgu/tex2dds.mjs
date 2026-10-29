@@ -7,6 +7,7 @@ import { pathToFileURL } from 'node:url';
 // format code -> [DXGI, bytes per 4x4 block (0 = uncompressed 4 B/pixel)]
 export const FORMATS = {
   0x07: [28, 0],  // R8G8B8A8_UNORM [I: 64 B per 4x4 block = 4 B/pixel]
+  0x13: [71, 8],  // BC1_UNORM [C: em004_00_01_BM / em080_04_BM decode, albdcheck + MHRS HostRep builds 2026-10-29]
   0x17: [77, 16], // BC3_UNORM [C visual]
   0x19: [80, 8],  // BC4_UNORM [C visual]
   0x1f: [83, 16], // BC5_UNORM [C visual, normal map]
