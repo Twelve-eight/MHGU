@@ -12,8 +12,10 @@ Read this before any GU binary work. Every item below cost a previous agent hour
 
 ## 2. Finding code
 - **Small immediates** (skill ids, state numbers, tree ids < 256) are `mov rN,#imm` / `cmp rN,#imm`. `lits` will not find them. Scan disasm for the mov/cmp, then check the next `bl`.
-- `lits` finds pc-relative literals plus movw+movt pairs (movt within 8 insns) and vldr pc. A 0-hit `lits` on a type hash does not mean "unused": resource type hashes appear only in per-arc (pathHash, typeHash) manifests (around flat 0x15dccd4); loaders are data-driven.
-- `calls` lists direct `bl`/`blx imm` only. Thunks and tail calls (`b`) hide callers: when a census of a function shows no expected ids, look for thunks that jump to it.
+- `lits` finds pc-relative literals, movw+movt pairs (movt within 8 insns), vldr pc, and (since 2026-10-30) a lone movw for values <= 0xFFFF. A 0-hit `lits` on a type hash does not mean "unused": resource type hashes appear only in per-arc (pathHash, typeHash) manifests (around flat 0x15dccd4); loaders are data-driven. Struct offsets above 0xFFF cannot be ldr/str imm12 offsets: they appear only as movw + register-offset access, so search the movw and then the register use.
+- `calls` lists direct `bl`/`blx imm` only. Thunks and tail calls (`b`) hide callers. Use `refs_to` (MCP, 2026-10-30): bl/blx, b with any condition, adr, the pc-delta idiom `ldr rX,[pc,#lit]` + `add rD,pc,rX` (target = add site + 8 + delta; how this binary reaches tables such as 0x179110c), and absolute pointer words anywhere in the image (vtables, function tables). Still not covered: `blx rN` through runtime-built tables and computed pointers.
+- Disassembler fix 2026-10-30 (`arm32.mjs`, MHGU 0508f0e): register data-processing forms with ASR/ROR, odd shift amounts or register shifts used to print as `.word` (14% of .text) or as bogus ldrd/strd. Re-check any old conclusion that rested on "no instruction touches X here" in a region that had many `.word`s. Immediates are printed in DECIMAL (`#100`); never parse them as hex. Never bit-mask raw words yourself (JS `&` is signed: use `(w & M) >>> 0`); match the printed mnemonic instead. A function's end is its epilogue, not the next `push {...,lr}`.
+- The MCP server loads `arm32.mjs` at start: after a decoder change the MCP process must be restarted before agents see it.
 - No 'wind'/'Wind'/'HDE' strings in main. Do not search for English names of mechanics.
 
 ## 3. Known anchors (verified, cite them, do not rediscover)
@@ -30,7 +32,7 @@ Read this before any GU binary work. Every item below cost a previous agent hour
 - romfs `G:/mhgu-romfs/romfs/nativeNX/`; `node "G:/omp works/MHGU/tools/mhgu/arc.mjs" list|extract`.
 - Monster id -> monster: ONLY `MHGU/docs/data/json/monster-slot-map.json` (emid, slot, cn, en, cn_src). em001 = Rathian (slot 0), em002 = Rathalos (slot 3), em010 = Plesioth (slot 9), em016 = Iodrome (slot 13), em023 = Rajang (slot 21), em024 = Kushala Daora (slot 23). Never from memory.
 - dttune: layout notes in `MHGU/docs/wiki/hitzones-all-a.md` §1, offsets per monster in `MHGU/docs/data/json/monster-dttune-index.json` (offsets are hex strings: parse with int(x,16)).
-- attackdata (`enemy\hit_data\emNNN_00_attackdata`): `HDE\0`, count@8 = slots+1, 0x20 B slots from 0x30, `FFFF/FE` slots are list separators (some monsters have two lists).
+- attackdata (`enemy\hit_data\emNNN_00_attackdata`): `HDE\0`, count@8, 0x20 B records from **0x10** (corrected 2026-10-30, GapHitTiming + GapHitTimingX; the older "0x30" is one record off). Record: +0x00 u16 start A, +0x02 u16 duration B (window = motion frames [A, A+B)), +0x04 dmg, +0x06 react, +0x08 u16 flag word, +0x0C attr bits (0x04 fire, 0x10 water, 0x40 thunder, 0x80 ice, 0x20 dragon), +0x10/+0x14 u32 ailment flag words, +0x18 ailment value (GapPoison + GapPoisonX). `FFFF/FE` records are list separators (some monsters have two lists). Runtime picker 0x70ffc: index = row - 1000.
 - Cross-check against `MHGU/docs/data/mhgu.db` (third-party db: second source, not ground truth) and the wiki pages under `MHGU/docs/wiki/`.
 
 ## 5. Method

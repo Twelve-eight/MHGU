@@ -92,27 +92,54 @@ const TOOLS = {
   calls_to: {
     description:
       'Direct calls only: bl / blx-immediate sites in .text targeting the given vaddrs. ' +
-      'Does NOT find plain b tail-calls, blx rN, or function-pointer tables; 0 hits does not mean "no caller".',
+      'Does NOT find plain b tail-calls, blx rN, or function-pointer tables; 0 hits does not mean "no caller". ' +
+      'Use refs_to for tail calls, adr / pc-delta address loads and pointer tables.',
     props: { targets: VLIST },
     required: ['targets'],
     run: (a) => {
       const hits = arm.findCallsTo(list(a.targets, 'targets'));
       const lines = hits.slice(0, MAX_HITS).map((h) => `${hex(h.from)} -> ${hex(h.to)}`);
-      return `${hits.length} direct-call hit(s)${hits.length > MAX_HITS ? `, first ${MAX_HITS} shown` : ''}\n${lines.join('\n')}`;
+      const warn = hits.length ? '' : '\n0 direct callers is NOT "unreachable": check refs_to (tail b, adr, pc-delta, pointer tables), jump tables and out-of-image factory pointers first (re-guide-gu.md, Trap).';
+      return `${hits.length} direct-call hit(s)${hits.length > MAX_HITS ? `, first ${MAX_HITS} shown` : ''}\n${lines.join('\n')}${warn}`;
+    },
+  },
+  refs_to: {
+    description:
+      'Every static reference to the given vaddrs: bl/blx-imm, b (any condition: tail calls and jumps), ' +
+      'adr (add/sub rD,pc,#imm), the pc-delta idiom (ldr rX,[pc,#lit] then add rD,pc,rX within 8 insns; ' +
+      'target = add site + 8 + delta), and absolute pointer words anywhere in the image (vtables, function ' +
+      'tables, kind ptr). Optional start/end limit the code scan (pointer scan always covers the image; ' +
+      'set pointers=false to skip it). Still misses blx rN through runtime-built tables and pointers created ' +
+      'by arithmetic.',
+    props: { targets: VLIST, start: VADDR, end: VADDR, pointers: { type: 'boolean' } },
+    required: ['targets'],
+    run: (a) => {
+      const opts = { pointers: a.pointers !== false };
+      if (a.start !== undefined) opts.start = vaddrIn(a.start, 'start');
+      if (a.end !== undefined) opts.end = Math.min(num(a.end, 'end'), arm.TEXT_END);
+      const hits = arm.findRefsTo(list(a.targets, 'targets'), opts);
+      const byKind = {};
+      for (const h of hits) byKind[h.kind] = (byKind[h.kind] || 0) + 1;
+      const lines = hits.slice(0, MAX_HITS).map((h) => `${hex(h.from)} ${h.kind} -> ${hex(h.to)}${h.kind === 'pc-delta' ? ` (lit ${hex(h.lit)} delta ${hex(h.delta)})` : ''}`);
+      const warn = hits.length ? '' : '\n0 static references: the target may still be reached through runtime-built tables (blx rN) or computed pointers.';
+      return `${hits.length} reference(s) ${JSON.stringify(byKind)}${hits.length > MAX_HITS ? `, first ${MAX_HITS} shown` : ''}\n${lines.join('\n')}${warn}`;
     },
   },
   literal_loads: {
     description:
       'Code sites that materialise the given u32 constants within [start,end): ldr rX,[pc,#imm] (any condition), ' +
-      'vldr [pc,#imm], and movw rX,#lo + movt rX,#hi (movt within 8 insns). Misses constants built by ' +
-      'add/orr chains, mov+lsl, or movw/movt split across a branch; 0 hits is not proof of absence.',
+      'vldr [pc,#imm], movw rX,#lo + movt rX,#hi (movt within 8 insns), and movw alone for values <= 0xFFFF ' +
+      '(kind movw; struct offsets above 0xFFF cannot be ldr/str imm12 and appear only this way). Misses constants ' +
+      'built by add/orr chains, mov+lsl, or movw/movt split across a branch; for code ADDRESSES use refs_to ' +
+      '(pc-delta / adr). 0 hits is not proof of absence. Immediates in disasm output are printed in decimal.',
     props: { start: VADDR, end: VADDR, values: VLIST },
     required: ['start', 'end', 'values'],
     run: (a) => {
       const start = vaddrIn(a.start, 'start');
       const end = Math.min(num(a.end, 'end'), arm.TEXT_END);
       const hits = arm.findLiteralLoads(start, end, list(a.values, 'values'));
-      return `${hits.length} hit(s)\n` + hits.slice(0, MAX_HITS).map((h) => `${hex(h.from)} ${h.kind} ${h.reg} <- ${h.kind === 'movw/movt' ? `movt@${hex(h.lit)}` : `[${hex(h.lit)}]`} = ${hex(h.value)}`).join('\n');
+      const warn = hits.length ? '' : '\n0 hits is not proof of absence (see description; try refs_to for addresses).';
+      return `${hits.length} hit(s)\n` + hits.slice(0, MAX_HITS).map((h) => `${hex(h.from)} ${h.kind} ${h.reg} <- ${h.kind === 'movw/movt' ? `movt@${hex(h.lit)}` : h.kind === 'movw' ? 'movw' : `[${hex(h.lit)}]`} = ${hex(h.value)}`).join('\n') + warn;
     },
   },
   function_start: {

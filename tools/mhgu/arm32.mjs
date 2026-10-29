@@ -282,6 +282,7 @@ function decodeVfp(w, addr, cc) {
 }
 
 export function disasm(vaddr, count, opts = {}) {
+  if (!Number.isInteger(count) || count <= 0) throw new TypeError('arm32.disasm: count (number of instructions, > 0) is required');
   const out = [];
   for (let i = 0; i < count; i++) {
     const a = vaddr + i * 4;
@@ -314,9 +315,11 @@ export function findCallsTo(targets) {
 }
 
 // Find code that materialises one of the given u32 constants inside [start,end):
-//   ldr rX,[pc,#imm] (any condition), vldr sX/dX,[pc,#imm], and movw rX,#lo + movt rX,#hi
-//   (movt within the next 8 insns). In this binary movw/movt is the dominant form for
-//   magic numbers (e.g. 0x51EB851F: ~290 movw/movt pairs, 0 ldr-literal).
+//   ldr rX,[pc,#imm] (any condition), vldr sX/dX,[pc,#imm], movw rX,#lo + movt rX,#hi
+//   (movt within the next 8 insns), and - when the value fits in 16 bits - a movw with no
+//   matching movt ('movw'). In this binary movw/movt is the dominant form for magic numbers
+//   (e.g. 0x51EB851F: ~290 movw/movt pairs, 0 ldr-literal), and struct offsets above 0xFFF
+//   (ldr/str imm12 limit) appear only as movw + register-offset access.
 export function findLiteralLoads(start, end, values) {
   const vset = new Set(values.map((v) => v >>> 0));
   const hits = [];
@@ -339,14 +342,72 @@ export function findLiteralLoads(start, end, values) {
     }
     if ((w & 0x0FF00000) === 0x03000000) {
       const rd = (w >>> 12) & 0xF, lo = ((w >>> 4) & 0xF000) | (w & 0xFFF);
+      let paired = false;
       for (let b = a + 4; b <= a + 32 && b < TEXT_END; b += 4) {
         const t = rd32(b);
         if ((t & 0x0FF00000) === 0x03400000 && ((t >>> 12) & 0xF) === rd) {
+          paired = true;
           const v = (((((t >>> 4) & 0xF000) | (t & 0xFFF)) << 16) | lo) >>> 0;
           if (vset.has(v)) hits.push({ from: a, lit: b, value: v, reg: R[rd], kind: 'movw/movt' });
           break;
         }
       }
+      if (!paired && vset.has(lo)) hits.push({ from: a, lit: a, value: lo, reg: R[rd], kind: 'movw' });
+    }
+  }
+  return hits;
+}
+
+// Every way a code site in [start,end) can name the vaddr `target` (or any of `targets`):
+//   bl / blx-imm (kind 'bl' / 'blx'), b with any condition ('b' = tail call or jump),
+//   adr = add/sub rD, pc, #imm ('adr'), the pc-delta idiom ldr rX,[pc,#lit] ; ... ; add rD, pc, rX
+//   within 8 insns ('pc-delta', target = add site + 8 + delta), plus absolute pointer words anywhere in
+//   the image equal to the target ('ptr', e.g. vtables and function tables; scanned 4-byte aligned).
+export function findRefsTo(targets, { start = 0, end = TEXT_END, pointers = true } = {}) {
+  const tset = new Set(targets.map((v) => v >>> 0));
+  const hits = [];
+  for (let a = start; a < end; a += 4) {
+    const w = rd32(a);
+    const cond = w >>> 28;
+    if (cond !== 0xF && ((w >>> 25) & 7) === 5) {
+      let off = (w & 0xFFFFFF) << 2; if (off & 0x2000000) off -= 0x4000000;
+      const tgt = (a + 8 + off) >>> 0;
+      if (tset.has(tgt)) hits.push({ from: a, to: tgt, kind: (w & 0x01000000) ? 'bl' : 'b' });
+      continue;
+    }
+    if ((w & 0xFE000000) === 0xFA000000) {
+      let off = (w & 0xFFFFFF) << 2; if (off & 0x2000000) off -= 0x4000000;
+      const tgt = (a + 8 + off + ((w >>> 24) & 1) * 2) >>> 0;
+      if (tset.has(tgt)) hits.push({ from: a, to: tgt, kind: 'blx' });
+      continue;
+    }
+    if (cond !== 0xF && (w & 0x0FEF0000) === 0x028F0000 || cond !== 0xF && (w & 0x0FEF0000) === 0x024F0000) {
+      const imm = (() => { const v = w & 0xFF, r = ((w >>> 8) & 0xF) * 2; return ((v >>> r) | (v << (32 - r))) >>> 0; })();
+      const tgt = ((w & 0x00800000) ? a + 8 + imm : a + 8 - imm) >>> 0;
+      if (tset.has(tgt)) hits.push({ from: a, to: tgt, kind: 'adr' });
+      continue;
+    }
+    if (cond !== 0xF && ((w >>> 26) & 3) === 1 && ((w >>> 25) & 1) === 0 && ((w >>> 20) & 1) === 1 && ((w >>> 16) & 0xF) === 15 && ((w >>> 22) & 1) === 0) {
+      const off = w & 0xFFF, U = (w >>> 23) & 1, rx = (w >>> 12) & 0xF;
+      const lit = (a + 8 + (U ? off : -off)) >>> 0;
+      if (lit + 4 > buf.length - 0x100) continue;
+      const delta = rd32(lit);
+      for (let b = a + 4; b <= a + 32 && b < end; b += 4) {
+        const t = rd32(b);
+        // add rD, pc, rX  or  add rD, rX, pc (register form, no shift)
+        if ((t & 0x0FE00FF0) === 0x00800000 && ((((t >>> 16) & 0xF) === 15 && (t & 0xF) === rx) || (((t >>> 16) & 0xF) === rx && (t & 0xF) === 15))) {
+          const tgt = (b + 8 + delta) >>> 0;
+          if (tset.has(tgt)) hits.push({ from: b, to: tgt, kind: 'pc-delta', lit, delta });
+          break;
+        }
+        if (((t >>> 12) & 0xF) === rx && ((t >>> 26) & 3) !== 2) break; // rX overwritten
+      }
+    }
+  }
+  if (pointers) {
+    const imgEnd = buf.length - 0x100;
+    for (let a = 0; a + 4 <= imgEnd; a += 4) {
+      if (tset.has(rd32(a))) hits.push({ from: a, to: rd32(a), kind: 'ptr' });
     }
   }
   return hits;
