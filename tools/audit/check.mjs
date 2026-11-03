@@ -176,5 +176,26 @@ try {
   bad(`headline cross-check failed: ${String(e.message).slice(0, 120)}`);
 }
 
+// 11. the save-side structural formula had the same shape of error as the calibre: PROGRESS wrote
+// (227,386 + 950,374*0.85)/1,177,760 = 87.9%, but 227,386 is the END OFFSET 0x3783A, not the member-layer length, so the
+// 632-byte header (measured ~40% structural) was silently counted at 100%. The length is 226,754 and the result is 87.84%.
+// Any line that multiplies the tail by 0.85 must use the length.
+try {
+  let checked = 0;
+  const before = failures;
+  for (const f of ["docs/PROGRESS.md", "docs/save-layout/coverage-map.md"]) {
+    fs.readFileSync(path.join(ROOT, f), "utf8").split(/\r?\n/).forEach((l, i) => {
+      if (!/×\s*0\.85|x\s*0\.85/.test(l)) return;
+      checked++;
+      if (/227,386\s*\+/.test(l)) bad(`${f}:${i + 1} uses 227,386 (the 0x3783A end offset) as the member length in the structural formula`);
+      if (!/226,754/.test(l)) bad(`${f}:${i + 1} structural formula does not use the member length 226,754`);
+    });
+  }
+  if (!checked) bad("no save-side structural formula found to check");
+  else if (failures === before) ok(`save-side structural formula uses the member length, not the end offset (${checked} site(s))`);
+} catch (e) {
+  bad(`save-side formula check failed: ${String(e.message).slice(0, 120)}`);
+}
+
 console.log(failures ? `\n${failures} check(s) failed` : "\nALL PASS");
 process.exit(failures ? 1 : 0);
