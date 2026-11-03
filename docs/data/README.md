@@ -53,6 +53,10 @@
 | `meow_locations` | 6 | 猫探险地（有实数据） |
 | `meow_rewards` | 1168 | 猫探险奖励（有实数据） |
 
+**ID 约定（2026-11-04 核对）**：`monsters._id` 就是 `emNNN` 的 EnemyTypeIndex——`_id=1` = Rathian、`_id=24` = Kushala Daora，与 `AGENTS.md` §2f 记下的枚举事实完全一致（em001 = Rathian，em024 = Kushala Daora）。按 `class` 分组：class 0 = 75 只、class 2 = 18 只（合计 **93 只大型怪**，与 `monster_damage` 的 93 个 `monster_id` 相同），class 1 = 36 只无 `base_hp` 的小型怪。
+
+**外键完整性（2026-11-04 核对，0 孤儿）**：`monster_damage→monsters`、`monster_to_quest→monsters`、`monster_to_quest→quests`、`quest_rewards→items` 四条关系全部闭合（各 0 条悬空引用）。
+
 **与 agroff JSON 的关系**：agroff 944 任务/204 技能是 Kiranico 网页爬取（英文为主）；mhgu.db 是更全的官方数据（1355 任务、多语言、含肉质/掉落/采集）。**mhgu.db 为权威**，agroff 作交叉验证。
 
 **信源验证记录**：`docs/reference/source-verification.md`
