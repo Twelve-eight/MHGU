@@ -359,6 +359,7 @@ start	insns	label	provenance	reason
 0x3103c	1	otomo-ot	evidence:attr-vtable-fixed.tsv	cDLCOtomoInfo registrar 0x338a0 vtable 0x1731158 slot 0 (instance vtable installed by create 0x30ed0 @ install 0x33b38)
 0x31040	12	otomo-ot	evidence:attr-vtable-fixed.tsv	cDLCOtomoInfo registrar 0x338a0 vtable 0x1731158 slot 1 (instance vtable installed by create 0x30ed0 @ install 0x33b38)
 0x31070	1422	otomo-ot	evidence:attr-xref.tsv	string "mOtomoPrizeNo"
+0x338a0	91	online-nex	inferred:attr-offsetpairs.tsv	6 pure offset pair(s) say online-nex (91 insns)
 0x33a0c	38	otomo-ot	evidence:attr-vtable-fixed.tsv	cDLCOtomoInfoXML registrar 0x338a0 vtable 0x17311ac slot 2 (class-record vtable written by str at 0x33b70)
 0x33aa4	23	otomo-ot	evidence:attr-vtable-fixed.tsv	cDLCOtomoInfoXML registrar 0x338a0 vtable 0x1731178 slot 1 (instance vtable installed by create 0x33a0c @ install 0x33b70)
 0x33b00	42	otomo-ot	evidence:attr-xref.tsv	string "cDLCOtomoInfo"
@@ -3864,6 +3865,7 @@ start	insns	label	provenance	reason
 0x168370	27	monster-em	spread:spread+address	tier A, spread+address
 0x1683dc	27	render-gfx	spread:spread	tier B, spread
 0x168448	30	render-gfx	spread:spread	tier B, spread
+0x16865c	83	ui	inferred:attr-offsetpairs.tsv	2 pure offset pair(s) say ui (83 insns)
 0x1687a8	72	ui	spread:spread	tier B, spread
 0x1688c8	15	monster-em	spread:spread+address	tier A, spread+address
 0x168960	162	render-gfx	spread:spread	tier B, spread
@@ -4647,6 +4649,7 @@ start	insns	label	provenance	reason
 0x1b4d80	29	otomo-ot	evidence:attr-vtable-unknown.tsv	cMonNyanProcResultAnim registrar 0x1b5580 vtable 0x1740004 slot 1 (instance vtable installed by create 0x1b4c3c @ install 0x1b5aa8) [classprefix-map cMonNyan -> otomo-ot, basis: cMonNyanProcBase; cMonNyanExp; cMonNyanReward]
 0x1b4df4	159	otomo-ot	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 10 strongly-typed neighbour(s) agree on otomo-ot
 0x1b5070	209	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on ui
+0x1b53b4	115	online-nex	inferred:attr-offsetpairs.tsv	4 pure offset pair(s) say online-nex (115 insns)
 0x1b5588	51	otomo-ot	evidence:attr-vtable-unknown.tsv	cMonNyanProcResultAnim registrar 0x1b5580 vtable 0x1740004 slot 6 (instance vtable installed by create 0x1b4c3c @ install 0x1b5aa8) [classprefix-map cMonNyan -> otomo-ot, basis: cMonNyanProcBase; cMonNyanExp; cMonNyanReward]
 0x1b5654	132	otomo-ot	evidence:attr-vtable-unknown.tsv	cMonNyanProcResultAnim registrar 0x1b5580 vtable 0x1740004 slot 8 (instance vtable installed by create 0x1b4c3c @ install 0x1b5aa8) [classprefix-map cMonNyan -> otomo-ot, basis: cMonNyanProcBase; cMonNyanExp; cMonNyanReward]
 0x1b5864	54	otomo-ot	evidence:attr-vtable-unknown.tsv	cMonNyanProcResultAnim registrar 0x1b5580 vtable 0x1740004 slot 9 (instance vtable installed by create 0x1b4c3c @ install 0x1b5aa8) [classprefix-map cMonNyan -> otomo-ot, basis: cMonNyanProcBase; cMonNyanExp; cMonNyanReward]
@@ -4994,6 +4997,7 @@ start	insns	label	provenance	reason
 0x1cca08	32	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on ui
 0x1cca88	62	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on ui
 0x1ccb80	49	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on ui
+0x1cce60	190	ui	inferred:attr-offsetpairs.tsv	3 pure offset pair(s) say ui (190 insns)
 0x1cd158	26	quest	spread:spread	tier B, spread
 0x1cd2a8	58	quest	spread:spread	tier B, spread
 0x1cd390	56	ui	spread:spread	tier B, spread
@@ -5141,6 +5145,7 @@ start	insns	label	provenance	reason
 0x1f787c	118	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on ui
 0x1f7a54	33	ui	spread:spread	tier B, spread
 0x1f7af8	203	weapon-wp	spread:spread+address	tier A, spread+address
+0x1f7e6c	80	ui	inferred:attr-offsetpairs.tsv	2 pure offset pair(s) say ui (80 insns)
 0x1f7fd8	919	weapon-wp	evidence:attr-xref.tsv	string "pEquipData.mBasic.mSyncParam"
 0x1f8e34	33	ui	spread:spread	tier B, spread
 0x1fa674	35	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on ui
@@ -5793,6 +5798,7 @@ start	insns	label	provenance	reason
 0x257514	27	ui	spread:spread	tier B, spread
 0x257580	28	ui	spread:spread	tier B, spread
 0x257b64	314	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 40 strongly-typed neighbour(s) agree on ui
+0x258084	57	ui	inferred:attr-offsetpairs.tsv	5 pure offset pair(s) say ui (57 insns)
 0x258800	178	render-gfx	spread:spread	tier B, spread
 0x258ac8	212	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on ui
 0x258e18	54	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on ui
@@ -7380,6 +7386,8 @@ start	insns	label	provenance	reason
 0x318200	54	ui	spread:spread	tier B, spread
 0x3182d8	54	ui	spread:spread	tier B, spread
 0x3183b0	54	ui	spread:spread	tier B, spread
+0x318488	66	ui	inferred:attr-offsetpairs.tsv	7 pure offset pair(s) say ui (66 insns)
+0x3185f8	55	ui	inferred:attr-offsetpairs.tsv	6 pure offset pair(s) say ui (55 insns)
 0x3186d4	61	monster-em	spread:spread	tier B, spread
 0x318800	108	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0x3189b0	373	physics-math	spread:spread	tier B, spread
@@ -7484,6 +7492,7 @@ start	insns	label	provenance	reason
 0x323ee4	182	render-gfx	spread:spread+address	tier A, spread+address
 0x3241bc	67	render-gfx	evidence:attr-vtable-unknown.tsv	cProofEffectDataObject registrar 0x324588 vtable 0x175267c slot 0 (instance vtable installed by create 0x323e64 @ install 0x324910) [classprefix-map cProof -> render-gfx, basis: cProofEffectSequence; cProofEffectDataObject]
 0x3242c8	14	render-gfx	evidence:attr-vtable-unknown.tsv	cProofEffectDataObject registrar 0x324588 vtable 0x175267c slot 1 (instance vtable installed by create 0x323e64 @ install 0x324910) [classprefix-map cProof -> render-gfx, basis: cProofEffectSequence; cProofEffectDataObject]
+0x324588	177	ui	inferred:attr-offsetpairs.tsv	3 pure offset pair(s) say ui (177 insns)
 0x32484c	65	render-gfx	evidence:attr-prefix.tsv	class prefix "rProof" (rProofEffectList; rProofEffectColorControl) in string "rProofEffectList"
 0x324950	23	render-gfx	evidence:attr-vtable-unknown.tsv	rProofEffectMotSequenceList registrar 0x324aa8 vtable 0x175270c slot 2 (class-record vtable written by str at 0x324c9c) [classprefix-map rProof -> render-gfx, basis: rProofEffectList; rProofEffectColorControl]
 0x3249ac	21	render-gfx	evidence:attr-vtable-unknown.tsv	rProofEffectMotSequenceList registrar 0x324aa8 vtable 0x17526c4 slot 0 (instance vtable installed by create 0x324950 @ install 0x324c9c) [classprefix-map rProof -> render-gfx, basis: rProofEffectList; rProofEffectColorControl]
@@ -7969,6 +7978,7 @@ start	insns	label	provenance	reason
 0x3a9f54	12	ui	spread:spread	tier B, spread
 0x3a9f84	96	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0x3aa104	14	ui	spread:spread	tier B, spread
+0x3aa13c	127	online-nex	inferred:attr-offsetpairs.tsv	2 pure offset pair(s) say online-nex (127 insns)
 0x3aa338	126	ui	spread:spread	tier B, spread
 0x3aa7c8	93	ui	spread:spread	tier B, spread
 0x3aa93c	127	ui	spread:spread	tier B, spread
@@ -8506,6 +8516,7 @@ start	insns	label	provenance	reason
 0x3f7848	119	render-gfx	spread:spread	tier B, spread
 0x3f7a60	108	render-gfx	spread:spread	tier B, spread
 0x3f7c10	172	render-gfx	spread:spread	tier B, spread
+0x3f8220	63	online-nex	inferred:attr-offsetpairs.tsv	4 pure offset pair(s) say online-nex (63 insns)
 0x3f8344	5	monster-em	inferred:attr-callervote.tsv	caller vote: 3/3 evidence-bearing callers are monster-em; rule validated leave-one-file-out at 96.4%
 0x3f8358	14	ui	spread:spread+address	tier A, spread+address
 0x3f8390	2	ui	spread:spread+address	tier A, spread+address
@@ -9170,6 +9181,7 @@ start	insns	label	provenance	reason
 0x458184	12	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on render-gfx
 0x4581b4	8	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x175e684: 1 labelled member(s) all say render-gfx
 0x4581d4	25	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x175e7b0: 4 labelled member(s) all say render-gfx
+0x458238	88	render-gfx	inferred:attr-offsetpairs.tsv	6 pure offset pair(s) say render-gfx (88 insns)
 0x4583c8	75	render-gfx	evidence:attr-prefix.tsv	class prefix "uShellPlEffect" (uShellPlEffect; uShellPlEffectCom; uShellPlEffectW00) in string "uShellPlEffectW12"
 0x4584f4	29	render-gfx	evidence:attr-vtable-unknown.tsv	uShellPlEffectW13 registrar 0x458398 vtable 0x175e74c slot 2 (class-record vtable written by str at 0x4587c8) [classprefix-map uShellPlEffect -> render-gfx, basis: uShellPlEffect; uShellPlEffectCom; uShellPlEffectW00]
 0x458568	13	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on render-gfx
@@ -9999,6 +10011,7 @@ start	insns	label	provenance	reason
 0x4cf018	18	ui	inferred:attr-callervote.tsv	caller vote: 3/3 evidence-bearing callers are ui; rule validated leave-one-file-out at 96.4%
 0x4cf114	26	player-pl	evidence:attr-vtable-unknown.tsv	sHunterArts registrar 0x4cf2d0 vtable 0x1769418 slot 2 (class-record vtable written by str at 0x4cf408) [classprefix-map sHunterArts -> player-pl, basis: sHunterArts]
 0x4cf1b8	15	player-pl	evidence:attr-class.tsv	ctor: sHunterArts
+0x4cf1f4	36	ui	inferred:attr-offsetpairs.tsv	3 pure offset pair(s) say ui (36 insns)
 0x4cf284	19	render-gfx	spread:spread	tier B, spread
 0x4cf2d0	3	ui	spread:spread	tier B, spread
 0x4cf2dc	19	player-pl	evidence:attr-vtable-unknown.tsv	sHunterArts registrar 0x4cf2d0 vtable 0x17693e8 slot 1 (instance vtable installed by create 0x4cf114 @ install 0x4cf408) [classprefix-map sHunterArts -> player-pl, basis: sHunterArts]
@@ -10411,6 +10424,7 @@ start	insns	label	provenance	reason
 0x502204	93	monster-em	spread:spread	tier B, spread
 0x502378	67	monster-em	spread:spread	tier B, spread
 0x50249c	335	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 6 strongly-typed neighbour(s) agree on monster-em
+0x5029d8	42	render-gfx	inferred:attr-offsetpairs.tsv	2 pure offset pair(s) say render-gfx (42 insns)
 0x502ba4	120	otomo-ot	spread:spread	tier B, spread
 0x502d84	186	ui	spread:spread	tier B, spread
 0x503298	157	otomo-ot	spread:spread	tier B, spread
@@ -10468,6 +10482,7 @@ start	insns	label	provenance	reason
 0x506f9c	20	ui	spread:spread	tier B, spread
 0x506fec	38	quest	spread:spread+address	tier A, spread+address
 0x507084	52	render-gfx	spread:spread	tier B, spread
+0x507154	146	render-gfx	inferred:attr-offsetpairs.tsv	2 pure offset pair(s) say render-gfx (146 insns)
 0x5073ec	21	render-gfx	spread:spread	tier B, spread
 0x507440	7	ui	spread:spread	tier B, spread
 0x5074ec	254	quest	evidence:attr-vtable-unknown.tsv	sVillage registrar 0x5106f8 vtable 0x176a748 slot 10 (instance vtable installed by create 0x5060a8 @ install 0x5109a4) [classprefix-map sVillage -> quest, basis: sVillage]
@@ -10553,6 +10568,7 @@ start	insns	label	provenance	reason
 0x510584	22	ui	spread:spread	tier B, spread
 0x5105dc	31	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on ui
 0x510760	162	quest	evidence:attr-prefix.tsv	class prefix "sVillage" (sVillage) in string "sVillage"
+0x5109e8	35	ui	inferred:attr-offsetpairs.tsv	2 pure offset pair(s) say ui (35 insns)
 0x510de8	193	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on ui
 0x5113a4	96	ui	spread:spread	tier B, spread
 0x51155c	138	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on render-gfx
@@ -13677,6 +13693,7 @@ start	insns	label	provenance	reason
 0x61c098	14	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on ui
 0x61c198	31	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on ui
 0x61c214	29	ui	evidence:attr-blocks.tsv	block 15 purity 12/12 (0 confirm, 12 relabel, 0 unknown) sample verdict-14_20.tsv
+0x61c288	36	ui	inferred:attr-offsetpairs.tsv	2 pure offset pair(s) say ui (36 insns)
 0x61c318	253	ui	evidence:attr-blocks.tsv	block 15 purity 12/12 (0 confirm, 12 relabel, 0 unknown) sample verdict-14_20.tsv
 0x61c70c	262	ui	evidence:attr-blocks.tsv	block 15 purity 12/12 (0 confirm, 12 relabel, 0 unknown) sample verdict-14_20.tsv
 0x61cb24	64	ui	evidence:attr-blocks.tsv	block 15 purity 12/12 (0 confirm, 12 relabel, 0 unknown) sample verdict-14_20.tsv
@@ -15931,6 +15948,7 @@ start	insns	label	provenance	reason
 0x70b3ec	192	ui	inferred:attr-callvote.tsv	callee vote round 1: 4 high-purity callees agree on ui (7/8, 19/21, 106/122, 35/41); this round validated fold-wise at 97.2%
 0x70b6ec	111	ui	inferred:attr-callvote.tsv	callee vote round 1: 3 high-purity callees agree on ui (8/9, 15/15, 67/76); this round validated fold-wise at 97.2%
 0x70b8a8	61	ui	spread:spread	tier B, spread
+0x70b99c	21	ui	inferred:attr-offsetpairs.tsv	2 pure offset pair(s) say ui (21 insns)
 0x70ba10	29	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on ui
 0x70ba84	228	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 11 strongly-typed neighbour(s) agree on ui
 0x70be14	142	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 4 strongly-typed neighbour(s) agree on ui
@@ -18280,8 +18298,10 @@ start	insns	label	provenance	reason
 0x86acdc	26	player-pl	evidence:attr-vtable-fixed.tsv	rVibrationPlayerList registrar 0x86ae80 vtable 0x1789044 slot 1 (instance vtable installed by create 0x86ac34 @ install 0x86af7c)
 0x86ad44	79	player-pl	evidence:attr-vtable-fixed.tsv	rVibrationPlayerList registrar 0x86ae80 vtable 0x1789044 slot 11 (instance vtable installed by create 0x86ac34 @ install 0x86af7c)
 0x86aef4	46	player-pl	evidence:attr-prefix.tsv	class prefix "rVibrationPlayer" (rVibrationPlayerList) in string "rVibrationPlayerList"
+0x86afac	78	render-gfx	inferred:attr-offsetpairs.tsv	8 pure offset pair(s) say render-gfx (78 insns)
 0x86b0e4	82	online-nex	spread:spread	tier B, spread
 0x86b294	42	render-gfx	spread:spread	tier B, spread
+0x86b3d8	88	render-gfx	inferred:attr-offsetpairs.tsv	11 pure offset pair(s) say render-gfx (88 insns)
 0x86b608	311	online-nex	spread:spread	tier B, spread
 0x86bae4	45	ui	spread:spread	tier B, spread
 0x86bb98	54	ui	spread:spread	tier B, spread
@@ -18355,6 +18375,8 @@ start	insns	label	provenance	reason
 0x874190	62	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on online-nex
 0x874e18	20	ui	spread:spread	tier B, spread
 0x874ec4	51	ui	spread:spread	tier B, spread
+0x874f90	61	online-nex	inferred:attr-offsetpairs.tsv	10 pure offset pair(s) say online-nex (61 insns)
+0x8750c0	50	online-nex	inferred:attr-offsetpairs.tsv	10 pure offset pair(s) say online-nex (50 insns)
 0x8756f0	14	ui	spread:spread	tier B, spread
 0x8757d4	96	ui	spread:spread	tier B, spread
 0x875954	39	ui	spread:spread	tier B, spread
@@ -19278,6 +19300,7 @@ start	insns	label	provenance	reason
 0x94d7fc	9	monster-em	spread:spread	tier B, spread
 0x94d820	531	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 4 strongly-typed neighbour(s) agree on render-gfx
 0x94e08c	8	render-gfx	evidence:attr-blocks.tsv	block 24 purity 10/12 (0 confirm, 12 relabel, 0 unknown) sample verdict-21_27.tsv
+0x94e0ac	91	render-gfx	inferred:attr-offsetpairs.tsv	2 pure offset pair(s) say render-gfx (91 insns)
 0x94e218	3	render-gfx	evidence:attr-blocks.tsv	block 24 purity 10/12 (0 confirm, 12 relabel, 0 unknown) sample verdict-21_27.tsv
 0x94e224	11	render-gfx	spread:spread+address	tier A, spread+address
 0x94e250	21	render-gfx	spread:spread+address	tier A, spread+address
@@ -20205,6 +20228,7 @@ start	insns	label	provenance	reason
 0xa34600	312	ui	inferred:attr-callervote.tsv	caller vote: 5/5 evidence-bearing callers are ui; rule validated leave-one-file-out at 96.4%
 0xa34b10	74	ui	evidence:attr-vtable-unknown.tsv	cGUIInstRoot registrar 0xa3bdc4 vtable 0x178f734 slot 2 (class-record vtable written by str at 0xa3c070) [classprefix-map cGUI -> ui, basis: cGUIObject; cGUIInstAnimation; cGUIMessageAnalyzer]
 0xa34d70	610	ui	evidence:attr-vtable-unknown.tsv	cGUIInstRoot registrar 0xa3bdc4 vtable 0x178f470 slot 4 (instance vtable installed by create 0xa34b10 @ install 0xa3c070) [classprefix-map cGUI -> ui, basis: cGUIObject; cGUIInstAnimation; cGUIMessageAnalyzer]
+0xa356f8	55	ui	inferred:attr-offsetpairs.tsv	5 pure offset pair(s) say ui (55 insns)
 0xa357d4	95	ui	evidence:attr-vtable-unknown.tsv	cGUIInstNull registrar 0xa3bdc4 vtable 0x178f748 slot 2 (class-record vtable written by str at 0xa3c0ac) [classprefix-map cGUI -> ui, basis: cGUIObject; cGUIInstAnimation; cGUIMessageAnalyzer]
 0xa35950	83	ui	spread:spread+address	tier A, spread+address
 0xa35b08	841	ui	spread:spread+address	tier A, spread+address
@@ -20366,6 +20390,7 @@ start	insns	label	provenance	reason
 0xa4e0b8	18	ui	spread:spread+address	tier A, spread+address
 0xa4e124	18	ui	inferred:attr-tableseeds.tsv	pointer table at 0x178ffb0: 1 labelled member(s) all say ui
 0xa4e16c	60	ui	inferred:attr-tableseeds.tsv	pointer table at 0x178ffb0: 1 labelled member(s) all say ui
+0xa4e3fc	130	ui	inferred:attr-offsetpairs.tsv	2 pure offset pair(s) say ui (130 insns)
 0xa4e604	9	ui	inferred:attr-tableseeds.tsv	pointer table at 0x176c4ac: 1 labelled member(s) all say ui
 0xa4e628	99	ui	inferred:attr-tableseeds.tsv	pointer table at 0x176c4ac: 1 labelled member(s) all say ui
 0xa4e7b4	250	render-gfx	inferred:attr-callvote.tsv	callee vote round 1: 2 high-purity callees agree on render-gfx (12/14, 12/13); this round validated fold-wise at 97.2%
@@ -20481,6 +20506,8 @@ start	insns	label	provenance	reason
 0xa5b990	512	render-gfx	spread:spread+address	tier A, spread+address
 0xa5c190	97	render-gfx	spread:spread+address	tier A, spread+address
 0xa5c314	84	render-gfx	spread:spread+address	tier A, spread+address
+0xa5c464	147	render-gfx	inferred:attr-offsetpairs.tsv	2 pure offset pair(s) say render-gfx (147 insns)
+0xa5c7dc	146	render-gfx	inferred:attr-offsetpairs.tsv	3 pure offset pair(s) say render-gfx (146 insns)
 0xa5ca24	112	render-gfx	evidence:attr-vtable-unknown.tsv	cEffectUnitGenerator registrar 0xa58c5c vtable 0x179007c slot 23 (instance vtable installed by create 0xa583a0 @ install 0xa58d44) [classprefix-map cEffect -> render-gfx, basis: cEffectUnitGenerator]
 0xa5cbe4	597	render-gfx	spread:spread+address	tier A, spread+address
 0xa5d538	166	render-gfx	spread:spread+address	tier A, spread+address
@@ -20530,6 +20557,9 @@ start	insns	label	provenance	reason
 0xa689cc	389	render-gfx	spread:spread+address	tier A, spread+address
 0xa691ec	63	render-gfx	spread:spread+address	tier A, spread+address
 0xa693e4	252	render-gfx	spread:spread+address	tier A, spread+address
+0xa697d4	111	render-gfx	inferred:attr-offsetpairs.tsv	2 pure offset pair(s) say render-gfx (111 insns)
+0xa69990	111	render-gfx	inferred:attr-offsetpairs.tsv	2 pure offset pair(s) say render-gfx (111 insns)
+0xa69b4c	109	render-gfx	inferred:attr-offsetpairs.tsv	2 pure offset pair(s) say render-gfx (109 insns)
 0xa69d00	193	render-gfx	inferred:attr-callervote.tsv	caller vote: 15/15 evidence-bearing callers are render-gfx; rule validated leave-one-file-out at 96.4%
 0xa6a004	168	render-gfx	inferred:attr-callervote.tsv	caller vote: 15/15 evidence-bearing callers are render-gfx; rule validated leave-one-file-out at 96.4%
 0xa6a2a4	10	render-gfx	inferred:attr-callervote.tsv	caller vote: 21/21 evidence-bearing callers are render-gfx; rule validated leave-one-file-out at 96.4%
@@ -20561,6 +20591,7 @@ start	insns	label	provenance	reason
 0xa71544	121	render-gfx	inferred:attr-callvote.tsv	callee vote round 1: 2 high-purity callees agree on render-gfx (41/41, 23/23); this round validated fold-wise at 97.2%
 0xa71728	188	render-gfx	spread:spread+address	tier A, spread+address
 0xa71a18	108	render-gfx	inferred:attr-callervote.tsv	caller vote: 4/4 evidence-bearing callers are render-gfx; rule validated leave-one-file-out at 96.4%
+0xa71bdc	44	render-gfx	inferred:attr-offsetpairs.tsv	2 pure offset pair(s) say render-gfx (44 insns)
 0xa71c8c	100	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on render-gfx
 0xa71e1c	324	render-gfx	spread:spread+address	tier A, spread+address
 0xa7232c	171	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 4 strongly-typed neighbour(s) agree on render-gfx
@@ -21649,6 +21680,7 @@ start	insns	label	provenance	reason
 0xb3b490	50	physics-math	evidence:attr-vtable-unknown.tsv	rChainCol registrar 0xb39a70 vtable 0x1792930 slot 11 (instance vtable installed by create 0xb3b324 @ install 0xb3b6a0) [classprefix-map rChain -> physics-math, basis: rChain; rChainCol]
 0xb3b558	34	physics-math	evidence:attr-vtable-unknown.tsv	rChainCol registrar 0xb39a70 vtable 0x1792930 slot 15 (instance vtable installed by create 0xb3b324 @ install 0xb3b6a0) [classprefix-map rChain -> physics-math, basis: rChain; rChainCol]
 0xb3b5e0	63	physics-math	evidence:attr-prefix.tsv	class prefix "rChain" (rChain; rChainCol) in string "rChain"
+0xb3b6dc	89	render-gfx	inferred:attr-offsetpairs.tsv	21 pure offset pair(s) say render-gfx (89 insns)
 0xb3b8e4	225	weapon-wp	spread:spread	tier B, spread
 0xb3bc68	209	weapon-wp	spread:spread	tier B, spread
 0xb3c890	78	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on render-gfx
@@ -22798,6 +22830,7 @@ start	insns	label	provenance	reason
 0xbf1c34	54	online-nex	spread:spread	tier B, spread
 0xbf1d0c	113	online-nex	spread:spread	tier B, spread
 0xbf1ed0	163	render-gfx	spread:spread	tier B, spread
+0xbf215c	169	online-nex	inferred:attr-offsetpairs.tsv	2 pure offset pair(s) say online-nex (169 insns)
 0xbf2400	85	render-gfx	spread:spread	tier B, spread
 0xbf2554	111	render-gfx	spread:spread	tier B, spread
 0xbf2710	68	render-gfx	spread:spread	tier B, spread
@@ -22810,6 +22843,7 @@ start	insns	label	provenance	reason
 0xbf4d74	82	render-gfx	spread:spread	tier B, spread
 0xbf4ebc	82	render-gfx	spread:spread	tier B, spread
 0xbf5004	202	render-gfx	spread:spread	tier B, spread
+0xbf532c	159	online-nex	inferred:attr-offsetpairs.tsv	2 pure offset pair(s) say online-nex (159 insns)
 0xbf55a8	879	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on render-gfx
 0xbf6364	154	render-gfx	spread:spread	tier B, spread
 0xbf65cc	169	render-gfx	spread:spread	tier B, spread
@@ -23522,6 +23556,7 @@ start	insns	label	provenance	reason
 0xc616bc	318	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on render-gfx
 0xc61bb4	100	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on render-gfx
 0xc61d44	1309	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on render-gfx
+0xc633a4	17	ui	inferred:attr-offsetpairs.tsv	2 pure offset pair(s) say ui (17 insns)
 0xc63488	43	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on render-gfx
 0xc635c4	61	render-gfx	evidence:attr-prefix.tsv	class prefix "uEffect" (uEffect; uEffectEmitter; uEffect2D) in string "uEffectEmitter"
 0xc636b8	223	render-gfx	evidence:attr-vtable-unknown.tsv	uMultiBloomFilter registrar 0xc65618 vtable 0x1797cb4 slot 12 (instance vtable installed by create 0xc65400 @ install 0xc65c80) [classprefix-map uMulti -> render-gfx, basis: uMultiFilter; uMultiBlurFilter; uMultiGodRaysFilter (post-process filters, between uEffectEmitter and uSynchroPointLight)]
@@ -23957,6 +23992,7 @@ start	insns	label	provenance	reason
 0xc8d5d0	253	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on ui
 0xc8d9c4	504	render-gfx	spread:spread+address	tier A, spread+address
 0xc8e6f4	107	render-gfx	spread:spread+address	tier A, spread+address
+0xc8e8a0	100	ui	inferred:attr-offsetpairs.tsv	2 pure offset pair(s) say ui (100 insns)
 0xc8ea30	140	ui	spread:spread	tier B, spread
 0xc8ec60	24	weapon-wp	spread:spread	tier B, spread
 0xc8f944	77	ui	spread:spread	tier B, spread
@@ -23986,6 +24022,7 @@ start	insns	label	provenance	reason
 0xc96c8c	92	physics-math	spread:spread+address	tier A, spread+address
 0xc96dfc	18	physics-math	evidence:attr-class2.tsv	cBVHCollision class-record slot [classprefix-map cBVHCollision -> physics-math, basis: cBVHCollision]
 0xc96e44	3	physics-math	spread:spread+address	tier A, spread+address
+0xc9704c	149	ui	inferred:attr-offsetpairs.tsv	3 pure offset pair(s) say ui (149 insns)
 0xc97aa4	108	physics-math	evidence:attr-class.tsv	ctor: cBVHCollision
 0xc97c90	40	physics-math	spread:spread+address	tier A, spread+address
 0xc97e8c	63	physics-math	evidence:attr-prefix.tsv	class prefix "cBVHCollision" (cBVHCollision) in string "cBVHCollision::cWorkBuildOnlineFast"
@@ -31941,6 +31978,8 @@ start	insns	label	provenance	reason
 0x1128594	7	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on ui
 0x1128758	12	monster-em	spread:spread+address	tier A, spread+address
 0x1129214	9	monster-em	spread:spread+address	tier A, spread+address
+0x1129340	168	online-nex	inferred:attr-offsetpairs.tsv	4 pure offset pair(s) say online-nex (168 insns)
+0x11295ec	173	online-nex	inferred:attr-offsetpairs.tsv	4 pure offset pair(s) say online-nex (173 insns)
 0x112b610	469	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on ui
 0x112bd64	86	monster-em	inferred:attr-offsets.tsv	1 pure struct offset(s) say monster-em (each touched by >=5 A-labelled functions at >=95% agreement; 86 insns)
 0x112bfec	114	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
@@ -32088,6 +32127,7 @@ start	insns	label	provenance	reason
 0x115d284	35	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0x115d310	6	monster-em	spread:spread+address	tier A, spread+address
 0x115d3e4	37	monster-em	spread:spread+address	tier A, spread+address
+0x115e6f8	62	render-gfx	inferred:attr-offsetpairs.tsv	2 pure offset pair(s) say render-gfx (62 insns)
 0x115eea0	106	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on ui
 0x115f048	107	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on ui
 0x115f2e4	82	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on ui
@@ -32680,6 +32720,7 @@ start	insns	label	provenance	reason
 0x11dea04	92	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 6 strongly-typed neighbour(s) agree on monster-em
 0x11df014	91	online-nex	spread:spread+address	tier A, spread+address
 0x11dfeb4	96	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on monster-em
+0x11e01a0	138	ui	inferred:attr-offsetpairs.tsv	2 pure offset pair(s) say ui (138 insns)
 0x11e0748	89	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x175192c: 2 labelled member(s) all say player-pl
 0x11e08ac	544	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0x11e112c	130	quest	signature:attr-immscan.tsv	constant 0x3330 only (assembled movw/movt; 29/29 = 100% of its labelled carriers are quest); rule validated fold-wise at 97.0% and this function has no other evidence
@@ -33154,6 +33195,7 @@ start	insns	label	provenance	reason
 0x122a4f8	54	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on online-nex
 0x122a5d0	11	online-nex	evidence:attr-vtable-ns.tsv	nn::nex::ObjectThreadRoot rtti-typeinfo N2nn3nex16ObjectThreadRootE vtable 0x182d8e4 slot 1 [class not covered by any rule; label demoted to B] [rtti nn::nex::ObjectThreadRoot: nn::nex is Nintendo NEX matchmaking/data-store middleware]
 0x122a5fc	1	online-nex	inferred:attr-callervote.tsv	caller vote: 6/6 evidence-bearing callers are online-nex; rule validated leave-one-file-out at 96.4%
+0x122a600	110	online-nex	inferred:attr-offsetpairs.tsv	2 pure offset pair(s) say online-nex (110 insns)
 0x122a7b8	81	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on online-nex
 0x122a8fc	50	online-nex	inferred:attr-callervote.tsv	caller vote: 3/3 evidence-bearing callers are online-nex; rule validated leave-one-file-out at 96.4%
 0x122a9c4	188	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 5 strongly-typed neighbour(s) agree on online-nex
@@ -34692,6 +34734,7 @@ start	insns	label	provenance	reason
 0x12b3e14	58	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 4 strongly-typed neighbour(s) agree on online-nex
 0x12b3efc	30	online-nex	evidence:attr-vtable-ns.tsv	nn::nex::AuthenticationClient rtti-typeinfo N2nn3nex20AuthenticationClientE vtable 0x183083c slot 0 [class not covered by any rule; label demoted to B] [rtti nn::nex::AuthenticationClient: nn::nex is Nintendo NEX matchmaking/data-store middleware]
 0x12b3f74	8	online-nex	evidence:attr-vtable-ns.tsv	nn::nex::AuthenticationClient rtti-typeinfo N2nn3nex20AuthenticationClientE vtable 0x183083c slot 1 [class not covered by any rule; label demoted to B] [rtti nn::nex::AuthenticationClient: nn::nex is Nintendo NEX matchmaking/data-store middleware]
+0x12b3f94	86	online-nex	inferred:attr-offsetpairs.tsv	2 pure offset pair(s) say online-nex (86 insns)
 0x12b40ec	156	online-nex	inferred:attr-callvote.tsv	callee vote round 1: 3 high-purity callees agree on online-nex (117/117, 100/100, 59/59); this round validated fold-wise at 97.2%
 0x12b435c	149	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 6 strongly-typed neighbour(s) agree on online-nex
 0x12b45b0	86	online-nex	evidence:attr-vtable-ns.tsv	nn::nex::SharedPtr<S0::Ticket> rtti-typeinfo N2nn3nex9SharedPtrINS0_6TicketEEE vtable 0x1831008 slot 0 [class not covered by any rule; label demoted to B] [rtti nn::nex::SharedPtr: nn::nex is Nintendo NEX matchmaking/data-store middleware]
@@ -34782,6 +34825,7 @@ start	insns	label	provenance	reason
 0x12be108	75	online-nex	inferred:attr-callvote.tsv	callee vote round 1: 2 high-purity callees agree on online-nex (59/59, 68/68); this round validated fold-wise at 97.2%
 0x12be234	126	online-nex	inferred:attr-callvote.tsv	callee vote round 1: 4 high-purity callees agree on online-nex (68/68, 117/117, 100/100, 15/15); this round validated fold-wise at 97.2%
 0x12be42c	261	online-nex	inferred:attr-callvote.tsv	callee vote round 1: 7 high-purity callees agree on online-nex (13/13, 132/132, 15/15, 46/46, 68/68, 59/59, 15/15); this round validated fold-wise at 97.2%
+0x12be840	176	online-nex	inferred:attr-offsetpairs.tsv	2 pure offset pair(s) say online-nex (176 insns)
 0x12beb00	443	online-nex	inferred:attr-callvote.tsv	callee vote round 1: 5 high-purity callees agree on online-nex (117/117, 100/100, 13/13, 132/132, 15/15); this round validated fold-wise at 97.2%
 0x12bf1ec	194	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 3 strongly-typed neighbour(s) agree on online-nex
 0x12bf4f4	156	online-nex	inferred:attr-callvote.tsv	callee vote round 1: 3 high-purity callees agree on online-nex (46/46, 68/68, 59/59); this round validated fold-wise at 97.2%
@@ -35821,6 +35865,7 @@ start	insns	label	provenance	reason
 0x130f7c0	107	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on online-nex
 0x130f96c	15	online-nex	signature:attr-immscan.tsv	constant 0x10c08 only (assembled movw/movt; 37/37 = 100% of its labelled carriers are online-nex); rule validated fold-wise at 97.0% and this function has no other evidence
 0x130f9a8	51	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on online-nex
+0x130fa74	53	online-nex	inferred:attr-offsetpairs.tsv	4 pure offset pair(s) say online-nex (53 insns)
 0x130fb48	8	online-nex	inferred:attr-callervote.tsv	caller vote: 12/12 evidence-bearing callers are online-nex; rule validated leave-one-file-out at 96.4%
 0x130fb68	2	online-nex	inferred:attr-callervote.tsv	caller vote: 14/14 evidence-bearing callers are online-nex; rule validated leave-one-file-out at 96.4%
 0x130fb70	155	online-nex	inferred:attr-callvote.tsv	callee vote round 1: 2 high-purity callees agree on online-nex (117/117, 100/100); this round validated fold-wise at 97.2%
@@ -36672,8 +36717,10 @@ start	insns	label	provenance	reason
 0x135362c	6	online-nex	evidence:attr-vtable-rtti2.tsv	nn::pia::local::LocalConnectionStatus vtable 0x1834400 slot 2 [typeinfo-decoded class; nn::pia is Nintendo PIA peer-to-peer middleware]
 0x1353644	11	online-nex	evidence:attr-vtable-unknown.tsv	nn::pia::local::LocalConnectionStatus rtti-typeinfo N2nn3pia5local21LocalConnectionStatusE vtable 0x1834400 slot 0 [class namespace nn::pia: Nintendo PIA peer-to-peer middleware]
 0x1353670	16	online-nex	evidence:attr-vtable-rtti2.tsv	nn::pia::local::LocalConnectionStatus vtable 0x1834400 slot 1 [typeinfo-decoded class; nn::pia is Nintendo PIA peer-to-peer middleware]
+0x13536b0	53	online-nex	inferred:attr-offsetpairs.tsv	5 pure offset pair(s) say online-nex (53 insns)
 0x1353784	6	online-nex	evidence:attr-vtable-rtti2.tsv	nn::pia::local::LocalCreateSessionSetting vtable 0x1834468 slot 0 [typeinfo-decoded class; nn::pia is Nintendo PIA peer-to-peer middleware]
 0x135379c	9	online-nex	evidence:attr-vtable-rtti2.tsv	nn::pia::local::LocalCreateSessionSetting vtable 0x1834468 slot 1 [typeinfo-decoded class; nn::pia is Nintendo PIA peer-to-peer middleware]
+0x13537c0	39	online-nex	inferred:attr-offsetpairs.tsv	5 pure offset pair(s) say online-nex (39 insns)
 0x135385c	30	online-nex	evidence:attr-vtable-rtti2.tsv	nn::pia::local::LdnCreateSessionSetting vtable 0x1833f64 slot 10 [typeinfo-decoded class; nn::pia is Nintendo PIA peer-to-peer middleware]
 0x13538e0	44	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on online-nex
 0x1353990	44	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on online-nex
@@ -36714,6 +36761,7 @@ start	insns	label	provenance	reason
 0x1354518	33	online-nex	inferred:attr-callvote.tsv	callee vote round 1: 3 high-purity callees agree on online-nex (8/8, 14/14, 59/59); this round validated fold-wise at 97.2%
 0x13545a8	37	ui	spread:spread	tier B, spread
 0x1354658	14	online-nex	evidence:attr-vtable-rtti2.tsv	nn::pia::local::LocalInputStream vtable 0x18344c8 slot 0 [typeinfo-decoded class; nn::pia is Nintendo PIA peer-to-peer middleware]
+0x13546a8	54	online-nex	inferred:attr-offsetpairs.tsv	4 pure offset pair(s) say online-nex (54 insns)
 0x1354780	6	online-nex	evidence:attr-vtable-unknown.tsv	nn::pia::local::LdnJoinSessionSetting rtti-typeinfo N2nn3pia5local21LdnJoinSessionSettingE vtable 0x1833fdc slot 0 [class namespace nn::pia: Nintendo PIA peer-to-peer middleware]
 0x1354798	9	online-nex	evidence:attr-vtable-rtti2.tsv	nn::pia::local::LocalJoinSessionSetting vtable 0x18344ec slot 1 [typeinfo-decoded class; nn::pia is Nintendo PIA peer-to-peer middleware]
 0x13547bc	51	online-nex	evidence:attr-vtable-rtti2.tsv	nn::pia::local::LocalJoinSessionSetting vtable 0x18344ec slot 8 [typeinfo-decoded class; nn::pia is Nintendo PIA peer-to-peer middleware]
@@ -37292,6 +37340,7 @@ start	insns	label	provenance	reason
 0x1373158	428	online-nex	inferred:attr-callvote.tsv	callee vote round 1: 7 high-purity callees agree on online-nex (57/57, 14/14, 148/148, 12/12, 10/10, 26/26, 45/45); this round validated fold-wise at 97.2%
 0x1373808	33	online-nex	inferred:attr-callvote.tsv	callee vote round 1: 2 high-purity callees agree on online-nex (14/14, 57/57); this round validated fold-wise at 97.2%
 0x137388c	84	online-nex	spread:spread+address	tier A, spread+address
+0x13739dc	119	online-nex	inferred:attr-offsetpairs.tsv	7 pure offset pair(s) say online-nex (119 insns)
 0x1373bb8	136	online-nex	evidence:attr-vtable-unknown.tsv	nn::pia::common::FixedString<L, unsigned int, EEE> rtti-typeinfo N2nn3pia6common11FixedStringILj10EEE vtable 0x18358dc slot 5 [class namespace nn::pia: Nintendo PIA peer-to-peer middleware]
 0x1373dd8	15	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on online-nex
 0x1373e14	12	online-nex	evidence:attr-vtable-rtti2.tsv	nn::pia::session::CreateSessionJob vtable 0x1835908 slot 0 [typeinfo-decoded class; nn::pia is Nintendo PIA peer-to-peer middleware]
@@ -38186,6 +38235,7 @@ start	insns	label	provenance	reason
 0x13ae928	11	online-nex	evidence:attr-vtable-rtti2.tsv	nn::pia::transport::Transport::DispatchJob vtable 0x183652c slot 3 [typeinfo-decoded class; nn::pia is Nintendo PIA peer-to-peer middleware]
 0x13ae9a4	51	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on online-nex
 0x13aea70	22	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on online-nex
+0x13aeac8	136	render-gfx	inferred:attr-offsetpairs.tsv	3 pure offset pair(s) say render-gfx (136 insns)
 0x13aece8	10	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on online-nex
 0x13aed10	23	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on online-nex
 0x13aed6c	41	online-nex	signature:attr-immscan.tsv	constant 0xc08 only (assembled movw/movt; 43/43 = 100% of its labelled carriers are online-nex); rule validated fold-wise at 97.0% and this function has no other evidence
@@ -38476,6 +38526,7 @@ start	insns	label	provenance	reason
 0x13c19ec	56	render-gfx	spread:spread+address	tier A, spread+address
 0x13c1acc	63	render-gfx	evidence:attr-xref.tsv	string "nNX::ShaderBinary"
 0x13c1ccc	40	ui	spread:spread	tier B, spread
+0x13c1e90	122	render-gfx	inferred:attr-offsetpairs.tsv	2 pure offset pair(s) say render-gfx (122 insns)
 0x13c23b0	12	ui	spread:spread	tier B, spread
 0x13c23e0	2	render-gfx	spread:spread+address	tier A, spread+address
 0x13c23e8	2	ui	spread:spread	tier B, spread
@@ -38544,6 +38595,7 @@ start	insns	label	provenance	reason
 0x13cab74	42	quest	spread:spread	tier B, spread
 0x13cac1c	21	online-nex	spread:spread	tier B, spread
 0x13cac70	785	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 21 strongly-typed neighbour(s) agree on online-nex
+0x13cb8b4	17	render-gfx	inferred:attr-offsetpairs.tsv	4 pure offset pair(s) say render-gfx (17 insns)
 0x13cb8f8	15	quest	spread:spread	tier B, spread
 0x13cb934	21	quest	spread:spread	tier B, spread
 0x13cb988	88	online-nex	spread:spread	tier B, spread
