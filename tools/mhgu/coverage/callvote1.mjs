@@ -1,15 +1,17 @@
 // callvote1.mjs — one-vote inference, iterated, with the whole cascade replayed inside every fold.
 //
-// The existing callvote channel demands two agreeing high-purity callees (purity >=85% over >=12 callers) and reaches
-// 96%. A sweep over (min callers x min purity x agreeing votes) on five held-out offset grids showed that ONE callee at
-// >=95% purity over >=8 callers is already 95.2% accurate (CP95 lower bound 94.8%), which clears the 90% bar on its own
-// and covers far more functions than the two-vote rule. The extra safety comes from purity, not from a second vote: a
-// callee whose A-direct callers are 95% one subsystem is effectively a typed API, and calling it is the evidence.
+// Two rules, each measured on five held-out offset grids before it was allowed in:
 //
-// Rounds matter and they compound, so validation replays the whole cascade: for each held-out evidence file the file is
-// stripped, every round is rebuilt from the stripped anchors, and only then is the round scored on that file's own rows.
-// Scoring round N against a purity table that round N-1 built from the held-out rows would flatter every round after the
-// first. A round that falls below the floor is dropped together with everything it would have seeded.
+//  callee: ONE callee at >=85% purity over >=8 labelled callers is enough. A sweep over (min callers x min purity x
+//    agreeing votes) gave 95.2% for one callee at 95% purity and 92.7% at 85% purity (CP95 92.3), where the older
+//    callvote channel needed two agreeing votes to reach the same place. The safety comes from purity, not from a second
+//    vote: a callee whose callers are 85% one subsystem is effectively a typed API.
+//  caller: a function whose labelled callers all agree AND number at least four. Measured 174/184 = 94.6% (CP95 90.3);
+//    with three callers it is 91.1% but the CP95 lower bound drops to 87.5, so three is not enough.
+//
+// Validation replays the whole cascade: for each held-out evidence file the file is stripped, every round is rebuilt from
+// the stripped anchors, and only then is the round scored on that file's own rows. Scoring round N against a purity table
+// that round N-1 built from the held-out rows would flatter every round after the first.
 import fs from "node:fs";
 import path from "node:path";
 import zlib from "node:zlib";
@@ -19,6 +21,7 @@ const INV = path.join(ROOT, "docs/analysis/code/inventory");
 const OUT = path.join(INV, "attr-callvote1.tsv");
 const MIN_CALLERS = 8;
 const MIN_PURITY = 0.85;
+const MIN_CALLER_VOTES = 4;
 const ROUNDS = 6;
 const ROUND_FLOOR = 90.0;
 
@@ -27,12 +30,12 @@ const anchorFiles = new Map();
 const direct = new Map();
 for (const f of src) {
   const p = path.join(INV, f);
-  // attr-fingerprint rows are structural signatures, not names: they never seed purity
+  // attr-fingerprint rows are structural signatures, not names: they never seed purity. attr-callvote1.tsv is this
+  // script's own output and must never feed back in.
   if (!fs.existsSync(p) || f === "attr-fingerprint.tsv" || f === "attr-callvote1.tsv") continue;
   const m = new Map();
   for (const l of fs.readFileSync(p, "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
-    const cols = l.split("\t");
-    const [s, lab, conf] = cols;
+    const [s, lab, conf] = l.split("\t");
     if (conf !== "A" || !lab || lab === "unknown") continue;
     m.set(s.toLowerCase(), lab);
     if (!direct.has(s.toLowerCase())) direct.set(s.toLowerCase(), lab);
@@ -70,18 +73,46 @@ function purity(anchor) {
   return m;
 }
 
-function vote(f, pure) {
+// caller-side rule: every labelled caller agrees and there are at least MIN_CALLER_VOTES of them
+function callerTable(anchor) {
+  const m = new Map();
+  for (const f of fns) {
+    const us = callers.get(f.s);
+    if (!us) continue;
+    const cnt = new Map();
+    let tot = 0;
+    for (const u of us) {
+      const l = anchor.get(u);
+      if (!l) continue;
+      tot++;
+      cnt.set(l, (cnt.get(l) || 0) + 1);
+    }
+    if (tot < MIN_CALLER_VOTES || cnt.size !== 1) continue;
+    m.set(f.s, { lab: [...cnt.keys()][0], n: tot });
+  }
+  return m;
+}
+
+function vote(f, pure, byCaller) {
   const hits = [];
   for (const c of f.callees) {
     const p = pure.get("0x" + c.toString(16));
     if (p) hits.push(p);
   }
-  if (!hits.length) return null;
-  const cnt = new Map();
-  for (const h of hits) cnt.set(h.lab, (cnt.get(h.lab) || 0) + 1);
-  const top = [...cnt].sort((a, b) => b[1] - a[1]);
-  if (top.length > 1 && top[0][1] === top[1][1]) return null; // ambiguous
-  return { lab: top[0][0], hits };
+  let lab = null, how = null, n = 0;
+  if (hits.length) {
+    const cnt = new Map();
+    for (const h of hits) cnt.set(h.lab, (cnt.get(h.lab) || 0) + 1);
+    const top = [...cnt].sort((a, b) => b[1] - a[1]);
+    if (top.length > 1 && top[0][1] === top[1][1]) return null; // ambiguous between callees
+    lab = top[0][0]; how = "callee"; n = top[0][1];
+  }
+  const cv = byCaller.get(f.s);
+  if (cv) {
+    if (lab && lab !== cv.lab) return null; // the two rules disagree: say nothing
+    if (!lab) { lab = cv.lab; how = "caller"; n = cv.n; }
+  }
+  return lab ? { lab, how, n } : null;
 }
 
 // A cascade is a pure function of the anchor set, so a fold can replay it exactly.
@@ -92,15 +123,16 @@ function cascade(anchor, maxRounds) {
     const a = new Map(anchor);
     for (const [k, v] of adopted) a.set(k, v.label);
     const pu = purity(a);
+    const ct = callerTable(a);
     const added = new Map();
     for (const f of fns) {
       if (anchor.has(f.s) || adopted.has(f.s)) continue;
-      const got = vote(f, pu);
-      if (got) added.set(f.s, { label: got.lab, hits: got.hits.length });
+      const got = vote(f, pu, ct);
+      if (got) added.set(f.s, got);
     }
-    out.push({ round: r + 1, purity: pu, added });
+    out.push({ round: r + 1, purity: pu, byCaller: ct, added });
     if (!added.size) break;
-    for (const [k, v] of added) adopted.set(k, { label: v.label });
+    for (const [k, v] of added) adopted.set(k, { label: v.lab });
   }
   return out;
 }
@@ -128,13 +160,13 @@ for (const [heldName, held] of anchorFiles) {
     if (elsewhere) a.set(st, elsewhere); else a.delete(st);
   }
   const rounds = cascade(a, ROUNDS);
-  for (const { round, purity: pu } of rounds) {
+  for (const { round, purity: pu, byCaller } of rounds) {
     const e = perRound[round - 1];
     for (const [st, lab] of held) {
       if (direct.get(st) !== lab) continue;
       const f = byStart.get(st);
       if (!f) continue;
-      const got = vote(f, pu);
+      const got = vote(f, pu, byCaller);
       if (!got) continue;
       e.n++;
       if (got.lab === lab) e.ok++;
@@ -154,7 +186,9 @@ for (const { round, added } of cascade(direct, ROUNDS)) {
 }
 
 for (const [st, v] of adopted) {
-  rows.push([st, v.label, "V", `one-vote round ${v.round}: ${v.hits} strong callee(s) agree on ${v.label} (each >=${MIN_CALLERS} callers, >=${(MIN_PURITY * 100).toFixed(0)}% purity)`]);
+  rows.push([st, v.lab, "V", `one-vote round ${v.round} (${v.how}): ${v.n} strongly-typed neighbour(s) agree on ${v.lab}`]);
 }
 fs.writeFileSync(OUT, rows.map((r) => r.join("\t")).join("\n") + "\n");
-console.log(`one-vote (>=${MIN_CALLERS} callers, >=${(MIN_PURITY * 100).toFixed(0)}% purity), ${ROUNDS} rounds max: ${rows.length - 1} rows -> ${path.basename(OUT)}`);
+const byHow = new Map();
+for (const [, v] of adopted) byHow.set(v.how, (byHow.get(v.how) || 0) + 1);
+console.log(`rows ${rows.length - 1} (${[...byHow].map(([k, n]) => `${k} ${n}`).join(", ")}) -> ${path.basename(OUT)}`);
