@@ -1215,3 +1215,16 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 - 改 `sources.json` 或任何 `attr-*.tsv` 后必跑：`recompute → report → function-labels → form-classify → labels-summary → summarize → check.mjs`。
 - 文档编辑走 `edit`/`write`，**不要**用 shell 里的 `node -e`（本会话三次被反引号命令替换咬到，见 AGENTS §2i）。
 - 首次 push 前先做 vendor 历史清理（`git filter-repo --path tools/mhgu/vendor --invert-paths`）。
+
+### 存档快照集疑似标错名 / 与 system 槽块不是逐字节副本（2026-11-04 实测）
+
+审 `save-snapshots/20261022-clean-reference/` 时量了三件事，结论都影响"把这份快照当基准"的前提：
+
+1. **四个 `.hnt` 实际是两个**：`hunterA_HR5_V7.hnt` 与 `Sakiko_HR5_V7.hnt` **100% 逐字节相同**；`hunterB_HR198_V7.hnt` 与 `Lay1nn_HR198_V7.hnt` **也 100% 相同**；两组之间 71.5%。把它们当四个独立样本做的统计（跨档相异率之类）都用了重复样本。
+2. **文件名与槽位不符**：`system_CLEAN` 的 slot0 名字字段是 `Lay1nn`、slot1 是 `Sakiko`（`0x18CC9C` / `0x2AC560`）。但按内容对齐，`hunterA`/`Sakiko` 与 **slot0** 有 90.0% 字节相同，`hunterB`/`Lay1nn` 与 **slot0** 只有 72.7%——即"叫 Sakiko 的文件"更像 slot0（Lay1nn）的块。
+3. **没有一个是逐字节副本**：对三个文档化起点（`0x18CC9C` / `0x2AC560` / `0x3CBE24`）逐个比较，最好的也只有 **90.0%** 相同（`hunterA`@slot0，首处差异 `0x0`；`hunterB`@slot0 首处差异 `0x20`）。所以 `editor-spec/01` 里"`.hnt` 是某个槽块的逐字节副本"这条**在这份快照集上不成立**——要么两边来自不同存档状态，要么这条断言需要限定条件。
+
+**处置**：不改规格（clean-room 边界，且这条可能是"从同一状态导出的 .hnt 才成立"），但**把这三点记在这里**，并把"这份快照集可直接当基准"标为**未验证**。任何依赖它的结论（尤其跨档统计）在重新核对前不要引用。
+
+复现：四个文件都是 **1,177,760 字节**（与规格一致）；用 32 字节探针（块内 `0x400`、`0x60000`）在 `system_*` 里定位，再用整块逐字节比对。
+
