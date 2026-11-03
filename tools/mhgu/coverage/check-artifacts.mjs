@@ -72,6 +72,23 @@ if (partitions.length) {
   if (sum !== total) errors.push(`partition instructions sum ${sum} != denominator ${total}`);
 }
 
+// The per-function label file and the summary report are two artefacts of the same population, so they must reconcile.
+// They drifted once by 668 functions (report counted the manual slice adjudications, the label file did not), and a
+// reader joining the two files would have found functions that exist in one and not the other.
+{
+  const lab = path.join(INV, "function-labels.tsv");
+  if (fs.existsSync(lab)) {
+    const labelRows = fs.readFileSync(lab, "utf8").split(/\r?\n/).filter(Boolean).length - 1;
+    const noLabel = report.filter((l) => l.startsWith("partition: no label")).map((l) => Number(l.split("\t")[1]))[0];
+    const totalFn = Number(/denominator:\s*(\d+)\s*functions/.exec(fs.readFileSync(path.join(INV, "coverage-report.tsv"), "utf8"))?.[1] || 0);
+    if (Number.isFinite(noLabel) && totalFn) {
+      if (labelRows !== totalFn - noLabel) {
+        errors.push(`function-labels.tsv has ${labelRows} rows but the report implies ${totalFn - noLabel} labelled functions (denominator ${totalFn} minus ${noLabel} unlabelled)`);
+      }
+    }
+  }
+}
+
 // Report the confidence split, not one merged total: a merged number lets 15k inference rows be quoted as if they were
 // evidence, and 29,091 is more than twice the 13,060 functions that actually carry an evidence row.
 const split = [...perConf].sort((a, b) => (b[1].rows - a[1].rows)).map(([c, e]) => `conf ${c}: ${e.rows} rows / ${e.starts.size} functions`).join("; ");

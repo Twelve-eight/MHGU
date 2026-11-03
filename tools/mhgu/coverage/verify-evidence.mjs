@@ -26,6 +26,8 @@ const fns = new Map(zlib.gunzipSync(fs.readFileSync(ROOT + "/docs/data/functions
 const word = (v) => buf.readUInt32LE(v + 0x100);
 const result = new Map();
 let skipped = 0;
+const perFileSkip = new Map();
+let expectedA = 0;
 const bump = (ch, ok, note) => {
   const e = result.get(ch) || { n: 0, ok: 0, bad: [] };
   e.n++;
@@ -39,6 +41,7 @@ for (const file of ["attr-strings2.tsv", "attr-vtable-fixed.tsv", "attr-vtable-n
   if (!fs.existsSync(p)) continue;
   const rows = fs.readFileSync(p, "utf8").split(/\r?\n/).filter(Boolean).slice(1)
     .map((l) => l.split("\t")).filter((c) => c[2] === "A");
+  expectedA += rows.length;
   if (!rows.length) continue;
   const step = Math.max(1, Math.floor(rows.length / SAMPLE));
   for (let i = 0; i < rows.length; i += step) {
@@ -128,12 +131,19 @@ for (const file of ["attr-strings2.tsv", "attr-vtable-fixed.tsv", "attr-vtable-n
       continue;
     }
     skipped++; // no machine-checkable claim in the text (e.g. derived by class name or a taxonomy decision)
+    perFileSkip.set(file, (perFileSkip.get(file) || 0) + 1);
   }
 }
 let total = 0, ok = 0;
 for (const [ch, e] of [...result].sort()) {
   total += e.n; ok += e.ok;
-  console.log(`${ch.padEnd(24)} ${e.ok}/${e.n} re-checked${e.bad.length ? "  FAIL samples: " + e.bad.join(" | ") : ""}`);
+  console.log(`${ch.padEnd(24)} ${e.ok}/${e.n} re-checked${perFileSkip.get(ch) ? ` (${perFileSkip.get(ch)} rows had no machine-checkable claim)` : ""}${e.bad.length ? "  FAIL samples: " + e.bad.join(" | ") : ""}`);
 }
 console.log(`total ${ok}/${total} = ${((100 * ok) / (total || 1)).toFixed(1)}% of A rows with a machine-checkable claim re-verified`);
 console.log(`${skipped} further A rows carry no machine-checkable claim (class-name or taxonomy basis) and are not counted above`);
+console.log(`split ${total} checked + ${skipped} unverifiable = ${total + skipped}`);
+// a file whose every row fell through would have reported "N/N" while checking nothing - the retile gap in another form
+const dead = [...result].filter(([ch, e]) => e.n === 0 && perFileSkip.get(ch) > 0).map(([ch]) => ch);
+for (const ch of dead) console.log(`FAIL ${ch}: every row fell through, nothing was checked`);
+if (total + skipped !== expectedA) console.log(`FAIL split: ${total} checked + ${skipped} unverifiable = ${total + skipped}, but the enumerated files hold ${expectedA} A rows`);
+process.exitCode = (dead.length || total + skipped !== expectedA) ? 1 : 0;
