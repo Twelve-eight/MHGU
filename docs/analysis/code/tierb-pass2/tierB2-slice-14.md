@@ -296,7 +296,7 @@
 ## 汇总
 
 - 覆盖：**282/282**（`.tmp/mhgu/tierB2/slice-14.asm.txt` 全部 `=== ` 条目，按文件顺序；其中 21 行「0x6882c4…0x53e850」为首轮漏写后补插在 0x54a7b0 与 0x6fd448 之间，地址唯一、无重复行）。
-- conf：**A 14、B 163、C 105**（合计 282）。
+- conf：A 4、B 179、C 99（2026-11-03 按本文件表格重数；原自报「**A 14、B 163、C 105**（合计 282）。」与表不符）
 - role：leaf **22**（切片中 `callees: -` 的全部条目）；其余按 §3 机械判定（BL≥8 → orchestrator，其余 worker），未逐类计数。
 - A 级 14 行及证据类型（全部可回溯到切片文件本身，符合 2026-10-23 审计规则）：
   1. 字符串：0x86224c（`NGWordList`）、0x4ba420（`cShopList`）、0x4bc2ac（`cTradeItemList`）、0x52a364（`cTrialDataCommon`）、0x52b8a0（`cTrialEquipData`）、0xa57bf8（`cGUIVariable`）、0x26ab70（`cAngryParam`）、0xbda94c（`[SHADERKEY]…`）、0x3d15a4（`[WORK0]…[WORK3]`）、0xeff4c（`cKireajiBase`）、0x169d44（`MhHitObj`）、0xebe28（`cInsectAttr`）、0xbc9c5c（`%s\temp`/`%s\temp\%s`）。

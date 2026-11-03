@@ -300,8 +300,8 @@
 ## 汇总
 
 - 覆盖：**286/286** 函数（`slice-12.txt` 全部 `=== ` 条目；任务书的 120 已按实际文件数修正）。每条均基于 `.tmp/mhgu/tierB2/slice-12.asm.txt`（7748 行，286 × 前 24 条反汇编）裁定，未使用无 asm 的旧切片。
-- conf 计数：**A 26、B 150、C 110**（按本表 `conf` 列逐行统计；三者合计 286）。
-- role：orchestrator 大多为 callee ≥8 的大函数；worker 为主体；leaf 5 个（0x9e9c8、0x560918、0x840888、0xae0de8、0x7ec744，均无 BL）；thunk 0 个（本片最小 171 insns，不适用 thunk 判据）。
+- conf 计数：**A 19、B 157、C 110**（2026-11-03 按本表 `conf` 列逐行重数；三者合计 286。旧文自报 A 26/B 150/C 110，与表格不符）。
+- role：orchestrator 大多为 callee ≥8 的大函数；worker 为主体；leaf **8** 个（0x9e9c8、0x560918、0x840888、0xae0de8、0xa7bac、0xce36b8、0x1d9f8、0x7ec744，均无 BL；旧文漏列 3 个）；thunk 0 个（本片最小 171 insns，不适用 thunk 判据）。
 - label 分布（近似，手工汇总，±8）：quest 约 139、monster-em 约 42、otomo-ot 约 32、online-nex 约 23、render-gfx 约 12-20、unknown 约 10、ui 5、physics-math 4、save-data 3、item 3、filesystem 2、audio 2、save-io 1。精确值以行进位为准（main agent 的 counter 直接数 `label` 列）。
 
 ### A 级（26 条）证据类别（全部可在本片内引用）

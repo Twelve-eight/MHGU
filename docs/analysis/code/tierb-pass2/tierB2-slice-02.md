@@ -2,6 +2,8 @@
 
 输入：`.tmp/mhgu/tierB2/slice-02.txt`（120 函数，按文件顺序）。汇总见文末 `## 汇总`（追加式写入，故置于末尾）。
 
+> **输入可追溯性（2026-11-03）**：本片声明的输入 `.tmp/mhgu/tierB2/slice-02.txt` **当前不在工作区**（`.tmp/mhgu/` 整个目录已不存在），因此"本片 120 行是否就是该切片的 120 条"无法再核对。审计曾报"这些地址只出现在 `tierB3/slice-02.txt` 里"，但该文件同样不存在，按 §4d 记为 [B]，不采纳为结论。本片表格本身仍可用（每行都有 label/role/conf/证据），只是不能把"取自哪个切片"当作已验证事实。
+
 判据：conf `A`=字符串/反汇编硬证据（类名字串、文件名字串、类注册 0x7aedcc、存档原语 0x3df2a8 等）；`B`=votes 主导（top ≥ 1.6×次席）或明确结构模式；`C`=votes 分票（次席 ≥ 0.6×top）或无线索。
 
 ## 表（1-30）
@@ -148,7 +150,7 @@
 
 - 覆盖：120/120 函数（`.tmp/mhgu/tierB2/slice-02.txt` 全部 `=== ` 条目，按文件顺序）。
 - label 计数：quest 42、monster-em 33、render-gfx 17、otomo-ot 9、filesystem 5、online-nex 5、save-io 3、ui 3、save-data 1、kernel-os 1、unknown 1。
-- conf：A 15、B 70、C 35。
+- conf：A 6、B 80、C 34（2026-11-03 按本文件表格重数；原自报「A 15、B 70、C 35。」与表不符）
 - role：orchestrator 102、worker 18、thunk 0、leaf 0（本片均为按 insns 排序的大函数；个别条目首指令为 `bx lr`/`b` 是因为切片把同地址段内多个小函数并入区间，role 仍按 callee 数判定）。
 - A 级证据全部来自字符串（15 条）：mpResource/resource（3 处：0x9ef288、0x8f83c8、0x8f83c8 段内）、mpGrass、mpEffectList、Resource(rCollision)、areaseldat、cSupplyList、cUIOHunterNoteLow、cUIORegistSrcPanelBase、uUIFacility 等 4 个 uUI* 类名、spkg、rEnemyDataTable、zlib inflate 错误串、printf 格式串（"%ld"/"(nil)"/字符表）、LightMask/AmbientMask/GBuffer/LightAccumulation0。
 - 最不确定的 5 个：

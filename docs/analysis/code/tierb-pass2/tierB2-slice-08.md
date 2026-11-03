@@ -1,6 +1,8 @@
 # Tier B pass2 — slice 08 裁定报告
 
 输入: `.tmp/mhgu/tierB2/slice-08.txt` (120 函数, 0x3cf1c..0xb6c7d4)
+
+> **输入可追溯性（2026-11-03）**：本片声明的输入 `.tmp/mhgu/tierB2/slice-08.txt` **当前不在工作区**（`.tmp/mhgu/` 整个目录已不存在），因此"本片 120 行是否就是该切片的 120 条"无法再核对。审计曾报"这些地址只出现在 `tierB3/slice-08.txt` 里"，但该文件同样不存在，按 §4d 记为 [B]，不采纳为结论。本片表格本身仍可用（每行都有 label/role/conf/证据），只是不能把"取自哪个切片"当作已验证事实。
 裁定规则: label 优先取 votes 多数(>=2x 优势) -> 其次直接字符串 -> 再次 callee 聚类 -> 否则 unknown。
 conf A 仅用于有字符串/硬结构证据者。
 
@@ -8,7 +10,7 @@ conf A 仅用于有字符串/硬结构证据者。
 
 - 总计: **120** 函数, 全部已裁定 (无遗漏)。
 - label 计数: quest 59 / monster-em 23 / otomo-ot 9 / render-gfx 8 / online-nex 7 / filesystem 2 / item 1 / audio 1 / unknown 10
-- conf 计数: A 9 / B 87 / C 24
+- conf 计数: **A 3 / B 93 / C 24**（2026-11-03 按表格重数；旧文自报 A 9 / B 87 / C 24）
 - role 计数: orchestrator 83 / worker 21 / thunk 10 / leaf 6
 - 最不确定的 5 个:
   1. `0x7ce87c` — 纯 VFP 矩阵变换, 3 个 callee, votes online-nex:2 monster-em:1, 无法归属

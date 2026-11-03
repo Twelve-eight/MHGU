@@ -361,7 +361,7 @@
 
 - 覆盖：**286/286** 函数（`.tmp/mhgu/tierB2/slice-11.txt` 全部 `=== ` 条目，按文件顺序；该输入文件本身是 286 条，不是 120 条）。
 - 反汇编来源：`.tmp/mhgu/tierB2/slice-11.asm.txt`（每函数前 24 条指令）。每行 evidence 都引用该文件里实际出现的指令/立即数/字符串。
-- conf：**A 29、B 142、C 115**（逐行机械统计，合计 286）。
+- conf：A 13、B 158、C 115（2026-11-03 按本文件表格重数；原自报「**A 29、B 142、C 115**（逐行机械统计，合计 286）。」与表不符）
 - A 级的证据构成（29 条，全部为「切片文件内可见」的独立信号，符合 Main 的审计规则；**没有**任何一条仅靠 class-inventory 类名 + 裸 `bl 0x7aedcc` 定 A）：
   - 切片 `strings` 行引用的字符串（20 条）：`NGWordList`、`mpDynamicPath`/`resource`、`cResourceSample`、`cInsectAttrFeed`、`cAmuletBase`、`cOtodokeConditionList`、`cKowareObjData`、`cArmorColorBase`、`cKitchenListSkillRandom`、`cTrialLoadShellCount`、`cTradeDeliveryList`、`cTrialHeavyBowgunData`、`stex`、`ptex`、`MT_NET_SHARED_MEMRY`、`%255[^:]:%d`/`%s:%d`、`; filename="%s"`、`3nex20PseudoGlobalVariable…AccountManagementServiceDDLDeclarations…`/`bBackEndServicesLogoutE`、`DL_DataStoreGetNewArrivedNotificationsParamE`/`3nex30_DDL_DataStoreSpecificMetaInfoE`/`ReqPostInfoV1E`。
   - Pia 区间 callee 或 vaddr（7 条）：0x13aef24、0x13a909c、0x139dce4、0x1399c9c、0x134fd78、0x13508ac、0x134a310（0x1399c9c 以自身 vaddr 落 Pia 区间 + Pia callee 0x1398dcc 为准）。

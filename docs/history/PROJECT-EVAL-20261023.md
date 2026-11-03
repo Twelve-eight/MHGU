@@ -1,5 +1,8 @@
 # MHGU 项目评估报告（2026-10-23）
 
+> **快照声明（2026-11-03 补）**：本文是 2026-10-23 的评估报告，其中列为"待修"的条目此后都已落地，读时不要把它当成未完成清单：C1/C3/C4（覆盖率数字）→ `PROGRESS.md` 已改标注并指向 `docs/analysis/code/coverage/METER.md`；C5 → `PROGRESS.md` 表 1-5 行均"✅"；C6/C7/C8/C16/C19/C21（137/94+43 槽、5440→5430、134 行/12,955 B 等）→ 各源文档已改并留了作废标记；C9（NCA 大小）→ `DEVELOP.md` 统一为 12,168,003,584 B；C12（append 粒度）→ `SUBAGENT-LEDGER.md:31` 改为每 30 函数。R8"指标不可复算"→ 现在 `tiers.csv`、`METER.md` 与 `tools/mhgu/coverage/{recompute,report,sample}.mjs` 都在 repo 内，可复算。
+
+
 > 评估范围：只读分析 `G:/omp works/MHGU` 现有文档与工具说明，不做构建、不运行游戏。
 > 引用格式：`doc:line`。无法从文档直接证实的判断标注 `[INFERENCE]`。
 
@@ -100,10 +103,11 @@
 - 但同一文件后面 `:324-340` 已把尾段切成 C0..C7（尺寸闭合 653,472B）、`:360-374` 给了逐区等值率。
 - 影响：README 把 coverage-map 定为「权威布局」(`docs/README.md:17`)，读者读到 1/3 处就会得到「80% 未知」的错误印象。**该文件已变成追加式日志，不是记分牌**。
 
-### C15. 52.5% 快照落后于磁盘上的 pass2 报告
+### C15. 52.5% 快照的「~105 个 A」反推不成立（同日复算：conf=A = 54 个函数）
 - `HANDOFF.md:140`「A + B(conf=A) = 52.5% 指令 / 37.3% 函数」。
 - 磁盘现状：`.tmp/mhgu/tierB2/` 有 slice-01..14，`.tmp/reports-mhgu/` + `docs/analysis/code/tierb-pass2/` 各有 7 份报告（02/04/06/07/08/09/10）；仅 slice-02 自报「conf A 15、B 70、C 35」（`.tmp/reports-mhgu/tierB2-slice-02.md` 汇总节）。
-- 反推：52.5%−51.5% = **+1.0pp ≈ +52,300 指令**，函数 +0.2pp ≈ **+53 个**（`code-metrics.md:126` 与 `HANDOFF.md:21` 相减）；若 7 片各产 ~15 个 A，应有 ~105 个 A。⇒ 该数是在 pass2 **未跑完/未全并入**时取的 [INFERENCE]。需重跑复算（见 §5 第 1 项）。
+- 反推：52.5%−51.5% = **+1.0pp ≈ +52,300 指令**，函数 +0.2pp ≈ **+53 个**（`code-metrics.md:126` 与 `HANDOFF.md:21` 相减）；若 7 片各产 ~15 个 A，应有 ~105 个 A。
+- **该反推已被同日复算推翻（commit `557fee8`，`HANDOFF.md:147`）**：`tools/mhgu/coverage-final.py` 用仓内 `tiers.csv` + `tierb-pass1/2` 重跑，结果仍是 **52.5% 指令 / 37.3% 函数**，并入的 conf=A **只有 54 个函数**。⇒「7 片各 ~15 个 A ⇒ ~105 个」不成立，+1.0pp 不能全算作 A 的产量；C15 原结论「快照落后于磁盘上的 pass2 报告」也不成立（52.5% 可由仓内输入复现）。
 
 ### C16. 表格可加性（次要）
 - `code-metrics.md:51-57` 的 L2 四类相加 = 25,876 > 23,885；原因是 thunk（≤4 指令且无 BL）**被 leaf 包含**，文档未写明，容易被当成划分错误或直接引用错分母。

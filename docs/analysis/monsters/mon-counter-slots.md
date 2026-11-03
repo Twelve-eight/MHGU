@@ -242,7 +242,9 @@
 
 > 这也解释了审计里的旧观察：clean 档的**尺寸非零记录全部落在 0..70**（42 条），而 `0..70` 正好是二进制布局的大怪前缀段。
 
-### 4.3 与 repo json 的差异（关键结论）
+### 4.3 与 repo json 的差异（历史记录，2026-11-03 标注）
+
+> **本节已过期**：它比较的是旧 json（`monster-slot-map.json` 93 项 + `monster-slot-map-small.json` 36 项 = 129）。当前 `monster-slot-map.json` 已按 `0x1597ea4` 重建为 **137 行**、137 个不同 emid，`monster-slot-map-small.json` 已不存在，58/61 互换也已修正（现 slot58 = Seltas Queen(69)、slot61 = Seltas(76)）。下面 1–5 条保留为与旧 json 的差异记录，**不是**对现状的描述。
 
 `docs/data/json/monster-slot-map.json`（93 大 @0..92）+ `monster-slot-map-small.json`（36 小 @93..128）与二进制表相比：
 

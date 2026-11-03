@@ -150,7 +150,7 @@
 
 - 覆盖：120/120 函数（`.tmp/mhgu/tierB2/slice-05.txt` 全部 `=== ` 条目，按文件顺序，vaddr 0x5b7744..0x7cb374）。
 - label 计数：quest 52、render-gfx 22、monster-em 21、otomo-ot 8、online-nex 6、physics-math 4、unknown 3、item 1、filesystem 1、save-data 1、ui 1。
-- conf：A 13、B 69、C 38。
+- conf：A 4、B 78、C 38（2026-11-03 按本文件表格重数；原自报「A 13、B 69、C 38。」与表不符）
 - role 计数（§3 判据：BL 数 ≥8 = orchestrator、1–7 = worker、0 = leaf；thunk 为 leaf 子集且本片无 ≤4 指令者）：orchestrator 60、worker 53、leaf 7、thunk 0。
 - A 级证据 13 条，按来源分：
   - 类名字符串 4 条：`cParticleGeneratorPolygon`（0xaab650）、`cOtParamLot`（0x4b8204）、`cSetEmMain`（0x3918f8）、`cDecoCreateData`（0x4ab40c）；四条同时都有 `bl 0x7aedcc`（类注册）作反汇编侧硬证据。

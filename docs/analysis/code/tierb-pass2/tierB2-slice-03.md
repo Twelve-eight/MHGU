@@ -148,7 +148,7 @@
 
 - 覆盖：120/120 函数（`.tmp/mhgu/tierB2/slice-03.txt` 全部 `=== ` 条目，按文件顺序）。
 - label 计数：quest 57、render-gfx 23、monster-em 15、otomo-ot 7、online-nex 6、filesystem 5、unknown 3、save-io 2、item 1、ui 1。
-- conf：A 9、B 80、C 31。
+- conf：A 4、B 85、C 31（2026-11-03 按本文件表格重数；原自报「A 9、B 80、C 31。」与表不符）
 - role：orchestrator 70、worker 50、thunk 0、leaf 0（本片按 insns 排序，最小 371 指令）。
 - A 级证据（9 条，均来自本片字符串或已核验区段）：
   1. `0xd175c` — 类名 "cArmorBuildBase"（防具/装备）→ item。

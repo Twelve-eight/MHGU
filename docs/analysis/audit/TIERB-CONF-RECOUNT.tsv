@@ -1,0 +1,12 @@
+file	rows	A	B	C	other	previous claim
+docs/analysis/code/tierb-pass1/tierB-slice-03.md	250	1	91	158	0	
+docs/analysis/code/tierb-pass1/tierB-slice-14.md	300	0	183	117	0	
+docs/analysis/code/tierb-pass2/tierB2-slice-01.md	120	6	85	29	0	- conf：A 17、B 74、C 29。
+docs/analysis/code/tierb-pass2/tierB2-slice-02.md	120	6	80	34	0	- conf：A 15、B 70、C 35。
+docs/analysis/code/tierb-pass2/tierB2-slice-03.md	120	4	85	31	0	- conf：A 9、B 80、C 31。
+docs/analysis/code/tierb-pass2/tierB2-slice-05.md	120	4	78	38	0	- conf：A 13、B 69、C 38。
+docs/analysis/code/tierb-pass2/tierB2-slice-07.md	120	1	94	25	0	
+docs/analysis/code/tierb-pass2/tierB2-slice-08.md	120	3	93	24	0	
+docs/analysis/code/tierb-pass2/tierB2-slice-11.md	286	13	158	115	0	- conf：**A 29、B 142、C 115**（逐行机械统计，合计 286）。
+docs/analysis/code/tierb-pass2/tierB2-slice-12.md	286	19	157	110	0	
+docs/analysis/code/tierb-pass2/tierB2-slice-14.md	282	4	179	99	0	- conf：**A 14、B 163、C 105**（合计 282）。

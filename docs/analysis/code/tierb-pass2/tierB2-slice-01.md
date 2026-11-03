@@ -150,7 +150,7 @@
 
 - 覆盖：120/120 函数（`.tmp/mhgu/tierB2/slice-01.txt` 全部 `=== ` 条目，地址域 0x46b6d0..0xb58ba0，按文件顺序）。
 - label 计数：quest 49、monster-em 21、render-gfx 14、otomo-ot 11、unknown 8、online-nex 5、physics-math 4、audio 2、save-data 2、filesystem 1、item 1、kernel-os 1、ui 1。
-- conf：A 17、B 74、C 29。
+- conf：A 6、B 85、C 29（2026-11-03 按本文件表格重数；原自报「A 17、B 74、C 29。」与表不符）
 - role：orchestrator 82、worker 34、thunk 4、leaf 0（本片为 top-by-insns 大函数，块内偶含被并入的转发壳/尾跳壳，故 4 条 thunk）。
 - A 级证据分类（17 条）：
   - 字符串 13 条：nNetwork::TagChecker::RpcSyncReq（0xb2dfb4）、plcmdtbllist（0x2733a4）、Resource Loader/decodeProc（0xbc6b44）、mInputR/G/B/A（0xcc87ac）、mInputA/mInputB/mOutput（0xcca0dc）、cOtArmorBase（0xf223c）、cAIGraph/cAIGraph::Node/cAITreeBase（0xc8ec60）、cArmorProcBase（0xd0124）、ReferenceTarget（0xbd7314）、SemaphoreType/TimeSpan 修饰名（0xb4b398）、audio/audio output（0x13c1ccc）、CBHDRFactor/CBScreen/CBROPTest（0xbdac90）、netEmMasterSelectProcedure（0xb58ba0）。

@@ -11,3 +11,23 @@ REFERENCE-DATA	docs/reference/formats/lmt.md	34 sample files	39 files (em001x26 
 REFERENCE-DATA	docs/reference/formats/lmt.md	undecoded list only type 1,2	type 13 documented as undecoded: 11 tracks in em024_00_{0,1,3} (1/3/7), 548 B; per-type totals added	lmt.mjs info aggregate: type 13 = 11 across exactly those three files; totals 1:818 2:1196 4:1148 5:137 6:2312 7:673 11:4767 12:119 13:11 14:21563 15:5640
 REFERENCE-DATA	docs/reference/formats/emc.md	111 files / 13,514 entries / 143 opcodes	corpus note: local extract has only 8 loose cmdtbl (4 distinct tables, 832 entries, 106,198 instructions, 21 sections); the 111-file corpus is not on this machine so the three headline numbers are marked as not locally recomputable	emc.mjs --summary over romfs-extract: 8/8 parsed, entries 2072 (with 4 duplicate copies), instructions 106198
 REFERENCE-DATA	docs/reference/formats/dttune.md	monster-dttune-index.json freshness	note added: the 137-row JSON has 44 offsets.meat nulls (em087_00 + 43 ems*) and an old distribution; the doc's locate rule is 138/138 (0x8Cx70 0x8Ex49 0x8Fx18 0x90x1) and supersedes those nulls; regeneration needs the enemy arc corpus, absent locally	node -e over the JSON: 137 rows, offsets.meat null 44, located 93 (0x8e 45, 0x8c 29, 0x8f 18, 0x90 1)
+analysis-code-half1	docs/analysis/code/tierb-pass1/tierB-slice-03.md	progress 120/1062	recount 250 rows from the table; conf A1 B91 C158	script over '| 0x' rows
+analysis-code-half1	docs/analysis/code/tierb-pass1/tierB-slice-14.md	total 1057 (to be filled)	states 300 rows filled (A0 B183 C117), 757 never adjudicated	script over '| 0x' rows
+analysis-code-half1	docs/analysis/code/tierb-pass2/tierB2-slice-01.md	conf A17/B74/C29	rewritten to A6/B85/C29	recount
+analysis-code-half1	docs/analysis/code/tierb-pass2/tierB2-slice-02.md	conf A15/B70/C35	rewritten to A6/B80/C34; input provenance noted as unverifiable (slice files absent)	recount
+analysis-code-half1	docs/analysis/code/tierb-pass2/tierB2-slice-03.md	conf A9/B80/C31	rewritten to A4/B85/C31	recount
+analysis-code-half1	docs/analysis/code/tierb-pass2/tierB2-slice-05.md	conf A13/B69/C38	rewritten to A4/B78/C38	recount
+analysis-code-half1	docs/analysis/code/tierb-pass2/tierB2-slice-07.md	conf A2/B93/C25	rewritten to A1/B94/C25; input provenance noted	recount
+analysis-code-half1	docs/analysis/code/tierb-pass2/tierB2-slice-08.md	conf A9/B87/C24	rewritten to A3/B93/C24; input provenance noted	recount
+analysis-code-half1	docs/analysis/code/tierb-pass2/tierB2-slice-11.md	conf A29/B142/C115	rewritten to A13/B158/C115	recount
+analysis-code-half1	docs/analysis/code/tierb-pass2/tierB2-slice-12.md	conf A26/B150/C110 and leaf 5	rewritten to A19/B157/C110 and leaf 8 (0xa7bac 0xce36b8 0x1d9f8 added)	recount
+analysis-code-half1	docs/analysis/code/tierb-pass2/tierB2-slice-14.md	conf A14/B163/C105	rewritten to A4/B179/C99	recount
+REST	docs/PROGRESS.md	baseline 48.9%/45.8%	points at METER with A-direct 14.1%/17.2% and tier A 59.5%/54.2%, B 37.7%	recompute+report run this session
+REST	docs/analysis/code-metrics.md	functions-23885 / headline-52.2pct	section 5 already rewritten this session to point at METER (A-direct 14.1%, tier A 59.5%)	see commit 71ff26f
+REST	docs/analysis/monsters/mon-counter-slots.md	repo json 129 wrong, small file	section 4.3 marked historical: the json is now 137 rows with 137 distinct emids, small file gone, 58/61 fixed	node over monster-slot-map.json
+REST	docs/analysis/monsters/mon-em-units.md	C5/C6 slot columns	46 rows remapped by emid: uEm004 71 -> 112, uEms001 93 -> 71	node slotOf(emid) from map137
+REST	docs/analysis/monsters/mon-size-calc.md	slot names at 112..120, 129 valid	block is 548 B = 137x4 ending 0x62EE, all 137 slots valid; the 4 zero bytes before 0x60CA belong to the capture block	layout tail + map137
+REST	docs/analysis/save-io/social-checksum.md	editor magic 821248	now 1177760 at MainForm.cs 255/276/346/745 with Math.Min(512, hunterBlockSize-i) at 361	grep editor-src (0 hits for 821248)
+REST	docs/history/DEVELOP-state-20261022.md	V6 22 lines / open items	snapshot banner: V7 = 123 patch lines now, the 30-page expansion is recorded as verified at DEVLOG:214	git log 49b0964 + grep -cE '^[0-9A-Fa-f]{8} ' patch/1.4.0.pchtxt = 123
+REST	docs/history/PROJECT-EVAL-20261023.md	C1..C21 and R8 statuses	snapshot banner listing what changed since, item by item	each referenced file re-read
+REST	docs/spec-crossgame/monster-gu.md	slots 0..92 / 552 B / 129 valid	137 slots all named, big 0..134 + small 71..136 interleaved, size block 548 B, U1/U3 closed	node map137 + layout

@@ -95,7 +95,7 @@ Monster {
 
 | field | meaning | unit / range | GU storage / source (file:line) | status | RS mapping |
 |---|---|---|---|---|---|
-| `monster_index` | 内容主键：存档槽号，也是编辑器 `MonsterForm` 的 0-based 行号 | u8；大型怪 0..92；底层三表共用键空间 0..136 | `monsters.md:411`（i 定义）、`:604`（u8, 0..92）、`:547`（137 槽容量）；`mon-size-calc.md:309-311`、`:348`（表内 0..136 连续） | GU-confirmed | RS-guess: content key is `snow.data.monsterList.BossMonsterData._EmType`, no save-slot index @ data/define/common/hunternote/monsterlistbossdata_mr.user.2 |
+| `monster_index` | 内容主键：存档槽号，也是编辑器 `MonsterForm` 的 0-based 行号 | u8；键空间 0..136（137 槽，0 缺失）；大型怪占 0..134（94 只），小怪 71..136（43 只，与大型怪交错） | `monsters.md:411`（i 定义）、`:604`（u8, 0..92）、`:547`（137 槽容量）；`mon-size-calc.md:309-311`、`:348`（表内 0..136 连续） | GU-confirmed | RS-guess: content key is `snow.data.monsterList.BossMonsterData._EmType`, no save-slot index @ data/define/common/hunternote/monsterlistbossdata_mr.user.2 |
 | `db_id` | 机读库 `monsters.json` 的 `_id`，用于取多语言名与图标 | u16；基础段 1..88，变种 269 / 513 / 514 / 525，二名 1025..1351，小型 4097..4144 | `monsters.md:411`、`:605`、`:24`、`:413-507` | GU-confirmed | none: RS ids are em-type indices, no second db id |
 | `species` | 物种（`种类`）：飞龙 / 古龙 / 牙兽 / 鸟龙 / 兽龙 / 海龙 / 甲壳 / 鱼龙 / 两生 / 甲虫 / 牙龙 / 蛇龙 / 鋏角 / 不明 | 枚举，14 值（闭集） | `monsters.md:29-46`、`:606` | GU-confirmed（`不明` 两只见 U16） | RS-guess: `snow.data.monsterList.BossMonsterData._FamilyType` @ data/define/common/hunternote/monsterlistbossdata_mr.user.2 |
 | `class` | 机读库分类（`monsters.json` 的 `class`）：普通大型 / 小型 / 二名 | 枚举 {0, 1, 2} | `monsters.md:23-25`、`:24` | GU-confirmed | RS-guess: split by data family, `BossMonsterData` vs `MonsterBasicData` @ data/define/common/hunternote/monsterlistbossdata_mr.user.2 vs monsterlistmediumdata_mr.user.2 |
@@ -310,7 +310,7 @@ GU 的肉质是「部位 x 9 列」再加一个**状态维度**：同一部位�
 | `mProbability` | 尺寸分布表中该倍率的权重 | 权重；类型与量纲未定（分布表本体未解） | `mon-size-calc.md:66`、`:301`、`:339` | GU-confirmed | RS-confirmed: `snow.enemy.EnemyBossRandomScaleData.ScaleAndRateData._Rate:U32` @ enemy/user_data/system_boss_random_scale_data.user.2 |
 | `model_scale` | 实际模型缩放 = `mTrueSize` x `mScaleRate` | f32 | `mon-size-calc.md:317` | GU-unconfirmed (-) | none: derived at runtime |
 | `size_mini_pct` / `size_maxi_pct` | 存档记录的历史最小 / 最大体型倍率 | u16；百分比整数（100 = 100%） | `monsters.md:521`、`:534`；`mon-size-calc.md:99-100`、`:305-306` | GU-confirmed | RS-guess: `snow.HunterRecordManager.HunterReocrdSaveData.EnemySizeMin/EnemySizeMax:F32` (save data, no romfs file) |
-| `size_record_capacity` | 存档体型记录容量 | 物理 137 条 / 有效 129 条 | `mon-size-calc.md:298`、`:305`；`monsters.md:521` | GU-confirmed | none: capacity is GU-side |
+| `size_record_capacity` | 存档体型记录容量 | 物理 137 条，137 槽全部可寻址（137 个不同 emid，0 缺失） | `mon-size-calc.md:298`、`:305`；`monsters.md:521` | GU-confirmed | none: capacity is GU-side |
 | `crown_small` / `crown_large` | 冠判定结果：观测倍率与 `mSmallScale` / `mBigScale` / `mKingScale` 比大小 | bool | `monsters.md:535`、`:640`；`mon-size-calc.md:320-321` | GU-unconfirmed (U7) | RS-guess: `HunterReocrdSaveData.EnemySmallCrownFlag/EnemyBigCrownFlag:Object` (save data, no romfs file) |
 | `crown_compare_direction` | 冠判定的比较方向与等号归属 | 规则 | `mon-size-calc.md:333` | GU-unconfirmed (-) | none: no rule field |
 | `size_high_byte` | 存档记录高字节：两档 137 条实测全为 0，故值域 = 整数百分比；是否恒 0 未定 | 实测 0 | `mon-size-calc.md:100`；`monsters.md:534`、`:641` | GU-unconfirmed (U8) | none: GU save encoding |
@@ -391,13 +391,13 @@ GU 的肉质是「部位 x 9 列」再加一个**状态维度**：同一部位�
 
 | field | meaning | unit / range | GU storage / source (file:line) | status | RS mapping |
 |---|---|---|---|---|---|
-| `kill_count[i]` | 该槽的击杀计数；跨下位 / 上位 / G 级累计，不分级 | u16；0..65535 | `monsters.md:519`（`obj+0x72C`，char_off `0x5EA2..0x5FB4`）、`:526`（读点 `24230 + 2*i`）、`:533`（u16 语义） | GU-confirmed | RS-guess: `snow.HunterRecordManager.HunterReocrdSaveData.EnemyHuntingCount:U32[]` (save block, no .user.2 asset; type U32 not u16) |
-| `capture_count[i]` | 该槽的捕获计数；同构 | u16；0..65535 | `monsters.md:520`（`obj+0x83E`，`0x5FB4..0x60C6`）、`:527`（`24504 + 2*i`） | GU-confirmed | RS-guess: `snow.HunterRecordManager.HunterReocrdSaveData.EnemyCaptureCount:U32[]` (save block, no .user.2 asset) |
+| `kill_count[i]` | 该槽的击杀计数；跨下位 / 上位 / G 级累计，不分级 | u16；0..65535 | `monsters.md:519`（`obj+0x72C`，char_off `0x5EA6..0x5FB7`）、`:526`（读点 `24230 + 2*i`）、`:533`（u16 语义） | GU-confirmed | RS-guess: `snow.HunterRecordManager.HunterReocrdSaveData.EnemyHuntingCount:U32[]` (save block, no .user.2 asset; type U32 not u16) |
+| `capture_count[i]` | 该槽的捕获计数；同构 | u16；0..65535 | `monsters.md:520`（`obj+0x83E`，`0x5FB8..0x60C9`）、`:527`（`24504 + 2*i`） | GU-confirmed | RS-guess: `snow.HunterRecordManager.HunterReocrdSaveData.EnemyCaptureCount:U32[]` (save block, no .user.2 asset) |
 | `size_mini_pct[i]` | 遇到过的最小体型百分比 | u16；百分比整数 | `monsters.md:521`（`[obj+0x950]` 表 / `[obj+0x954]` 条数）、`:528`（`24778 + 4*i`）、`:534` | GU-confirmed | RS-guess: `snow.HunterRecordManager.HunterReocrdSaveData.EnemySizeMin:F32[]` (f32, not u16 percent) |
 | `size_maxi_pct[i]` | 遇到过的最大体型百分比 | u16；百分比整数 | `monsters.md:521`、`:529`（`24778 + 4*i + 2`） | GU-confirmed | RS-guess: `snow.HunterRecordManager.HunterReocrdSaveData.EnemySizeMax:F32[]` (f32, not u16 percent) |
-| `slot_key_space` | 三表共用键空间；物理容量 137、有效 129 | 137 槽 | `mon-size-calc.md:298`、`:309-311`；`monsters.md:547` | GU-confirmed | RS-guess: arrays indexed by `snow.enemy.EnemyDef.EmTypes` (enum members not in dump); dump shows `Dictionary<EmTypes, EnemyMeatData>` / `<EmTypes, int[]>` as the keyed form |
+| `slot_key_space` | 三表共用键空间；137 槽全部有效（2026-10-25 定案） | 137 槽 | `mon-size-calc.md:298`、`:309-311`；`monsters.md:547` | GU-confirmed | RS-guess: arrays indexed by `snow.enemy.EnemyDef.EmTypes` (enum members not in dump); dump shows `Dictionary<EmTypes, EnemyMeatData>` / `<EmTypes, int[]>` as the keyed form |
 | `counter_block_capacity` | 计数块容量口径：`137 x u16` 还是 `4 + 135 x u16`（字节等价） | 274 B | `monsters.md:519-520`、`:547` | GU-unconfirmed (U1) | none: RS uses typed `U32[]` arrays, no byte-block capacity question |
-| `size_block_capacity` | 尺寸块容量口径：`4 + 137 x 4` 还是 `138 x 4` | 552 B | `monsters.md:521`、`:547` | GU-unconfirmed (U1) | none: RS uses typed `F32[]` arrays, no byte-block capacity question |
+| `size_block_capacity` | 尺寸块容量口径：`4 + 137 x 4` 还是 `138 x 4` | **548 B = 137 x 4**（`0x60CA..0x62EE`；`0x60CA` 前那 4 B 属 member#4，见 member4-header.md §0 坐标更正） | `monsters.md:521`、`:547` | GU-unconfirmed (U1) | none: RS uses typed `F32[]` arrays, no byte-block capacity question |
 | `slot_index_offset` | 编辑器读点相对块首 `+4`：是否等于「跳过 2 槽」 | 槽偏移 | `monsters.md:532`、`:635` | GU-unconfirmed (U2) | none: RS has no raw block offset, arrays are typed |
 | `unknown_slots` | 无名字、但至少部分仍有真实计数的槽（93..134） | 42 槽 | `monsters.md:538-546`、`:636` | GU-unconfirmed (U3) | none: every RS slot is a named `EmTypes` member |
 | `slot_92` | 槽 92（`24414 / 24688 / 25146`）归属 | 槽 | `monsters.md:540`、`:637` | GU-unconfirmed (U4) | none: no unnamed slot in RS |
@@ -412,8 +412,8 @@ GU 的肉质是「部位 x 9 列」再加一个**状态维度**：同一部位�
 
 建模约束：
 
-- 三张表同键空间、不同容量口径：计数表 274 B、尺寸表 552 B，二者对 135 / 137 / 138 的口径尚未统一（U1），实现在读到块尾前不要假设长度。
-- 槽 0..92 可映射到 93 只大型怪；93..134 无名字（U3），编辑器只应写 0..92。
+- 三张表同键空间、不同容量口径：计数表 274 B（= 137 x u16）、尺寸表 **548 B**（= 137 x 4 B），二者都恰好 137 条；"552 B" 是旧的 0x60CA 前 4 B 误算（见 member4-header.md §0）。实现按 137 条读，不再有 135/138 的口径分歧（U1 关闭）。
+- 137 槽全部有名字：136 条来自官方 `monsterName_chS`，只有 slot 133（阁螳螂机偶形态）官方名称为空，且 137 个 emid 互不相同。大型怪占 0..134、小怪 71..136 交错，**编辑器可以写全部 0..136**，不再有"93..134 无名字"的限制（U3 关闭：旧编号是 93 只大型怪那一套，与 137 槽不是同一空间）。
 - 尺寸记录是「观测最小 / 最大」，不与体型表（§8）互写；写回必须保留高字节（U8）。
 - `monster_to_quest.json` 的 `hyper` 标志是判断狞猛化任务的唯一字段（`monsters.md:364`、`:583`），不要从怪物记录本身推。
 

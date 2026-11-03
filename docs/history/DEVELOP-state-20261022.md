@@ -1,5 +1,8 @@
 # MHGU 箱扩容 — 当前状态（2026-10-22 收尾）
 
+> **快照声明（2026-11-03 补）**：本文是 2026-10-22 的状态记录，不是现状。此后至少两处已变：(1) 补丁从 V6（22 行）演进到 **V7（123 条记录行）**，当前文件 `patch/1.4.0.pchtxt`（V8 移到 `patch/experimental-v8`，commit `49b0964`）；(2) 当时列为唯一未完成项的"30 页扩容实机验证"已在 `DEVLOG.md:214` 记为**通过**。现状以 `DEVLOG.md` / `docs/PROGRESS.md` 为准。
+
+
 ## 部署
 - 补丁：`yuzu/load/0100770008DD8000/mhgu-box-expand/exefs/1.4.0.pchtxt`（**V6**，22 行，行地址 = flat 文件偏移 = vaddr+0x100，无 offset_shift）
 - 转换后存档：`system`、`hunterB_HR198.hnt`、`hunterA_HR5.hnt` 已重打包为 N=2992 位流；猎人A 含 8 个 marker（UI 2400-2403/2900-2903）

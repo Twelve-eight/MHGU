@@ -2,6 +2,8 @@
 
 输入: `.tmp/mhgu/tierB2/slice-07.txt`, 120 函数 (按文件顺序)。
 
+> **输入可追溯性（2026-11-03）**：本片声明的输入 `.tmp/mhgu/tierB2/slice-07.txt` **当前不在工作区**（`.tmp/mhgu/` 整个目录已不存在），因此"本片 120 行是否就是该切片的 120 条"无法再核对。审计曾报"这些地址只出现在 `tierB3/slice-07.txt` 里"，但该文件同样不存在，按 §4d 记为 [B]，不采纳为结论。本片表格本身仍可用（每行都有 label/role/conf/证据），只是不能把"取自哪个切片"当作已验证事实。
+
 ## 汇总
 
 label 计数:
@@ -21,7 +23,7 @@ label 计数:
 | save-data | 1 |
 | player-pl | 1 |
 
-conf: A=2, B=93, C=25. role: orchestrator=81, worker=27, thunk=9, leaf=3 (合计 120).
+conf: **A=1, B=94, C=25**（2026-11-03 按表格重数；旧文自报 A=2/B=93/C=25）. role: orchestrator=81, worker=27, thunk=9, leaf=3 (合计 120).
 
 role 明细: leaf = 0xb09e6c, 0x9bcb0c, 0x12213ac; thunk = 0xcc5af8, 0x408b28, 0xce5c90, 0x16414, 0xd08c8, 0xb3b840, 0x9683b8, 0xbac7c4, 0xb14c38.
 
