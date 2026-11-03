@@ -244,8 +244,10 @@ rows.push(["partition: no label", String(pNone), String(pNoneIns), pct(pNoneIns,
 // Everything except the no-label bucket carries some label whose precision has been measured: direct evidence and the two
 // validated inference classes are above 93%, and the spread labels score 91.7% (1,198/1,307) when checked against the
 // functions that also carry their own evidence. Quoting this line always means "covered at >=90% measured precision".
-rows.push(["covered at >=90% precision", String(pDir + pInf + pSig + pSpA + pB), String(pDirIns + pInfIns + pSigIns + pSpAIns + pBIns),
-  pct(pDirIns + pInfIns + pSigIns + pSpAIns + pBIns, totalIns), pct(pDir + pInf + pSig + pSpA + pB, totalFn)]);
+rows.push(["covered at >=90% precision", String(pDir + pInf + pSig), String(pDirIns + pInfIns + pSigIns),
+  pct(pDirIns + pInfIns + pSigIns, totalIns), pct(pDir + pInf + pSig, totalFn)]);
+rows.push(["spread labels (74.2% region-held-out)", String(pSpA + pB), String(pSpAIns + pBIns),
+  pct(pSpAIns + pBIns, totalIns), pct(pSpA + pB, totalFn)]);
 
 const byLabel = new Map();
 for (const [start, b] of best) {

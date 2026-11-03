@@ -11,4 +11,5 @@ partition: signature only	1743	189809	3.6%	3.3%
 partition: spread A (agreement)	4849	481463	9.2%	9.2%
 partition: spread label only (B)	9112	915804	17.5%	17.3%
 partition: no label	12996	507809	9.7%	24.7%
-covered at >=90% precision	39696	4720468	90.3%	75.3%
+covered at >=90% precision	25735	3323201	63.6%	48.8%
+spread labels (74.2% region-held-out)	13961	1397267	26.7%	26.5%
