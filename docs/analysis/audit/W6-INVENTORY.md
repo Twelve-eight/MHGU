@@ -95,7 +95,7 @@ marks "作废/勿引用/old" are not counted against it; they are listed separat
 | M26 | 8,360 retile B rows = 10.8% of instructions; all `unknown` | count retile rows | `B 8360`, insns 564,728 = 10.80% | agree |
 | M27 | ctor-vtable: 6,104 known vtables (5,531 named), 17 constructors, 2/5 correct, 1 new | union of `attr-vtable*.tsv`; `node …/ctor-vtable.mjs` | union = **6,095** vtables; script prints `vtables with a single known class: 2373`, `9201 stored to [rN+0], 0 matched a known vtable`, and writes a header-only TSV | disagree / unverified (6,104→6,095; 17/2/1 not printed) |
 | M28 | first string scan: 2,380 functions / 4,252 refs / 3,214 strings | `stringxref.tsv` | rows 16,998; functions 5,043; distinct strings 11,831 | disagree (stale; later section uses 5,043) |
-| M29 | channel table rows: vtable 5,217; RTTI 1,673; blocks 2,225; class id 2,313; unknown 3,824; fingerprint 1,839; immscan 3,067; consensus 9; classvote 194; class family 3,059; xref 676; prefix 587; uifamily 551; strings 423; registrar 162; RTTI ns 1,305 | count each named TSV | 5,217 / 1,673 / 2,225 / **attr-class 5,642 rows** / 3,824 / 1,839 / 3,067 / 9 / 194 / 3,059 / 676 / **attr-prefix 2,140 (1,619 labelled)** / **attr-uifamily 2,289 (1,772 A)** / **attr-strings2 444** / **attr-registrar 843** / 1,305 | disagree (5 rows; see note) |
+| M29 | channel table rows: vtable 5,217; RTTI 1,673; blocks 2,225; class id 2,313; unknown 3,824; fingerprint 1,839; immscan 3,067; consensus 9; classvote 194; class family 3,059; xref 676; prefix 587; uifamily 551; strings 423; registrar 162; RTTI ns 1,305 | count each named TSV (conf A, label ≠ unknown) | 5,217 / 1,673 / 2,225 / 2,313 / 3,824 / 1,839 / 3,067 / 9 / 194 / 3,059 / 676 / **900 distinct starts, 2,140 A rows** / **2,289 A** / **444 A** / **843 A** / 1,305 | disagree (4 rows; see note) |
 | M30 | `attr-vtable-retile.tsv` not in `sources.json`; 13,577 rows, 0 duplicate (vtable,slot) | `sources.json`; parse (vtable,slot) pairs | absent from the 24; 13,577 unique pairs | agree |
 | M31 | `attr-uifamily`: 1,772 rows = 429 `ctor:` + 1,145 `slot:` + 715 other | parse A rows | A rows 1,772 = 429 + 1,145 + **198** other; the three numbers sum to 2,289 (all rows), not 1,772 | disagree (label "1,772 rows" vs components summing 2,289) |
 | M32 | geographic Tier A holdout: 4,636/13,112 = 35.4% (CP95 34.5), 3,467 = 26.4%, 3,202 = 24.4% | `node tools/mhgu/coverage/canonical-holdout.mjs` | killed at the 300 s background-job deadline; not copied from the document | unverified (time) |
@@ -108,11 +108,13 @@ Notes to M8/M24/M27/M29:
   `attr-vtable-retile`) gives 356.
 - M27: `attr-ctor-vtable.tsv` is tracked and header-only (`start label conf evidence`), which
   agrees with "not adopted"; the paragraph's *counts* are not those of the current script.
-- M29: the five mismatching rows look like per-run accepted-seed counts rather than file rows,
-  but the table's own definition is "该通道当前产出的带真实标签的行数 … unknown 不计". Under that
-  definition `attr-prefix` is 1,619, `attr-uifamily` 2,289, `attr-strings2` 444 and
-  `attr-registrar` 843, not 587/551/423/162. The paragraph says the table was re-checked
-  file-by-file on 2026-11-04; on the committed files it is not.
+- M29: the four mismatching rows look like per-run accepted-seed (or newly-added) counts rather
+  than current file rows, but the table's own definition is "该通道当前产出的带真实标签的行数 …
+  unknown 不计". Under that definition `attr-prefix` contributes 900 distinct functions
+  (2,140 A rows), `attr-uifamily` 2,289, `attr-strings2` 444 and `attr-registrar` 843, not
+  587/551/423/162. `attr-class` (2,313 A of 5,642 rows) does match the table and is not a
+  defect. The paragraph says the table was re-checked file-by-file on 2026-11-04; on the
+  committed files four rows are not.
 
 ### 2.2 `coverage/LIBFINGERPRINT.md`
 
@@ -338,20 +340,20 @@ $ node -e '... retile strings column ...'
 pilot rows in table 60 with non-empty strings column 3
 ```
 
-### F3 — `coverage/METER.md`: five rows of the "current channel output" table do not match the files (P2)
+### F3 — `coverage/METER.md`: four rows of the "current channel output" table do not match the files (P2)
 
 The table is introduced as "该通道当前产出的带真实标签的行数（unknown 不计）" and the paragraph
 below it claims a file-by-file re-check on 2026-11-04. On the committed files:
 
 | row | document | file |
 |---|---:|---:|
-| class identity (`attr-class.tsv`) | 2,313 | 5,642 rows |
-| class prefix table (`attr-prefix.tsv`) | 587 | 2,140 rows (1,619 labelled) |
+| class prefix table (`attr-prefix.tsv`) | 587 | 2,140 A rows over 900 distinct functions |
 | UI family (`attr-uifamily.tsv`) | 551 | 2,289 rows (1,772 A) |
 | string vocabulary (`attr-strings2.tsv`) | 423 | 444 rows |
 | registrar name (`attr-registrar.tsv`) | 162 | 843 rows |
 
-The other eleven rows in that table match exactly. The numbers are probably accepted-seed counts
+The other twelve numeric rows in that table match exactly (including class identity: 2,313 A
+rows of 5,642). The numbers are probably accepted-seed counts
 from an earlier run, but the table does not say so; under its own definition they are wrong.
 Related: the `attr-uifamily` composition sentence says "1,772 行：429 ctor + 1,145 slot + 715
 其他" — the components sum to 2,289 (all rows), while the 1,772 A rows split 429 / 1,145 / **198**.
@@ -492,7 +494,7 @@ docs/analysis/code/inventory/bsamples/verdict-14_20.md	contradiction	10/39/35 an
 docs/analysis/code/inventory/bsamples/verdict-21_27.md	confirmed	10/67/7, 3,287 functions / 420,921 instructions and the per-block relabel split (physics 15, render 28, ui 13, …) all match the TSV.
 docs/analysis/code/inventory/bsamples/verdict-28_34.md	confirmed	12/48/24 and the target distribution render 25 / physics 11 / audio 6 / ui 2 / online 2 / quest 1 / monster 1 match `verdict-28_34.tsv`.
 docs/analysis/code/inventory/bsamples/verdict-35_42.md	confirmed	17/21/58 and every one of the eight per-block confirm/relabel/unknown triples match the eight verdict TSVs.
-docs/analysis/code/coverage/METER.md	contradiction	Both calibres (58.0%, 66.2/53.5) and more than twenty secondary tables reproduce, but five channel rows, the 356 conflict count, the single-offset cells and two legacy snapshots do not.
+docs/analysis/code/coverage/METER.md	contradiction	Both calibres (58.0%, 66.2/53.5) and more than twenty secondary tables reproduce, but four channel rows, the 356 conflict count, the single-offset cells and two legacy snapshots do not.
 docs/analysis/code/coverage/LIBFINGERPRINT.md	confirmed	505/495/10, the family counts, 527 `_ZN2nn` names vs 2 in the column, and 855 = 754 + 101 all reproduce; only the 3,216/16,317/11,857 extraction totals rest on untracked scratch.
 docs/analysis/code/coverage/attr-bverify-pilot.md	stale	60 rows / 9,614 insns / A 40 / B 20 / 57 zero-callers are exact, but "stringxref has 0 of 60" is now 46/60 and three rows have retile strings, so the 1,737-row work item it recommends is already done.
 docs/analysis/code/coverage/attr-members.md	contradiction	The document says 9 seeds (1 A) and 10 must-fail cases; `member-seeds.mjs` prints 7 seeds (0 A) and 11 cases, and the 27-run `member-offsets` defect it reports is fixed (37 runs, 110/110 sites in their own function).

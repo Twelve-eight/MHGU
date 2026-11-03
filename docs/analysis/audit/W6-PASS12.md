@@ -218,11 +218,11 @@ tierB2-slice-13 20/286  tierB2-slice-14 1/282
 ```
 
 `tierB2-slice-07.md:30` states the deviation in general ("insns 字段与可见函数体不一致 … role 以可见的
-prologue/epilogue 与 callee 数量为准") and slice-08 explains it per row ("入口仅一条 `b 0x43b488` …"), so
-those 26 rows are deliberate. `tierB2-slice-13` and `tierB2-slice-01` do not explain theirs, and the deviations there are
-not shell artefacts — e.g. `0x75bce8` (10 callees, worker), `0x9e95c8` and `0xb72d88` (0 callees, worker),
-`0x136641c` (8 callees, worker, and the same row is conf A). In slice-01: `0x1c3fcc` (4 callees,
-orchestrator), `0x433198` (2 callees, orchestrator).
+prologue/epilogue 与 callee 数量为准") and slice-08 explains it per row ("入口仅一条 `b 0x43b488` …"), so those
+two files document why their columns differ from the rule. `tierB2-slice-01`, `tierB2-slice-03` and
+`tierB2-slice-13` do not, and their deviations are not shell artefacts — e.g. `0x75bce8` (10 callees, worker)
+and `0x136641c` (8 callees, worker, same row conf A) in slice-13; `0x1c3fcc` (4 callees, orchestrator) and
+`0x433198` (2 callees, orchestrator) in slice-01.
 
 ## 7. The trailing tally of `tierB-slice-14.md` is wrong in every field
 
@@ -391,12 +391,12 @@ range, or comparison with a neighbour).
 | tierB2-slice-11 | 0x38a950 monster-em/B, 0x576014 quest/B, 0x1645e0 otomo-ot/B, 0x476014 monster-em/B, 0x4ef3f0 quest/B | 26 → 25 (0x1651c8 is a `bleq` tail branch at 0x1648c0, not a BL — the table counts it as a callee, the doc follows the table) |
 | tierB2-slice-12 | 0x4f3e08 quest/A, 0x7d6044 render-gfx/C, 0x116e358 monster-em/C, 0xa1bb14 filesystem/C, 0x6bcb54 quest/B | 33 → 33 |
 | tierB2-slice-13 | 0x64a198 quest/B, 0x7c0f00 physics-math/C, 0xb72d88 physics-math/B, 0x5cb504 otomo-ot/B, 0x758d6c quest/C | 23 → 22 (0x7c7d54 named as "同型" of a slice-11 function) |
-| tierB2-slice-14 | 0x7d6324 render-gfx/B, 0x9fbf4c kernel-os/C, 0x812f4c quest/B, 0x2f2874 monster-em/B, 0x4fd66c quest/B | 15 → 12 (0x4c46e0/0x1c864c are prose about a 16-byte accessor, 0x7af3c4 is a `b` tail stubs) |
+| tierB2-slice-14 | 0x7d6324 render-gfx/B, 0x9fbf4c kernel-os/C, 0x812f4c quest/B, 0x2f2874 monster-em/B, 0x4fd66c quest/B | 15 → 12 (0x4c46e0/0x1c864c are prose about a 16-byte accessor, 0x7af3c4 is a `b` tail stub) |
 
 No spot check produced a false call target. The evidence text is grounded; the defects in this pass are
 tally/version defects, not invented disassembly.
 
-All nine of the "misses" are sentence context, which is why they are listed rather than counted as errors.
+All nine "misses" are explained by the sentence (caller, cluster range, comparison with a neighbouring function) or by the table counting a conditional tail branch; none is a wrong call target.
 
 ## 12. Ordering, and structural claims that reproduce
 
