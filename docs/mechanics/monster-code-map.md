@@ -56,7 +56,7 @@ add  rD, pc, rB          ; target = (add 指令地址 + 8) + bias
 | 怪物类/名注册容器 | `0x15004C`（`mov r1,#360; bl 0x7AA154` → 360 槽），插入 `cSetEmMain`/`cEmSetList`/`cEmSizeCalcTblElement`/`cEmDouMouKa_Parts*` |
 | Schema 注册函数 | `0x48C30`(cEmSizeCalcTblElement) / `0x4A6D4`(cEnemyDebugSetData) / `0x36091C`(cEmSetList) |
 | 成员 `{name, offset, type}` | **110 条 / 27 个类**，见 `monster-classes.md`（offset/type 均为代码立即数） |
-| 主要类成员数 | `cEmDouMouKaData`=42、`rEnemyDtBase`=26、`cEmSizeCalcTblElement`=7、`rEnemyResidentDtBase`=6、`cEmSizeYureTbl`=2、`cEnemyDebugSetData`=2 |
+| 主要类成员数 | `cEmSizeCalcTblElement`=7 ✓、`cEmSizeYureTbl`=2 ✓、`cEnemyDebugSetData`=2 ✓（均按 `member-offsets.tsv` 的 fn 实测：0x486c8 7 行/7 名、0x48dc8 2/2、0x4a240 2/2）；`rEnemyDtBase`=**22**（原写 26；0x54028 实测 22 行/22 名，类大小 208B 容得下 26 但仓库只登记 22）；`cEmDouMouKaData`、`rEnemyResidentDtBase` **未复现**（审计称 41 与 7，与该表的分组方式不同，未逐条对上） |
 | 散落块（§6bis） | `uMonsterUnitConductor`(`mZakoFlg/mGenus/mSpecies/mSleepFlag/mpEnemyUnit/request/actionSt/actionNo`)、`rSetEmMain`(sem)、`rEmSetList`(esl)、`rEmSetData`(esd)、`cEmStaminaData::cStaminaLev`(耐力等级) |
 
 ## 3. 怪物名录与计数器
@@ -67,7 +67,7 @@ add  rD, pc, rB          ; target = (add 指令地址 + 8) + bias
 | 追踪计数的怪 | **93** 个精确 emid 出现在槽表中；其余 **73 项**的精确 emid 不在槽表（**若 `0x50B64` 按 base id 掩码匹配，这些变体将继承原种槽位**——该掩码行为待验证，勿据此断言「73 种没有计数器」）|
 | 计数器槽表（静态源） | **137 × `{u32 EmId, u32 slot}` @ `0x1597EA4`**；运行期副本 `0x1A523A4`（`.bss`）+ `0x164F7E4` |
 | 槽布局 | `0..70` 大怪 71 → `71..111` 小怪 41 → `112..134` 大怪 23 → `135..136` 小怪 2（**无保留槽**）|
-| `EmId → 槽号` | `0x50B64`（线性搜 137 项，未收录返回 −1；60 处调用）|
+| `EmId → 槽号` | `0x50B64`（线性搜 137 项，未收录返回 −1；**54 处引用 = 53 `bl` + 1 `b`**，原写 60）|
 | 资源名表 | **137 × `const char*` @ `0x1732050`** → `roEm###.cro` / `roEms###.cro` |
 
 ## 4. 体型（尺寸）机制
@@ -94,7 +94,7 @@ add  rD, pc, rB          ; target = (add 指令地址 + 8) + bias
 - `uMonsterUnitConductor` / `uEnemy` / `uEnemyCharacter` / `actionNo` / `uEm###` / `cEnemyResourceBroker`
   以「绝对指针 / movw+movt / ldr 字面量」三种方式查引用均为 **0**（真实引用走 pc 相对 `add`）。
 - 全镜像仅 62 个 RTTI 命名的 vtable，**无一**匹配怪物类 ⇒ 类→vtable 必须走注册器调用图。
-- `0x2484C0` 不是结算动作表，而是 **114 项全局条件谓词表**（返回 bool）；`0x52308C`/`0x6AA9B8` 属任务/存档，不属 AI。
+- `0x2484C0` 不是结算动作表，而是 **114 项全局条件谓词表**（返回 bool）；`0x52308C` 属 **save-data**、`0x6AA9B8` 属 **otomo-ot**（caller vote 3/3，LOO 96.4%）——两者都不是 AI，但后者不是存档（原写属任务/存档）。
 
 ## 7. 全二进制类清单（3201 个类，含大小）
 来源：`bl 0x7AEDCC`（类注册）的 `r3` 立即数 + `add r1,pc,bias` 取到的类名。

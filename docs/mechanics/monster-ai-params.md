@@ -21,7 +21,7 @@
 | `cEmSizeYureTblElement` | `0x1552742` |
 | `cEmDouMouKa_PartsAuraData_Element` | `0x1552294` |
 
-## 1. 全字段表（按语义分组，`mParam.` 共 131 条）
+## 1. 全字段表（按语义分组，`mParam.` 共 131 条；**镜像里实际有 134 条**——漏了同块的 `mParam.mSyncParam.data[i]` 与两条 `mTalismanParam.*`，见 2026-11-04 审计）
 
 ### 移动 / 寻路 (way_*, area_move_*, goto) — 17 条
 
