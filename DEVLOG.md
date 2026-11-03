@@ -985,3 +985,12 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 - **字符串词表**（`seeds-from-strings.mjs`）：从 16,998 条已证引用里按词表定标签，423 行。第一版把"占已标注引用的比例"当dominance，于是 `0x12d20`（31 条引用里 6 条 mItem，其余是 mVillageType/mNpcName/mContributePointNum）被标成 item；改成"占全部引用字符串 ≥40% 且 ≥3 条"后该行被剔除，46 行同类被剔除。
 - **当前口径**：A-direct **14.1%**（9,085 函数 / 736,873 指令）；tier A **59.5%**（28,548 函数）；B 37.7%；未归属 2.8%。12 行新 A 手检：monster 表引用 fly_move/moguri_move、ui 行调 ui 行、nex 行集中在 0x1200000 尾部区，11 行吻合、1 行无可证证据。
 - **vendor 清退**：`tools/mhgu/vendor` 101 个第三方文件（opus-decoder / @wasm-audio-decoders/common，MIT）曾被一次宽范围 `git add` 带进 f16e75f，现已移出索引并写入 `.gitignore` + `tools/mhgu/VENDOR-NOTICE.md`。⚠️ 26 个未推送提交的树里仍含这些 blob；**首次 push 前必须先 filter 或基于 origin/master 重建**，否则公开仓会带上第三方代码。
+
+### 2026-11-04 凌晨：传播规则收紧 + 类族接线 + 43 条 STALE 清零
+
+- **传播从"一票即传"改为"两票 + 地址预测一致"**：旧规则一个邻居投票就写标签，8 轮能把任意种子摊满调用图——60.7% 里很大一部分是这个机制的产物。改后 tier A **57.8%**，同时把摊不上的 10.0% 指令显式记为"无标签"，而不是继续假装已归属。
+- **四个枢纽函数（0x7aedcc / 0x8260d4 / 0x7bb638 / 0x7aa47c）抽查后不动**：反汇编显示它们是"取 GOT 单例 + 装 vtable"或"按字段查表"的通用壳，标签都是 spread 产物；按名字或调用面给它们定子系统会重复 2026-11-03 早间 `Mt` 通配的错误。另外 `recompute.mjs` 现在真正执行 demote 文件（不再只由报告层过滤）。
+- **两条只读口径分离**：`tiers-recomputed.csv`（无种子基线）与 `tiers-merged.csv`（合并全部证据）分开写，报告默认读后者并打印 spine；这样"只用规则是什么结果"随时可答。
+- **类族接线**：`classprefix-map.tsv` 早就把 224 个前缀判完了，`attr-class.tsv` 却从没读过它。接线后 3,059 个函数获得标签（cUI 1,262、cWeapon 303、rWeapon 137、cMonNyan 100…）；表里标 `unknown` 的 `uUI` 不接线（uUISupplyBox 是 item、uUITalkClipScene 是 render-gfx），`sFestaFileLoader→save-data` 因名字写明 file loader 被排除。
+- **当前口径**：A-direct **15.9%**（10,107 函数 / 829,157 指令）；tier A **57.8%**；有标签（A+B）**90.0% 指令 / 72.8% 函数**；无标签 10.0%。到 90% 的目标指的是第一个数。
+- **43 条 STALE 全部关闭**（`docs/analysis/audit/STALE-FIXES.tsv`）：11 条 tier-B 切片文档按自己的表格重数 conf（6 份自报与表不符，最多差 11 行；slice-12 还漏列 3 个 leaf）；3 份声明了已不存在的输入切片，改记"来源不可核"；怪物文档从 93 只大型怪编号迁到 137 槽（C5/C6 槽列按 emid 重映射 46 行）；尺寸块 552→548 B、137 槽全有效；编辑器魔数 821248→1177760；两份历史文档加"快照声明"。审计门 `tools/audit/check.mjs` **ALL PASS**。
