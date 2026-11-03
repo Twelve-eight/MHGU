@@ -67,3 +67,4 @@ tools/mhgu/vendor/
 
 # 由 mhgu.db 生成的道具表（派生 1MB，勿提交）
 docs/data/MHGU_item(uni).txt
+.tmp-*/
