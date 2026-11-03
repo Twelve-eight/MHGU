@@ -222,7 +222,8 @@ const Vset = (() => {
   }
   return s;
 })();
-let pDir = 0, pDirIns = 0, pInf = 0, pInfIns = 0, pSig = 0, pSigIns = 0, pSpA = 0, pSpAIns = 0, pB = 0, pBIns = 0, pNone = 0, pNoneIns = 0;
+let pDir = 0, pDirIns = 0, pInf = 0, pInfIns = 0, pSig = 0, pSigIns = 0, pSpV = 0, pSpVIns = 0, pSpU = 0, pSpUIns = 0, pNone = 0, pNoneIns = 0;
+const VALID_SPREAD = new Set(["online-nex", "weapon-wp", "render-gfx"]);
 for (const [start, t] of tiers) {
   const ins = t.insns;
   const b = best.get(start);
@@ -231,23 +232,26 @@ for (const [start, t] of tiers) {
   else if (Sset.has(start)) { pSig++; pSigIns += ins; }
   // A function can hold a spread label at tier A (two-vote agreement plus address prediction) or at tier B; both are
   // propagation, so they get their own buckets. "No label" means exactly that: no label of any kind.
-  else if (b && b.label && b.conf === "A") { pSpA++; pSpAIns += ins; }
-  else if (b && b.label) { pB++; pBIns += ins; }
+  // Spread labels are only trusted per label, because their cross-region precision is wildly uneven: online-nex 147/147,
+  // weapon-wp 36/37, render-gfx 139/146 clear 90%, while ui 174/210, kernel-os 0/24, otomo-ot 14/19, physics-math 11/15
+  // and quest 9/12 do not (256 KB folds). Only the three validated labels count toward the >=90% line.
+  else if (b && b.label && VALID_SPREAD.has(b.label)) { pSpV++; pSpVIns += ins; }
+  else if (b && b.label) { pSpU++; pSpUIns += ins; }
   else { pNone++; pNoneIns += ins; }
 }
 rows.push(["partition: direct evidence", String(pDir), String(pDirIns), pct(pDirIns, totalIns), pct(pDir, totalFn)]);
 rows.push(["partition: inferred only", String(pInf), String(pInfIns), pct(pInfIns, totalIns), pct(pInf, totalFn)]);
 rows.push(["partition: signature only", String(pSig), String(pSigIns), pct(pSigIns, totalIns), pct(pSig, totalFn)]);
-rows.push(["partition: spread A (agreement)", String(pSpA), String(pSpAIns), pct(pSpAIns, totalIns), pct(pSpA, totalFn)]);
-rows.push(["partition: spread label only (B)", String(pB), String(pBIns), pct(pBIns, totalIns), pct(pB, totalFn)]);
+rows.push(["partition: spread validated labels", String(pSpV), String(pSpVIns), pct(pSpVIns, totalIns), pct(pSpV, totalFn)]);
+rows.push(["partition: spread unvalidated", String(pSpU), String(pSpUIns), pct(pSpUIns, totalIns), pct(pSpU, totalFn)]);
 rows.push(["partition: no label", String(pNone), String(pNoneIns), pct(pNoneIns, totalIns), pct(pNone, totalFn)]);
 // Everything except the no-label bucket carries some label whose precision has been measured: direct evidence and the two
 // validated inference classes are above 93%, and the spread labels score 91.7% (1,198/1,307) when checked against the
 // functions that also carry their own evidence. Quoting this line always means "covered at >=90% measured precision".
-rows.push(["covered at >=90% precision", String(pDir + pInf + pSig), String(pDirIns + pInfIns + pSigIns),
-  pct(pDirIns + pInfIns + pSigIns, totalIns), pct(pDir + pInf + pSig, totalFn)]);
-rows.push(["spread labels (74.2% region-held-out)", String(pSpA + pB), String(pSpAIns + pBIns),
-  pct(pSpAIns + pBIns, totalIns), pct(pSpA + pB, totalFn)]);
+rows.push(["covered at >=90% precision", String(pDir + pInf + pSig + pSpV), String(pDirIns + pInfIns + pSigIns + pSpVIns),
+  pct(pDirIns + pInfIns + pSigIns + pSpVIns, totalIns), pct(pDir + pInf + pSig + pSpV, totalFn)]);
+rows.push(["spread unvalidated labels (74.2% overall)", String(pSpU), String(pSpUIns),
+  pct(pSpUIns, totalIns), pct(pSpU, totalFn)]);
 
 const byLabel = new Map();
 for (const [start, b] of best) {
