@@ -3,13 +3,13 @@ X1	METER-CHAIN	METER kept the old gate-6 split 19,378/10,789 as current	fixed	ME
 X2	METER-CHAIN	95.3% divides the table numerator by the report A-direct denominator	fixed	95.0% (1,189,308/1,251,869), denominator note added
 X3	METER-CHAIN	473 refuted functions vs 512 demoted, mixed with a 0.61 point figure	fixed	HANDOFF separate s gross 512/0.61 from net 473/0.41 (21,252 insns)
 X4	METER-CHAIN	same as X3	fixed	as X3
-X5	METER-CHAIN	second-metric denominator still 23,885 in code-metrics and HANDOFF	open	HANDOFF bullets are marked as 2026-10-23 history and the 2026-11-04 note above them states the retile; code-metrics §2/§5-§8 are marked unrecomputable history, left as record
+X5	METER-CHAIN	second-metric denominator still 23,885 in code-metrics and HANDOFF	fixed	code-metrics carries a dated correction block naming 52692 as the retiled denominator, and the old 23885 references are marked as pre-retile history
 X6	METER-CHAIN	A-direct 13,061 vs 13,060 inside METER	fixed	METER now uses 13,061 and names the one-function difference from direct-split
 X7	METER-CHAIN	36.3% bucket defined as four vote channels but report counts every conf=V	fixed	report.mjs now names VOTE_FILES and SIG_FILES instead of globbing filenames, warns on any conf-V/S source it does not classify (five today), and the signature row counts functions rather than rows: 2496 rows became 1511 functions
-X8	METER-CHAIN	PROGRESS forbids citing its own numbers while citing them	open	editorial; PROGRESS §G is the live section and the prohibition refers to the old tables
+X8	METER-CHAIN	PROGRESS forbids citing its own numbers while citing them	fixed	PROGRESS now says its section B mirrors the current headline and that METER wins on disagreement, instead of forbidding citation of numbers it publishes
 S1	METER-CHAIN	METER 13,816 form table	fixed	recounted against 12,318 unlabelled functions
 S2	METER-CHAIN	"seven gates" vs 12	fixed	HANDOFF step 3 says 12 gates
-S3	METER-CHAIN	code-metrics keeps 94.7% inside the acceptance definition	open	the definition block is dated 2026-10-23 and the retest is stated next to it; changing the archival definition would rewrite history
+S3	METER-CHAIN	code-metrics keeps 94.7% inside the acceptance definition	fixed	the 94.7 percent inside the acceptance definition is struck through with the 2026-11-04 three-number retest beside it
 S4	METER-CHAIN	gate-9 "5 site(s)" quote stale	fixed	the gate prints 7 sites; the old sentence refers to the pre-edit state and now says so
 S5	METER-CHAIN	pre-correction tables still labelled current	open	Listed individually below where verified
 TA	SAVE	PROGRESS:25 decomposition sums to 174,231, not 224,643	fixed	PROGRESS:25 now states the residual 86997 and the 50412 bytes still unaccounted
@@ -32,9 +32,9 @@ DL6	DATA	armor points -6..15 vs -8..15	fixed	armor skill points run -8..15; the 
 DL7	DATA	README says 21 exports, lists 24	rejected	21 table exports plus 6 hand-mapped files is 27, which is what docs/data/json holds; the row count in the prose table is a different unit
 DL8	DATA	README calls the item file 日文名 and 中文名 in two places	fixed	README line 155 said the original item file had Chinese names; it is the Japanese 2930 line table per json/README:28
 DL9	DATA	quests.md id range 1xxxx-11xxxxx	fixed	101..1,120,012 measured
-MC1	MECHANICS	"149 action dispatchers" unreproducible	open	marked unreproducible in monster-code-map
+MC1	MECHANICS	"149 action dispatchers" unreproducible	open	documented as unreproducible with three measured alternatives; the 149 method is not in the repository
 MC2	MECHANICS	"53 dispatchers / 41 named" vs 51 sections / 26 named	fixed	both numbers corrected and explained
-MC3	MECHANICS	"58 method tables" unreproducible	open	marked unreproducible
+MC3	MECHANICS	"58 method tables" unreproducible	open	documented as unreproducible; 53 tables carry the 0x73e0 constant
 MC4	MECHANICS	dispatcher at +4 in the 8-slot clusters	fixed	[0] is the dispatcher, +4 is the shared stub 0x6bf18 in all three tables
 MC5	MECHANICS	sMain 230,256 = 227,386+632	fixed	229,952 from class-inventory, 3,198 B unexplained
 MC6	MECHANICS	registration-function column points at thunks	fixed	banner in monster-classes.md, 0x48698 is a 4-byte bx lr
