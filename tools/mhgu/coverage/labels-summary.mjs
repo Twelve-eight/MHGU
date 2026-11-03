@@ -1,72 +1,65 @@
 // labels-summary.mjs — one page per subsystem: how much of it is known, and on what evidence.
 //
 // The coverage number says how much of the image is attributed; this says what the attribution looks like from the other
-// side, which is what a reader actually needs when they want "the UI code" or "the quest code". Counts come from
-// coverage-report.tsv's own tiers plus the evidence files, so the two can be compared without recomputing anything.
+// side, which is what a reader actually needs when they want "the UI code" or "the quest code".
+//
+// The population comes straight from function-labels.tsv, the canonical per-function answer, rather than re-implementing
+// the merge. Two implementations disagreed by three functions (quest and save-data, one each) because they resolved
+// conflicting sources slightly differently — a summary that re-derives cannot be guaranteed to match the file it claims
+// to summarise, so this one reads it.
 import fs from "node:fs";
 import zlib from "node:zlib";
 
 const ROOT = "G:/omp works/MHGU";
 const INV = ROOT + "/docs/analysis/code/inventory/";
-const OUT = ROOT + "/docs/analysis/code/inventory/labels-summary.md";
+const OUT = INV + "labels-summary.md";
 
-const evidence = new Map(); // start -> Set(file)
-const conf = new Map();
-for (const f of JSON.parse(fs.readFileSync(INV + "sources.json", "utf8"))) {
-  const p = INV + f;
-  if (!fs.existsSync(p)) continue;
-  for (const l of fs.readFileSync(p, "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
-    const [s, lab, c, ev] = l.split("\t");
-    if (!lab || lab === "unknown") continue;
-    const k = s.toLowerCase();
-    if (!evidence.has(k)) evidence.set(k, []);
-    evidence.get(k).push({ file: f, conf: c, label: lab, ev: ev || "" });
-  }
-}
-const tiers = new Map();
-for (const l of fs.readFileSync(INV + "tiers-merged.csv", "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
-  const c = l.split(",");
-  tiers.set(c[0].toLowerCase(), { insns: +c[1], tier: c[2], label: c[3] || "", src: c[4] || "" });
-}
+const fns = new Map(zlib.gunzipSync(fs.readFileSync(ROOT + "/docs/data/functions-retile.csv.gz")).toString("utf8")
+  .split(/\r?\n/).filter(Boolean).slice(1).map((l) => { const c = l.split(","); return [c[0].toLowerCase(), +c[2]]; }));
+
 const per = new Map();
-for (const [s, t] of tiers) {
-  const rows = evidence.get(s) || [];
-  const direct = rows.filter((r) => r.conf === "A");
-  const lab = direct.length ? direct[0].label : t.label;
-  if (!lab) continue;
+let labelledFn = 0;
+for (const l of fs.readFileSync(INV + "function-labels.tsv", "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
+  const [s, , lab, prov, reason] = l.split("\t");
+  if (!lab || lab === "unknown") continue;
+  const k = s.toLowerCase();
+  const direct = prov.startsWith("evidence:");
+  const file = prov.includes(":") ? prov.slice(prov.indexOf(":") + 1) : "";
   if (!per.has(lab)) per.set(lab, { fn: 0, insns: 0, direct: 0, files: new Map(), example: null, exampleEv: "" });
   const e = per.get(lab);
   e.fn++;
-  e.insns += t.insns;
-  if (direct.length) {
+  labelledFn++;
+  e.insns += fns.get(k) || 0;
+  if (direct) {
     e.direct++;
-    for (const r of direct) e.files.set(r.file, (e.files.get(r.file) || 0) + 1);
-    if (!e.example && direct[0].ev) { e.example = s; e.exampleEv = direct[0].ev; }
+    e.files.set(file, (e.files.get(file) || 0) + 1);
+    if (!e.example && reason) { e.example = k; e.exampleEv = reason; }
   }
 }
-const totalIns = [...tiers.values()].reduce((a, t) => a + t.insns, 0);
+
+const totalIns = [...fns.values()].reduce((a, n) => a + n, 0);
 const rows = [...per].sort((a, b) => b[1].insns - a[1].insns);
 const lines = [
   "# 子系统归属总览（自动生成，勿手改）",
   "",
-  "由 `node tools/mhgu/coverage/labels-summary.mjs` 从 `tiers-merged.csv` 与 `sources.json` 列出的证据表生成。",
-  "`直接证据` 指该函数自己有一行 conf=A 的依据；没有直接证据的计数来自传播或推断。",
+  "由 `node tools/mhgu/coverage/labels-summary.mjs` **直接读 `function-labels.tsv`** 汇总，不再自己重跑合并逻辑——",
+  "所以本页的合计与那份逐函数答案必然相等（重写前两套实现差 3 个函数）。",
+  "`直接证据` 指该行的 provenance 是 `evidence:`（自己有一行可引用的 A 级依据）；其余来自传播、推断或切片裁定。",
   "",
-  `分母：${totalIns.toLocaleString("en-US")} 条指令。`,
+  `分母：${totalIns.toLocaleString("en-US")} 条指令；已归属函数 **${labelledFn.toLocaleString("en-US")}** 个。`,
   "",
   "| 子系统 | 函数 | 指令 | 指令占比 | 直接证据 | 主要证据来源 |",
   "|---|---:|---:|---:|---:|---|",
 ];
 for (const [lab, e] of rows) {
   const topFiles = [...e.files].sort((a, b) => b[1] - a[1]).slice(0, 3).map(([f, n]) => `${f.replace(/^attr-|\.tsv$/g, "")} ${n}`).join(", ");
-  lines.push(`| ${lab} | ${e.fn.toLocaleString("en-US")} | ${e.insns.toLocaleString("en-US")} | ${((100 * e.insns) / totalIns).toFixed(1)}% | ${e.direct.toLocaleString("en-US")}（${((100 * e.direct) / e.fn).toFixed(0)}%） | ${topFiles || "—"} |`);
+  lines.push(`| ${lab} | ${e.fn.toLocaleString("en-US")} | ${e.insns.toLocaleString("en-US")} | ${((100 * e.insns) / totalIns).toFixed(1)}% | ${e.direct.toLocaleString("en-US")}（${e.fn ? ((100 * e.direct) / e.fn).toFixed(0) : 0}%） | ${topFiles || "—"} |`);
 }
 lines.push("", "## 每个子系统的一个直接证据样例", "", "| 子系统 | 函数 | 证据 |", "|---|---|---|");
 for (const [lab, e] of rows) {
   if (!e.example) continue;
-  const ev = e.exampleEv.replace(/\|/g, "\\|").slice(0, 160);
-  lines.push(`| ${lab} | \`${e.example}\` | ${ev} |`);
+  lines.push(`| ${lab} | \`${e.example}\` | ${e.exampleEv.replace(/\|/g, "\\|").slice(0, 160)} |`);
 }
 fs.writeFileSync(OUT, lines.join("\n") + "\n");
-console.log(`wrote ${OUT} (${rows.length} labels)`);
+console.log(`wrote ${OUT} (${rows.length} labels, ${labelledFn} labelled functions)`);
 for (const [lab, e] of rows.slice(0, 8)) console.log(`  ${lab.padEnd(14)} ${String(e.fn).padStart(6)} fn ${String(e.insns).padStart(9)} insns  direct ${e.direct}`);

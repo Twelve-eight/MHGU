@@ -89,6 +89,20 @@ if (partitions.length) {
   }
 }
 
+// The subsystem page is generated from the per-function answer, so the two must state the same total. Hand edits to
+// either would otherwise go unnoticed.
+{
+  const sum = path.join(INV, "labels-summary.md");
+  if (fs.existsSync(sum)) {
+    const stated = /已归属函数 \*\*([\d,]+)\*\*/.exec(fs.readFileSync(sum, "utf8"));
+    const lab = path.join(INV, "function-labels.tsv");
+    const rows = fs.readFileSync(lab, "utf8").split(/\r?\n/).filter(Boolean).length - 1;
+    if (stated && Number(stated[1].replace(/,/g, "")) !== rows) {
+      errors.push(`labels-summary.md claims ${stated[1]} labelled functions but function-labels.tsv holds ${rows}`);
+    }
+  }
+}
+
 // Report the confidence split, not one merged total: a merged number lets 15k inference rows be quoted as if they were
 // evidence, and 29,091 is more than twice the 13,060 functions that actually carry an evidence row.
 const split = [...perConf].sort((a, b) => (b[1].rows - a[1].rows)).map(([c, e]) => `conf ${c}: ${e.rows} rows / ${e.starts.size} functions`).join("; ");

@@ -1,26 +1,27 @@
 # 子系统归属总览（自动生成，勿手改）
 
-由 `node tools/mhgu/coverage/labels-summary.mjs` 从 `tiers-merged.csv` 与 `sources.json` 列出的证据表生成。
-`直接证据` 指该函数自己有一行 conf=A 的依据；没有直接证据的计数来自传播或推断。
+由 `node tools/mhgu/coverage/labels-summary.mjs` **直接读 `function-labels.tsv`** 汇总，不再自己重跑合并逻辑——
+所以本页的合计与那份逐函数答案必然相等（重写前两套实现差 3 个函数）。
+`直接证据` 指该行的 provenance 是 `evidence:`（自己有一行可引用的 A 级依据）；其余来自传播、推断或切片裁定。
 
-分母：5,228,277 条指令。
+分母：5,228,277 条指令；已归属函数 **40,374** 个。
 
 | 子系统 | 函数 | 指令 | 指令占比 | 直接证据 | 主要证据来源 |
 |---|---:|---:|---:|---:|---|
-| monster-em | 9,529 | 1,382,244 | 26.4% | 2,038（21%） | fingerprint 1839, vtable-fixed 360, prefix 159 |
-| render-gfx | 5,789 | 1,039,332 | 19.9% | 2,109（36%） | vtable-unknown 1071, blocks 885, class2 285 |
-| ui | 8,818 | 910,021 | 17.4% | 2,898（33%） | uifamily 1556, blocks 1336, vtable-unknown 1306 |
-| online-nex | 6,645 | 558,095 | 10.7% | 2,164（33%） | vtable-rtti2 1595, vtable-ns 1305, vtable-unknown 522 |
-| quest | 1,705 | 183,050 | 3.5% | 464（27%） | vtable-fixed 169, class2 167, class 166 |
-| physics-math | 1,075 | 117,442 | 2.2% | 613（57%） | vtable-unknown 359, class 178, class2 167 |
-| weapon-wp | 1,252 | 73,139 | 1.4% | 949（76%） | vtable-fixed 674, class2 485, class 387 |
-| otomo-ot | 919 | 67,620 | 1.3% | 780（85%） | vtable-fixed 459, class2 328, class 235 |
-| player-pl | 390 | 41,632 | 0.8% | 201（52%） | vtable-fixed 134, class2 54, class 39 |
-| audio | 405 | 40,250 | 0.8% | 275（68%） | class2 161, vtable-fixed 155, class 82 |
-| save-data | 240 | 35,400 | 0.7% | 62（26%） | vtable-fixed 21, xref 18, class 13 |
-| item | 459 | 26,577 | 0.5% | 360（78%） | vtable-fixed 178, class 128, class2 115 |
-| kernel-os | 221 | 15,593 | 0.3% | 129（58%） | prefix 110, vtable-unknown 83, vtable-rtti2 78 |
-| filesystem | 22 | 1,302 | 0.0% | 19（86%） | vtable-fixed 11, class 7, xref 2 |
+| monster-em | 9,769 | 1,303,148 | 24.9% | 2,038（21%） | fingerprint 1513, vtable-fixed 357, class 49 |
+| render-gfx | 6,821 | 1,215,787 | 23.3% | 2,109（31%） | vtable-unknown 1043, blocks 586, xref 129 |
+| ui | 9,245 | 987,436 | 18.9% | 2,898（31%） | vtable-unknown 1306, blocks 736, vtable-fixed 390 |
+| online-nex | 7,058 | 556,701 | 10.6% | 2,164（31%） | vtable-ns 1272, vtable-rtti2 402, xref 335 |
+| quest | 2,062 | 206,509 | 3.9% | 464（23%） | vtable-fixed 152, vtable-unknown 133, xref 70 |
+| physics-math | 1,094 | 111,219 | 2.1% | 613（56%） | vtable-unknown 357, vtable-fixed 103, prefix 57 |
+| weapon-wp | 1,388 | 83,087 | 1.6% | 949（68%） | vtable-fixed 673, prefix 124, vtable-unknown 63 |
+| otomo-ot | 1,071 | 78,608 | 1.5% | 780（73%） | vtable-fixed 454, vtable-unknown 169, prefix 65 |
+| audio | 434 | 41,153 | 0.8% | 275（63%） | vtable-fixed 154, class2 78, prefix 27 |
+| player-pl | 412 | 41,111 | 0.8% | 201（49%） | vtable-fixed 134, prefix 26, class2 20 |
+| save-data | 227 | 30,643 | 0.6% | 62（27%） | vtable-fixed 21, xref 18, vtable-unknown 13 |
+| item | 509 | 26,752 | 0.5% | 360（71%） | vtable-fixed 178, vtable-unknown 75, prefix 30 |
+| kernel-os | 243 | 16,093 | 0.3% | 129（53%） | vtable-rtti2 78, vtable-fixed 37, xref 9 |
+| filesystem | 41 | 5,887 | 0.1% | 19（46%） | vtable-fixed 11, class 6, xref 2 |
 
 ## 每个子系统的一个直接证据样例
 
@@ -34,8 +35,8 @@
 | physics-math | `0x360` | 3 of 4 referenced strings are collision/math parameter names: mPointPos \| mRadius \| mMinRadius |
 | weapon-wp | `0xe0e8` | rWeapon14MsgData class-record slot [classprefix-map rWeapon -> weapon-wp, basis: rWeapon00BaseData; rWeaponMsgData; rWeaponCreateData] |
 | otomo-ot | `0x9cb8` | nPastMonNyan::cMonNyanAdventEnemy registrar 0xb450 vtable 0x172ff14 slot 2 (class-record vtable written by str at 0xbf74) [relabelled monster-em -> otomo-ot by  |
-| player-pl | `0x9f74` | nPastPlayer::cPlayerParam registrar 0xb450 vtable 0x172feec slot 2 (class-record vtable written by str at 0xc0fc) |
 | audio | `0x34f4` | string "_ZN2nn5audio17AcquireMemoryPoolEPNS0_19AudioRendererConfigEPNS0_14Memo" |
+| player-pl | `0x9f74` | nPastPlayer::cPlayerParam registrar 0xb450 vtable 0x172feec slot 2 (class-record vtable written by str at 0xc0fc) |
 | save-data | `0x9eac` | nPastMonNyan::cPastSaveDataMember registrar 0xb450 vtable 0x172ff78 slot 2 (class-record vtable written by str at 0xc08c) |
 | item | `0x9d1c` | nPastMonNyan::cPastMonNyanAdventItemData registrar 0xb450 vtable 0x172ff28 slot 2 (class-record vtable written by str at 0xbfac) |
 | kernel-os | `0x690` | MtArray registrar 0x7cb8c8 vtable 0x1786fd0 slot 0 (instance vtable installed by create 0x7ca7bc @ install 0x7cbc78) [relabelled render-gfx -> kernel-os by clas |
