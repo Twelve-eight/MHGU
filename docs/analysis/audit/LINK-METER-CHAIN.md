@@ -20,7 +20,7 @@ denominator:	52692 functions,	5228277 instructions
 A-direct (evidence row)	13061	1248279	23.9%	24.8%
 tier A (verified)	25584	3014249	57.7%	48.6%
 A-inferred (callee/caller/class vote channels, per-round 92.8-99.3%)	10138	1832618	35.1%	19.2%
-A-signature (32-bit constant, fold 97.1%)	2496	260798	5.0%	4.7%
+A-signature (32-bit constant, fold 97.1%)	2496	260798	5.0%	4.7%	【2026-11-04 更正：该行当时按签名行数计，去重后是 1,511 函数 / 146,378 / 2.8%；见 METER「A-signature 行按行数而非函数数」】
 partition: direct evidence	13061	1248279	23.9%	24.8%
 partition: inferred only	11250	1896778	36.3%	21.4%
 partition: signature only	1475	144714	2.8%	2.8%

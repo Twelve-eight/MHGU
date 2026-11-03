@@ -178,6 +178,8 @@ invariant is not enforced: a new channel named `attr-foovote.tsv` would move the
 listed, and renaming `attr-immscan.tsv` would silently zero the "A-signature" line (2,496 functions / 5.0%) — the
 exact "通道产出无人计数" class of failure the README cites as the reason the list exists.
 
+> **2026-11-04 处置（已落地）**：`report.mjs` 改为显式 `VOTE_FILES` / `SIG_FILES` 名单，并每次运行检查 `sources.json` 里带 conf=V/S 却未分类的文件（当前打印 5 张）。另：上面那句里的 2,496 本身也是错的——该行按**签名行数**而非函数数计，去重后是 **1,511 函数 / 146,378 指令 / 2.8%**。
+
 ## STALE — number that was true earlier; what superseded it if the repo says
 
 ### S1 — `cov-report.tsv` does not exist and never did
