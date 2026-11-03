@@ -70,7 +70,7 @@
 - Total: 60 (A 0 / B 51 / C 9)
 - No conf=A rows: per the region rule (each `===` vaddr is a region; strings/callees are region-wide), no string/primitive was verified inside the real function at the region vaddr; 0xba09c0 was checked with function_start (real fn 0xba098c) and downgraded A->B.
 - Region-merge caveats verified with mcp function_start/disasm: 0x172ac4 (real fn 0x172ac4..0x172b10, leaf) and 0x5a3b0 (real fn 0x5a3b0..0x5a3dc, leaf); roles set by the real function's bl count.
-- Label distribution: quest 26, monster-em 18, otomo-ot 6, render-gfx 3, ui 1, online-nex 1, other 5 (thunk-family quest workers counted under quest).
+- Label distribution: quest 33, monster-em 16, otomo-ot 6, render-gfx 3, ui 1, online-nex 1（合计 60，无 other 桶；thunk-family quest workers counted under quest）.
 - AI-domain convention: cAISv* class strings map to monster-em per tierB2-slice-14 0xa285a0 precedent (0xa2533c, 0x310e4c).
 
 审查后（DsvB3r05，60/60 PASS）：A 0 / B 51 / C 9（共 60）。05r/05s1 的行已并入本表并改正；0x172ac4、0x5a3b0 改为 leaf。

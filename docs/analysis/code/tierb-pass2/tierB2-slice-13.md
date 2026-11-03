@@ -1,4 +1,4 @@
-| 0x64a198 | quest | 5-state switch on [r0,#100] driving step calls | B | `ldr r0,[r4,#100]; cmp r0,#4; add pc,r0,r1` jump table, `str r0,[r4,#100]` state write; votes quest:3 monster-em:1; no string [main session: row was missing] |
+| 0x64a198 | quest | worker | B | 4 callee（0x56e558/0x276278/0x11ca36c/0x56e5d0，按 1-7 → worker）；`ldr r0,[r4,#100]; cmp r0,#4; add pc,r0,r1` jump table, `str r0,[r4,#100]` state write; votes quest:3 monster-em:1; no string [main session: row was missing; role cell was prose, corrected to worker] |
 # Tier B pass2 — slice-13 裁定
 
 输入：`.tmp/mhgu/tierB2/slice-13.txt`（286 函数，按 insns 降序，addr `0xb1159c..0x758d6c`）。
@@ -307,9 +307,9 @@
 
 ## 汇总
 
-- 覆盖：本表 285 行，对应 `.tmp/mhgu/tierB2/slice-13.asm.txt` 中按文件顺序的全部 `=== 0x…` 块（1-7761 行逐块读完，每块头部 + callees + strings + 24 条指令）。
-- 数据缺陷（需上游修）：`slice-13.txt` 头注 286 函数，重生成的 asm 文件头同样是 286，但实际块数与本表行数均为 **285**，差 1。已按 insns 分组（171/170/169/168/167/166/165/164/163/162/161/160/159/158/157/156）抽样反查 100+ 个地址，全部命中，未定位到遗漏块；判断为生成端 1 个函数未落盘，而非本表漏写。
-- conf 计数：**A 35**（全部来自切片内可见信号：类名/参数名字符串 30 条 —— cInsect*/cShopList*/cAmulet*/cCoinTrade*/cTrialBow*/cTutorial*/cMonNyanExp/cParticleNode/cEquipShopList*×13、ParticleGeneratorForce、tingDiffuseLuminanceThreshold、eMatrix 等相机参数、sample-rate/channel-count/durationUs；特征立即数 2 条 —— 0x000bab1e 头签名与 0xc0dedbad 魔数、0x2711/0x4e20 IPC 命令号；Pia 区 callee 3 条 —— 0x1365bf0、0x136641c、0x13a9c98）。其余为 B（votes 主导 ≥1.6× 或 callee 同簇）与 C（分票/无信号），逐行标注。
+- 覆盖：本表 286 行，对应 `.tmp/mhgu/tierB2/slice-13.asm.txt` 中按文件顺序的全部 286 个 `=== 0x…` 块（1-7761 行逐块读完，每块头部 + callees + strings + 24 条指令），块与行一一对应（含表首 0x64a198，`insns=161`，主会话补入）。
+- 更正：先前「实际块数与本表行数均为 **285**，判为生成端 1 个函数未落盘」的结论作废——asm 现为 286 块、表 286 行，差的那条是本表自己漏写的 `0x64a198`（insns=161，votes quest:3 monster-em:1），不是生成端缺陷，该行已补入表首。
+- conf 计数：**A 3**（仅 Pia 区段归属三条：`0x1365bf0`、`0x136641c`、`0x13a9c98` —— 地址落在 0x1311000..0x13AB000 且 callee 同区）；**B 204**；**C 79**。原先按「切片内可见信号」记的 35 条 A（类名字符串 30 + 特征立即数 2 + Pia callee 3）已在覆盖率按真实函数边界重算时批量降为 B（commit 66e12a5「pass1/2 124 个区段级 A 降 B」）。其余为 B（votes 主导 ≥1.6× 或 callee 同簇）与 C（分票/无信号），逐行标注。
 - 与 votes 冲突并按独立证据改判的典型：0x1d1ac / 0x2bc928 / 0x307c8c / 0x13c19ec / 0xaf5ddc / 0xa86e0c / 0xa9c1f4 / 0x136641c / 0x1365bf0（votes 指向 quest 或 kernel-os）；0x5d51d0 / 0x5d0578 / 0x5d8758 / 0x5ce408（votes 指向 otomo-ot，按 cUIO* 类名取 ui，仅 B）。
 - 纯 VFP 且 callee 只有运行库壳的函数统一归 `physics-math`（0x4338c4、0x438ab8、0x7cc144、0x7e2e78、0x7e14c0、0x7c0f00、0x9e95c8、0xb72d88、0x13b9f58、0xaf7958、0x7e5f50、0x9ea67c 类），不采信由壳产生的 votes。
 - 未写任何代码；未 build、未测试、未 git。

@@ -101,9 +101,21 @@ const sum = (pred) => {
 };
 const pct = (x, t) => (t ? ((100 * x) / t).toFixed(1) + "%" : "-");
 
+// direct evidence: a row in an attr-*.tsv with conf A. This is separable from the prediction-agreement heuristic,
+// which is what tier A has meant so far; conflating them is how a seed could fail to raise the headline.
+const directArgs = process.argv.reduce((a, v, i) => (v === "--direct" ? [...a, process.argv[i + 1]] : a), []);
+const direct = new Set();
+for (const f of directArgs) {
+  for (const l of fs.readFileSync(f, "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
+    const [start, label, conf] = l.split("\t");
+    if (conf === "A" && label && label !== "unknown") direct.add(start);
+  }
+}
 const A = sum((b) => b.conf === "A");
+const D = (() => { let fn = 0, ins = 0; for (const start of direct) { const t = tiers.get(start); if (t) { fn++; ins += t.insns; } } return { fn, ins }; })();
 const B = sum((b) => b.conf === "B");
 const rows = [["class", "functions", "insns", "pct_insns", "pct_functions"]];
+rows.push(["A-direct (evidence row)", String(D.fn), String(D.ins), pct(D.ins, totalIns), pct(D.fn, totalFn)]);
 rows.push(["tier A (verified)", String(A.fn), String(A.ins), pct(A.ins, totalIns), pct(A.fn, totalFn)]);
 rows.push(["conf B (unverified)", String(B.fn), String(B.ins), pct(B.ins, totalIns), pct(B.fn, totalFn)]);
 rows.push(["headline A only", String(A.fn), String(A.ins), pct(A.ins, totalIns), pct(A.fn, totalFn)]);

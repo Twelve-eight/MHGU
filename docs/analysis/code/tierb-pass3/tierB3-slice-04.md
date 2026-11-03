@@ -67,8 +67,8 @@
 
 ## Summary
 
-- 总数 60（A=1，B=54，C=5）。
-- 争议处理：0xbc8a00（votes quest:5 vs save-data:3，strings `arc.xml`/`%s\%s` 存档路径压过 votes，取 save-data）、0xc5b14（votes monster-em:15，但为 slice-02 otomo-ot 0x60ab8 的直接 callee 且同簇，取 otomo-ot）、0xc1c6fc（votes 分票，0x2332ac 为 render-gfx 判定核心 callee，取 render-gfx）、0x17a884（votes monster-em:8 但 nn::pia::transport 类名字串在函数体内消费，取 online-nex A）、0x9bf9f8（0xbf/0xc3 簇与类注册桩一致，votes 主导取 quest）、0xb9c718/0x7df87c/0xafbb08/0xaf8480/0xadec54（分票或唯一弱票且无独立线索，记 C 取票向首位）。
+- 总数 60（审查前所见 A=1，B=54，C=5；审查后以文末复核行为准：A 0 / B 40 / C 20）。
+- 争议处理：0xbc8a00（votes quest:5 vs save-data:3，strings `arc.xml`/`%s\%s` 存档路径压过 votes，取 save-data）、0xc5b14（votes monster-em:15，但为 slice-02 otomo-ot 0x60ab8 的直接 callee 且同簇，取 otomo-ot）、0xc1c6fc（votes 分票，0x2332ac 为 render-gfx 判定核心 callee，取 render-gfx）、0x17a884（votes monster-em:8 但 nn::pia::transport 类名字串在函数体内消费，取 online-nex；该行 conf 为 **C**，不是 A——审查按「标签冲突待复核」降级，行内已注）、0x9bf9f8（0xbf/0xc3 簇与类注册桩一致，votes 主导取 quest）、0xb9c718/0x7df87c/0xafbb08/0xaf8480/0xadec54（分票或唯一弱票且无独立线索，记 C 取票向首位）。
 - 边界规则（reviewer 确认）：0x13bc308/0x40bba8/0x173944/0x80f3a8/0x13b8d1c 真实函数在块头内即终止（b/bx lr）→ leaf，其 callee 列表归属后续函数；0xbae520/0x7c4420/0x444ff4/0x4783c4/0xa9b2c0/0x11a9534/0x415dec 块头内含 1 bl 后即收尾 → worker。
 
 审查后（DsvB3r04，全部 60 行复核：41 PASS / 19 FAIL）：conf A 0 / B 40 / C 20（共 60）；role orchestrator 34 / worker 21 / leaf 5。12 行与审查方证据冲突（区段内的类注册 / 取次席票 / 票数抄反），按“审查方只能降级”规则降为 C 并标“待复核”，标签不改。0xb9c718 维持 C。

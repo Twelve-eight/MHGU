@@ -1,29 +1,29 @@
-# Tier B pass2 slice-06 — 120 函数裁定
+# Tier B pass2 slice-06 — 60 函数裁定（输入 120 条，未全部裁定）
 
-输入：`.tmp/mhgu/tierB2/slice-06.txt`，范围 0xb811f0 .. 0xb6f3c4，逐文件顺序处理，共 120 条。
+输入：`.tmp/mhgu/tierB2/slice-06.txt`（120 条）。**本文只裁定 60 条**：下表 60 行，末尾留 `<!-- slice-06 continued -->`，其余 60 条从未写出。表内 vaddr 覆盖 0x16f2c .. 0x130b6b4（首行 0xb811f0），与当前磁盘上的 `.tmp/mhgu/tierB2/slice-06.txt`（该文件首行现自述 "slice 16 — 120 functions, 0x7f54d4..0x13ad978"）**无交集**——该文件已被重新生成，旧切片列表不在仓内。下列汇总一律按表内 60 行复算。
 
 ## 汇总
 
-**label 计数（120）**
+**label 计数（60，表内实有行数）**
 
 | label | 数量 |
 |---|---|
-| quest | 52 |
-| monster-em | 25 |
-| render-gfx | 15 |
-| filesystem | 7 |
-| otomo-ot | 5 |
-| unknown | 5 |
-| online-nex | 4 |
+| quest | 30 |
+| monster-em | 13 |
+| render-gfx | 5 |
+| filesystem | 4 |
+| otomo-ot | 3 |
 | ui | 2 |
 | debug-dev | 2 |
-| audio | 2 |
-| physics-math | 1 |
+| unknown | 1 |
+| online-nex | 0 |
+| audio | 0 |
+| physics-math | 0 |
 | online-nex/save-data/save-io/item/kernel-os/player-pl/weapon-wp | 0 |
 
-**conf 计数**：A 12 / B 101 / C 7
+**conf 计数**：A 1 / B 57 / C 2
 
-**role 计数**：orchestrator 81 / worker 39 / leaf 0 / thunk 0
+**role 计数**：orchestrator 42 / worker 18 / leaf 0 / thunk 0
 
 **最不确定的 5 个**
 

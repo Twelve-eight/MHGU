@@ -68,10 +68,10 @@ Input: `.tmp/mhgu/tierB3p/slice-08.txt` (60 functions, insns desc 0xbe28c4..0x26
 ## Summary
 
 - Total: 60 (matches slice header count; 0x872e00 appears twice in the slice header list but is one function - row written once)
-- conf A: 5 (0x8ab038, 0xb580f0, 0x7c3984, 0xbc741c, 0x6da300)
-- conf B: 31
-- conf C: 24
-- Labels: quest 28, render-gfx 12, monster-em 12, online-nex 3, otomo-ot 2, audio 2, save-data 1; ui/kernel-os/item/physics-math/player-pl/weapon-wp 0
+- conf A: 0（原先记 A 的 5 行 0x8ab038 / 0xb580f0 / 0x7c3984 / 0xbc741c / 0x6da300 现均为 B，见 commit 66e12a5 的区段级 A→B 重算）
+- conf B: 35
+- conf C: 25
+- Labels: quest 29, render-gfx 12, monster-em 11, online-nex 3, otomo-ot 2, audio 2, save-data 1（合计 60）; ui/kernel-os/item/physics-math/player-pl/weapon-wp 0
 - All rows carry slice-visible instruction/string evidence; no external asm consulted; no disasm/calls_to calls used (24-line heads sufficient for every function)
 
 
