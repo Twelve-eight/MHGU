@@ -534,7 +534,7 @@ vtable 通道靠 RTTI 认表，但镜像里还有大量**没有 typeinfo 的函�
 
 ## 无标签函数的形态分类（不是子系统标签，不计入覆盖）
 
-10.6% 无标签的函数没有子系统归属，但**形状**仍可读：`form-classify.mjs` 只看指令本身，把它们分成 12 类，输出 `docs/analysis/code/inventory/function-forms.tsv`（`start / insns / form / why`）。
+10.6% 无标签的函数没有子系统归属，但**形状**仍可读：`form-classify.mjs` 只看指令本身，把它们分成 12 类，输出 `docs/analysis/code/inventory/function-forms.tsv`（`start / insns / form / subsystem / why`）。**这个文件覆盖全部 52,692 个函数**（`subsystem` 列空着就是未标注），所以既能浏览无标签桶，也能用来查"所有 dispatch 壳"。下表是无标签桶那 13,816 个的分布。
 
 | 形态 | 数量 | 判据 |
 |---|---:|---|

@@ -13,9 +13,10 @@ const OUT = INV + "function-forms.tsv";
 const buf = fs.readFileSync(ROOT + "/main.140.flat.bin");
 const TEXT_END = 0x13f1dec;
 
-const labelled = new Set();
+const label = new Map();
 for (const l of fs.readFileSync(INV + "function-labels.tsv", "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
-  labelled.add(l.split("\t")[0].toLowerCase());
+  const c = l.split("\t");
+  label.set(c[0].toLowerCase(), c[2]);
 }
 const fns = zlib.gunzipSync(fs.readFileSync(ROOT + "/docs/data/functions-retile.csv.gz")).toString("utf8")
   .split(/\r?\n/).filter(Boolean).slice(1).map((l) => { const c = l.split(","); return { s: c[0].toLowerCase(), a: parseInt(c[0], 16), n: +c[2] }; });
@@ -62,14 +63,15 @@ function classify(f) {
   return ["worker", ">60 insns with calls"];
 }
 
-const rows = [["start", "insns", "form", "why"]];
+// Every function gets a form; the subsystem column is filled only where one is already known, so the file works as a
+// general index ("show me all dispatch shells") as well as a way to navigate the unlabelled bucket.
+const rows = [["start", "insns", "form", "subsystem", "why"]];
 const counts = new Map();
 for (const f of fns) {
-  if (labelled.has(f.s)) continue;
   const [form, why] = classify(f);
   counts.set(form, (counts.get(form) || 0) + 1);
-  rows.push([f.s, String(f.n), form, why]);
+  rows.push([f.s, String(f.n), form, label.get(f.s) || "", why]);
 }
 fs.writeFileSync(OUT, rows.map((r) => r.join("\t")).join("\n") + "\n");
-console.log(`unlabelled ${rows.length - 1} functions classified -> ${OUT.split("/").pop()}`);
+console.log(`classified ${rows.length - 1} functions -> ${OUT.split("/").pop()}`);
 console.log([...counts].sort((a, b) => b[1] - a[1]).map(([k, v]) => `${k} ${v}`).join(", "));
