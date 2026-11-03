@@ -2,9 +2,11 @@ class	functions	insns	pct_insns	pct_functions
 A-direct (evidence row)	13060	1248128	23.9%	24.8%
 tier A (verified)	25611	3012424	57.6%	48.6%
 conf B (unverified)	11639	1455847	27.8%	22.1%
-A-inferred (callee+class vote, fold 93.6-99.3%)	10032	1855534	35.5%	19.0%
+A-inferred (callee+class vote, fold 93.6-99.3%)	10790	1883701	36.0%	20.5%
+A-signature (single immediate, fold 97.2%)	2773	333016	6.4%	5.3%
 headline A only	25611	3012424	57.6%	48.6%
 partition: direct evidence	13060	1248128	23.9%	24.8%
-partition: inferred only	10032	1855534	35.5%	19.0%
-partition: spread label only (B)	9235	934787	17.9%	17.5%
-partition: no label	20365	1189828	22.8%	38.6%
+partition: inferred only	10790	1883701	36.0%	20.5%
+partition: signature only	1798	197144	3.8%	3.4%
+partition: spread label only (B)	8803	875141	16.7%	16.7%
+partition: no label	18241	1024163	19.6%	34.6%

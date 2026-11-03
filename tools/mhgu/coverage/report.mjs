@@ -153,6 +153,18 @@ rows.push(["tier A (verified)", String(A.fn), String(A.ins), pct(A.ins, totalIns
 rows.push(["conf B (unverified)", String(B.fn), String(B.ins), pct(B.ins, totalIns), pct(B.fn, totalFn)]);
 // Inferred labels are a separate class on purpose: a callee vote is inference, and mixing it into A-direct would repeat
 // the mistake that got tier A inflated. The rule that produces them was validated leave-one-file-out at 96.0%.
+let _voteStarts = null;
+const voteStarts = () => {
+  if (_voteStarts) return _voteStarts;
+  _voteStarts = new Set();
+  for (const f of fs.readdirSync(INV).filter((x) => /^attr-.*vote\.tsv$/.test(x))) {
+    for (const l of fs.readFileSync(path.join(INV, f), "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
+      const [start, label, conf] = l.split("\t");
+      if (conf === "V" && label) _voteStarts.add(start);
+    }
+  }
+  return _voteStarts;
+};
 const CV = (() => {
   const files = fs.readdirSync(INV).filter((f) => /^attr-.*vote\.tsv$/.test(f));
   let fn = 0, ins = 0, rows = 0;
@@ -171,9 +183,35 @@ const CV = (() => {
   return { fn, ins, rows };
 })();
 rows.push(["A-inferred (callee+class vote, fold 93.6-99.3%)", String(CV.fn), String(CV.ins), pct(CV.ins, totalIns), pct(CV.fn, totalFn)]);
+// Single-immediate signatures are their own class: the rule is weaker than a call vote (97.2% fold-wise versus 93.6-99.3%)
+// and was selected on the same labels it predicts, so it stays separable and withdrawable.
+const SG = (() => {
+  const p = path.join(INV, "attr-immscan.tsv");
+  if (!fs.existsSync(p)) return { fn: 0, ins: 0, rows: 0 };
+  let fn = 0, ins = 0, rows = 0;
+  for (const l of fs.readFileSync(p, "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
+    const [start, label, conf] = l.split("\t");
+    if (conf !== "S" || !label) continue;
+    rows++;
+    if (direct.has(start) || voteStarts().has(start)) continue;
+    const t = tiers.get(start);
+    if (t) { fn++; ins += t.insns; }
+  }
+  return { fn, ins, rows };
+})();
+rows.push(["A-signature (single immediate, fold 97.2%)", String(SG.fn), String(SG.ins), pct(SG.ins, totalIns), pct(SG.fn, totalFn)]);
 rows.push(["headline A only", String(A.fn), String(A.ins), pct(A.ins, totalIns), pct(A.fn, totalFn)]);
 // The four classes below are a partition: each function counts once. "unattributed" used to be total - A - B, which left
 // the inferred rows inside it while also printing them on their own line.
+const Sset = (() => {
+  const s = new Set();
+  const p = path.join(INV, "attr-immscan.tsv");
+  if (fs.existsSync(p)) for (const l of fs.readFileSync(p, "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
+    const [start, label, conf] = l.split("\t");
+    if (conf === "S" && label) s.add(start);
+  }
+  return s;
+})();
 const Vset = (() => {
   const s = new Set();
   for (const f of fs.readdirSync(INV).filter((x) => /^attr-.*vote\.tsv$/.test(x))) {
@@ -184,17 +222,19 @@ const Vset = (() => {
   }
   return s;
 })();
-let pDir = 0, pDirIns = 0, pInf = 0, pInfIns = 0, pB = 0, pBIns = 0, pNone = 0, pNoneIns = 0;
+let pDir = 0, pDirIns = 0, pInf = 0, pInfIns = 0, pSig = 0, pSigIns = 0, pB = 0, pBIns = 0, pNone = 0, pNoneIns = 0;
 for (const [start, t] of tiers) {
   const ins = t.insns;
   const b = best.get(start);
   if (direct.has(start)) { pDir++; pDirIns += ins; }
   else if (Vset.has(start)) { pInf++; pInfIns += ins; }
+  else if (Sset.has(start)) { pSig++; pSigIns += ins; }
   else if (b && b.conf === "B") { pB++; pBIns += ins; }
   else { pNone++; pNoneIns += ins; }
 }
 rows.push(["partition: direct evidence", String(pDir), String(pDirIns), pct(pDirIns, totalIns), pct(pDir, totalFn)]);
 rows.push(["partition: inferred only", String(pInf), String(pInfIns), pct(pInfIns, totalIns), pct(pInf, totalFn)]);
+rows.push(["partition: signature only", String(pSig), String(pSigIns), pct(pSigIns, totalIns), pct(pSig, totalFn)]);
 rows.push(["partition: spread label only (B)", String(pB), String(pBIns), pct(pBIns, totalIns), pct(pB, totalFn)]);
 rows.push(["partition: no label", String(pNone), String(pNoneIns), pct(pNoneIns, totalIns), pct(pNone, totalFn)]);
 
