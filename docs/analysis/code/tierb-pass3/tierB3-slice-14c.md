@@ -27,17 +27,17 @@
 | 0xb73dac | physics-math | leaf | C | (审查 DsvB3r14：无函数内硬证据) fs=fn@0xb73dac; disasm 0xb73dac-e08: push/sub, ldr[r9,#88], NEON vldmia f5d0f000 @0x7dc8, vdiv/vcvt fp pairs @0x7dcc-e00, branch-outs bgt/bmi 0xb742b4 — zero bl/blx; pure FP compute => physics-math leaf |
 | 0xbbdc34 | quest | orchestrator | B | fs=fn@0xbbdc34; votes quest11/otomo2=5.5x; recursion (callee 0xbbdc34); flag [r8,#31] eor#1 @0xbbdc74-78; blx fnptr @0xbbdc88; 0x869b18-0x86a67c cluster, 10+ distinct callees |
 | 0xbd25bc | render-gfx | worker | B | fs=fn@0xbd25bc; votes render2/online1=2.0x; gate [r4,#52] @0xbd25dc; ptr-table ldr[r0,r1,lsl#2] @0xbd2618; 3 callees 0xc08458/0x80328c/0xc9b52c |
-| 0x670dc0 | quest | leaf | B | (审查 DsvB3r14：0 bl) fs: mid-fn, real fn@0x670c88; guard cmp r1,#7/bxhi lr @0x670dc0-c8 + 8-arm jumptable @0x670dcc-d8; votes quest9/otomo3=3x; 12 distinct callees (0x65cb3c,0x608ba0,0x54f260,0x609338,0x54ee98,0x607eb0,0x54ecc0,0x609490...) |
-| 0x27b3f4 | quest | leaf | B | fs: tail of small getter (fn@0x27b3d8): ldr[r0,#0x13c8] @0x27b3f8, cmp#2 @0x27b404, bx lr @0x27b40c, 0 bls; label from region votes quest5/otomo2=2.5x; sibling tick fn@0x27b410 gates on same field 0x13c8==2 @0x27b428, vtable blx[r0,#356] @0x27b44c + [r0,#364] @0x27b480, bl 0x4ea4c0 @0x27b464, bl 0x4eb170 @0x27b4a0 |
+| 0x670dc0 | quest | orchestrator | B | 本 vaddr 是**独立函数入口**，非 0x670c88 的中段：0x670c88 的 fn 在 0x670db8 `pop {r4,r5,r6,r7,r8,pc}` 返回（functions.csv 0x670c88..0x670dc0, 78 insns），0x670dc0 起新函数（0x670dc0..0x6712e8, 330 insns, functions.csv callees=36）。入口 `cmp r1,#7`/`movhi r0,#0`/`bxhi lr` @0x670dc0-c8 + 8 项跳转表 @0x670ddc；各臂自带头（0x670e10 `push {r4-r11,lr}`、0x671090/0x671168/0x6711e8/0x671268 `b`→臂）；**36 bl** 于 0x670dc0..0x6712e8（0x670e10 臂到首个 epilogue 0x671088 之间就有 17 bl）→ ≥8 → orchestrator；votes quest9/otomo3=3x；callees 0x65cb3c/0x608ba0/0x54f260/0x609338/0x54ee98/0x607eb0/0x54ecc0/0x609490... |
+| 0x27b3f4 | quest | leaf | B | **独立 0-bl getter**（不是 0x27b3d8 的尾巴：0x27b3d8 是另一支 1-bl 函数 `push {r11,lr}` + bl 0x153078 @0x27b3e8 + `pop {r11,pc}`，结束于 0x27b3ec）：movw r1,#0x13c8; ldr r1,[r0,r1] @0x27b3f8, cmp#2 @0x27b404, movwne r0,#1, bx lr @0x27b40c → 0 bl; label from region votes quest5/otomo2=2.5x; sibling tick fn@0x27b410 gates on same field 0x13c8==2 @0x27b428, vtable blx[r0,#356] @0x27b44c + [r0,#364] @0x27b480, bl 0x4ea4c0 @0x27b464, bl 0x4eb170 @0x27b4a0 |
 | 0xaee45c | physics-math | leaf | C | fs=fn@0xaee45c; pure bit/word math, no bls in head: tst[r1,#12]#2 @0x478, cond stores [r3,#0/4/8] @0x480-8c, switch r7<=4 jumptable @0x494-b8, consts 0xffff/0x1000000/0x40000 @0x4a8-b0; votes none |
 | 0xaf7f54 | physics-math | leaf | C | (审查 DsvB3r14：无函数内硬证据) fs=fn@0xaf7f54; disasm 0xaf7f54-7b: push/sub/vpush, scalar index math cmp r3,#0 @0x770, add r4,r5,#2 @0x798, add r5,r2,r5,lsl#2 @0x7fac, ldm {r6,r10} @0x7fb0 — zero bl/blx; array index/clamp compute, no game calls => physics-math leaf |
 | 0x1e4d0c | otomo-ot | leaf | B | fs: tiny fp leaf tail (vmov @0x1e4d0c, bx lr @0x1e4d10, 0 bls, fn@0x1e4cc0); main fn@0x1e4d14 holds 25 callees (0x7b1xxx/0xb21xxx); votes otomo25/quest10=2.5x |
 | 0xbfe57c | quest | orchestrator | B | fs=fn@0xbfe57c; votes quest7/otomo2=3.5x; bl 0xbfdbd4 first @0x594; 9 distinct callees (0x7aa47c,0x7af37c,0xbfcd80,0xbfee70,0x13efd7c/dc4/dd0/e00) |
 
 ## Summary
-- Total 20 regions / 20 rows. Conf: A=2 (0xaf7f54, 0xb73dac), B=14, C=4 (0x5d07fc, 0xbcc5e0, 0xb75f4, 0xaee45c).
+- Total 20 regions / 20 rows. Conf: A 0, B 14, C 6 (0x5d07fc, 0xbcc5e0, 0xb75f4, 0xb73dac, 0xaee45c, 0xaf7f54).（原先记 A=2 的 0xaf7f54/0xb73dac 现均为 C；0xb73dac 同时是 leaf。）
 - Labels: quest 7, otomo-ot 5, monster-em 3, physics-math 3, render-gfx 2; all from the allowed 13-label list.
-- Roles: orchestrator 8, worker 7, leaf 5.
-- Boundary notes: 0x670dc0 mid-fn (real fn@0x670c88), 0x27b3f4 getter tail (fn@0x27b3d8) + tick fn@0x27b410, 0x1e4d0c fp-leaf tail (fn@0x1e4cc0) + main fn@0x1e4d14.
+- Roles: orchestrator 8, worker 7, leaf 5 (leaf: 0xb73dac, 0x27b3f4, 0xaee45c, 0xaf7f54, 0x1e4d0c).
+- Boundary notes: 0x670dc0 是独立函数入口（0x670c88 的 fn 在 0x670db8 `pop {r4,r5,r6,r7,r8,pc}` 结束；0x670dc0 起 330-insn 跳转表函数，36 bl）; 0x27b3f4 是独立 0-bl getter（前面的 0x27b3d8 才是 1-bl 小函数）+ tick fn@0x27b410; 0x1e4d0c fp-leaf tail (fn@0x1e4cc0) + main fn@0x1e4d14.
 
-审查后（DsvB3r14）：conf A 0 / B 14 / C 6（共 20）；role orchestrator 7 / worker 7 / leaf 6。
+审查后（DsvB3r14）：conf A 0 / B 14 / C 6（共 20）；role orchestrator 8 / worker 7 / leaf 5。

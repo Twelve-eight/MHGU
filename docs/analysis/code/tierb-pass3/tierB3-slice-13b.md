@@ -14,7 +14,7 @@
 | 0x6b58e8 | otomo-ot | worker | B | full body verified 0x6b58e8..0x6b591c: exactly 1 bl (0x545a04 record-by-id 10 getter) + 4-word copy [A]; votes 17:4 = 4.25x |
 | 0x70b3ec | quest | orchestrator | B | votes 8:4 = 2x; 14 distinct region callees in one body (640-byte memset head, no epilogue) -> orchestrator (role fixed per review) |
 | 0xb60300 | monster-em | worker | B | votes 1:0; real fn 0xb60300..0xb6089c, exactly 1 bl (0x13efddc); pure VFP 4-vector transform |
-| 0x13e5168 | online-nex | orchestrator | A | own prologue; 9 bl to 0x13c/d7xx net cluster; string load inside real fn at 0x13e51b0 (add r1, pc, #0x188e9e -> machine/login/password/HOME); A accepted by review |
+| 0x13e5168 | online-nex | orchestrator | B | own prologue; **28 bl** over the real fn 0x13e5168..0x13e5718（functions.csv `28`）: 0x13cbe80 ×11, 0x13d7484 ×5, 0x13e7040 ×3, 0x13d74ac ×3, 0x13d7c00 ×2, 0x13d7cf0/0x13d7bb0/0x13dd050/0x13c748c ×1，全在 0x13c7xx-0x13ddxx 网络簇；in-fn literal at 0x13e51b0：`ldr r0,[pc,#1308]`=0x188e9e 后 `add r1,pc,r0` @0x13e51b4 → **0x156e05a**，实为 UTF-16 数据键表 `r/g/p1/p2/x0..y7/year/month/day/hour/mi...`，**不是** machine/login/password/HOME（那 5 个串只是 region 级 `functions.csv` strings，未证明在函数体内消费）→ 按区间规则 conf A 不成立，降 **B** |
 | 0x256f68 | monster-em | orchestrator | B | votes 7:2 = 3.5x; 11 distinct callees, 6 bl in first 22 insns (0x887810, 0x26e354 x5 init list) |
 | 0x3f7478 | quest | worker | B | votes quest 5:2 = 2.5x; bl 0x50c964 x3 inside 0x3f7478..0x3f74ec + b 0x50c964 tail-call -> worker (role fixed per review; leaf draft missed the repeated calls) |
 | 0x541a0c | render-gfx | worker | C | votes 4:3 = 1.33 -> C; real fn 0x541a0c..0x541cb4, only 2 bl (0x86a438, 0x882674); region bl 0x7aedcc is at 0x541d58 in registrar fn 0x541cd4 -> A impossible |
@@ -29,7 +29,7 @@
 
 - [A] All 20 rows written and independently reviewed by DsvB3r13 (b3-review-13.md): 10 PASS / 10 FAIL, all failures role-only.
 - [A] Review fixes applied to this table: 0x50bbfc, 0x11a694, 0x16abac, 0x2604cc, 0x70b3ec, 0xb4683c, 0x16cf28, 0xccbab4 worker->orchestrator; 0x3f7478 leaf->worker; 0xa57650 worker->leaf. Labels (incl. quest for 0x8389e0/0x3f7478) and conf (incl. C for 0x9e6400/0x16abac/0x541a0c) unchanged.
-- [A] A-screen: only 0x13e5168 admissible for A and accepted; 0x541a0c/0xccbab4 0x7aedcc registrations are in later registrar fns 0x541cd4/0xccbf6c.
+- [A] A-screen: 0x13e5168 was the only A candidate；复核后其 in-fn 字面量指向 0x156e05a 的通用 UTF-16 数据键表（不是 machine/login/password/HOME），且 bl 数为 28 而非 9，按区间规则降为 B —— 本片无 A 行；0x541a0c/0xccbab4 的 0x7aedcc 注册在后续 registrar 函数 0x541cd4/0xccbf6c 内。
 
 ## Unknown
 
@@ -37,6 +37,6 @@
 
 ## Summary
 
-- Conf: A 1, B 16, C 3, total 20 (10 PASS, 10 role fixes applied post-review).
+- Conf: A 0, B 17, C 3, total 20 (10 PASS, 10 role fixes applied post-review; the former single A row 0x13e5168 is B after the string-target recheck).
 - Labels: quest 9, monster-em 6, otomo-ot 3, online-nex 1, render-gfx 1.
 - Roles: orchestrator 11, worker 6, leaf 3.

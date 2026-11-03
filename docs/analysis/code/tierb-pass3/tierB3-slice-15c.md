@@ -35,7 +35,7 @@ Input: `.tmp/mhgu/tierB3p/slice-15c.txt` (20 regions, 318-320 insns each). Binar
 | 0x4fe4c0 | otomo-ot | orchestrator | C | (审查 DsvB3r15c：分票 1.20x) [A] fn 0x4fe4c0: bl 0x3a396c (11/57), builds text ids 0xac39/0xada5/0xada7/0xb4c3, then 6 sequential vtbl+48 calls with 0/1/2/3/4/5 args; 13 bl; votes otomo-ot:6/quest:5 (ratio 1.2 < 1.6 -> C) |
 | 0x803a44 | render-gfx | worker | C | [A] fn 0x803a44: VFP param shuffle + vtbl+20 call; bls to 0x80a8d8/0x80acc4/0x8032e0/0x2332ac/0x13efddc/0x803f44; votes render-gfx:5/monster-em:1 |
 | 0xba67b4 | quest | worker | B | [A] fn 0xba67b4: u64 counter [r4]++, stores 5 args to 0x17c50/0x17c54/0x17c58/0x17c60/0x17c68, bl 0x13efe00/0x13efe0c/0x13f0a6c, next fn at 0xba6888; no 0x7aedcc registration in body; votes quest:8 |
-| 0xcd29ac | quest | orchestrator | B | [A] fn 0xcd29ac..0xcd2b94: bl 0x838750/0x838860 rng-pair, decompression loop via 0xb21388/0xb215b4/0xb213cc, bl 0xb26c04, 12 bl; votes quest:9/otomo-ot:2 (9>=1.6x2) |
+| 0xcd29ac | quest | orchestrator | B | [A] fn 0xcd29ac..0xcd2b94: **13 bl** — 0x838750 ×4 (0xcd29c4/0xcd29d4/0xcd2a18/0xcd2b88), 0x838860 ×3 (0xcd2a04/0xcd2b70/0xcd2b80), 0x8389e0 (0xcd2b60), 0x13efe30 (0xcd2a34), 0xcd23a0 (0xcd2a50), decompression loop 0xb21388/0xb215b4/0xb213cc (0xcd2a9c/0xcd2ac0/0xcd2adc)；0xb26c04 **不在**该区间（首次出现 0xcd2c78，属后续函数）; votes quest:9/otomo-ot:2 (9>=1.6x2) |
 
 ## Summary
 - Total: 20 regions; 20 rows; all labeled (labels used: quest, monster-em, otomo-ot, online-nex, render-gfx, audio).

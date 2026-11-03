@@ -13,7 +13,7 @@
 |---|---|---|
 | 玩家向 wiki 页 | `docs/wiki/*.md`（本目录） | 面向提问的答案页，行级出处 |
 | 机制深读页 | `docs/mechanics/*.md` | 系统模型 + 存档位域 + 表结构 |
-| 原始数据 | `docs/data/mhgu.db` + `docs/data/json/` | 39 表 SQLite 镜像 + JSON 导出 |
+| 原始数据 | `docs/data/mhgu.db` + `docs/data/json/` | SQLite 镜像（38 张用户表；计入 `sqlite_sequence` 共 39 个表）+ JSON 导出 |
 | 官方中文文本 | `MHGU-private/romfs-extract/gmd*/` | chS 官方名/说明 JSON（`gmd/` 385 文件 / 61,941 串 / 0 失败 + `gmd-arc/` resident 119 条），引用格式 `chS/table/<file>.gmd #<index>` 或 `monsterName_chS #i (label)` |
 | 动作值 raw | `MHGU-private/romfs-extract/player/` | `wNN/player/hit/pl_weNN_hitdata` 56 B/条 + 16 B 头，字段已解（`wiki/motion-values.md`） |
 
@@ -124,7 +124,7 @@
 
 ## 三、mhgu.db 查询方法
 
-`docs/data/mhgu.db`（18MB，39 表，SQLite）。连接任选其一：
+`docs/data/mhgu.db`（18MB，38 张用户表 / 计入 `sqlite_sequence` 共 39 个表，SQLite）。连接任选其一：
 
 ```bash
 # 命令行（推荐只读）

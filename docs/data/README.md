@@ -24,7 +24,7 @@
 ## docs/data/mhgu.db + docs/data/json/ — MHGenDatabase 全库（权威机读源）
 
 来源：`gatheringhallstudios/MHGenDatabase` release `mhgu_database_v2.4.0.apk` 内 `assets/databases/mhgu.db`。
-**18MB SQLite / 39 表**，卡普空官方数据的干净社区提取，是本知识库的**数值底座**。
+**18MB SQLite / 38 张用户表（计入 `sqlite_sequence` 共 39 个表）**，卡普空官方数据的干净社区提取，是本知识库的**数值底座**。
 
 已导出 21 表为 `json/<table>.json`（21 个文件共 36,466,585 B ≈ 34.8 MiB；另有 6 个手工映射 JSON 不在表导出内）：
 

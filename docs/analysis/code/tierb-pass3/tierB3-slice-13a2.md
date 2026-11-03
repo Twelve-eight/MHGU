@@ -15,13 +15,13 @@ Source: `G:/omp works/.tmp/mhgu/tierB3p/slice-13a2.txt` (10 regions). Label set:
 | 0xb538c8 | quest | orchestrator | B | (审查 DsvB3r13a：函数内恰好 8 个 bl) votes quest:3 (second 0); vtbl+8 dispatch `blx r2` 00b538e8, early `beq 0xb53e40` 00b538fc, GOT literals 0xcf09bc/0xcf09b4 00b53900/20; 3 callees 0x827c9c/0x8283a8/0x8283f4 -> worker; no 0x7aedcc inside real fn. [B] votes |
 | 0xb63254 | quest | worker | B | votes quest:5 audio:1 (5>=1.6x1); vtable init [r4]=global+8 00b63268, destroy loop over [r4,#116] array via vtbl+4 `blx r1` 00b63294, callee 0xb6380c; 6 callees listed -> worker. [B] votes; [INFERENCE] dtor-style cleanup |
 | 0xbe4ebc | quest | worker | B | votes quest:4 monster-em:1 (4>=1.6x1); VFP save ed2d8b10 00be4ec4, zero-fill sp+48..76 00be4ef0-08, GOT 0x1541f10 + idx 0x31f88 -> global word 00be4ee8-18, second GOT 0xc57ca8 00be4f0c; 5 callees 0x13efddc/0xb61a54/0xb61b28/0xb61bfc/0xbe5474 -> worker. [B] votes |
-| 0x27d5c4 | otomo-ot | worker | B | (审查 DsvB3r13a：函数尾部 4 个 bl) votes otomo-ot:2 (top, second 0); real fn continues past slice head through 0x27d624-0x27d834+ with no further bl (state machine: `ldrsh r0,[r8,#0]` cmp #50 00b650-58, flag masks 0x100000/0x200000/0x400000/0x800000 00b670-a0, result orr into [r6] 00b68c-d0); 2 bl (0x65f9b4/0x65fa04) are region-wide, not confirmed inside real fn. [B] votes |
+| 0x27d5c4 | otomo-ot | worker | B | (审查 DsvB3r13a：函数尾部 4 个 bl) votes otomo-ot:2 (top, second 0); real fn 0x27d5c4..0x27db78 (365 insns, functions.csv callees=4) continues past slice head through 0x27d624-0x27d834+ and carries **4 in-fn bl**: 0x27da64→0x65f9b4、0x27da7c→0x65fa04、0x27dab0→0x65f9b4、0x27dad4→0x65fa04（1-7 bl → worker）(state machine: `ldrsh r0,[r8,#0]` cmp #50 00b650-58, flag masks 0x100000/0x200000/0x400000/0x800000 00b670-a0, result orr into [r6] 00b68c-d0). [B] votes |
 
 ## Summary
 
 - Total: 10 regions / 10 rows. conf: A=0, B=10, C=0.
 - Labels: quest 6 (0x64c528, 0x6bff98, 0x875e40, 0xb538c8, 0xb63254, 0xbe4ebc), render-gfx 3 (0xb71a3c, 0xb71ff8, 0xc5a57c), otomo-ot 1 (0x27d5c4); total 10.
-- Roles: orchestrator 1 (0x6bff98), worker 8, leaf 1 (0x27d5c4).
+- Roles: orchestrator 2 (0x6bff98, 0xb538c8), worker 8 (incl. 0x27d5c4), leaf 0.
 - Scope corrections: 0x64c528 real fn ends 0x64c5f8 (next fn 0x64c600); 0x875e40 real fn ends 0x875e8c with twin 0x875e90-0x875edc; 0xb71ff8 region holds sibling fn 0xb725b4 after a literal pool at 0xb725a8.
 - No class registration (`bl 0x7aedcc` + class-name string) found inside any real function; all labels are top-vote or structural-pair based, hence conf B throughout.
 - MCP calls used: 6/6 (disasm x6: 0xb71a94, 0x64c588, 0x27d624, 0x875e8c, 0xc5a5d8, 0xb725a8).
