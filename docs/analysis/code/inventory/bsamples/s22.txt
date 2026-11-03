@@ -1,0 +1,12 @@
+0x7f4154	16	physics-math
+0x8043c8	232	render-gfx
+0x81e430	62	render-gfx
+0x826c38	142	quest
+0x839248	36	monster-em
+0x841b94	4	monster-em
+0x844ef0	265	online-nex
+0x859608	27	monster-em
+0x85f670	5	monster-em
+0x861d10	21	online-nex
+0x86538c	9	physics-math
+0x86c100	26	monster-em

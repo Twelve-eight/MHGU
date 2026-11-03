@@ -1,0 +1,12 @@
+0x2a21c4	5	monster-em
+0x2a609c	20	otomo-ot
+0x2a8d10	62	otomo-ot
+0x2ad4dc	6	monster-em
+0x2b41e8	65	monster-em
+0x2b762c	40	monster-em
+0x2c19e4	41	monster-em
+0x2c6208	43	quest
+0x2d0568	340	online-nex
+0x2d8a9c	104	monster-em
+0x2e0b74	21	item
+0x2e778c	143	otomo-ot

@@ -1,0 +1,12 @@
+0x79c23c	8	quest
+0x7a0230	394	online-nex
+0x7a7d30	313	online-nex
+0x7aef08	24	online-nex
+0x7bb59c	39	player-pl
+0x7c5858	254	render-gfx
+0x7c8a28	17	online-nex
+0x7ca56c	5	audio
+0x7cc3e8	2	render-gfx
+0x7d5298	72	online-nex
+0x7e07d0	76	online-nex
+0x7e9a14	91	render-gfx

@@ -1,0 +1,12 @@
+0x288	6	monster-em
+0x3e48	20	monster-em
+0x9c28	11	monster-em
+0xd514	19	monster-em
+0xee24	11	monster-em
+0x12cec	1	monster-em
+0x1b794	44	item
+0x2d3bc	15	monster-em
+0x3a2c0	219	render-gfx
+0x414ec	27	quest
+0x64f90	66	online-nex
+0xb1810	54	otomo-ot

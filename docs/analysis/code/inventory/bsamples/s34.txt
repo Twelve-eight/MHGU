@@ -1,0 +1,12 @@
+0xc358e8	305	monster-em
+0xc3f130	25	monster-em
+0xc46cc0	15	otomo-ot
+0xc49168	482	render-gfx
+0xc4df70	6	online-nex
+0xc514a0	251	player-pl
+0xc5b5f8	165	render-gfx
+0xc65710	36	monster-em
+0xc6cde0	34	monster-em
+0xc700a4	191	monster-em
+0xc733bc	42	monster-em
+0xc75c9c	17	monster-em

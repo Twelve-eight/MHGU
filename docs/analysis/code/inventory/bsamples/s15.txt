@@ -1,0 +1,12 @@
+0x5bde38	47	online-nex
+0x5c5500	44	online-nex
+0x5caa64	151	otomo-ot
+0x5d07b4	10	otomo-ot
+0x5d2e78	45	otomo-ot
+0x5d5c8c	12	monster-em
+0x5d9678	32	online-nex
+0x5e6bcc	94	online-nex
+0x600ca4	80	quest
+0x6080f0	107	monster-em
+0x60f894	27	otomo-ot
+0x6188dc	159	online-nex

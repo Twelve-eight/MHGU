@@ -1,0 +1,12 @@
+0x6c442c	53	otomo-ot
+0x6ca490	344	monster-em
+0x6cfd8c	142	otomo-ot
+0x6d3570	33	otomo-ot
+0x6d67ec	14	monster-em
+0x6d898c	8	monster-em
+0x6dde98	40	ui
+0x6ed778	48	item
+0x6f2c90	72	ui
+0x70301c	384	otomo-ot
+0x70d81c	56	otomo-ot
+0x7123f8	43	item

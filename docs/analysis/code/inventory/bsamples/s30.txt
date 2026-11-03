@@ -1,0 +1,12 @@
+0xb0ad08	66	online-nex
+0xb120f8	70	monster-em
+0xb15ad0	62	quest
+0xb1d04c	709	monster-em
+0xb21388	17	render-gfx
+0xb250e4	114	online-nex
+0xb27e24	11	monster-em
+0xb2aeb8	82	online-nex
+0xb2f414	14	monster-em
+0xb35c00	12	render-gfx
+0xb3b5e0	63	otomo-ot
+0xb43d50	69	monster-em

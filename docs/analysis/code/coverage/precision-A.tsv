@@ -1,0 +1,121 @@
+start	label	verdict	evidence
+0x9c8c	monster-em	no-evidence	Thin forwarder: loads a static service descriptor, bl 0x7aa47c (module/service locator over the GOT array), then tail-calls descriptor vtable+52 with the argument. No subsystem-specific data touched and no string.
+0x63fa4	monster-em	no-evidence	Actor predicate: compares ldrsb[arg+2] with a global counter (0x3f8398 = getter [obj+0x30]) and probes condition bytes ([arg+0x73e0]<=14 via 0x63a88, [state+0x5ce4]!=0xFF via 0x63d34). Actor state, but nothing marks the actor as an enemy.
+0xa27c8	monster-em	no-evidence	Countdown/restore of a 16-bit timer at [ent+0x5c98] gated by flag bit [ent+0x5e08]&1 and a short at [ent+0x5c96]; generic actor timer, no enemy marker.
+0x1cb670	monster-em	no-evidence	Factory: module locator 0x7aa47c + descriptor vtable+32, then patches the new object's vtable (+8) and zeroes fields (0xff7f at +8..+14). The allocated class is not identified by anything in the function.
+0x404af4	monster-em	no-evidence	Actor state byte at [this+4] (mask 0xfe, sentinel 0xfe/0xff), payload [this+0x1604], vtable+340 hook, one float at this+0x1600 scaled by a global. No subsystem marker.
+0x4428d8	monster-em	no-evidence	Reads flag [this+0x15a8], maps a 0..5 value from 0x4a1b50 to ids 4/12/13 and tail-calls 0x4a2ed0; actor variant/anim select without enemy identity.
+0x49f91c	monster-em	no-evidence	Same forwarder pattern as 0x9c8c (module locator + descriptor vtable+32), then tail-jumps 0xfdc944. No subsystem data.
+0xd0eda0	monster-em	no-evidence	Builds a 64-byte record (0x3faf28 alloc) filled from actor fields [this+0xcac8] and [this+0xfe8..0xff0] and dispatches it via 0x48c4f0. Record builder; the actor class is not identified.
+0xd67ec0	monster-em	correct	Per-actor action dispatch: state machine byte [this+0x1428]+0x1a1 (0/1/2 with strb), jump-table switch 0xbc8b0(this,kind), then 0xaff40(this,4,10.0f,f32) - the action-start entry (it calls vtable+984 = set action N and reads [state+0x1428]+424 flags). Action number + float duration is the enemy action layer.
+0xdb6be8	monster-em	no-evidence	Static table initialiser: writes a constant block (1.0f, 0x10000, ids 1..6, 0xffff sentinels) into a global obtained by add r4,pc,r0 and calls an import thunk. Data setup, no subsystem identity.
+0xe055a8	monster-em	correct	Action-conditional logic: 0xb0a00(this) compared with action id 0x321, then 0xb0a24(this,9,4.0f,26.0f,&out) (action probe with parameters), 0x7bdd4, and a float -28.25f written to [state+24]; entity action layer.
+0xe5c844	monster-em	no-evidence	Destructor chain: bl 0x3f978c (sets vtable from a static pointer) then b 0x49d6f4 (release through the module locator). Owning class not identifiable.
+0xeb66bc	monster-em	correct	Selects an action id from actor state: vtable+880(this,1), then 0x72d34(this,4/9), reads bytes 5/6 of [this+0x75f0]+100, compares a global (0x3a8d68) with 4 and issues 2/7 to 0x72d34. Action dispatch on the actor.
+0xf14e34	monster-em	correct	Action dispatch: state byte [this+0x1428]+0x1a1 (0/1/2), flag byte [this+0xcac0], 0xbc8b0(this,0) and 0xaff40(this,6,4.0f,f32) / 0xaff40(this,3,...), the action-start entry.
+0xf6cda0	monster-em	correct	Sets actor params (0x3d8f5c29=0.07f at [this+0x7544], byte 1 at +0x7548), then the state machine + 0xbc8b0 and 0xaff40(this,0x459,4.0f,f32), 0x752ec and 0x82510. Action dispatch.
+0xfcb480	monster-em	correct	Action dispatch: 0x7fcbc(this), state byte [this+0x1428]+0x1a1, 0xbc8b0, byte 0 at [[this+0xcac0]+73], action ids 0x14 and 0x311 through 0xaff40 with float durations.
+0x102aaf8	monster-em	correct	Action dispatch: 0xbf590/0xbca40, state byte [this+0x1428]+0x1a1=1, 0xaff40(this,548,6.0f,f32), copies the actor's 3-word motion block from [obj+0x50] into this+0xcad0/0xcacc/0xcac8, then vtable+976 on exit.
+0x107874c	monster-em	correct	Action dispatch: sets [state+0x1428]+0x1a1=1, 0xbc8b0(this,0), 0x3a8d68(global)==3 chooses action 268 vs 0x10b, calls 0x6f6d4 and the action entry 0xaff40 with float params.
+0x10c7d50	monster-em	no-evidence	Destructor: bl 0x43b488 (tail-jumps 0x4a18b4) then b 0x4a109c (release via module locator). Owning class not identifiable.
+0x1104f58	monster-em	correct	Action dispatch: state byte [this+0x1428]+0x1a1, 0xbc8b0(this,0), then 0xaff40(this,516,4.0f,0.0f) plus the 0xb0a24 action probe; same action-machine frame with action id + float duration.
+0xf8c	online-nex	no-evidence	Sparse option-table lookup: count [this+104], item array [this+116], matching byte +4 (signed class) and bytes +5/+6 with state bit 0x2. The class name getter compiled immediately after the body (0x105c) returns the string "AngleLimit", i.e. a game-settings object rather than a NEX/connection object, and no callee or network structure identifies the subsystem.
+0x815528	online-nex	no-evidence	App-level field getter: loads [this+0x2450c]; if <1 returns 0, else tail-forwards (r2,r3) to 0x12cd328; a second entry stores [this+0x24568]. Fields are app-level offsets, no network data in the function itself.
+0x1229304	online-nex	no-evidence	Serialisation/validation shape (three vtable-gated checks on [obj+4]/[obj+8]/[obj+12], then a 256-byte scratch and a 254-byte capped dispatch) but its only callee is the import thunk 0x13f1564 and no string or network-specific structure identifies the subsystem.
+0x123a200	online-nex	correct	Registry lookup in the online layer; its own callee 0x123a200 body references "..\\..\\..\\..\\.\\OnlineCore/src/Core/InstanceTable.h" (also reached through 0x81f7a4 -> 0x122f38c). Reads a flag, computes (end-begin)>>2 as the entry count, bounds-checks the index and returns entry+16.
+0x12537d4	online-nex	correct	Object setup in the NEX transport code: 0x1229450 (init/lock guard), 0x12296b8 (getter [this+8]), 0x122b22c (counter += 2), 0x128f0ec/0x128f390 store a 64-bit key at +72/+80; the callee 0x125f5d8 references the PRUDP transport strings "prudp"/"prudps".
+0x127e38c	online-nex	correct	Thunk that tail-forwards a 16-byte stack block to 0x127dd44, whose body references "..\\..\\..\\..\\.\\OnlineCore/src/Core/LiteBuffer.h" - it is a wrapper around the network library's LiteBuffer class.
+0x129f90c	online-nex	no-evidence	Container growth (doubling of a {begin,end} pointer pair, 0x80000000 guard, allocator 0x12297a4, memcpy import 0x13f166c). A generic array helper: neither string nor callee pins it to the network subsystem.
+0x12b4b10	online-nex	correct	Protocol/job step gating on [this+176]==2, walking the pointer triple +132..+140 and calling 0x12b5214 (a 260-byte frame that installs a vtable) before a vtable dispatch; the callee 0x12b49d8 references "..\\..\\..\\..\\.\\OnlineCore/src/Core/InstanceTable.h".
+0x12cf84c	online-nex	no-evidence	Two instructions: strb r1,[r0,#100]; bx lr. Plain setter, no subsystem data.
+0x12e70a8	online-nex	no-evidence	Thunk: stores (r2,r3) on the stack and tail-calls 0x12e6e74 with (this+8, sp). No string and no identifiable callee semantics.
+0x13075d4	online-nex	no-evidence	Loads a static pointer table entry and stores [this+56] into global+16; a registration setter, no subsystem data.
+0x13161c4	online-nex	no-evidence	Object factory: 0x1365518(this,0x58) pool allocation, installs a vtable (+8), zeroes a 64-byte tail block. Only a generic pool allocator; the class is not identified.
+0x1334ff0	online-nex	correct	NEX matchmaking/result path: reads a state enum from 0x138f1b8 and its own rodata sites resolve to "NexMatchAutoMatchmakeJob::LeaveMatchmakeSession" and "NexMatchAutoMatchmakeJob::StartNatSession"; it builds error codes 0xc406 / 0xa471 and calls 0x13ed598(ctx,code).
+0x13509bc	online-nex	no-evidence	Factory: 0x1365518(this,0x48) pool allocation then 0x135c4ec(new,arg). Generic allocator + constructor, class not identified.
+0x135eb8c	online-nex	no-evidence	Constructor that installs a vtable, zeroes +64..+96, allocates 0x14 through 0x1365518 and stores it at +68. No string or identifying callee.
+0x137e9e0	online-nex	no-evidence	Two instructions: ldr r0,[r0,#164]; bx lr. Plain getter, no subsystem data.
+0x13947a0	online-nex	no-evidence	Linked-list count: walks nodes from this+8 (next at +4) and counts nodes whose key (+32) equals r1. Generic container helper.
+0x13a7fd8	online-nex	no-evidence	Single instruction: bx lr (empty stub).
+0x13d74d4	online-nex	no-evidence	Aligned allocation through a global function pointer (size+3+offset, stores the size word before the aligned pointer). Allocator wrapper, no subsystem data.
+0x13eff68	online-nex	no-evidence	Import trampoline: add r12,pc,#0x400000; add r12,r12,#0x48000; ldr pc,[r12,#332]. The imported target is resolved at load time; nothing in the stub names a subsystem.
+0x5e8	render-gfx	no-evidence	Container destructor: destroys each of the [this+12] elements at [this+24] through their vtable+4, frees the array through the module locator, then calls the base destructor 0x690.
+0x4f53d8	render-gfx	no-evidence	Byte-wise stream writer: for each of [src+4], [src+5] it grows the buffer through vtable+56 and stores a byte, then writes the u16 at [src+8] through vtable+8. Serializer, no render data.
+0x7bb4c4	render-gfx	no-evidence	List-node clone: walks [r1+4] to the end node, allocates a node via 0x7bb638, copies nine words of payload and relinks +0x30/+0x34. Generic container code.
+0x7edb2c	render-gfx	no-evidence	Float geometry: compares the length (vsqrt of a dot product) of two float arrays against a threshold at [sp+0x54] and writes a 6-float block at [out+0x10..0x28]. Pure math, no render resource touched.
+0x80c264	render-gfx	no-evidence	Capacity-checked copy helper: buffer [this+44], capacity [this+52], copies through import 0x13efe30 and returns the new length. Generic buffer code.
+0x846da8	render-gfx	no-evidence	Object creation: allocates the u16 size held in a static template, installs the vtable 0xffa3c0+8, then calls 0x80c214/0x80d354. The object class is not identified.
+0x8affe0	render-gfx	no-evidence	Vector math: computes |v| with vsqrt, clamps against 1.19e-7, normalises and finally does a scalar interpolation (s16 += (1-s16)*s22). Math helper, no render state.
+0x914ba0	render-gfx	no-evidence	Single instruction: bx lr (empty virtual stub).
+0x94fe8c	render-gfx	no-evidence	Destructor: installs the vtable and releases [this+304] through the module locator. Class not identified.
+0x981498	render-gfx	no-evidence	Single instruction: bx lr (empty virtual stub).
+0x9c20f4	render-gfx	no-evidence	Single instruction: bx lr (empty virtual stub).
+0xa6ed8c	render-gfx	correct	3D transform/parameter build: reads the render object at [r8+52] (fields +184/+188/+190) and the float triple at [r7], composes with vcvt/vmla chains (192-byte temp) and calls 0xa5e450 with six stack arguments, then stores four floats (x,y,z plus 0x7f7fffff) at [out+0x10..0x24]. Matrix/scene-node parameter setup.
+0xa8f4c8	render-gfx	no-evidence	Callback dispatch over a tagged linked list at [this+176] (flags at +8, next at +4) selected by (kind & 3), then a vtable call with six stack arguments. The list and callback are unidentified.
+0xad2330	render-gfx	correct	Vertex/geometry processing: nested loops over the u16 counts of the mesh object at [this+52] (fields 368/372/384/388/392/396), indexing 16-byte records ([base + idx, lsl #4]) with per-record matrix math and vdiv/vsqrt import calls - the render transform pipeline.
+0xb0804c	render-gfx	no-evidence	Forwarder: module locator then descriptor vtable+32 with (this,arg). No subsystem data.
+0xbd43a4	render-gfx	no-evidence	Search loop over [this+76] entries of the array at [this+28]+[this+72], testing 0xc08458(entry) and 0x9727e8(entry,key). The element type and the predicate are unidentified (0xc08458 only exposes the debug strings "undefined"/"lagChecker").
+0xc7bc40	render-gfx	no-evidence	Scoped-object pattern: 0x7bb3ec initialises a stack object, vtable+16 reads into it, 0x7bba44/0x7b998c apply it, 0x7bb7b8 destroys it. Generic accessor pattern.
+0xc81c14	render-gfx	no-evidence	Array allocation for [this+12] elements of 32 bytes through the module locator, then the same scoped stack-object apply pattern. Container code.
+0xcc1a0c	render-gfx	no-evidence	2D placement math: converts s32 screen constants with vcvt.f32.s32, subtracts an anchor and writes (x,y) pairs with 8-byte stride; could be UI layout or sprite placement, and no render resource is referenced.
+0x13b6b88	render-gfx	no-evidence	Field serializer: pushes 26 floats from [r5+0x10..0x5c] one by one through the writer vtable+32. Pure serialization of an unidentified class.
+0xd0124	weapon-wp	no-evidence	Ctor: 0xda0cc then [obj+4]=0 and the vtable is installed. Class not identified.
+0xf5630	weapon-wp	no-evidence	Ctor: 0xf4568 then zeroes the 40-byte object and sets byte 26=1. Class not identified.
+0xfa01c	weapon-wp	no-evidence	Byte-stream deserializer: reads bytes through the refill helper 0x8261fc (capacity-checked) and stores them at +4/+8..+18 of the object. Payload format not identifiable.
+0xfd378	weapon-wp	no-evidence	Member-descriptor node: allocates via 0x7bb638, installs a pc-relative vtable, stores tag 6 and the member name "mIndex" (site 0xfd3bc) and links into [arg+4]. The member name alone does not identify a class.
+0x1017c8	weapon-wp	no-evidence	Factory of a 40-byte object (0xf0198 + vtable), zeroing +4..+20 and setting byte 24=1. Class not identified.
+0x10f460	weapon-wp	no-evidence	Short forwarder: loads a global object, calls [[this]]+104, then 0x13f298(global,result) and returns byte 6 of the result. No subsystem data.
+0x11235c	weapon-wp	no-evidence	Calls [[this]]+56 and tail-jumps 0xb84114(global, result); a two-step forwarder with no subsystem data.
+0x116cdc	weapon-wp	no-evidence	Factory of a 20-byte object (0xf46d0 + vtable), zeroing +4..+16. Class not identified.
+0x11b4d0	weapon-wp	no-evidence	Destructor: 0x127700 then release through the descriptor vtable+52. Class not identified.
+0x11e788	weapon-wp	no-evidence	Destructor/forwarder: release through the descriptor vtable+52. Class not identified.
+0x122e8c	weapon-wp	correct	Weapon-stat descriptor: its own pc-relative sites (0x122fc0..0x1232f0) resolve to the member names "mLevel", "mKireType", "mKireLevel", "mAttack", "mDefense", "mAffinity", "mElementValue", "mSlotCount" - the weapon sharpness/attack/defence/affinity/element/slot block - and each name is registered into the descriptor list at [arg+4].
+0x12685c	weapon-wp	no-evidence	Member-descriptor node with the member name "mIndex" (site 0x1268a0), allocated via 0x7bb638 and linked into [arg+4]. The member name alone does not identify a class.
+0x12fc84	weapon-wp	correct	Bounds-checked element accessor over a weapon data record: returns [this+108] + index*20 when index < [this+100], else null, and its class tag (site 0x12fcc0) is "w00d" - the weapon-00 data tag from the rWeapon00*Data name block.
+0x1322d8	weapon-wp	correct	Same accessor with a 40-byte stride and the class tag "w03d" (site 0x132314) - the weapon-03 data tag from the rWeapon03*Data name block.
+0x134888	weapon-wp	no-evidence	Member-descriptor node with the member name "mVersion" (site 0x1348cc), allocated via 0x7bb638 and linked into [arg+4]. "mVersion" does not identify a class.
+0x136efc	weapon-wp	no-evidence	Member-descriptor node with the member name "mVersion" (site 0x136f40). Does not identify a class.
+0x139400	weapon-wp	no-evidence	Array loader: reads a float through 0x8269f4 and compares it with 2.1, then frees and rebuilds the 40-byte records of the table at [this+100]/[this+108] via 0x11e830. Record type not identified.
+0x13ba68	weapon-wp	no-evidence	Same loader as 0x139400 with 8-byte records and a version check against 2.0; record type not identified.
+0x4c106c	weapon-wp	no-evidence	The serializer twin of the quest-labelled 0x23d0a4: identical 0x82772c/0x827bbc/0x827998/0x8277c4 template, only the per-entry callback differs (0x4b0d30). Neither function contains subsystem-specific data.
+0x5b134c	weapon-wp	no-evidence	Copies up to [this+96] bytes from [this+92] into a freshly allocated object and then calls 0x65d424/0x65d464; small key/array copy, no subsystem data.
+0x5bd8	quest	correct	Quest resource object: builds a 264-byte object (module locator + descriptor vtable+32) and calls 0x122c(obj,name) where the pc-relative site 0x5c0c resolves to "roQuest.cro" (0x1550e69); it then installs the vtable and zeroes the object's fields.
+0x1eadc	quest	no-evidence	Getter: loads [this+148]; if null returns 0.0f, else tail-calls its vtable+76. No subsystem data.
+0x1558f8	quest	no-evidence	Factory of a 44-byte object (0x2b8f0 + vtable), zeroing +4..+40. Class not identified.
+0x2001f4	quest	no-evidence	Copies [src+0x30..0x38] into [dst+0x2950..0x2958] and zeroes [dst+0x295c]; field copy at an app-level offset, no subsystem data.
+0x214380	quest	no-evidence	Factory of a 12-byte object (0x9fba6c + vtable), zeroing +4/+8. Class not identified.
+0x21f814	quest	no-evidence	Destructor: installs the vtable then releases the object through the module locator (descriptor vtable+52).
+0x23d0a4	quest	no-evidence	Generic record serializer: 0x82772c (buffer init 524288/4096), 0x827bbc(float at +0x68), 0x827998(count at +100), loop over [this+108] with 12-byte stride calling 0x238a6c, then 0x8277c4. Nothing in it says quest - the weapon-labelled 0x4c106c is the same template with only a different per-entry callback.
+0x249004	quest	no-evidence	Tally: sums eight 16-bit counters at global+0x8e2/0x8e4/0x8e6/0x8f2/0x8f4/0x910/0x912/0x930 into a 16-entry stack table and compares two entries. No subsystem identity.
+0x362cd8	quest	no-evidence	Record writer: appends byte [this+4] and then the 16-bit fields +6/+8/+10... through the writer vtable+8, finishing with 0x231d2c calls. Stream writer, no quest data.
+0x37b888	quest	no-evidence	Factory of a 24-byte object (0x2b8f0 + vtable), zeroing +4..+20. Class not identified.
+0x39e068	quest	no-evidence	Destructor: installs the vtable, frees [this+0xb4] via 0x887660, destroys the sub-object at +0x1b68 (0x39e1a0), installs a second vtable at +0x1778 and destroys this+0x1824.
+0x3b62d8	quest	no-evidence	Destructor: frees every non-null pointer of a fixed 864-entry array at [this+36], then [this+0xd970], then the [this+0xda28] array; bulk teardown, class not identified.
+0x3d838c	quest	no-evidence	Looks up a u16 key 0xde43 through 0x152960 and builds a 248-byte stack object (0x3d0c94); its only resolvable string (site 0x3d847c) is the script command "setup_npc_talk_cut", i.e. event-script data rather than a quest table/objective structure.
+0x50d078	quest	no-evidence	Six instructions: read-modify-write of a 32-bit flag word at [this+988] (bic/orr by mask r1, direction from r2). Plain flag setter.
+0x56e4ec	quest	no-evidence	Forwards to 0x54542c/0x5454c8 with the sub-object at [this+36]; no subsystem data in the function itself.
+0x614778	quest	no-evidence	Copies eight getter results (0x3b57d0, 0x3b58cc, 0x3b594c, 0x3b590c, 0x3b580c, 0x3b584c, 0x3ae814) plus sb[r5+18], [r5+48], [r5+56], [r5+60] into cached fields this+88..+276. Record copy, class not identified.
+0x66f0a8	quest	wrong:ui	Screen/flow controller, not quest-table logic: five-state jump table on [this+72], panels fetched with 0x65cb3c (this->panel[] at [this+0x34]), state queries 0x62c078, and the tail b 0x65e794 is a screen transition; the quest/online calls (0x678598, 0x6798d4, 0x66fb60) are data requests issued by the screen.
+0x69ddfc	quest	no-evidence	Two-level table scan (entries by count [this+104]/array [this+116] matched on sb[+4], then the [entry+12] sub-array at [entry+24] tested with u16[+4] & mask). Its name getter (site 0x69de8c) returns "areaeatdat", a data table, not a quest structure.
+0x72d9b8	quest	no-evidence	Destructor: installs the vtable, frees [this+0x98] and [this+0x9c] via 0x887660, then b 0x70e81c. Class not identified.
+0xb6c77c	quest	no-evidence	Destructor: installs the vtable, releases [this+0xb4] through the module locator, calls 0xb6c7d4, then the base destructor 0x690 and 0x887100.
+0x973c	ui	no-evidence	Forwarder: module locator + descriptor vtable+32 (size 84), then tail b 0x6b83b8. No subsystem data.
+0x19eb00	ui	no-evidence	Forwarder: descriptor vtable+32 with (arg1,arg2). No subsystem data.
+0x55f238	ui	correct	Software-keyboard text entry: five-way opcode switch on [arg+4] over the mode table whose own strings are "SOFTWARE_KEBOARD_MODE_FULL"/"software_keboard_mode_full"/"name"/"password"/"hunter rank"/"room id"..., with 0x861ddc (whose body references "NGWordList") building the input element and the 0x861exx handlers per mode.
+0x573a3c	ui	no-evidence	Index/bounds computation: combines bytes +268..+271 with u16s +272/+276 (mul/mla) and returns 0/1 from the wrap-around comparison. 4-D index arithmetic, no UI element.
+0x58b750	ui	no-evidence	Factory of a 92-byte object (0x56d97c + vtable), zeroing +76..+88. Class not identified.
+0x5bf160	ui	correct	Sets GUI element properties by id: 0x56e808(this,71,4) then 0x56e538(this,8..15,0xF4277) after 0x55bc7c(global,19,248); 0x56e538 resolves the element through [this+36] and applies the value.
+0x5c6750	ui	no-evidence	Fills a 21-entry array of 48-byte records at this+720 from a template block and sets the count at [this+76]. Record layout unknown, no UI element accessor used.
+0x5d0498	ui	correct	Reads element 18's rect block with 0x545dc0 (element table: count [obj+664], array [obj+660], fallback [obj+248]; 4 words from elem+0x90 = the rect), applies it via 0x5c5b70 and the element vtable+100, clearing [this+172].
+0x603224	ui	correct	Screen-space positioning of a GUI element: 0x545dc0 reads element [this+0x9c]'s rect, two s32 screen constants (global+0x6c1c/0x6c18) are converted to float, the element origin is subtracted, and 0x545c20 writes the position of element [this+0x94].
+0x625ffc	ui	no-evidence	Fills an 8-byte-entry array at [this+152] and builds a 176-byte parameter block (constants 30/12/8/1) for 0x570710. The block format and the consumer are unidentified.
+0x62c7f4	ui	no-evidence	Forwarder: 0x56da30 then descriptor vtable+52 with the object. No subsystem data.
+0x633d14	ui	no-evidence	Two instructions: str r1,[r0,#100]; bx lr. Plain setter.
+0x63ebfc	ui	no-evidence	Factory of a 100-byte object (0x56d97c + vtable), zeroing [obj+76] and +80..+96. Class not identified.
+0x64f0bc	ui	correct	Panel setup: [this+40]=71 (screen kind), builds a parameter block with 0x570688/0x56dd44, stores the created element at [this+76] and sets its fields (+136 from a global byte, +144=1).
+0x658fe4	ui	correct	Same positioning pattern as 0x603224: element [this+0xe0]'s rect read with 0x545dc0, screen constants converted and origin subtracted, position of element [this+0x90] written with 0x545c20.
+0x65e2dc	ui	correct	Panel state setter: 0x65cb3c(this,3) indexes the panel array at [this+0x34] and the function writes 2 to [panel+88].
+0x6667d4	ui	no-evidence	Two instructions: mov r0,#0; bx lr. Constant-false stub.
+0x67ac08	ui	no-evidence	Cleanup/destructor: installs the vtable, calls 0x3687c/0x36380, releases [this+112] and [this+0x5180] through the module locator, then runs 0x26e50c on this+0xb3c and this+116.
+0x688b70	ui	correct	Panel configuration: [this+72]=0x101, then repeated 0x65cb3c(panel id) lookups writing [panel+80], setting bit 0 of [panel+76] and [panel+84]=1, finally b 0x6b8828 with this+0x588.
+0xa407c8	ui	no-evidence	Timed update: flag [r4+274]&1 drives vtable+116, a float accumulator at [r4+0x188] is advanced by s16, and a jump table on [r4+388]-1 selects one of five steps ending in vtable+144. Animation/effect update, target unidentified.

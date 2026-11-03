@@ -1,0 +1,12 @@
+0x20498c	24	monster-em
+0x20d474	20	monster-em
+0x213f00	26	monster-em
+0x21a1e4	41	monster-em
+0x21ee40	28	online-nex
+0x22808c	135	online-nex
+0x2329b8	116	monster-em
+0x237764	48	player-pl
+0x23aad4	12	otomo-ot
+0x23cf9c	29	monster-em
+0x240c6c	30	kernel-os
+0x24a468	15	monster-em

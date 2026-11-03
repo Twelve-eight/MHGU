@@ -1,0 +1,12 @@
+0x3ad1a8	42	otomo-ot
+0x3afa24	9	otomo-ot
+0x3b52dc	92	online-nex
+0x3bcac4	218	player-pl
+0x3c06f8	7	online-nex
+0x3c6b64	32	item
+0x3cb070	44	otomo-ot
+0x3cd9cc	50	kernel-os
+0x3d5ef4	56	otomo-ot
+0x3d8a1c	12	monster-em
+0x3df51c	20	online-nex
+0x3e7ce8	10	otomo-ot

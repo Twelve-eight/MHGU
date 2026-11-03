@@ -1,0 +1,12 @@
+0xa74714	73	quest
+0xa7b450	68	quest
+0xa84028	12	monster-em
+0xa86d58	45	monster-em
+0xa88634	18	monster-em
+0xa8d5d4	72	monster-em
+0xa948c0	19	monster-em
+0xa9c1f4	102	quest
+0xaa46b0	12	monster-em
+0xaabc28	12	monster-em
+0xab1d24	467	render-gfx
+0xabc8dc	22	monster-em

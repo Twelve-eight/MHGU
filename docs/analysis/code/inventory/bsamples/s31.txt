@@ -1,0 +1,12 @@
+0xb48ae0	82	otomo-ot
+0xb4b924	68	player-pl
+0xb506b4	45	otomo-ot
+0xb54af0	212	player-pl
+0xb5c288	94	otomo-ot
+0xb6241c	12	kernel-os
+0xb6a42c	2	quest
+0xb72c38	84	online-nex
+0xb7c434	45	otomo-ot
+0xb7f77c	131	otomo-ot
+0xb84db0	168	online-nex
+0xb8b84c	55	monster-em

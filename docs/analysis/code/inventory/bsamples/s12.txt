@@ -1,0 +1,12 @@
+0x4d9370	4	kernel-os
+0x4e1940	826	online-nex
+0x4ef2c4	28	monster-em
+0x4f4e0c	19	otomo-ot
+0x4f8b78	17	monster-em
+0x4fce58	25	monster-em
+0x501310	334	monster-em
+0x505c8c	77	online-nex
+0x50cb78	13	otomo-ot
+0x511118	163	player-pl
+0x51bc8c	145	quest
+0x524904	14	online-nex

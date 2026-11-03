@@ -1,0 +1,161 @@
+start	label	verdict	evidence
+0xa760	otomo-ot	no-evidence	message thunk: global obj -> bl 0x7aa47c (type-info lookup) -> blx [obj+0x1c] with msg 0x1000e4c, tail-b 0x6afeec; no string, no otomo callee
+0xf0758	otomo-ot	no-evidence	ctor: global obj -> bl 0x7aa47c -> blx [obj+0x1c] reg id 8 -> bl 0xda0cc -> vtable store; no string
+0x145598	otomo-ot	no-evidence	walks 44-byte records (3 halfword ids at +38/+40/+42), calls 0xdadb8/0x277454/0x144590/0x26eaa8/0x26fc24; no string, no palico callee
+0x1b0788	otomo-ot	no-evidence	object ctor: bl 0x1ada88, vtable store from GOT cell, zero-fill, flag bytes; no string
+0x1b607c	otomo-ot	no-evidence	state machine switch on [r0+0x10] 1..4 via jump table + bit tests on a 0x1683270 global; calls 0x54ee98/0x1bb730/0x1adaec; no string
+0x1be870	otomo-ot	no-evidence	ctor: global obj -> bl 0x7aa47c -> blx [obj+0x1c] id 0x10 -> bl 0x2b8f0 (vtable) ; no string
+0x250690	otomo-ot	correct	allocates a descriptor node whose name literal is "mExp" (0x1558873), links it into a list: mExp is the first member of the cMonNyanExp member run in the string blob (cMonNyanExp..mExp/mColorBonus/mHighRankBonus/mGRankBonus/mTension..cMonNyanExpXML); cMonNyan = palico MonNyan (Meownster Hunters)
+0x254714	otomo-ot	no-evidence	ctor/dtor pair: vtable from GOT, bl 0x24e908/0x24e8a8, double-constant table, tail bx r2; no string
+0x25f098	otomo-ot	no-evidence	4-insn accessor ldrb [r0+0x13848]; 66 callers; no string
+0x333d58	otomo-ot	no-evidence	ctor: bl 0xe83da0, vtable store via 0x2b8f0, bl 0x13efd7c (library import stub); no string
+0x4b9230	otomo-ot	no-evidence	registration thunk: bl 0x2b908 (which is just bx lr), GOT global -> bl 0x7aa47c -> blx [vtable+0x34] with the object; no string
+0x4cf018	otomo-ot	no-evidence	5-insn indexed accessor (cmp [r2+0x64], r1); no string
+0x533fdc	otomo-ot	no-evidence	ctor: vtable from GOT, bl 0x52bb94/0x52bb30, bl 0x887100; no string
+0x53f91c	otomo-ot	no-evidence	release/clear helper: bl 0x56df00 x3 and 0x56e04c on [r4+4..0x10] when r1==0; no string
+0x58dbb0	otomo-ot	no-evidence	composes message-table entries via 0x55bc7c(obj,17,39..41) + param setters 0x56ea08/0x56e528/0x56eb24; message ids only, no string
+0x5e9308	otomo-ot	no-evidence	6-insn dispatcher: cmp r2/r3, tail b 0x5e93c4; no string
+0x5f1614	otomo-ot	no-evidence	flag test [r4+0x50]&1 then message lookup 0x55bc7c(obj,25,3); no string
+0x5f44d0	otomo-ot	no-evidence	message/param builder (mov r0,#53; 0x55bc7c/0x56e3b0/0x545a78) with one vadd.f32; no string
+0x5f94bc	otomo-ot	no-evidence	accessor to [r4+0x98] then tail b 0x5c56e8; no string
+0x5fbfa4	otomo-ot	no-evidence	cmp r2,#1 dispatch then bl 0x54533c/0x56e538, tail b 0x56e5b0; no string
+0x9d1c	item	no-evidence	message thunk like 0xa760 (bl 0x7aa47c -> blx [obj+0x1c] msg 0x10, tail b 0x6a7f30); no string
+0xdafd8	item	no-evidence	9-insn bitfield decode: and #0x1f, ==13/11 test, returns [r0+0x10]; no string
+0x184a18	item	correct	registers the item-data member schema in order: mIndex, mType, mRare, mMaxCount, mSortId, mSeisan, mShikyu, mEatable, mShowWindow, mKantei, mChougou, mInfinity, mIconType, mIconCol, mSeType, mSell, mBuy, mCategoryValue, mCategoryType[0..7] (0x155365f/0x1557b21..0x1557c17)
+0x188bec	item	no-evidence	6-insn forwarder: bl 0x65cb3c with r1=4 on [r0+0x90], tail b 0x56dfac; no string
+0x18af18	item	no-evidence	struct init: zero halfwords, 0xffff at +12, zero dwords to +48; 13 callers; no string
+0x18dd24	item	no-evidence	ctor: global+bl 0x7aa47c -> blx [obj+0x1c] id 0x1d0 -> bl 0x18c030 -> [r0+0x1a8]=1; no string
+0x192cf0	item	no-evidence	18-insn float compare helper around bl 0x8260d4/0x8269f4/0x826130 (seed 524288), stores s0 to [r4+0x68]; no string
+0x195dfc	item	no-evidence	scans a 40-byte-stride record (10 halfwords at +16..+52) returning slot 0..8; caller-supplied table; no string
+0x19b6e4	item	no-evidence	scans a 0x32-entry, 8-byte-stride table for a halfword id (or id==0x5d); no string
+0x19e334	item	no-evidence	walks 0x1a-byte records via global 0x169a87c, bl 0x194228/0x18e8e8/0x18e854, clears fields; no string
+0x1c5280	item	no-evidence	destructor: vtable from GOT, frees 40-byte elements of the array at [r4+0x6c], bl 0x1bc9c4/0x1bca24; no string
+0x2101d8	item	no-evidence	14-insn ctor: vtable via GOT, bl 0x7aa47c -> [obj+0x34] virtual call, tail bx r2; no string
+0x325b48	item	no-evidence	flag-driven float parameter blend ([r5] tst 0x20/0x8/0x4, vcvt.f32.u32/vmul, member tables of {0x17,ptr} pairs); no string
+0x4bc2ac	item	no-evidence	serialiser: 9 x blx [vtable+8] copying halfwords at +4..+18 of the source record; no string
+0x4c8c20	item	no-evidence	5-insn indexed accessor (cmp [r2+0x64], r1); no string
+0x4f6ab0	item	no-evidence	ctor: bl 0x7aa47c -> blx [obj+0x1c] id 8 -> bl 0x2b8f0 (vtable), zero [r0+4]; no string
+0x561460	item	no-evidence	5-insn singleton getter: ldr [GOT] -> ldr [r0] -> cmp #0 -> beq; no string
+0x5b63bc	item	no-evidence	3-insn setter: [r0+0xe8] = 0xffff; no string
+0x5bc188	item	no-evidence	array/list walk: [r8+0xa4] table, bl 0x5c5500/0x55bc4c(arg 9)/0x5c55b0/0x545a04/0x5c561c and one vadd.f32; no string
+0x65017c	item	no-evidence	ctor/thunk: vtable via GOT, bl 0x7aa47c -> [obj+0x34] virtual call on [r4+0x4c], tail bx r2; no string
+0x9f74	player-pl	no-evidence	message thunk: bl 0x7aa47c -> blx [obj+0x1c] msg 0xfa7, tail b 0x6a8478; no string
+0x268770	player-pl	no-evidence	compares r1 against 0x138a/0x80023 etc. then bl 0x281ee0/0x283d48 (===1 test); version/id style checks; no string
+0x26bab0	player-pl	correct	registers a member schema whose names are mFrame, mHitDataIndex (0x155d95e), mHitWorkId (0x155d96c), mAtkType (0x155d977); the last three close as cPlayerManyAttacksXML members, i.e. the player multi-hit attack table
+0x26c930	player-pl	correct	registers a command schema: Active, CmdBase, resource, PreFrame, StartFrame, EndFrame, PlType, ActStatus, ActNo, CmdType, CmdParam0..3 (0x155d9fe..0x155da70) - player type + action command table
+0x26f4dc	player-pl	no-evidence	sets a flag bit (movw 0x506) in a player-agnostic struct and branches on [r4+0x4d4] and r5 in {4,5}; no string
+0x2718d0	player-pl	no-evidence	ctor: operator new 0x7bb638, vtable + "mVersion" literal, tail b 0x8871d8 (resource base ctor); class unknown
+0x27274c	player-pl	no-evidence	dtor: vtable from GOT, bl 0x26c05c/0x26c000, bl 0x887100; no string
+0x27632c	player-pl	no-evidence	dispatcher on r1 (0..6) through table 0x363c, blx, mov r0,#1376; no string
+0x27b1d0	player-pl	no-evidence	5-insn bounds guard (cmp r4,#12; pophi); no string
+0x282548	player-pl	no-evidence	18-insn forwarder: passes two stack args to bl 0x53b500 then blx [obj+0xd4]; no string
+0x2875c0	player-pl	no-evidence	32-insn helper returning 42/44 by condition then tail b 0x287694; embedded data words decoded as andeq; no string
+0x28be20	player-pl	no-evidence	init: zeroes fields, bl 0x27b34c(obj,0,0x15); no string
+0x2b3314	player-pl	correct	references literal "roPlayerQuest00.cro" (0x158916c region) and registers it via bl 0x7aa47c/0x2b290c - player quest model resource
+0x30371c	player-pl	no-evidence	thunk: bl 0x3035f4 -> bl 0x7aa47c -> blx [obj+0x34]; no string
+0x309448	player-pl	no-evidence	29-insn virtual-call wrapper carrying a float arg (vmov s16,s0) through blx; no string
+0x45c6ec	player-pl	no-evidence	thunk: bl 0x47c68c -> bl 0x7aa47c -> blx [obj+0x34]; no string
+0x46ac48	player-pl	no-evidence	thunk: bl 0x47c68c -> bl 0x7aa47c -> blx [obj+0x34]; no string
+0x47e104	player-pl	no-evidence	thunk: bl 0x47c68c -> bl 0x7aa47c -> blx [obj+0x34]; no string
+0x51a888	player-pl	wrong:render-gfx	registers the uStageSet member schema: mBillboard, mSort, mCameraCheck, mCameraClipping, mCameraDistance, mCameraCheckPosUse/Pos, mCheckCapsule*, mCheckCylinder*, mAlphaAnimation, mControlFlag, mUpdateMatrix (0x1569119..0x15691e0), immediately after the light*/Weather-change strings and before uStageShellOwner
+0x53b500	player-pl	no-evidence	3-insn guard: cmp r1,#0; moveq r0,#0; bxeq lr; no string
+0xea310	audio	no-evidence	ctor: vtable via GOT, bl 0x7aa47c -> blx [obj+0x1c] id 8, bl 0x2b8f0, byte/halfword init; no string
+0xea9d4	audio	no-evidence	1-insn tail branch to 0x2b908, which is a bare bx lr, so the row body is effectively empty; no string
+0xeb3f0	audio	no-evidence	byte-stream copy loop (ldrb/strb, 5 x blx) using [r4+12]/[r4+16] cursors; bl 0xc3b5b8; no string
+0x12ace0	audio	no-evidence	resource-derived ctor: vtable, "mVersion" literal, tail b 0x8871d8 whose literals are mPath/mRefCount/mSize/mAttr/mTag/mState/mQuality (generic resource base); no audio identifier
+0x489ffc	audio	no-evidence	ctor: stores base vtable at [r4+0x64], bl 0x48a058, bl 0x690, bl 0x887100, tail bx r2; no string (the emUniqueAct strings seen in an earlier decode came from a mis-decoded ldm, not from this function)
+0x4d74f8	audio	no-evidence	8-insn predicate on [r2+1] when r1/r2 non-null; no string
+0x4da3a8	audio	correct	own literals "../capdev200/NXEnv/adpcmenc/" and "../capdev200/NXEnv/AudioCodec/", and callee 0xbe95c4 carries "sSound::UpdateThread"/"sSound::LoadThread"
+0x4ddb4c	audio	no-evidence	5-insn accessor [r4+0x8c]; no string
+0x86efa8	audio	no-evidence	ctor: stores base+8 at [obj+0x28] and base+8 at [obj+4], bl 0x13beff0, tail b 0x7af3c4; no string
+0x876774	audio	no-evidence	walks the array at [r5+0x6c]/[r5+0x70], zeroing entries with flag bit 1; bl 0x887660; no string
+0xb61360	audio	correct	own literal "SoundCurve" (0x1579feb, inside the rSoundCurveSet/rSoundDirectionalCurveXml string blob); 840-byte stack buffer + bl 0x82fb08/0x82fb10/0x837b4c - a sound-curve resource
+0xb62264	audio	no-evidence	1-insn "bx lr" (empty body); no string
+0xb64734	audio	no-evidence	ctor: bl 0x7aa47c -> blx [vtable+0x20] id 0x1018, bl 0x8870b8, installs two vtables, then loops 500 8-byte entries filled with -1; no string
+0xb668b4	audio	no-evidence	same 840-byte-buffer + 0x82fb08/0x82fb10 frame as the SoundCurve routine, calls 0x831b90; no string of its own
+0xb68f28	audio	correct	registers the rSoundReverb member schema: mOutputLevel, mRoom, mRoomHF, mDecayTime, mDecayHFRatio, mReflections, mReflectionsDelay, mReverb, mReverbDelay, mDiffusion, mDensity, mHFReference (0x157a49a..0x157a505)
+0xb6aa54	audio	no-evidence	builds a resource path via bl 0xb6a1b0 (format "%s\\%s.%s"), tests [r4+0xa4]/[r4+0x68]; no sound identifier
+0xbe8404	audio	no-evidence	79-insn struct fill: 40 stores, movw/movt constant pairs (0xd8f0), tail calls 0x7af37c; no string
+0xbeb504	audio	no-evidence	44-insn walk of a large struct (add r0,#202752) with byte compares and import-stub calls; no string
+0xbf0234	audio	no-evidence	7-insn accessor at [r4+0x32848]; no string
+0xbf7a44	audio	no-evidence	jump-table dispatcher on [r4+8]-1 (5 cases, table 0x14/0x20/0x2c/0x80/0x98); no string
+0x14ff70	kernel-os	correct	heap-tag names TEST_UNIT, RESOURCE_APP, RESOURCE_PICA, TEMPORARY_APP, MODULE, DEVICE_APP, COMPRESS, DECOMPRESS passed to 0x873914 ("RESOURCE"), 0x7aa7b8/0x7aa7f4; MT-Framework MtAllocator tag table
+0x17ba24	kernel-os	no-evidence	30-insn vectorised copy/convert (vpush d8-d14, ldrh at +4) with one import call 0xccddec; no string
+0x1845c0	kernel-os	no-evidence	byte-stream copy loop (ldrb/strb, blx memcpy-like) on [r4+12]/[r4+16]; bl 0xcd4788; no string
+0x7af53c	kernel-os	no-evidence	7-insn virtual dispatch through global: [GOT]->[r0+4]->[r0]->[vtable+0x34]; no string
+0x7bdf78	kernel-os	no-evidence	2-insn accessor [r0+0x40]; no string
+0x86b3c4	kernel-os	no-evidence	5-insn global null test; no string
+0x8771f0	kernel-os	wrong:save-data	own literals "storage access thread" and "sSavedata::cStorageThread::mEvent_%08x" (0x8772xx blob) - this is the savedata storage thread, not the OS layer
+0xba3310	kernel-os	no-evidence	ctor-ish: vtable via GOT, bl 0x7aa47c -> [obj+0x1c] id, bl 0x887810, import calls; no string
+0xba48d8	kernel-os	no-evidence	16-insn 64-bit equality test (ldrd [r4+128], eor/orrs) against an imported clock/ID; no string
+0xba6c1c	kernel-os	no-evidence	ctor: vtable, bl 0x7aa47c/0x887810, ldm/stm store; no string
+0xbaa624	kernel-os	no-evidence	316-insn initialiser with 75 movw/movt constants, bl 0x887810, thread-ish callees 0x86c8bc/0x86e3d8 ("VibrationNodeUpdateThread") and 0x86bae4 ("NGWordList"); no identifier of this function itself
+0xbadf70	kernel-os	no-evidence	ctor: bl 0x7aa47c -> [obj+0x1c] id 0x1e16, bl 0xc7a3cc, register [obj+0x68]; no string
+0xbb4dd8	kernel-os	no-evidence	82-insn bit/flag packer (movw/movt, .word data, bl 0xfebb50f8); no string
+0x136792c	kernel-os	no-evidence	string/format helper: builds a 3-word varargs frame and calls 0x136a1b4 with the format at pc+0x1e93de, scans for a delimiter byte; no domain string
+0x1368a00	kernel-os	no-evidence	format helper: vtable/format frame + bl 0x1370008/0x1370fb4/0x1370010; no string
+0x136a1cc	kernel-os	no-evidence	1-insn fragment ("sub sp,sp,#8") - the retile row is not a self-contained function; no string
+0x136e88c	kernel-os	no-evidence	format helper: copies a delimiter char and splits a string (cmp against 524288 bound); no string
+0x136fd74	kernel-os	no-evidence	ctor: vtable from GOT, self-linked list at +0x14/+0x18, bl 0x136ff30/0x13f18a0; no string
+0x1370010	kernel-os	no-evidence	2-insn thunk: add r0,#16 then b to import stub 0x13efe0c; no string
+0x13bfd58	kernel-os	correct	creates two named worker threads - literals "AudioVideoInputReadThread" and "AudioVideoWorkerThread" - and initialises the thread/sync objects around them (bl 0x13c23f0 twice, 0x13f0bbc/0x13f0bc8/0x13f0bd4/0x13f0be0); OS thread-setup code, though the service it hosts is the AV one
+0x169d44	physics-math	no-evidence	3-insn setter: [r0+0xb0] = r1, [r0+0xb4] = r2; no string
+0x316830	physics-math	no-evidence	60-insn byte-field writer with two float compares (vmov/vcmpe.f32/bpl) and two blx; no string
+0x7c359c	physics-math	correct	pure float vector algebra: cross product (vmul/vmls triples), dot product, vsqrt with NaN guard, vdiv reciprocal, then plane/point tests - 155 VFP ops in 245 insns
+0x7cc450	physics-math	no-evidence	5-way jump-table dispatcher that copies vec4s (w=0) out of global 0x106c690 into two outputs; no domain identifier
+0x7e174c	physics-math	correct	float geometry kernel: 119 VFP ops (vsub/vmla/vmul/vsqrt/vdiv), 344-byte frame, NaN guards - closest-point/intersection style computation
+0x7e3d84	physics-math	correct	float geometry helper: 31 VFP ops (vmul/vsub/vmla/vmls/vsqrt/vdiv) over point arrays; no strings, no non-math callee
+0x8993e0	physics-math	no-evidence	5-insn accessor [r4+0x55]; no string
+0x89c96c	physics-math	no-evidence	35-insn initialiser calling 0x89bf4c/0xc15320/0xc153f4 (no strings); no identifier
+0x9db20c	physics-math	no-evidence	1-insn "bx lr" (empty body); no string
+0xb1f33c	physics-math	no-evidence	92-insn traversal (cmp/beq, ldrb, two vcvt) with bl 0xb19c40/0xb1f720/0x950b60; no string
+0xc160f4	physics-math	no-evidence	1-insn "bx lr" (empty body); no string
+0xc1bd38	physics-math	no-evidence	31-insn table copy: ldr [r0,r4,lsl #2] into [r7+0x58], byte flags; no string
+0xc2089c	physics-math	no-evidence	53-insn ctor: 24 stores, vtable from 0xc24b08, bl 0xc1bac8; no string
+0xc215ec	physics-math	no-evidence	107-insn ctor with float defaults (vmov/vstr) and 46 stores, vtable 0xc23dac, bl 0xc1bac8; no string
+0xc2eb50	physics-math	no-evidence	56-insn setup that stores flags then forms x^2+y^2+z^2 from integer fields (vmov s16/s18/s20, vmul/vmla) - radius-style init, mostly struct writes; no identifier
+0xc30b20	physics-math	correct	vector normalisation core: vsub differences, x^2+y^2+z^2 (vmul/vmla), vsqrt with NaN guard bl 0x13efddc, vdiv reciprocal, scaled components; 96 VFP ops
+0x13b3ee8	physics-math	no-evidence	9-insn argument thunk (add r0,#16, 2 stack args) tail-calling 0x7ef408; no string
+0x13b5c7c	physics-math	no-evidence	14-insn thunk: global -> bl 0x7aa47c -> [obj+0x20] then bx r12; no string
+0x13b7dc8	physics-math	no-evidence	14-insn thunk: global -> bl 0x7aa47c -> [obj+0x20] then bx r12; no string
+0x13bdadc	physics-math	no-evidence	7-insn forwarder: ldr [r0]->[r2+0x0c], conditionally [r1+0x1c], tail b; no string
+0x16c4	filesystem	no-evidence	6-insn virtual thunk: ldr [r0] -> blx [vtable+0x14] -> ldr [r0+4]; no string
+0x14d624	filesystem	no-evidence	36-insn state update (cmp [r4+0x54], bl 0xc9f6ec/0x152960/0x543b34/0x65da78, sets [r4+0x1c]=3); no string
+0x14d93c	filesystem	no-evidence	28-insn state check on [r4+0x1c]==3 with bl 0x14d9f8/0x966140, tail b 0x4df678; no string
+0x14e080	filesystem	no-evidence	104-insn path/string assembly with import stubs 0x13efe00/0x13efe0c (memcpy family) and bl 0x5433d8/0x65dc1c/0x95ae90; no path literal of its own
+0x14e5a8	filesystem	no-evidence	11-insn state test: [GOT]->[r1+0x1c] compared to 9/5/2, stores [r0+0x20]; no string
+0x14e944	filesystem	correct	calls 0x1529a8 (176 insns, 80 callers) whose callee 0x15339c carries "resident" and "loc\\%s" - resource-residency/localisation file loading; bl 0xc9eb0c
+0x3d8a4c	filesystem	no-evidence	5-insn wrapper: call import stub 0x13f00ac then eor r0,#1 (boolean invert); no string
+0x3f8610	filesystem	no-evidence	4-insn accessor: ldr [r0+0x54]; cmp 0; moveq r0,#0; no string
+0x82b674	filesystem	no-evidence	40-insn descriptor fixup (ldr/str through [r4+0x434], import calls 0x13f0460/0x13f046c, bl 0x137b6bc); no string
+0x8394d0	filesystem	no-evidence	11-insn virtual call ([r4]->[vtable+0x1c]) then [r4+0x3d0] test; no string
+0xb8e7c0	filesystem	no-evidence	44-insn header/parity computation (ldrh, mul, lsr #1, strd to [r4+0xa0]) with 1500-byte scratch; no string
+0xbc6b44	filesystem	correct	own literals "resource", "nativeNX", "Resource Loader", "decodeProc" - the resource loader / decoder dispatcher
+0xbc876c	filesystem	no-evidence	72-insn loader-ish routine with 6144-byte stack scratch, movw #0x3039 and bl 0xbc8a00 (436 insns, no strings); no identifier
+0xbc9ba0	filesystem	correct	calls 0xbc9c5c whose own literals are "%s\\temp" and "%s\\temp\\%s" - temp-file path construction (bl 0xbc9eac afterwards)
+0xbca65c	filesystem	no-evidence	33-insn loop with movw #0xc43f / 0x4eb898 constants and bl 0x13efd88; no string
+0xbcbd48	filesystem	no-evidence	46-insn header writer (movw #0x440c, str at [r1,r2]) calling 0xbca058 (385 insns, no strings); no identifier
+0xbd993c	filesystem	correct	own literals "root" and "sc\\%s\\%s\\%08x%08x" - builds a save/quest cache path with two CRC halves; bl 0xbda124/0xbda3a4
+0x121bc34	filesystem	no-evidence	37-insn checksum wrapper: bl 0x122298c (CRC-32) over caller data; CRC table itself is generic
+0x121fc34	filesystem	no-evidence	33-insn bit/halfword packer (strh/ldrh, add r11/sp frame); no string
+0x122298c	filesystem	no-evidence	CRC-32 implementation (first table word 0x77073096 = standard poly entry); a generic hash with no subsystem identifier
+0x9ac0	save-data	no-evidence	message thunk (bl 0x7aa47c -> blx [obj+0x1c] msg 0x10, tail b 0x6a77c0); no string
+0xa1bc	save-data	no-evidence	message thunk (bl 0x7aa47c -> blx [obj+0x1c] msg 0x64, tail b 0x6a92d4); no string
+0x1ab98c	save-data	no-evidence	message thunk (bl 0x7aa47c -> blx [obj+0x1c] msg 0x1e0, tail b 0x1ab9c4); no string
+0x1badc0	save-data	no-evidence	ctor: bl 0x7aa47c -> [obj+0x1c] id 0x18, then stores -1000.0f (0xc47a0000) and -1 defaults; class unknown
+0x1bb2b8	save-data	no-evidence	10-insn thunk: bl 0x7aa47c -> [obj+0x34] virtual call; no string
+0x3d15a4	save-data	correct	own literals "[WORK0]".."[WORK7]" (8 save-work slots) with bl 0x13effa4 per slot - save work-area naming
+0x3df014	save-data	no-evidence	ctor: vtable via GOT, bl 0x7aa47c/0x887810/0x54ed74, byte/halfword field init; no string
+0x3e4d4c	save-data	no-evidence	own literal "system" only; bl 0x3e798c/0x8777f4/0x878d54/0x8775f4 with two 0x4eb898-style constants; no savedata identifier
+0x626e3c	save-data	no-evidence	ctor: bl 0x7aa47c -> [obj+0x1c] id 0xa4, bl 0x601fc8, vtable + zero fields; no string
+0x626fbc	save-data	no-evidence	27-insn field test (orrs of [r4+136],[140],[152]) with bl 0x6026bc; no string
+0x627144	save-data	no-evidence	141-insn setup using 0x56e3b0/0x56e4ec/0x601f18/0x13eff80/0x13eff8c and a vtable store; no string
+0x627414	save-data	no-evidence	8-insn forwarder: bl 0x56dfac then b 0x56e528(r1=1,r2=0); no string
+0x82a66c	save-data	no-evidence	path/pattern helper: strchr-like bl 0x13eff44 for "*" (42) and "?" (63), compares/frees [r9+0x38]; no savedata literal of its own
+0x83e7f8	save-data	wrong:filesystem	maps mount prefixes "app:", "savedata:", "sd:", "abs:" (0x156e000..0x156e01e) through 0x13f00a0/0x82a2b8/0x13f03f4 - a general mount/path resolver, not savedata logic
+0x84d938	save-data	wrong:online-nex	calls the NEX wrapper family 0x824a8c/0x8248c8/0x824770/0x824998/0x8247d4/0x8110e0; 0x814280 reaches 0x12db310 "SDK MW+Nintendo+NEX_DS-4_4_0" - online SDK session setup
+0x877378	save-data	no-evidence	71-insn setup with bl 0x8643fc/0x86a67c/0x7bddc8/0x7bdd54 (thread/sync helpers) and vtable+8 at [obj]; no string
+0x8778cc	save-data	correct	own literal "savedata:\\%s" (0x8778xx blob), formats the card/save path and calls 0x878da0; 900+1024-byte stack buffer
+0x8782c4	save-data	no-evidence	16-insn reset: bl 0x878da0, zeroes 3 dwords at +0xf30 and [r0+0x24]/[r0+0x20]; no string
+0x878950	save-data	no-evidence	31-insn state test with bl 0x878da0/0x889290/0x864100 and movw #9; no string
+0x878da0	save-data	no-evidence	22-insn flag/state reader ([r4+0x18] byte, [r4+0xf1c] counter) with an import call; no string

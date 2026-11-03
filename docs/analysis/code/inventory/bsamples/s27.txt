@@ -1,0 +1,12 @@
+0xa2a614	74	monster-em
+0xa33b5c	12	monster-em
+0xa38bc0	173	monster-em
+0xa3d98c	36	monster-em
+0xa43338	70	item
+0xa48460	4	monster-em
+0xa4d458	511	player-pl
+0xa523f8	13	monster-em
+0xa57650	32	monster-em
+0xa5b584	8	monster-em
+0xa6370c	81	monster-em
+0xa6a434	53	quest

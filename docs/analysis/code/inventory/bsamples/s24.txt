@@ -1,0 +1,12 @@
+0x8ed708	26	monster-em
+0x90b9b8	99	otomo-ot
+0x9157e4	62	monster-em
+0x919258	122	monster-em
+0x91ce80	107	player-pl
+0x923b84	111	monster-em
+0x92a00c	100	monster-em
+0x92fe98	79	monster-em
+0x93966c	15	online-nex
+0x94c130	100	player-pl
+0x958028	539	player-pl
+0x95d468	64	monster-em

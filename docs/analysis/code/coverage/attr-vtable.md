@@ -234,3 +234,101 @@ on the new spine rather than an addition, and the check is strong:
    name-hash adjacency (0 of 4,239 `.data` runs has a matching name hash within ±0x40) and a raw
    class-name string pointer search (0 of 4,239; names are only ever materialised pc-relatively at the
    registration site, never stored as pointers).
+
+## Retiled pass — `attr-vtable-retile.tsv` (52,692-function inventory)
+
+Second deliverable, same contract, generated from the same extraction so that the two files are comparable row by
+row: `docs/analysis/code/inventory/attr-vtable-retile.tsv` (**13,577 rows**, header `start	label	conf	evidence`);
+`attr-vtable.tsv` is unchanged.
+
+### 1. Slots that now resolve to a function start
+
+| anchor | slots | resolved before (23,885 tiling) | resolved now (52,692 retile) |
+|---|---|---|---|
+| instance vtable (via create) | 54,053 | 5,232 (9.7 %) | **20,191 (37.4 %)** |
+| class-record vtable (registrar) | 9,602 | 41 (0.4 %) | **3,057 (31.8 %)** |
+| RTTI typeinfo | 4,971 | 566 (11.4 %) | **2,560 (51.5 %)** |
+| **total** | **68,626** | **5,839 (8.5 %)** | **25,808 (37.6 %)** |
+
+The registrar anchor now resolves *exactly its slot-2 create functions*: 3,057 of the 3,200 (the other 143
+slot 2 entries are not prologue entries, so the retile does not list them either). That is the cleanest single
+confirmation that the retile recovered the class constructors: the count matches the 3,057 that begin with a
+`push` saving `lr` that the first pass had to drop.
+
+The 42,818 slots that still do not resolve are only **13,572 distinct addresses, every one of them inside a
+retiled function** (none outside any function). They are the shared one-instruction stubs the retile
+deliberately does not treat as entries: `0x32c` `bx lr` 3,200×, `0xb54` 2,339×, `0x7af55c` 829×, then
+`0x1094`/`0x1084`/`0x1074`/`0x106c`/`0x107c` ≈356× each. Distinct slot targets overall: 27,149, of which
+**13,577 (50.0 %) are now function entries** (13,572 are not).
+
+### 2. Distinct function starts
+
+**13,577** — one row each in the new file: 5,217 `A`, 8,225 `B`/unmapped (`unknown`), 135 `B`/label-conflict.
+The `A` rows weigh **313,856 instructions = 6.0 % of .text**; the `B` rows (recorded, not counted) 564,728
+= 10.8 %.
+
+### 3. New relative to `attr-vtable.tsv`
+
+**12,202 rows** are starts the first file could not reach (89.8 % of the new file); **4,728 of them are `A`**,
+weighing **260,192 instructions = 5.0 % of .text**. The 1,375 starts both files share keep **identical labels
+(0 changes)** — retiling changed which slots are *expressible*, never the attribution.
+
+### 4. Per-label and per-anchor breakdown
+
+| anchor | rows | rows `A` | new rows | new `A` |
+|---|---|---|---|---|
+| class-record vtable (registrar `str`) | 3,057 | 1,183 | 3,016 | 1,176 |
+| instance vtable (via create) | 8,520 | 2,669 | 7,529 | 2,380 |
+| RTTI typeinfo | 2,000 | 1,365 | 1,657 | 1,172 |
+| total | 13,577 | 5,217 | 12,202 | 4,728 |
+
+New `A` rows by label: **monster-em 1,150, online-nex 1,030, weapon-wp 660, quest 403, otomo-ot 362,
+render-gfx 326, item 300, player-pl 160, ui 158, audio 156, save-data 23**.
+
+All `A` rows by label (for reference): monster-em 1,236, online-nex 1,192, weapon-wp 712, quest 430,
+otomo-ot 396, render-gfx 379, item 320, player-pl 189, audio 175, ui 163, save-data 25.
+
+### Meter
+
+```
+$ node tools/mhgu/coverage/merge.mjs
+seeds from: attr-library.tsv, attr-strings.tsv, attr-vtable-retile.tsv, attr-vtable.tsv
+  seed file attr-library.tsv: accepted 505, rejected non-start 0, rejected bad label 0
+  seed file attr-strings.tsv: accepted 830, rejected non-start 0, rejected bad label 347
+  seed file attr-vtable-retile.tsv: accepted 5172, rejected non-start 0, rejected bad label 8360
+  seed file attr-vtable.tsv: accepted 0, rejected non-start 0, rejected bad label 886
+functions 52692, seeded 7230 (13.7%) [4 external file(s)]
+recomputed: A 26382 (54.3% insns), B 24558, C 1752
+
+headline (report.mjs over tiers-recomputed.csv, seeds already folded in):
+class	functions	insns	pct_insns	pct_functions
+tier A (verified)	26172	2829012	54.1%	49.7%
+conf B (unverified)	24434	2303534	44.1%	46.4%
+headline A only	26172	2829012	54.1%	49.7%
+unattributed	2086	95731	1.8%	4.0%
+```
+
+Reading of the seed line: 5,172 of my 5,217 `A` rows are accepted as seeds; 8,360 are rejected as *bad label*
+because they are the `unknown` rows (my unmapped/conflict policy: recorded and counted, never guessed).
+`attr-vtable.tsv` contributes 0 new seeds because every one of its 1,375 starts is already in the retile file
+with the same label (the 886 rejections there are its `unknown` rows). 54 of my `A` starts are also seeded by
+`attr-library.tsv`/`attr-strings.tsv`, which is why the accepted count is 5,172 rather than 5,217.
+
+### What the retile fixed, and what it did not
+
+* **Fixed:** the first file's over-count worry. New `A` functions have median 27 instructions (p90 96), i.e.
+  they are single method bodies, not merged regions — the 5.0 % is real code. Only one new `A` row is larger
+  than 4,000 instructions (`0x32c38c`, 4,065, slot 4 of `cAcNyanterEquip`); the largest method in either file
+  is still `0x334008` (18,767, slot 4 of `cAcPlayerEquip`), which file 1 already carried.
+* **Fixed:** the class constructors became reachable; all 3,057 are rows now (1,176 of them new).
+* **Not fixed:** the eight shared stubs above stay unresolvable by construction (they are branch targets
+  inside other functions, and a `bx lr` at `0x32c` is not a function entry). They are 42,818 slots but only
+  13,572 addresses and contribute no method semantics.
+* **Not fixed:** 8,360 rows (10.8 % of .text) are vtable slots whose class matches none of the eleven rules
+  (`c*`/`r*`/`s*`/`u*` families: AI, collision, resource loaders, UI widgets by non-UI names). The retiled
+  spine already labels many of them from its own spread+address pass; giving them labels *here* would be
+  propagation, so they stay `unknown`.
+* **Still applies:** caveat 1 (`Mt|nw → render-gfx` covers engine core, here 326 new rows) and caveat 2
+  (`nn::pia`/`pead` unmatched). With the retiled inventory the RTTI anchor resolves 2,560 slots, so that
+  caveat is now ~4× bigger in rows than in the first pass (582 `B` rows naming `nn::pia`/`pead`/anonymous
+  typeinfo vs 146).

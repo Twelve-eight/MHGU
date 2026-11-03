@@ -1,0 +1,12 @@
+0x1a828c	19	physics-math
+0x1ad588	102	otomo-ot
+0x1b7324	27	otomo-ot
+0x1baae0	36	otomo-ot
+0x1bd8e4	79	weapon-wp
+0x1c46a4	22	otomo-ot
+0x1c7f30	32	weapon-wp
+0x1cbb84	13	online-nex
+0x1da3f4	201	render-gfx
+0x1e6414	48	online-nex
+0x1fc4a4	15	monster-em
+0x1fe23c	21	monster-em

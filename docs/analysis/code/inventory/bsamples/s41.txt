@@ -1,0 +1,12 @@
+0x121b664	37	monster-em
+0x12abde8	165	online-nex
+0x131fbec	1	online-nex
+0x135e938	18	online-nex
+0x1365bf0	164	online-nex
+0x1374af4	4	online-nex
+0x138f120	14	online-nex
+0x139e488	5	online-nex
+0x13ad888	60	online-nex
+0x13b11d8	506	online-nex
+0x13b8aa0	7	monster-em
+0x13c1664	43	monster-em

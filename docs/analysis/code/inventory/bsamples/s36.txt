@@ -1,0 +1,12 @@
+0xcbfa64	84	quest
+0xcc96a4	152	monster-em
+0xccedf4	1	monster-em
+0xcd3458	71	player-pl
+0xcd8690	31	monster-em
+0xcdcbcc	567	player-pl
+0xce2df8	185	player-pl
+0xce66c4	71	monster-em
+0xcec094	28	monster-em
+0xcedee8	60	otomo-ot
+0xcf6390	88	monster-em
+0xcff4dc	39	monster-em

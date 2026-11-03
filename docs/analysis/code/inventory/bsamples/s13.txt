@@ -1,0 +1,12 @@
+0x527d78	108	item
+0x5332e4	37	monster-em
+0x53985c	223	monster-em
+0x53f37c	11	monster-em
+0x5454c8	63	otomo-ot
+0x548700	4	kernel-os
+0x54f9c0	12	otomo-ot
+0x5583f8	19	player-pl
+0x55e294	10	online-nex
+0x561220	5	quest
+0x5694f4	243	otomo-ot
+0x56e624	2	otomo-ot

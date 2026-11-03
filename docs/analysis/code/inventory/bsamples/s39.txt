@@ -1,0 +1,12 @@
+0x1196b98	265	monster-em
+0x119c194	208	monster-em
+0x11a186c	120	otomo-ot
+0x11a7244	30	monster-em
+0x11aca7c	92	monster-em
+0x11b19ac	18	monster-em
+0x11b8a4c	83	monster-em
+0x11bcdc8	261	monster-em
+0x11c2650	62	monster-em
+0x11c7e60	438	monster-em
+0x11cdce0	293	monster-em
+0x11d2768	94	monster-em

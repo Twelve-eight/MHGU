@@ -1,0 +1,12 @@
+0xd2210	75	weapon-wp
+0xdaffc	11	otomo-ot
+0xdcebc	7	otomo-ot
+0xe1128	2	save-data
+0xe8458	2	save-data
+0xebb70	11	monster-em
+0xefa70	15	monster-em
+0x115160	63	otomo-ot
+0x129b8c	45	otomo-ot
+0x12d79c	25	monster-em
+0x139ac8	18	otomo-ot
+0x141b70	112	otomo-ot

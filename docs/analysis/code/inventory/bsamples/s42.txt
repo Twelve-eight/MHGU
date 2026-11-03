@@ -1,0 +1,12 @@
+0x13c8a68	143	online-nex
+0x13cbb28	3	online-nex
+0x13ce2bc	59	online-nex
+0x13d39b4	15	online-nex
+0x13f004c	3	monster-em
+0x13f0430	3	save-data
+0x13f07a8	3	monster-em
+0x13f0b44	3	monster-em
+0x13f0de4	3	save-data
+0x13f1030	3	kernel-os
+0x13f11c8	3	monster-em
+0x13f1450	3	monster-em

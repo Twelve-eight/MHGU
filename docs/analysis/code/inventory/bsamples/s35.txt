@@ -1,0 +1,12 @@
+0xc792a8	31	monster-em
+0xc7b1b8	40	render-gfx
+0xc7d0e0	47	render-gfx
+0xc7f6e4	51	render-gfx
+0xc81f90	2134	render-gfx
+0xc8bccc	22	monster-em
+0xc8ed38	43	monster-em
+0xc95e64	43	player-pl
+0xc98334	15	monster-em
+0xc9dbb8	460	monster-em
+0xca9cd4	129	quest
+0xcb1f6c	5	monster-em

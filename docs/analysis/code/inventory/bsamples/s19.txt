@@ -1,0 +1,12 @@
+0x71db38	618	item
+0x72ab38	1183	item
+0x730b4c	56	otomo-ot
+0x7363a8	15	item
+0x737290	255	online-nex
+0x7390d0	93	monster-em
+0x73f0e4	93	ui
+0x7444dc	57	online-nex
+0x74d72c	1077	otomo-ot
+0x755500	124	item
+0x7581b0	141	otomo-ot
+0x75b000	59	online-nex

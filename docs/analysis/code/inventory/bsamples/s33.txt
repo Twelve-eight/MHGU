@@ -1,0 +1,12 @@
+0xbf6364	154	item
+0xbf94e4	41	monster-em
+0xc00940	304	render-gfx
+0xc06088	11	monster-em
+0xc0ab50	48	quest
+0xc10a9c	24	monster-em
+0xc15e6c	4	kernel-os
+0xc17af0	8	monster-em
+0xc19888	46	monster-em
+0xc1c56c	39	monster-em
+0xc23154	168	monster-em
+0xc29db4	144	monster-em

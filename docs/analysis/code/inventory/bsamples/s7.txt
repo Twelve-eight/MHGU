@@ -1,0 +1,12 @@
+0x2f3844	45	monster-em
+0x2f5f68	239	monster-em
+0x2f919c	39	item
+0x2ffedc	123	monster-em
+0x302cf0	98	monster-em
+0x30899c	104	monster-em
+0x313e64	214	monster-em
+0x319188	6	online-nex
+0x31b228	26	otomo-ot
+0x321694	327	quest
+0x325b48	118	monster-em
+0x328a64	553	player-pl

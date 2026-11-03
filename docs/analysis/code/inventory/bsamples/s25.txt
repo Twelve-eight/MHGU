@@ -1,0 +1,12 @@
+0x96179c	735	player-pl
+0x968dc0	787	player-pl
+0x9796b0	132	monster-em
+0x981d68	24	monster-em
+0x9964e8	292	quest
+0x9a4090	93	otomo-ot
+0x9b3ec0	12	monster-em
+0x9b7df8	290	online-nex
+0x9bdc68	430	monster-em
+0x9c49ac	187	monster-em
+0x9cd3fc	680	online-nex
+0x9d51fc	1051	quest

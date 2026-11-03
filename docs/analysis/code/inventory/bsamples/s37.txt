@@ -1,0 +1,12 @@
+0xd09b78	276	monster-em
+0xd10e14	567	monster-em
+0xd6f90c	54	otomo-ot
+0xdc4738	285	otomo-ot
+0xe131d0	5	kernel-os
+0xe86228	54	otomo-ot
+0xeed014	309	online-nex
+0xf5ae60	60	otomo-ot
+0xff1e64	54	otomo-ot
+0x10622dc	17	otomo-ot
+0x10b1f94	55	otomo-ot
+0x10eaa94	14	kernel-os

@@ -1,0 +1,12 @@
+0x11d9354	113	monster-em
+0x11df970	80	monster-em
+0x11e3d24	10	monster-em
+0x11e7c30	150	monster-em
+0x11ee2f8	92	monster-em
+0x11f5278	54	otomo-ot
+0x11fb65c	79	monster-em
+0x1200168	76	monster-em
+0x1205e40	427	monster-em
+0x120d548	62	quest
+0x1213138	115	monster-em
+0x1218ca8	68	monster-em

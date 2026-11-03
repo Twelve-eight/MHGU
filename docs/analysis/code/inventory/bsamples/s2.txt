@@ -1,0 +1,12 @@
+0x14d9f8	377	online-nex
+0x154d18	11	monster-em
+0x15c02c	33	otomo-ot
+0x160800	75	ui
+0x166d14	15	online-nex
+0x176ad0	1368	monster-em
+0x183724	118	monster-em
+0x18e898	9	online-nex
+0x195490	15	monster-em
+0x19e108	30	otomo-ot
+0x1a1ac4	19	weapon-wp
+0x1a4750	40	player-pl

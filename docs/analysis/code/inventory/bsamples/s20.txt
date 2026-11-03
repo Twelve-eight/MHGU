@@ -1,0 +1,12 @@
+0x7612a4	221	ui
+0x768070	830	online-nex
+0x76f788	89	otomo-ot
+0x774f7c	261	online-nex
+0x77809c	122	item
+0x77dcb8	174	otomo-ot
+0x781adc	23	online-nex
+0x78535c	192	otomo-ot
+0x789968	44	ui
+0x78d6e8	58	online-nex
+0x790eb0	19	online-nex
+0x796c70	45	online-nex

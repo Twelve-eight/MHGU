@@ -1,0 +1,12 @@
+0x3562f8	554	weapon-wp
+0x367d9c	23	otomo-ot
+0x37d8f4	11	monster-em
+0x384408	115	otomo-ot
+0x38a1d8	65	item
+0x38e75c	60	otomo-ot
+0x39a6e4	18	online-nex
+0x39cd44	32	weapon-wp
+0x3a3178	14	otomo-ot
+0x3a396c	120	otomo-ot
+0x3a7f40	279	online-nex
+0x3a9754	46	online-nex

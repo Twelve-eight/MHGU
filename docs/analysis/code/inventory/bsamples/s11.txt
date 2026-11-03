@@ -1,0 +1,12 @@
+0x47dd80	126	monster-em
+0x4857a0	38	monster-em
+0x48ab18	19	otomo-ot
+0x49497c	94	otomo-ot
+0x4affe8	33	ui
+0x4b304c	19	weapon-wp
+0x4b6b78	15	monster-em
+0x4bd7a0	42	otomo-ot
+0x4c2abc	45	otomo-ot
+0x4c5a30	24	otomo-ot
+0x4c8530	32	weapon-wp
+0x4cf960	15	player-pl

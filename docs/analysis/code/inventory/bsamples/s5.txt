@@ -1,0 +1,12 @@
+0x2547a8	32	weapon-wp
+0x2596d0	113	quest
+0x261838	200	quest
+0x268b6c	75	otomo-ot
+0x26fdb0	2	monster-em
+0x274710	373	quest
+0x27bcc0	4	monster-em
+0x281d08	57	online-nex
+0x285b24	30	monster-em
+0x28a194	18	monster-em
+0x290430	63	quest
+0x297b64	54	otomo-ot

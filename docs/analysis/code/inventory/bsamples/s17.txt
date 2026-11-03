@@ -1,0 +1,12 @@
+0x667f58	60	item
+0x66fb60	49	online-nex
+0x674bc0	46	online-nex
+0x680f28	103	online-nex
+0x698efc	4	kernel-os
+0x69d78c	12	kernel-os
+0x6a091c	27	monster-em
+0x6a6fe8	82	otomo-ot
+0x6a8d04	14	monster-em
+0x6af5d0	28	monster-em
+0x6b2a2c	18	otomo-ot
+0x6bb218	1	ui

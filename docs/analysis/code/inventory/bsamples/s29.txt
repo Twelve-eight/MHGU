@@ -1,0 +1,12 @@
+0xacf1e8	75	monster-em
+0xae1fc0	430	render-gfx
+0xae84a8	457	render-gfx
+0xaec454	60	quest
+0xaef1e4	213	render-gfx
+0xaf1b08	152	render-gfx
+0xaf488c	300	monster-em
+0xaf6a34	19	monster-em
+0xafdecc	275	render-gfx
+0xb01148	16	monster-em
+0xb03cd4	22	monster-em
+0xb068d4	265	monster-em

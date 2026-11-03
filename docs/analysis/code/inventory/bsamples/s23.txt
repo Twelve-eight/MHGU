@@ -1,0 +1,12 @@
+0x86fb4c	1	monster-em
+0x871d74	4	item
+0x874810	36	online-nex
+0x87704c	31	monster-em
+0x88454c	204	render-gfx
+0x88885c	48	save-data
+0x890e20	148	player-pl
+0x8a2154	407	online-nex
+0x8a762c	15	monster-em
+0x8af2b0	111	monster-em
+0x8c1900	431	player-pl
+0x8cfaf8	14	monster-em
