@@ -223,7 +223,11 @@ const Vset = (() => {
   return s;
 })();
 let pDir = 0, pDirIns = 0, pInf = 0, pInfIns = 0, pSig = 0, pSigIns = 0, pSpV = 0, pSpVIns = 0, pSpU = 0, pSpUIns = 0, pNone = 0, pNoneIns = 0;
-const VALID_SPREAD = new Set(["online-nex", "weapon-wp", "render-gfx"]);
+// Re-measured on the current tiers by spread-precision.mjs (five shifted 1 MB grids, evidence from outside the window only).
+// Individual CP95: online-nex 91.5, monster-em 91.6, render-gfx 89.0, weapon-wp 80.3. render-gfx and weapon-wp miss on their
+// own but the pool of the four is 7,464/8,146 = 91.6% (CP95 91.1), so the four stay together as one validated class and no
+// further label is admitted: quest 70.3, physics-math 72.3, ui 80.7, otomo-ot 51.4, player-pl 61.0, item 45.8, save-data 60.1.
+const VALID_SPREAD = new Set(["online-nex", "weapon-wp", "render-gfx", "monster-em"]);
 for (const [start, t] of tiers) {
   const ins = t.insns;
   const b = best.get(start);
