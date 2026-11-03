@@ -4,7 +4,7 @@ X2	METER-CHAIN	95.3% divides the table numerator by the report A-direct denomina
 X3	METER-CHAIN	473 refuted functions vs 512 demoted, mixed with a 0.61 point figure	fixed	HANDOFF separate s gross 512/0.61 from net 473/0.41 (21,252 insns)
 X4	METER-CHAIN	same as X3	fixed	as X3
 X5	METER-CHAIN	second-metric denominator still 23,885 in code-metrics and HANDOFF	open	HANDOFF bullets are marked as 2026-10-23 history and the 2026-11-04 note above them states the retile; code-metrics §2/§5-§8 are marked unrecomputable history, left as record
-X6	METER-CHAIN	A-direct 13,061 vs 13,060 inside METER	open	one-function difference, does not change any published figure; needs the exact excluded start before editing
+X6	METER-CHAIN	A-direct 13,061 vs 13,060 inside METER	fixed	METER now uses 13,061 and names the one-function difference from direct-split
 X7	METER-CHAIN	36.3% bucket defined as four vote channels but report counts every conf=V	open	report.mjs still globs attr-*vote* and hardcodes attr-immscan; documented as a coupling in METER, code change deferred because it would move the partition
 X8	METER-CHAIN	PROGRESS forbids citing its own numbers while citing them	open	editorial; PROGRESS §G is the live section and the prohibition refers to the old tables
 S1	METER-CHAIN	METER 13,816 form table	fixed	recounted against 12,318 unlabelled functions
@@ -21,7 +21,7 @@ TF	SAVE	member[4..12] gap 41,542 vs 42,566	open	arithmetic only; the 1,024 diffe
 TG	SAVE	2300 slots = 5451B	fixed	5,463B (19x2300/8, 0x17CF-0x278)
 TH	SAVE	r7=0x8FC=2292	fixed	0x8FC is 2,300; 2,292 would be 0x8F4
 TI	SAVE	vol_only 0 in PROGRESS:46 vs 1 in coverage-map:263	fixed	PROGRESS:46 now says vol_only=1 under the code alignment (15 under the old one), matching coverage-map:263
-TJ	SAVE	pouch-verified lists 34 items for 32 slots	open	needs the decoder output re-read
+TJ	SAVE	pouch-verified lists 34 items for 32 slots	fixed	re-decoded both saves: clean has 21 non-empty of 32 slots and dirty 24; the doc listed 34 slots because the trailing run said 10 empty instead of 8
 TK	SAVE	71.97% cross-save figure has no pairing/interval	open	the 67.3% pair is the documented one; 71.97 needs its own pairing
 DL1	DATA	equipment.md cites armor/*.json for 5,637; files hold 5,609	fixed	citation changed to the armor table, 28 missing ids stated
 DL2	DATA	monsters.md 85 species pages vs 94	fixed	94, recount method stated
