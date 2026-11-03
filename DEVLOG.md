@@ -994,3 +994,14 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 - **类族接线**：`classprefix-map.tsv` 早就把 224 个前缀判完了，`attr-class.tsv` 却从没读过它。接线后 3,059 个函数获得标签（cUI 1,262、cWeapon 303、rWeapon 137、cMonNyan 100…）；表里标 `unknown` 的 `uUI` 不接线（uUISupplyBox 是 item、uUITalkClipScene 是 render-gfx），`sFestaFileLoader→save-data` 因名字写明 file loader 被排除。
 - **当前口径**：A-direct **15.9%**（10,107 函数 / 829,157 指令）；tier A **57.8%**；有标签（A+B）**90.0% 指令 / 72.8% 函数**；无标签 10.0%。到 90% 的目标指的是第一个数。
 - **43 条 STALE 全部关闭**（`docs/analysis/audit/STALE-FIXES.tsv`）：11 条 tier-B 切片文档按自己的表格重数 conf（6 份自报与表不符，最多差 11 行；slice-12 还漏列 3 个 leaf）；3 份声明了已不存在的输入切片，改记"来源不可核"；怪物文档从 93 只大型怪编号迁到 137 槽（C5/C6 槽列按 emid 重映射 46 行）；尺寸块 552→548 B、137 槽全有效；编辑器魔数 821248→1177760；两份历史文档加"快照声明"。审计门 `tools/audit/check.mjs` **ALL PASS**。
+
+### 2026-11-04：分母重冻结到 212 篇 + 共享 actor 层降级 + 两处工具缺陷
+
+- **审计分母 189 → 212**：`manifest.mjs` 重跑把 11-03 之后新增的 23 篇纳入，`tools/audit/audit-new-docs.mjs` 给每篇一条可复算的裁决——9 篇审计过程记录对 `ROUND1-ALL.tsv` 的计数，覆盖率文档对其自身的产物（RETILE 的 52,692/5,228,277/1,937 重新解压计数；attr-vtable 的 1,375 行与 3,201 个类；6 份 B 块抽样文档的 Counts 表对各自 verdict TSV 重数，其中包括分散在 8 个 per-block 文件里的 35..42）。**两篇 precision 文档判 UNVERIFIABLE**：抽样只以散文形式存在，没有可复算的 TSV。
+- **工具缺陷 1**：`report.mjs` 原来只认 `--direct` 参数，而 `check.mjs` 跑计量器时不带参数，于是每次过门都会把已提交的 `coverage-report.tsv` 改写成 A-direct = 0。现在证据源来自 `docs/analysis/code/inventory/sources.json`（显式清单，同时避免把被推翻的 `attr-vtable-retile.tsv` 或旧的 `attr-vtable.tsv` 重新 glob 回来）。
+- **工具缺陷 2**：`summarize.mjs` 把 `TIERB-CONF-RECOUNT.tsv` 当成切片表读（它的"裁决"列是数字），导致汇总被污染；已排除。
+- **共享 actor/动作层降级**：B 块抽样文档指出 `0x1120000..0x121ffff` 不是怪物模块。独立复核：全镜像扫 `movw #0x3328` 得 **724 处站点、530 个函数**，其中 453 个就在这一段；同一内嵌子对象被怪物、玩家、网络三方共用，该段调用图自洽于 0x113-0x115。而这一段 1,955 个函数**没有一行直接证据**——884 行 A 全是两票+地址预测。据此写 `demote-actor-layer.tsv`，tier A 从 58.2% 落到 **55.7%**，无标签从 9.7% 升到 **14.6%**。这是这一段真实的可解释度。
+- **槽表复核（编辑器关键资产）**：直接从镜像读 `0x1597ea4` 的 137 对 `{emid, slot}`，与 `monster-slot-map.json` 逐条比对 **137/137 一致、0 反例**，slot 恰为 0..136。`json/README.md` 已写入该复核。
+- **类名互查**：`attr-vtable-retile.tsv` 里 3,713 个类名 token 有 551 个不在 `class-inventory.tsv`，几乎全是 `nn::*` SDK 类与 `CONFLICTING` 哨兵——类清单只覆盖游戏侧类，不是矛盾。
+- **当前口径**：A-direct **18.0%**（其中函数自身有钩子 **13.8%**、地址块 4.2%、仅类记录 6.6%）；tier A **55.7%**；有标签 85.4% 指令 / 70.6% 函数；无标签 14.6%。
+- **MHRS 侧**：`check-evidence.mjs` 的引用正则把路径在第一个空格处截断（仓库路径本身含空格 `G:/omp works`），把 3 条已引用的声明误报为 UNDOCUMENTED；修正则后暴露出真问题——`em001_04` 的 motions/live 引用 `live-queue.md:122` 其实是 em005/769 的条目（行漂移），两条状态降为 `none`。`CHECK-ALL: PASS`，0 untraceable。

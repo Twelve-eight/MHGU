@@ -9,7 +9,7 @@
 - `slot` = 0..136，**不是** 93 个大型怪的老编号：文件含 43 个小怪（`kind=small`）与 94 个 `kind=big`，`emid` 是游戏内部怪物 id
 - `cn`/`en` = 名字，`cn_src` 记录来源（`chS/arc/resident_chS.arc :: monsterName_chS #N`，即名字表下标 = slot）
 - `ro` = 只读标记（多数为 null）
-- 来历：exe `0x1597ea4` 的 137 对 `{emid, slot}` + `resident_chS.arc` 名字表逐条对拍
+- 来历：exe `0x1597ea4` 的 137 对 `{emid, slot}` + `resident_chS.arc` 名字表逐条对拍。**2026-11-04 独立复核**：直接从镜像读 `0x1597ea4 + 8*i` 的 137 对，与 json 的 `emid@slot` 逐条比对，**137/137 一致、0 反例**，slot 取值恰为 0..136（`node .tmp-slotcheck` 类脚本，读 `main.140.flat.bin` 偏移 +0x100）
 
 **已核对的锚点**：`slot92 = 飞甲虫(Bnahabra, emid 4122)`、`slot133 = 阁螳螂(机偶)`、`slot134 = 阁螳螂(Ahtal-Ka, emid 88)`。
 
