@@ -138,7 +138,7 @@ All four claims in the "整库 38 条外键" table were re-derived from the DDL,
 | monsters.md:12 | monster_weakness.json 108 行 | `count(*)` | 108 (Normal 90 + 18 state rows) | CONFIRMED |
 | monsters.md:12 | monster_status.json 728 行 = 91 只 x 8 | `count(*)`; distinct monsters; rows per monster | 728; 91 distinct; min=max=8 | CONFIRMED |
 | monsters.md:23 | 93 = class0 75 + class2 18 | `select class,count(*)` | 75 + 18 = 93 | CONFIRMED |
-| monsters.md:24 | 36 只小型，`_id` 4097..4144，含空号 | `min/max`; gaps | 36 rows, 4097..4144 (48-slot span), gaps at 4115/4121/4130/4135/4140 (5 gaps → 12 empty slots) | CONFIRMED |
+| monsters.md:24 | 36 只小型，`_id` 4097..4144，含空号 | `min/max`; gaps | 36 rows in a 48-slot span (4097..4144); the 12 missing ids are 4114, 4120, 4124-4129, 4132-4134, 4139 | CONFIRMED |
 | monsters.md:26 | 129 = 93 + 36 | counts | 129 | CONFIRMED |
 | monsters.md:27 | wiki 侧栏大型怪物 94 条 = 93 + 机甲 | wiki mirror scan (see below) | 94 `种类` sections, 94 distinct names, one is 阁螳螂·机甲 | CONFIRMED |
 | monsters.md:65 | base_hp 93 条大型全覆盖 | `select count(*) from monsters where class<>'1' and base_hp>0` | 93 | CONFIRMED |
@@ -161,7 +161,7 @@ DB `cut,impact,shot,fire,water,thunder,ice,dragon,ko`; parentheses → the `(Sta
 |---|---|---|---|---|
 | monsters.md:148–154 | 轰龙 (id 32), 7 parts + `(Enraged)` | `select * from monster_damage where monster_id=32` | all 9 columns x 7 rows + 5 Enraged rows agree (Head 65/55/55, fire0 water10 thunder20 ice5 dragon15, ko 100→130) | CONFIRMED |
 | monsters.md:162–168 | 雌火龙 (1), 7 parts | idem id=1 | all cells agree (Head 90/80/70/0/15/20/15/35/100) | CONFIRMED |
-| monsters.md:176–183 | 黑龙 (13), 8 parts | idem id=13 | all cells agree (Head 70/75/65/15/5/10/5/30, Wings 35/21/15 fire10) | CONFIRMED |
+| monsters.md:176–183 | 黑龙 (13), 8 parts | idem id=13 | all cells agree (Head cut70 impact75 shot65 fire15 water5 thunder5 ice10 dragon30; Wings cut35 impact21 shot15 fire10 water5 thunder5 ice10 dragon15) | CONFIRMED |
 | monsters.md:193–200 | 天慧龙 (86), 8 parts + states | idem id=86 | all cells agree (Head elements 25→0, Back Legs shot 20→40, Tail 20→0) | CONFIRMED |
 | monsters.md:208–214 | 阁螳螂 (88), 7 parts | idem id=88 | all cells agree (Claws 55/55/20 water10 ice5 thunder20; Back ko 100) | CONFIRMED |
 | monsters.md:85 | 雌火龙/轰龙 "两源逐值一致" | idem | both cross-checks hold exactly | CONFIRMED |
@@ -416,7 +416,7 @@ because the repo does not record an earlier value:
 | `MHGU_DLC.txt` 重建后 165/165 槽能在 `quests` 查到名字；166 行按 `DLCForm.cs` 解析全部接受 | `README.md:126/136` | The save-side half (165 filled slots of `system_CLEAN`) needs the save dump, and the generated file is not committed, so the text cannot be replayed here. The db half is confirmed above. |
 | 剥取次数 3 (normal) / 6 (煌黑龙) / 4 (阁螳螂), "其余 90 只未逐页核对" | `monsters.md:651` | No harvest-count column in `mhgu.db`; self-declared partial. |
 | `狞猛化 = -` covers all elders/deviants | `monsters.md:230/362` | Wiki-only; the 6 sampled pages are consistent but the claim is explicitly universal. |
-| §3.2 "实测覆盖了 wiki 的全部状态维度" | `monsters.md:113` block | The "all dimensions" side is wiki prose; the db does contain the state suffixes (14 in `monster_weakness`, ~20 `(...)` in `monster_damage`), but "all" cannot be proven without an authoritative wiki dimension list. |
+| §3.2 "实测覆盖了 wiki 的全部状态维度" | `monsters.md:109` | The "all dimensions" side is wiki prose; the db does contain the state suffixes (14 in `monster_weakness`, ~20 `(...)` in `monster_damage`), but "all" cannot be proven without an authoritative wiki dimension list. |
 | `monster_weakness` 0..6 ordinal semantics (U9) | `monsters.md:642` | The db stores integers only; no legend. The doc's two counterexamples are confirmed (Rathalos thunder 6, Fatalis ice 1), but no mapping table exists to test further. |
 | 皮制 wiki `1 / 50` vs JSON `25` | `equipment.md:628` | Wiki side needs the leather-armor page, which is not in the mirror (`grep "== 皮制 =="` finds nothing); the JSON side is confirmed (Leather Headgear max_defense 25) and the Alloy/Helper examples are confirmed. |
 | 护石鉴定表 / `+18` constants 97/98/99/100 semantics | `equipment.md:319–343` | Editor source constants, not game data; `mhgu.db` has no talisman table (`charms` is empty). |
@@ -428,12 +428,15 @@ because the repo does not record an earlier value:
 
 ---
 
-## Difficulties
+## Difficulties — obstacles, what you tried, cost in tool calls, suspected cause (tool bug, missing doc, ambiguous premise, genuinely hard)
+
+Rough cost: about 50 tool calls end to end (queries + wiki greps + binary reads); the items below are where
+calls were repeated or the first method failed.
 
 1. **FK extraction needed a case-insensitive regex.** The DB is a Room export; DDL uses lowercase
    `foreign key(...) references ...`. A first pass with `FOREIGN KEY` found 0 definitions and would have
    "confirmed" nothing. Cost: 1 wasted call, fixed with `/i`. Not a repo bug.
-2. **`monster-slot-map` binary check needed the right stride.** `json/README.md:9` says "0x1597ea4 + 8*i
+2. **`monster-slot-map` binary check needed the right stride.** `json/README.md:12` says "0x1597ea4 + 8*i
    the 137 pairs"; reading u16 pairs or u32 stride-4 interleaves the fields and yields 1/137. The record is
    two u32 (`{emid, slot}`) at stride 8 → 137/137. The doc's phrasing is right but under-specified; a reader
    implementing it from the wording alone will pick the wrong stride once. Worth saying "stride 8, two u32".

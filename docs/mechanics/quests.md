@@ -28,7 +28,7 @@
 | 机读全库 | `docs/data/mhgu.db` → `quests` 表 | 1355 条：Village 375 / Guild 569 / Permit 228 / Arena 17 / Event 166 |
 | 存档测绘 | `DEVELOP.md`、`docs/save-layout/CURRENT-RULING.md`、`member4-file-layout.txt`、`editor-src/…/OtherForm.cs` | 位域坐标、位号语义、双写规则 |
 
-**两套任务 id 不要混用**：`quests.json`/`mhgu.db` 的 `_id` 是 Kiranico 行号（1xxxx–11xxxxx），**不是**游戏内 questId；
+**两套任务 id 不要混用**：`quests.json`/`mhgu.db` 的 `_id` 是 Kiranico 行号（实测 **101..1,120,012**，1,355 行；原写 1xxxx–11xxxxx 与实测不符），**不是**游戏内 questId；
 唯一可靠的桥是 `mhgu.db.quests.sort_order`（见「与存档的关联」§2）。
 
 ---

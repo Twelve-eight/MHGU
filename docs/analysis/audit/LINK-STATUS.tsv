@@ -1,0 +1,43 @@
+item	slice	what	status	evidence_or_reason
+X1	METER-CHAIN	METER kept the old gate-6 split 19,378/10,789 as current	fixed	METER now prints 22,957/4,479/2,731 with the old split marked as pre-handler
+X2	METER-CHAIN	95.3% divides the table numerator by the report A-direct denominator	fixed	95.0% (1,189,308/1,251,869), denominator note added
+X3	METER-CHAIN	473 refuted functions vs 512 demoted, mixed with a 0.61 point figure	fixed	HANDOFF separate s gross 512/0.61 from net 473/0.41 (21,252 insns)
+X4	METER-CHAIN	same as X3	fixed	as X3
+X5	METER-CHAIN	second-metric denominator still 23,885 in code-metrics and HANDOFF	open	HANDOFF bullets are marked as 2026-10-23 history and the 2026-11-04 note above them states the retile; code-metrics §2/§5-§8 are marked unrecomputable history, left as record
+X6	METER-CHAIN	A-direct 13,061 vs 13,060 inside METER	open	one-function difference, does not change any published figure; needs the exact excluded start before editing
+X7	METER-CHAIN	36.3% bucket defined as four vote channels but report counts every conf=V	open	report.mjs still globs attr-*vote* and hardcodes attr-immscan; documented as a coupling in METER, code change deferred because it would move the partition
+X8	METER-CHAIN	PROGRESS forbids citing its own numbers while citing them	open	editorial; PROGRESS §G is the live section and the prohibition refers to the old tables
+S1	METER-CHAIN	METER 13,816 form table	fixed	recounted against 12,318 unlabelled functions
+S2	METER-CHAIN	"seven gates" vs 12	fixed	HANDOFF step 3 says 12 gates
+S3	METER-CHAIN	code-metrics keeps 94.7% inside the acceptance definition	open	the definition block is dated 2026-10-23 and the retest is stated next to it; changing the archival definition would rewrite history
+S4	METER-CHAIN	gate-9 "5 site(s)" quote stale	fixed	the gate prints 7 sites; the old sentence refers to the pre-edit state and now says so
+S5	METER-CHAIN	pre-correction tables still labelled current	open	Listed individually below where verified
+TA	SAVE	PROGRESS:25 decomposition sums to 174,231, not 224,643	open	arithmetic confirmed (sum 174,231); the 24-row decomposition with residual 86,997 is the one that closes; needs the member table to say which is canonical
+TB	SAVE	hunter header 0x0..0x27 (40B) cannot hold HR at 0x28 / gender at 0x2A	fixed	coverage-map row now 0x0..0x2F (48B), CURRENT-RULING:58 was already right
+TC	SAVE	member layer start 0x28 vs member[0] at 0x278	open	coverage-map has both; resolving needs the reader order to be re-read
+TD	SAVE	165KB ledger sums to 159,327 (13.5%)	open	intervals must be re-measured before the row is rewritten
+TE	SAVE	cat equip box end 0x208CE vs text	open	1000x36 = 36,000 needs the start offset to confirm
+TF	SAVE	member[4..12] gap 41,542 vs 42,566	open	arithmetic only; the 1,024 difference needs the boundary list
+TG	SAVE	2300 slots = 5451B	fixed	5,463B (19x2300/8, 0x17CF-0x278)
+TH	SAVE	r7=0x8FC=2292	fixed	0x8FC is 2,300; 2,292 would be 0x8F4
+TI	SAVE	vol_only 0 in PROGRESS:46 vs 1 in coverage-map:263	open	needs the dirty save to recheck the volume-only case
+TJ	SAVE	pouch-verified lists 34 items for 32 slots	open	needs the decoder output re-read
+TK	SAVE	71.97% cross-save figure has no pairing/interval	open	the 67.3% pair is the documented one; 71.97 needs its own pairing
+DL1	DATA	equipment.md cites armor/*.json for 5,637; files hold 5,609	fixed	citation changed to the armor table, 28 missing ids stated
+DL2	DATA	monsters.md 85 species pages vs 94	fixed	94, recount method stated
+DL3	DATA	species table 11/3 vs source 10/4	fixed	bird 10 / fish 4 with the page-2989 note
+DL4	DATA	deviant HP +500 lower bound	fixed	+400 (Dreadqueen 4900-4500)
+DL5	DATA	damage/duration "exactly equal to wiki"	open	two counterexamples in the report; needs the wiki rows re-read
+DL6	DATA	armor points -6..15 vs -8..15	open	points live outside the armor table; needs the skills join to recompute
+DL7	DATA	README says 21 exports, lists 24	open	docs/data/json holds 27 files; the count sentence needs a definition of table vs file
+DL8	DATA	README calls the item file 日文名 and 中文名 in two places	open	one of the two is wrong; the original file is not in the repo to settle it
+DL9	DATA	quests.md id range 1xxxx-11xxxxx	fixed	101..1,120,012 measured
+MC1	MECHANICS	"149 action dispatchers" unreproducible	open	marked unreproducible in monster-code-map
+MC2	MECHANICS	"53 dispatchers / 41 named" vs 51 sections / 26 named	fixed	both numbers corrected and explained
+MC3	MECHANICS	"58 method tables" unreproducible	open	marked unreproducible
+MC4	MECHANICS	dispatcher at +4 in the 8-slot clusters	fixed	[0] is the dispatcher, +4 is the shared stub 0x6bf18 in all three tables
+MC5	MECHANICS	sMain 230,256 = 227,386+632	fixed	229,952 from class-inventory, 3,198 B unexplained
+MC6	MECHANICS	registration-function column points at thunks	fixed	banner in monster-classes.md, 0x48698 is a 4-byte bx lr
+MC7	MECHANICS	red_blue does not exist as a string	fixed	row now names red_Change/blue_Change
+MC8	MECHANICS	8 states without handler	open	audit claim, marked unverified in the banner
+MC9	MECHANICS	two-level dispatch in 3 sections	open	audit claim, marked unverified in the banner

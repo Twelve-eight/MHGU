@@ -678,10 +678,10 @@ vtable 通道靠 RTTI 认表，但镜像里还有大量**没有 typeinfo 的函�
 | 读法 | 定义 | 值 |
 |---|---|---:|
 | **保留率**（recall） | 被扣留的行里，有多少仍然被放回 tier A | **83.6%**（21,004/25,123） |
-| **条件精度**（precision） | 被放回 tier A 的行里，标签真正正确的比例 | **93.7%**（19,676/21,004） |
-| **联合**（recall × precision） | 被扣留行里既回到 tier A 又标签正确 | **78.3%**（19,676/25,123） |
+| **条件精度**（precision） | 被放回 tier A 的行里，标签真正正确的比例 | **93.7%**（19,676/21,004，CP95 93.3） |
+| **联合**（recall × precision） | 被扣留行里既回到 tier A 又标签正确 | **78.3%**（19,676/25,123，CP95 77.8） |
 
-**此前把 78.3% 写成"Tier A 的精度"是错的**：它是保留率与条件精度的乘积，属于召回侧的口径。真正该引用作精度的是 **93.7%**（CP95 见下），而 83.6% 说明每 6 行被扣留的证据里约有 1 行回不到 tier A。
+**此前把 78.3% 写成"Tier A 的精度"是错的**：它是保留率与条件精度的乘积，属于召回侧的口径。真正该引用作精度的是 **93.7%（19,676/21,004，CP95 93.3）**——注意分母从 25,123 换成了 21,004，而 83.6% 说明每 6 行被扣留的证据里约有 1 行回不到 tier A。
 
 **复算（2026-11-04 重跑，逐项相同）**：`node tools/mhgu/coverage/canonical-holdout-random.mjs` 输出 `withheld 5007/5098/5009/4876/5133`（合计 25,123）、`label match 19,726 = 78.5%`、`came back as tier A 21,004 = 83.6%`、`tier A AND label match 19,676 = 78.3% CP95 77.8`，与本表一致；93.7% = 19,676/21,004 由同一组数直接相除。
 
@@ -799,7 +799,7 @@ bl  0x7aedcc      ; 注册器
 
 修法三步：
 
-1. 名单扩到**全部带 A 行的证据表：16 张**（`sources.json` 的 15 张 + 不在清单里的 `attr-vtable-retile.tsv`）。`sources.json` 另外 9 张（`attr-callvote/classvote/callervote/classsingle/dualpredict/tableseeds/offsets/offsetpairs/immscan` 类）**只有 conf=V 行、0 条 A**，所以 A 证据确实是 100% 覆盖——但"24 张表"这个说法是错的，实际迭代 16 张；
+1. 名单扩到**全部带 A 行的证据表：16 张**（`sources.json` 的 15 张 + 不在清单里的 `attr-vtable-retile.tsv`）。`sources.json` 另外 9 张（`attr-classvote`、`attr-callervote`、`attr-callvote`、`attr-callvote1`、`attr-offsetpairs`、`attr-offsets`、`attr-dualpredict`、`attr-classsingle`、`attr-tableseeds`）**只有 conf=V 行、0 条 A**，由门 7 复算，所以 A 证据确实是 100% 覆盖——但"24 张表"这个说法是错的，实际迭代 16 张；
 2. 补上新的可机检断言：单条字符串（xref/prefix，长串按 80 字符截断做前缀容忍）、`registrar bl 0x…`（函数体内必须有这条 `bl`）、括号区间（函数地址必须落在两个锚点之间）；
 3. **不可机检的行单独计数，不再算通过**。
 

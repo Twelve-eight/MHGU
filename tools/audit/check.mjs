@@ -37,8 +37,9 @@ else {
   else ok(`all ${manifest.length} manifest docs carry a verdict`);
 }
 
-// 3. slice TSVs keep their contract header
-for (const f of fs.readdirSync(path.join(ROOT, "docs/analysis/audit")).filter((x) => x.endsWith(".tsv") && !/^(MANIFEST|DOC-LINKS|ROUND1-ALL|TIERB-CONF-RECOUNT)/.test(x) && !/-FIXES\.tsv$/.test(x))) {
+// 3. slice TSVs keep their contract header. LINK-STATUS.tsv is a disposition tracker for the linkage review, not a
+// slice table, so it carries its own header and is exempt by name rather than by shape.
+for (const f of fs.readdirSync(path.join(ROOT, "docs/analysis/audit")).filter((x) => x.endsWith(".tsv") && !/^(MANIFEST|DOC-LINKS|ROUND1-ALL|TIERB-CONF-RECOUNT|LINK-STATUS)/.test(x) && !/-FIXES\.tsv$/.test(x))) {
   const head = fs.readFileSync(path.join(ROOT, "docs/analysis/audit", f), "utf8").split("\n")[0];
   if (head !== "doc\titem\tverdict\tevidence\tnote") bad(`${f}: unexpected header "${head.slice(0, 60)}"`);
 }

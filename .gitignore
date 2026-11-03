@@ -69,3 +69,4 @@ tools/mhgu/vendor/
 docs/data/MHGU_item(uni).txt
 docs/data/MHGU_DLC.txt
 .tmp-*/
+.tmp-*
