@@ -75,7 +75,8 @@ try {
   const out = execFileSync(process.execPath, ["tools/mhgu/coverage/verify-evidence.mjs"], { cwd: ROOT, encoding: "utf8", env: { ...process.env, SAMPLE: "100000" } });
   const m = /total (\d+)\/(\d+) = ([\d.]+)%/.exec(out);
   const sk = /(\d+) further A rows carry no machine-checkable claim/.exec(out);
-  if (m && m[1] === m[2]) ok(`evidence rows re-verified: ${m[2]} rows, all consistent` + (sk ? `; ${sk[1]} A rows rest on a class-name or taxonomy judgement and cannot be machine-checked` : ""));
+  const un = /(\d+) unparsed/.exec(out);
+  if (m && m[1] === m[2]) ok(`evidence rows re-verified: ${m[2]} rows, all consistent` + (sk ? `; ${sk[1]} rest on a class-name or taxonomy judgement` : "") + (un ? `; ${un[1]} carry a claim shape no handler parses` : ""));
   else bad(`evidence rows re-verified: ${out.split("\n").filter((l) => l.includes("FAIL")).join(" ") || out.slice(0, 160)}`);
 } catch (e) {
   bad(`evidence re-check failed: ${String(e.message).slice(0, 120)}`);
