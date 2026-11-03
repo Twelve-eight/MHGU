@@ -141,6 +141,23 @@ const rows = [["class", "functions", "insns", "pct_insns", "pct_functions"]];
 rows.push(["A-direct (evidence row)", String(D.fn), String(D.ins), pct(D.ins, totalIns), pct(D.fn, totalFn)]);
 rows.push(["tier A (verified)", String(A.fn), String(A.ins), pct(A.ins, totalIns), pct(A.fn, totalFn)]);
 rows.push(["conf B (unverified)", String(B.fn), String(B.ins), pct(B.ins, totalIns), pct(B.fn, totalFn)]);
+// Inferred labels are a separate class on purpose: a callee vote is inference, and mixing it into A-direct would repeat
+// the mistake that got tier A inflated. The rule that produces them was validated leave-one-file-out at 96.0%.
+const CV = (() => {
+  const p = path.join(INV, "attr-callvote.tsv");
+  if (!fs.existsSync(p)) return { fn: 0, ins: 0, rows: 0 };
+  let fn = 0, ins = 0, rows = 0;
+  for (const l of fs.readFileSync(p, "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
+    const [start, label, conf] = l.split("\t");
+    if (conf !== "V" || !label) continue;
+    rows++;
+    if (direct.has(start)) continue;
+    const t = tiers.get(start);
+    if (t) { fn++; ins += t.insns; }
+  }
+  return { fn, ins, rows };
+})();
+rows.push(["A-inferred (callee vote, LOO 96.0%)", String(CV.fn), String(CV.ins), pct(CV.ins, totalIns), pct(CV.fn, totalFn)]);
 rows.push(["headline A only", String(A.fn), String(A.ins), pct(A.ins, totalIns), pct(A.fn, totalFn)]);
 rows.push(["unattributed", String(totalFn - A.fn - B.fn), String(totalIns - A.ins - B.ins), pct(totalIns - A.ins - B.ins, totalIns), pct(totalFn - A.fn - B.fn, totalFn)]);
 
