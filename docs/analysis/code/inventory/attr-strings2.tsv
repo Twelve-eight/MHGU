@@ -1,0 +1,424 @@
+start	label	conf	evidence
+0x2e808	ui	A	1 of 3 referenced strings are uShell* shell UI resource and setup-param names: uShellEms101_sp_01
+0x2fd18	item	A	21 of 22 referenced strings are item-slot field names (mItem[0], mItemNum, mItemPackPrizeNo): mItemPackPrizeNo | mItem1Type | mItem1Num
+0xf6db8	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon00BaseData | cWeapon00BaseDataXML
+0xf79a0	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon00LevelData | cWeapon00LevelDataXML
+0xf7f4c	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon00MsgBase | cWeapon00MsgBaseXML
+0xf990c	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon01BaseData | cWeapon01BaseDataXML
+0xfa4f4	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon01LevelData | cWeapon01LevelDataXML
+0xfaaa0	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon01MsgBase | cWeapon01MsgBaseXML
+0xfc434	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon02BaseData | cWeapon02BaseDataXML
+0xfd01c	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon02LevelData | cWeapon02LevelDataXML
+0xfd5c8	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon02MsgBase | cWeapon02MsgBaseXML
+0xfef5c	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon03BaseData | cWeapon03BaseDataXML
+0xffb44	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon03LevelData | cWeapon03LevelDataXML
+0x1000f0	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon03MsgBase | cWeapon03MsgBaseXML
+0x101970	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon04BaseData | cWeapon04BaseDataXML
+0x1076dc	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon04LevelData | cWeapon04LevelDataXML
+0x107d00	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon04MsgBase | cWeapon04MsgBaseXML
+0x109580	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon06BaseData | cWeapon06BaseDataXML
+0x10f2ec	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon06LevelData | cWeapon06LevelDataXML
+0x10f978	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon06MsgBase | cWeapon06MsgBaseXML
+0x11130c	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon07BaseData | cWeapon07BaseDataXML
+0x111ef4	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon07LevelData | cWeapon07LevelDataXML
+0x1124a0	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon07MsgBase | cWeapon07MsgBaseXML
+0x113f20	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon08BaseData | cWeapon08BaseDataXML
+0x114bb4	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon08LevelData | cWeapon08LevelDataXML
+0x115160	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon08MsgBase | cWeapon08MsgBaseXML
+0x116be0	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon09BaseData | cWeapon09BaseDataXML
+0x1178ac	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon09LevelData | cWeapon09LevelDataXML
+0x117e58	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon09MsgBase | cWeapon09MsgBaseXML
+0x1197ec	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon10BaseData | cWeapon10BaseDataXML
+0x11b2c0	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon10LevelData | cWeapon10LevelDataXML
+0x11b8a0	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon10MsgBase | cWeapon10MsgBaseXML
+0x11d320	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon11BaseData | cWeapon11BaseDataXML
+0x11dfd0	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon11LevelData | cWeapon11LevelDataXML
+0x11e5a8	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon11MsgBase | cWeapon11MsgBaseXML
+0x11ff3c	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon12BaseData | cWeapon12BaseDataXML
+0x120c00	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon12LevelData | cWeapon12LevelDataXML
+0x1211d8	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon12MsgBase | cWeapon12MsgBaseXML
+0x122c58	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon13BaseData | cWeapon13BaseDataXML
+0x123840	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon13LevelData | cWeapon13LevelDataXML
+0x123dec	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon13MsgBase | cWeapon13MsgBaseXML
+0x12586c	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon14BaseData | cWeapon14BaseDataXML
+0x126500	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon14LevelData | cWeapon14LevelDataXML
+0x126aac	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon14MsgBase | cWeapon14MsgBaseXML
+0x18f0b0	item	A	9 of 14 referenced strings are item-slot field names (mItem[0], mItemNum, mItemPackPrizeNo): mItem[0] | mItemNum[0] | mItemCondition[0]
+0x1bca58	item	A	9 of 9 referenced strings are item-slot field names (mItem[0], mItemNum, mItemPackPrizeNo): mItemId[0] | mItemId[1] | mItemId[2]
+0x1c1ab8	item	A	12 of 18 referenced strings are item-slot field names (mItem[0], mItemNum, mItemPackPrizeNo): mItemId[0] | mItemNum[0] | mItemId[1]
+0x1f60f0	online-nex	A	36 of 36 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: nFestaNetwork::netEmAction | nFestaNetwork::netEmActionProcedure | nFestaNetwork::netEmMasterChange
+0x1fb334	online-nex	A	12 of 12 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: nFestaNetwork::netOtAction | nFestaNetwork::netOtActionProcedure | nFestaNetwork::netOtActTargetPos
+0x211a18	online-nex	A	124 of 124 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: nFestaNetwork::netPlAction | nFestaNetwork::netPlActionProcedure | nFestaNetwork::netPlActionBubble
+0x21a598	online-nex	A	38 of 38 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: nFestaNetwork::netQuestStart | nFestaNetwork::netQuestStartProcedure | nFestaNetwork::netQuestClear
+0x21cc20	online-nex	A	8 of 8 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: nFestaNetwork::netShSerialWork | nFestaNetwork::netShSerialWorkProcedure | nFestaNetwork::netShInsect
+0x21dcbc	online-nex	A	14 of 14 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: nFestaNetwork::netChatTextData | nFestaNetwork::netChatTextDataProcedure | nFestaNetwork::netPlayerSystemInfoRequestData
+0x269d80	item	A	10 of 10 referenced strings are item-slot field names (mItem[0], mItemNum, mItemPackPrizeNo): mItemId[0] | mItemNum[0] | mItemId[1]
+0x2ab670	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchUpdateSessionSettingJob::WaitUpdateAttributes
+0x2ad6fc	online-nex	A	1 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchAutoMatchmakeJob::LeaveJoinedMatchmakeSession
+0x2c787c	render-gfx	A	1 of 1 referenced strings are NVN graphics API entry points (nvnDevice*, nvnCommandBuffer*): nvnCommandBufferSetDepthRange
+0x334008	item	A	185 of 332 referenced strings are item-slot field names (mItem[0], mItemNum, mItemPackPrizeNo): mItemNum[1] | mItemType[2] | mItemNum[2]
+0x36f7b0	item	A	12 of 16 referenced strings are item-slot field names (mItem[0], mItemNum, mItemPackPrizeNo): mItemID[0] | mItemNum[0] | mItemID[1]
+0x3facec	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase00 | uShellEmBase00::cSetupParamEmBase00
+0x3fc1c0	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase01 | uShellEmBase01::cSetupParamEmBase01
+0x3fe1ec	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase02 | uShellEmBase02::cSetupParamEmBase02
+0x3ffab0	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase03 | uShellEmBase03::cSetupParamEmBase03
+0x401210	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase04 | uShellEmBase04::cSetupParamEmBase04
+0x401e10	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase05 | uShellEmBase05::cSetupParamEmBase05
+0x402a78	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase06 | uShellEmBase06::cSetupParamEmBase06
+0x403a70	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase07 | uShellEmBase07::cSetupParamEmBase07
+0x403e70	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase11
+0x404bfc	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase12 | uShellEmBase12::cSetupParamEmBase12
+0x40685c	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase13 | uShellEmBase13::cSetupParamEmBase13
+0x407aa4	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase14
+0x408864	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase15
+0x4093ec	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase16 | uShellEmBase16::cSetupParamEmBase16
+0x40992c	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase18
+0x409fb4	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase19
+0x40ac9c	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase20 | uShellEmBase20::cSetupParamEmBase20
+0x40b7e8	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase21 | uShellEmBase21::cSetupParamEmBase21
+0x40d194	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase22 | uShellEmBase22::cSetupParamEmBase22
+0x40e254	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase23 | uShellEmBase23::cSetupParamEmBase23
+0x40fad8	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase24 | uShellEmBase24::cSetupParamEmBase24
+0x4104fc	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase25 | uShellEmBase25::cSetupParamEmBase25
+0x411218	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase26 | uShellEmBase26::cSetupParamEmBase26
+0x411ae4	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase27 | uShellEmBase27::cSetupParamEmBase27
+0x412c58	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase28 | uShellEmBase28::cSetupParamEmBase28
+0x413a10	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase29 | uShellEmBase29::cSetupParamEmBase29
+0x4142ec	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase30 | uShellEmBase30::cSetupParamEmBase30
+0x415a68	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase31 | uShellEmBase31::cSetupParamEmBase31
+0x416f5c	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase32 | uShellEmBase32::cSetupParamEmBase32
+0x41808c	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase33 | uShellEmBase33::cSetupParamEmBase33
+0x4191ac	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase34 | uShellEmBase34::cSetupParamEmBase34
+0x419a54	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase35 | uShellEmBase35::cSetupParamEmBase35
+0x41b830	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase36 | uShellEmBase36::cSetupParamEmBase36
+0x41cb5c	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase37 | uShellEmBase37::cSetupParamEmBase37
+0x41df34	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase38 | uShellEmBase38::cSetupParamEmBase38
+0x41ebec	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase39 | uShellEmBase39::cSetupParamEmBase39
+0x41f8dc	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase40 | uShellEmBase40::cSetupParamEmBase40
+0x4210e4	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase41 | uShellEmBase41::cSetupParamEmBase41
+0x422314	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase42 | uShellEmBase42::cSetupParamEmBase42
+0x422a70	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase43 | uShellEmBase43::cSetupParamEmBase43
+0x423590	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase44 | uShellEmBase44::cSetupParamEmBase44
+0x424e30	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase45 | uShellEmBase45::cSetupParamEmBase45
+0x4266e0	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase46 | uShellEmBase46::cSetupParamEmBase46
+0x427124	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase47 | uShellEmBase47::cSetupParamEmBase47
+0x428620	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase48 | uShellEmBase48::cSetupParamEmBase48
+0x4294d4	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase50 | uShellEmBase50::cSetupParamEmBase50
+0x429ec8	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase51 | uShellEmBase51::cSetupParamEmBase51
+0x42aa48	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase52 | uShellEmBase52::cSetupParamEmBase52
+0x42b5e4	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase53 | uShellEmBase53::cSetupParamEmBase53
+0x42ceb4	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase54 | uShellEmBase54::cSetupParamEmBase54
+0x42e43c	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase55 | uShellEmBase55::cSetupParamEmBase55
+0x42f680	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase56 | uShellEmBase56::cSetupParamEmBase56
+0x433fb8	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase57 | uShellEmBase57::cSetupParamEmBase57
+0x43558c	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase58 | uShellEmBase58::cSetupParamEmBase58
+0x436634	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase59 | uShellEmBase59::cSetupParamEmBase59
+0x4390f0	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase60 | uShellEmBase60::cSetupParamEmBase60
+0x43b27c	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellEmBase61 | uShellEmBase61::cSetupParamEmBase61
+0x43c008	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellEnemy
+0x43c6cc	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellOt004
+0x43caac	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellOt005
+0x43dc28	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellOt006
+0x44070c	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellOt000 | uShellOt000::cSetupParamOt000
+0x442954	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellOt001
+0x44338c	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellOt002
+0x443b00	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellOt003
+0x444db0	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellOt007
+0x445b58	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellOt008 | uShellOt008::cSetupParamOt008
+0x447894	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellOt009
+0x448864	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellOt010
+0x4496a4	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellOt011 | uShellOt011::cSetupParamOt011
+0x44aa60	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellOt012 | uShellOt012::cSetupParamOt012
+0x44b890	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellOt013
+0x44c038	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellOt014
+0x44c468	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellOtomo
+0x44cffc	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlEffect
+0x450ae4	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlEffectCom
+0x450f78	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlEffectLobby
+0x45135c	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlEffectLobbyW15
+0x4532b4	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlEffectOt
+0x453620	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlEffectW00
+0x453984	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlEffectW01
+0x453dd8	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlEffectW02
+0x454184	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlEffectW03
+0x45497c	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlEffectW04
+0x454b48	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlEffectW05
+0x455674	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlEffectW06
+0x455978	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlEffectW07
+0x455ce4	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlEffectW08
+0x456420	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlEffectW09
+0x457cb0	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlEffectW10
+0x457fcc	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlEffectW11
+0x4583c8	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlEffectW12
+0x4586cc	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlEffectW13
+0x458e70	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlEffectW14
+0x45bba8	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlEffectW15
+0x45c560	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlcom_001
+0x45cbb8	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlcom_002
+0x45f728	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlcom_003
+0x46058c	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlcom_004
+0x460d44	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlcom_005
+0x462234	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlcom_006
+0x4626c4	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellPlcom_007 | uShellPlcom_007::cSetupParamPl_com_007
+0x463028	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellPlcom_008 | uShellPlcom_008::cSetupParamPl_com_008
+0x4648ec	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellPlcom_009 | uShellPlcom_009::cSetupParamPl_com_009
+0x465e7c	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellPlcom_010 | uShellPlcom_010::cSetupParamPl_com_010
+0x467190	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellPlcom_011 | uShellPlcom_011::cSetupParamPl_com_011
+0x467eb0	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlcom_013
+0x468d64	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellPlcom_100 | uShellPlcom_100::cSetupParamPl_com_100
+0x469774	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlcom_BallistaShell
+0x469a5c	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlw02_000
+0x46a270	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellPlw02_001 | uShellPlw02_001::cSetupParamPl_w02_001
+0x46a714	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlw02_100
+0x46aaa8	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlw02_101
+0x46b100	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlw03_100
+0x46b3cc	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlw03_101
+0x471dc8	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellPlw04_000 | uShellPlw04_000::cSetupParamPl_w04_000
+0x4733d0	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellPlw04_100 | uShellPlw04_100::cSetupParamPl_w04_100
+0x473fe8	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlw04_101
+0x474824	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellPlw07_100 | uShellPlw07_100::cSetupParamPl_w07_100
+0x474de0	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlw08_000
+0x475508	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlw08_001
+0x476a14	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellPlw09_000 | uShellPlw09_000::cSetupParamPl_w09_000
+0x476f40	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlw00_100
+0x477418	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellPlw09_001 | uShellPlw09_001::cSetupParamPl_w09_001
+0x477804	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlw09_100
+0x4780d4	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlw09_101
+0x47b8d4	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellPlw10_000 | uShellPlw10_000::cSetupParamPl_w10_000
+0x47c4ec	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellPlw10_001 | uShellPlw10_001::cSetupParamPl_w10_001
+0x47c820	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlayer
+0x47df78	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlcom_000
+0x47e378	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlw11_100
+0x47e69c	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlw12_000
+0x47eaf4	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlw12_001
+0x47efec	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlw12_002
+0x482164	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlw13_000
+0x486090	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlw13_001
+0x486568	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlw13_003
+0x48718c	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlw13_100
+0x48764c	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlw13_101
+0x487828	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlw14_000
+0x487d9c	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlw14_001
+0x488954	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellPlw14_002 | uShellPlw14_002::cSetupParamPl_w14_002
+0x4892e8	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellPlw14_003 | uShellPlw14_003::cSetupParamPl_w14_003
+0x4898d4	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellPlw14_100 | uShellPlw14_100::cSetupParamPl_w14_100
+0x49102c	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellSt000
+0x492108	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellSt001 | uShellSt001::cSetupParamSt001
+0x492700	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellSt002 | uShellSt002::cSetupParamSt002
+0x4935ec	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellSt003 | uShellSt003::cSetupParamSt003
+0x4943a4	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellSt004 | uShellSt004::cSetupParamSt004
+0x49497c	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellSt005 | uShellSt005::cSetupParamSt005
+0x497440	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellSt006 | uShellSt006::cSetupParamSt006
+0x49882c	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellSt007 | uShellSt007::cSetupParamSt007
+0x4992f0	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellSt008 | uShellSt008::cSetupParamSt008
+0x49a248	ui	A	2 of 2 referenced strings are uShell* shell UI resource and setup-param names: uShellSt009 | uShellSt009::cSetupParamSt009
+0x49a658	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellStage
+0x49acd8	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellSysEffect000
+0x4a37f0	ui	A	177 of 180 referenced strings are uShell* shell UI resource and setup-param names: uShellEm001_sp_00 | uShellEm001_sp_01 | uShellEm001_sp_11
+0x4aad94	item	A	4 of 9 referenced strings are item-slot field names (mItem[0], mItemNum, mItemPackPrizeNo): mItem[0] | mItem[1] | mItem[2]
+0x865408	render-gfx	A	331 of 331 referenced strings are NVN graphics API entry points (nvnDevice*, nvnCommandBuffer*): nvnDeviceBuilderSetDefaults | nvnDeviceBuilderSetFlags | nvnDeviceInitialize
+0x86989c	render-gfx	A	1 of 1 referenced strings are NVN graphics API entry points (nvnDevice*, nvnCommandBuffer*): nvnDeviceGetProcAddress
+0xcf13c8	monster-em	A	3 of 3 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): emUniqueActMain | em001_00PreCatchMove | em001_00CatchMove
+0xd227d0	monster-em	A	4 of 4 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): emUniqueActMain | em003_00PreCatchMove | em003_00RevivalMove
+0xd3103c	monster-em	A	3 of 3 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): em004_00RevivalMove | emUniqueActMain | em004_00DemoMove
+0xd52f50	monster-em	A	3 of 3 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): emUniqueActMain | em008_00RevivalMove | em008_00DemoMove
+0xd60468	monster-em	A	3 of 3 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): emUniqueActMain | em009_00RevivalMove | em009_00DemoMove
+0xd76970	monster-em	A	3 of 3 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): em011_00RevivalMove | em011_00DemoMove | emUniqueActMain
+0xd98748	monster-em	A	4 of 4 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): em014_00DemoMove | emUniqueActMain | em014_00PreCatchMove
+0xd9b470	monster-em	A	4 of 4 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): emUniqueActMain | em017_00RevivalMove | em017_00DemoMove
+0xdb3ba4	monster-em	A	3 of 3 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): emUniqueActMain | em018_00RevivalMove | em018_00DemoMove
+0xdc3900	monster-em	A	4 of 4 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): emUniqueActMain | em019_00PreCatchMove | em019_00DemoMove
+0xdefc0c	monster-em	A	4 of 4 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): em023_00PreCatchMove | em023_00RevivalMove | emUniqueActMain
+0xdff6f8	monster-em	A	3 of 3 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): em024_00DemoMove | emUniqueActMain | em024_00RevivalMove
+0xe1d4b0	monster-em	A	3 of 3 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): em027_00DemoMove | emUniqueActMain | em027_00RevivalMove
+0xe41084	monster-em	A	4 of 4 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): em033_00PreCatchMove | em033_00CatchMove | emUniqueActMain
+0xe81b4c	monster-em	A	5 of 5 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): em043_00RevivalMove | emUniqueActMain | em043_00PreCatchMove
+0xf035bc	monster-em	A	3 of 3 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): emUniqueActMain | em057_00PreCatchMove | em057_00RevivalMove
+0xf35910	monster-em	A	5 of 5 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): em061_00RevivalMove | em061_00DemoMove | emUniqueActMain
+0xf48390	monster-em	A	3 of 3 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): em063_00DemoMove | emUniqueActMain | em063_00RevivalMove
+0xf588b8	monster-em	A	3 of 3 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): emUniqueActMain | em065_00RevivalMove | em065_00DemoMove
+0xf662f8	monster-em	A	3 of 3 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): emUniqueActMain | em066_00_RevivalMove | em066_00_MoguriMove
+0xf78f98	monster-em	A	3 of 3 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): emUniqueActMain | em067_00PreCatchMove | em067_00RevivalMove
+0xf8903c	monster-em	A	4 of 4 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): emUniqueActMain | em068_00PreCatchMove | em068_00RevivalMove
+0xf9c8b4	monster-em	A	5 of 5 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): em069_00DemoMove | emUniqueActMain | em069_00PreCatchMove
+0xfb28a4	monster-em	A	4 of 4 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): emUniqueActMain | em071_00PreCatchMove | em071_00RevivalMove
+0xfb308c	monster-em	A	3 of 3 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): em071_00MoveMove | em071_00FlyMove | em071_00AttackMove
+0xfdc074	monster-em	A	5 of 5 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): emUniqueActMain | em076_00PreCatchMove | em076_00RevivalMove
+0xfddfd0	monster-em	A	3 of 3 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): emUniqueActMain | em077_00PreCatchMove | em077_00RevivalMove
+0x10a255c	monster-em	A	3 of 3 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): emUniqueActMain | em086_00RevivalMove | em086_00DemoMove
+0x1316a3c	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexNotificationDataJob::WaitUpdateNotificationData
+0x1316dc4	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexNotificationDataJob::WaitRetrieveNotificationData
+0x1317624	online-nex	A	2 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexProcessHostMigrationJob::ManualHostMigration | NexProcessHostMigrationJob::AutomaticHostMigration
+0x13176ac	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexProcessHostMigrationJob::InetPrepareForBecomingHost | NexProcessHostMigrationJob::WaitNewHostGreeting | NexProcessHostMigrationJob::HostMigrationFailure
+0x1317730	online-nex	A	4 of 4 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexProcessHostMigrationJob::HostMigrationFailure | NexProcessHostMigrationJob::InetGetMatchMakingClientHost | NexProcessHostMigrationJob::WaitNewHostGreeting
+0x1317970	online-nex	A	2 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexProcessHostMigrationJob::WaitAfterPrepareForBecomingHost | NexProcessHostMigrationJob::HostMigrationFailure
+0x1317ac4	online-nex	A	2 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexProcessHostMigrationJob::InetWaitMatchMakingClientHost | NexProcessHostMigrationJob::HostMigrationFailure
+0x1317bc0	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexProcessHostMigrationJob::SendGreetingMessage
+0x1317cb0	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexProcessHostMigrationJob::InetSendRankDecision
+0x1317db0	online-nex	A	2 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexProcessHostMigrationJob::HostMigrationFailure | NexProcessHostMigrationJob::InetWaitRankDecision
+0x1318010	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexProcessHostMigrationJob::HostMigrationFailure | NexProcessHostMigrationJob::WaitNewHostGreeting | NexProcessHostMigrationJob::InetGetMatchMakingClientHost
+0x131814c	online-nex	A	4 of 4 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexProcessHostMigrationJob::HostMigrationFailure | NexProcessHostMigrationJob::WaitNewHostGreeting | NexProcessHostMigrationJob::InetCheckOldHostDisconnection
+0x13184cc	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexProcessHostMigrationJob::InetCheckOldHostDisconnection | NexProcessHostMigrationJob::HostMigrationFailure | NexProcessHostMigrationJob::InetPrepareForBecomingHost
+0x1318658	online-nex	A	4 of 4 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexProcessHostMigrationJob::HostMigrationFailure | NexProcessHostMigrationJob::InetPrepareForBecomingHostMulti | NexProcessHostMigrationJob::InetWaitCheckOldHostDisconnection
+0x13188ac	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexProcessHostMigrationJob::InetPrepareForBecomingHost
+0x13189ec	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexProcessHostMigrationJob::InetSendRankDecision
+0x1318adc	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexProcessHostMigrationJob::UpdateSessionOpenStatus
+0x1318b38	online-nex	A	2 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexProcessHostMigrationJob::HostMigrationFailure | NexProcessHostMigrationJob::HostMigrationSuccess
+0x1318c40	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexProcessHostMigrationJob::HostMigrationFailure
+0x1318db0	online-nex	A	5 of 5 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexProcessHostMigrationJob::InetPrepareForBecomingHostMulti | NexProcessHostMigrationJob::HostMigrationFailure | NexProcessHostMigrationJob::InetCheckOldHostDisconnection
+0x13191a4	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexProcessHostMigrationJob::HostMigrationFailure
+0x1319278	online-nex	A	2 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexProcessHostMigrationJob::HostMigrationFailure | NexProcessHostMigrationJob::WaitNewHostGreeting
+0x1322528	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexConnectStationJob::TestCurrentAddress
+0x1322840	online-nex	A	2 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexConnectStationJob::PrepareNatTraversal | NexConnectStationJob::ResolveCurrentAddress
+0x1322964	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexConnectStationJob::WaitForNatTraversalCompleted | NexConnectStationJob::ResolveCurrentAddress | NexConnectStationJob::WaitForNatTraversalStarted
+0x1322bd8	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexConnectStationJob::TryCurrentAddress
+0x1322c78	online-nex	A	3 of 4 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexConnectStationJob::ResolveCurrentAddress | NexConnectStationJob::PrepareNatTraversal | NexConnectStationJob::PrepareNatTraversalByRelay
+0x132320c	online-nex	A	1 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexConnectStationJob::WaitForNatTraversalCompleted
+0x13235c4	online-nex	A	2 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexConnectStationJob::WaitForNatTraversalStartedByRelay | NexConnectStationJob::ResolveCurrentAddress
+0x1323778	online-nex	A	1 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexConnectStationJob::WaitForNatTraversalCompletedByRelay
+0x13239b8	online-nex	A	1 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexConnectStationJob::ResolveCurrentAddress
+0x1324200	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::CallSessionEvent
+0x13247a0	online-nex	A	5 of 5 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::SendAnswerToDestroyInvitation
+0x1324b98	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::CallSessionEvent
+0x1324e88	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::CallSessionEvent
+0x13250e0	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::CallSessionEvent
+0x1325360	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::CallDestroySessionEvent
+0x13255b0	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::CloseMatchmakeSession
+0x1325940	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::CallSessionEvent
+0x1326568	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveCurrentMatchmakeSession | NexJointSessionJob::WaitLeaveMesh
+0x13267b8	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::WaitCloseMatchmakeSession
+0x1326a50	online-nex	A	4 of 4 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::CloseJointSessionParticipation
+0x1326d28	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::WaitCloseJointSessionParticipation
+0x1326fcc	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::WaitForAnswerToInvitation
+0x1327524	online-nex	A	4 of 4 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::SendDestroyInvitation
+0x132780c	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::WaitForAnswerToDestroyInvitation
+0x1327d60	online-nex	A	4 of 4 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::SendInvitationAsCompanion
+0x132819c	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::WaitForAnswerToDestroyInvitation
+0x13287a4	online-nex	A	4 of 4 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::CloseMatchmakeSession
+0x1328ad0	online-nex	A	4 of 4 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::SendInvitationAsCompanion
+0x1328f10	online-nex	A	4 of 4 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::WaitNextSessionId
+0x1329288	online-nex	A	7 of 7 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::SendLeaveMeshCompanion
+0x13297d0	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::WaitForAnswerToInvitation
+0x1329c0c	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::WaitCreateMatchmakeSession
+0x1329fe8	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::WaitJoinMatchmakeSession
+0x132a3cc	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::WaitRandomMatchmake
+0x132a790	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::WaitUntilCompanionLeavesMesh
+0x132ad48	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::WaitNotification
+0x132afec	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::SendNextSessionId
+0x132b22c	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::WaitNotification
+0x132b4a8	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::WaitNotification
+0x132b6ec	online-nex	A	4 of 4 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::SendPreparedForMigrateSession
+0x132bc80	online-nex	A	5 of 5 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::WaitUntilLeaderLeavesMesh
+0x132c1a8	online-nex	A	5 of 5 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::ResendNextSessionId
+0x132c624	online-nex	A	4 of 4 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::WaitCompanionStationPrepared
+0x132caf0	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::StartLeavePreviousMesh
+0x132cdac	online-nex	A	4 of 4 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeavePreviousMatchmakeSession | NexJointSessionJob::WaitMeshRestart
+0x132d0bc	online-nex	A	4 of 4 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::SendPreparedForMigrateSession
+0x132d5d0	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::StartLeavePreviousMesh
+0x132d794	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::WaitGetNextMatchmakeSessionInfo
+0x132da38	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::SendPreparedForMigrateSession
+0x132dc54	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::WaitLeavePreviousMatchmakeSession
+0x132dee0	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::MeshRestart
+0x132e0a0	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeavePreviousMatchmakeSession | NexJointSessionJob::WaitMeshRestart
+0x132e354	online-nex	A	2 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::WaitMeshRestart
+0x132e590	online-nex	A	5 of 5 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::StartCreateNextMesh
+0x132efe0	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::MeshRestart
+0x132f320	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::WaitGetNextMeshHostStationConnectionInfo
+0x132f594	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::WaitCreateNextMesh
+0x132f7bc	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::WaitCompanionStation
+0x132fb4c	online-nex	A	5 of 5 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::WaitHostStationId
+0x1330314	online-nex	A	5 of 5 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::StartJoinNextMesh
+0x1330870	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::WaitJoinNextMesh
+0x1330aa8	online-nex	A	5 of 5 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::MeshRestart | NexJointSessionJob::WaitCompanionStation
+0x1331498	online-nex	A	4 of 4 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::ProcessComplete
+0x1331e00	online-nex	A	2 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::SendCompletionInvitation
+0x1331fa0	online-nex	A	4 of 4 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::WaitCompanionStation
+0x13325bc	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::WaitForAnswerToCompletionInvitation
+0x13329a0	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::WaitHostStationId
+0x1332d0c	online-nex	A	4 of 4 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::WaitHostStationId
+0x13331cc	online-nex	A	2 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::WaitUpdateJointSessionOpenStatus
+0x13332b0	online-nex	A	2 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveMesh
+0x1333580	online-nex	A	2 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::StartLeaveMesh | NexJointSessionJob::ProcessComplete
+0x13336a4	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveBufferMatchmakeSession | NexJointSessionJob::WaitLeaveCurrentMatchmakeSession
+0x13338bc	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::WaitHostMigrated | NexJointSessionJob::StartLeaveCurrentMatchmakeSession
+0x1333b10	online-nex	A	2 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveCurrentMatchmakeSession
+0x1333d00	online-nex	A	2 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::WaitLeaveBufferMatchmakeSession
+0x1334098	online-nex	A	2 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveBufferMatchmakeSession
+0x133427c	online-nex	A	2 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexJointSessionJob::ProcessFailure | NexJointSessionJob::StartLeaveBufferMatchmakeSession
+0x1334510	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchAutoMatchmakeJob::LeaveJoinedMatchmakeSession
+0x13346e0	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchAutoMatchmakeJob::WaitLeaveJoinedMatchmakeSession | NexMatchAutoMatchmakeJob::AutoMatchmake | NexMatchAutoMatchmakeJob::CompleteFailure
+0x1334868	online-nex	A	2 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchAutoMatchmakeJob::CompleteFailure | NexMatchAutoMatchmakeJob::WaitAutoMatchmake
+0x13349c4	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchAutoMatchmakeJob::LeaveJoinedMatchmakeSession
+0x1334ad0	online-nex	A	2 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchAutoMatchmakeJob::LeaveMatchmakeSession | NexMatchAutoMatchmakeJob::WaitNotification
+0x1334c80	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchAutoMatchmakeJob::WaitLeaveBufferMatchmakeSession | NexMatchAutoMatchmakeJob::WaitLeaveCurrentMatchmakeSession | NexMatchAutoMatchmakeJob::CompleteFailure
+0x1334ff0	online-nex	A	2 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchAutoMatchmakeJob::LeaveMatchmakeSession | NexMatchAutoMatchmakeJob::StartNatSession
+0x13351a8	online-nex	A	2 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchAutoMatchmakeJob::LeaveMatchmakeSession | NexMatchAutoMatchmakeJob::WaitStartNatSession
+0x1335274	online-nex	A	2 of 4 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchAutoMatchmakeJob::LeaveMatchmakeSession | NexMatchAutoMatchmakeJob::CompleteFailure
+0x1335574	online-nex	A	2 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchAutoMatchmakeJob::LeaveMatchmakeSession | NexMatchAutoMatchmakeJob::CleanupForRetryJoinMesh
+0x133580c	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchAutoMatchmakeJob::StartNatSession | NexMatchAutoMatchmakeJob::WaitForRetryJoinMesh | NexMatchAutoMatchmakeJob::LeaveMatchmakeSession
+0x1335b80	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchAutoMatchmakeJob::LeaveMatchmakeSession
+0x1335cb0	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchAutoMatchmakeJob::LeaveMatchmakeSession
+0x1335f2c	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchAutoMatchmakeJob::LeaveMatchmakeSession | NexMatchAutoMatchmakeJob::StartNatSession | NexMatchAutoMatchmakeJob::ChangeParticipation
+0x1336128	online-nex	A	2 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchAutoMatchmakeJob::LeaveMatchmakeSession | NexMatchAutoMatchmakeJob::WaitChangeParticipation
+0x13362d0	online-nex	A	2 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchAutoMatchmakeJob::LeaveMatchmakeSession | NexMatchAutoMatchmakeJob::StartNatSession
+0x13365c4	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchBrowseMatchmakeJob::WaitFindSessionByOwner | NexMatchBrowseMatchmakeJob::WaitFindSessionByParticipant | NexMatchBrowseMatchmakeJob::BrowseMatchmake
+0x13368b4	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchBrowseMatchmakeJob::WaitBrowseMatchmake
+0x1336a80	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchBrowseMatchmakeJob::WaitRequestSessionInfo
+0x1336c48	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchClearSystemPasswordJob::ClearMatchmakeSystemPassword
+0x1336ca8	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchClearSystemPasswordJob::WaitClearMatchmakeSystemPassword
+0x1336f80	online-nex	A	4 of 4 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchCommunityManagementJob::FindCommunityByCommunityId | NexMatchCommunityManagementJob::FindCommunityByOwner | NexMatchCommunityManagementJob::FindOfficialCommunity
+0x133714c	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchCommunityManagementJob::WaitFindCommunityByCommunityId
+0x13371d4	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchCommunityManagementJob::WaitFindCommunityByOwner
+0x1337270	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchCommunityManagementJob::WaitFindCommunityByParticipant
+0x133730c	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchCommunityManagementJob::WaitFindOfficialCommunity
+0x13376e4	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchCommunityManagementJob::CreateCommunity
+0x1337770	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchCommunityManagementJob::WaitCreateCommunity
+0x1337914	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchCommunityManagementJob::JoinCommunity
+0x13379a0	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchCommunityManagementJob::WaitJoinCommunity
+0x1337a74	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchCommunityManagementJob::DestroyCommunity
+0x1337bb0	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchCommunityManagementJob::WaitDestroyCommunity
+0x1337c8c	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchCommunityManagementJob::LeaveCommunity
+0x1337dc8	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchCommunityManagementJob::WaitLeaveCommunity
+0x1337fd8	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchCreateSessionJob::LeaveJoinedMatchmakeSession
+0x1338168	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchCreateSessionJob::WaitLeaveJoinedMatchmakeSession | NexMatchCreateSessionJob::CreateMatchmakeSession | NexMatchCreateSessionJob::CompleteFailure
+0x13382f0	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchCreateSessionJob::WaitCreateMatchmake
+0x133841c	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchCreateSessionJob::LeaveJoinedMatchmakeSession
+0x133851c	online-nex	A	2 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchCreateSessionJob::UnregisterGathering | NexMatchCreateSessionJob::WaitNotification
+0x133869c	online-nex	A	2 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchCreateSessionJob::CompleteFailure | NexMatchCreateSessionJob::WaitUnregisterGathering
+0x13387a0	online-nex	A	2 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchCreateSessionJob::UnregisterGathering | NexMatchCreateSessionJob::StartNatSession
+0x1338960	online-nex	A	2 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchCreateSessionJob::UnregisterGathering | NexMatchCreateSessionJob::WaitStartNatSession
+0x13389f8	online-nex	A	2 of 4 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchCreateSessionJob::UnregisterGathering | NexMatchCreateSessionJob::CompleteFailure
+0x1338c80	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchCreateSessionJob::CompleteFailure
+0x1338e10	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchDestroySessionJob::UnregisterBufferMatchmakeSession
+0x1338e58	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchDestroySessionJob::UnregisterCurrentMatchmakeSession | NexMatchDestroySessionJob::WaitUnregisterBufferMatchmakeSession | NexMatchDestroySessionJob::CompleteProcess
+0x1339010	online-nex	A	1 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchDestroySessionJob::WaitUnregisterCurrentMatchmakeSession
+0x1339144	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchDestroySessionJob::UnregisterCurrentMatchmakeSession
+0x13393e4	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchGenerateSystemPasswordJob::GenerateMatchmakeSystemPassword
+0x1339444	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchGenerateSystemPasswordJob::WaitGenerateMatchmakeSystemPassword
+0x1339718	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchJoinSessionJob::LeaveJoinedMatchmakeSession
+0x1339818	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchJoinSessionJob::WaitLeaveJoinedMatchmakeSession | NexMatchJoinSessionJob::JoinMatchmakeSession | NexMatchJoinSessionJob::MeshCleanup
+0x13399a0	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchJoinSessionJob::MeshCleanup | NexMatchJoinSessionJob::LeaveMatchmakeSession | NexMatchJoinSessionJob::WaitJoinMatchmake
+0x1339b08	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchJoinSessionJob::LeaveJoinedMatchmakeSession
+0x1339c14	online-nex	A	3 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchJoinSessionJob::WaitLeaveBufferMatchmakeSession | NexMatchJoinSessionJob::WaitLeaveCurrentMatchmakeSession | NexMatchJoinSessionJob::MeshCleanup
+0x1339f60	online-nex	A	2 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchJoinSessionJob::LeaveMatchmakeSession | NexMatchJoinSessionJob::WaitNotification
+0x133a100	online-nex	A	2 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchJoinSessionJob::LeaveMatchmakeSession | NexMatchJoinSessionJob::GetStationConnectionInfo
+0x133a2c0	online-nex	A	2 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchJoinSessionJob::LeaveMatchmakeSession | NexMatchJoinSessionJob::WaitGetStationConnectionInfo
+0x133a428	online-nex	A	2 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchJoinSessionJob::LeaveMatchmakeSession | NexMatchJoinSessionJob::StartNatSession
+0x133a594	online-nex	A	2 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchJoinSessionJob::LeaveMatchmakeSession | NexMatchJoinSessionJob::WaitStartNatSession
+0x133a66c	online-nex	A	2 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchJoinSessionJob::MeshCleanup | NexMatchJoinSessionJob::LeaveMatchmakeSession
+0x133a8b0	online-nex	A	2 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchJoinSessionJob::LeaveMatchmakeSession | NexMatchJoinSessionJob::CleanupForRetryJoinMesh
+0x133ab6c	online-nex	A	4 of 4 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchJoinSessionJob::WaitForRetryJoinMesh | NexMatchJoinSessionJob::GetStationConnectionInfo | NexMatchJoinSessionJob::LeaveMatchmakeSession
+0x133af40	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchJoinSessionJob::LeaveMatchmakeSession
+0x133b074	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchJoinSessionJob::LeaveMatchmakeSession
+0x133b284	online-nex	A	2 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchJoinSessionJob::LeaveMatchmakeSession | NexMatchJoinSessionJob::GetStationConnectionInfo
+0x133b570	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchLeaveSessionJob::GetMatchmakeSessionOwners
+0x133b628	online-nex	A	1 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchLeaveSessionJob::WaitGetMatchmakeSessionOwners
+0x133b744	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchLeaveSessionJob::GetMatchmakeSessionOwners
+0x133b868	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchLeaveSessionJob::WaitMigrateMatchmakeSessionOwner
+0x133bae4	online-nex	A	1 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchLeaveSessionJob::MigrateMatchmakeSessionOwner
+0x133bc74	online-nex	A	1 of 3 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchLeaveSessionJob::CompleteProcess
+0x133ea50	online-nex	A	4 of 4 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchUpdateSessionSettingJob::ModifyAttribute | NexMatchUpdateSessionSettingJob::UpdateApplicationData | NexMatchUpdateSessionSettingJob::UpdateSessionSetting
+0x133ed70	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchUpdateSessionSettingJob::WaitUpdateApplicationData
+0x133ee98	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchUpdateSessionSettingJob::WaitUpdateAttributes
+0x133efb8	online-nex	A	1 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchUpdateSessionSettingJob::WaitModifyAttribute
+0x133f18c	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchUpdateSessionSettingJob::WaitUpdateSessionSetting
