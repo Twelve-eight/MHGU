@@ -17,7 +17,7 @@
 | `armor/` | 目录 | 防具五件套（head/body/arms/waist/legs，各 -light 摘要 + 全量）|
 
 ## 用途
-- **存档编辑器**：任务/技能/道具/怪物名查表（编辑器现有 `MHGU_item(uni).txt` 可与之对拍补齐）
+- **存档编辑器**：任务/技能/道具/怪物名查表（对拍方法与现状见上一节：该文件不在仓库里，需先用 `tools/mhgu/export-item-table.mjs` 从库里生成）
 - **知识库**：机制综述的数值底（如任务解锁前置、技能点数阈值、武器面板公式）
 - **校验**：对照存档字段（任务 id、技能点、猫装备）做交叉验证
 
@@ -75,6 +75,35 @@
 
 - **名字可移植，`_id` 不可移植**。agroff 的 `_id` 与 db 完全不在一个编号空间（装饰珠 0/242 命中），跨源只用名字 + 归一化。
 - **两边命名有系统性差异**：agroff 用 `Petrified Hammer LV1`，db 用 `Petrified Hammer 1`；不转换会把 885 条全判成不一致（我第一版就是这样得到 0% 的）。
+
+## 编辑器运行时数据文件：两个都缺，一个能重建、一个不能（2026-11-04 审计）
+
+`editor-src` 的界面在启动时读两个外部文本文件（UTF-16），**两个都不在仓库里**：
+
+| 文件 | 谁读 | 格式 | 现状 |
+|---|---|---|---|
+| `MHGU_item(uni).txt` | `ItemsForm.cs:365` | 每行 `id,name`，`Split(',')`，读到长度 ≤2 的行就 `break` | **可从 `mhgu.db` 重建**（见下） |
+| `MHGU_DLC.txt` | `DLCForm.cs:57` | 每行 `identifier, address(hex), checked(hex), name`（`DLCForm.cs:70-73`） | **重建不了**：装的是存档里 DLC 标志的**地址**，不是数据库能给的数值 |
+
+本 README 此前写的"编辑器现有 `MHGU_item(uni).txt` 可与之对拍补齐"**不成立**——那份文件从来没有进过仓库，所以这条对拍一直跑不了。
+
+### 能重建的那个
+
+`tools/mhgu/export-item-table.mjs` 从 `mhgu.db` 的 `items` 表生成该文件：
+
+```
+node tools/mhgu/export-item-table.mjs "编辑器目录/MHGU_item(uni).txt"
+```
+
+- 21,153 行、1,044,342 字节、UTF-16LE + BOM、CRLF，`id` 用数据库的 `items._id`（`1` = Book of Combos 1，与游戏 id 空间一致）；
+- 生成前后各一道自检：任何名字含逗号就**拒绝生成**（`ItemsForm` 按逗号切分，否则名字会被截断），实测 0 条；再按 `ItemsForm` 的读法回放一遍，21,153 行全部被接受。
+- **这是派生产物，不提交**：改了 `mhgu.db` 就重跑一次，别把 1 MB 的生成物塞进 git。
+
+### 不能重建的那个
+
+`MHGU_DLC.txt` 里每一行的第 2、3 字段是**存档内的地址**（`id_Address` / `id_checked`），属于存档布局知识，`mhgu.db` 里没有这类数据，本仓库的文档里也没有 DLC 地址分析。所以编辑器 DLC 页现在是**静默降级**：`DLCForm.cs:63-66` 对长度 ≤10 的行 `continue`，文件缺失时 `dlc` 一直是 `null`，导出会 NRE（代码注释里 `DLC-1` 记的就是这个坑）。
+
+要补，必须先做 DLC 标志位的存档定位（属于成员/存档侧逆向），不是"补一个数据文件"能解决的。记为待办，不假装已覆盖。
 
 **信源验证记录**：`docs/reference/source-verification.md`
 ## 缺口（待补，mhgu.db 已覆盖大部分）
