@@ -18,6 +18,7 @@
 // Library: readMrl(buf) -> {version, materialCount, textureCount, materials, textures, consumed}
 //          crc32 / nameHash (full 32-bit ~crc32) / typeHash (& 0x7fffffff)
 import fs from 'node:fs';
+import { pathToFileURL } from 'node:url';
 import path from 'node:path';
 import zlib from 'node:zlib';
 
@@ -475,7 +476,11 @@ async function cmdSelftest() {
   console.log('\nself-test OK');
 }
 
+// Importing this file used to run the CLI, which made `import { readMrl }` unusable for the corpus statistics and forced
+// callers to spawn one process per file. Dispatch only when this module is the entry point.
+const isEntry = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
 const commands = { info: cmdInfo, dump: cmdDump, check: cmdCheck, texmap: cmdTexmap, modnames: cmdModnames, corpus: cmdCorpus, selftest: cmdSelftest };
+if (!isEntry) { /* library use: no CLI */ } else {
 const cmd = argv[0];
 if (cmd && commands[cmd]) {
   await commands[cmd]();
@@ -494,4 +499,5 @@ if (cmd && commands[cmd]) {
 } else {
   console.error(`unknown command ${JSON.stringify(cmd)}`);
   process.exit(2);
+}
 }

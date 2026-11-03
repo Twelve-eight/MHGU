@@ -47,9 +47,29 @@ function demangle(s) {
   return parts.join("::");
 }
 
+// Slot-run overrun guard. A vtable read as "every in-text word until the first non-code word" can walk past the real end
+// into adjacent rodata: vtable 0x182e82c has slots 0-9 at 0x125xxxx and then slot 10 at 0xea60, about 1.2 MB away. A slot
+// whose target sits more than 256 KB from the median target of the same vtable is therefore not that class's method; it
+// goes to a suspect file instead of becoming evidence.
+const cluster = new Map();
+const SLOTS = path.join(ROOT, "docs/analysis/code/inventory/vtables-slots.tsv");
+if (fs.existsSync(SLOTS)) {
+  const byVt = new Map();
+  for (const l of fs.readFileSync(SLOTS, "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
+    const [start, vt] = l.split("\t");
+    if (!byVt.has(vt)) byVt.set(vt, []);
+    byVt.get(vt).push(parseInt(start, 16));
+  }
+  for (const [vt, list] of byVt) {
+    const sorted = list.slice().sort((a, b) => a - b);
+    cluster.set(vt, sorted[Math.floor(sorted.length / 2)]);
+  }
+}
+
 const rows = fs.readFileSync(SRC, "utf8").split(/\r?\n/).filter(Boolean).slice(1);
 const out = [["start", "label", "conf", "evidence"]];
 const rest = [["start", "label", "conf", "evidence"]];
+const suspect = [["start", "label", "conf", "evidence"]];
 const seen = new Set();
 let promoted = 0;
 const byLabel = new Map();
@@ -58,6 +78,15 @@ for (const l of rows) {
   if (conf !== "B") continue; // conf A rows are already direct evidence and stay in the source file
   const m = /rtti-typeinfo (\S+) /.exec(ev || "");
   if (!m) { rest.push([start, label, conf, ev]); continue; }
+  const m2 = /vtable (0x[0-9a-f]+) slot (\d+)/.exec(ev || "");
+  if (m2) {
+    const med = cluster.get(parseInt(m2[1], 16).toString(16));
+    const target = parseInt(start, 16);
+    if (med !== undefined && Math.abs(target - med) > 0x40000) {
+      suspect.push([start, label, "B", `${ev} [slot target is ${(Math.abs(target - med) / 1024) | 0} KB from its vtable median 0x${med.toString(16)}: the run most likely overran the vtable end]`]);
+      continue;
+    }
+  }
   const full = demangle(m[1]);
   const hit = NS.find(([ns]) => full === ns || full.startsWith(ns + "::"));
   if (!hit) { rest.push([start, label, conf, ev]); continue; }
@@ -69,5 +98,7 @@ for (const l of rows) {
 }
 fs.writeFileSync(OUTFILE, out.map((r) => r.join("\t")).join("\n") + "\n");
 fs.writeFileSync(OUTREST, rest.map((r) => r.join("\t")).join("\n") + "\n");
+fs.writeFileSync(path.join(ROOT, "docs/analysis/code/inventory/attr-vtable-ns-suspect.tsv"), suspect.map((r) => r.join("\t")).join("\n") + "\n");
 console.log(`promoted ${promoted} namespace-backed rows:`, [...byLabel].map((x) => x.join(":")).join(" "));
+console.log(`suspect (overrun) rows: ${suspect.length - 1}`);
 console.log(`remaining B rows: ${rest.length - 1} -> attr-vtable-rest.tsv`);
