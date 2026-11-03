@@ -26,6 +26,12 @@ for(let a=0x100;a<TE;a+=4){const w=rd(a);
 const seen=new Set(); const U=disp.filter(d=>{if(seen.has(d.tb))return false;seen.add(d.tb);return true;});
 const PAT=/^(ems?\d{3}_\d\d)?[A-Za-z_]*?(move|Move|Loop|Start|Change|Attack|Fwd|Demo|Fly|Hover|Catch|Turn|Wait|Run|Down|Up|Jump|Guard|Escape|Sleep|Angry|Rest)/;
 const lines=['# 怪物动作状态机：state → handler → motion','',
+'> **2026-11-04 关联审计后必须知道的四件事**（横幅由生成器写出，重跑不会丢）：',
+'> 1. **本文件的小节数不等于派发器总数**：生成器只保留 `N<=64` 的 `movw #0x73e0` 表，去掉该过滤会多出 `0x5c2cc`（N=225）与 `0x1081408`（N=100）两张非怪物表；',
+'> 2. **下面的派发器地址是函数内部地址**（全部不在 `functions-retile.csv.gz` 的函数起点集合里，通常是起点 +8）；',
+'> 3. **有 8 个状态没有 handler**（890 行状态里 handler 列为 `—` 的正好 8 行）；',
+'> 4. **有 3 个小节把两级派发当成一级**：`0x81ca4`（11 + 35）、`0xd3137c`（8 + 17）、`0xf48ef0`（8 + 62），根因是生成器只匹配 `Rn=r0` 的 `cmp`。',
+'',
 '> 生成：`tools/mhgu/state-motion3.mjs`（可复现）。**修正版**：每个 handler 只在 `[handler, 下一个 handler 起点)` 窗口内取名字，',
 '> 若窗口内无名字则**只跟一层尾调用**到 target 再取；仍无则写 `—`。**每个状态最多保留 1 个名字**（避免窗口污染）。',''];
 let good=0;
