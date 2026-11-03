@@ -55,7 +55,10 @@ node tools/mhgu/coverage/report.mjs [--demote f]
 | physics-math | 76.6% | 59.3% |
 | monster-em | 92.8% | **22.6%（15.9）** |
 | quest / audio / item / save-data / player-pl / otomo-ot | 73.9 / 83.3 / 58.6 / 69.6 / 69.0 / 58.9 | 14.0 / 16.7 / 19.7 / 24.5 / 28.3 / 5.5 |
+| kernel-os / filesystem | —（未单列） | 38.5%（10/26）/ 0.0%（0/7） |
 | **合并** | 86.0%（CP95 85.5） | **72.4%（CP95 71.3）** |
+
+**复现（2026-11-04 重跑，与本表逐项相同）**：`node tools/mhgu/coverage/spread-precision-independent.mjs` 输出 `5144/7106 = 72.4%  CP95 71.3%` 及上表每一个标签的分子/分母；kernel-os（10/26）与 filesystem（0/7）原表未单列，本轮补上。
 
 因此：
 
