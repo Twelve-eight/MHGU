@@ -5,7 +5,7 @@ X3	METER-CHAIN	473 refuted functions vs 512 demoted, mixed with a 0.61 point fig
 X4	METER-CHAIN	same as X3	fixed	as X3
 X5	METER-CHAIN	second-metric denominator still 23,885 in code-metrics and HANDOFF	open	HANDOFF bullets are marked as 2026-10-23 history and the 2026-11-04 note above them states the retile; code-metrics §2/§5-§8 are marked unrecomputable history, left as record
 X6	METER-CHAIN	A-direct 13,061 vs 13,060 inside METER	fixed	METER now uses 13,061 and names the one-function difference from direct-split
-X7	METER-CHAIN	36.3% bucket defined as four vote channels but report counts every conf=V	open	report.mjs still globs attr-*vote* and hardcodes attr-immscan; documented as a coupling in METER, code change deferred because it would move the partition
+X7	METER-CHAIN	36.3% bucket defined as four vote channels but report counts every conf=V	fixed	report.mjs now names VOTE_FILES and SIG_FILES instead of globbing filenames, warns on any conf-V/S source it does not classify (five today), and the signature row counts functions rather than rows: 2496 rows became 1511 functions
 X8	METER-CHAIN	PROGRESS forbids citing its own numbers while citing them	open	editorial; PROGRESS §G is the live section and the prohibition refers to the old tables
 S1	METER-CHAIN	METER 13,816 form table	fixed	recounted against 12,318 unlabelled functions
 S2	METER-CHAIN	"seven gates" vs 12	fixed	HANDOFF step 3 says 12 gates
@@ -39,8 +39,8 @@ MC4	MECHANICS	dispatcher at +4 in the 8-slot clusters	fixed	[0] is the dispatche
 MC5	MECHANICS	sMain 230,256 = 227,386+632	fixed	229,952 from class-inventory, 3,198 B unexplained
 MC6	MECHANICS	registration-function column points at thunks	fixed	banner in monster-classes.md, 0x48698 is a 4-byte bx lr
 MC7	MECHANICS	red_blue does not exist as a string	fixed	row now names red_Change/blue_Change
-MC8	MECHANICS	8 states without handler	open	audit claim, marked unverified in the banner
-MC9	MECHANICS	two-level dispatch in 3 sections	open	audit claim, marked unverified in the banner
+MC8	MECHANICS	8 states without handler	fixed	counted the state table: 890 rows, exactly 8 with no handler
+MC9	MECHANICS	two-level dispatch in 3 sections	partial	0x81ca4 spot-checked: cmp r0,#0xa then sub/cmp giving 35 entries; the other two sections not re-derived
 N1	SWEEP	member-census and the mechanics findings read movw r7,#0x8fc as 2292	fixed	0x8FC is 2300; disassembled 0x19a4f8 = e30078fc
 N2	SWEEP	tail-dense first run labelled 0x3783A..0x3B03A as 15360	fixed	span is 14336 (0x3800)
 N3	SWEEP	coverage-map group-name block 0x2EFF..0x3FEF stated 4080	open	span is 4336, 256 unexplained; already editor-spec G-05

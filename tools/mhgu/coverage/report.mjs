@@ -157,12 +157,45 @@ rows.push(["tier A (verified)", String(A.fn), String(A.ins), pct(A.ins, totalIns
 rows.push(["conf B (unverified)", String(B.fn), String(B.ins), pct(B.ins, totalIns), pct(B.fn, totalFn)]);
 // Inferred labels are a separate class on purpose: a callee vote is inference, and mixing it into A-direct would repeat
 // the mistake that got tier A inflated. The rule that produces them was validated leave-one-file-out at 96.0%.
+//
+// The class membership used to be decided by filename (a /^attr-.*vote\d*\.tsv$/ glob here, a hardcoded immscan path
+// below), so a new inference or signature table added to sources.json would silently fall outside every class and the
+// published partition would quietly lose it. The classes are named explicitly now, checked against the conf column, and a
+// file that carries V or S rows without being classified is reported loudly instead of disappearing.
+const VOTE_FILES = ["attr-callvote.tsv", "attr-callvote1.tsv", "attr-callervote.tsv", "attr-classvote.tsv"];
+const SIG_FILES = ["attr-immscan.tsv"];
+{
+  const confOf = (f) => {
+    const p = path.join(INV, f);
+    if (!fs.existsSync(p)) return new Set();
+    const s = new Set();
+    for (const l of fs.readFileSync(p, "utf8").split(/\r?\n/).filter(Boolean).slice(1)) s.add(l.split("\t")[2]);
+    return s;
+  };
+  const unclassified = SOURCES.filter((f) => {
+    const c = confOf(f);
+    const hasV = c.has("V"), hasS = c.has("S");
+    if (hasV && !VOTE_FILES.includes(f)) return true;
+    if (hasS && !SIG_FILES.includes(f)) return true;
+    return false;
+  });
+  if (unclassified.length) {
+    console.log(`WARNING unclassified conf-V/S source(s): ${unclassified.join(", ")}`);
+    console.log(`        their rows belong to no per-class row; add them to VOTE_FILES or SIG_FILES, or state in METER that`);
+    console.log(`        they are recorded but never counted as a class`);
+  }
+  for (const f of [...VOTE_FILES, ...SIG_FILES]) {
+    if (!SOURCES.includes(f)) console.log(`WARNING ${f} is classified but not listed in sources.json`);
+  }
+}
 let _voteStarts = null;
 const voteStarts = () => {
   if (_voteStarts) return _voteStarts;
   _voteStarts = new Set();
-  for (const f of fs.readdirSync(INV).filter((x) => /^attr-.*vote\d*\.tsv$/.test(x))) {
-    for (const l of fs.readFileSync(path.join(INV, f), "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
+  for (const f of VOTE_FILES) {
+    const p = path.join(INV, f);
+    if (!fs.existsSync(p)) continue;
+    for (const l of fs.readFileSync(p, "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
       const [start, label, conf] = l.split("\t");
       if (conf === "V" && label) _voteStarts.add(start);
     }
@@ -170,7 +203,7 @@ const voteStarts = () => {
   return _voteStarts;
 };
 const CV = (() => {
-  const files = fs.readdirSync(INV).filter((f) => /^attr-.*vote\d*\.tsv$/.test(f));
+  const files = VOTE_FILES.filter((f) => fs.existsSync(path.join(INV, f)));
   let fn = 0, ins = 0, rows = 0;
   const seen = new Set();
   for (const f of files) {
@@ -190,16 +223,19 @@ rows.push(["A-inferred (callee/caller/class vote channels, per-round 92.8-99.3%)
 // Single-immediate signatures are their own class: the rule is weaker than a call vote (97.2% fold-wise versus 93.6-99.3%)
 // and was selected on the same labels it predicts, so it stays separable and withdrawable.
 const SG = (() => {
-  const p = path.join(INV, "attr-immscan.tsv");
-  if (!fs.existsSync(p)) return { fn: 0, ins: 0, rows: 0 };
+  const files = SIG_FILES.filter((f) => fs.existsSync(path.join(INV, f)));
   let fn = 0, ins = 0, rows = 0;
-  for (const l of fs.readFileSync(p, "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
-    const [start, label, conf] = l.split("\t");
-    if (conf !== "S" || !label) continue;
-    rows++;
-    if (direct.has(start) || voteStarts().has(start)) continue;
-    const t = tiers.get(start);
-    if (t) { fn++; ins += t.insns; }
+  const seen = new Set();
+  for (const f of files) {
+    for (const l of fs.readFileSync(path.join(INV, f), "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
+      const [start, label, conf] = l.split("\t");
+      if (conf !== "S" || !label) continue;
+      rows++;
+      if (direct.has(start) || voteStarts().has(start) || seen.has(start)) continue;
+      seen.add(start);
+      const t = tiers.get(start);
+      if (t) { fn++; ins += t.insns; }
+    }
   }
   return { fn, ins, rows };
 })();

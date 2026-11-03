@@ -4,7 +4,7 @@ A-direct (evidence row)	13061	1248279	23.9%	24.8%
 tier A (verified)	25584	3014249	57.7%	48.6%
 conf B (unverified)	11842	1483290	28.4%	22.5%
 A-inferred (callee/caller/class vote channels, per-round 92.8-99.3%)	10138	1832618	35.1%	19.2%
-A-signature (32-bit constant, fold 97.1%)	2496	260798	5.0%	4.7%
+A-signature (32-bit constant, fold 97.1%)	1511	146378	2.8%	2.9%
 headline A only	25584	3014249	57.7%	48.6%
 partition: direct evidence	13061	1248279	23.9%	24.8%
 partition: inferred only	11250	1896778	36.3%	21.4%

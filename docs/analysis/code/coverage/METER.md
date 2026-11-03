@@ -420,7 +420,9 @@ vtable 通道靠 RTTI 认表，但镜像里还有大量**没有 typeinfo 的函�
 
 顺带修了两处"清单读法"：`attr-immscan`（签名）和 `attr-tableseeds` 之前都不在 `sources.json` 的计数路径上，现在**证据面（direct）**统一从 `sources.json` 读。
 
-**但要说清楚还剩一处按文件名的耦合**（2026-11-04 复核）：报告里三行汇总——`A-inferred`、`A-signature`、以及"签名占多少"——仍由文件名决定（`report.mjs` 用 `/^attr-.*vote\d*\.tsv$/` 通配，并硬编码 `attr-immscan.tsv`）。也就是说，往 `sources.json` 新加一个 conf=V 的通道，它会进分区，但不会自动进 `A-inferred` 这一行。这不是当前的数字错误（现有 V 通道都在通配范围内），是一个**下次加通道会踩的坑**，已记在这里。
+**类别归属也已去掉文件名耦合**（2026-11-04）：报告里 `A-inferred` / `A-signature` 两行过去由文件名决定（`/^attr-.*vote\d*\.tsv$/` 通配 + 硬编码 `attr-immscan.tsv`）。现在改成显式名单 `VOTE_FILES` / `SIG_FILES`，并且**每次运行都会检查 `sources.json` 里有没有带 conf=V/S 却没被分类的文件**，有就打印 WARNING。当前确实有 5 张：`attr-offsetpairs`、`attr-offsets`、`attr-dualpredict`、`attr-classsingle`、`attr-tableseeds`——它们**只是记录，不属于任何已发布类别**，也不参与分区；这一点现在写在代码的警告里，不再靠读者猜。
+
+**同一轮还修了一个计数口径错误**：`A-signature` 行按**行数**而非**函数数**统计，而 `attr-immscan.tsv` 里一个函数可以有多条签名行（3,067 行 / 1,861 个函数），于是旧行报 2,496 个"函数"、260,798 条指令、5.0%。去重后是 **1,511 个函数 / 146,378 条指令 / 2.8%**，与分区的 `signature only` 桶（1,475 / 144,714 / 2.8%）对齐。头部的 ≥90% 覆盖与项目口径都不受影响（它们走分区，不走这一行）。
 
 ## 结构偏移签名：聚合值掩盖了一个不合格的子群（2026-11-04）
 
