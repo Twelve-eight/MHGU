@@ -185,6 +185,40 @@ for (const { round, added } of cascade(direct, ROUNDS)) {
   for (const [k, v] of added) adopted.set(k, { ...v, round });
 }
 
+// Support closure: a row is kept only if the final anchor set can still justify it. A hub can lose purity as the anchor set
+// grows (its callers get relabelled, or new callers appear), so a row that was justified in round 1 can become unjustified
+// by round 6. Such rows are dropped and the check repeats until the table is closed.
+for (let pass = 0; pass < 3; pass++) {
+  const finalAnchor = new Map(direct);
+  for (const [k, v] of adopted) finalAnchor.set(k, v.lab);
+  const pu = purity(finalAnchor);
+  const ct = callerTable(finalAnchor);
+  const dropped = [];
+  for (const [st, v] of adopted) {
+    const f = byStart.get(st);
+    const viaCallee = f && f.callees.some((c) => pu.get("0x" + c.toString(16))?.lab === v.lab);
+    const viaCaller = ct.get(st)?.lab === v.lab;
+    if (!viaCallee && !viaCaller) dropped.push(st);
+  }
+  for (const st of dropped) adopted.delete(st);
+  console.log(`support closure pass ${pass + 1}: dropped ${dropped.length} row(s)`);
+  if (!dropped.length) break;
+}
+const finalAnchor = new Map(direct);
+for (const [k, v] of adopted) finalAnchor.set(k, v.lab);
+{
+  const pu = purity(finalAnchor);
+  const ct = callerTable(finalAnchor);
+  let unsupported = 0;
+  for (const [st, v] of adopted) {
+    const f = byStart.get(st);
+    const viaCallee = f && f.callees.some((c) => pu.get("0x" + c.toString(16))?.lab === v.lab);
+    if (!viaCallee && ct.get(st)?.lab !== v.lab) unsupported++;
+  }
+  if (unsupported) { console.error(`FAIL: ${unsupported} inferred rows still unsupported`); process.exitCode = 1; }
+  else console.log("self-check: every inferred row is supported by the final purity table");
+}
+
 for (const [st, v] of adopted) {
   rows.push([st, v.lab, "V", `one-vote round ${v.round} (${v.how}): ${v.n} strongly-typed neighbour(s) agree on ${v.lab}`]);
 }
