@@ -5,7 +5,7 @@ Denominator frozen by `docs/analysis/audit/MANIFEST.tsv` (189 docs) and
 `analysis-save-io` (4), `history` (2), `patches` (1), `editor-spec` (3),
 `root` (3), `analysis` (1), `analysis-gameplay` (1), `spec-crossgame` (1).
 
-Verdicts: **OK** 90 · **WRONG** 22 · **STALE** 20 · **UNVERIFIABLE** 9 · **MISSING** 0 · **NA** 0.
+Verdicts: **OK** 93 · **WRONG** 20 · **STALE** 20 · **UNVERIFIABLE** 9 · **MISSING** 0 · **NA** 0.
 Every row in `REST.tsv` carries the command and its output; this file groups the
 load-bearing ones and records cross-document contradictions.
 
@@ -159,7 +159,7 @@ correct: `0xE6F55071` is `UXTAH r5,r5,r1`.
 `mon-class-map.md`: the name pool starts at `0x1551AC6`, `bl 0x7aedcc` appears
 exactly **3,205** times, and every sampled class size matches
 `class-inventory.tsv` (`cEmSizeCalcTblElement` 32, `uEnemy` 51,840,
-`uEm001_00` 51,920, `uEm084_00` 156,448, `uEm088_00` 54,528). Three defects:
+`uEm001_00` 51,920, `uEm084_00` 156,448, `uEm088_00` 54,528). Two defects plus one note:
 
 * **WRONG** — the "23 B non-string data" between `cPartsVisibleInfo` and
   `cPartsVisibleGroup` is two UTF-8 member names of `cPartsVisibleInfo`:
@@ -241,7 +241,9 @@ doc's 477/89). One **WRONG** row: §3's negative table still gives
 
 `entry-map.md` (gameplay): three of the five `movw` censuses are exact
 (`0x72C` 68 sites/39 fns, `0x83E` 12/9, `0x52C` 8/8, `0x62C` 10/10), but
-`0x42C` is **361** sites, not 359 (78 functions is right). The `0x52308C` role
+`0x42C` is **361** sites, not 359 — the table omits fn `0xF93330` (two real
+`movweq r0,#0x42c` sites at `0xF935B0`/`0xF936A0`) and lists `0x3D17F8` with 3
+sites where the scan finds 4. The `0x52308C` role
 cell is **WRONG**: it says the accessor sums `ldrh[obj+0xB0] + [obj+0xB8]`,
 while `0x5230D0/D4` read `kill[slot]` at `r1+2*slot` and `capture[slot]` at
 `r1+0x112+2*slot` (verified in `mon-quest-dispatch.md` §4.1 and by the three
@@ -272,17 +274,20 @@ times); the current `MainForm.cs` has **zero** occurrences of 821248 and uses
 on `analysis/movw-index.json`, which is not in the repo (UNVERIFIABLE), exactly
 as the doc's method-boundary note says.
 
-`tail-containers.md`: only two one-off boundary errors — the 16 B grid is
-**22,939** frames (delta 16 × 22,340), not 22,940/22,341. Everything else
-(zero-hole table addresses and lengths, zlib grid, closure, density, text
-counts) reproduces.
+`tail-containers.md`: every number reproduces, including the boundary-inclusive
+counts I first got wrong myself — the 16 B grid is **22,940** frames with
+delta 16 × 22,341 once the frame at `0x117117` is included, and the C0..C7
+closure is exact. (zero-hole table addresses and lengths, zlib grid, density and
+text counts also reproduce.)
 
 `tail-dense-3783A.md`: the segment MD5s, 98,295 zero bytes, the mod-16 residual
 table (peak 15,813 at r=8), the fill-pattern counts (8,959 / 9,408 / 9,005 /
 9,745 / 59,167), lag-16 0.3977 vs 0.1543/0.1554 and lag-432 0.4274 all match.
 Phase B: 7,291 records, header 7,291/7,291, payload 58,328 B, entropy 7.534,
-lag16 0.5277, u32 count 7,292 — the doc's "7,292/7,292" is the u32 count, not
-the record count (off by one). Non-zero runs 24,965 vs 24,966 (boundary).
+lag16 0.5277, u32 count 7,292. "7,292/7,292" is correct: the record array runs
+`0x63841 + 16k`, k = 0..7,291, the last head at `0x7FFF1` crosses `0x80000`
+(which the doc itself states). Non-zero runs are 24,966 once the run that
+reaches the segment end is counted.
 
 `write-side-desc.md`: the 44 B constructor (28 instructions at `0xDABA4`), the
 write entry's call list (7×`0xDABA4`, `0x275A30`, 2×`0x13EFE30`, `0x13EFDD0`,
@@ -360,12 +365,14 @@ to 123, and the V8 re-encoded immediates (`74FA`, `80B0`) are present in
 | # | contradiction | which side holds |
 |---|---|---|
 | 1 | `editor-spec/01` invariant 3: `0x0B1` REFUTED as HR copy vs `editor-spec/03` §A: "second copy at 0x0B1, write both identically" | 01 holds (bytes + `0x3E1050` reads `obj+0x506`) |
-| 2 | `mon-class-map.md` §3: names are materialised by `ldr`-delta + `add rX,pc,rY` vs `mon-em-units.md` C2: "no xref, dead strings" | `mon-class-map` holds (56 registration sites found) |
+| 2 | `mon-class-map.md` §3: names are materialised by `ldr`-delta + `add rX,pc,rY` vs `mon-em-units.md` C2: "no xref, dead strings" | `mon-class-map` holds (61/61 `uEm` names have a site, all in fn `0x4F078`) |
 | 3 | `entry-map.md`: `0x52308C` sums `[obj+0xB0]+[obj+0xB8]` vs `mon-quest-dispatch.md` §4.1: `kill[slot]+capture[slot]` at `+2*slot` / `+0x112+2*slot` | `mon-quest-dispatch` holds (disassembly) |
 | 4 | `mon-counter-slots.md` §4: repo slot map is shifted after slot 71 vs the file now being 137/137 identical to `0x1597EA4` | the file was fixed on 2026-10-25; the doc is stale |
 | 5 | `mon-size-calc.md` §4: 21 high-index dirty records vs §10: 14 | 14 is measured |
 | 6 | `mon-em-units.md` C5/C6 slot numbers vs `mon-counter-slots.md` §4.2 layout | `mon-counter-slots` holds |
 | 7 | `PROGRESS.md` 227,386 B member layer vs `DEVELOP.md` 12,955 B member#4 inner span | both are consistent only if 227,386 is the end offset (226,754 B length) |
+| 8 | `mon-class-map.md` §5bis: the 105 unit registrations belong to fn `0x4EDEC` vs `mon-ai-entry.md` E8: `0x4F078` is the `uEm019_00` reference point | `mon-ai-entry` holds; `0x4EDEC` ends at `0x4EE30` and `0x4F078` is a separate function |
+| 9 | `class-inventory.tsv` (artifact): `uEm001_00` `registrar_fn 0x4edec`, `registrar_site 0x4f180` | self-inconsistent: a site cannot lie in a function that ends 0x18C earlier |
 
 ---
 

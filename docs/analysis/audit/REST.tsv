@@ -34,7 +34,7 @@ docs/analysis/code-metrics.md	headline-52.2pct	STALE	coverage-report.tsv (2026-1
 docs/analysis/code-metrics.md	otomo-1041-224608	OK	node: tiers.csv label=otomo-ot tier=A -> 1041/224608	Exact
 docs/analysis/gameplay/entry-map.md	movw-72c-39f-68s	OK	node: movw #0x72c -> 68 sites, 39 push-prologue functions; first sites 161bd0/248984/2489a8/2489cc	Exact
 docs/analysis/gameplay/entry-map.md	movw-83e-9f-12s	OK	node: movw #0x83e -> 12 sites, 9 functions; first 3001c0/301578	Exact
-docs/analysis/gameplay/entry-map.md	movw-42c-78f-359s	WRONG	node: movw #0x42c -> 361 sites, 78 functions	Site count is 361, not 359 (function count matches)
+docs/analysis/gameplay/entry-map.md	movw-42c-78f-359s	WRONG	node: movw #0x42c -> 361 sites; fn 0xF93330 (2 sites: 0xF935B0, 0xF936A0, real 'movweq r0,#0x42c' after cmp) is absent from the table; fn 0x3D17F8 has 4 sites, table says 3	Table incomplete; 78 functions is right, site total 359 is not
 docs/analysis/gameplay/entry-map.md	movw-52c-8f-8s	OK	node: movw #0x52c -> 8 sites, 8 functions; first 21fd10	Exact
 docs/analysis/gameplay/entry-map.md	movw-62c-10f-10s	OK	node: movw #0x62c -> 10 sites, 10 functions; first 1e5690	Exact
 docs/analysis/gameplay/entry-map.md	52308c-reads-obj+0xB0/B8	WRONG	FLAT=main.140.flat.bin disasm 0x5230d0 -> ldrh r0,[r1,r0] (kill[slot]) ; 0x5230d4 -> ldrh r1,[r1,r8] with r8=0x112 (capture[slot]) ; 0x5230d8 add	Role cell says ldrh[obj+0xB0]+[obj+0xB8]; actual reads are obj+0x72C+2*slot and obj+0x83E+2*slot
@@ -87,13 +87,13 @@ docs/analysis/save-io/tail-containers.md	holes-16-30043	OK	node: 16 zero runs >=
 docs/analysis/save-io/tail-containers.md	same-role-diff-71.969	OK	node: diff 470296 (71.969%), clean-only 225499, dirty-only 93390	Exact
 docs/analysis/save-io/tail-containers.md	zlib-grid-50x73	OK	node: 50/50 inflate at 0xC9B99+k*73 (len at +12, stream at +16) to 6328 zero bytes; header 78 9c; len 29	Exact
 docs/analysis/save-io/tail-containers.md	closure-C0..C7	OK	node: 1966+193376+174838+248609+17681+206+4700+12096 = 653472	Exact
-docs/analysis/save-io/tail-containers.md	16B-grid-22940	WRONG	node: 8-byte frame ff00 499224499224 at 0x80000..0x117117 -> 22939 hits, delta 16 x 22340	Off by one (boundary); rest of the grid description verified
+docs/analysis/save-io/tail-containers.md	16B-grid-22940	OK	node: frames ff00+499224499224 from 0x80001 to 0x117117 inclusive -> 22940 hits, delta 16 x 22341 (last delta at 0x117117)	Boundary-inclusive recount matches the doc exactly
 docs/analysis/save-io/tail-dense-3783A.md	length-and-md5	OK	node: 296902; md5 clean 7729559b03ee73914001f17a30cb5d72, dirty slot0 0e7d24ca5653450a90daacaf16a2d141	Exact
 docs/analysis/save-io/tail-dense-3783A.md	zero-residual-98295	OK	node: zero bytes 98295 (33.1%); mod-16 residual 6754,5415,5299,5992,6878,5729,5694,5252,15813,...	Exact including the r=8 peak
 docs/analysis/save-io/tail-dense-3783A.md	bit-pattern-counts	OK	node: u32 0x24924900 x8959; u16 4900/2492/9249 = 9408/9005/9745; bytes 49/24/92 = 59167 (29.8% of nonzero)	Exact
 docs/analysis/save-io/tail-dense-3783A.md	lag16-vs-15-17	OK	node: lag16 0.3977, lag15 0.1543, lag17 0.1554, lag432 0.4274	Exact
-docs/analysis/save-io/tail-dense-3783A.md	phaseB-7291-hdr100pct	OK	node: records 0x63841..0x80000 = 7291, hdr match 7291/7291, payload 58328 B, entropy 7.534, lag16 0.5277	Doc says 7,292/7,292; 7,292 is the u32 count, records are 7,291
-docs/analysis/save-io/tail-dense-3783A.md	runs-24966-max-129	OK	node: zero runs >=64 = 0; nonzero runs 24965; max run 129 at 0x52A71	Run count off by one (last run boundary)
+docs/analysis/save-io/tail-dense-3783A.md	phaseB-7292-hdr100pct	OK	node: records 0x63841+16k with k=0..7291 (last head 0x7FFF1, crosses 0x80000) -> 7292, hdr match 7292/7292, payload 58328 B, entropy 7.534, lag16 0.5277	Inclusive count matches; my first pass dropped the record crossing 0x80000
+docs/analysis/save-io/tail-dense-3783A.md	runs-24966-max-129	OK	node: zero runs >=64 = 0; max run 129 at 0x52A71; the segment ends in a nonzero byte so the last run is not closed by a zero (24965 closed runs + 1)  	Boundary artifact only
 docs/analysis/save-io/write-side-desc.md	ctor-0xdaba4-44B	OK	FLAT disasm 0xdaba4..0xdac0c matches the 28 documented instructions; 0xdac10 literal 0x175f1b8	Exact
 docs/analysis/save-io/write-side-desc.md	write-entry-no-3df378	OK	node: calls in 0x3e0ea4 = 7x0xdaba4, 0x275a30, 2x0x13efe30, 0x13efdd0, 7x0xdadf0, 0x3e75f8, 7x0xdad24; 0x3df378/0x3df2a8 = 0	Exact
 docs/analysis/save-io/write-side-desc.md	18-writers	OK	node: 0x3e75f8..0x3e77b0 -> 17 bl at 0x3e760c..0x3e774c + 1 b at 0x3e7764 -> 0x55d45c	Exact pair table

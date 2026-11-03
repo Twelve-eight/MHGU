@@ -928,3 +928,41 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 - re-item-param 的陷阱值拒收（实为肉质字节）。
 
 - 2026-10-27 用户把 SUYU 整个目录从 `G:\suyu` 移到了 `I:\suyu`。本文件中更早出现的 `G:\suyu\...` 路径都改读 `I:\suyu\...`（AGENTS.md §2e 已同步更新）。
+
+## 2026-11-03 — 文档全量补审 + 代码可解释度基线重建
+
+本日两条线：把 MHGU 的**写下来的东西**审完，把"解释了多少代码"从无法复算的口径换成可复算、且种子真实性经过验证的口径。
+
+### 1. 文档补审（189 篇，无遗漏）
+
+- 分母冻结：`tools/audit/manifest.mjs` → `docs/analysis/audit/MANIFEST.tsv`（189 篇，18 个目录切片，切片清单在 `audit/slices/`）。
+- 机械层：`tools/audit/doc-scan.mjs` 抽取反引号路径/工具引用 → `DOC-LINKS.tsv`（154 条，其中 27 条路径缺失、67 条工具引用需要按 basename 解析）。
+- 人工层：7 个切片任务（analysis-code 两半 49 篇、reference+data 22、mechanics/save-layout/members/monsters/fields 32、wiki 47、external 23、其余 22）。
+- 总账：`tools/audit/summarize.mjs` → `docs/analysis/audit/ROUND1-SUMMARY.md`。**189/189 有裁决**，439 项：OK 289 / WRONG 76 / STALE 43 / UNVERIFIABLE 21 / MISSING 10。
+- 典型 WRONG：`forge_pc.h` 六处行号引用超过文件实际行数（333 行文件引到 1362）；`damage-formula.md` 的字面量池转录错（0x178010 实际是 100/1.2/1.1/~0/0.9/1.4/0.1）；wiki "39 表" 实际 38 张用户表；save-layout 的 `char_off 24230..24502` 是 273 B 不是 274 B；`systems.md` 的"61 个食物技能"实际 64。
+- wiki 4 个生成器**逐字节复现**（weapon-trees 115,812 B / 1585 条、weakness 16,345 B / 93 怪、deviants 35,140 B / 228 行、quests-vh 87,541 B / 714 行）。
+- 新门：`tools/audit/check.mjs`（分母完整、每篇有裁决、切片表头、计量器可跑）。
+
+### 2. 代码可解释度：先修分母，再修种子
+
+**分母错了一半**：`docs/data/functions.csv.gz` 是 23,885 个**区域平铺**，而镜像里有 **46,087 个 `push {...,lr}` 前导**，28,807 个函数被并进邻居；68,626 个 vtable 槽里 62,787 个因此无法归属。`tools/mhgu/coverage/retile.mjs` 用「前导 ∪ BL 目标 ∪ 旧起点」重建为 **52,692 个函数**，并带四条守卫（BL 目标 23,195 ≈ 23,336、指令和恰为 5,228,277、带字符串函数恰为 1,937、旧起点全保留）。
+
+**种子不可信**：旧 strings 列声称 `0xf8c` 引用 `AngleLimit`，但反汇编是一段纯结构体遍历，且 `AngleLimit` 的地址在镜像里**没有任何字指向**；用"必须有一个字指向该字符串地址"重测，4,461 个旧 token 只有 32 个通过。`stringxref.mjs` 改为从指令重建引用（`ldr rD,[pc,#imm]` → rodata 指针、rodata 表项、`add rD,pc,rX` 偏移），得到 2,380 个函数 / 4,252 条真实引用。`taxonomy.mjs` 成为唯一规则来源。
+
+**vtable 一票被高估**：第一版按 11 条粗规则（含裸 `/Mt/`）给出 5,217 行 A；按类名严格重标后 4,373 行无规则覆盖（`MtCollisionUtil`/`MtExHeapAllocator`/`MtTreeDTI`）降为 B，620 行保留、224 行改标。
+
+**当前可信基线（重切分母 + 独立证据）**：tier A **48.9%** 指令 / 45.8% 函数，tier B 48.2%，未归属 2.9%。
+
+**精度**：280 行抽样里 53 行可判定，其中 48 行正确（**90.6%**）、5 行错误；81% 的 tier A 行没有任何函数内证据（构造/析构/thunk，唯一操作数是未解析的 vtable 槽）。所以只能说"可判定处 90% 正确"，不能说"48.9% 都正确"。
+
+### 3. 进行中
+
+- B 层 43 个等指令块 × 12 抽样，6 票判定中；`promote-blocks.mjs` 以块纯度提升为 A（把外推写进证据列）。
+- 成员注册归因（按 `mKireType/mAttack` 这类成员名集合给类定标签）。
+- 76 条 WRONG 的修复波（3 票）。
+
+### 4. 不能忘的教训
+
+1. 任何"覆盖率"数字都要先问：分母是什么函数表、种子从哪来、精度怎么测。
+2. 传播造成的 B 永远不是证据；把 B 计入"已解释"就是自欺。
+3. 一次 retile 就推翻了此前所有百分比，说明之前没有可复算的口径——先建口径，再谈目标。
