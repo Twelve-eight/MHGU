@@ -6,9 +6,30 @@
 node tools/mhgu/coverage/retile.mjs          # 用 46,087 个前导 + BL 目标重建函数表（52,692 个真函数）
 node tools/mhgu/coverage/stringxref.mjs      # 从指令里重建字符串引用（不信任旧 strings 列）
 node tools/mhgu/coverage/seeds-from-xref.mjs # 引用 → 种子（attr-xref.tsv）
+# 证据通道（每次全量重跑，顺序无关，但都要在 recompute 之前）
+node tools/mhgu/coverage/fingerprints.mjs    # 结构指纹 + 动作签名 → attr-fingerprint.tsv
+node tools/mhgu/coverage/vtable-scan.mjs     # rodata 全量 vtable → vtables-slots.tsv
+node tools/mhgu/coverage/seeds-from-vtables.mjs  # 槽 → attr-vtable-rtti2.tsv
+node tools/mhgu/coverage/relabel-rtti.mjs    # RTTI 名解码 → attr-vtable-ns.tsv（含越界筛除）
+node tools/mhgu/coverage/vtable-unknown.mjs  # unknown 行的命名空间/前缀回填 → attr-vtable-unknown.tsv
+node tools/mhgu/coverage/class-family.mjs    # 前缀表接线 → attr-class2.tsv
+node tools/mhgu/coverage/seeds-from-strings.mjs  # 字符串词表 → attr-strings2.tsv
+node tools/mhgu/coverage/vtable-class-consensus.mjs  # 类内共识 → attr-vtable-classconsensus.tsv
+node tools/mhgu/coverage/immscan.mjs         # 32 位常量签名 → attr-immscan.tsv
+# 推断通道（锚点只取 A 级证据；每条都在脚本内先做留一/折叠验证）
+node tools/mhgu/coverage/classvote.mjs       # 类内共识（LOO 99.4%）→ attr-classvote.tsv
+node tools/mhgu/coverage/callervote.mjs      # 调用者票（LOO 96.4%）→ attr-callervote.tsv
+node tools/mhgu/coverage/callvote.mjs        # 调用票 8 轮（折叠 93.6–97.2%）→ attr-callvote.tsv
+
+# 分层与报告（种子清单固定在 docs/analysis/code/inventory/sources.json）
+node tools/mhgu/coverage/recompute.mjs --functions docs/data/functions-retile.csv.gz \
+  $(node -e "console.log(JSON.parse(require('fs').readFileSync('docs/analysis/code/inventory/sources.json')).map(f=>'--seed docs/analysis/code/inventory/'+f).join(' '))")
+node tools/mhgu/coverage/report.mjs          # 读 sources.json，缺文件直接 exit 2；分区不守恒 exit 3
 node tools/mhgu/coverage/recompute.mjs --functions docs/data/functions-retile.csv.gz [--seed f]...
 node tools/mhgu/coverage/report.mjs [--demote f]
 ```
+
+**全链复现检查（2026-11-04）**：按上面的顺序把 15 个证据/推断脚本 + recompute + report 全部重跑一遍，`git status docs/analysis/code/inventory` 只有预先存在的手改文件（'attr-members.tsv'），**没有派生文件发生变化**——说明 76.1% 这个数可以从镜像重新算出来，不依赖会话状态。
 
 ## 分母修正
 
