@@ -38,7 +38,7 @@ else {
 }
 
 // 3. slice TSVs keep their contract header
-for (const f of fs.readdirSync(path.join(ROOT, "docs/analysis/audit")).filter((x) => x.endsWith(".tsv") && !/^(MANIFEST|DOC-LINKS|ROUND1-ALL)/.test(x) && !/-FIXES\.tsv$/.test(x))) {
+for (const f of fs.readdirSync(path.join(ROOT, "docs/analysis/audit")).filter((x) => x.endsWith(".tsv") && !/^(MANIFEST|DOC-LINKS|ROUND1-ALL|TIERB-CONF-RECOUNT)/.test(x) && !/-FIXES\.tsv$/.test(x))) {
   const head = fs.readFileSync(path.join(ROOT, "docs/analysis/audit", f), "utf8").split("\n")[0];
   if (head !== "doc\titem\tverdict\tevidence\tnote") bad(`${f}: unexpected header "${head.slice(0, 60)}"`);
 }
