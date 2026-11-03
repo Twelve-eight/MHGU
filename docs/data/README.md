@@ -61,7 +61,20 @@
 
 **导出完整性（2026-11-04，不是交叉验证）**：`docs/data/json/` 是**本库自己的导出**（见本节开头"已导出 21 表为 json/<table>.json"），所以拿它跟 `mhgu.db` 比行数**必然相等**——逐表比过：quest_rewards 37,370、items 21,153、gathering 15,414、weapons 10,877、armor 5,637、quests 1,355、monsters 129 等 21 张表全部一致，另有 6 个手工映射 JSON 本就不在导出内。这只能证明**导出没坏**，不能当作两个独立来源互相印证（这正是 §4d 说的自证）。
 
-**真正的交叉验证（agroff，独立来源）**：`docs/data/quests.json` 是 `agroff/mhgu-quest-list` 从 **Kiranico 网页爬取**的 944 条任务，与 Capcom 数据包的抽取完全不同源。按标题归一化（小写、去标点）后比对：**944 / 944 = 100% 都能在 `mhgu.db` 的 quests 表里找到**，没有一条 agroff 独有；反过来 db 有 411 个名字在 agroff 里没有——与"db 是超集（1,355 vs 944）"的预期一致。**这才是两份源互相印证。**
+**真正的交叉验证（agroff，独立来源；2026-11-04 实测）**：`docs/data/` 下另有 6 个 agroff 文件，来自 `agroff/mhgu-quest-list` 从 **Kiranico 网页爬取**，与 Capcom 数据包是两次独立抽取。按名字归一化后逐项比对：
+
+| 项 | agroff | db | 命中 |
+|---|---:|---:|---:|
+| 任务 `quests.json` | 944 | 1,355 | **944/944 = 100%** |
+| 技能树 `skills.json` 外层 | 204 | 205 | **204/204 = 100%** |
+| 技能 `skills.json` 内层 | 326 | 326 | **326/326 = 100%** |
+| 装饰珠 `decorations.json`（按名对 items）| 242 | 21,153 | **242/242 = 100%** |
+| 锤 `hammer.json`（`LV<n>`→`<n>` 转换后）| 885 | 21,153 | **885/885 = 100%** |
+
+两条必须记住的结论：
+
+- **名字可移植，`_id` 不可移植**。agroff 的 `_id` 与 db 完全不在一个编号空间（装饰珠 0/242 命中），跨源只用名字 + 归一化。
+- **两边命名有系统性差异**：agroff 用 `Petrified Hammer LV1`，db 用 `Petrified Hammer 1`；不转换会把 885 条全判成不一致（我第一版就是这样得到 0% 的）。
 
 **信源验证记录**：`docs/reference/source-verification.md`
 ## 缺口（待补，mhgu.db 已覆盖大部分）
