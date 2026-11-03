@@ -203,12 +203,17 @@ rows.push(["A-signature (32-bit constant, fold 97.1%)", String(SG.fn), String(SG
 rows.push(["headline A only", String(A.fn), String(A.ins), pct(A.ins, totalIns), pct(A.fn, totalFn)]);
 // The four classes below are a partition: each function counts once. "unattributed" used to be total - A - B, which left
 // the inferred rows inside it while also printing them on their own line.
+// The signature channel is read from sources.json like every other channel: it used to be a hardcoded path, which meant
+// the schema gate never saw its 3,067 rows and the function-level table could not say "signature" anywhere.
 const Sset = (() => {
   const s = new Set();
-  const p = path.join(INV, "attr-immscan.tsv");
-  if (fs.existsSync(p)) for (const l of fs.readFileSync(p, "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
-    const [start, label, conf] = l.split("\t");
-    if (conf === "S" && label) s.add(start);
+  for (const f of JSON.parse(fs.readFileSync(path.join(INV, "sources.json"), "utf8"))) {
+    const p = path.join(INV, f);
+    if (!fs.existsSync(p)) continue;
+    for (const l of fs.readFileSync(p, "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
+      const [start, label, conf] = l.split("\t");
+      if (conf === "S" && label) s.add(start);
+    }
   }
   return s;
 })();

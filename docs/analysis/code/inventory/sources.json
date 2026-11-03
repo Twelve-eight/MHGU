@@ -15,6 +15,7 @@
   "attr-classvote.tsv",
   "attr-callervote.tsv",
   "attr-callvote.tsv",
+  "attr-immscan.tsv",
   "attr-callvote1.tsv",
   "attr-fingerprint.tsv"
 ]
