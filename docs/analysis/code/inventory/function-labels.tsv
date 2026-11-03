@@ -119,6 +119,7 @@ start	insns	label	provenance	reason
 0xe4e4	14	otomo-ot	evidence:attr-vtable-fixed.tsv	uUIOtomoArms::cPieceEquip registrar 0x10680 vtable 0x17306a0 slot 2 (class-record vtable written by str at 0x10ec8)
 0xe51c	15	ui	spread:spread	tier B, spread
 0xe584	14	otomo-ot	evidence:attr-vtable-fixed.tsv	uUIOtomoService registrar 0x10680 vtable 0x17306c8 slot 2 (class-record vtable written by str at 0x10f00)
+0xea60	11	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x182ea4c: 2 labelled member(s) all say online-nex
 0xea8c	14	otomo-ot	evidence:attr-vtable-fixed.tsv	uUIOtomoBoard registrar 0x10680 vtable 0x1730754 slot 2 (class-record vtable written by str at 0x110c0)
 0xeb2c	14	otomo-ot	evidence:attr-vtable-fixed.tsv	uUIOtomoExercise registrar 0x10680 vtable 0x1730768 slot 2 (class-record vtable written by str at 0x110f8)
 0xf068	15	ui	spread:spread	tier B, spread
@@ -367,6 +368,7 @@ start	insns	label	provenance	reason
 0x34b60	23	online-nex	spread:spread	tier B, spread
 0x34bbc	23	online-nex	spread:spread	tier B, spread
 0x34c18	25	online-nex	spread:spread	tier B, spread
+0x34c7c	8	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1731444: 4 labelled member(s) all say online-nex
 0x34c9c	9	online-nex	spread:spread	tier B, spread
 0x34cc0	31	online-nex	spread:spread	tier B, spread
 0x34d3c	31	online-nex	spread:spread	tier B, spread
@@ -482,10 +484,16 @@ start	insns	label	provenance	reason
 0x41f10	67	render-gfx	spread:spread+address	tier A, spread+address
 0x4201c	48	render-gfx	spread:spread+address	tier A, spread+address
 0x4260c	14	render-gfx	evidence:attr-vtable-unknown.tsv	uMHEffectKowareObj registrar 0x43648 vtable 0x1731680 slot 34 (instance vtable installed by create 0x4376c @ install 0x4399c) [classprefix-map uMH -> render-gfx, basis: uMHEffectCore; uMHEffectKowareObj; uMHProofEffectModel]
+0x42644	14	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x17317f4: 10 labelled member(s) all say render-gfx
 0x4267c	60	render-gfx	evidence:attr-vtable-unknown.tsv	uMHEffectKowareObj registrar 0x43648 vtable 0x1731680 slot 36 (instance vtable installed by create 0x4376c @ install 0x4399c) [classprefix-map uMH -> render-gfx, basis: uMHEffectCore; uMHEffectKowareObj; uMHProofEffectModel]
 0x4279c	25	render-gfx	evidence:attr-vtable-unknown.tsv	uMHEffectKowareObj registrar 0x43648 vtable 0x1731680 slot 38 (instance vtable installed by create 0x4376c @ install 0x4399c) [classprefix-map uMH -> render-gfx, basis: uMHEffectCore; uMHEffectKowareObj; uMHProofEffectModel]
+0x42800	132	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x17317d0: 3 labelled member(s) all say render-gfx
+0x42a10	56	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x17317d0: 3 labelled member(s) all say render-gfx
+0x42af0	30	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x17317d0: 3 labelled member(s) all say render-gfx
 0x42b68	55	render-gfx	evidence:attr-vtable-unknown.tsv	uMHEffectKowareObj registrar 0x43648 vtable 0x1731680 slot 25 (instance vtable installed by create 0x4376c @ install 0x4399c) [classprefix-map uMH -> render-gfx, basis: uMHEffectCore; uMHEffectKowareObj; uMHProofEffectModel]
+0x42c44	19	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x17317d0: 3 labelled member(s) all say render-gfx
 0x42c90	135	render-gfx	evidence:attr-vtable-unknown.tsv	uMHEffectKowareObj registrar 0x43648 vtable 0x1731680 slot 44 (instance vtable installed by create 0x4376c @ install 0x4399c) [classprefix-map uMH -> render-gfx, basis: uMHEffectCore; uMHEffectKowareObj; uMHProofEffectModel]
+0x42eac	23	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x1731824: 2 labelled member(s) all say render-gfx
 0x42f08	164	render-gfx	spread:spread+address	tier A, spread+address
 0x43198	11	render-gfx	evidence:attr-vtable-unknown.tsv	uMHEffectKowareObj registrar 0x43648 vtable 0x1731680 slot 18 (instance vtable installed by create 0x4376c @ install 0x4399c) [classprefix-map uMH -> render-gfx, basis: uMHEffectCore; uMHEffectKowareObj; uMHProofEffectModel]
 0x431c4	11	render-gfx	evidence:attr-vtable-unknown.tsv	uMHEffectKowareObj registrar 0x43648 vtable 0x1731680 slot 20 (instance vtable installed by create 0x4376c @ install 0x4399c) [classprefix-map uMH -> render-gfx, basis: uMHEffectCore; uMHEffectKowareObj; uMHProofEffectModel]
@@ -1065,6 +1073,7 @@ start	insns	label	provenance	reason
 0x6ba40	19	monster-em	evidence:attr-vtable-fixed.tsv	uEmXXX registrar 0x6b3fc vtable 0x1733830 slot 1 (instance vtable installed by create 0x6b9f0 @ install 0x6c3b8)
 0x6ba8c	42	monster-em	inferred:attr-callvote.tsv	callee vote round 1: 2 high-purity callees agree on monster-em (15/15, 13/13); this round validated fold-wise at 97.2%
 0x6bb34	58	monster-em	evidence:attr-vtable-fixed.tsv	uEmXXX registrar 0x6b3fc vtable 0x1733830 slot 125 (instance vtable installed by create 0x6b9f0 @ install 0x6c3b8)
+0x6bc1c	112	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x1733af4: 2 labelled member(s) all say monster-em
 0x6be2c	268	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0x6c25c	24	monster-em	evidence:attr-vtable-fixed.tsv	uEmXXX registrar 0x6b3fc vtable 0x1733830 slot 283 (instance vtable installed by create 0x6b9f0 @ install 0x6c3b8)
 0x6c2bc	77	monster-em	evidence:attr-registrar.tsv	registrar bl 0x7aedcc, class "uEmXXX" (prefix map)
@@ -1080,7 +1089,7 @@ start	insns	label	provenance	reason
 0x6d59c	7	monster-em	signature:attr-immscan.tsv	constant 0xcaf4 only (assembled movw/movt; 26/26 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0x6d5b8	7	monster-em	signature:attr-immscan.tsv	constant 0xcaf4 only (assembled movw/movt; 26/26 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0x6d5d4	9	monster-em	signature:attr-immscan.tsv	constant 0xcaf4 only (assembled movw/movt; 26/26 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
-0x6d5f8	14	monster-em	signature:attr-immscan.tsv	constant 0xcaf4 only (assembled movw/movt; 26/26 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
+0x6d5f8	14	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17342c4: 5 labelled member(s) all say monster-em
 0x6d630	9	monster-em	signature:attr-immscan.tsv	constant 0xcaf4 only (assembled movw/movt; 26/26 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0x6d654	46	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0x6d70c	15	monster-em	evidence:attr-vtable-fixed.tsv	uEnemyActCustom registrar 0x6d5f8 vtable 0x17341a8 slot 1 (instance vtable installed by create 0x6c3e8 @ install 0x6d840)
@@ -1629,7 +1638,7 @@ start	insns	label	provenance	reason
 0xa45d4	272	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 8 strongly-typed neighbour(s) agree on monster-em
 0xa4a14	17	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0xa4a58	46	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
-0xa4b10	25	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
+0xa4b10	25	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x1734da4: 2 labelled member(s) all say monster-em
 0xa4b74	54	ui	spread:spread	tier B, spread
 0xa4c4c	29	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0xa4cc0	36	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
@@ -2083,6 +2092,7 @@ start	insns	label	provenance	reason
 0xc9d98	58	monster-em	spread:spread+address	tier A, spread+address
 0xc9eb0	1	monster-em	spread:spread+address	tier A, spread+address
 0xc9eb4	1	monster-em	spread:spread+address	tier A, spread+address
+0xc9eb8	32	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x1733f10: 3 labelled member(s) all say monster-em
 0xc9f38	1	monster-em	evidence:attr-vtable-fixed.tsv	uEmXXX registrar 0x6b3fc vtable 0x1733830 slot 10 (instance vtable installed by create 0x6b9f0 @ install 0x6c3b8)
 0xc9f3c	2	monster-em	evidence:attr-vtable-fixed.tsv	uEmXXX registrar 0x6b3fc vtable 0x1733830 slot 12 (instance vtable installed by create 0x6b9f0 @ install 0x6c3b8)
 0xc9f44	112	monster-em	signature:attr-immscan.tsv	constant 0x73e0 only (assembled movw/movt; 115/116 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
@@ -5029,8 +5039,8 @@ start	insns	label	provenance	reason
 0x1e4904	143	ui	spread:spread	tier B, spread
 0x1e4b40	76	quest	evidence:attr-prefix.tsv	class prefix "cQuest" (cQuestData; cQuestBoard; cQuestGroup) in string "cQuestBoard"
 0x1e4d0c	2	ui	spread:spread	tier B, spread
-0x1e4d14	156	quest	spread:spread+address	tier A, spread+address
-0x1e4f84	170	quest	spread:spread+address	tier A, spread+address
+0x1e4d14	156	quest	inferred:attr-tableseeds.tsv	pointer table at 0x17424d0: 1 labelled member(s) all say quest
+0x1e4f84	170	quest	inferred:attr-tableseeds.tsv	pointer table at 0x17424d0: 1 labelled member(s) all say quest
 0x1e5270	19	ui	spread:spread	tier B, spread
 0x1e52bc	11	ui	spread:spread	tier B, spread
 0x1e52e8	23	ui	spread:spread	tier B, spread
@@ -5664,6 +5674,7 @@ start	insns	label	provenance	reason
 0x24b8f0	122	ui	spread:spread	tier B, spread
 0x24bad8	96	otomo-ot	evidence:attr-vtable-fixed.tsv	uQuestNpcNyanJiro::Constraint registrar 0x24bc58 vtable 0x1746224 slot 6 (instance vtable installed by create 0x24af60 @ install 0x24bfbc) [relabelled quest -> otomo-ot by class name]
 0x24bc58	100	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
+0x24bde8	20	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x1746410: 1 labelled member(s) all say player-pl
 0x24be38	19	otomo-ot	evidence:attr-vtable-fixed.tsv	uQuestNpcNyanJiro::Constraint registrar 0x24bc58 vtable 0x1746224 slot 1 (instance vtable installed by create 0x24af60 @ install 0x24bfbc) [relabelled quest -> otomo-ot by class name]
 0x24be84	94	otomo-ot	evidence:attr-prefix.tsv	class prefix "uQuestNpcNyan" (uQuestNpcNyanJiro) in string "uQuestNpcNyanJiro"
 0x24bffc	50	quest	evidence:attr-vtable-fixed.tsv	uQuestNpcOldMan registrar 0x24daa0 vtable 0x17463cc slot 2 (class-record vtable written by str at 0x24ddbc)
@@ -6266,6 +6277,7 @@ start	insns	label	provenance	reason
 0x282898	4	monster-em	spread:spread	tier B, spread
 0x2828cc	8	monster-em	spread:spread	tier B, spread
 0x2828ec	10	monster-em	spread:spread	tier B, spread
+0x282914	135	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1747550: 1 labelled member(s) all say online-nex
 0x282c4c	87	player-pl	evidence:attr-prefix.tsv	class prefix "uPlayer" (uPlayerBase; uPlayerActor; uPlayerQuest) in string "uPlayerBase"
 0x282da8	108	quest	spread:spread	tier B, spread
 0x282f58	9	online-nex	spread:spread	tier B, spread
@@ -6511,7 +6523,7 @@ start	insns	label	provenance	reason
 0x298f88	77	player-pl	evidence:attr-prefix.tsv	class prefix "uPlayer" (uPlayerBase; uPlayerActor; uPlayerQuest) in string "uPlayerPreview"
 0x2990bc	922	quest	inferred:attr-callervote.tsv	caller vote: 30/31 evidence-bearing callers are quest; rule validated leave-one-file-out at 96.4%
 0x299f60	224	monster-em	spread:spread	tier B, spread
-0x29a330	90	player-pl	spread:spread+address	tier A, spread+address
+0x29a330	90	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x17494fc: 2 labelled member(s) all say player-pl
 0x29a498	516	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 5 strongly-typed neighbour(s) agree on render-gfx
 0x29ace8	212	quest	spread:spread	tier B, spread
 0x29b038	33	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on render-gfx
@@ -6524,6 +6536,8 @@ start	insns	label	provenance	reason
 0x29b8e8	672	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 5 strongly-typed neighbour(s) agree on monster-em
 0x29c368	449	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0x29ca6c	117	otomo-ot	spread:spread	tier B, spread
+0x29ccdc	59	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x17494fc: 2 labelled member(s) all say player-pl
+0x29cdc8	13	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x17493f4: 1 labelled member(s) all say player-pl
 0x29cdfc	50	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 3 strongly-typed neighbour(s) agree on ui
 0x29cec4	1904	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on ui
 0x29ec84	92	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on ui
@@ -6606,7 +6620,7 @@ start	insns	label	provenance	reason
 0x2a7688	113	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 6 strongly-typed neighbour(s) agree on monster-em
 0x2a784c	96	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on ui
 0x2a79cc	394	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 3 strongly-typed neighbour(s) agree on ui
-0x2a7ff4	61	monster-em	spread:spread	tier B, spread
+0x2a7ff4	61	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x1747414: 1 labelled member(s) all say player-pl
 0x2a80e8	23	save-data	spread:spread	tier B, spread
 0x2a8144	11	monster-em	spread:spread	tier B, spread
 0x2a8170	27	monster-em	spread:spread	tier B, spread
@@ -6619,6 +6633,7 @@ start	insns	label	provenance	reason
 0x2a87a8	170	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on ui
 0x2a8b34	69	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on ui
 0x2a8d10	62	monster-em	spread:spread	tier B, spread
+0x2a8e08	44	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x1751ad8: 1 labelled member(s) all say player-pl
 0x2a8f0c	60	online-nex	spread:spread+address	tier A, spread+address
 0x2a9098	323	online-nex	spread:spread+address	tier A, spread+address
 0x2a9820	14	monster-em	spread:spread	tier B, spread
@@ -6658,8 +6673,10 @@ start	insns	label	provenance	reason
 0x2ad4f4	16	monster-em	spread:spread	tier B, spread
 0x2ad534	79	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on ui
 0x2ad670	18	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on ui
+0x2ad6b8	17	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x1747414: 1 labelled member(s) all say player-pl
 0x2ad6fc	719	online-nex	evidence:attr-xref.tsv	string "NexMatchAutoMatchmakeJob::LeaveJoinedMatchmakeSession"
 0x2ae238	182	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on monster-em
+0x2ae510	34	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1747550: 1 labelled member(s) all say online-nex
 0x2ae938	332	otomo-ot	spread:spread	tier B, spread
 0x2aeea0	584	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on ui
 0x2af7c0	38	monster-em	spread:spread	tier B, spread
@@ -6738,6 +6755,7 @@ start	insns	label	provenance	reason
 0x2b6a90	28	quest	signature:attr-immscan.tsv	constant 0x332c only (assembled movw/movt; 26/26 = 100% of its labelled carriers are quest); rule validated fold-wise at 97.0% and this function has no other evidence
 0x2b6b00	140	quest	signature:attr-immscan.tsv	constant 0x3338 only (assembled movw/movt; 22/22 = 100% of its labelled carriers are quest); rule validated fold-wise at 97.0% and this function has no other evidence
 0x2b6d30	75	quest	evidence:attr-xref.tsv	string "uPlayerQuest15"
+0x2b6e5c	14	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x1749f74: 1 labelled member(s) all say player-pl
 0x2b6e94	11	monster-em	spread:spread	tier B, spread
 0x2b6ef0	12	monster-em	spread:spread	tier B, spread
 0x2b6f20	18	monster-em	spread:spread	tier B, spread
@@ -7048,7 +7066,8 @@ start	insns	label	provenance	reason
 0x2e846c	422	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on ui
 0x2e8b04	72	online-nex	spread:spread	tier B, spread
 0x2e8c24	100	monster-em	spread:spread	tier B, spread
-0x2e8ddc	31	online-nex	spread:spread	tier B, spread
+0x2e8db4	10	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x1749460: 1 labelled member(s) all say player-pl
+0x2e8ddc	31	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x1749460: 1 labelled member(s) all say player-pl
 0x2e8ff4	130	online-nex	spread:spread	tier B, spread
 0x2e91fc	232	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 4 strongly-typed neighbour(s) agree on monster-em
 0x2e959c	97	online-nex	spread:spread	tier B, spread
@@ -9082,7 +9101,7 @@ start	insns	label	provenance	reason
 0x4515e0	305	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on render-gfx
 0x451aa4	298	monster-em	spread:spread	tier B, spread
 0x451f4c	139	render-gfx	spread:spread+address	tier A, spread+address
-0x452178	1103	render-gfx	spread:spread+address	tier A, spread+address
+0x452178	1103	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x175d42c: 4 labelled member(s) all say render-gfx
 0x4532b4	75	render-gfx	evidence:attr-prefix.tsv	class prefix "uShellPlEffect" (uShellPlEffect; uShellPlEffectCom; uShellPlEffectW00) in string "uShellPlEffectOt"
 0x4533e0	25	render-gfx	evidence:attr-vtable-unknown.tsv	uShellPlEffectW00 registrar 0x451f4c vtable 0x175d3cc slot 2 (class-record vtable written by str at 0x45371c) [classprefix-map uShellPlEffect -> render-gfx, basis: uShellPlEffect; uShellPlEffectCom; uShellPlEffectW00]
 0x453444	13	render-gfx	evidence:attr-vtable-unknown.tsv	uShellPlEffectW00 registrar 0x451f4c vtable 0x175d260 slot 1 (instance vtable installed by create 0x4533e0 @ install 0x45371c) [classprefix-map uShellPlEffect -> render-gfx, basis: uShellPlEffect; uShellPlEffectCom; uShellPlEffectW00]
@@ -9090,7 +9109,8 @@ start	insns	label	provenance	reason
 0x453620	75	render-gfx	evidence:attr-prefix.tsv	class prefix "uShellPlEffect" (uShellPlEffect; uShellPlEffectCom; uShellPlEffectW00) in string "uShellPlEffectW00"
 0x45374c	29	render-gfx	evidence:attr-vtable-unknown.tsv	uShellPlEffectW01 registrar 0x451f4c vtable 0x175d54c slot 2 (class-record vtable written by str at 0x453a80) [classprefix-map uShellPlEffect -> render-gfx, basis: uShellPlEffect; uShellPlEffectCom; uShellPlEffectW00]
 0x4537c0	13	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on render-gfx
-0x4537f4	56	render-gfx	spread:spread+address	tier A, spread+address
+0x4537f4	56	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x175d72c: 4 labelled member(s) all say render-gfx
+0x4538d4	44	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x175d72c: 4 labelled member(s) all say render-gfx
 0x453984	75	render-gfx	evidence:attr-prefix.tsv	class prefix "uShellPlEffect" (uShellPlEffect; uShellPlEffectCom; uShellPlEffectW00) in string "uShellPlEffectW01"
 0x453ab0	25	render-gfx	evidence:attr-vtable-unknown.tsv	uShellPlEffectW02 registrar 0x451f4c vtable 0x175d6cc slot 2 (class-record vtable written by str at 0x453ed4) [classprefix-map uShellPlEffect -> render-gfx, basis: uShellPlEffect; uShellPlEffectCom; uShellPlEffectW00]
 0x453b14	13	render-gfx	evidence:attr-vtable-unknown.tsv	uShellPlEffectW02 registrar 0x451f4c vtable 0x175d560 slot 1 (instance vtable installed by create 0x453ab0 @ install 0x453ed4) [classprefix-map uShellPlEffect -> render-gfx, basis: uShellPlEffect; uShellPlEffectCom; uShellPlEffectW00]
@@ -9099,21 +9119,21 @@ start	insns	label	provenance	reason
 0x453dd8	75	render-gfx	evidence:attr-prefix.tsv	class prefix "uShellPlEffect" (uShellPlEffect; uShellPlEffectCom; uShellPlEffectW00) in string "uShellPlEffectW02"
 0x453f04	29	render-gfx	evidence:attr-vtable-unknown.tsv	uShellPlEffectW03 registrar 0x451f4c vtable 0x175d84c slot 2 (class-record vtable written by str at 0x454280) [classprefix-map uShellPlEffect -> render-gfx, basis: uShellPlEffect; uShellPlEffectCom; uShellPlEffectW00]
 0x453f78	13	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on render-gfx
-0x453fac	60	render-gfx	spread:spread+address	tier A, spread+address
-0x45409c	58	quest	signature:attr-immscan.tsv	constant 0x332c only (assembled movw/movt; 26/26 = 100% of its labelled carriers are quest); rule validated fold-wise at 97.0% and this function has no other evidence
+0x453fac	60	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x175da2c: 4 labelled member(s) all say render-gfx
+0x45409c	58	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x175da2c: 4 labelled member(s) all say render-gfx
 0x454184	75	render-gfx	evidence:attr-prefix.tsv	class prefix "uShellPlEffect" (uShellPlEffect; uShellPlEffectCom; uShellPlEffectW00) in string "uShellPlEffectW03"
 0x4542b0	29	render-gfx	evidence:attr-vtable-unknown.tsv	uShellPlEffectW04 registrar 0x451f4c vtable 0x175d9cc slot 2 (class-record vtable written by str at 0x454a78) [classprefix-map uShellPlEffect -> render-gfx, basis: uShellPlEffect; uShellPlEffectCom; uShellPlEffectW00]
 0x454324	13	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on render-gfx
-0x454358	127	render-gfx	spread:spread+address	tier A, spread+address
-0x454554	266	monster-em	spread:spread	tier B, spread
+0x454358	127	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x175dbac: 4 labelled member(s) all say render-gfx
+0x454554	266	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x175dbac: 4 labelled member(s) all say render-gfx
 0x45497c	75	render-gfx	evidence:attr-prefix.tsv	class prefix "uShellPlEffect" (uShellPlEffect; uShellPlEffectCom; uShellPlEffectW00) in string "uShellPlEffectW04"
 0x454aa8	20	render-gfx	evidence:attr-vtable-unknown.tsv	uShellPlEffectW05 registrar 0x451f4c vtable 0x175db4c slot 2 (class-record vtable written by str at 0x454bec) [classprefix-map uShellPlEffect -> render-gfx, basis: uShellPlEffect; uShellPlEffectCom; uShellPlEffectW00]
 0x454af8	20	render-gfx	evidence:attr-vtable-unknown.tsv	uShellPlEffectW05 registrar 0x451f4c vtable 0x175d9e0 slot 1 (instance vtable installed by create 0x454aa8 @ install 0x454bec) [classprefix-map uShellPlEffect -> render-gfx, basis: uShellPlEffect; uShellPlEffectCom; uShellPlEffectW00]
 0x454b48	53	render-gfx	evidence:attr-prefix.tsv	class prefix "uShellPlEffect" (uShellPlEffect; uShellPlEffectCom; uShellPlEffectW00) in string "uShellPlEffectW05"
 0x454c1c	29	render-gfx	evidence:attr-vtable-unknown.tsv	uShellPlEffectW06 registrar 0x455468 vtable 0x175dccc slot 2 (class-record vtable written by str at 0x455770) [classprefix-map uShellPlEffect -> render-gfx, basis: uShellPlEffect; uShellPlEffectCom; uShellPlEffectW00]
 0x454c90	13	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on render-gfx
-0x454cc4	256	render-gfx	spread:spread+address	tier A, spread+address
-0x4550c4	233	render-gfx	spread:spread+address	tier A, spread+address
+0x454cc4	256	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x175deac: 4 labelled member(s) all say render-gfx
+0x4550c4	233	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x175deac: 4 labelled member(s) all say render-gfx
 0x455468	131	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on monster-em
 0x455674	75	render-gfx	evidence:attr-prefix.tsv	class prefix "uShellPlEffect" (uShellPlEffect; uShellPlEffectCom; uShellPlEffectW00) in string "uShellPlEffectW06"
 0x4557a0	25	render-gfx	evidence:attr-vtable-unknown.tsv	uShellPlEffectW07 registrar 0x455468 vtable 0x175de4c slot 2 (class-record vtable written by str at 0x455a74) [classprefix-map uShellPlEffect -> render-gfx, basis: uShellPlEffect; uShellPlEffectCom; uShellPlEffectW00]
@@ -9127,8 +9147,8 @@ start	insns	label	provenance	reason
 0x455ce4	75	render-gfx	evidence:attr-prefix.tsv	class prefix "uShellPlEffect" (uShellPlEffect; uShellPlEffectCom; uShellPlEffectW00) in string "uShellPlEffectW08"
 0x455e10	29	render-gfx	evidence:attr-vtable-unknown.tsv	uShellPlEffectW09 registrar 0x455468 vtable 0x175e14c slot 2 (class-record vtable written by str at 0x456520) [classprefix-map uShellPlEffect -> render-gfx, basis: uShellPlEffect; uShellPlEffectCom; uShellPlEffectW00]
 0x455e84	13	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on render-gfx
-0x455eb8	102	render-gfx	spread:spread+address	tier A, spread+address
-0x456050	244	online-nex	spread:spread	tier B, spread
+0x455eb8	102	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x175e32c: 4 labelled member(s) all say render-gfx
+0x456050	244	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x175e32c: 4 labelled member(s) all say render-gfx
 0x456420	381	render-gfx	evidence:attr-prefix.tsv	class prefix "uShellPlEffect" (uShellPlEffect; uShellPlEffectCom; uShellPlEffectW00) in string "uShellPlEffectW09"
 0x456a14	25	render-gfx	evidence:attr-vtable-unknown.tsv	uShellPlEffectW10 registrar 0x455468 vtable 0x175e2cc slot 2 (class-record vtable written by str at 0x457dac) [classprefix-map uShellPlEffect -> render-gfx, basis: uShellPlEffect; uShellPlEffectCom; uShellPlEffectW00]
 0x456a78	12	render-gfx	evidence:attr-vtable-unknown.tsv	uShellPlEffectW10 registrar 0x455468 vtable 0x175e160 slot 1 (instance vtable installed by create 0x456a14 @ install 0x457dac) [classprefix-map uShellPlEffect -> render-gfx, basis: uShellPlEffect; uShellPlEffectCom; uShellPlEffectW00]
@@ -9142,14 +9162,18 @@ start	insns	label	provenance	reason
 0x457fcc	75	render-gfx	evidence:attr-prefix.tsv	class prefix "uShellPlEffect" (uShellPlEffect; uShellPlEffectCom; uShellPlEffectW00) in string "uShellPlEffectW11"
 0x4580f8	35	render-gfx	evidence:attr-vtable-unknown.tsv	uShellPlEffectW12 registrar 0x458398 vtable 0x175e5cc slot 2 (class-record vtable written by str at 0x4584c4) [classprefix-map uShellPlEffect -> render-gfx, basis: uShellPlEffect; uShellPlEffectCom; uShellPlEffectW00]
 0x458184	12	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on render-gfx
+0x4581b4	8	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x175e684: 1 labelled member(s) all say render-gfx
+0x4581d4	25	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x175e7b0: 4 labelled member(s) all say render-gfx
 0x4583c8	75	render-gfx	evidence:attr-prefix.tsv	class prefix "uShellPlEffect" (uShellPlEffect; uShellPlEffectCom; uShellPlEffectW00) in string "uShellPlEffectW12"
 0x4584f4	29	render-gfx	evidence:attr-vtable-unknown.tsv	uShellPlEffectW13 registrar 0x458398 vtable 0x175e74c slot 2 (class-record vtable written by str at 0x4587c8) [classprefix-map uShellPlEffect -> render-gfx, basis: uShellPlEffect; uShellPlEffectCom; uShellPlEffectW00]
 0x458568	13	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on render-gfx
+0x45859c	34	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x175e92c: 4 labelled member(s) all say render-gfx
+0x458624	42	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x175e92c: 4 labelled member(s) all say render-gfx
 0x4586cc	225	render-gfx	evidence:attr-prefix.tsv	class prefix "uShellPlEffect" (uShellPlEffect; uShellPlEffectCom; uShellPlEffectW00) in string "uShellPlEffectW13"
 0x458a50	29	render-gfx	evidence:attr-vtable-unknown.tsv	uShellPlEffectW14 registrar 0x458398 vtable 0x175e8cc slot 2 (class-record vtable written by str at 0x458f6c) [classprefix-map uShellPlEffect -> render-gfx, basis: uShellPlEffect; uShellPlEffectCom; uShellPlEffectW00]
 0x458ac4	13	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on render-gfx
-0x458af8	82	render-gfx	spread:spread+address	tier A, spread+address
-0x458c40	140	online-nex	spread:spread	tier B, spread
+0x458af8	82	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x175e984: 1 labelled member(s) all say render-gfx
+0x458c40	140	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x175eab0: 4 labelled member(s) all say render-gfx
 0x458e70	75	render-gfx	evidence:attr-prefix.tsv	class prefix "uShellPlEffect" (uShellPlEffect; uShellPlEffectCom; uShellPlEffectW00) in string "uShellPlEffectW14"
 0x458f9c	66	render-gfx	evidence:attr-vtable-unknown.tsv	uShellPlEffectW15 registrar 0x45a130 vtable 0x175ea4c slot 2 (class-record vtable written by str at 0x45bca4) [classprefix-map uShellPlEffect -> render-gfx, basis: uShellPlEffect; uShellPlEffectCom; uShellPlEffectW00]
 0x4590a4	13	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on render-gfx
@@ -9415,6 +9439,7 @@ start	insns	label	provenance	reason
 0x481f0c	4	monster-em	spread:spread	tier B, spread
 0x481f1c	29	monster-em	spread:spread	tier B, spread
 0x481fc8	50	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on render-gfx
+0x482108	23	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x1762650: 1 labelled member(s) all say render-gfx
 0x482164	222	ui	evidence:attr-strings2.tsv	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellPlw13_000
 0x4824dc	274	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0x482ad0	84	monster-em	spread:spread	tier B, spread
@@ -9623,6 +9648,7 @@ start	insns	label	provenance	reason
 0x4a1c78	3	render-gfx	spread:spread	tier B, spread
 0x4a1cf4	16	quest	spread:spread	tier B, spread
 0x4a1d34	53	render-gfx	spread:spread	tier B, spread
+0x4a1e08	18	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x175ce14: 1 labelled member(s) all say render-gfx
 0x4a1e50	45	render-gfx	spread:spread	tier B, spread
 0x4a1f04	63	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on render-gfx
 0x4a2000	39	render-gfx	spread:spread	tier B, spread
@@ -9633,12 +9659,14 @@ start	insns	label	provenance	reason
 0x4a2240	48	render-gfx	spread:spread	tier B, spread
 0x4a2300	1	render-gfx	spread:spread	tier B, spread
 0x4a2304	23	render-gfx	spread:spread	tier B, spread
+0x4a2360	31	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x175cd04: 2 labelled member(s) all say render-gfx
 0x4a23dc	39	render-gfx	spread:spread	tier B, spread
+0x4a2478	1	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x175cd04: 2 labelled member(s) all say render-gfx
 0x4a24b8	9	render-gfx	spread:spread	tier B, spread
 0x4a24dc	7	monster-em	spread:spread	tier B, spread
 0x4a24f8	147	quest	spread:spread	tier B, spread
 0x4a2744	19	render-gfx	spread:spread	tier B, spread
-0x4a2790	169	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
+0x4a2790	169	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x175ce14: 1 labelled member(s) all say render-gfx
 0x4a2a34	7	monster-em	spread:spread	tier B, spread
 0x4a2a50	15	render-gfx	spread:spread	tier B, spread
 0x4a2a8c	5	monster-em	spread:spread	tier B, spread
@@ -10869,7 +10897,7 @@ start	insns	label	provenance	reason
 0x53a154	4	monster-em	spread:spread	tier B, spread
 0x53a164	24	online-nex	spread:spread	tier B, spread
 0x53a1c4	6	monster-em	spread:spread	tier B, spread
-0x53a1dc	154	render-gfx	spread:spread+address	tier A, spread+address
+0x53a1dc	154	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x1733af4: 2 labelled member(s) all say monster-em
 0x53a454	4	online-nex	spread:spread	tier B, spread
 0x53a464	27	player-pl	spread:spread	tier B, spread
 0x53a5bc	130	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 6 strongly-typed neighbour(s) agree on monster-em
@@ -10878,10 +10906,12 @@ start	insns	label	provenance	reason
 0x53a850	21	player-pl	spread:spread	tier B, spread
 0x53a958	11	otomo-ot	spread:spread	tier B, spread
 0x53a984	30	monster-em	inferred:attr-callervote.tsv	caller vote: 3/3 evidence-bearing callers are monster-em; rule validated leave-one-file-out at 96.4%
+0x53a9fc	29	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x173448c: 1 labelled member(s) all say monster-em
 0x53aa70	5	monster-em	spread:spread	tier B, spread
 0x53aa84	21	monster-em	spread:spread	tier B, spread
-0x53aad8	22	monster-em	spread:spread	tier B, spread
-0x53ab30	22	monster-em	spread:spread	tier B, spread
+0x53aad8	22	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x1733af4: 2 labelled member(s) all say monster-em
+0x53ab30	22	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x1733af4: 2 labelled member(s) all say monster-em
+0x53ab88	107	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x1733af4: 2 labelled member(s) all say monster-em
 0x53ad34	54	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on render-gfx
 0x53ae0c	57	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on render-gfx
 0x53aef0	35	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on render-gfx
@@ -10891,7 +10921,7 @@ start	insns	label	provenance	reason
 0x53b460	40	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on render-gfx
 0x53b500	3	player-pl	evidence:attr-vtable-fixed.tsv	uPlParts registrar 0x3072f8 vtable 0x1751ee0 slot 78 (instance vtable installed by create 0x30334c @ install 0x307498)
 0x53b55c	16	monster-em	spread:spread	tier B, spread
-0x53b59c	24	otomo-ot	spread:spread	tier B, spread
+0x53b59c	24	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x1733b64: 2 labelled member(s) all say monster-em
 0x53b7e0	37	render-gfx	spread:spread+address	tier A, spread+address
 0x53b874	74	render-gfx	evidence:attr-prefix.tsv	class prefix "uFest" (uFestActorModel; uFestaHemiSphereLight; uFestaInfiniteLight) in string "uFestaChar"
 0x53b99c	21	render-gfx	evidence:attr-vtable-unknown.tsv	uFestActorModel::Constraint registrar 0x53bb08 vtable 0x176bf58 slot 2 (class-record vtable written by str at 0x53ccd4) [classprefix-map uFest -> render-gfx, basis: uFestActorModel; uFestaHemiSphereLight; uFestaInfiniteLight]
@@ -10969,6 +10999,8 @@ start	insns	label	provenance	reason
 0x540a18	23	ui	evidence:attr-vtable-unknown.tsv	cGUIObjTexWithParam registrar 0x53fe8c vtable 0x176c260 slot 2 (class-record vtable written by str at 0x540cec) [classprefix-map cGUI -> ui, basis: cGUIObject; cGUIInstAnimation; cGUIMessageAnalyzer]
 0x540a74	13	ui	evidence:attr-vtable-unknown.tsv	cGUIObjTexWithParam registrar 0x53fe8c vtable 0x176c1e0 slot 1 (instance vtable installed by create 0x540a18 @ install 0x540cec) [classprefix-map cGUI -> ui, basis: cGUIObject; cGUIInstAnimation; cGUIMessageAnalyzer]
 0x540aa8	88	ui	evidence:attr-vtable-unknown.tsv	cGUIObjTexWithParam registrar 0x53fe8c vtable 0x176c1e0 slot 4 (instance vtable installed by create 0x540a18 @ install 0x540cec) [classprefix-map cGUI -> ui, basis: cGUIObject; cGUIInstAnimation; cGUIMessageAnalyzer]
+0x540c08	12	ui	inferred:attr-tableseeds.tsv	pointer table at 0x178fc10: 1 labelled member(s) all say ui
+0x540c38	12	ui	inferred:attr-tableseeds.tsv	pointer table at 0x178fc10: 1 labelled member(s) all say ui
 0x540c68	45	ui	evidence:attr-prefix.tsv	class prefix "cGUI" (cGUIObject; cGUIInstAnimation; cGUIMessageAnalyzer) in string "cGUIObjTexWithParam"
 0x540d1c	24	ui	evidence:attr-vtable-unknown.tsv	cGUIObjBlendTextureSample registrar 0x541a0c vtable 0x176c2f4 slot 2 (class-record vtable written by str at 0x541d58) [classprefix-map cGUI -> ui, basis: cGUIObject; cGUIInstAnimation; cGUIMessageAnalyzer]
 0x540d7c	13	ui	evidence:attr-vtable-unknown.tsv	cGUIObjBlendTextureSample registrar 0x541a0c vtable 0x176c274 slot 1 (instance vtable installed by create 0x540d1c @ install 0x541d58) [classprefix-map cGUI -> ui, basis: cGUIObject; cGUIInstAnimation; cGUIMessageAnalyzer]
@@ -16563,7 +16595,8 @@ start	insns	label	provenance	reason
 0x7907b4	91	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 13 strongly-typed neighbour(s) agree on ui
 0x790920	48	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 3 strongly-typed neighbour(s) agree on ui
 0x7909e0	178	ui	inferred:attr-callvote.tsv	callee vote round 1: 4 high-purity callees agree on ui (182/203, 9/10, 8/10, 7/8); this round validated fold-wise at 97.2%
-0x790d1c	20	ui	spread:spread	tier B, spread
+0x790ca8	29	ui	inferred:attr-tableseeds.tsv	pointer table at 0x177e674: 1 labelled member(s) all say ui
+0x790d1c	20	ui	inferred:attr-tableseeds.tsv	pointer table at 0x177e674: 1 labelled member(s) all say ui
 0x790d6c	81	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 3 strongly-typed neighbour(s) agree on ui
 0x790eb0	19	ui	spread:spread	tier B, spread
 0x790efc	74	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 5 strongly-typed neighbour(s) agree on ui
@@ -16708,6 +16741,8 @@ start	insns	label	provenance	reason
 0x7acfb0	106	ui	spread:spread	tier B, spread
 0x7ad158	234	online-nex	spread:spread	tier B, spread
 0x7ad774	51	online-nex	spread:spread	tier B, spread
+0x7ad9c8	8	kernel-os	inferred:attr-tableseeds.tsv	pointer table at 0x177e8c8: 1 labelled member(s) all say kernel-os
+0x7ad9e8	7	kernel-os	inferred:attr-tableseeds.tsv	pointer table at 0x177e8c8: 1 labelled member(s) all say kernel-os
 0x7ada54	110	kernel-os	evidence:attr-xref.tsv	string "MtAllocator"
 0x7adc0c	29	kernel-os	evidence:attr-vtable-fixed.tsv	MtExHeapAllocator registrar 0x7aeaf8 vtable 0x177e7f8 slot 2 (class-record vtable written by str at 0x7aeda0) [relabelled render-gfx -> kernel-os by class name]
 0x7adc80	56	kernel-os	evidence:attr-vtable-fixed.tsv	MtExHeapAllocator registrar 0x7aeaf8 vtable 0x177e7b4 slot 0 (instance vtable installed by create 0x7adc0c @ install 0x7aeda0) [relabelled render-gfx -> kernel-os by class name]
@@ -16732,10 +16767,11 @@ start	insns	label	provenance	reason
 0x7af3a0	9	ui	spread:spread	tier B, spread
 0x7af3c4	8	ui	spread:spread	tier B, spread
 0x7af3e4	8	monster-em	spread:spread	tier B, spread
-0x7af404	52	online-nex	spread:spread	tier B, spread
+0x7af404	52	kernel-os	inferred:attr-tableseeds.tsv	pointer table at 0x184a06c: 2 labelled member(s) all say kernel-os
 0x7af4d4	17	ui	spread:spread	tier B, spread
 0x7af518	9	render-gfx	spread:spread	tier B, spread
 0x7af53c	23	render-gfx	spread:spread	tier B, spread
+0x7af5d8	22	kernel-os	inferred:attr-tableseeds.tsv	pointer table at 0x184a06c: 2 labelled member(s) all say kernel-os
 0x7af630	45	render-gfx	spread:spread	tier B, spread
 0x7af6e4	54	render-gfx	spread:spread	tier B, spread
 0x7af9b0	10	quest	spread:spread	tier B, spread
@@ -17351,6 +17387,7 @@ start	insns	label	provenance	reason
 0x80c264	20	online-nex	evidence:attr-vtable-fixed.tsv	MtNetUniqueId registrar 0x80dbbc vtable 0x1787114 slot 14 (instance vtable installed by create 0x80c5d0 @ install 0x80dc7c) [relabelled render-gfx -> online-nex by class name]
 0x80c2b4	19	online-nex	evidence:attr-vtable-fixed.tsv	MtNetUniqueId registrar 0x80dbbc vtable 0x1787114 slot 15 (instance vtable installed by create 0x80c5d0 @ install 0x80dc7c) [relabelled render-gfx -> online-nex by class name]
 0x80c300	24	online-nex	evidence:attr-vtable-fixed.tsv	MtNetUniqueId registrar 0x80dbbc vtable 0x1787114 slot 16 (instance vtable installed by create 0x80c5d0 @ install 0x80dc7c) [relabelled render-gfx -> online-nex by class name]
+0x80c360	83	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x17872d0: 13 labelled member(s) all say online-nex
 0x80c4ac	26	online-nex	evidence:attr-vtable-fixed.tsv	MtNetUniqueId registrar 0x80dbbc vtable 0x1787114 slot 18 (instance vtable installed by create 0x80c5d0 @ install 0x80dc7c) [relabelled render-gfx -> online-nex by class name]
 0x80c514	27	online-nex	evidence:attr-vtable-fixed.tsv	MtNetUniqueId registrar 0x80dbbc vtable 0x1787114 slot 19 (instance vtable installed by create 0x80c5d0 @ install 0x80dc7c) [relabelled render-gfx -> online-nex by class name]
 0x80c580	20	online-nex	evidence:attr-vtable-fixed.tsv	MtNetUniqueId registrar 0x80dbbc vtable 0x1787114 slot 20 (instance vtable installed by create 0x80c5d0 @ install 0x80dc7c) [relabelled render-gfx -> online-nex by class name]
@@ -17466,6 +17503,7 @@ start	insns	label	provenance	reason
 0x810fc4	24	audio	spread:spread	tier B, spread
 0x8110e0	2	player-pl	inferred:attr-callervote.tsv	caller vote: 4/4 evidence-bearing callers are player-pl; rule validated leave-one-file-out at 96.4%
 0x8110e8	45	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on online-nex
+0x81119c	12	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x178780c: 1 labelled member(s) all say online-nex
 0x8111cc	223	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 5 strongly-typed neighbour(s) agree on online-nex
 0x811548	830	online-nex	inferred:attr-callvote.tsv	callee vote round 1: 3 high-purity callees agree on online-nex (38/38, 13/13, 132/132); this round validated fold-wise at 97.2%
 0x812240	53	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 18 strongly-typed neighbour(s) agree on online-nex
@@ -17603,6 +17641,7 @@ start	insns	label	provenance	reason
 0x81e7ac	47	online-nex	spread:spread+address	tier A, spread+address
 0x81e868	4	online-nex	spread:spread+address	tier A, spread+address
 0x81e878	334	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on online-nex
+0x81edb0	4	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x178780c: 1 labelled member(s) all say online-nex
 0x81edc0	22	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 3 strongly-typed neighbour(s) agree on online-nex
 0x81ee18	21	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 3 strongly-typed neighbour(s) agree on online-nex
 0x81ee6c	22	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 3 strongly-typed neighbour(s) agree on online-nex
@@ -17612,7 +17651,8 @@ start	insns	label	provenance	reason
 0x81f0c4	21	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on online-nex
 0x81f118	22	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on online-nex
 0x81f170	147	online-nex	inferred:attr-callvote.tsv	callee vote round 1: 3 high-purity callees agree on online-nex (208/208, 53/53, 8/8); this round validated fold-wise at 97.2%
-0x81f434	140	online-nex	signature:attr-immscan.tsv	constant 0xc07 only (assembled movw/movt; 91/91 = 100% of its labelled carriers are online-nex); rule validated fold-wise at 97.0% and this function has no other evidence
+0x81f408	11	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x17878e8: 2 labelled member(s) all say online-nex
+0x81f434	140	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x17878e8: 2 labelled member(s) all say online-nex
 0x81f664	80	online-nex	inferred:attr-callvote.tsv	callee vote round 1: 3 high-purity callees agree on online-nex (208/208, 53/53, 8/8); this round validated fold-wise at 97.2%
 0x81f7a4	146	online-nex	inferred:attr-callervote.tsv	caller vote: 117/117 evidence-bearing callers are online-nex; rule validated leave-one-file-out at 96.4%
 0x81f9ec	122	online-nex	inferred:attr-callervote.tsv	caller vote: 8/8 evidence-bearing callers are online-nex; rule validated leave-one-file-out at 96.4%
@@ -17628,7 +17668,8 @@ start	insns	label	provenance	reason
 0x82061c	132	online-nex	inferred:attr-callvote.tsv	callee vote round 1: 5 high-purity callees agree on online-nex (208/208, 53/53, 38/38, 13/13, 8/8); this round validated fold-wise at 97.2%
 0x82082c	156	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on online-nex
 0x820adc	15	online-nex	spread:spread+address	tier A, spread+address
-0x820b44	136	online-nex	signature:attr-immscan.tsv	constant 0xc07 only (assembled movw/movt; 91/91 = 100% of its labelled carriers are online-nex); rule validated fold-wise at 97.0% and this function has no other evidence
+0x820b18	11	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1787a50: 2 labelled member(s) all say online-nex
+0x820b44	136	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1787a50: 2 labelled member(s) all say online-nex
 0x820d90	30	ui	spread:spread	tier B, spread
 0x820e08	31	online-nex	evidence:attr-vtable-fixed.tsv	MtNetObject registrar 0x8214e4 vtable 0x17878ac slot 2 (class-record vtable written by str at 0x821600) [relabelled render-gfx -> online-nex by class name]
 0x820e84	15	online-nex	spread:spread+address	tier A, spread+address
@@ -17656,11 +17697,11 @@ start	insns	label	provenance	reason
 0x822830	24	online-nex	spread:spread+address	tier A, spread+address
 0x822890	25	online-nex	spread:spread+address	tier A, spread+address
 0x822954	13	online-nex	spread:spread+address	tier A, spread+address
-0x8229c4	23	online-nex	spread:spread+address	tier A, spread+address
+0x8229c4	23	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1787b44: 4 labelled member(s) all say online-nex
 0x822a20	23	online-nex	spread:spread+address	tier A, spread+address
-0x822a7c	59	online-nex	spread:spread+address	tier A, spread+address
+0x822a7c	59	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1787b44: 4 labelled member(s) all say online-nex
 0x822b68	59	online-nex	spread:spread+address	tier A, spread+address
-0x822c54	63	online-nex	spread:spread+address	tier A, spread+address
+0x822c54	63	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1787b44: 4 labelled member(s) all say online-nex
 0x822d50	39	online-nex	spread:spread+address	tier A, spread+address
 0x822dec	60	online-nex	spread:spread+address	tier A, spread+address
 0x822edc	60	online-nex	spread:spread+address	tier A, spread+address
@@ -17711,12 +17752,13 @@ start	insns	label	provenance	reason
 0x82579c	53	online-nex	spread:spread+address	tier A, spread+address
 0x825870	61	online-nex	spread:spread+address	tier A, spread+address
 0x825964	53	online-nex	spread:spread+address	tier A, spread+address
-0x825a38	100	online-nex	spread:spread+address	tier A, spread+address
-0x825bc8	59	online-nex	spread:spread+address	tier A, spread+address
+0x825a38	100	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x17887a8: 1 labelled member(s) all say online-nex
+0x825bc8	59	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x17887a8: 1 labelled member(s) all say online-nex
 0x825cb4	59	online-nex	spread:spread+address	tier A, spread+address
-0x825f00	15	online-nex	spread:spread+address	tier A, spread+address
+0x825da0	44	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x17887a8: 1 labelled member(s) all say online-nex
+0x825f00	15	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x17887a8: 1 labelled member(s) all say online-nex
 0x825f3c	15	online-nex	spread:spread+address	tier A, spread+address
-0x825f78	57	online-nex	spread:spread+address	tier A, spread+address
+0x825f78	57	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x17887a8: 1 labelled member(s) all say online-nex
 0x82605c	30	ui	spread:spread	tier B, spread
 0x826130	25	weapon-wp	spread:spread	tier B, spread
 0x8261fc	59	quest	spread:spread	tier B, spread
@@ -17896,10 +17938,11 @@ start	insns	label	provenance	reason
 0x8430a8	17	online-nex	spread:spread	tier B, spread
 0x84315c	15	online-nex	spread:spread	tier B, spread
 0x843198	16	online-nex	spread:spread	tier B, spread
-0x8431d8	150	online-nex	spread:spread	tier B, spread
-0x843430	31	online-nex	spread:spread	tier B, spread
-0x8434ac	126	online-nex	spread:spread	tier B, spread
-0x843780	232	online-nex	spread:spread	tier B, spread
+0x8431d8	150	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x17883ec: 4 labelled member(s) all say online-nex
+0x843430	31	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x17883ec: 4 labelled member(s) all say online-nex
+0x8434ac	126	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x17883ec: 4 labelled member(s) all say online-nex
+0x8436a4	55	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x17883ec: 4 labelled member(s) all say online-nex
+0x843780	232	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x17883ec: 4 labelled member(s) all say online-nex
 0x843b20	30	ui	spread:spread	tier B, spread
 0x843b98	164	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on online-nex
 0x843e28	141	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 3 strongly-typed neighbour(s) agree on online-nex
@@ -17929,7 +17972,7 @@ start	insns	label	provenance	reason
 0x847484	959	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 9 strongly-typed neighbour(s) agree on online-nex
 0x848380	115	online-nex	spread:spread+address	tier A, spread+address
 0x84854c	62	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 9 strongly-typed neighbour(s) agree on online-nex
-0x8487fc	55	online-nex	spread:spread+address	tier A, spread+address
+0x8487fc	55	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x178846c: 4 labelled member(s) all say online-nex
 0x8488d8	148	online-nex	spread:spread+address	tier A, spread+address
 0x848b28	775	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 4 strongly-typed neighbour(s) agree on online-nex
 0x849850	66	online-nex	spread:spread+address	tier A, spread+address
@@ -17953,6 +17996,7 @@ start	insns	label	provenance	reason
 0x84cd78	39	online-nex	spread:spread+address	tier A, spread+address
 0x84ce14	39	online-nex	spread:spread+address	tier A, spread+address
 0x84ceb0	41	online-nex	spread:spread+address	tier A, spread+address
+0x84cf54	11	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x17886fc: 4 labelled member(s) all say online-nex
 0x84cf80	208	online-nex	spread:spread+address	tier A, spread+address
 0x84d2c0	73	online-nex	spread:spread+address	tier A, spread+address
 0x84d3e4	73	online-nex	spread:spread+address	tier A, spread+address
@@ -17965,31 +18009,32 @@ start	insns	label	provenance	reason
 0x84da24	27	online-nex	spread:spread+address	tier A, spread+address
 0x84da90	26	online-nex	spread:spread+address	tier A, spread+address
 0x84daf8	29	online-nex	spread:spread+address	tier A, spread+address
-0x84db6c	36	online-nex	spread:spread+address	tier A, spread+address
+0x84db6c	36	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x178878c: 4 labelled member(s) all say online-nex
 0x84dbfc	76	online-nex	evidence:attr-xref.tsv	string "MtNetNexTitleStorage%d"
-0x84dd2c	31	online-nex	spread:spread+address	tier A, spread+address
-0x84dda8	54	online-nex	spread:spread+address	tier A, spread+address
-0x84de80	17	online-nex	spread:spread+address	tier A, spread+address
-0x84dec4	31	online-nex	spread:spread+address	tier A, spread+address
-0x84df40	115	online-nex	spread:spread+address	tier A, spread+address
+0x84dd2c	31	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x17887a8: 1 labelled member(s) all say online-nex
+0x84dda8	54	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x17887a8: 1 labelled member(s) all say online-nex
+0x84de80	17	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x17887a8: 1 labelled member(s) all say online-nex
+0x84dec4	31	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x17887a8: 1 labelled member(s) all say online-nex
+0x84df40	115	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x17887a8: 1 labelled member(s) all say online-nex
 0x84e10c	30	ui	spread:spread	tier B, spread
 0x84e184	34	online-nex	spread:spread+address	tier A, spread+address
 0x84e20c	25	online-nex	spread:spread+address	tier A, spread+address
 0x84e270	27	online-nex	spread:spread+address	tier A, spread+address
 0x84e2dc	26	online-nex	spread:spread+address	tier A, spread+address
 0x84e344	29	online-nex	spread:spread+address	tier A, spread+address
-0x84e3b8	36	online-nex	spread:spread+address	tier A, spread+address
+0x84e3b8	36	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x178881c: 4 labelled member(s) all say online-nex
 0x84e448	76	online-nex	evidence:attr-xref.tsv	string "MtNetNexUserStorage%d"
-0x84e578	140	online-nex	spread:spread+address	tier A, spread+address
-0x84e7a8	54	online-nex	spread:spread+address	tier A, spread+address
-0x84e880	17	online-nex	spread:spread+address	tier A, spread+address
-0x84e8c4	136	player-pl	spread:spread	tier B, spread
-0x84eae4	148	player-pl	spread:spread	tier B, spread
+0x84e578	140	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1788838: 1 labelled member(s) all say online-nex
+0x84e7a8	54	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1788838: 1 labelled member(s) all say online-nex
+0x84e880	17	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1788838: 1 labelled member(s) all say online-nex
+0x84e8c4	136	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1788838: 1 labelled member(s) all say online-nex
+0x84eae4	148	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1788838: 1 labelled member(s) all say online-nex
 0x84ed34	30	ui	spread:spread	tier B, spread
 0x84edac	21	online-nex	spread:spread+address	tier A, spread+address
 0x84ee70	15	online-nex	spread:spread+address	tier A, spread+address
 0x84eeac	16	online-nex	spread:spread+address	tier A, spread+address
-0x84eeec	44	player-pl	spread:spread	tier B, spread
+0x84eeec	44	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x17888ac: 4 labelled member(s) all say online-nex
+0x84ef9c	60	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x17888ac: 4 labelled member(s) all say online-nex
 0x84f0bc	224	online-nex	spread:spread+address	tier A, spread+address
 0x84f43c	82	online-nex	spread:spread+address	tier A, spread+address
 0x84f584	30	ui	spread:spread	tier B, spread
@@ -18005,8 +18050,8 @@ start	insns	label	provenance	reason
 0x8505cc	16	online-nex	spread:spread+address	tier A, spread+address
 0x85067c	15	online-nex	spread:spread+address	tier A, spread+address
 0x8506b8	16	online-nex	spread:spread+address	tier A, spread+address
-0x8506f8	99	player-pl	spread:spread	tier B, spread
-0x850884	49	player-pl	spread:spread	tier B, spread
+0x8506f8	99	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x17889e8: 4 labelled member(s) all say online-nex
+0x850884	49	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x17889e8: 4 labelled member(s) all say online-nex
 0x850a28	315	player-pl	spread:spread	tier B, spread
 0x850f14	195	online-nex	spread:spread+address	tier A, spread+address
 0x851220	30	ui	spread:spread	tier B, spread
@@ -18024,7 +18069,7 @@ start	insns	label	provenance	reason
 0x8525b0	38	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 8 strongly-typed neighbour(s) agree on online-nex
 0x852648	37	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 8 strongly-typed neighbour(s) agree on online-nex
 0x8526dc	42	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 8 strongly-typed neighbour(s) agree on online-nex
-0x852784	49	player-pl	spread:spread	tier B, spread
+0x852784	49	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1788ab8: 4 labelled member(s) all say online-nex
 0x852848	422	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on online-nex
 0x852ee0	45	render-gfx	spread:spread	tier B, spread
 0x852f94	129	render-gfx	spread:spread	tier B, spread
@@ -18047,8 +18092,8 @@ start	insns	label	provenance	reason
 0x856c38	16	online-nex	spread:spread+address	tier A, spread+address
 0x856ce8	15	online-nex	spread:spread+address	tier A, spread+address
 0x856d24	16	online-nex	spread:spread+address	tier A, spread+address
-0x856d64	44	player-pl	spread:spread	tier B, spread
-0x856e14	46	player-pl	spread:spread	tier B, spread
+0x856d64	44	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1788be8: 4 labelled member(s) all say online-nex
+0x856e14	46	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1788be8: 4 labelled member(s) all say online-nex
 0x856fac	237	online-nex	spread:spread+address	tier A, spread+address
 0x857360	133	online-nex	spread:spread+address	tier A, spread+address
 0x857574	30	ui	spread:spread	tier B, spread
@@ -18066,8 +18111,9 @@ start	insns	label	provenance	reason
 0x8588f8	37	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 8 strongly-typed neighbour(s) agree on online-nex
 0x85898c	38	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 8 strongly-typed neighbour(s) agree on online-nex
 0x858a24	41	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 8 strongly-typed neighbour(s) agree on online-nex
-0x858ac8	49	player-pl	spread:spread	tier B, spread
+0x858ac8	49	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1788cb8: 4 labelled member(s) all say online-nex
 0x858b8c	413	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on online-nex
+0x859200	23	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1788cb8: 4 labelled member(s) all say online-nex
 0x85925c	51	render-gfx	spread:spread	tier B, spread
 0x859328	78	online-nex	spread:spread+address	tier A, spread+address
 0x8594cc	79	ui	spread:spread	tier B, spread
@@ -18087,19 +18133,19 @@ start	insns	label	provenance	reason
 0x85d0fc	30	ui	spread:spread	tier B, spread
 0x85d174	146	audio	spread:spread	tier B, spread
 0x85d3bc	107	online-nex	spread:spread	tier B, spread
-0x85d590	189	online-nex	spread:spread	tier B, spread
-0x85d884	32	online-nex	spread:spread	tier B, spread
-0x85d904	109	online-nex	spread:spread	tier B, spread
-0x85dab8	76	online-nex	spread:spread	tier B, spread
-0x85dbe8	211	online-nex	spread:spread	tier B, spread
+0x85d590	189	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1788de8: 4 labelled member(s) all say online-nex
+0x85d884	32	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1788de8: 4 labelled member(s) all say online-nex
+0x85d904	109	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1788de8: 4 labelled member(s) all say online-nex
+0x85dab8	76	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1788de8: 4 labelled member(s) all say online-nex
+0x85dbe8	211	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1788de8: 4 labelled member(s) all say online-nex
 0x85df60	116	online-nex	spread:spread	tier B, spread
 0x85e15c	103	online-nex	spread:spread	tier B, spread
 0x85e2f8	30	ui	spread:spread	tier B, spread
 0x85e370	6	ui	spread:spread	tier B, spread
 0x85e388	22	online-nex	spread:spread	tier B, spread
 0x85e3e0	58	online-nex	spread:spread	tier B, spread
-0x85e5ec	122	monster-em	signature:attr-immscan.tsv	constant 0x405 only (assembled movw/movt; 20/20 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
-0x85e7d4	35	online-nex	spread:spread	tier B, spread
+0x85e5ec	122	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1788eb0: 4 labelled member(s) all say online-nex
+0x85e7d4	35	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1788eb0: 4 labelled member(s) all say online-nex
 0x85e860	38	online-nex	spread:spread	tier B, spread
 0x85e96c	272	online-nex	spread:spread	tier B, spread
 0x85edac	30	ui	spread:spread	tier B, spread
@@ -18113,8 +18159,10 @@ start	insns	label	provenance	reason
 0x85f3f8	39	online-nex	spread:spread	tier B, spread
 0x85f494	61	online-nex	spread:spread	tier B, spread
 0x85f588	53	online-nex	spread:spread	tier B, spread
-0x85f684	52	online-nex	spread:spread	tier B, spread
+0x85f65c	5	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x17883ec: 4 labelled member(s) all say online-nex
+0x85f684	52	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x17883ec: 4 labelled member(s) all say online-nex
 0x85f754	52	online-nex	spread:spread	tier B, spread
+0x85f824	18	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x17883ec: 4 labelled member(s) all say online-nex
 0x85f8d4	20	online-nex	spread:spread	tier B, spread
 0x85f924	20	online-nex	spread:spread	tier B, spread
 0x85f974	30	ui	spread:spread	tier B, spread
@@ -18405,7 +18453,7 @@ start	insns	label	provenance	reason
 0x886ff8	48	render-gfx	evidence:attr-prefix.tsv	class prefix "cDraw" (cDraw) in string "cDraw"
 0x8870b8	18	weapon-wp	spread:spread	tier B, spread
 0x887100	7	weapon-wp	spread:spread	tier B, spread
-0x887160	1	player-pl	spread:spread	tier B, spread
+0x887160	1	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x1752858: 2 labelled member(s) all say render-gfx
 0x887164	29	save-data	spread:spread	tier B, spread
 0x8871d8	284	render-gfx	spread:spread+address	tier A, spread+address
 0x887648	6	render-gfx	spread:spread	tier B, spread
@@ -18418,6 +18466,7 @@ start	insns	label	provenance	reason
 0x887958	21	render-gfx	spread:spread	tier B, spread
 0x8879ac	2	monster-em	evidence:attr-vtable-fixed.tsv	uMonsterUnitConductor registrar 0xcd1d4 vtable 0x17351d8 slot 6 (instance vtable installed by create 0xcd078 @ install 0xcdc48)
 0x8879b4	6	render-gfx	spread:spread	tier B, spread
+0x887a0c	6	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x178caa0: 2 labelled member(s) all say render-gfx
 0x887a24	546	render-gfx	inferred:attr-callervote.tsv	caller vote: 31/33 evidence-bearing callers are render-gfx; rule validated leave-one-file-out at 96.4%
 0x88835c	158	ui	spread:spread	tier B, spread
 0x888610	147	render-gfx	spread:spread	tier B, spread
@@ -18467,6 +18516,7 @@ start	insns	label	provenance	reason
 0x88edd0	225	render-gfx	evidence:attr-vtable-unknown.tsv	uModelSky registrar 0x94c39c vtable 0x178c0b4 slot 22 (instance vtable installed by create 0x94b8a4 @ install 0x94cd14) [classprefix-map uModel -> render-gfx, basis: uModel; uModelSky; uModelPlaneClip]
 0x88f18c	28	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on render-gfx
 0x88f1fc	152	render-gfx	evidence:attr-vtable-unknown.tsv	uModelSky registrar 0x94c39c vtable 0x178c0b4 slot 23 (instance vtable installed by create 0x94b8a4 @ install 0x94cd14) [classprefix-map uModel -> render-gfx, basis: uModel; uModelSky; uModelPlaneClip]
+0x88f45c	38	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x1731b84: 1 labelled member(s) all say render-gfx
 0x88f4f4	12	render-gfx	evidence:attr-vtable-unknown.tsv	uModelSky registrar 0x94c39c vtable 0x178c0b4 slot 9 (instance vtable installed by create 0x94b8a4 @ install 0x94cd14) [classprefix-map uModel -> render-gfx, basis: uModel; uModelSky; uModelPlaneClip]
 0x88f524	66	render-gfx	spread:spread+address	tier A, spread+address
 0x88f62c	4	monster-em	spread:spread	tier B, spread
@@ -19067,6 +19117,7 @@ start	insns	label	provenance	reason
 0x92ac50	354	render-gfx	evidence:attr-blocks.tsv	block 24 purity 10/12 (0 confirm, 12 relabel, 0 unknown) sample verdict-21_27.tsv
 0x92b1d8	62	render-gfx	evidence:attr-blocks.tsv	block 24 purity 10/12 (0 confirm, 12 relabel, 0 unknown) sample verdict-21_27.tsv
 0x92b2d0	87	render-gfx	evidence:attr-blocks.tsv	block 24 purity 10/12 (0 confirm, 12 relabel, 0 unknown) sample verdict-21_27.tsv
+0x92b42c	99	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x18425fc: 2 labelled member(s) all say render-gfx
 0x92b5b8	298	render-gfx	evidence:attr-blocks.tsv	block 24 purity 10/12 (0 confirm, 12 relabel, 0 unknown) sample verdict-21_27.tsv
 0x92ba60	50	render-gfx	inferred:attr-classvote.tsv	class vote: uCuboidCubeMapLight has 5/5 evidence-bearing members labelled render-gfx; rule validated leave-one-file-out at 99.4%
 0x92bb28	252	render-gfx	evidence:attr-blocks.tsv	block 24 purity 10/12 (0 confirm, 12 relabel, 0 unknown) sample verdict-21_27.tsv
@@ -19148,9 +19199,10 @@ start	insns	label	provenance	reason
 0x9396a8	161	render-gfx	evidence:attr-class.tsv	ctor: uModel
 0x93992c	221	render-gfx	evidence:attr-blocks.tsv	block 24 purity 10/12 (0 confirm, 12 relabel, 0 unknown) sample verdict-21_27.tsv
 0x939ca0	12	render-gfx	evidence:attr-vtable-unknown.tsv	uModel registrar 0x93eff4 vtable 0x178bf48 slot 1 (instance vtable installed by create 0x939634 @ install 0x93f1d0) [classprefix-map uModel -> render-gfx, basis: uModel; uModelSky; uModelPlaneClip]
+0x939cd0	53	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x1746e08: 2 labelled member(s) all say player-pl
 0x939da4	484	render-gfx	evidence:attr-class.tsv	ctor: uModel
 0x93a534	119	render-gfx	inferred:attr-callvote.tsv	callee vote round 1: 3 high-purity callees agree on render-gfx (24/25, 17/18, 14/14); this round validated fold-wise at 97.2%
-0x93a710	532	render-gfx	spread:spread+address	tier A, spread+address
+0x93a710	532	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x1731b84: 1 labelled member(s) all say render-gfx
 0x93af60	16	render-gfx	evidence:attr-vtable-unknown.tsv	uModel registrar 0x93eff4 vtable 0x178bf48 slot 9 (instance vtable installed by create 0x939634 @ install 0x93f1d0) [classprefix-map uModel -> render-gfx, basis: uModel; uModelSky; uModelPlaneClip]
 0x93afa4	96	render-gfx	evidence:attr-blocks.tsv	block 24 purity 10/12 (0 confirm, 12 relabel, 0 unknown) sample verdict-21_27.tsv
 0x93b124	33	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on render-gfx
@@ -19435,6 +19487,7 @@ start	insns	label	provenance	reason
 0x978ccc	220	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on render-gfx
 0x97903c	276	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 4 strongly-typed neighbour(s) agree on render-gfx
 0x9794b0	114	render-gfx	evidence:attr-xref.tsv	string "TempTexture"
+0x97a0fc	58	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x178ccd0: 1 labelled member(s) all say render-gfx
 0x97a1e4	110	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on render-gfx
 0x97a39c	210	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on render-gfx
 0x97a6e4	206	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 4 strongly-typed neighbour(s) agree on render-gfx
@@ -19443,6 +19496,7 @@ start	insns	label	provenance	reason
 0x97b358	51	render-gfx	spread:spread+address	tier A, spread+address
 0x97b424	205	render-gfx	evidence:attr-xref.tsv	string "TempTexture"
 0x97b7cc	252	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on render-gfx
+0x97c530	58	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x178cd5c: 1 labelled member(s) all say render-gfx
 0x97c618	50	render-gfx	spread:spread+address	tier A, spread+address
 0x97c6e0	185	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on render-gfx
 0x97c9c4	342	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on render-gfx
@@ -19523,7 +19577,7 @@ start	insns	label	provenance	reason
 0x99aa08	126	render-gfx	spread:spread+address	tier A, spread+address
 0x99ac00	64	render-gfx	evidence:attr-prefix.tsv	class prefix "uSky" (uSky; uSkyFog) in string "uSkyFog"
 0x99b274	23	render-gfx	evidence:attr-vtable-unknown.tsv	uSwingModel registrar 0x99b2d0 vtable 0x178d068 slot 2 (class-record vtable written by str at 0x99d640) [classprefix-map uSwingModel -> render-gfx, basis: uSwingModel; uSwingJointModel]
-0x99b620	85	render-gfx	spread:spread+address	tier A, spread+address
+0x99b620	85	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x178d2e8: 3 labelled member(s) all say render-gfx
 0x99b774	958	render-gfx	inferred:attr-callvote.tsv	callee vote round 1: 3 high-purity callees agree on render-gfx (9/10, 12/14, 12/13); this round validated fold-wise at 97.2%
 0x99ca10	186	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on render-gfx
 0x99ccf8	489	render-gfx	inferred:attr-callvote.tsv	callee vote round 1: 3 high-purity callees agree on render-gfx (9/10, 12/14, 12/13); this round validated fold-wise at 97.2%
@@ -19743,6 +19797,7 @@ start	insns	label	provenance	reason
 0x9d34b0	293	physics-math	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on physics-math
 0x9d3944	25	render-gfx	spread:spread	tier B, spread
 0x9d39a8	16	render-gfx	spread:spread	tier B, spread
+0x9d39e8	7	physics-math	inferred:attr-tableseeds.tsv	pointer table at 0x178dd80: 1 labelled member(s) all say physics-math
 0x9d3a04	12	physics-math	spread:spread+address	tier A, spread+address
 0x9d3a34	126	physics-math	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on physics-math
 0x9d3c84	1374	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 6 strongly-typed neighbour(s) agree on monster-em
@@ -19753,6 +19808,7 @@ start	insns	label	provenance	reason
 0x9d7b64	2429	physics-math	evidence:attr-vtable-unknown.tsv	uCnsIK::uCnsJoint registrar 0x9d7b64 vtable 0x178da60 slot 23 (instance vtable installed by create 0x9d0540 @ install 0x9db06c) [classprefix-map uCns -> physics-math, basis: uCnsChain; uCnsMatrix; uCnsTinyChain]
 0x9da158	227	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 5 strongly-typed neighbour(s) agree on monster-em
 0x9da4e4	285	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 4 strongly-typed neighbour(s) agree on monster-em
+0x9da958	297	physics-math	inferred:attr-tableseeds.tsv	pointer table at 0x178dd90: 1 labelled member(s) all say physics-math
 0x9dadfc	94	physics-math	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on physics-math
 0x9daf74	29	physics-math	evidence:attr-vtable-unknown.tsv	uCnsIK::uCnsJoint registrar 0x9d7b64 vtable 0x178da60 slot 1 (instance vtable installed by create 0x9d0540 @ install 0x9db06c) [classprefix-map uCns -> physics-math, basis: uCnsChain; uCnsMatrix; uCnsTinyChain]
 0x9dafe8	81	physics-math	evidence:attr-prefix.tsv	class prefix "uCns" (uCnsChain; uCnsMatrix; uCnsTinyChain) in string "uCnsIK::uCnsJoint"
@@ -19894,9 +19950,12 @@ start	insns	label	provenance	reason
 0x9ec94c	182	ui	spread:spread	tier B, spread
 0x9ecc24	35	render-gfx	spread:spread	tier B, spread
 0x9eccb0	43	physics-math	spread:spread+address	tier A, spread+address
+0x9edeec	67	physics-math	inferred:attr-tableseeds.tsv	pointer table at 0x178e4e0: 1 labelled member(s) all say physics-math
 0x9edff8	147	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on render-gfx
 0x9ee510	177	ui	spread:spread	tier B, spread
+0x9ee7d4	34	physics-math	inferred:attr-tableseeds.tsv	pointer table at 0x178e508: 2 labelled member(s) all say physics-math
 0x9ee85c	225	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on render-gfx
+0x9eebec	82	physics-math	inferred:attr-tableseeds.tsv	pointer table at 0x178e53c: 2 labelled member(s) all say physics-math
 0x9eed34	12	physics-math	evidence:attr-vtable-unknown.tsv	uCnsTinyChain::cChainGroup registrar 0x9eebe0 vtable 0x178e258 slot 0 (instance vtable installed by create 0x9e4038 @ install 0x9ef1c4) [classprefix-map uCns -> physics-math, basis: uCnsChain; uCnsMatrix; uCnsTinyChain]
 0x9eed64	40	physics-math	evidence:attr-vtable-unknown.tsv	uCnsTinyChain::cChainGroup registrar 0x9eebe0 vtable 0x178e258 slot 1 (instance vtable installed by create 0x9e4038 @ install 0x9ef1c4) [classprefix-map uCns -> physics-math, basis: uCnsChain; uCnsMatrix; uCnsTinyChain]
 0x9eee04	37	physics-math	evidence:attr-vtable-unknown.tsv	uCnsTinyChain::cChainGroup registrar 0x9eebe0 vtable 0x178e258 slot 14 (instance vtable installed by create 0x9e4038 @ install 0x9ef1c4) [classprefix-map uCns -> physics-math, basis: uCnsChain; uCnsMatrix; uCnsTinyChain]
@@ -19909,13 +19968,15 @@ start	insns	label	provenance	reason
 0x9ef660	30	physics-math	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on physics-math
 0x9ef6d8	868	physics-math	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on physics-math
 0x9f0468	326	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on render-gfx
+0x9f0cfc	28	physics-math	inferred:attr-tableseeds.tsv	pointer table at 0x178e5e8: 1 labelled member(s) all say physics-math
 0x9f0d6c	103	physics-math	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on physics-math
-0x9f0f08	60	render-gfx	spread:spread	tier B, spread
+0x9f0f08	60	physics-math	inferred:attr-tableseeds.tsv	pointer table at 0x178e5e8: 1 labelled member(s) all say physics-math
 0x9f0ff8	342	render-gfx	spread:spread	tier B, spread
 0x9f1550	1134	render-gfx	spread:spread	tier B, spread
 0x9f2708	324	physics-math	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on physics-math
 0x9f2c18	1222	render-gfx	spread:spread	tier B, spread
 0x9f3f30	412	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 6 strongly-typed neighbour(s) agree on render-gfx
+0x9f45a0	9	physics-math	inferred:attr-tableseeds.tsv	pointer table at 0x178e5e8: 1 labelled member(s) all say physics-math
 0x9f45c4	45	physics-math	evidence:attr-prefix.tsv	class prefix "uCns" (uCnsChain; uCnsMatrix; uCnsTinyChain) in string "uCnsTinyIK"
 0x9f481c	385	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on render-gfx
 0x9f4e20	21	physics-math	spread:spread+address	tier A, spread+address
@@ -20244,7 +20305,7 @@ start	insns	label	provenance	reason
 0xa4764c	193	ui	evidence:attr-vtable-unknown.tsv	cGUIObject registrar 0xa567dc vtable 0x178f950 slot 4 (instance vtable installed by create 0xa475d8 @ install 0xa56bf8) [classprefix-map cGUI -> ui, basis: cGUIObject; cGUIInstAnimation; cGUIMessageAnalyzer]
 0xa47be8	81	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on render-gfx
 0xa47d84	153	ui	spread:spread+address	tier A, spread+address
-0xa48294	71	ui	spread:spread+address	tier A, spread+address
+0xa48294	71	ui	inferred:attr-tableseeds.tsv	pointer table at 0x178fe08: 2 labelled member(s) all say ui
 0xa48500	90	ui	evidence:attr-vtable-unknown.tsv	cGUIObjRoot registrar 0xa567dc vtable 0x178ff04 slot 2 (class-record vtable written by str at 0xa56c2c) [classprefix-map cGUI -> ui, basis: cGUIObject; cGUIInstAnimation; cGUIMessageAnalyzer]
 0xa48668	37	ui	evidence:attr-vtable-unknown.tsv	cGUIObjRoot registrar 0xa567dc vtable 0x178f9bc slot 0 (instance vtable installed by create 0xa48500 @ install 0xa56c2c) [classprefix-map cGUI -> ui, basis: cGUIObject; cGUIInstAnimation; cGUIMessageAnalyzer]
 0xa486fc	45	ui	evidence:attr-vtable-unknown.tsv	cGUIObjRoot registrar 0xa567dc vtable 0x178f9bc slot 1 (instance vtable installed by create 0xa48500 @ install 0xa56c2c) [classprefix-map cGUI -> ui, basis: cGUIObject; cGUIInstAnimation; cGUIMessageAnalyzer]
@@ -20279,16 +20340,21 @@ start	insns	label	provenance	reason
 0xa4d32c	37	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on ui
 0xa4d3c0	38	ui	evidence:attr-vtable-unknown.tsv	cGUIObjPolygon registrar 0xa567dc vtable 0x178fc48 slot 1 (instance vtable installed by create 0xa4d0a0 @ install 0xa56d80) [classprefix-map cGUI -> ui, basis: cGUIObject; cGUIInstAnimation; cGUIMessageAnalyzer]
 0xa4e0b8	18	ui	spread:spread+address	tier A, spread+address
-0xa4e628	99	render-gfx	spread:spread	tier B, spread
+0xa4e124	18	ui	inferred:attr-tableseeds.tsv	pointer table at 0x178ffb0: 1 labelled member(s) all say ui
+0xa4e16c	60	ui	inferred:attr-tableseeds.tsv	pointer table at 0x178ffb0: 1 labelled member(s) all say ui
+0xa4e604	9	ui	inferred:attr-tableseeds.tsv	pointer table at 0x176c4ac: 1 labelled member(s) all say ui
+0xa4e628	99	ui	inferred:attr-tableseeds.tsv	pointer table at 0x176c4ac: 1 labelled member(s) all say ui
 0xa4e7b4	250	render-gfx	inferred:attr-callvote.tsv	callee vote round 1: 2 high-purity callees agree on render-gfx (12/14, 12/13); this round validated fold-wise at 97.2%
 0xa4eb9c	144	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on render-gfx
-0xa4eed8	338	render-gfx	spread:spread	tier B, spread
+0xa4eddc	63	ui	inferred:attr-tableseeds.tsv	pointer table at 0x176c4ac: 1 labelled member(s) all say ui
+0xa4eed8	338	ui	inferred:attr-tableseeds.tsv	pointer table at 0x176c4ac: 1 labelled member(s) all say ui
 0xa4f550	47	ui	evidence:attr-vtable-unknown.tsv	cGUIObjTexture registrar 0xa567dc vtable 0x178ff90 slot 2 (class-record vtable written by str at 0xa56dbc) [classprefix-map cGUI -> ui, basis: cGUIObject; cGUIInstAnimation; cGUIMessageAnalyzer]
 0xa4f60c	38	ui	spread:spread+address	tier A, spread+address
 0xa4f6a4	42	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on ui
 0xa4f74c	12	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on ui
 0xa4f77c	50	ui	evidence:attr-vtable-unknown.tsv	cGUIObjTexture registrar 0xa567dc vtable 0x178fcc8 slot 1 (instance vtable installed by create 0xa4f550 @ install 0xa56dbc) [classprefix-map cGUI -> ui, basis: cGUIObject; cGUIInstAnimation; cGUIMessageAnalyzer]
 0xa4f844	146	render-gfx	evidence:attr-xref.tsv	string "Texture"
+0xa4fbf4	42	ui	inferred:attr-tableseeds.tsv	pointer table at 0x178ffb0: 1 labelled member(s) all say ui
 0xa4fc9c	134	ui	spread:spread	tier B, spread
 0xa4feb4	247	render-gfx	inferred:attr-callvote.tsv	callee vote round 1: 2 high-purity callees agree on render-gfx (12/14, 12/13); this round validated fold-wise at 97.2%
 0xa50290	662	render-gfx	inferred:attr-callvote.tsv	callee vote round 1: 2 high-purity callees agree on render-gfx (12/14, 12/13); this round validated fold-wise at 97.2%
@@ -21183,6 +21249,7 @@ start	insns	label	provenance	reason
 0xb04a90	23	render-gfx	evidence:attr-blocks.tsv	block 29 purity 11/12 (6 confirm, 6 relabel, 0 unknown) sample verdict-28_34.tsv
 0xb04aec	23	render-gfx	evidence:attr-blocks.tsv	block 29 purity 11/12 (6 confirm, 6 relabel, 0 unknown) sample verdict-28_34.tsv
 0xb04b48	49	render-gfx	evidence:attr-blocks.tsv	block 29 purity 11/12 (6 confirm, 6 relabel, 0 unknown) sample verdict-28_34.tsv
+0xb04c0c	40	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x17917d4: 6 labelled member(s) all say render-gfx
 0xb04cac	19	render-gfx	evidence:attr-blocks.tsv	block 29 purity 11/12 (6 confirm, 6 relabel, 0 unknown) sample verdict-28_34.tsv
 0xb04cf8	102	render-gfx	inferred:attr-callervote.tsv	caller vote: 3/3 evidence-bearing callers are render-gfx; rule validated leave-one-file-out at 96.4%
 0xb04e90	20	render-gfx	evidence:attr-blocks.tsv	block 29 purity 11/12 (6 confirm, 6 relabel, 0 unknown) sample verdict-28_34.tsv
@@ -21561,8 +21628,10 @@ start	insns	label	provenance	reason
 0xb3b8e4	225	weapon-wp	spread:spread	tier B, spread
 0xb3bc68	209	weapon-wp	spread:spread	tier B, spread
 0xb3c890	78	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on render-gfx
+0xb3cbf0	158	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x1792cc0: 2 labelled member(s) all say render-gfx
 0xb3d1c8	117	weapon-wp	spread:spread	tier B, spread
 0xb3d39c	201	weapon-wp	spread:spread	tier B, spread
+0xb3d7d0	13	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x1792cc0: 2 labelled member(s) all say render-gfx
 0xb3de10	865	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 14 strongly-typed neighbour(s) agree on render-gfx
 0xb3eb94	1112	render-gfx	inferred:attr-callvote.tsv	callee vote round 1: 2 high-purity callees agree on render-gfx (24/25, 17/18); this round validated fold-wise at 97.2%
 0xb3febc	235	quest	spread:spread	tier B, spread
@@ -22216,7 +22285,9 @@ start	insns	label	provenance	reason
 0xb87dec	45	quest	evidence:attr-class2.tsv	sArea class-record slot [classprefix-map sArea -> quest, basis: sArea]
 0xb87ea0	60	quest	evidence:attr-class2.tsv	sArea class-record slot [classprefix-map sArea -> quest, basis: sArea]
 0xb87f90	89	quest	evidence:attr-class2.tsv	sArea class-record slot [classprefix-map sArea -> quest, basis: sArea]
+0xb880f4	30	quest	inferred:attr-tableseeds.tsv	pointer table at 0x17951ec: 1 labelled member(s) all say quest
 0xb8816c	52	quest	evidence:attr-class2.tsv	sArea class-record slot [classprefix-map sArea -> quest, basis: sArea]
+0xb88568	50	quest	inferred:attr-tableseeds.tsv	pointer table at 0x17951ec: 1 labelled member(s) all say quest
 0xb88630	15	quest	evidence:attr-vtable-unknown.tsv	sArea::AreaInfo registrar 0xb88630 vtable 0x1794fb4 slot 1 (instance vtable installed by create 0xb87964 @ install 0xb886f0) [classprefix-map sArea -> quest, basis: sArea]
 0xb8866c	64	quest	evidence:attr-prefix.tsv	class prefix "sArea" (sArea) in string "sArea::AreaInfo"
 0xb8876c	47	render-gfx	evidence:attr-vtable-unknown.tsv	sCamera::Viewport registrar 0xb8bf10 vtable 0x179508c slot 2 (class-record vtable written by str at 0xb8bff0) [classprefix-map sCamera -> render-gfx, basis: sCamera]
@@ -22352,6 +22423,7 @@ start	insns	label	provenance	reason
 0xba2c00	10	ui	spread:spread	tier B, spread
 0xba2c7c	72	render-gfx	spread:spread	tier B, spread
 0xba2e80	5	player-pl	inferred:attr-callervote.tsv	caller vote: 4/4 evidence-bearing callers are player-pl; rule validated leave-one-file-out at 96.4%
+0xba2eb8	5	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x1795648: 2 labelled member(s) all say player-pl
 0xba2edc	44	player-pl	spread:spread+address	tier A, spread+address
 0xba2f8c	78	player-pl	evidence:attr-class2.tsv	sGuestHunter class-record slot [classprefix-map sGuestHunter -> player-pl, basis: sGuestHunter]
 0xba30c4	78	player-pl	evidence:attr-class2.tsv	sGuestHunter class-record slot [classprefix-map sGuestHunter -> player-pl, basis: sGuestHunter]
@@ -22826,11 +22898,11 @@ start	insns	label	provenance	reason
 0xc040f0	74	audio	evidence:attr-class2.tsv	sSound class-record slot [classprefix-map sSound -> audio, basis: sSound; sSoundControl]
 0xc04218	42	audio	evidence:attr-class2.tsv	sSound class-record slot [classprefix-map sSound -> audio, basis: sSound; sSoundControl]
 0xc04760	14	ui	spread:spread	tier B, spread
-0xc04798	416	audio	spread:spread+address	tier A, spread+address
+0xc04798	416	audio	inferred:attr-tableseeds.tsv	pointer table at 0x1796824: 2 labelled member(s) all say audio
 0xc04e18	89	online-nex	spread:spread	tier B, spread
-0xc04f7c	110	online-nex	spread:spread	tier B, spread
-0xc05134	62	online-nex	spread:spread	tier B, spread
-0xc0522c	87	online-nex	spread:spread	tier B, spread
+0xc04f7c	110	audio	inferred:attr-tableseeds.tsv	pointer table at 0x1796824: 2 labelled member(s) all say audio
+0xc05134	62	audio	inferred:attr-tableseeds.tsv	pointer table at 0x1796824: 2 labelled member(s) all say audio
+0xc0522c	87	audio	inferred:attr-tableseeds.tsv	pointer table at 0x1796824: 2 labelled member(s) all say audio
 0xc05388	38	render-gfx	spread:spread	tier B, spread
 0xc05420	41	ui	spread:spread	tier B, spread
 0xc054c4	165	ui	spread:spread	tier B, spread
@@ -24692,7 +24764,7 @@ start	insns	label	provenance	reason
 0xd227d0	138	monster-em	evidence:attr-strings2.tsv	4 of 4 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): emUniqueActMain | em003_00PreCatchMove | em003_00RevivalMove
 0xd229f8	414	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 8 strongly-typed neighbour(s) agree on monster-em
 0xd23070	385	monster-em	evidence:attr-fingerprint.tsv	movw #0x1428 x5 (act-object field) plus a monster motion-API callee; scored against A-direct rows: 0 labelled carriers, 0 monster-em
-0xd23674	18	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
+0xd23674	18	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x179cf80: 3 labelled member(s) all say monster-em
 0xd236bc	85	monster-em	signature:attr-immscan.tsv	constant 0xcad0 only (assembled movw/movt; 65/65 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0xd23810	227	ui	spread:spread	tier B, spread
 0xd23b9c	269	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 35 strongly-typed neighbour(s) agree on monster-em
@@ -24794,8 +24866,8 @@ start	insns	label	provenance	reason
 0xd30e38	63	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 4 strongly-typed neighbour(s) agree on monster-em
 0xd30f34	66	monster-em	evidence:attr-fingerprint.tsv	motion signature 4 sites over 3 APIs (0xbc8b0,0xaff40,0xb0a84) with corroboration motion-play x2; the API set is called by 0 of 980 player/otomo/ui A-direct functions
 0xd3103c	111	monster-em	evidence:attr-strings2.tsv	3 of 3 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): em004_00RevivalMove | emUniqueActMain | em004_00DemoMove
-0xd311f8	27	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
-0xd31264	156	monster-em	spread:spread+address	tier A, spread+address
+0xd311f8	27	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x179f31c: 3 labelled member(s) all say monster-em
+0xd31264	156	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x179f090: 1 labelled member(s) all say monster-em
 0xd314d4	119	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 4 strongly-typed neighbour(s) agree on monster-em
 0xd316b0	97	monster-em	signature:attr-immscan.tsv	constant 0xcad0 only (assembled movw/movt; 65/65 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0xd31834	107	ui	spread:spread	tier B, spread
@@ -24827,7 +24899,7 @@ start	insns	label	provenance	reason
 0xd34d8c	16	monster-em	signature:attr-immscan.tsv	constant 0xcac0 only (assembled movw/movt; 386/386 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0xd34dcc	280	monster-em	signature:attr-immscan.tsv	constant 0xcad0 only (assembled movw/movt; 65/65 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0xd3522c	59	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 3 strongly-typed neighbour(s) agree on monster-em
-0xd35318	29	monster-em	spread:spread+address	tier A, spread+address
+0xd35318	29	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17a0998: 1 labelled member(s) all say monster-em
 0xd3538c	52	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 3 strongly-typed neighbour(s) agree on monster-em
 0xd3545c	341	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 7 strongly-typed neighbour(s) agree on monster-em
 0xd359b0	114	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 3 strongly-typed neighbour(s) agree on monster-em
@@ -24927,7 +24999,7 @@ start	insns	label	provenance	reason
 0xd48368	36	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0xd483f8	30	monster-em	signature:attr-immscan.tsv	constant 0xb5f5 only (assembled movw/movt; 249/249 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0xd48470	13	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
-0xd484a4	190	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
+0xd484a4	190	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17a08d0: 1 labelled member(s) all say monster-em
 0xd4879c	172	ui	spread:spread	tier B, spread
 0xd48a4c	273	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 29 strongly-typed neighbour(s) agree on monster-em
 0xd48e90	54	ui	spread:spread	tier B, spread
@@ -25010,6 +25082,7 @@ start	insns	label	provenance	reason
 0xd53f64	396	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 14 strongly-typed neighbour(s) agree on monster-em
 0xd545b8	25	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on monster-em
 0xd5461c	5	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
+0xd54630	11	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17a2058: 1 labelled member(s) all say monster-em
 0xd5465c	59	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0xd54748	83	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 10 strongly-typed neighbour(s) agree on monster-em
 0xd54894	47	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
@@ -25102,7 +25175,7 @@ start	insns	label	provenance	reason
 0xd60680	933	monster-em	evidence:attr-fingerprint.tsv	movw #0x1428 x10 (act-object field) plus a monster motion-API callee; scored against A-direct rows: 0 labelled carriers, 0 monster-em
 0xd61514	139	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 6 strongly-typed neighbour(s) agree on monster-em
 0xd61740	61	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on monster-em
-0xd61834	43	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
+0xd61834	43	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17a3c68: 3 labelled member(s) all say monster-em
 0xd618e0	54	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on monster-em
 0xd619b8	129	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0xd61bbc	115	monster-em	signature:attr-immscan.tsv	constant 0xcac0 only (assembled movw/movt; 386/386 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
@@ -25199,7 +25272,7 @@ start	insns	label	provenance	reason
 0xd6e504	451	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0xd6ec10	21	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0xd6ec64	37	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
-0xd6ed40	55	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
+0xd6ed40	55	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17a56bc: 1 labelled member(s) all say monster-em
 0xd6ee1c	98	ui	spread:spread	tier B, spread
 0xd6efa4	157	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 14 strongly-typed neighbour(s) agree on monster-em
 0xd6f218	54	ui	spread:spread	tier B, spread
@@ -25420,7 +25493,7 @@ start	insns	label	provenance	reason
 0xd8d550	151	monster-em	inferred:attr-callvote.tsv	callee vote round 1: 3 high-purity callees agree on monster-em (14/15, 15/15, 13/13); this round validated fold-wise at 97.2%
 0xd8d7ac	83	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on monster-em
 0xd8d8f8	467	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 13 strongly-typed neighbour(s) agree on monster-em
-0xd8e044	75	monster-em	signature:attr-immscan.tsv	constant 0x73e0 only (assembled movw/movt; 115/116 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
+0xd8e044	75	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17ace28: 1 labelled member(s) all say monster-em
 0xd8e170	103	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0xd8e30c	8	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0xd8e32c	90	monster-em	signature:attr-immscan.tsv	constant 0xcac0 only (assembled movw/movt; 386/386 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
@@ -25606,7 +25679,7 @@ start	insns	label	provenance	reason
 0xda617c	173	monster-em	inferred:attr-callvote.tsv	callee vote round 1: 3 high-purity callees agree on monster-em (15/15, 14/15, 13/13); this round validated fold-wise at 97.2%
 0xda6430	136	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0xda6650	137	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 8 strongly-typed neighbour(s) agree on monster-em
-0xda6874	15	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
+0xda6874	15	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17b1410: 3 labelled member(s) all say monster-em
 0xda68b0	27	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0xda691c	142	ui	spread:spread	tier B, spread
 0xda6b74	139	render-gfx	spread:spread	tier B, spread
@@ -25697,7 +25770,7 @@ start	insns	label	provenance	reason
 0xdb3268	591	monster-em	signature:attr-immscan.tsv	constant 0x73e1 only (assembled movw/movt; 451/452 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0xdb3ba4	120	monster-em	evidence:attr-strings2.tsv	3 of 3 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): emUniqueActMain | em018_00RevivalMove | em018_00DemoMove
 0xdb3d84	13	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
-0xdb3db8	15	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
+0xdb3db8	15	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17b31c8: 3 labelled member(s) all say monster-em
 0xdb3df4	37	monster-em	signature:attr-immscan.tsv	constant 0xcacc only (assembled movw/movt; 33/33 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0xdb3e88	98	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on monster-em
 0xdb4010	105	ui	spread:spread	tier B, spread
@@ -25821,7 +25894,7 @@ start	insns	label	provenance	reason
 0xdc3b4c	93	monster-em	signature:attr-immscan.tsv	constant 0xcad0 only (assembled movw/movt; 65/65 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0xdc3cc0	213	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on monster-em
 0xdc4014	59	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on monster-em
-0xdc4100	27	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
+0xdc4100	27	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17b4aa8: 3 labelled member(s) all say monster-em
 0xdc416c	288	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 7 strongly-typed neighbour(s) agree on monster-em
 0xdc45ec	83	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0xdc4738	285	ui	spread:spread	tier B, spread
@@ -25861,7 +25934,7 @@ start	insns	label	provenance	reason
 0xdc83a0	148	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 5 strongly-typed neighbour(s) agree on monster-em
 0xdc85f0	40	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 3 strongly-typed neighbour(s) agree on monster-em
 0xdc8690	363	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 7 strongly-typed neighbour(s) agree on monster-em
-0xdc8c3c	78	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
+0xdc8c3c	78	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17b58bc: 1 labelled member(s) all say monster-em
 0xdc8d74	20	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0xdc8dc4	5	monster-em	signature:attr-immscan.tsv	constant 0xcaec only (assembled movw/movt; 32/32 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0xdc8dd8	13	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
@@ -26262,7 +26335,7 @@ start	insns	label	provenance	reason
 0xdffd60	30	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0xdffdd8	52	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on monster-em
 0xdffea8	283	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 16 strongly-typed neighbour(s) agree on monster-em
-0xe00314	92	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
+0xe00314	92	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17baadc: 1 labelled member(s) all say monster-em
 0xe00484	37	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0xe00518	51	monster-em	signature:attr-immscan.tsv	constant 0xcac0 only (assembled movw/movt; 386/386 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0xe005e4	82	ui	spread:spread	tier B, spread
@@ -26449,7 +26522,7 @@ start	insns	label	provenance	reason
 0xe1d6a8	53	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 3 strongly-typed neighbour(s) agree on monster-em
 0xe1d77c	139	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 4 strongly-typed neighbour(s) agree on monster-em
 0xe1d9a8	40	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
-0xe1da48	51	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
+0xe1da48	51	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17bdc5c: 3 labelled member(s) all say monster-em
 0xe1db50	87	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0xe1dcac	82	ui	spread:spread	tier B, spread
 0xe1ded8	67	monster-em	spread:spread+address	tier A, spread+address
@@ -26472,7 +26545,7 @@ start	insns	label	provenance	reason
 0xe1f3cc	18	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0xe1f414	61	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0xe1f508	72	monster-em	signature:attr-immscan.tsv	constant 0xcae0 only (assembled movw/movt; 61/61 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
-0xe1f628	20	monster-em	spread:spread+address	tier A, spread+address
+0xe1f628	20	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17bef44: 1 labelled member(s) all say monster-em
 0xe1f678	132	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 5 strongly-typed neighbour(s) agree on monster-em
 0xe1f888	54	ui	spread:spread	tier B, spread
 0xe1f960	87	monster-em	evidence:attr-fingerprint.tsv	movw #0x1428 x3 (act-object field) plus a monster motion-API callee; scored against A-direct rows: 4 labelled carriers, 4 monster-em
@@ -26694,7 +26767,7 @@ start	insns	label	provenance	reason
 0xe41084	192	monster-em	evidence:attr-strings2.tsv	4 of 4 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): em033_00PreCatchMove | em033_00CatchMove | emUniqueActMain
 0xe41384	45	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on monster-em
 0xe41438	42	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on monster-em
-0xe414e0	40	monster-em	spread:spread+address	tier A, spread+address
+0xe414e0	40	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17c15c8: 1 labelled member(s) all say monster-em
 0xe41580	54	ui	spread:spread	tier B, spread
 0xe41678	73	monster-em	spread:spread+address	tier A, spread+address
 0xe417bc	54	ui	spread:spread	tier B, spread
@@ -26781,7 +26854,7 @@ start	insns	label	provenance	reason
 0xe4a3cc	26	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0xe4a434	25	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0xe4a498	47	monster-em	signature:attr-immscan.tsv	constant 0xb5f5 only (assembled movw/movt; 249/249 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
-0xe4a554	39	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
+0xe4a554	39	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17c3770: 3 labelled member(s) all say monster-em
 0xe4a638	66	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 3 strongly-typed neighbour(s) agree on monster-em
 0xe4a740	61	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0xe4a834	35	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
@@ -26956,8 +27029,8 @@ start	insns	label	provenance	reason
 0xe653d4	458	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 4 strongly-typed neighbour(s) agree on monster-em
 0xe65afc	112	monster-em	inferred:attr-callvote.tsv	callee vote round 1: 2 high-purity callees agree on monster-em (15/15, 13/13); this round validated fold-wise at 97.2%
 0xe65cbc	45	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on monster-em
-0xe65d70	37	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
-0xe65e04	50	monster-em	spread:spread+address	tier A, spread+address
+0xe65d70	37	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17c503c: 3 labelled member(s) all say monster-em
+0xe65e04	50	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17c4db0: 1 labelled member(s) all say monster-em
 0xe65ecc	303	ui	spread:spread	tier B, spread
 0xe663b8	99	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 5 strongly-typed neighbour(s) agree on render-gfx
 0xe66578	120	render-gfx	spread:spread	tier B, spread
@@ -27038,7 +27111,7 @@ start	insns	label	provenance	reason
 0xe72bcc	555	monster-em	evidence:attr-fingerprint.tsv	motion signature 10 sites over 4 APIs (0xaff40,0xb0a84,0xbc8b0,0xb0a24) with corroboration em-string; the API set is called by 0 of 980 player/otomo/ui A-direct functions
 0xe73478	443	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 11 strongly-typed neighbour(s) agree on monster-em
 0xe73b64	99	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 7 strongly-typed neighbour(s) agree on monster-em
-0xe73cf0	104	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
+0xe73cf0	104	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17c5da4: 1 labelled member(s) all say monster-em
 0xe73e90	140	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 3 strongly-typed neighbour(s) agree on monster-em
 0xe740c0	20	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on monster-em
 0xe74110	17	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
@@ -27227,7 +27300,8 @@ start	insns	label	provenance	reason
 0xe90394	13	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0xe903c8	10	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0xe903f0	203	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
-0xe9071c	68	monster-em	signature:attr-immscan.tsv	constant 0xcac0 only (assembled movw/movt; 386/386 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
+0xe9071c	68	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17c8a78: 2 labelled member(s) all say monster-em
+0xe9082c	24	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17c8a78: 2 labelled member(s) all say monster-em
 0xe9088c	82	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0xe909d4	61	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0xe90ac8	247	ui	spread:spread	tier B, spread
@@ -27562,7 +27636,7 @@ start	insns	label	provenance	reason
 0xec60a4	25	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0xec6108	11	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0xec6134	86	monster-em	signature:attr-immscan.tsv	constant 0xcb04 only (assembled movw/movt; 29/29 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
-0xec628c	72	monster-em	spread:spread+address	tier A, spread+address
+0xec628c	72	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17cd2b8: 1 labelled member(s) all say monster-em
 0xec63ac	234	ui	spread:spread	tier B, spread
 0xec6754	393	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 40 strongly-typed neighbour(s) agree on monster-em
 0xec6d78	54	ui	spread:spread	tier B, spread
@@ -27629,7 +27703,7 @@ start	insns	label	provenance	reason
 0xed1150	122	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0xed1338	8	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0xed1358	39	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
-0xed13f4	262	monster-em	signature:attr-immscan.tsv	constant 0x73e0 only (assembled movw/movt; 115/116 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
+0xed13f4	262	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17ce658: 1 labelled member(s) all say monster-em
 0xed180c	942	ui	spread:spread	tier B, spread
 0xed270c	84	render-gfx	spread:spread	tier B, spread
 0xed285c	35	render-gfx	spread:spread	tier B, spread
@@ -27729,7 +27803,7 @@ start	insns	label	provenance	reason
 0xedff10	111	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on monster-em
 0xee00cc	810	monster-em	evidence:attr-fingerprint.tsv	motion signature 33 sites over 5 APIs (0xbc8b0,0xaff40,0x7df94,0xb0a24,0xb0a84) with corroboration motion-play x2; the API set is called by 0 of 980 player/otomo/ui A-direct functions
 0xee0d74	341	monster-em	inferred:attr-callvote.tsv	callee vote round 1: 3 high-purity callees agree on monster-em (15/15, 14/15, 13/13); this round validated fold-wise at 97.2%
-0xee12c8	53	monster-em	spread:spread+address	tier A, spread+address
+0xee12c8	53	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17cfb6c: 1 labelled member(s) all say monster-em
 0xee139c	54	ui	spread:spread	tier B, spread
 0xee1474	528	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 43 strongly-typed neighbour(s) agree on monster-em
 0xee1cb4	54	ui	spread:spread	tier B, spread
@@ -27810,7 +27884,7 @@ start	insns	label	provenance	reason
 0xeed014	309	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0xeed4e8	50	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 3 strongly-typed neighbour(s) agree on monster-em
 0xeed5b0	11	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
-0xeed5dc	28	monster-em	signature:attr-immscan.tsv	constant 0x73e0 only (assembled movw/movt; 115/116 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
+0xeed5dc	28	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17d08ec: 1 labelled member(s) all say monster-em
 0xeed64c	26	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0xeed708	271	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on monster-em
 0xeedc54	56	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
@@ -27956,7 +28030,7 @@ start	insns	label	provenance	reason
 0xf09734	143	monster-em	signature:attr-immscan.tsv	constant 0xcac0 only (assembled movw/movt; 386/386 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0xf09984	35	quest	spread:spread	tier B, spread
 0xf09a10	272	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
-0xf09e50	57	monster-em	spread:spread+address	tier A, spread+address
+0xf09e50	57	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17d3454: 1 labelled member(s) all say monster-em
 0xf09f34	339	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 4 strongly-typed neighbour(s) agree on monster-em
 0xf0a480	45	render-gfx	spread:spread	tier B, spread
 0xf0a534	114	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on monster-em
@@ -28093,7 +28167,7 @@ start	insns	label	provenance	reason
 0xf1bb50	351	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 12 strongly-typed neighbour(s) agree on monster-em
 0xf1c0cc	52	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0xf1c19c	62	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
-0xf1c294	47	monster-em	spread:spread+address	tier A, spread+address
+0xf1c294	47	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17dc6fc: 1 labelled member(s) all say monster-em
 0xf1c350	49	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0xf1c414	54	ui	spread:spread	tier B, spread
 0xf1c4ec	87	monster-em	inferred:attr-callvote.tsv	callee vote round 1: 3 high-purity callees agree on monster-em (15/15, 14/15, 13/13); this round validated fold-wise at 97.2%
@@ -28178,7 +28252,7 @@ start	insns	label	provenance	reason
 0xf26f18	32	monster-em	signature:attr-immscan.tsv	constant 0xcad0 only (assembled movw/movt; 65/65 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0xf26fe4	21	monster-em	spread:spread+address	tier A, spread+address
 0xf27038	87	monster-em	signature:attr-immscan.tsv	constant 0xcad0 only (assembled movw/movt; 65/65 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
-0xf27194	15	monster-em	signature:attr-immscan.tsv	constant 0xcadc only (assembled movw/movt; 32/32 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
+0xf27194	15	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17decb4: 3 labelled member(s) all say monster-em
 0xf271d0	82	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0xf27318	183	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 4 strongly-typed neighbour(s) agree on monster-em
 0xf275f4	61	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
@@ -28272,7 +28346,7 @@ start	insns	label	provenance	reason
 0xf35b8c	31	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 3 strongly-typed neighbour(s) agree on monster-em
 0xf35c08	24	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0xf35c68	47	monster-em	signature:attr-immscan.tsv	constant 0xcac0 only (assembled movw/movt; 386/386 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
-0xf35d24	59	monster-em	spread:spread+address	tier A, spread+address
+0xf35d24	59	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17dedc4: 1 labelled member(s) all say monster-em
 0xf35e10	115	ui	spread:spread	tier B, spread
 0xf36034	100	render-gfx	spread:spread	tier B, spread
 0xf361c4	120	render-gfx	spread:spread	tier B, spread
@@ -28376,8 +28450,8 @@ start	insns	label	provenance	reason
 0xf496b4	164	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 9 strongly-typed neighbour(s) agree on monster-em
 0xf49978	38	monster-em	signature:attr-immscan.tsv	constant 0xcacc only (assembled movw/movt; 33/33 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0xf49a10	41	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 4 strongly-typed neighbour(s) agree on monster-em
-0xf49ab4	27	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
-0xf49b20	158	monster-em	spread:spread+address	tier A, spread+address
+0xf49ab4	27	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17e0954: 2 labelled member(s) all say monster-em
+0xf49b20	158	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17e06c8: 1 labelled member(s) all say monster-em
 0xf49d98	197	monster-em	signature:attr-immscan.tsv	constant 0xb5f5 only (assembled movw/movt; 249/249 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0xf4a0ac	114	monster-em	signature:attr-immscan.tsv	constant 0xb5f5 only (assembled movw/movt; 249/249 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0xf4a274	451	ui	spread:spread	tier B, spread
@@ -28572,7 +28646,7 @@ start	insns	label	provenance	reason
 0xf665e8	141	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 5 strongly-typed neighbour(s) agree on monster-em
 0xf6681c	212	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 10 strongly-typed neighbour(s) agree on monster-em
 0xf66b6c	356	monster-em	signature:attr-immscan.tsv	constant 0xcac0 only (assembled movw/movt; 386/386 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
-0xf670fc	15	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
+0xf670fc	15	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17e387c: 3 labelled member(s) all say monster-em
 0xf67138	163	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 5 strongly-typed neighbour(s) agree on monster-em
 0xf673c4	77	ui	spread:spread	tier B, spread
 0xf674f8	315	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 40 strongly-typed neighbour(s) agree on monster-em
@@ -28700,8 +28774,8 @@ start	insns	label	provenance	reason
 0xf79a38	564	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 18 strongly-typed neighbour(s) agree on monster-em
 0xf7a308	22	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on monster-em
 0xf7a360	50	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
-0xf7a428	15	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
-0xf7a464	47	monster-em	spread:spread+address	tier A, spread+address
+0xf7a428	15	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17e4dc0: 3 labelled member(s) all say monster-em
+0xf7a464	47	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17e4b34: 1 labelled member(s) all say monster-em
 0xf7a520	56	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 3 strongly-typed neighbour(s) agree on monster-em
 0xf7a600	40	monster-em	signature:attr-immscan.tsv	constant 0xcac0 only (assembled movw/movt; 386/386 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0xf7a6a0	275	ui	spread:spread	tier B, spread
@@ -28820,7 +28894,7 @@ start	insns	label	provenance	reason
 0xf8bce4	155	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 5 strongly-typed neighbour(s) agree on render-gfx
 0xf8bf70	54	ui	spread:spread	tier B, spread
 0xf8c048	29	monster-em	signature:attr-immscan.tsv	constant 0xcad0 only (assembled movw/movt; 65/65 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
-0xf8c108	31	monster-em	signature:attr-immscan.tsv	constant 0xcac0 only (assembled movw/movt; 386/386 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
+0xf8c108	31	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17e81ac: 3 labelled member(s) all say monster-em
 0xf8c184	135	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on render-gfx
 0xf8c3a0	653	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 7 strongly-typed neighbour(s) agree on monster-em
 0xf8cdd4	203	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
@@ -28927,7 +29001,7 @@ start	insns	label	provenance	reason
 0xf9c610	169	monster-em	signature:attr-immscan.tsv	constant 0x73e1 only (assembled movw/movt; 451/452 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0xf9c8b4	137	monster-em	evidence:attr-strings2.tsv	5 of 5 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): em069_00DemoMove | emUniqueActMain | em069_00PreCatchMove
 0xf9cad8	77	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on monster-em
-0xf9cc0c	33	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
+0xf9cc0c	33	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17e8548: 3 labelled member(s) all say monster-em
 0xf9cc90	187	ui	spread:spread	tier B, spread
 0xf9cf7c	282	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 30 strongly-typed neighbour(s) agree on monster-em
 0xf9d3e4	54	ui	spread:spread	tier B, spread
@@ -29168,7 +29242,7 @@ start	insns	label	provenance	reason
 0xfc35d4	100	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 3 strongly-typed neighbour(s) agree on monster-em
 0xfc3764	148	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0xfc39b4	27	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
-0xfc3a20	26	monster-em	signature:attr-immscan.tsv	constant 0x73e0 only (assembled movw/movt; 115/116 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
+0xfc3a20	26	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17eb590: 1 labelled member(s) all say monster-em
 0xfc3a88	137	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0xfc3cac	85	ui	spread:spread	tier B, spread
 0xfc3e00	358	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 25 strongly-typed neighbour(s) agree on monster-em
@@ -29317,7 +29391,7 @@ start	insns	label	provenance	reason
 0xfdbdb4	176	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0xfdc074	164	monster-em	evidence:attr-strings2.tsv	5 of 5 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): emUniqueActMain | em076_00PreCatchMove | em076_00RevivalMove
 0xfdc304	68	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 6 strongly-typed neighbour(s) agree on monster-em
-0xfdc414	17	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
+0xfdc414	17	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17ed514: 3 labelled member(s) all say monster-em
 0xfdc458	15	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0xfdc494	204	monster-em	signature:attr-immscan.tsv	constant 0xcac0 only (assembled movw/movt; 386/386 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0xfdc7c4	96	ui	spread:spread	tier B, spread
@@ -29445,7 +29519,7 @@ start	insns	label	provenance	reason
 0xff0ecc	97	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 5 strongly-typed neighbour(s) agree on monster-em
 0xff1050	70	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0xff1168	38	monster-em	signature:attr-immscan.tsv	constant 0xcac0 only (assembled movw/movt; 386/386 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
-0xff1200	47	monster-em	signature:attr-immscan.tsv	constant 0x73e0 only (assembled movw/movt; 115/116 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
+0xff1200	47	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17ef00c: 1 labelled member(s) all say monster-em
 0xff12bc	171	ui	spread:spread	tier B, spread
 0xff1568	116	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 12 strongly-typed neighbour(s) agree on monster-em
 0xff1738	54	ui	spread:spread	tier B, spread
@@ -29604,6 +29678,7 @@ start	insns	label	provenance	reason
 0x10038e8	93	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 5 strongly-typed neighbour(s) agree on monster-em
 0x1003a5c	9	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0x1003a80	2	monster-em	spread:spread+address	tier A, spread+address
+0x1003a88	41	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17f2078: 1 labelled member(s) all say monster-em
 0x1003b2c	54	ui	spread:spread	tier B, spread
 0x1003c04	117	monster-em	evidence:attr-fingerprint.tsv	movw #0x1428 x4 (act-object field) plus a monster motion-API callee; scored against A-direct rows: 7 labelled carriers, 7 monster-em
 0x1003dd8	312	monster-em	evidence:attr-fingerprint.tsv	movw #0x1428 x11 (act-object field) plus a monster motion-API callee; scored against A-direct rows: 7 labelled carriers, 7 monster-em
@@ -29954,7 +30029,7 @@ start	insns	label	provenance	reason
 0x103bb7c	65	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0x103bc80	33	monster-em	signature:attr-immscan.tsv	constant 0xb5f5 only (assembled movw/movt; 249/249 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0x103bd04	72	monster-em	signature:attr-immscan.tsv	constant 0xb5f5 only (assembled movw/movt; 249/249 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
-0x103be24	269	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
+0x103be24	269	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17f587c: 1 labelled member(s) all say monster-em
 0x103c258	43	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on monster-em
 0x103c304	73	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 3 strongly-typed neighbour(s) agree on monster-em
 0x103c428	28	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
@@ -30286,8 +30361,11 @@ start	insns	label	provenance	reason
 0x1067fb4	117	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0x1068188	38	quest	spread:spread	tier B, spread
 0x1068220	99	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on render-gfx
-0x1068418	121	monster-em	spread:spread+address	tier A, spread+address
+0x10683ac	27	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17f84f0: 1 labelled member(s) all say monster-em
+0x1068418	121	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17f84f0: 1 labelled member(s) all say monster-em
+0x10685fc	33	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17f84f0: 1 labelled member(s) all say monster-em
 0x1068680	24	monster-em	spread:spread+address	tier A, spread+address
+0x10686e0	23	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17f8610: 3 labelled member(s) all say monster-em
 0x106873c	423	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 3 strongly-typed neighbour(s) agree on monster-em
 0x1068dd8	250	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 9 strongly-typed neighbour(s) agree on monster-em
 0x10691c0	60	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
@@ -30438,7 +30516,8 @@ start	insns	label	provenance	reason
 0x107e51c	104	monster-em	signature:attr-immscan.tsv	constant 0xcae0 only (assembled movw/movt; 61/61 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0x107e6bc	297	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 7 strongly-typed neighbour(s) agree on monster-em
 0x107eb60	12	monster-em	signature:attr-immscan.tsv	constant 0xcae0 only (assembled movw/movt; 61/61 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
-0x107ebcc	1	monster-em	spread:spread+address	tier A, spread+address
+0x107ebcc	1	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17fd78c: 1 labelled member(s) all say monster-em
+0x107ebd0	1	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17fd78c: 1 labelled member(s) all say monster-em
 0x107ebd4	412	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on render-gfx
 0x107f244	343	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on monster-em
 0x107f7a0	265	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
@@ -30581,7 +30660,7 @@ start	insns	label	provenance	reason
 0x108e63c	35	monster-em	signature:attr-immscan.tsv	constant 0xcad0 only (assembled movw/movt; 65/65 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0x108e6c8	45	monster-em	signature:attr-immscan.tsv	constant 0xcae0 only (assembled movw/movt; 61/61 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0x108e790	123	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 4 strongly-typed neighbour(s) agree on render-gfx
-0x108e97c	21	monster-em	signature:attr-immscan.tsv	constant 0xcae0 only (assembled movw/movt; 61/61 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
+0x108e97c	21	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17fe79c: 2 labelled member(s) all say monster-em
 0x108e9d0	9	monster-em	signature:attr-immscan.tsv	constant 0xcae0 only (assembled movw/movt; 61/61 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0x108e9f4	211	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0x108ed40	58	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
@@ -30642,7 +30721,7 @@ start	insns	label	provenance	reason
 0x1096190	93	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 7 strongly-typed neighbour(s) agree on monster-em
 0x1096304	225	monster-em	evidence:attr-fingerprint.tsv	motion signature 7 sites over 3 APIs (0xbc8b0,0xaff40,0xb0a84) with corroboration motion-play x2; the API set is called by 0 of 980 player/otomo/ui A-direct functions
 0x1096688	182	monster-em	evidence:attr-fingerprint.tsv	movw #0x1428 x4 (act-object field) plus a monster motion-API callee; scored against A-direct rows: 7 labelled carriers, 7 monster-em
-0x1096960	25	monster-em	signature:attr-immscan.tsv	constant 0x73e0 only (assembled movw/movt; 115/116 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
+0x1096960	25	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x17fe8ac: 1 labelled member(s) all say monster-em
 0x10969c4	317	ui	spread:spread	tier B, spread
 0x1096eb8	43	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on monster-em
 0x1096f64	54	ui	spread:spread	tier B, spread
@@ -30759,7 +30838,7 @@ start	insns	label	provenance	reason
 0x10ace10	71	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on monster-em
 0x10acf2c	162	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0x10ad1b4	85	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
-0x10ad334	16	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
+0x10ad334	16	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x180117c: 3 labelled member(s) all say monster-em
 0x10ad3d0	68	monster-em	spread:spread+address	tier A, spread+address
 0x10ad4e0	14	monster-em	spread:spread+address	tier A, spread+address
 0x10ad518	26	quest	spread:spread	tier B, spread
@@ -30784,7 +30863,9 @@ start	insns	label	provenance	reason
 0x10b0818	82	monster-em	spread:spread+address	tier A, spread+address
 0x10b0960	20	monster-em	spread:spread+address	tier A, spread+address
 0x10b09b0	137	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 5 strongly-typed neighbour(s) agree on monster-em
+0x10b0bfc	38	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x1801194: 5 labelled member(s) all say monster-em
 0x10b0cc4	72	monster-em	signature:attr-immscan.tsv	constant 0xcb08 only (assembled movw/movt; 30/30 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
+0x10b0de4	120	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x1800f00: 3 labelled member(s) all say monster-em
 0x10b1258	100	ui	spread:spread	tier B, spread
 0x10b13e8	276	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on render-gfx
 0x10b1838	24	monster-em	spread:spread+address	tier A, spread+address
@@ -30875,7 +30956,7 @@ start	insns	label	provenance	reason
 0x10ba910	3126	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 16 strongly-typed neighbour(s) agree on monster-em
 0x10bd9e8	31	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on monster-em
 0x10bda64	331	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 3 strongly-typed neighbour(s) agree on monster-em
-0x10be140	14	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
+0x10be140	14	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x180b9b8: 3 labelled member(s) all say monster-em
 0x10be31c	34	quest	spread:spread	tier B, spread
 0x10be3a4	187	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 3 strongly-typed neighbour(s) agree on monster-em
 0x10be690	46	monster-em	spread:spread+address	tier A, spread+address
@@ -30891,7 +30972,7 @@ start	insns	label	provenance	reason
 0x10bf1ec	94	monster-em	spread:spread+address	tier A, spread+address
 0x10bf364	26	monster-em	spread:spread+address	tier A, spread+address
 0x10bf3cc	56	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
-0x10bf4b8	69	monster-em	signature:attr-immscan.tsv	constant 0x73e0 only (assembled movw/movt; 115/116 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
+0x10bf4b8	69	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x180b72c: 1 labelled member(s) all say monster-em
 0x10bf5dc	54	ui	spread:spread	tier B, spread
 0x10bf6c8	54	ui	spread:spread	tier B, spread
 0x10bf7a0	79	monster-em	evidence:attr-fingerprint.tsv	movw #0x1428 x3 (act-object field) plus a monster motion-API callee; scored against A-direct rows: 7 labelled carriers, 7 monster-em
@@ -31213,7 +31294,7 @@ start	insns	label	provenance	reason
 0x10e1878	90	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 8 strongly-typed neighbour(s) agree on monster-em
 0x10e19e0	181	monster-em	evidence:attr-fingerprint.tsv	motion signature 6 sites over 3 APIs (0xbc8b0,0xb0a84,0xaff40) with corroboration motion-play x2; the API set is called by 0 of 980 player/otomo/ui A-direct functions
 0x10e1cb4	298	monster-em	evidence:attr-fingerprint.tsv	movw #0x1428 x13 (act-object field) plus a monster motion-API callee; scored against A-direct rows: 7 labelled carriers, 7 monster-em
-0x10e215c	15	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
+0x10e215c	15	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x1815f04: 3 labelled member(s) all say monster-em
 0x10e2198	213	monster-em	evidence:attr-strings2.tsv	6 of 6 referenced strings are monster instance/member paths and rEm* resources: em->mPos | em->mRate | em->mVec.x
 0x10e24ec	24	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0x10e254c	68	ui	spread:spread	tier B, spread
@@ -31597,7 +31678,7 @@ start	insns	label	provenance	reason
 0x1109168	17	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0x11091ac	15	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0x11091e8	38	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
-0x1109280	35	monster-em	spread:spread+address	tier A, spread+address
+0x1109280	35	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x181e640: 1 labelled member(s) all say monster-em
 0x110930c	337	ui	spread:spread	tier B, spread
 0x1109884	67	render-gfx	spread:spread	tier B, spread
 0x1109990	54	ui	spread:spread	tier B, spread
@@ -31657,7 +31738,7 @@ start	insns	label	provenance	reason
 0x110f2e4	630	monster-em	evidence:attr-fingerprint.tsv	movw #0x1428 x4 (act-object field) plus a monster motion-API callee; scored against A-direct rows: 7 labelled carriers, 7 monster-em
 0x110fcbc	167	monster-em	evidence:attr-fingerprint.tsv	movw #0x1428 x5 (act-object field) plus a monster motion-API callee; scored against A-direct rows: 7 labelled carriers, 7 monster-em
 0x110ff58	206	monster-em	evidence:attr-fingerprint.tsv	movw #0x1428 x2 (act-object field) plus a monster motion-API callee; scored against A-direct rows: 7 labelled carriers, 7 monster-em
-0x1110290	29	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
+0x1110290	29	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x181fd70: 3 labelled member(s) all say monster-em
 0x1110304	75	ui	spread:spread	tier B, spread
 0x1110464	67	render-gfx	spread:spread	tier B, spread
 0x1110570	54	ui	spread:spread	tier B, spread
@@ -31712,8 +31793,8 @@ start	insns	label	provenance	reason
 0x1116e30	130	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 4 strongly-typed neighbour(s) agree on monster-em
 0x1117038	45	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 3 strongly-typed neighbour(s) agree on monster-em
 0x11170ec	51	monster-em	spread:spread+address	tier A, spread+address
-0x11171b8	30	monster-em	signature:attr-immscan.tsv	constant 0xcac0 only (assembled movw/movt; 386/386 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
-0x1117230	21	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
+0x11171b8	30	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x1820808: 1 labelled member(s) all say monster-em
+0x1117230	21	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x1820a94: 3 labelled member(s) all say monster-em
 0x1117284	96	ui	spread:spread	tier B, spread
 0x1117404	23	monster-em	signature:attr-immscan.tsv	constant 0xcad0 only (assembled movw/movt; 65/65 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0x1117474	93	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on monster-em
@@ -31771,7 +31852,7 @@ start	insns	label	provenance	reason
 0x111d8f4	55	monster-em	inferred:attr-callvote.tsv	callee vote round 1: 3 high-purity callees agree on monster-em (15/15, 14/15, 13/13); this round validated fold-wise at 97.2%
 0x111d9d0	42	monster-em	inferred:attr-callvote.tsv	callee vote round 1: 3 high-purity callees agree on monster-em (15/15, 14/15, 13/13); this round validated fold-wise at 97.2%
 0x111da78	45	monster-em	inferred:attr-callvote.tsv	callee vote round 1: 3 high-purity callees agree on monster-em (15/15, 14/15, 13/13); this round validated fold-wise at 97.2%
-0x111db2c	26	monster-em	signature:attr-immscan.tsv	constant 0x73e0 only (assembled movw/movt; 115/116 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
+0x111db2c	26	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x1821d84: 1 labelled member(s) all say monster-em
 0x111db94	122	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on monster-em
 0x111dd7c	54	ui	spread:spread	tier B, spread
 0x111de54	22	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
@@ -31807,17 +31888,20 @@ start	insns	label	provenance	reason
 0x112033c	9	monster-em	signature:attr-immscan.tsv	constant 0x73e1 only (assembled movw/movt; 451/452 = 100% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0x1120360	54	monster-em	inferred:attr-callvote.tsv	callee vote round 1: 2 high-purity callees agree on monster-em (15/15, 13/13); this round validated fold-wise at 97.2%
 0x1120734	18	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
+0x11207ac	8	monster-em	inferred:attr-tableseeds.tsv	pointer table at 0x1823254: 3 labelled member(s) all say monster-em
 0x11207cc	170	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0x1120a74	30	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 3 strongly-typed neighbour(s) agree on monster-em
 0x1120aec	183	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on monster-em
 0x1120dc8	26	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0x1120e30	42	monster-em	inferred:attr-callvote.tsv	callee vote round 1: 2 high-purity callees agree on monster-em (15/15, 13/13); this round validated fold-wise at 97.2%
 0x1120ed8	120	monster-em	signature:attr-immscan.tsv	constant 0x73e0 only (assembled movw/movt; 115/116 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
+0x1121814	45	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x1747330: 2 labelled member(s) all say player-pl
 0x11218c8	347	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0x1122714	518	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on monster-em
 0x1122f2c	100	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on ui
 0x11230bc	15	monster-em	spread:spread+address	tier A, spread+address
 0x11230f8	183	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
+0x11233fc	22	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x1747228: 1 labelled member(s) all say player-pl
 0x11243a8	125	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on monster-em
 0x112459c	183	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on ui
 0x1124878	116	monster-em	spread:spread+address	tier A, spread+address
@@ -31891,6 +31975,7 @@ start	insns	label	provenance	reason
 0x113a980	282	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on ui
 0x113b7b8	20	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on ui
 0x113b9b0	30	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on ui
+0x113c06c	114	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x1747330: 2 labelled member(s) all say player-pl
 0x113c234	43	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on monster-em
 0x113f38c	119	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on ui
 0x113fa28	331	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on monster-em
@@ -31983,7 +32068,10 @@ start	insns	label	provenance	reason
 0x115f660	23	monster-em	spread:spread+address	tier A, spread+address
 0x115f6bc	40	monster-em	spread:spread+address	tier A, spread+address
 0x115fb20	38	monster-em	spread:spread+address	tier A, spread+address
-0x1160650	223	quest	signature:attr-immscan.tsv	constant 0x3330 only (assembled movw/movt; 29/29 = 100% of its labelled carriers are quest); rule validated fold-wise at 97.0% and this function has no other evidence
+0x115fc98	13	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x1749dc8: 2 labelled member(s) all say player-pl
+0x115fccc	10	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x1749cc0: 1 labelled member(s) all say player-pl
+0x115fcf4	111	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x1749f74: 1 labelled member(s) all say player-pl
+0x1160650	223	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x1749f74: 1 labelled member(s) all say player-pl
 0x1163568	250	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on monster-em
 0x1166804	89	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0x1166cc4	135	monster-em	spread:spread+address	tier A, spread+address
@@ -31991,6 +32079,7 @@ start	insns	label	provenance	reason
 0x11681dc	123	monster-em	spread:spread+address	tier A, spread+address
 0x11683c8	322	quest	signature:attr-immscan.tsv	constant 0x332c only (assembled movw/movt; 26/26 = 100% of its labelled carriers are quest); rule validated fold-wise at 97.0% and this function has no other evidence
 0x11688d0	48	quest	signature:attr-immscan.tsv	constant 0x3330 only (assembled movw/movt; 29/29 = 100% of its labelled carriers are quest); rule validated fold-wise at 97.0% and this function has no other evidence
+0x1168ecc	8	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x174a694: 2 labelled member(s) all say player-pl
 0x1168eec	77	quest	signature:attr-immscan.tsv	constant 0x3330 only (assembled movw/movt; 29/29 = 100% of its labelled carriers are quest); rule validated fold-wise at 97.0% and this function has no other evidence
 0x116afa0	202	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on monster-em
 0x116b2c8	267	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on monster-em
@@ -32011,6 +32100,8 @@ start	insns	label	provenance	reason
 0x116e030	141	monster-em	spread:spread+address	tier A, spread+address
 0x116e264	13	quest	signature:attr-immscan.tsv	constant 0x3330 only (assembled movw/movt; 29/29 = 100% of its labelled carriers are quest); rule validated fold-wise at 97.0% and this function has no other evidence
 0x116e4d8	25	quest	signature:attr-immscan.tsv	constant 0x3330 only (assembled movw/movt; 29/29 = 100% of its labelled carriers are quest); rule validated fold-wise at 97.0% and this function has no other evidence
+0x116e9b4	29	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x174af60: 2 labelled member(s) all say player-pl
+0x116ea28	45	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x174b10c: 1 labelled member(s) all say player-pl
 0x116eadc	451	monster-em	spread:spread+address	tier A, spread+address
 0x116f718	718	monster-em	spread:spread+address	tier A, spread+address
 0x1170250	85	monster-em	spread:spread+address	tier A, spread+address
@@ -32045,8 +32136,10 @@ start	insns	label	provenance	reason
 0x117585c	63	monster-em	spread:spread+address	tier A, spread+address
 0x1175fa0	372	quest	signature:attr-immscan.tsv	constant 0x332c only (assembled movw/movt; 26/26 = 100% of its labelled carriers are quest); rule validated fold-wise at 97.0% and this function has no other evidence
 0x1176570	28	monster-em	spread:spread+address	tier A, spread+address
+0x11765e0	17	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x174b10c: 1 labelled member(s) all say player-pl
 0x1176a1c	84	monster-em	spread:spread+address	tier A, spread+address
 0x1176cd4	70	monster-em	spread:spread+address	tier A, spread+address
+0x1176ec4	39	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x174b830: 2 labelled member(s) all say player-pl
 0x1178158	125	monster-em	spread:spread+address	tier A, spread+address
 0x117834c	110	monster-em	spread:spread+address	tier A, spread+address
 0x1178504	378	online-nex	spread:spread	tier B, spread
@@ -32094,8 +32187,8 @@ start	insns	label	provenance	reason
 0x117e2e8	79	quest	signature:attr-immscan.tsv	constant 0x332c only (assembled movw/movt; 26/26 = 100% of its labelled carriers are quest); rule validated fold-wise at 97.0% and this function has no other evidence
 0x117e424	53	online-nex	spread:spread	tier B, spread
 0x117e4f8	53	quest	signature:attr-immscan.tsv	constant 0x3338 only (assembled movw/movt; 22/22 = 100% of its labelled carriers are quest); rule validated fold-wise at 97.0% and this function has no other evidence
-0x117e5cc	16	quest	signature:attr-immscan.tsv	constant 0x333c only (assembled movw/movt; 18/18 = 100% of its labelled carriers are quest); rule validated fold-wise at 97.0% and this function has no other evidence
-0x117e6e4	32	quest	signature:attr-immscan.tsv	constant 0x333c only (assembled movw/movt; 18/18 = 100% of its labelled carriers are quest); rule validated fold-wise at 97.0% and this function has no other evidence
+0x117e5cc	16	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x174b830: 2 labelled member(s) all say player-pl
+0x117e6e4	32	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x174c104: 2 labelled member(s) all say player-pl
 0x117f3b8	554	monster-em	spread:spread+address	tier A, spread+address
 0x117fc60	52	monster-em	spread:spread+address	tier A, spread+address
 0x117fd30	119	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on ui
@@ -32163,7 +32256,9 @@ start	insns	label	provenance	reason
 0x118bc58	66	online-nex	spread:spread	tier B, spread
 0x118bd60	47	monster-em	spread:spread+address	tier A, spread+address
 0x118bf20	150	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on ui
+0x118c324	32	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x174c9d4: 2 labelled member(s) all say player-pl
 0x118c3a4	103	render-gfx	spread:spread	tier B, spread
+0x118c64c	88	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x174cb80: 1 labelled member(s) all say player-pl
 0x118d334	463	monster-em	spread:spread+address	tier A, spread+address
 0x118da70	52	monster-em	spread:spread+address	tier A, spread+address
 0x118db40	113	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on ui
@@ -32212,8 +32307,11 @@ start	insns	label	provenance	reason
 0x1197ad0	243	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on ui
 0x1197ef4	98	save-data	spread:spread	tier B, spread
 0x11982dc	63	online-nex	spread:spread	tier B, spread
+0x11983d8	197	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x174cb80: 1 labelled member(s) all say player-pl
 0x1198748	47	monster-em	spread:spread+address	tier A, spread+address
+0x1198a78	15	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x174d2a4: 2 labelled member(s) all say player-pl
 0x1198ab4	64	quest	signature:attr-immscan.tsv	constant 0x3330 only (assembled movw/movt; 29/29 = 100% of its labelled carriers are quest); rule validated fold-wise at 97.0% and this function has no other evidence
+0x1198bb4	154	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x174d450: 1 labelled member(s) all say player-pl
 0x1199114	239	online-nex	spread:spread	tier B, spread
 0x1199798	70	monster-em	spread:spread+address	tier A, spread+address
 0x11998b0	740	monster-em	spread:spread+address	tier A, spread+address
@@ -32253,7 +32351,9 @@ start	insns	label	provenance	reason
 0x119ee7c	29	quest	signature:attr-immscan.tsv	constant 0x3334 only (assembled movw/movt; 24/24 = 100% of its labelled carriers are quest); rule validated fold-wise at 97.0% and this function has no other evidence
 0x119f4e8	35	quest	signature:attr-immscan.tsv	constant 0x3330 only (assembled movw/movt; 29/29 = 100% of its labelled carriers are quest); rule validated fold-wise at 97.0% and this function has no other evidence
 0x119f574	139	monster-em	spread:spread+address	tier A, spread+address
+0x119f7a0	13	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x174d450: 1 labelled member(s) all say player-pl
 0x119faf0	54	monster-em	spread:spread+address	tier A, spread+address
+0x119fca8	19	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x174db78: 2 labelled member(s) all say player-pl
 0x11a0fe8	78	monster-em	spread:spread+address	tier A, spread+address
 0x11a1120	115	monster-em	spread:spread+address	tier A, spread+address
 0x11a12ec	126	monster-em	spread:spread+address	tier A, spread+address
@@ -32303,7 +32403,9 @@ start	insns	label	provenance	reason
 0x11a8bbc	16	quest	signature:attr-immscan.tsv	constant 0x332c only (assembled movw/movt; 26/26 = 100% of its labelled carriers are quest); rule validated fold-wise at 97.0% and this function has no other evidence
 0x11a8bfc	129	quest	signature:attr-immscan.tsv	constant 0x332c only (assembled movw/movt; 26/26 = 100% of its labelled carriers are quest); rule validated fold-wise at 97.0% and this function has no other evidence
 0x11a9800	70	monster-em	spread:spread	tier B, spread
+0x11a99f8	23	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x174e450: 2 labelled member(s) all say player-pl
 0x11a9a54	145	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 3 strongly-typed neighbour(s) agree on monster-em
+0x11a9d08	48	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x174e5fc: 1 labelled member(s) all say player-pl
 0x11ab080	77	monster-em	spread:spread	tier B, spread
 0x11ab1b4	376	monster-em	spread:spread	tier B, spread
 0x11ab794	444	monster-em	spread:spread	tier B, spread
@@ -32331,10 +32433,14 @@ start	insns	label	provenance	reason
 0x11b0544	202	monster-em	spread:spread	tier B, spread
 0x11b0c38	75	render-gfx	spread:spread	tier B, spread
 0x11b0d64	76	monster-em	spread:spread	tier B, spread
-0x11b112c	111	quest	signature:attr-immscan.tsv	constant 0x332c only (assembled movw/movt; 26/26 = 100% of its labelled carriers are quest); rule validated fold-wise at 97.0% and this function has no other evidence
+0x11b112c	111	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x174e5fc: 1 labelled member(s) all say player-pl
 0x11b1350	69	monster-em	spread:spread	tier B, spread
+0x11b1900	15	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x174ed20: 2 labelled member(s) all say player-pl
+0x11b19f4	10	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x174ec18: 1 labelled member(s) all say player-pl
+0x11b1a1c	62	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x174eecc: 1 labelled member(s) all say player-pl
 0x11b28c4	48	quest	signature:attr-immscan.tsv	constant 0x3334 only (assembled movw/movt; 24/24 = 100% of its labelled carriers are quest); rule validated fold-wise at 97.0% and this function has no other evidence
 0x11b2984	48	monster-em	spread:spread	tier B, spread
+0x11b2a44	21	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x174eecc: 1 labelled member(s) all say player-pl
 0x11b2a98	352	monster-em	spread:spread	tier B, spread
 0x11b3018	386	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on monster-em
 0x11b3620	620	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 4 strongly-typed neighbour(s) agree on monster-em
@@ -32363,9 +32469,12 @@ start	insns	label	provenance	reason
 0x11b9acc	46	quest	signature:attr-immscan.tsv	constant 0x3334 only (assembled movw/movt; 24/24 = 100% of its labelled carriers are quest); rule validated fold-wise at 97.0% and this function has no other evidence
 0x11b9b84	31	monster-em	spread:spread	tier B, spread
 0x11b9c68	101	monster-em	spread:spread	tier B, spread
+0x11b9f64	18	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x174f5f4: 2 labelled member(s) all say player-pl
 0x11ba074	139	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
+0x11ba2a0	165	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x174f7a0: 1 labelled member(s) all say player-pl
 0x11ba93c	35	monster-em	spread:spread	tier B, spread
 0x11ba9c8	116	monster-em	spread:spread	tier B, spread
+0x11bace8	20	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x174f7a0: 1 labelled member(s) all say player-pl
 0x11bbb84	62	monster-em	spread:spread	tier B, spread
 0x11bbc7c	55	monster-em	spread:spread	tier B, spread
 0x11bbd58	55	monster-em	spread:spread	tier B, spread
@@ -32410,7 +32519,7 @@ start	insns	label	provenance	reason
 0x11c1e30	280	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 4 strongly-typed neighbour(s) agree on monster-em
 0x11c2290	80	monster-em	spread:spread	tier B, spread
 0x11c2540	48	monster-em	spread:spread	tier B, spread
-0x11c28b8	71	quest	signature:attr-immscan.tsv	constant 0x3330 only (assembled movw/movt; 29/29 = 100% of its labelled carriers are quest); rule validated fold-wise at 97.0% and this function has no other evidence
+0x11c28b8	71	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x174fec0: 2 labelled member(s) all say player-pl
 0x11c3938	110	monster-em	spread:spread	tier B, spread
 0x11c3af0	114	monster-em	spread:spread	tier B, spread
 0x11c3cb8	143	monster-em	spread:spread	tier B, spread
@@ -32451,7 +32560,7 @@ start	insns	label	provenance	reason
 0x11cab2c	83	quest	signature:attr-immscan.tsv	constant 0x3330 only (assembled movw/movt; 29/29 = 100% of its labelled carriers are quest); rule validated fold-wise at 97.0% and this function has no other evidence
 0x11cb530	105	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0x11cb7fc	102	monster-em	spread:spread	tier B, spread
-0x11cb994	14	quest	signature:attr-immscan.tsv	constant 0x333c only (assembled movw/movt; 18/18 = 100% of its labelled carriers are quest); rule validated fold-wise at 97.0% and this function has no other evidence
+0x11cb994	14	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x1750790: 2 labelled member(s) all say player-pl
 0x11cb9cc	133	quest	signature:attr-immscan.tsv	constant 0x3338 only (assembled movw/movt; 22/22 = 100% of its labelled carriers are quest); rule validated fold-wise at 97.0% and this function has no other evidence
 0x11cbd88	370	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 3 strongly-typed neighbour(s) agree on ui
 0x11cc350	338	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 3 strongly-typed neighbour(s) agree on ui
@@ -32504,6 +32613,7 @@ start	insns	label	provenance	reason
 0x11d3aac	32	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on ui
 0x11d3f04	46	monster-em	spread:spread	tier B, spread
 0x11d3fbc	104	monster-em	spread:spread	tier B, spread
+0x11d415c	85	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x1751060: 2 labelled member(s) all say player-pl
 0x11d53f0	345	monster-em	spread:spread	tier B, spread
 0x11d5954	101	monster-em	spread:spread	tier B, spread
 0x11d69fc	93	monster-em	spread:spread	tier B, spread
@@ -32543,8 +32653,10 @@ start	insns	label	provenance	reason
 0x11dea04	92	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 6 strongly-typed neighbour(s) agree on monster-em
 0x11df014	91	online-nex	spread:spread+address	tier A, spread+address
 0x11dfeb4	96	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on monster-em
+0x11e0748	89	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x175192c: 2 labelled member(s) all say player-pl
 0x11e08ac	544	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0x11e112c	130	quest	signature:attr-immscan.tsv	constant 0x3330 only (assembled movw/movt; 29/29 = 100% of its labelled carriers are quest); rule validated fold-wise at 97.0% and this function has no other evidence
+0x11e1388	102	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x175192c: 2 labelled member(s) all say player-pl
 0x11e1894	50	quest	signature:attr-immscan.tsv	constant 0x3330 only (assembled movw/movt; 29/29 = 100% of its labelled carriers are quest); rule validated fold-wise at 97.0% and this function has no other evidence
 0x11e1c78	54	monster-em	spread:spread	tier B, spread
 0x11e1d50	67	monster-em	spread:spread	tier B, spread
@@ -32558,8 +32670,8 @@ start	insns	label	provenance	reason
 0x11e2214	34	monster-em	spread:spread	tier B, spread
 0x11e229c	15	monster-em	spread:spread	tier B, spread
 0x11e2364	351	online-nex	spread:spread+address	tier A, spread+address
-0x11e2948	248	quest	signature:attr-immscan.tsv	constant 0x3330 only (assembled movw/movt; 29/29 = 100% of its labelled carriers are quest); rule validated fold-wise at 97.0% and this function has no other evidence
-0x11e2d28	27	monster-em	spread:spread	tier B, spread
+0x11e2948	248	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x1751ad8: 1 labelled member(s) all say player-pl
+0x11e2d28	27	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x1751ad8: 1 labelled member(s) all say player-pl
 0x11e2d94	61	monster-em	spread:spread	tier B, spread
 0x11e33c4	149	online-nex	spread:spread+address	tier A, spread+address
 0x11e3618	30	quest	signature:attr-immscan.tsv	constant 0x3330 only (assembled movw/movt; 29/29 = 100% of its labelled carriers are quest); rule validated fold-wise at 97.0% and this function has no other evidence
@@ -32573,12 +32685,14 @@ start	insns	label	provenance	reason
 0x11e5300	48	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0x11e53c0	77	monster-em	spread:spread	tier B, spread
 0x11e54f4	78	monster-em	spread:spread	tier B, spread
+0x11e5664	652	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x1751a98: 1 labelled member(s) all say player-pl
+0x11e6094	16	player-pl	inferred:attr-tableseeds.tsv	pointer table at 0x1751a98: 1 labelled member(s) all say player-pl
 0x11e6330	3	monster-em	spread:spread	tier B, spread
 0x11e63e0	100	monster-em	spread:spread	tier B, spread
 0x11e665c	17	monster-em	spread:spread	tier B, spread
 0x11e66a0	126	monster-em	spread:spread	tier B, spread
 0x11e6898	210	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 3 strongly-typed neighbour(s) agree on ui
-0x11e6dac	179	monster-em	spread:spread	tier B, spread
+0x11e6dac	179	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1751b4c: 1 labelled member(s) all say online-nex
 0x11e7078	95	monster-em	spread:spread	tier B, spread
 0x11e71f4	151	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 12 strongly-typed neighbour(s) agree on monster-em
 0x11e7450	11	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on ui
@@ -32896,6 +33010,7 @@ start	insns	label	provenance	reason
 0x121ad7c	216	monster-em	spread:spread	tier B, spread
 0x12235b8	194	online-nex	inferred:attr-callvote.tsv	callee vote round 1: 7 high-purity callees agree on online-nex (68/68, 38/38, 117/117, 100/100, 59/59, 13/13, 8/8); this round validated fold-wise at 97.2%
 0x12238c0	193	online-nex	inferred:attr-callvote.tsv	callee vote round 1: 3 high-purity callees agree on online-nex (68/68, 17/17, 132/132); this round validated fold-wise at 97.2%
+0x1223bc4	4	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x182d71c: 3 labelled member(s) all say online-nex
 0x1223bd4	492	online-nex	inferred:attr-callvote.tsv	callee vote round 1: 7 high-purity callees agree on online-nex (68/68, 8/8, 117/117, 100/100, 59/59, 38/38, 15/15); this round validated fold-wise at 97.2%
 0x1224384	18	online-nex	spread:spread+address	tier A, spread+address
 0x12243cc	1	online-nex	inferred:attr-callervote.tsv	caller vote: 3/3 evidence-bearing callers are online-nex; rule validated leave-one-file-out at 96.4%
@@ -33404,6 +33519,7 @@ start	insns	label	provenance	reason
 0x1244dc0	17	online-nex	evidence:attr-vtable-ns.tsv	nn::nex::JobLogin rtti-typeinfo N2nn3nex8JobLoginE vtable 0x182d564 slot 6 [class not covered by any rule; label demoted to B] [rtti nn::nex::JobLogin: nn::nex is Nintendo NEX matchmaking/data-store middleware]
 0x1244e04	26	online-nex	evidence:attr-vtable-ns.tsv	nn::nex::SystemComponent rtti-typeinfo N2nn3nex15SystemComponentE vtable 0x182dfd8 slot 1 [class not covered by any rule; label demoted to B] [rtti nn::nex::SystemComponent: nn::nex is Nintendo NEX matchmaking/data-store middleware]
 0x1244e6c	2	online-nex	spread:spread+address	tier A, spread+address
+0x1244e74	136	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x182e250: 4 labelled member(s) all say online-nex
 0x1245134	43	online-nex	evidence:attr-vtable-ns.tsv	nn::nex::SystemComponent::Use rtti-typeinfo N2nn3nex15SystemComponent3UseE vtable 0x182e020 slot 0 [class not covered by any rule; label demoted to B] [rtti nn::nex::SystemComponent::Use: nn::nex is Nintendo NEX matchmaking/data-store middleware]
 0x12451e0	44	online-nex	evidence:attr-vtable-ns.tsv	nn::nex::SystemComponent::Use rtti-typeinfo N2nn3nex15SystemComponent3UseE vtable 0x182e020 slot 1 [class not covered by any rule; label demoted to B] [rtti nn::nex::SystemComponent::Use: nn::nex is Nintendo NEX matchmaking/data-store middleware]
 0x12452d0	96	online-nex	evidence:attr-vtable-ns.tsv	nn::nex::SystemComponentGroup rtti-typeinfo N2nn3nex20SystemComponentGroupE vtable 0x182e030 slot 0 [class not covered by any rule; label demoted to B] [rtti nn::nex::SystemComponentGroup: nn::nex is Nintendo NEX matchmaking/data-store middleware]
@@ -35130,6 +35246,7 @@ start	insns	label	provenance	reason
 0x12df51c	16	online-nex	evidence:attr-vtable-ns.tsv	nn::nex::DataStoreLogicServerClient rtti-typeinfo N2nn3nex26DataStoreLogicServerClientE vtable 0x1831efc slot 1 [class not covered by any rule; label demoted to B] [rtti nn::nex::DataStoreLogicServerClient: nn::nex is Nintendo NEX matchmaking/data-store middleware]
 0x12df590	59	online-nex	inferred:attr-callvote.tsv	callee vote round 1: 3 high-purity callees agree on online-nex (38/38, 132/132, 13/13); this round validated fold-wise at 97.2%
 0x12df67c	140	online-nex	inferred:attr-callvote.tsv	callee vote round 1: 3 high-purity callees agree on online-nex (117/117, 100/100, 68/68); this round validated fold-wise at 97.2%
+0x12df8ac	15	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1831ec0: 2 labelled member(s) all say online-nex
 0x12df8e8	142	online-nex	inferred:attr-callvote.tsv	callee vote round 1: 3 high-purity callees agree on online-nex (117/117, 100/100, 68/68); this round validated fold-wise at 97.2%
 0x12dfb54	144	online-nex	inferred:attr-callvote.tsv	callee vote round 1: 3 high-purity callees agree on online-nex (117/117, 100/100, 68/68); this round validated fold-wise at 97.2%
 0x12dfdc8	16	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on online-nex
@@ -35162,20 +35279,29 @@ start	insns	label	provenance	reason
 0x12e3604	144	online-nex	inferred:attr-callvote.tsv	callee vote round 1: 3 high-purity callees agree on online-nex (117/117, 100/100, 68/68); this round validated fold-wise at 97.2%
 0x12e3844	148	online-nex	inferred:attr-callvote.tsv	callee vote round 1: 3 high-purity callees agree on online-nex (117/117, 100/100, 68/68); this round validated fold-wise at 97.2%
 0x12e3a94	146	online-nex	inferred:attr-callvote.tsv	callee vote round 1: 3 high-purity callees agree on online-nex (117/117, 100/100, 68/68); this round validated fold-wise at 97.2%
+0x12e3cdc	14	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1831e00: 2 labelled member(s) all say online-nex
 0x12e3d14	158	online-nex	inferred:attr-callvote.tsv	callee vote round 1: 3 high-purity callees agree on online-nex (117/117, 100/100, 68/68); this round validated fold-wise at 97.2%
+0x12e3f8c	14	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1831f1c: 2 labelled member(s) all say online-nex
 0x12e3fc4	53	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on online-nex
 0x12e4098	215	online-nex	inferred:attr-callvote.tsv	callee vote round 1: 4 high-purity callees agree on online-nex (117/117, 100/100, 8/8, 68/68); this round validated fold-wise at 97.2%
+0x12e43f4	18	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1831e00: 2 labelled member(s) all say online-nex
+0x12e443c	80	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1831e00: 2 labelled member(s) all say online-nex
 0x12e457c	236	online-nex	inferred:attr-callvote.tsv	callee vote round 1: 4 high-purity callees agree on online-nex (117/117, 100/100, 8/8, 68/68); this round validated fold-wise at 97.2%
 0x12e492c	84	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on online-nex
+0x12e4a7c	28	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1831e00: 2 labelled member(s) all say online-nex
 0x12e4aec	167	online-nex	inferred:attr-callvote.tsv	callee vote round 1: 3 high-purity callees agree on online-nex (117/117, 100/100, 68/68); this round validated fold-wise at 97.2%
 0x12e4d88	150	online-nex	inferred:attr-callervote.tsv	caller vote: 5/5 evidence-bearing callers are online-nex; rule validated leave-one-file-out at 96.4%
 0x12e4fe0	12	online-nex	evidence:attr-vtable-ns.tsv	nn::nex::DataStoreLogicServerClient rtti-typeinfo N2nn3nex26DataStoreLogicServerClientE vtable 0x1831efc slot 24 [class not covered by any rule; label demoted to B] [rtti nn::nex::DataStoreLogicServerClient: nn::nex is Nintendo NEX matchmaking/data-store middleware]
 0x12e5010	171	online-nex	inferred:attr-callervote.tsv	caller vote: 5/5 evidence-bearing callers are online-nex; rule validated leave-one-file-out at 96.4%
 0x12e52bc	14	online-nex	evidence:attr-vtable-ns.tsv	nn::nex::DataStoreLogicServerClient rtti-typeinfo N2nn3nex26DataStoreLogicServerClientE vtable 0x1831efc slot 25 [class not covered by any rule; label demoted to B] [rtti nn::nex::DataStoreLogicServerClient: nn::nex is Nintendo NEX matchmaking/data-store middleware]
+0x12e52f4	11	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1831e00: 2 labelled member(s) all say online-nex
 0x12e5320	145	online-nex	inferred:attr-callvote.tsv	callee vote round 1: 4 high-purity callees agree on online-nex (117/117, 100/100, 8/8, 68/68); this round validated fold-wise at 97.2%
+0x12e5564	11	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1831f1c: 2 labelled member(s) all say online-nex
 0x12e5590	36	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on online-nex
 0x12e5620	166	online-nex	inferred:attr-callvote.tsv	callee vote round 1: 4 high-purity callees agree on online-nex (117/117, 100/100, 8/8, 68/68); this round validated fold-wise at 97.2%
 0x12e58b8	36	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on online-nex
+0x12e5948	10	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1831e00: 2 labelled member(s) all say online-nex
+0x12e5970	12	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1831f1c: 2 labelled member(s) all say online-nex
 0x12e59a0	144	online-nex	inferred:attr-callvote.tsv	callee vote round 1: 3 high-purity callees agree on online-nex (117/117, 100/100, 68/68); this round validated fold-wise at 97.2%
 0x12e5be0	144	online-nex	inferred:attr-callvote.tsv	callee vote round 1: 3 high-purity callees agree on online-nex (117/117, 100/100, 68/68); this round validated fold-wise at 97.2%
 0x12e5e20	136	online-nex	inferred:attr-callvote.tsv	callee vote round 1: 3 high-purity callees agree on online-nex (117/117, 100/100, 68/68); this round validated fold-wise at 97.2%
@@ -35880,6 +36006,7 @@ start	insns	label	provenance	reason
 0x131cdb0	42	online-nex	evidence:attr-xref.tsv	string "CreateMeshJob::SetupLocalPlayerInfo"
 0x131ce58	21	online-nex	evidence:attr-xref.tsv	string "CreateMeshJob::StartMonitoringServerAddressResolution"
 0x131ceac	19	online-nex	evidence:attr-xref.tsv	string "CreateMeshJob::SetupLocalStation"
+0x131cef8	4	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x18336f8: 1 labelled member(s) all say online-nex
 0x131cf08	9	online-nex	spread:spread+address	tier A, spread+address
 0x131cf2c	4	online-nex	evidence:attr-vtable-unknown.tsv	nn::pia::inet::InetLeaveWithHostMigrationJob rtti-typeinfo N2nn3pia4inet29InetLeaveWithHostMigrationJobE vtable 0x1833534 slot 1 [class namespace nn::pia: Nintendo PIA peer-to-peer middleware]
 0x131cf3c	32	online-nex	evidence:attr-vtable-unknown.tsv	nn::pia::inet::InetLeaveWithHostMigrationJob rtti-typeinfo N2nn3pia4inet29InetLeaveWithHostMigrationJobE vtable 0x1833534 slot 6 [class namespace nn::pia: Nintendo PIA peer-to-peer middleware]
@@ -37117,6 +37244,7 @@ start	insns	label	provenance	reason
 0x1372990	12	online-nex	evidence:attr-vtable-ns.tsv	nn::pia::session::ClearMatchmakeSystemPasswordJob rtti-typeinfo N2nn3pia7session31ClearMatchmakeSystemPasswordJobE vtable 0x183574c slot 0 [class not covered by any rule; label demoted to B] [rtti nn::pia::session::ClearMatchmakeSystemPasswordJob: nn::pia is Nintendo PIA peer-to-peer middleware]
 0x13729c0	13	online-nex	evidence:attr-vtable-ns.tsv	nn::pia::session::ClearMatchmakeSystemPasswordJob rtti-typeinfo N2nn3pia7session31ClearMatchmakeSystemPasswordJobE vtable 0x183574c slot 1 [class not covered by any rule; label demoted to B] [rtti nn::pia::session::ClearMatchmakeSystemPasswordJob: nn::pia is Nintendo PIA peer-to-peer middleware]
 0x13729f4	12	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on online-nex
+0x1372a24	16	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1847ff0: 2 labelled member(s) all say online-nex
 0x1372a64	23	online-nex	evidence:attr-vtable-ns.tsv	nn::pia::session::ClearMatchmakeSystemPasswordJob rtti-typeinfo N2nn3pia7session31ClearMatchmakeSystemPasswordJobE vtable 0x183574c slot 6 [class not covered by any rule; label demoted to B] [rtti nn::pia::session::ClearMatchmakeSystemPasswordJob: nn::pia is Nintendo PIA peer-to-peer middleware]
 0x1372ac0	56	online-nex	spread:spread+address	tier A, spread+address
 0x1372ba0	36	online-nex	evidence:attr-vtable-rtti2.tsv	nn::pia::session::CommonMatchmakeSession vtable 0x1835780 slot 2 [typeinfo-decoded class; nn::pia is Nintendo PIA peer-to-peer middleware]
@@ -37151,6 +37279,7 @@ start	insns	label	provenance	reason
 0x137444c	6	online-nex	spread:spread+address	tier A, spread+address
 0x1374464	23	online-nex	evidence:attr-vtable-rtti2.tsv	nn::pia::session::CreateSessionJob vtable 0x1835908 slot 6 [typeinfo-decoded class; nn::pia is Nintendo PIA peer-to-peer middleware]
 0x13744ec	2	online-nex	evidence:attr-vtable-rtti2.tsv	nn::pia::session::CreateSessionSetting vtable 0x1835944 slot 0 [typeinfo-decoded class; nn::pia is Nintendo PIA peer-to-peer middleware]
+0x1374504	4	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1832f44: 4 labelled member(s) all say online-nex
 0x1374514	2	online-nex	inferred:attr-callervote.tsv	caller vote: 5/5 evidence-bearing callers are online-nex; rule validated leave-one-file-out at 96.4%
 0x1374540	17	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on online-nex
 0x1374584	12	online-nex	evidence:attr-vtable-rtti2.tsv	nn::pia::session::DestroySessionJob vtable 0x183597c slot 0 [typeinfo-decoded class; nn::pia is Nintendo PIA peer-to-peer middleware]
@@ -37165,6 +37294,7 @@ start	insns	label	provenance	reason
 0x1374b40	12	online-nex	evidence:attr-vtable-ns.tsv	nn::pia::session::GenerateMatchmakeSystemPasswordJob rtti-typeinfo N2nn3pia7session34GenerateMatchmakeSystemPasswordJobE vtable 0x18359b8 slot 0 [class not covered by any rule; label demoted to B] [rtti nn::pia::session::GenerateMatchmakeSystemPasswordJob: nn::pia is Nintendo PIA peer-to-peer middleware]
 0x1374b70	13	online-nex	evidence:attr-vtable-ns.tsv	nn::pia::session::GenerateMatchmakeSystemPasswordJob rtti-typeinfo N2nn3pia7session34GenerateMatchmakeSystemPasswordJobE vtable 0x18359b8 slot 1 [class not covered by any rule; label demoted to B] [rtti nn::pia::session::GenerateMatchmakeSystemPasswordJob: nn::pia is Nintendo PIA peer-to-peer middleware]
 0x1374ba4	12	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on online-nex
+0x1374bd4	16	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1848098: 2 labelled member(s) all say online-nex
 0x1374c14	23	online-nex	evidence:attr-vtable-ns.tsv	nn::pia::session::GenerateMatchmakeSystemPasswordJob rtti-typeinfo N2nn3pia7session34GenerateMatchmakeSystemPasswordJobE vtable 0x18359b8 slot 6 [class not covered by any rule; label demoted to B] [rtti nn::pia::session::GenerateMatchmakeSystemPasswordJob: nn::pia is Nintendo PIA peer-to-peer middleware]
 0x1374c78	156	online-nex	inferred:attr-callvote.tsv	callee vote round 1: 3 high-purity callees agree on online-nex (8/8, 8/10, 14/14); this round validated fold-wise at 97.2%
 0x1374ee8	58	online-nex	evidence:attr-vtable-unknown.tsv	nn::pia::inet::JoinMeshJob rtti-typeinfo N2nn3pia4inet11JoinMeshJobE vtable 0x1833568 slot 0 [class namespace nn::pia: Nintendo PIA peer-to-peer middleware]
@@ -37200,9 +37330,10 @@ start	insns	label	provenance	reason
 0x137847c	81	online-nex	evidence:attr-xref.tsv	string "JoinSessionJob::WaitJoinMesh"
 0x13785c0	155	online-nex	inferred:attr-callvote.tsv	callee vote round 1: 4 high-purity callees agree on online-nex (134/134, 148/148, 42/42, 9/9); this round validated fold-wise at 97.2%
 0x137882c	74	online-nex	evidence:attr-xref.tsv	string "JoinSessionJob::WaitLeaveMeshWithHostMigration"
-0x1378954	31	online-nex	spread:spread+address	tier A, spread+address
-0x13789d0	31	online-nex	spread:spread+address	tier A, spread+address
-0x1378a4c	31	online-nex	spread:spread+address	tier A, spread+address
+0x1378954	31	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1848578: 2 labelled member(s) all say online-nex
+0x13789d0	31	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1848578: 2 labelled member(s) all say online-nex
+0x1378a4c	31	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1848578: 2 labelled member(s) all say online-nex
+0x1378ac8	15	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x18480ac: 16 labelled member(s) all say online-nex
 0x1378b04	97	online-nex	inferred:attr-callvote.tsv	callee vote round 1: 5 high-purity callees agree on online-nex (57/57, 148/148, 87/87, 24/24, 14/14); this round validated fold-wise at 97.2%
 0x1378c88	21	online-nex	inferred:attr-callvote.tsv	callee vote round 1: 2 high-purity callees agree on online-nex (87/87, 24/24); this round validated fold-wise at 97.2%
 0x1378cdc	180	online-nex	evidence:attr-xref.tsv	string "JoinSessionJob::LeaveMesh"
@@ -37262,6 +37393,7 @@ start	insns	label	provenance	reason
 0x137bc20	79	online-nex	evidence:attr-xref.tsv	string "LeaveSessionJob::WaitLeaveCurrentMatchmakeSession"
 0x137bd5c	61	online-nex	inferred:attr-callvote.tsv	callee vote round 1: 2 high-purity callees agree on online-nex (134/134, 148/148); this round validated fold-wise at 97.2%
 0x137be50	43	online-nex	evidence:attr-xref.tsv	string "LeaveSessionJob::MeshCleanup"
+0x137befc	19	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x18485c8: 3 labelled member(s) all say online-nex
 0x137bf48	89	online-nex	evidence:attr-xref.tsv	string "LeaveSessionJob::LeaveCurrentMatchmakeSession"
 0x137c0ac	80	online-nex	evidence:attr-xref.tsv	string "LeaveSessionJob::SendMonitoringData"
 0x137c1ec	24	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on online-nex
@@ -38142,6 +38274,15 @@ start	insns	label	provenance	reason
 0x13b62e0	24	render-gfx	evidence:attr-xref.tsv	string "MtGeomLineSegment4"
 0x13b6340	32	render-gfx	evidence:attr-vtable-fixed.tsv	MtGeomLineSweptSphere registrar 0x13b63c0 vtable 0x1836a98 slot 2 (class-record vtable written by str at 0x13b6900)
 0x13b63c0	16	monster-em	spread:spread	tier B, spread
+0x13b6430	32	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x1836d4c: 2 labelled member(s) all say render-gfx
+0x13b64b0	32	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x1836d4c: 2 labelled member(s) all say render-gfx
+0x13b6530	32	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x1836d4c: 2 labelled member(s) all say render-gfx
+0x13b65b0	32	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x1836d4c: 2 labelled member(s) all say render-gfx
+0x13b6630	32	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x1836d4c: 2 labelled member(s) all say render-gfx
+0x13b66b0	32	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x1836d4c: 2 labelled member(s) all say render-gfx
+0x13b6730	32	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x1836d4c: 2 labelled member(s) all say render-gfx
+0x13b67b0	33	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x1836d4c: 2 labelled member(s) all say render-gfx
+0x13b6834	38	render-gfx	inferred:attr-tableseeds.tsv	pointer table at 0x1836d4c: 2 labelled member(s) all say render-gfx
 0x13b68cc	24	render-gfx	evidence:attr-xref.tsv	string "MtGeomLineSweptSphere"
 0x13b692c	32	render-gfx	evidence:attr-vtable-fixed.tsv	MtGeomOBB registrar 0x13b69ac vtable 0x1836ba0 slot 2 (class-record vtable written by str at 0x13b7380)
 0x13b69ac	15	monster-em	spread:spread	tier B, spread
@@ -38726,7 +38867,8 @@ start	insns	label	provenance	reason
 0x13ef6f4	20	online-nex	spread:spread+address	tier A, spread+address
 0x13ef744	1	online-nex	evidence:attr-vtable-rtti2.tsv	nn::pia::common::StepSequenceJob vtable 0x1837f04 slot 0 [typeinfo-decoded class; nn::pia is Nintendo PIA peer-to-peer middleware]
 0x13ef748	4	online-nex	evidence:attr-vtable-rtti2.tsv	nn::pia::common::StepSequenceJob vtable 0x1837f04 slot 1 [typeinfo-decoded class; nn::pia is Nintendo PIA peer-to-peer middleware]
-0x13ef758	6	online-nex	spread:spread+address	tier A, spread+address
+0x13ef758	6	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1833420: 2 labelled member(s) all say online-nex
+0x13ef770	28	online-nex	inferred:attr-tableseeds.tsv	pointer table at 0x1833420: 2 labelled member(s) all say online-nex
 0x13ef7e0	46	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 3 strongly-typed neighbour(s) agree on online-nex
 0x13ef910	19	online-nex	signature:attr-immscan.tsv	constant 0xc07 only (assembled movw/movt; 91/91 = 100% of its labelled carriers are online-nex); rule validated fold-wise at 97.0% and this function has no other evidence
 0x13efb0c	28	online-nex	signature:attr-immscan.tsv	constant 0xc08 only (assembled movw/movt; 43/43 = 100% of its labelled carriers are online-nex); rule validated fold-wise at 97.0% and this function has no other evidence

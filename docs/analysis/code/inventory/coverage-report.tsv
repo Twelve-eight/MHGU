@@ -7,12 +7,12 @@ A-inferred (callee/caller/class vote channels, per-round 92.8-99.3%)	12807	21562
 A-signature (32-bit constant, fold 97.1%)	2090	212320	4.1%	4.0%
 headline A only	25584	3014249	57.7%	48.6%
 partition: direct evidence	13060	1248128	23.9%	24.8%
-partition: inferred only	12807	2156293	41.2%	24.3%
-partition: signature only	1288	122519	2.3%	2.4%
-partition: spread validated labels	6708	676214	12.9%	12.7%
+partition: inferred only	13093	2175377	41.6%	24.8%
+partition: signature only	1236	119155	2.3%	2.3%
+partition: spread validated labels	6633	668375	12.8%	12.6%
 partition: spread validated by vote count	56	1533	0.0%	0.1%
-partition: spread unvalidated	5820	481797	9.2%	11.0%
-partition: no label	12953	541793	10.4%	24.6%
-covered at >=90% precision	33919	4204687	80.4%	64.4%
-covered at >=85% precision (pooled spread; per-label floor 58.6%)	39739	4686484	89.6%	75.4%
-spread labels (86.0% overall, CP95 85.5)	5820	481797	9.2%	11.0%
+partition: spread unvalidated	5802	480184	9.2%	11.0%
+partition: no label	12812	535525	10.2%	24.3%
+covered at >=90% precision	34078	4212568	80.6%	64.7%
+covered at >=85% precision (pooled spread; per-label floor 58.6%)	39880	4692752	89.8%	75.7%
+spread labels (86.0% overall, CP95 85.5)	5802	480184	9.2%	11.0%

@@ -217,9 +217,11 @@ const Sset = (() => {
   }
   return s;
 })();
+// Inferred rows come from the same adopted-source list as everything else. It used to be a filename pattern, which meant
+// a channel that did not happen to be called "*vote.tsv" produced rows nothing counted (attr-tableseeds did exactly that).
 const Vset = (() => {
   const s = new Set();
-  for (const f of fs.readdirSync(INV).filter((x) => /^attr-.*vote\d*\.tsv$/.test(x))) {
+  for (const f of JSON.parse(fs.readFileSync(path.join(INV, "sources.json"), "utf8"))) {
     for (const l of fs.readFileSync(path.join(INV, f), "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
       const [start, label, conf] = l.split("\t");
       if (conf === "V" && label) s.add(start);
