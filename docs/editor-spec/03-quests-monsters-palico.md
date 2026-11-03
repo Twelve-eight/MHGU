@@ -26,11 +26,11 @@ member[13], the 950 KB tail, palico equipment box. They appear here only in `## 
 
 | Term | Definition | Source |
 |---|---|---|
-| `char_off` | Offset inside a hunter block; block length **1,177,760 B** | HANDOFF.md:41 |
-| system file offset | `hunterAdds[i] + char_off`, `hunterAdds = [1625244, 2803040, 3980836]` (= `0x18CC9C`, `0x2AC560`, `0x3CBE24`) | HANDOFF.md:42-43 |
-| container | `system` = 36 B header + 3 slot blocks; slot header u32 at `0x34/0x38/0x3C`; slot stride `0x11F8C4` | DEVELOP.md:58 |
-| anchors | dirty sample slot0 base `0x18CC9C`; clean sample slot1 base `0x2AC560` | HANDOFF.md:43 |
-| bit order | LSB-first inside each byte: `off = base + (bit >> 3)`, `mask = 1 << (bit & 7)` | quests.md:610 |
+| `char_off` | Offset inside a hunter block; block length **1,177,760 B** | HANDOFF.md:42 |
+| system file offset | `hunterAdds[i] + char_off`, `hunterAdds = [1625244, 2803040, 3980836]` (= `0x18CC9C`, `0x2AC560`, `0x3CBE24`) | HANDOFF.md:43-44 |
+| container | `system` = 36 B header + 3 slot blocks; slot header u32 at `0x34/0x38/0x3C`; slot stride `0x11F8C4` | DEVELOP.md:60 |
+| anchors | dirty sample slot0 base `0x18CC9C`; clean sample slot1 base `0x2AC560` | HANDOFF.md:44 |
+| bit order | LSB-first inside each byte: `off = base + (bit >> 3)`, `mask = 1 << (bit & 7)` | quests.md:609 |
 | checksum | **none** (no CRC/hash; any byte may be edited) | DEVELOP.md:160 |
 
 Bit numbers in this spec are **record order i** (`sort_order` coordinates) unless a row says
@@ -49,7 +49,7 @@ The slot-table / "which slot is live" flag semantics are **not** documented; see
 | `quest_seen` | char_off `0x2D77` (11639), 256 B | 2048 bits, LSB-first; same encoding; = cleared + 256 B | bit 0..2047; superset of `quest_cleared` | Set bit (`|=`). `seen=1, cleared=0` is legal ("unlocked, not completed"). Never clear a bit that is set in `cleared`. | member4-semantics.md:55; quests.md:606,614-615 |
 | `quest_achieve` | char_off `0x2E77` (11903), 256 B | 2048 bits, same encoding; third state | bit 0..2047; semantic undetermined | **Read-only in this spec.** Do not write until the third-state semantics are decided. | member4-semantics.md:77; quests.md:607,720 |
 | `quest_gate_F1` | char_off `0x2F77` (12151), 8 B | 64-bit field; only bit 20 is documented (judge `0x525040` case11) | bit 20 only | **Read-only.** Setting it is not a substitute for the level legs of composite gates (G7). | member4-semantics.md:78; CURRENT-RULING.md:36 |
-| `HR` (summary) | char_off `0x28` (u16 LE) — **no second copy** (`0x0B1` is `0` in all samples) | u16; observed 8 / 198 | 0..0xFFFF storage; HR gate thresholds in the wiki rules: 2, 8, 9, 35, 40, 45, 50, 60, 70, 80, 90, 95, 100 | **UNCONFIRMED for gameplay.** The 632 B header is written by the save code but discarded on load (`0x3e0db8` memcpy -> discard), so this is a slot-summary value. Write `0x28` only; never write `0x0B1` (spec 01 invariant 3). Do not use it to satisfy HR gates. | coverage-map.md:303,312; quests.md:687; spec 01 invariant 3 |
+| `HR` (summary) | char_off `0x28` (u16 LE) — **no second copy** (`0x0B1` is `0` in all samples) | u16; observed 8 / 198 | 0..0xFFFF storage; HR gate thresholds in the wiki rules: 2, 8, 9, 35, 40, 45, 50, 60, 70, 80, 90, 95, 100 | **UNCONFIRMED for gameplay.** The 632 B header is written by the save code but discarded on load (`0x3e0db8` memcpy -> discard), so this is a slot-summary value. Write `0x28` only; never write `0x0B1` (spec 01 invariant 3). Do not use it to satisfy HR gates. | coverage-map.md:306,315,337; quests.md:687; spec 01 invariant 3 |
 
 ### B. Documented quest bit ranges
 
@@ -60,12 +60,12 @@ range; never fill a range blindly.
 | name | location | size/encoding | valid range | write rule | source |
 |---|---|---|---|---|---|
 | Village + Hub tasks | `quest_cleared`/`quest_seen` bits **1..944** | 944 bits = 375 Village + 569 Hub | 1..944; bit 0 reserved; bit 945 reserved | Per-task RMW only. NEVER set bit 0 or bit 945. Do not use the old editor partition table (VgLow 1-175 etc.) as authority; it is the editor's own split. | quests.md:624,643-648 |
-| G★4 (Guild 14) | bits **782..862** and **939..943** | 81 + 5 = 86 bits, matching the 86 G★4 rows | exactly those two ranges | Set both ranges exactly; NEVER use the historical `786..865` (misses head, paints tail). RMW only. | CURRENT-RULING.md:88; contradictory-bits-verdict.md:12,24; quests.md:670 |
-| Permit / deviant | bits **944..1171** | 228 bits = 12x16 + 6x6 | 944..1171 (sort_order coordinates) | Set individual Permit tasks or the whole documented range; NEVER extend to 1174 (old bug painted Arena's first 3 bits). | CURRENT-RULING.md:89; contradictory-bits-verdict.md:10,24; quests.md:625 |
+| G★4 (Guild 14) | bits **782..862** and **939..943** | 81 + 5 = 86 bits, matching the 86 G★4 rows | exactly those two ranges | Set both ranges exactly; NEVER use the historical `786..865` (misses head, paints tail). RMW only. | CURRENT-RULING.md:88; contradictory-bits-verdict.md:12,23; quests.md:670 |
+| Permit / deviant | bits **944..1171** | 228 bits = 12x16 + 6x6 | 944..1171 (sort_order coordinates) | Set individual Permit tasks or the whole documented range; NEVER extend to 1174 (old bug painted Arena's first 3 bits). | CURRENT-RULING.md:89; contradictory-bits-verdict.md:10,23; quests.md:625 |
 | EX (deviant super) | bits **959 + 16k** (k=0..11) and **1141 + 6k** (k=0..5) | 18 bits | exactly 18 bit numbers | Set only these bits, and only together with the matching `seen` bits. They are a subset of Permit 944..1171. | CURRENT-RULING.md:90 |
 | Arena / 斗技大会 | candidate A: bits **1288..1304**; candidate B: bits **1172..1188** | 17 bits either way | the two candidates disagree; see G2 | **Read-only until G1/G2 is settled.** Do not bulk-paint; the historical 1288..1304 write point is not proven to be in bit coordinates. | quests.md:628,653; CURRENT-RULING.md:42; contradictory-bits-verdict.md:11 |
 | Hunter Training | bits **1174..1180** | 7 bits | 1174..1180 | Read-only unless a training feature is implemented. Clean `seen` hits these bits, but no write point was ever validated. | quests.md:626,667 |
-| Unknown gap | bits **1181..1287** and **1305..2047** | 107 + 743 bits | no documented task identity | **NEVER write.** No task mapping exists. | quests.md:627; contradictory-bits-verdict.md:27 |
+| Unknown gap | bits **1181..1287** and **1305..2047** | 107 + 743 bits | no documented task identity | **NEVER write.** No task mapping exists. | quests.md:627 |
 | Editor "cat quest" split | bits 866..943 | 78 bits | not documented | **Read-only / do not implement.** The "cat village / cat hub" labels have no source outside the editor. | quests.md:650-651,714 |
 
 ### C. Monster counters (137 slots)
@@ -84,7 +84,7 @@ The documented slot layout is shared by all three arrays and is authoritative in
 | 112..134 | 23 | large monster |
 | 135..136 | 2 | small monster (Great Thunderbug 4113, Conga 4118) |
 
-94 large + 43 small = 137, **no reserved slots**. Source: coverage-map.md:228-243,248;
+94 large + 43 small = 137, **no reserved slots**. Source: coverage-map.md:235-242,245-247;
 monster-slot-map-137.json:1-824.
 
 | name | location | size/encoding | valid range | write rule | source |
@@ -99,7 +99,7 @@ monster-slot-map-137.json:1-824.
 Record base (char_off): group A `0x23BB6 + 324*i` for i = 0..83; group B `0x2A606 + 324*j` for
 j = 0..23 (record index 84..107). Stride 324. Reader vaddr `0x263368` (this is a code address, **not**
 a `char_off`). The 25 B header at `0x23B9D..0x23BB5` is not part of any record and MUST NOT be edited
-(coverage-map.md:192,388).
+(coverage-map.md:193,392).
 
 Both groups are real 324 B records with UTF-8 names. Only the 7-block partition is documented in the
 allowed source set; the semantics inside the 224 B body and the 12 B block are **not** (G12), and
@@ -107,16 +107,16 @@ runtime processing of the 24-record group is also undocumented (G11).
 
 | name | location | size/encoding | valid range | write rule | source |
 |---|---|---|---|---|---|
-| `palico_records` | char_off `0x23BB6` + 324*i (i=0..83); char_off `0x2A606` + 324*j (j=0..23) | 108 records x 324 B | index 0..107 | Fixed-size array: never insert/delete/shift. Do not write the 25 B segment header. | coverage-map.md:355-358,388 |
-| `block_name` | record +0x000 | 32 B | UTF-8 palico name (block label only; length limit not documented in the allowed sources) | Clear field, write UTF-8, NUL-pad, cap 32 B. Never spill into +0x020. | coverage-map.md:389 |
-| `block_body` | record +0x020 | 224 B | block labelled "主体"; internal layout not in the allowed source set | Read-only until the internal layout is specified (G12). | coverage-map.md:389 |
-| `block_id7` | record +0x100 | 14 B = 7 x u16; each entry resolved through `0x143894` | 7 u16 ids; the empty sentinel is not documented in the allowed sources | Preserve existing ids; do not invent ids. | coverage-map.md:389 |
-| `block_10E` | record +0x10E | 12 B | undocumented | Read-only (G12). | coverage-map.md:389 |
-| `block_colors` | record +0x11A | 36 B = 9 x `{R,G,B,0xFF}` | 9 four-byte colour groups; the 4th byte was `0xFF` in 27 samples | Preserve the 4th byte `0xFF` in every group. The 1st group = fur colour, the 4th group = clothing colour; other groups are undocumented. | coverage-map.md:390 |
-| `block_13E` | record +0x13E | 4 B | undocumented | Read-only (G12). | coverage-map.md:389 |
-| `block_142` | record +0x142 | 2 B | undocumented | Read-only (G12). | coverage-map.md:389 |
-| `owner_name` | record +0x09C | 32 B owner-name field (implied by the 32 B write cap) | observed `idx("猎人A") = 156 = 0x9C` in three records | Clear field, write UTF-8, NUL-pad, cap 32 B. The old editor's master-name copy had no 32 B cap and overwrote the +188 introduction area. | coverage-map.md:392; DEVELOP.md:234 |
-| `residue_058` | record +0x058 | 7 B | pointer-like residue (`0x066025E9`, `0x047759EA`) | **MUST NOT write.** This is not a DLC/distribution flag; the decimal `+88..+91 == 0` test is unreliable. | coverage-map.md:391 |
+| `palico_records` | char_off `0x23BB6` + 324*i (i=0..83); char_off `0x2A606` + 324*j (j=0..23) | 108 records x 324 B | index 0..107 | Fixed-size array: never insert/delete/shift. Do not write the 25 B segment header. | coverage-map.md:359-361,392 |
+| `block_name` | record +0x000 | 32 B | UTF-8 palico name (block label only; length limit not documented in the allowed sources) | Clear field, write UTF-8, NUL-pad, cap 32 B. Never spill into +0x020. | coverage-map.md:392 |
+| `block_body` | record +0x020 | 224 B | block labelled "主体"; internal layout not in the allowed source set | Read-only until the internal layout is specified (G12). | coverage-map.md:392 |
+| `block_id7` | record +0x100 | 14 B = 7 x u16; each entry resolved through `0x143894` | 7 u16 ids; the empty sentinel is not documented in the allowed sources | Preserve existing ids; do not invent ids. | coverage-map.md:392 |
+| `block_10E` | record +0x10E | 12 B | undocumented | Read-only (G12). | coverage-map.md:392 |
+| `block_colors` | record +0x11A | 36 B = 9 x `{R,G,B,0xFF}` | 9 four-byte colour groups; the 4th byte was `0xFF` in 27 samples | Preserve the 4th byte `0xFF` in every group. The 1st group = fur colour, the 4th group = clothing colour; other groups are undocumented. | coverage-map.md:393 |
+| `block_13E` | record +0x13E | 4 B | undocumented | Read-only (G12). | coverage-map.md:392 |
+| `block_142` | record +0x142 | 2 B | undocumented | Read-only (G12). | coverage-map.md:392 |
+| `owner_name` | record +0x09C | 32 B owner-name field (implied by the 32 B write cap) | observed `idx("猎人A") = 156 = 0x9C` in three records | Clear field, write UTF-8, NUL-pad, cap 32 B. The old editor's master-name copy had no 32 B cap and overwrote the +188 introduction area. | coverage-map.md:395; DEVELOP.md:234 |
+| `residue_058` | record +0x058 | 7 B | pointer-like residue (`0x066025E9`, `0x047759EA`) | **MUST NOT write.** This is not a DLC/distribution flag; the decimal `+88..+91 == 0` test is unreliable. | coverage-map.md:394 |
 
 ### E. Hunter arts (3 x 24 B)
 
@@ -127,7 +127,7 @@ entries is **not** decided (see G13), so this spec does not authorise inventing 
 | name | location | size/encoding | valid range | write rule | source |
 |---|---|---|---|---|---|
 | `arts_x1` | char_off `0x2C13` (11283) | 24 B = 5 x u32 + 4 B tail; engine name `mSupperArtsX1[0..4]` | no documented value space | Whole 24 B record only. If a reference save supplies a record, copy it atomically; otherwise read-only. | member4-semantics.md:51; skills-arts.md:516,520-522 |
-| `arts_x2` | char_off `0x2C2B` (11307) | same | same | Same. NEVER repeat the historical partial write (only 46 of 72 B, leaving X2 tail 2 B and all of X3 untouched). | member4-semantics.md:52; skills-arts.md:517,523-525; DEVELOP.md:243 |
+| `arts_x2` | char_off `0x2C2B` (11307) | same | same | Same. NEVER repeat the historical partial write (only 46 of 72 B, leaving X2 tail 2 B and all of X3 untouched). | member4-semantics.md:52; skills-arts.md:517,523-525; DEVELOP.md:245 |
 | `arts_x3` | char_off `0x2C43` (11331) | same | same | Same; this record had **no** write point in the old editor. | member4-semantics.md:53; skills-arts.md:518,523-525 |
 
 ### F. Medals (132-bit A/B pair)
@@ -136,7 +136,7 @@ entries is **not** decided (see G13), so this spec does not authorise inventing 
 
 | name | location | size/encoding | valid range | write rule | source |
 |---|---|---|---|---|---|
-| `medal_A` | char_off `0x3157` (12631) | 20 B stored; **132 bits** in the first 17 B; byte +16 uses only the low 4 bits; bytes +17..+19 are zero | bit 0..131 | RMW with `|=`. When setting the final nibble use `|= 0x0F`; NEVER assign `15` (the old bug cleared the high 4 bits of the neighbouring field). NEVER paint `0xFF` over the 20 B. | member4-semantics.md:58; coverage-map.md:296; DEVELOP.md:240 |
+| `medal_A` | char_off `0x3157` (12631) | 20 B stored; **132 bits** in the first 17 B; byte +16 uses only the low 4 bits; bytes +17..+19 are zero | bit 0..131 | RMW with `|=`. When setting the final nibble use `|= 0x0F`; NEVER assign `15` (the old bug cleared the high 4 bits of the neighbouring field). NEVER paint `0xFF` over the 20 B. | member4-semantics.md:58; coverage-map.md:299; DEVELOP.md:240 |
 | `medal_B` | char_off `0x316B` (12651) | same 20 B / 132-bit layout | bit 0..131 | **DO NOT WRITE** (added 2026-11-04). Observed relation is B ⊆ A: clean slot0 is A=54 / B=33 with 0 B-only bits, clean slot1 A=B=12. Copying A into B would set 21 bits the player never earned; the slot that the game actually displays is not settled. | main session 2026-11-04, `system_CLEAN` both slots; member4-semantics.md:79 |
 
 ## Invariants
@@ -167,7 +167,7 @@ Sources: CURRENT-RULING.md:7,31; quests.md:612,616; member4-semantics.md:221-222
 
 I6. **Monster slot identity is the 137-row map, not array order in older maps.** All three arrays use
 the same slot; slots 0..70 and 112..134 are large monsters, 71..111 and 135..136 are small.
-Sources: coverage-map.md:234-243.
+Sources: coverage-map.md:235-242.
 
 I7. **Small monsters cannot be captured and have no size record.** Capture `[71..111,135,136] == 0`
 and size `[71..111,135,136] == {0,0}`. This invariant is what selected the current layout (0 violations,
@@ -176,7 +176,7 @@ Sources: coverage-map.md:242; CURRENT-RULING.md:84.
 
 I8. **Size records are 4 B each.** 137 x `{u16 mini, u16 maxi}`, ending exactly at `0x62EE`. The
 ordering of the two values and their null convention are not documented in the allowed sources (G10).
-Source: coverage-map.md:82,243.
+Source: coverage-map.md:82,246.
 
 I9. **Medal A and B are NOT a mirror pair (corrected 2026-11-04).** The observed relation in both clean slots is `B ⊆ A`; slot0 has 21 A-only bits. Writing medals is forbidden until the display slot is settled.
 The last 3 B of each 20 B block stay zero in every snapshot; the first 17 B carry the 132 bits.
@@ -185,12 +185,12 @@ Sources: main session 2026-11-04 (system_CLEAN both slots); member4-semantics.md
 I10. **Hunter arts are 3 x 24 B and must be written atomically.** The historical editor wrote only
 46 of 72 B, leaving X2's last 2 B and all of X3 stale; never repeat that. With no decided entry
 semantics, the only safe operation is a whole-record copy from a reference save.
-Sources: skills-arts.md:520-525; DEVELOP.md:243.
+Sources: skills-arts.md:520-525; DEVELOP.md:245.
 
 I11. **Palico records are fixed-size and not repacked.** 108 x 324 B; never insert, delete, or shift a
 record. `+0x058..+0x05E` is pointer-like residue and is never a flag. Every colour group keeps alpha
 `0xFF`.
-Sources: coverage-map.md:355-358,390-391.
+Sources: coverage-map.md:359-361,393-394.
 
 I12. **Write scope is bounded even though there is no checksum.** No CRC/hash exists, so the game will
 accept any bytes; that does not make writes to undecoded ranges safe. Only the fields in this spec may
@@ -199,7 +199,7 @@ Source: DEVELOP.md:160.
 
 I13. **The 632 B header is a write-only summary.** The reader copies it to the stack and discards it, so
 HR/name/gold there are display metadata, not the gameplay source of truth.
-Source: coverage-map.md:303.
+Source: coverage-map.md:306.
 
 ## MUST NOT write
 
@@ -209,20 +209,20 @@ Source: coverage-map.md:303.
    artifact and is withdrawn.
    Sources: CURRENT-RULING.md:93; DEVELOP.md:210,290,311-317; member4-semantics.md:224-231.
 2. **Never write `cleared` without `seen`.** The `SetBits` double-write (+256 B) is mandatory.
-   Sources: DEVELOP.md:217,202; quests.md:701.
+   Sources: DEVELOP.md:219,204; quests.md:701.
 3. **Never write `quest_achieve` (`0x2E77`)** while its semantics are undecided.
    Source: quests.md:607,720.
 4. **Never write the runtime bitmaps** `obj+0x35F0` / `+0x35FC` / `+0x3608`. Only the A and B slots
-   persist (char_off `0x505F` and `0x506B`); `+0x35FC` has no file bytes, and `0x5077` is a different
+   persist (char_off `0x5063` and `0x506F`); `+0x35FC` has no file bytes, and `0x507B` is a different
    field (`obj+0x3614`). Never address these by questId.
-   Source: member4-semantics.md:221-222; member4-file-layout.txt:115-117.
+   Source: member4-semantics.md:221-222; member4-file-layout.txt:115-118.
 5. **Never write undecoded bit ranges:** bit 0, bit 945, 1181..1287, 1305..2047, and the disputed
    boundaries 1173 / 1174. Never write the "cat quest" 866..943 split.
    Sources: quests.md:624,627,650-651,657,733.
 6. **Never write the Permit progress blocks** `0x31A7` (36 B A), `0x31CB` (36 B B), `0x31FF` (56 B A),
    `0x3237` (56 B B), `0x326F` (20 B A), `0x3283` (20 B B), nor the `mPermitLv[16]` candidate. Their
    semantics are undetermined; only a capacity coincidence (`36 B = 18 x u16`) exists.
-   Sources: member4-semantics.md:39-48; quests.md:675-683,726.
+   Sources: member4-semantics.md:107-112; quests.md:675-683,726.
 7. **Never write the `cTrialArts` 288 B family** `0x3907..0x4447`. Only slices 1 and 3 persist; the
    middle slice (`mAirhike` + `mBushi`) is recomputed and has no file bytes, so a partial write creates
    an engine-impossible state. Whole-slot copy from a clean reference is the only fallback, and this
@@ -233,9 +233,9 @@ Source: coverage-map.md:303.
    Sources: member4-semantics.md:80-85; DEVELOP.md:290.
 9. **Never write the 164 B pair** `0x2FC7` / `0x306B`, the 16/20/32/40 B bitfield pairs, or the 3444 B
    block `0x50BA..0x5E32`. They are undecoded raw bitfields; several have a non-persisted middle slot.
-   **2026-11-04:** the earlier end `0x5E2D` and start `0x50BE` were each 4 B inside the current table's
+   **2026-11-04:** the earlier range `0x50BA..0x5E2D` started 4 B before the table's block and ended 5 B short of it; the
    block (`0x50BE..0x5E32`); the rule is widened to the union so no byte of the block escapes it.
-   Sources: member4-semantics.md:56-57,257-263,313; DEVELOP.md:311-313,320.
+   Sources: member4-semantics.md:56-57,195,258-265; DEVELOP.md:311-313,320.
 10. **Never write `0x2C6B4..0x335A8`** (member[13]). Its B2/B3/B5 blocks are variable content; the same
     hunter's two saves already differ by 9,570 B there.
     Source: DEVELOP.md:278.
@@ -252,7 +252,7 @@ Source: coverage-map.md:303.
     137 counters, 108 palico records, 3 arts records, 2 medal slots).
 15. **Never bulk-write decoded-but-unknown fields.** The rows marked "unknown / 未标注" in
     `member4-semantics.md` §4 (e.g. `0x2F87..0x2FC7`, `0x317F..0x319F`, `0x3297..0x32E7`,
-    `0x5E2E..0x5EA2`) are individual fields, not padding. They are read-only for this feature; do not
+    `0x5E32..0x5EA6`) are individual fields, not padding. They are read-only for this feature; do not
     fill them to "unlock everything".
 
 ## Gaps
@@ -264,21 +264,21 @@ Source: coverage-map.md:303.
 | G3 | Permit boundary 944..1171 (sort_order) vs 946..1173 (questId); EX formulas `959+16k` / `1141+6k` and the deviant id formula `946+16k` are `[INFERENCE]` | The 6eb1e8a fix uses sort_order. If the true coordinate is questId, every Permit bit is shifted by +2 relative to this range | M1/M2 probe + compare a clean save's Permit `seen` bits with the player's deviant list | CURRENT-RULING.md:88-90; quests.md:625,633-634,716 |
 | G4 | First Village bit: 0 reserved (editor starts at 1); whether the real first quest is bit 1 or 2 | Unconfirmed; a 1-bit offset shifts the whole 1..944 village/hub block | Diff a save after completing the first village quest | quests.md:733 |
 | G5 | Bits 1181..1287 (107 ids) and the 20 challenge quests have no confirmed task ids | Guessed as Event/DLC; challenge range explicitly "not 1288..1304" | Extract `romfs questData_*` (blocked: base NCA missing) or a memory dump of the quest table | quests.md:627,718-719 |
-| G6 | `achieve` (`0x2E77`) semantics | Unknown; clean popcount = 3. It may share the medal/title flow | Diff after a known title/achievement unlock | quests.md:607,720; member4-semantics.md:77; coverage-map.md:295 |
+| G6 | `achieve` (`0x2E77`) semantics | Unknown; clean popcount = 3. It may share the medal/title flow | Diff after a known title/achievement unlock | quests.md:607,720; member4-semantics.md:77; coverage-map.md:298 |
 | G7 | Composite gate level legs: `case12 [mgr+0x3618]&0x7F000`, `case2/3/4/15` level bytes | Not reachable from the hunter block. Double-writing quest bits is necessary but insufficient, so "unlock" can still fail to open the NPC menu | Locate the other manager in the save; otherwise scope the feature to "pure quest bits" and warn the user | CURRENT-RULING.md:36-40; quests.md:692-697 |
-| G8 | `size > 0` with `kill == 0` is not a hard invariant | Clean sample has 9 such slots under the authoritative alignment (33 kill&size / 9 size-only); dirty has 0 | More save samples; understand when the game writes a size record | coverage-map.md:258-263 |
+| G8 | `size > 0` with `kill == 0` is not a hard invariant | Clean sample has 9 such slots under the authoritative alignment (33 kill&size / 9 size-only); dirty has 0 | More save samples; understand when the game writes a size record | coverage-map.md:261-264 |
 | G9 | "Large monster 200 hunts" aggregation: which arrays and slots feed it | Unknown; kill sum is the leading candidate, capture inclusion unknown | Disassemble the quest predicate or use a controlled hunt-count save | quests.md:724 |
-| G10 | Size/crown caps live in romfs (`*.emsizetbl` / `*.emyure`); 8 slot-map entries are unnamed (87 = Ahtal-Ka mech; 4196..4202 share `roEms100.cro`) | Per-monster caps, the mini/maxi ordering and their null convention cannot be validated offline | Base NCA / romfs extraction | HANDOFF.md:24,128; coverage-map.md:247 |
-| G11 | Palico group B (records 84..107): runtime processing is undocumented | coverage-map confirms these are real records, not reserved; whether the game post-processes them at load is not stated in the allowed source set, so edits may not take effect | In-game edit of a group-B palico, or a new allowed-source analysis | coverage-map.md:358 |
-| G12 | Palico sub-fields inside `+0x020/224` and `+0x10E/12` | The allowed sources give only the block sizes and the name/colour labels; exp/level/skill/equipment sub-offsets are not in the allowed set, so no field editor may be written from this spec | Publish a field-level palico layout in an allowed doc | coverage-map.md:389 |
+| G10 | Size/crown caps live in romfs (`*.emsizetbl` / `*.emyure`); 8 slot-map entries are unnamed (87 = Ahtal-Ka mech; 4196..4202 share `roEms100.cro`) | Per-monster caps, the mini/maxi ordering and their null convention cannot be validated offline | Base NCA / romfs extraction | HANDOFF.md:24,129; coverage-map.md:247 |
+| G11 | Palico group B (records 84..107): runtime processing is undocumented | coverage-map confirms these are real records, not reserved; whether the game post-processes them at load is not stated in the allowed source set, so edits may not take effect | In-game edit of a group-B palico, or a new allowed-source analysis | coverage-map.md:361 |
+| G12 | Palico sub-fields inside `+0x020/224` and `+0x10E/12` | The allowed sources give only the block sizes and the name/colour labels; exp/level/skill/equipment sub-offsets are not in the allowed set, so no field editor may be written from this spec | Publish a field-level palico layout in an allowed doc | coverage-map.md:392 |
 | G13 | Hunter arts 24 B: five 4 B entries have no decided meaning | No art-id-to-value encoding. Whole-record copy is the only safe operation; partial writes are forbidden | Change one art in-game and diff the 24 B record | skills-arts.md:520-525,568; member4-semantics.md:51-53 |
 | G14 | Medal 132 bits: no bit-to-medal name table | Only "132 bits, 6 strongholds" is documented | Unlock one medal, diff A/B | member4-semantics.md:58 |
-| G15 | Permit progress blocks (`0x31A7/0x31CB` 36 B, `0x31FF/0x3237` 56 B, `0x326F/0x3283` 20 B) and `mPermitLv[16]` | Semantics undetermined; only capacity coincidences. Do not write | Complete one deviant level and diff these blocks | member4-semantics.md:39-48; quests.md:726 |
-| G16 | `system` slot table / active-slot flags | Container header and slot headers (`0x34/0x38/0x3C`) documented, but which slot is live and the flag semantics are not. The old editor write `0x04+slot` polluted the header | Trace the save-slot reader or compare headers across three-slot saves | DEVELOP.md:58,220; HANDOFF.md:42-43 |
-| G17 | Stale/conflicting published statements | `coverage-map.md:42-44` still carries the struck-through 93 large + 36 small + 8 reserved row; `CURRENT-RULING.md:83-85` says 94 large in slots 0..92 and 43 small in 93..128 plus 8 reserved (itself inconsistent with those slot counts). Both are superseded by `coverage-map.md:228-243` | Doc cleanup; no code needed | coverage-map.md:42-44,228-243; CURRENT-RULING.md:83-85 |
-| G18 | member#4 layout-table 4 B drift between `0x3157` and `0x5EA2` | Not localized. Anchors used in this spec (quest bits, medals A/B, kill/capture/size, arts) are independently verified, but fields sourced only from `member4-file-layout.txt` after `0x3157` may need +4 | Use `obj+0x2DF8` family or `obj+0x446C` to bracket the drift | coverage-map.md:265,296-299 |
+| G15 | Permit progress blocks (`0x31A7/0x31CB` 36 B, `0x31FF/0x3237` 56 B, `0x326F/0x3283` 20 B) and `mPermitLv[16]` | Semantics undetermined; only capacity coincidences. Do not write | Complete one deviant level and diff these blocks | member4-semantics.md:107-112; quests.md:726 |
+| G16 | `system` slot table / active-slot flags | Container header and slot headers (`0x34/0x38/0x3C`) documented, but which slot is live and the flag semantics are not. The old editor write `0x04+slot` polluted the header | Trace the save-slot reader or compare headers across three-slot saves | DEVELOP.md:60,220; HANDOFF.md:43-44 |
+| G17 | Stale/conflicting published statements | `coverage-map.md:42` keeps the old 93 large + 36 small + 8 reserved row struck through as superseded; `CURRENT-RULING.md:83-85` already gives the current split — 94 large in `0..70` + `112..134`, 43 small in `71..111` + `135..136`, no reserved slots. Both agree with `coverage-map.md:235-242` | Doc cleanup; no code needed | coverage-map.md:42,235-242; CURRENT-RULING.md:83-85 |
+| G18 | member#4 layout-table 4 B drift | **Resolved**: localized at `0x5057` (row 107) on 2026-10-24; rows 107..134 are +4 and the table ends at `0x5EA6`. All anchors used in this spec already use the corrected coordinates and were measured: quest bits 0x2C77/0x2D77 (0 `cleared`-not-in-`seen` bits; +4 gives 25), medals 0x3157/0x316B, arts 0x2C13.., kill/capture/size 0x5EA6..0x62ED | No field in this spec needs a +4 correction; only rows 107..134 of the layout table moved | coverage-map.md:411-415; HANDOFF.md:217; `node tools/audit/drift-gap11.mjs` |
 | G19 | Dirty `FF` in `0x2FC7` / `0x306B` / `0x311F` / `0x50BA` cannot be attributed to the current editor's 5 write points | A third writer exists; do not "clean" these ranges, and do not treat `dirty=FF` as proof of an editor bug | Provenance analysis of the dirty sample | DEVELOP.md:317; member4-semantics.md:237-240 |
 | G20 | Commission (委托) completion bits not located | Without them, a task can be `cleared` while its commission chain stays blocked; next commission never appears | Diff after accepting/completing one commission | quests.md:542-543,728 |
 | G21 | Village contribution (400 for arts LV2, 1500 for village 6 high-difficulty) | No save offset; `mVillagePoint` is in the quest-definition structure, not player state | Diff contribution changes; trace the unlock predicate | quests.md:725; skills-arts.md:583 |
-| G22 | Gameplay HR / HRP source | The 632 B header is discarded on load; the real HR field is not located. Editing `char_off 0x28` cannot satisfy HR gates | Locate HR in a member object and verify by level-up diff | coverage-map.md:303,334; quests.md:687 |
+| G22 | Gameplay HR / HRP source | The 632 B header is discarded on load; the real HR field is not located. Editing `char_off 0x28` cannot satisfy HR gates | Locate HR in a member object and verify by level-up diff | coverage-map.md:306,337; quests.md:687 |
 | G23 | Palico equipment box: 160 declared name slots vs 1000 x 36 B save capacity | Adjacent to this spec, unresolved; do not expose a palico-equipment editor yet | Fill cat equipment in-game and dump the box | DEVELOP.md:494-500 |

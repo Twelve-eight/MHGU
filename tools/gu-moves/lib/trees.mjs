@@ -1,9 +1,10 @@
 // cmdtbl layer: decompile the monster's enemy\ncmd_tbl\emNNN_00_cmdtbl and expose the decision tree
 // facts the tracer needs - op14 leaves with their op02 weight/case node, section-1 entries, reset pairs.
 //
-// The EMC decoder is the repo one (G:/tmp/GUAI/GuaiDecomp/emc-tree.mjs, byte-identical grammar to
-// MHGU/tools/mhgu/emc.mjs); this module only walks the built tree.
-import { parseEmc, buildTree, readArc, inflateEntry } from 'file:///G:/tmp/GUAI/GuaiDecomp/emc-tree.mjs';
+// Decoding is the repo's own: parseEmc from tools/mhgu/emc.mjs and the .arc reader from tools/mhgu/arc.mjs,
+// both reached through ./emc-tree.mjs, which also carries the tree builder (the repo decoder has none).
+// This module only walks the built tree.
+import { parseEmc, buildTree, readArc, inflateEntry } from './emc-tree.mjs';
 
 export { parseEmc, buildTree };
 

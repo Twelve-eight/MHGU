@@ -21,7 +21,9 @@
 | `cEmSizeYureTblElement` | `0x1552742` |
 | `cEmDouMouKa_PartsAuraData_Element` | `0x1552294` |
 
-## 1. 全字段表（按语义分组，`mParam.` 共 131 条；**镜像里实际有 134 条**——漏了同块的 `mParam.mSyncParam.data[i]` 与两条 `mTalismanParam.*`，见 2026-11-04 审计）
+## 1. 全字段表（按语义分组）
+
+> 计数口径（2026-11-04 W3-MEMBERS 复算）：镜像里有 **131 个**以 `mParam.` 开头的 NUL 分隔字符串（131 个不同名），本表 **134 行 = 131 个不同名 + 3 行重复**（`mParam.hang_ok_timer_flag`、`mParam.sysSendData.q_target_type`、`mParam.sysSendData.em_set_id`）。镜像里 `mParam.` 的**子串命中**是 134 次，多出的 3 次落在更长的字符串内部，**不是**额外字段：`pEquipData.mParam.mSyncParam.data[i]`（0x155A123）、`festaEquip->mParam.mTalismanParam.skillType[no]`（0x156CF22）、`festaEquip->mParam.mTalismanParam.itemId`（0x156CF52）。旧的「镜像里实际有 134 条、漏了 mSyncParam.data[i] 与两条 mTalismanParam」是把 token 数当成了字符串数。命令：`node tools/audit/claims-code.mjs`。
 
 ### 移动 / 寻路 (way_*, area_move_*, goto) — 17 条
 
@@ -283,7 +285,9 @@
 | `0x1559f92` | `nFestaNetwork::netOtActHoldEmID` |
 | `0x1559fb2` | `nFestaNetwork::netOtActHoldEmIDProcedure` |
 
-## 4. 怪物单元名 `uEm###_00`（225 条）
+## 4. 怪物单元名与 `ems###_00*` 行动名（本表 **225 行** = **96 条单元名** + **129 条行动名**）
+
+> 225 是**行数**，不是 `uEm###_00` 的条数：96 条单元名里精确匹配 `uEm###_00` 的只有 **61** 条（另有 28 条 `uEms###_00`、3 条 `uEm###_00::<class>`、4 条 `uEm087/088…`），其余 129 行是 `ems###_00…` 行动名（116 条驼峰 `…Move` + 13 条下划线 `_move`）。镜像里 `^uEm[0-9]{3}_00$` 的字符串也正好 61 个。复算：`node tools/audit/claims-code.mjs`。
 
 | vaddr | 单元名 |
 |---|---|

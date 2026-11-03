@@ -2,7 +2,7 @@
 // Run: node .tmp/mhgu/mon/quest-dispatch.mjs
 // Writes .tmp/mhgu/mon/quest-dispatch.out.txt (and prints a short summary).
 import fs from 'node:fs';
-import { decode, rd32, findCallsTo } from '../tools/arm32.mjs';
+import { decode, rd32, findCallsTo } from '../arm32.mjs';
 
 const OUT = 'G:/omp works/.tmp/mhgu/mon/quest-dispatch.out.txt';
 const R = ['r0','r1','r2','r3','r4','r5','r6','r7','r8','r9','r10','r11','r12','sp','lr','pc'];

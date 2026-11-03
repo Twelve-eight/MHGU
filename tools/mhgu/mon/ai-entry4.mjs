@@ -1,7 +1,7 @@
 // ai-entry4.mjs — pass 4: resolve PC-relative string references (add/sub rD, pc, rM with movw/movt bias).
 // This is the mechanism used by this binary (literal pools are NOT used for these strings).
 // Run: node .tmp/mhgu/mon/ai-entry4.mjs > .tmp/mhgu/mon/ai-entry4.out.txt 2>&1
-import { buf, rd32, TEXT_END, disasm, functionStarts, nearestFunctionStart } from '../tools/arm32.mjs';
+import { buf, rd32, TEXT_END, disasm, functionStarts, nearestFunctionStart } from '../arm32.mjs';
 
 const out = [];
 const say = (s = '') => out.push(String(s));

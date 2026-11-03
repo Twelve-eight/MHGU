@@ -16,7 +16,7 @@
 import fs from "node:fs";
 import { DatabaseSync } from "node:sqlite";
 
-const OUT = process.argv[2] || "MHGU_DLC.txt";
+const OUT = process.argv[2] || "docs/data/MHGU_DLC.txt";
 const SAVE = process.argv[3];
 const DB = "G:/omp works/MHGU/docs/data/mhgu.db";
 const SLOT_BASE = 63641;   // 0xF899
