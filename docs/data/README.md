@@ -99,7 +99,7 @@ node tools/mhgu/export-item-table.mjs "编辑器目录/MHGU_item(uni).txt"
 - 自检：名字含逗号就**拒绝生成**（`ItemsForm` 按逗号切分，否则名字被截断），实测 0 条；语言列可用 `LANG_COL=name_ja` 切换，但**除英文 `name` 外其余列在 items 表里是空的**（`name_ja` 全表 0 条有值），所以实际只能产出英文名；
 - 按 `ItemsForm` 的读法回放，21,153 行全部被接受。
 
-**语言限制必须说清楚**：`items` 表只有 `name/name_de/name_fr/name_es/name_it/name_ja`，**没有中文列**，而编辑器原本那份 `MHGU_item(uni).txt` 用的是**中文名**（`editor-src` 源码里查不到任何中文道具名，说明名字全部来自这个外部文件）。所以生成出来的是**功能可用的英文名替身**，不是原资产：编辑器能跑、id 对得上，但界面里显示的是英文。要恢复中文名，只能从**发布版的编辑器包**里取回那份 `MHGU_item(uni).txt`——本仓库里没有，也没法从数据库造。
+**语言限制必须说清楚**：`items` 表只有 `name/name_de/name_fr/name_es/name_it/name_ja`，**没有中文列**，而且 `name_ja` 全表 **0 条有值**（21,153 行全部为空），所以德法西意日五列都造不出名字，只有英文 `name` 可用。编辑器原本那份 `MHGU_item(uni).txt` 按 `docs/data/json/README.md` 的记载是**日文名、2,930 行**（不是全量 21,153 行）（`editor-src` 源码里查不到任何中文道具名，说明名字全部来自这个外部文件）。所以生成出来的是**功能可用的英文名替身**，不是原资产：编辑器能跑、id 对得上，但界面里显示英文、条目数也从 2,930 变成 21,153。要恢复原样，只能从**发布版的编辑器包**里取回那份 `MHGU_item(uni).txt`——本仓库里没有，也没法从数据库造（缺日文名，也缺那 2,930 条的取舍标准）。
 
 - **派生产物，不提交**：`docs/data/MHGU_item(uni).txt` 已加进 `.gitignore`，改了 `mhgu.db` 就重跑一次。
 

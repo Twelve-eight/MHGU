@@ -25,4 +25,4 @@
 ## 待建映射（下一步）
 - **EN↔JA↔CN 全名表**：quests/items/skills 的 `name_ja` 在 db 全空，需用 wiki 中文页 + db EN 名对拍补齐（同 monster-slot-map 的做法，逐域建）
 - **任务 id ↔ 存档位号**：quests._id（稀疏游戏 id）↔ 存档 cleared/seen bit（记录序号）——服务任务解锁
-- **道具 id ↔ MHGU_item(uni).txt**：db items._id（type='' 2624 条）↔ 编辑器日文表 2930 行
+- **道具 id ↔ MHGU_item(uni).txt**：db items._id（type='' 2624 条）↔ 编辑器日文表 2930 行。**该表不在仓库里**，且 `items.name_ja` 全表为空，数据库造不出它的日文名；见 `docs/data/README.md`「编辑器运行时数据文件」

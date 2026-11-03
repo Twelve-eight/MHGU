@@ -25,5 +25,5 @@
 
 ## 待验证项
 - wiki 与 mhgu.db 的怪物名/任务名是**日文**，需建 EN↔JA↔CN 名映射表——但 db **不能自动对齐**：`name_ja` 只在 `monsters`（129/129）与 `locations`（31/31）齐全，`quests`（0/1355）、`items`（0/21153）、`skills`（0/326）、`skill_trees`（0/205）的 `name_ja` 全空，只有 EN/DE/FR/ES/IT（2026-11-03 SQL 复核）
-- 编辑器现有 `MHGU_item(uni).txt` 道具表 vs mhgu.db `items` 表——需对拍确认 id 一致性
+- 编辑器 `MHGU_item(uni).txt` 道具表 vs mhgu.db `items` 表——需对拍确认 id 一致性；**该文件不在仓库里**（2,930 行日文名，数据库无日文名列），需先从发布版编辑器包取回，见 `docs/data/README.md`
 - 委托/Daily 任务、狩技效果在 mhgu.db 无专表——靠 wiki 补
