@@ -10,9 +10,10 @@ import path from "node:path";
 import zlib from "node:zlib";
 
 const INV = "G:/omp works/MHGU/docs/analysis/code/inventory";
-const OBSERVED = ["attr-xref.tsv", "attr-prefix.tsv", "attr-vtable-fixed.tsv", "attr-vtable-ns.tsv", "attr-vtable-rtti2.tsv",
-  "attr-strings2.tsv", "attr-vtable-classconsensus.tsv"];
-const TRANSFERRED = ["attr-blocks.tsv", "attr-registrar.tsv", "attr-uifamily.tsv", "attr-class.tsv", "attr-class2.tsv"];
+const HOOK = ["attr-xref.tsv", "attr-prefix.tsv", "attr-strings2.tsv", "attr-vtable-fixed.tsv", "attr-vtable-ns.tsv",
+  "attr-vtable-rtti2.tsv", "attr-vtable-unknown.tsv", "attr-vtable-classconsensus.tsv", "attr-registrar.tsv"];
+const BLOCK = ["attr-blocks.tsv"];
+const CLASSREC = ["attr-class.tsv", "attr-class2.tsv", "attr-uifamily.tsv"];
 
 const fns = zlib.gunzipSync(fs.readFileSync("G:/omp works/MHGU/docs/data/functions-retile.csv.gz")).toString("utf8")
   .split(/\r?\n/).filter(Boolean).slice(1).map((l) => l.split(","));
@@ -31,11 +32,10 @@ const load = (files) => {
   }
   return s;
 };
-const obs = load(OBSERVED);
-const tra = load(TRANSFERRED);
-const both = [...tra].filter((a) => obs.has(a)).length;
+const hook = load(HOOK), block = load(BLOCK), cls = load(CLASSREC);
 const sum = (set) => [...set].reduce((a, v) => a + (insns.get(v) || 0), 0);
 const pct = (n) => ((100 * n) / totalIns).toFixed(1);
-console.log(`observed-on-function ${obs.size} functions / ${sum(obs)} insns = ${pct(sum(obs))}%`);
-console.log(`class-or-block transferred ${tra.size} functions / ${sum(tra)} insns = ${pct(sum(tra))}%`);
-console.log(`overlap ${both}; union ${new Set([...obs, ...tra]).size} functions`);
+console.log(`hook on the function itself (string ref / verified vtable slot / registrar body) ${hook.size} functions / ${sum(hook)} insns = ${pct(sum(hook))}%`);
+console.log(`address-block purity ${block.size} functions / ${sum(block)} insns = ${pct(sum(block))}%`);
+console.log(`class-record only ${cls.size} functions / ${sum(cls)} insns = ${pct(sum(cls))}%`);
+console.log(`union ${new Set([...hook, ...block, ...cls]).size} functions`);
