@@ -12,7 +12,7 @@
  *                Rn << 16 | imm8 (spec Appendix A). Cross-checked row by row: 113 movw,
  *                9 cmp and 1 bx lr, matching the section-3 instruction mix.
  *
- * SPDX-License-Identifier: GPL-3.0-or-later */
+ * SPDX-License-Identifier: MIT */
 #pragma once
 #include <stdint.h>
 

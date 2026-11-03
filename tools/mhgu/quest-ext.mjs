@@ -40,7 +40,7 @@
 //   rowToTsv(row, file)                                         (column order TSV_FIELDS)
 //
 // Exit codes: 0 ok, 1 check failed, 2 usage error.
-// License: GPL-3.0-or-later.
+// License: MIT.
 
 import fs from 'node:fs';
 import path from 'node:path';

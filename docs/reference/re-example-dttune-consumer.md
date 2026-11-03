@@ -11,7 +11,7 @@ Report with the raw log: `.tmp/reports-mech/t1-dttune-consumer.md`. Read `re-gui
 - Data: dttune status block, 6 x u16 LE per status [initial, A, B, durationFrames, increase, max]; offsets per monster in `MHGU/docs/data/json/monster-dttune-index.json` (hex strings), values in `MHGU/docs/wiki/monster-status.md`, layout notes in `.tmp/scratch-mech-status-gu/big-status-layout.txt`.
 - Example values (cite the slot map, never memory): `monster-slot-map.json` has emid 1 = slot 0 (Rathian), emid 81 = slot 66 (Astalos). Rathian poison `[180,600,5,3600,100,580]` at blob offset 0x35C [C, status-gu.md]. em081_00 block base 0x326.
 - Binary: `.tmp/mhgu/extract/exefs-0eb5/main.140.flat.bin`, vaddr = flat - 0x100, ARM A32 only.
-- Tools: `node ".tmp/re-cli.mjs" disasm|words|calls|lits|fn <vaddr> [n]`. The mhgu-re MCP server may run a STALE decoder (see trap C).
+- Tools: `node "G:/omp works/.tmp/re-cli.mjs" disasm <vaddr> [n] | words <vaddr> [n] | calls <vaddr> [vaddr...] | lits <start> <end> <value> [value...] | fn <vaddr> [vaddr...]`. The mhgu-re MCP server may run a STALE decoder (see trap C); `lits` has no count argument, and the one-argument form prints `0 hit(s)` instead of an error.
 
 ## 1. Recipe overview
 
@@ -27,7 +27,7 @@ Report with the raw log: `.tmp/reports-mech/t1-dttune-consumer.md`. Read `re-gui
 - Type hash 0x48e8ac29 = crc32 (poly 0xEDB88320, init 0xFFFFFFFF, NO final xor) of `rEnemyDtTune` (stealth-gu.md).
 - Registration fn `0x564bc` (docs/analysis/monsters/mon-class-map.md line 126): class size 0x128, tag `dtt`. **2026-11-04 correction: `0x564bc` is the class destructor** (`str`/`blx [vtbl+52]` over `this+104`), not the registration. The name+size registration is `0x58894`: a member-offset table `{0,0,1,2,3,4,8,9,5,6}` at `[0x17f95c8]`, then `mov r3,#296` (`0x5890c`), the pc-delta name at `0x58914` → `0x1553200`, and `bl 0x7aedcc` (`refs_to 0x1553200` returns exactly that one site). The five member records (offsets +4/+6/+8/+10/+12) are registered in fn `0x58fd0`. It still names only 5 members (DefTime +0x4, EscapeTime +0x6, FastTime +0x8, ExTime +0xA, Genus +0xC) and does NOT name the status block, so "find the member table" still gives no status names; the layout must come from the loader.
 - Loader: `0x57740(res)` (res = r11). Command:
-  `node ".tmp/re-cli.mjs" disasm 0x57740 150` and continue in 150-300 insn chunks to 0x58360.
+  `node "G:/omp works/.tmp/re-cli.mjs" disasm 0x57740 150` and continue in 150-300 insn chunks to 0x58360.
   (Resource loaders have 0 direct callers; they are reached through the resource manager. Do not search `calls`.)
 
 ## 3. How to read the loader [C]
@@ -74,7 +74,7 @@ Do not scan for res+0x98..0xB8 field reads. Follow who RECEIVES the resource poi
    - add 0xA27C8(this, amount): counter += amount; proc (return 1, counter=thr) when counter >= thr and flag bytes [[X]+930..932] are 0; else counter capped thr-1.
    - grow 0xA29D0 (after proc): n = min(30, procs+1); thr = min(blk[0] + trunc(k*blk[8]*n), blk[0] + trunc(k*(blk[10]-blk[0]))); counter = 0. k = f32 at +0x1C of row 0xbaaac(this,2).
 5. Owner proof (premise check, trap A): ctor 0x7051c sits at slot +328 of 94 vtables (one class family); vtable 0x17f82cc of that family has +516 = rage entry 0x1069d8c; rage 0x1068dd8 calls 0x71078 on its own `this`; EMC code reads em+0x2588 and [this+0x1428] on the same `this`; the dttune is chosen by emid -> slot. So owner = monster (em), X = its sub-block.
-6. Callers: add <- 0x9A3A8 (fn 0x9A34C, amount s16 [[this+0x1428]+0x4C8]) <- 0x97ddc <- 0xa5900 <- 0xadb3c <- 0xad7b4 (slot +36 of monster vtable 0x1734798), `this` passed unchanged; add <- 0xBFC70 (amount 200) <- 0xbfca8 (41 callers in per-monster code 0xcf0658..0x1057fe8); grow <- 0x76730; reset <- 0xB9D9C.
+6. Callers: add <- 0x9A3A8 (fn 0x9A34C, amount s16 [[this+0x1428]+0x4C8]) <- 0x97ddc <- 0xa5900 <- 0xadb3c <- 0xad7b4 (slot +36 of monster vtable 0x1734798), `this` passed unchanged; add <- 0xBFC70 (amount 200) <- 0xbfca8 (41 callers in per-monster code 0xcf0a40..0x10581f0); grow <- 0x76730; reset <- 0xB9D9C.
 7. Arithmetic check, Rathian (slot 0, emid 1), em001_00_dttune, k=1: poison @0x35c 180/100/580 -> 180, 280, 380; para @0x378 180/110/730 -> 180, 290, 400; stun @0x384 150/150/750 -> 150, 300, 450. Matches `MHGU/docs/wiki/monster-status.md`. Note records are not on a 12 B grid (poison has a 4 B tail; sleep starts 0x36c).
 8. Open [U]: k comes from the resource at em+0x257C (request id 0xde1a in 0x687b0, typeHash 0x630ed7bb, not extracted); row index = byte [[em+0x1428]+926]; what selects it (quest tier / player count) is not proven. Status naming of each block offset beyond the loader size order is [B].
 
@@ -98,7 +98,7 @@ Why they failed [C]: the consumer goes through the em getter 0x71078 (res+100) a
 | `scan-back.mjs` | nearest `ldr rX,[rB,#0x98..0xB8]` (rB not sp) before `ldrh [rX,#0..10]` | 39 | string pointer 0x13d5f04, list unlink 0xcb5344, counter 0x12dabf4, flags 0x261a98, index 0xb6671c, multiplier 0xa63f3c: all unrelated |
 | `scan-add2.mjs` | `add rD,rN,#0x98..0xB8` then `ldr [rD,idx,lsl #2]` | 23 | pointer-array loops in other classes (0xc59444, 0xc59eec, 0xb30cf8, 0x198130); 19 not inspected one by one |
 
-Extra finding [C]: 0x574A0..0x57990 (directly after the magic check) is the copy-OUT path of the same class: `ldrb flag,[r8,#276]; ldr r1,[r8,#152]; mov r2,#16; bl 0x827cd0` writes each block to a stream (0x827cd0 is the write twin of the loader's 0x82710c). So the loader and the write path treat the status blocks as opaque 16/12/14 byte memcpy and name no field.
+Extra finding [C]: the copy-OUT path is fn `0x57068` (its status-block write-out is `0x574a0..0x57594`: `ldrb flag,[r8,#276]; ldr r1,[r8,#152]; mov r2,#16; bl 0x827cd0` writes each block to a stream); the loader `0x57740` is the *next* function and does the read-in, with the magic check at `0x5776c` inside it. 0x827cd0 is the write twin of the loader's 0x82710c. So the loader and the write path treat the status blocks as opaque 16/12/14 byte memcpy and name no field.
 
 ### 5c. Wrong assumptions
 1. "Resource sub-blocks are reached through resource vtable slots +156/+164" (earlier guide): FALSE. The dttune vtable 0x17330A4 ends before +156 (that address is the next class block, nando tag getter 0x58C74). The +156/+164 calls seen at em+0x260C/0x2630.. are other resource classes.
@@ -131,7 +131,7 @@ F. Wiki claims about neighbouring data may be wrong (rage region: see rage-gu.md
 
 | Point | Status |
 |---|---|
-| Read-in (file -> res+0x98..0xB8 blocks) | done, 0x57740-0x583E0 [C]; copy-out twin 0x574A0-0x57990 [C] |
+| Read-in (file -> res+0x98..0xB8 blocks) | done, 0x57740-0x583E0 [C]; copy-out fn 0x57068, status-block writes 0x574A0-0x57594 [C] |
 | Owner of the dttune pointer | em object, em+0x75EC, callback 0x70a1c, getter 0x71078 [C] |
 | Compare (gauge vs threshold) | 0xA27C8 [C] |
 | Growth (threshold += k*increase, cap) | 0xA29D0 [C]; reset 0xA2754 [C] |

@@ -7,7 +7,7 @@
 - **范围**: 只读+写 `.tmp/reports-mhgu/member4-17-layout.md`；不写代码/不build
 - **写集**: member4-17-layout.md（独占）
 - **预期**: 14成员字段表+obj跨度+file锚点
-- **产出**: member4-17-layout.md 508行（14成员字段表，合计 86997B）→ 迁入 `docs/analysis/`
+- **产出**: member4-17-layout.md 514行（14成员字段表，合计 86997B）→ 迁入 `docs/analysis/`
 - **监督**: ReviewMemberLayout PASS + E1 修正（member[7] cap→位宽 35136→35131）+ E2-E6 小错
 - **关键裁决**: member[13]=`0x163e0c`=28404B=file `0x2C6B4` 块（「成员#15」实为 member[13]）；file序=调度序仅限 member 边界内，中段装备箱/猫记录/套装/怪物计数器是独立容器插入
 - **能力评估**: task/swe2 自建符号执行器 `reader-fields.mjs`，解析栈槽/循环/位流/tmp拷贝，质量高；独立发现 member 边界外独立容器问题
@@ -30,7 +30,7 @@
 - **分片**: 按地址切 14 片（每片 1,062 函数），切片数据带 `callee_label_votes`（无字符串函数的唯一线索）
 - **写集**: 各自 `.tmp/reports-mhgu/tierB-slice-NN.md`，互斥
 - **汇合**: `tools/mhgu/tierb-merge.py` → `.tmp/mhgu/inventory/tierb-labels.csv` + 覆盖率统计
-- **纪律**: 每 **30** 函数 append 落盘（~~每 200 函数~~ 作废，2026-10-23：现行规则见 `HANDOFF.md:201`「每 30 个 append 落盘」）；按 insns 降序；不确定标 `unknown`/`conf=C`。dsv/wb 路由另按 `AGENTS.md` §8d 细分片：每片约 3 个检查项、「判一项、写一行、再读下一项」。
+- **纪律**: 每 **30** 函数 append 落盘（~~每 200 函数~~ 作废，2026-10-23：现行规则见 `HANDOFF.md:230`「每 30 个 append 落盘」）；按 insns 降序；不确定标 `unknown`/`conf=C`。dsv/wb 路由另按 `AGENTS.md` §8d 细分片：每片约 3 个检查项、「判一项、写一行、再读下一项」。
 - **状态**: 进行中（首批落盘 TierB03 120 行）
 
 

@@ -7,7 +7,7 @@
   - 其余 22 处只是引用行号偏了，事实本身没错。
 
 ## 对 MHGU 原生版补丁的结论（已复核）
-- 往客机代码内存写字节，不会改变已重编译代码的行为。立即数直接写死在生成的 C 代码里（`forge_pc.h:229-231`）。
+- 往客机代码内存写字节，不会改变已重编译代码的行为（`forge_pc.h:229-231`：「Changing code bytes in guest memory does NOT change the recompiled game: use hooks for code」）。立即数直接写死在生成的 C 代码里（`a32_to_c.h:181-189` 的 `MoveWide`，`:187` 生成 `c->r[Rd] = 0x…;`）。
 - hook 只能挂在重编译块的起点（`is_block` 检查）。
 - 没有对应重编译块的代码由 dynarmic JIT 执行，注入到客机内存的代码也一样可以运行。
 - 一处 `movw` 立即数修改有三种改法：

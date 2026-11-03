@@ -35,7 +35,7 @@
  * Bits are raw NpadButton: A 0x1, B 0x2, X 0x4, Y 0x8, L 0x40, R 0x80, ZL 0x100, ZR 0x200,
  * Plus 0x400, Minus 0x800, D-pad Left 0x1000, Up 0x2000, Right 0x4000, Down 0x8000.
  *
- * SPDX-License-Identifier: GPL-3.0-or-later
+ * SPDX-License-Identifier: MIT
  */
 #define _CRT_SECURE_NO_WARNINGS
 #define WIN32_LEAN_AND_MEAN

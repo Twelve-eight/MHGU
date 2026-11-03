@@ -30,7 +30,7 @@
  * 2300 entries while the box holds 2992 slots, spec section 4 R2; the unbounded copy at
  * 0x19B1F4, R4). V7 saves are incompatible with the unpatched game. Back up save files.
  *
- * SPDX-License-Identifier: GPL-3.0-or-later
+ * SPDX-License-Identifier: MIT
  */
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdarg.h>

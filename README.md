@@ -158,7 +158,13 @@ that change what you can run:
 | `editor-src/` | nothing in the pipeline: it is a third-party editor's decompiled sources, kept locally, and no tracked script reads it. |
 
 ## License
-- Code and tools: GPL-3.0-or-later (`LICENSE`). Relicensed from MIT on 2026-10-24.
-- Documentation under `docs/`: CC BY 4.0 (`docs/LICENSE`).
-- Monster Hunter is a trademark of Capcom. Not affiliated with Capcom or Nintendo. Game data
-  facts (addresses, field layouts) are described for interoperability.
+
+MIT, for the whole repository: code, tools and documentation alike (`LICENSE`; the same text is
+repeated in `docs/LICENSE` for the notes). Relicensed from GPL-3.0-or-later on 2026-11-04, which
+itself followed an earlier MIT period, so the history contains both names for the same files.
+
+Third-party material keeps its own terms and is not relicensed by this change: `docs/data/` carries
+a community database extraction and tables derived from it, and `tools/mhgu/vendor/` holds MIT
+packages that ship their own notices. Monster Hunter is a trademark of Capcom; this project is not
+affiliated with Capcom or Nintendo, and game data facts (addresses, field layouts) are described for
+interoperability.

@@ -126,14 +126,14 @@ its immediates from the V8 pchtxt, not from this table.
 | 2 | `0x198F48` | `movw r12,#0x8FB` | `movw r12,#0xBAF` | reverse-scan2 lane bound 2299 -> 2991 | `clone` at `0x198F44` (shares #1's clone) | `[I]` 2nd insn of fn `0x198F44` |
 | 3 | `0x198F4C` | `movw r3,#0x8FD` | `movw r3,#0xBB1` | reverse-scan2 lane bound 2301 -> 2993 (odd-slot lane) | `clone` at `0x198F44` (shares #1's clone) | `[I]` 3rd insn of fn `0x198F44` |
 | 4 | `0x198FA0` | `movw r12,#0x8FC` | `movw r12,#0xBB0` | forward slot-search bound 2300 -> 2992 | `clone` at fn `0x198F90` | `[I]` interior of fn `0x198F90` |
-| 5 | `0x198FEC` | `movw r2,#0x2408` | `movw r2,#0x2ED8` | reverse-scan end pointer (`0x1A+4*N`) | `clone` at fn `0x198FE8` (covers #5-#6) | `[I]` interior of fn `0x198FE8` |
+| 5 | `0x198FEC` | `movw r2,#0x2408` | `movw r2,#0x2ED8` | reverse-scan end pointer (`0x1A+4*N-2`: the loop pre-reads `[r3,#-2]` at `0x199000`, so the value added at `0x198FF8` is 2 below the record end; N=2300 -> `0x2408`) | `clone` at fn `0x198FE8` (covers #5-#6) | `[I]` interior of fn `0x198FE8` |
 | 6 | `0x198FFC` | `movw r2,#0x8FC` | `movw r2,#0xBB0` | reverse-scan count 2300 -> 2992 | `clone` at fn `0x198FE8` (shares #5's clone) | `[I]` interior of fn `0x198FE8` |
 | 7 | `0x19A4F8` | `movw r7,#0x8FC` | `movw r7,#0xBB0` | save serializer slot loop count | `clone` at fn `0x19A4EC` | `[I]` interior |
 | 8 | `0x19A568` | `movw r5,#0x8FC` | `movw r5,#0xBB0` | save deserializer slot loop count | `clone` at fn `0x19A55C` | `[I]` interior |
 | 9 | `0x3E8A10` | `movw r1,#0x8FC` | `movw r1,#0xBB0` | runtime clear-loop count | `clone` at `B` (site is not a block start) | interior: `add r4,r4,#1; cmp r4,#50; bne` falls through into it (audit 2026-10-24) |
-| 10 | `0x19A548` | `mov r2,#0xFF0` (DP imm) | `movw r2,#0x985` | preset block write length 4080 -> 2437 (=14*170+57) | `clone` at fn `0x19A4EC` (shares #7's clone) | `[I]` interior |
-| 11 | `0x19A5C0` | `mov r2,#0xFF0` (DP imm) | `movw r2,#0x985` | preset block read length | `clone` at fn `0x19A55C` (shares #8's clone) | `[I]` interior |
-| 12 | `0x19AB04` | `cmp r12,#0x18` | `cmp r12,#0x0E` | `anyPresetNonEmpty` scan bound 24 -> 14 | `clone` at fn `0x19AAEC` | `[I]` interior (`preset-deadzone` §1.1) |
+| 10 | `0x19A548` | `mov r2,#0xFF0` (DP imm) | `movw r2,#0x985` | preset block write length 4080 -> 2437 (=14*170+57) | `clone` at `0x19A544` (probe B; fn `0x19A4EC`) | `[I]` interior |
+| 11 | `0x19A5C0` | `mov r2,#0xFF0` (DP imm) | `movw r2,#0x985` | preset block read length | `clone` at `0x19A5BC` (probe B; fn `0x19A55C`) | `[I]` interior |
+| 12 | `0x19AB04` | `cmp r12,#0x18` | `cmp r12,#0x0E` | `anyPresetNonEmpty` scan bound 24 -> 14 | `clone` at `0x19AAFC` (probe B; fn `0x19AAEC`) | `[I]` interior (`preset-deadzone` §1.1) |
 | 13 | `0x19AB4C` | `cmp r1,#0x17` | `cmp r1,#0x0D` | `isPresetUsable` bound 23 -> 13 | `clone` at fn `0x19AB48` (1-insn prefix) | **entry**: `0x19AB48` (`preset-deadzone` §1.1) |
 | 14 | `0x19ABB0` | `cmp r1,#0x18` | `cmp r1,#0x0E` | `getPresetPtr` bound 24 -> 14 | `clone` at fn `0x19ABA8` | **entry**: `0x19ABA8` |
 | 15 | `0x19ABCC` | `cmp r1,#0x18` | `cmp r1,#0x0E` | `getPresetPtr2` bound 24 -> 14 | `clone` at fn `0x19ABC4` | **entry**: `0x19ABC4` |
@@ -154,15 +154,15 @@ Notes for this chunk:
 
 | 16 | `0x19ABE8` | `cmp r1,#0x17` | `cmp r1,#0x0D` | `applyPreset` bound 23 -> 13 | `clone` at fn `0x19ABE0` | **entry**: `0x19ABE0` |
 | 17 | `0x19A8E4` | `movw r0,#0x23F0` | `movw r0,#0x2EC0` | heap buffer `malloc` 9200 -> 11968 B | `clone` at fn `0x19A8D8` | **entry**: `0x19A8D8` (`ui-page-bound` §1) |
-| 18 | `0x19A8F4` | `movw r2,#0x23F0` | `movw r2,#0x2EC0` | heap `memcpy` length (copy-out on open) | `clone` at `0x19A8D8` (shares #17) | `[I]` interior |
+| 18 | `0x19A8F4` | `movw r2,#0x23F0` | `movw r2,#0x2EC0` | heap `memcpy` length (copy-out on open) | `clone` at `0x19A8EC` (probe B; fn `0x19A8D8`; shares #78) | `[I]` interior |
 | 19 | `0x19AA44` | `movw r2,#0x23F0` | `movw r2,#0x2EC0` | heap copy length (third copy routine) | `clone` at `B` (probe) | `[I]` no documented entry; `tiers.csv` has none at this address |
 | 20 | `0x19AA90` | `movw r0,#0x23F0` | `movw r0,#0x2EC0` | heap `malloc` in copy-out routine | `clone` at fn `0x19AA88` | **entry**: `0x19AA88` (`ui-page-bound` §1) |
-| 21 | `0x19AA9C` | `movw r2,#0x23F0` | `movw r2,#0x2EC0` | heap `memcpy` in copy-out routine | `clone` at `0x19AA88` (shares #20) | `[I]` interior |
+| 21 | `0x19AA9C` | `movw r2,#0x23F0` | `movw r2,#0x2EC0` | heap `memcpy` in copy-out routine | `clone` at `0x19AA98` (probe B; fn `0x19AA88`) | `[I]` interior |
 | 22 | `0x19AAB4` | `movw r2,#0x23F0` | `movw r2,#0x2EC0` | heap `memcpy` copy-back length | `clone` at block `0x19AAB0` | block start after an unconditional tail-call, **no prologue** (not a `push` entry; audit 2026-10-24) |
 | 23 | `0x198F04` | `push {r4,lr}` | `movw r0,#0xBB0` | capacity getter: short-circuit the obfuscated `1000+300*popcount+200*bits` formula | `replace-fn` at `0x198F04`: `r[0]=0xBB0`, `r[15]=r[14]`, return true | **entry**: `tiers.csv` `0x198f04,16` |
 | 24 | `0x198F08` | `ldr r0,[pc,#0x30]` | `bx lr` | getter return | `not-needed` (covered by #23's hook) | n/a |
 | 25 | `0x198E74` | `add r0,r0,#0x3E8` | `movw r0,#0xBB0` | inline capacity (first of 30) | `clone` at `B` (probe) | `[I]` |
-| 26 | `0x198F38` | `add r0,r0,#0x3E8` | `movw r0,#0xBB0` | inline capacity in the getter epilogue | `not-needed` when #23 replaces the getter (the hook returns before `0x198F38`); otherwise `clone` at `0x198F04` | inside fn `0x198F04` |
+| 26 | `0x198F38` | `add r0,r0,#0x3E8` | `movw r0,#0xBB0` | inline capacity in the getter epilogue | `not-needed` when #23 replaces the getter (the hook returns before `0x198F38`); otherwise `clone` at `0x198F1C` (probe B; fn `0x198F04`) | inside fn `0x198F04` |
 | 27 | `0x1990BC` | `add r0,r0,#0x3E8` | `movw r0,#0xBB0` | inline capacity | `clone` at `B` (probe) | `[I]` |
 | 28 | `0x199174` | `add r0,r0,#0x3E8` | `movw r0,#0xBB0` | inline capacity | `clone` at `B` (probe) | `[I]` |
 | 29 | `0x19925C` | `add r0,r0,#0x3E8` | `movw r0,#0xBB0` | inline capacity | `clone` at `B` (probe) | `[I]` |
@@ -204,8 +204,8 @@ Notes for this chunk:
 | 38 | `0x199998` | `add r0,r0,#0x3E8` | `movw r0,#0xBB0` | inline capacity | `clone` at `B` (probe) | `[I]` |
 | 39 | `0x199A10` | `add r0,r0,#0x3E8` | `movw r0,#0xBB0` | inline capacity | `clone` at `B` (probe) | `[I]` |
 | 40 | `0x199AC8` | `add r0,r0,#0x3E8` | `movw r0,#0xBB0` | inline capacity | `clone` at `B` (probe) | `[I]` |
-| 41 | `0x199B68` | `add r0,r0,#0x3E8` | `movw r0,#0xBB0` | inline capacity, inside the A->B aggregate rebuild loop | `clone` at fn `0x199AE4` | `[I]` interior of fn `0x199AE4` (`preset-deadzone` §2.2) |
-| 42 | `0x199BEC` | `add r0,r0,#0x3E8` | `movw r0,#0xBB0` | inline capacity, A->B rebuild | `clone` at fn `0x199AE4` (shares #41) | `[I]` interior of `0x199AE4` |
+| 41 | `0x199B68` | `add r0,r0,#0x3E8` | `movw r0,#0xBB0` | inline capacity, inside the A->B aggregate rebuild loop | `clone` at `0x199B4C` (probe B; fn `0x199AE4`) | `[I]` interior of fn `0x199AE4` (`preset-deadzone` §2.2) |
+| 42 | `0x199BEC` | `add r0,r0,#0x3E8` | `movw r0,#0xBB0` | inline capacity, A->B rebuild | `clone` at `0x199BD0` (probe B; fn `0x199AE4`) | `[I]` interior of `0x199AE4` |
 | 43 | `0x199DE8` | `add r0,r0,#0x3E8` | `movw r0,#0xBB0` | inline capacity, B->A copy-back area | `clone` at `B` (probe) | `[I]` (`0x199D6C` is the documented B->A fn; membership to verify) |
 | 44 | `0x199E40` | `add r0,r0,#0x3E8` | `movw r0,#0xBB0` | inline capacity, D-flag area | `clone` at `B` (probe) | `[I]` |
 | 45 | `0x199F34` | `add r0,r0,#0x3E8` | `movw r0,#0xBB0` | inline capacity (D-flag/aggregate path) | `clone` at `B` (probe) | `[I]` |
@@ -237,11 +237,11 @@ Notes for this chunk:
 | 52 | `0x19A3F0` | `add r0,r0,#0x3E8` | `movw r0,#0xBB0` | inline capacity | `clone` at `B` (probe) | `[I]` |
 | 53 | `0x19A464` | `add r0,r0,#0x3E8` | `movw r0,#0xBB0` | inline capacity | `clone` at `B` (probe) | `[I]` |
 | 54 | `0x19AFC0` | `add r0,r0,#0x3E8` | `movw r0,#0xBB0` | inline capacity (last of 30) | `clone` at `B` (probe) | `[I]` |
-| 55 | `0x199C10` | `movw r14,#0x240A` | `movw r14,#0x2EDA` | B aggregate-table base (id half of B[0]) | `clone` at fn `0x199AE4` | `[I]` interior (`preset-deadzone` §2.2) |
-| 56 | `0x199C9C` | `movw r0,#0x240A` | `movw r0,#0x2EDA` | B aggregate-table base (write side) | `clone` at fn `0x199AE4` (shares #55) | `[I]` interior |
-| 57 | `0x199D84` | `movw r0,#0x240A` | `movw r0,#0x2EDA` | B -> A read base in the copy-back loop | `clone` at fn `0x199D6C` | `[I]` interior (`preset-deadzone` §2.2) |
-| 58 | `0x199B20` | `movw r0,#0x240C` | `movw r0,#0x2EDC` | B count half of B[0] (`strh` at `+0x240C`) | `clone` at fn `0x199AE4` | `[I]` interior |
-| 59 | `0x199C00` | `movw r12,#0x240C` | `movw r12,#0x2EDC` | B count base in the rebuild loop | `clone` at fn `0x199AE4` | `[I]` interior |
+| 55 | `0x199C10` | `movw r14,#0x240A` | `movw r14,#0x2EDA` | B aggregate-table base (id half of B[0]) | `clone` at `0x199BF8` (probe B; fn `0x199AE4`; shares #59) | `[I]` interior (`preset-deadzone` §2.2) |
+| 56 | `0x199C9C` | `movw r0,#0x240A` | `movw r0,#0x2EDA` | B aggregate-table base (write side) | `clone` at `0x199C98` (probe B; fn `0x199AE4`) | `[I]` interior |
+| 57 | `0x199D84` | `movw r0,#0x240A` | `movw r0,#0x2EDA` | B -> A read base in the copy-back loop | `emulate` at site (probe `is_block` 1) | **block start** (probe): `0x199D84` |
+| 58 | `0x199B20` | `movw r0,#0x240C` | `movw r0,#0x2EDC` | B count half of B[0] (`strh` at `+0x240C`) | `clone` at `0x199B04` (probe B; fn `0x199AE4`) | `[I]` interior |
+| 59 | `0x199C00` | `movw r12,#0x240C` | `movw r12,#0x2EDC` | B count base in the rebuild loop | `clone` at `0x199BF8` (probe B; fn `0x199AE4`; shares #55) | `[I]` interior |
 | 60 | `0x198E88` | `movw r1,#0x47E0` | `movw r1,#0x52B0` | `memclr` length for A+B (`8 B/slot * 2300`) | `clone` at `B` (probe) | `[I]` not the ctor `0x198BB0` (address is lower) |
 
 Notes for this chunk:
@@ -264,17 +264,17 @@ Notes for this chunk:
   covering A+B+C is #62/#63 in the next chunk (`0x59D8 -> 0x64A8`). Both lengths
   must change together or the new tail is left uncleared.
 
-| 61 | `0x199B04` | `movw r0,#0x47FA` | `movw r0,#0x52CA` | C array start (u16 table, init `0xFFFF`) | `clone` at fn `0x199AE4` | `[I]` interior (`preset-deadzone` §2.2) |
-| 62 | `0x198C00` | `movw r1,#0x59D8` | `movw r1,#0x64A8` | `memclr(obj+0x1A, len)` covering A+B+C (`0x59D8 = 10 B * 2300`) | `clone` at fn `0x198BB0` (ctor) | **entry**: `0x198BB0` (`preset-deadzone` §0) |
-| 63 | `0x198C98` | `movw r1,#0x59D8` | `movw r1,#0x64A8` | same `memclr` in the second init routine | `clone` at fn `0x198C74` | **entry**: `0x198C74` (`preset-deadzone` §0 note) |
+| 61 | `0x199B04` | `movw r0,#0x47FA` | `movw r0,#0x52CA` | C array start (u16 table, init `0xFFFF`) | `emulate` at site (probe `is_block` 1) | **block start** (probe): `0x199B04` |
+| 62 | `0x198C00` | `movw r1,#0x59D8` | `movw r1,#0x64A8` | `memclr(obj+0x1A, len)` covering A+B+C (`0x59D8 = 10 B * 2300`) | `clone` at `0x198BE4` (probe B; fn `0x198BB0` ctor) | **entry**: `0x198BB0` (`preset-deadzone` §0) |
+| 63 | `0x198C98` | `movw r1,#0x59D8` | `movw r1,#0x64A8` | same `memclr` in the second init routine | `clone` at `0x198C7C` (probe B; fn `0x198C74`) | **entry**: `0x198C74` (`preset-deadzone` §0 note) |
 | 64 | `0x199EEC` | `movw r0,#0x59F2` | `movw r0,#0x64C2` | D flag-array base (`2300 x 1 B`) | `emulate` at site if `is_block(0x199EEC)`; else `clone` | **entry** `[I]`: `ui-page-bound` §3 names `0x199EEC` as a function |
-| 65 | `0x199F54` | `movw r0,#0x59F2` | `movw r0,#0x64C2` | D base (same routine family) | `clone` at `B` (likely `0x199EEC`) | `[I]` |
+| 65 | `0x199F54` | `movw r0,#0x59F2` | `movw r0,#0x64C2` | D base (same routine family) | `emulate` at site (probe `is_block` 1) | **block start** (probe): `0x199F54` |
 | 66 | `0x199FBC` | `movw r0,#0x59F2` | `movw r0,#0x64C2` | D base | `clone` at `B` (probe) | `[I]` |
 | 67 | `0x19A11C` | `movw r1,#0x59F2` | `movw r1,#0x64C2` | D base | `clone` at `B` (probe) | `[I]` |
 | 68 | `0x19A1F8` | `movw r0,#0x59F2` | `movw r0,#0x64C2` | D base | `clone` at `B` (probe) | `[I]` |
 | 69 | `0x19A268` | `movw r0,#0x59F2` | `movw r0,#0x64C2` | D base | `clone` at `B` (probe) | `[I]` |
 | 70 | `0x19A2E0` | `movw r0,#0x59F2` | `movw r0,#0x64C2` | D base | `clone` at `B` (probe) | `[I]` |
-| 71 | `0x19A368` | `movw r0,#0x59F2` | `movw r0,#0x64C2` | D base | `clone` at fn `0x19A360` | `[I]` 8 B into fn `0x19A360` (`ui-page-bound` §3) |
+| 71 | `0x19A368` | `movw r0,#0x59F2` | `movw r0,#0x64C2` | D base | `emulate` at site (probe `is_block` 1) | **block start** (probe): `0x19A368` (8 B into fn `0x19A360`) |
 | 72 | `0x19A414` | `movw r0,#0x59F2` | `movw r0,#0x64C2` | D base | `clone` at `B` (probe) | `[I]` |
 | 73 | `0x19A4E0` | `movw r1,#0x59F2` | `movw r1,#0x64C2` | D base, serializer path | `clone` at `B` (probe) | `[I]` |
 | 74 | `0x716A28` | `movw r2,#0x59F2` | `movw r2,#0x64C2` | D base read in UI code | `clone` at `B` (probe) | `[I]` UI function, not in `tiers.csv` |
@@ -301,19 +301,19 @@ Notes for this chunk:
 
 | 76 | `0x71BF8C` | `movw r3,#0x59F2` | `movw r3,#0x64C2` | D base read in UI code | `clone` at `B` (probe) | `[I]` |
 | 77 | `0x71C694` | `movw r3,#0x59F2` | `movw r3,#0x64C2` | D base read in UI code | `clone` at `B` (probe) | `[I]` |
-| 78 | `0x19A8FC` | `movw r1,#0x62D6` | `movw r1,#0x6DA6` | backup-source adjustment: `sub r5,r7,#imm` must still yield `obj+0x1A` (`0x6DC0-0x6DA6=0x1A`) | `clone` at fn `0x19A8D8` (shares #17) | `[I]` interior |
-| 79 | `0x198BE8` | `movw r1,#0x62F0` | `movw r1,#0x6DC0` | heap pointer field `obj+0x62F0` in the ctor | `clone` at fn `0x198BB0` (shares #62) | **entry**: `0x198BB0` |
-| 80 | `0x198C80` | `movw r1,#0x62F0` | `movw r1,#0x6DC0` | heap pointer field in the second ctor | `clone` at fn `0x198C74` (shares #63) | **entry**: `0x198C74` |
+| 78 | `0x19A8FC` | `movw r1,#0x62D6` | `movw r1,#0x6DA6` | backup-source adjustment: `sub r5,r7,#imm` must still yield `obj+0x1A` (`0x6DC0-0x6DA6=0x1A`) | `clone` at `0x19A8EC` (probe B; fn `0x19A8D8`; shares #18) | `[I]` interior |
+| 79 | `0x198BE8` | `movw r1,#0x62F0` | `movw r1,#0x6DC0` | heap pointer field `obj+0x62F0` in the ctor | `clone` at `0x198BE4` (probe B; fn `0x198BB0`; shares #62) | **entry**: `0x198BB0` |
+| 80 | `0x198C80` | `movw r1,#0x62F0` | `movw r1,#0x6DC0` | heap pointer field in the second ctor | `clone` at `0x198C7C` (probe B; fn `0x198C74`; shares #63) | **entry**: `0x198C74` |
 | 81 | `0x198CE4` | `movw r0,#0x62F0` | `movw r0,#0x6DC0` | heap pointer in destructor 1 (free + store 0) | `clone` at fn `0x198CC8` | **entry**: `0x198CC8` (`ui-page-bound` §1) |
 | 82 | `0x198D40` | `movw r0,#0x62F0` | `movw r0,#0x6DC0` | heap pointer in destructor 2 | `clone` at fn `0x198D24` | **entry**: `0x198D24` |
-| 83 | `0x19A8EC` | `movw r1,#0x62F0` | `movw r1,#0x6DC0` | heap pointer in open-box copy+verify | `clone` at fn `0x19A8D8` | **entry**: `0x19A8D8` |
-| 84 | `0x19AA98` | `movw r1,#0x62F0` | `movw r1,#0x6DC0` | heap pointer in copy-out (store `[r4,r1]`) | `clone` at fn `0x19AA88` | **entry**: `0x19AA88` |
+| 83 | `0x19A8EC` | `movw r1,#0x62F0` | `movw r1,#0x6DC0` | heap pointer in open-box copy+verify | `emulate` at site (probe `is_block` 1) | **block start** (probe): `0x19A8EC` |
+| 84 | `0x19AA98` | `movw r1,#0x62F0` | `movw r1,#0x6DC0` | heap pointer in copy-out (store `[r4,r1]`) | `emulate` at site (probe `is_block` 1) | **block start** (probe): `0x19AA98` |
 | 85 | `0x19AAB0` | `movw r1,#0x62F0` | `movw r1,#0x6DC0` | heap pointer in copy-back `memcpy(dst, src, len)` | `emulate` at site (site is fn entry), or `clone` at `0x19AAB0` | **entry**: `0x19AAB0` (`ui-page-bound` §1) |
 | 86 | `0x19AACC` | `movw r0,#0x62F0` | `movw r0,#0x6DC0` | heap pointer in free routine (free + store 0) | `clone` at fn `0x19AAC4` | **entry**: `0x19AAC4` |
-| 87 | `0x19A544` | `movw r0,#0x62F4` | `movw r0,#0x6DC4` | preset base passed to the serializer | `clone` at fn `0x19A4EC` | **entry**: `0x19A4EC` |
-| 88 | `0x19A5BC` | `movw r0,#0x62F4` | `movw r0,#0x6DC4` | preset base passed to the deserializer | `clone` at fn `0x19A55C` | **entry**: `0x19A55C` |
+| 87 | `0x19A544` | `movw r0,#0x62F4` | `movw r0,#0x6DC4` | preset base passed to the serializer | `emulate` at site (probe `is_block` 1) | **block start** (probe): `0x19A544` |
+| 88 | `0x19A5BC` | `movw r0,#0x62F4` | `movw r0,#0x6DC4` | preset base passed to the deserializer | `emulate` at site (probe `is_block` 1) | **block start** (probe): `0x19A5BC` |
 | 89 | `0x19A6D4` | `movw r0,#0x62F4` | `movw r0,#0x6DC4` | preset base in preset read path | `clone` at `B` (probe) | `[I]` |
-| 90 | `0x19A87C` | `movw r0,#0x62F4` | `movw r0,#0x6DC4` | preset base in preset-record init | `clone` at fn `0x19A854` | `[I]` interior (`preset-deadzone` §1.1) |
+| 90 | `0x19A87C` | `movw r0,#0x62F4` | `movw r0,#0x6DC4` | preset base in preset-record init | `clone` at `0x19A878` (probe B; fn `0x19A854`) | `[I]` interior (`preset-deadzone` §1.1) |
 
 Notes for this chunk:
 
@@ -336,18 +336,18 @@ Notes for this chunk:
 | 91 | `0x19AB7C` | `movw r0,#0x62F4` | `movw r0,#0x6DC4` | preset base in preset accessor | `clone` at `B` (probe) | `[I]` between fn `0x19AB48` and `0x19ABA8` |
 | 92 | `0x19ABAC` | `movw r3,#0x62F4` | `movw r3,#0x6DC4` | preset base in `getPresetPtr` | `clone` at fn `0x19ABA8` (4 B in) | **entry**: `0x19ABA8` |
 | 93 | `0x19ABC8` | `movw r3,#0x62F4` | `movw r3,#0x6DC4` | preset base in `getPresetPtr2` | `clone` at fn `0x19ABC4` (4 B in) | **entry**: `0x19ABC4` |
-| 94 | `0x19B19C` | `movw r0,#0x62F4` | `movw r0,#0x6DC4` | preset base in equip->preset copy | `clone` at fn `0x19B110` | `[I]` interior (`preset-deadzone` §1.1) |
+| 94 | `0x19B19C` | `movw r0,#0x62F4` | `movw r0,#0x6DC4` | preset base in equip->preset copy | `clone` at `0x19B198` (probe B; fn `0x19B110`) | `[I]` interior (`preset-deadzone` §1.1) |
 | 95 | `0x19B218` | `movw r0,#0x62F4` | `movw r0,#0x6DC4` | preset base (record copy family) | `clone` at `B` (probe) | `[I]` |
 | 96 | `0x19B270` | `movw r0,#0x62F4` | `movw r0,#0x6DC4` | preset base (record copy family) | `clone` at `B` (probe) | `[I]` |
-| 97 | `0x19B370` | `movw r1,#0x62F4` | `movw r1,#0x6DC4` | preset base in rename/set-name | `clone` at fn `0x19B360` (0x10 B in) | **entry**: `0x19B360` |
+| 97 | `0x19B370` | `movw r1,#0x62F4` | `movw r1,#0x6DC4` | preset base in rename/set-name | `clone` at `0x19B368` (probe B; fn `0x19B360`) | **entry**: `0x19B360` |
 | 98 | `0x198E98` | `movw r0,#0x631D` | `movw r0,#0x6DED` | preset record name tail (`base+0x29`) | `clone` at `B` (probe) | `[I]` same init family as #60 |
 | 99 | `0x19A780` | `movw r0,#0x631D` | `movw r0,#0x6DED` | preset record name tail | `clone` at `B` (probe) | `[I]` |
-| 100 | `0x19A890` | `movw r0,#0x631D` | `movw r0,#0x6DED` | preset record name tail in record init | `clone` at fn `0x19A854` | `[I]` interior |
+| 100 | `0x19A890` | `movw r0,#0x631D` | `movw r0,#0x6DED` | preset record name tail in record init | `emulate` at site (probe `is_block` 1) | **block start** (probe): `0x19A890` |
 | 101 | `0x19B2CC` | `movw r2,#0x631D` | `movw r2,#0x6DED` | preset record name tail | `clone` at `B` (probe) | `[I]` |
 | 102 | `0x19B31C` | `movw r2,#0x631D` | `movw r2,#0x6DED` | preset record name tail | `clone` at `B` (probe) | `[I]` |
-| 103 | `0x19ABFC` | `movw r9,#0x631E` | `movw r9,#0x6DEE` | preset record equipment area (`base+0x2A`) | `clone` at fn `0x19ABE0` | `[I]` interior of `applyPreset` |
+| 103 | `0x19ABFC` | `movw r9,#0x631E` | `movw r9,#0x6DEE` | preset record equipment area (`base+0x2A`) | `clone` at `0x19ABF0` (probe B; fn `0x19ABE0`) | `[I]` interior of `applyPreset` |
 | 104 | `0x19B098` | `movw r9,#0x631E` | `movw r9,#0x6DEE` | preset record equipment area | `clone` at `B` (probe) | `[I]` |
-| 105 | `0x19B22C` | `movw r1,#0x631E` | `movw r1,#0x6DEE` | preset record equipment area | `clone` at `B` (probe) | `[I]` |
+| 105 | `0x19B22C` | `movw r1,#0x631E` | `movw r1,#0x6DEE` | preset record equipment area | `emulate` at site (probe `is_block` 1) | **block start** (probe): `0x19B22C` |
 
 Notes for this chunk:
 
@@ -371,20 +371,20 @@ Notes for this chunk:
   serializer/rename/apply paths and are independent of the base patch; both must
   land.
 
-| 106 | `0x19B284` | `movw r1,#0x631E` | `movw r1,#0x6DEE` | preset record equipment area | `clone` at `B` (probe) | `[I]` |
+| 106 | `0x19B284` | `movw r1,#0x631E` | `movw r1,#0x6DEE` | preset record equipment area | `emulate` at site (probe `is_block` 1) | **block start** (probe): `0x19B284` |
 | 107 | `0x19B2DC` | `movw r2,#0x631E` | `movw r2,#0x6DEE` | preset record equipment area | `clone` at `B` (probe) | `[I]` |
 | 108 | `0x19B32C` | `movw r2,#0x631E` | `movw r2,#0x6DEE` | preset record equipment area | `clone` at `B` (probe) | `[I]` |
 | 109 | `0x19A650` | `movw r0,#0x6320` | `movw r0,#0x6DF0` | preset record field `base+0x2C` | `clone` at `B` (probe) | `[I]` |
-| 110 | `0x19A810` | `movw r1,#0x6320` | `movw r1,#0x6DF0` | preset record field in `presetHasAnyEquip` | `clone` at fn `0x19A7F8` (0x18 B in) | **entry**: `0x19A7F8` |
+| 110 | `0x19A810` | `movw r1,#0x6320` | `movw r1,#0x6DF0` | preset record field in `presetHasAnyEquip` | `clone` at `0x19A808` (probe B; fn `0x19A7F8`) | **entry**: `0x19A7F8` |
 | 111 | `0x19AAEC` | `movw r1,#0x6320` | `movw r1,#0x6DF0` | preset record field in `anyPresetNonEmpty` | `emulate` at site if `is_block`; else `clone` | **entry** `[I]`: `0x19AAEC` (`preset-deadzone` §1.1) |
 | 112 | `0x19AE8C` | `movw r0,#0x6320` | `movw r0,#0x6DF0` | preset record field | `clone` at `B` (probe) | `[I]` possibly `applyPreset` body |
-| 113 | `0x19B128` | `movw r1,#0x6320` | `movw r1,#0x6DF0` | preset record field in equip->preset copy | `clone` at fn `0x19B110` (0x18 B in) | `[I]` interior |
-| 114 | `0x198BD4` | `movw r1,#0x72E4` | `movw r1,#0x7DB4` | object total size passed to the allocator in the ctor | `clone` at fn `0x198BB0` | **entry**: `0x198BB0` |
-| 115 | `0x19B478` | `movw r3,#0x72E4` | `movw r3,#0x7DB4` | object size used by the set-name/record path | `clone` at fn `0x19B360` | `[I]` interior |
+| 113 | `0x19B128` | `movw r1,#0x6320` | `movw r1,#0x6DF0` | preset record field in equip->preset copy | `clone` at `0x19B124` (probe B; fn `0x19B110`) | `[I]` interior |
+| 114 | `0x198BD4` | `movw r1,#0x72E4` | `movw r1,#0x7DB4` | object total size passed to the allocator in the ctor | `clone` at `0x198BC4` (probe B; fn `0x198BB0`) | **entry**: `0x198BB0` |
+| 115 | `0x19B478` | `movw r3,#0x72E4` | `movw r3,#0x7DB4` | object size used by the set-name/record path | `clone` at `0x19B430` (probe B; fn `0x19B360`) | `[I]` interior |
 | 116 | `0x3D925C` | `movw r0,#0x72E4` | `movw r0,#0x7DB4` | object size passed to the second allocator/factory | `clone` at `B` (probe) | `[I]` (`preset-deadzone` §2.4 names it an allocation site) |
 | 117 | `0x5B807C` | `movw r2,#0x240A` | `movw r2,#0x2EDA` | UI direct read of the B page base | `clone` at `B` (probe) | `[I]` **disputed object** - see note |
 | 118 | `0x5B8084` | `movw r3,#0x59F2` | `movw r3,#0x64C2` | UI direct read of the D page base | `clone` at `B` (probe) | `[I]` **disputed object** - see note |
-| 119 | `0x19AC08` | `movw r0,#0x6322` | `movw r0,#0x6DF2` | preset record `base+0x2E` in `applyPreset` | `clone` at fn `0x19ABE0` | `[I]` interior |
+| 119 | `0x19AC08` | `movw r0,#0x6322` | `movw r0,#0x6DF2` | preset record `base+0x2E` in `applyPreset` | `clone` at `0x19ABF0` (probe B; fn `0x19ABE0`; shares #103) | `[I]` interior |
 | 120 | `0x19A800` | `cmp r1,#0x17` | `cmp r1,#0x0D` | preset guard: `presetHasAnyEquip` bound 23 -> 13 | `clone` at fn `0x19A7F8` (8 B / 2-insn prefix) | **entry**: `0x19A7F8` (`preset-deadzone` §1.1) |
 
 Notes for this chunk:
@@ -482,11 +482,18 @@ Consequences:
 1. There is **no data-write shortcut**. Even the two `mov r2,#0xFF0` sites are
    instructions, not data; writing `0x985` into a literal pool does nothing
    because no literal holds it.
-2. A faithful port needs at most 123 hooks, but the table groups lines by
-   containing function/block: several rows share one hook (e.g. #1-#3 at
-   `0x198F44`, #5-#6 at `0x198FE8`, #17-#18 at `0x19A8D8`, #87-#88 at the
-   serializer/deserializer). The exact hook count is settled by the `is_block`
-   probe; it is bounded by 123 and is likely 50-70.
+2. A faithful port needs **103 hooks**, settled by the committed `is_block` probe
+   (`docs/patches/runs/boxprobe-20261024.txt`: words 123/123, block starts
+   123/123, distinct B 103, missing B 0). 25 rows are themselves block starts and
+   need a hook at the site itself (an `emulate`, or `replace-fn` for #23); the
+   other 98 rows report 87 distinct containing blocks (`B`), 9 of which are already
+   block-start sites, so 78 more `clone` hooks: 25 + 78 = 103. Rows share a hook
+   only when the probe gives them the same `B` (e.g. #1-#3 at `0x198F44`, #5-#6 at
+   `0x198FE8`); #17/#18 do not share (`0x19A8D8` vs `0x19A8EC`), and #87/#88
+   (`0x19A544`, `0x19A5BC`) are block starts that need no clone. The earlier
+   "likely 50-70" estimate was wrong because a function entry is not the block that
+   holds the site: an inner `bl` starts a new block, e.g. #41's site `0x199B68`
+   lives in the block at `0x199B4C`, not at the function entry `0x199AE4`.
 3. The pchtxt's own save-format effect (bitstream 7106 B at `+0x278`, preset block
    2437 B at `+0x1E3A`, section total `0x2547`) is produced by rows 7-11 and the
    serializer/deserializer constants. A plugin port that applies those rows keeps
@@ -703,7 +710,9 @@ bits. There is no checksum, so corruption is silent (`DEVELOP.md` decision table
 
 ## 5. Start-up verification plan (for the implementing agent)
 
-This document is static; the following steps settle every `[I]` cell at run time:
+This document is static; the following steps settle every `[I]` cell at run time
+(a run of exactly this probe is committed at `docs/patches/runs/boxprobe-20261024.txt`
+and its result is used in section 3):
 
 1. `on_game_start`: enumerate modules, pick alias `main`, compute
    `base = text_start`, assert `text_start + 0x13F1DEC <= text_end`, log the base.

@@ -116,8 +116,9 @@ ordinary group entry, so do not "fix" 100 % rows by rule.
 
 `main` loads the quest arc at quest start and keeps 4 reward tables + the sub table; the class strings are
 `mRewardTable[0]` @0x156146d / `mRewardTable[2]` @0x156148d / `mRewardPoint[2]` @0x156144d and the resource
-paths are `quest\rem\`, `quest\boss\setEmMain\`, `quest\zako\emSetList\`, `quest\supp\`, `quest\plus\questPlus_`,
-`loc\quest\questLink\questLink_%07d`, `loc\quest\questData\questData_%07d` (name pool 0x155c9f3+; ownership
+paths are `quest\rem\`, `quest\boss\setEmMain\`, `quest\zako\emSetList\`, `quest\supp\`, `quest\plus\questPlus_`
+(name pool 0x155c9f3+, which also holds the unprefixed `quest\questData\questData_`) and the `loc\`-prefixed
+`loc\quest\questData\questData_%07d` @0x1563ab7 / `loc\quest\questLink\questLink_%07d` @0x1563adf (ownership
 function 0x362438, `.tmp/mhgu/inventory/functions.csv:6548`). [P]
 
 ## Adjacent resource: `hagi` (per-monster carve tables)

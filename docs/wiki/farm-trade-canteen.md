@@ -11,7 +11,7 @@
 | 代号 | 实际来源 | 本页用它证明什么 | 可信度 |
 |---|---|---|---|
 | `Kitchen` | `chS/table/Kitchen_chS.gmd #i`（301 条） | 食堂 UI 全部官方中文名：餐券/高级餐券/委托万能烧烤/酱汁/口味/效果名/设施LV | 官方文本（chS） |
-| `TradeShop` | `chS/table/Lb_TradeShopMsg_chS.gmd #i`（145 条） | 交易窗口菜单、4 个交易地点的官方名与说明、期待值/小费、缴纳委托报酬名 | 官方文本（chS） |
+| `TradeShop` | `chS/table/Lb_TradeShopMsg_chS.gmd #i`（146 条） | 交易窗口菜单、4 个交易地点的官方名（`#22`–`#25`）与说明（`#89`–`#92`）、期待值/小费、缴纳委托报酬名 | 官方文本（chS） |
 | `TradeNPC` | `chS/table/npc/script/npc_623_td_chS.gmd #i` | 交易窗口 NPC 剑喵丸的讲解：3 功能、地点解锁顺序、随从车 1→2→3、商人橡子 | 官方文本（chS） |
 | `LbHelp` | `chS/table/LbHelp_chS.gmd #i`（416 条） | 系统说明：用餐支付/餐券/技能来源/研究食材；增加道具与期待值；点数兑换折扣；猛喵队规则 | 官方文本（chS） |
 | `Labo` | `chS/table/Lb_LaboratoryMsg_chS.gmd #i` | 龙识船研究室 3 个菜单（道具补给队 / 防具合成 / 扩展研究室） | 官方文本（chS） |
@@ -105,7 +105,7 @@
 | 3 | 摩加养蜂联合 | `MogaBeekeepingUnion` | 「位于孤岛的村庄中的养蜂所发展出的联合组织。经营着蜂蜜与可用于调和的虫素材、虫饵类」 | 剧情推进后追加 `TradeNPC #26` |
 | 4 | 丹治亚海鲜鱼市 | `TanjiaFishMarket` | 「位于交易繁荣的港口丹治亚中每天开张的鱼市场。经营着可用于调和与万能烧烤的鱼类」 | 剧情推进后追加 `TradeNPC #28` |
 
-来源：`TradeShop #22-25` 与 `TradeShop #89-92`（说明文本）、解锁顺序 `TradeNPC #5/#24/#26/#28`。
+来源：`TradeShop #22-25` 与 `TradeShop #89-92`（说明文本）、解锁顺序 `TradeNPC #5/#24/#26/#28`。**别和 `mhgu.db` 的 `meow_locations` 表 6 行混淆**：那 6 行是猛喵队的 6 个探索地带（`Forest`/`Wetlands`/`Desert`/`Tundra`/`Coast`/`Volcano`，见 §5），与交易窗口这 4 个地点不是同一套 id。
 **对既有整理的更正**：`systems.md §3.2` 只有 **3 行**（暖暖农场 / 莫加养蜂组合 / 坦吉亚鲜鱼市），且**整组蘑菇完全缺失**；`wiki 2827` 有 **4 段**（农场植物 / 蘑菇 / 养蜂 / 鱼市），只是蘑菇段与农场段印在同一页。游戏内是 **4 个独立地点**，蘑菇组对应第 2 个地点 `[推断]`：依据是官方键名 `JumboMushroomMountain`（`TradeShop #23`）+ `TradeShop #90`「位于浆波村的高湿度山林……经营着各种各样的菇类」。
 
 ### 2.4 各地点可生产的道具与 pts（wiki 2827）
