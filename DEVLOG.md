@@ -1305,6 +1305,16 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 
 **还原**：进程按路径核验后 `Stop-Process`（`I:\suyu\export\*`），`keyboard_enabled` 改回 `false`。
 
-**哈希校验的一个坑**：`sha256sum -c SHA256SUMS.txt` 对**全部 8 个文件**报 FAILED，但逐字段比对（`sha256sum <file>` vs 清单第一列）**完全相同**，且活动存档与备份完全相同——即存档**未被改动**。所以本机环境下 `sha256sum -c` 不可信，必须逐文件比对哈希字符串。这条要写进 §2e 的检查清单。
+**哈希校验的一个坑**：`sha256sum -c SHA256SUMS.txt` 对**全部 8 个文件**报 FAILED，但逐字段比对（`sha256sum <file>` vs 清单第一列）**完全相同**。已知向量自检 `printf abc | sha256sum` 得到 `ba7816bf…0015ad`（**正确**），所以坏的是 `-c` 的清单解析，不是哈希实现。改用独立实现复核（`G:/omp works/.tmp/verify-save-hashes.ps1`，.NET `SHA256`；本机 PowerShell 没有 `Get-FileHash`）：
+
+| 文件 | 活动 vs 备份 | 哈希（前 16 位） |
+|---|---|---|
+| `Lay1nn_HR198.hnt` | **SAME** | `69392BE8BC719A2C…` |
+| `Sakiko_HR5.hnt` | **SAME** | `54826478D1F0EAF0…` |
+| `system` | **SAME** | `1D2E7316586E118C…` |
+| `system_backup` | **SAME** | `86DBFBD7594347D7…` |
+| `qt-config.ini` | **SAME** | `CD48A4F6AEA7B64D…` |
+
+即：存档未被改动，`keyboard_enabled` 的 true→false 往返把配置还原到**逐字节相同**。结论：本机 `sha256sum -c` 不可信，校验一律逐文件比对哈希字符串。
 
 **结论**：这一轮实机只买到两个事实：①导出 exe 在本机能启动并跑到标题；②存档在两次启动/退出后逐字节未变（`Lay1nn_HR198.hnt` = `69392be8…42e5e2`）。存档选择、编辑器、DLC 页仍然只能由用户点击验证。
