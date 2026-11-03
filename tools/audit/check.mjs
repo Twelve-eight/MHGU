@@ -136,5 +136,37 @@ try {
   bad(`canonical metric failed: ${String(e.message).slice(0, 120)}`);
 }
 
+// 10. the other four headline numbers in METER's header line come from four report rows, and were retyped by hand just
+// like the calibre. The optimistic end had drifted to 82.6% while the report says 82.5% (4,315,652/5,228,277 = 82.54%),
+// in a section that itself claims both endpoints have one source. Read them back.
+try {
+  const rows = fs.readFileSync(path.join(ROOT, "docs/analysis/code/inventory/coverage-report.tsv"), "utf8").split(/\r?\n/);
+  const row = (prefix) => rows.find((l) => l.startsWith(prefix));
+  const numCell = (l, i) => (l ? l.split("\t")[i] : null);
+  const src = [
+    numCell(row("covered at >=90% precision"), 3), numCell(row("covered at >=90% precision"), 4),
+    numCell(row("covered, spread pooled at 72.4%"), 3), numCell(row("covered, spread pooled at 72.4%"), 4),
+    numCell(row("expected explained fraction (precision-weighted"), 3),
+    numCell(row("expected explained fraction (optimistic"), 3),
+    numCell(row("partition: no label"), 3), numCell(row("partition: no label"), 4),
+  ].map((x) => (x || "").replace("%", ""));
+  if (src.some((x) => !/^\d+\.\d$/.test(x))) bad(`coverage-report.tsv headline rows unreadable: ${JSON.stringify(src)}`);
+  else {
+    const allowed = new Set([...src, "72.4"]); // 72.4 is the pooled precision quoted in the row's own label
+    const line = fs.readFileSync(path.join(ROOT, "docs/analysis/code/coverage/METER.md"), "utf8")
+      .split(/\r?\n/).find((l) => l.includes("当前口径"));
+    if (!line) bad("METER.md has no 当前口径 line");
+    else {
+      const got = [...line.matchAll(/(\d+\.\d)%/g)].map((m) => m[1]);
+      const missing = src.filter((x) => !got.includes(x));
+      const extra = got.filter((x) => !allowed.has(x));
+      if (missing.length || extra.length) bad(`METER.md header does not match the report: missing ${missing.join("/") || "-"}, unexpected ${extra.join("/") || "-"}`);
+      else ok(`METER.md header numbers match coverage-report.tsv (${src.join("/")})`);
+    }
+  }
+} catch (e) {
+  bad(`headline cross-check failed: ${String(e.message).slice(0, 120)}`);
+}
+
 console.log(failures ? `\n${failures} check(s) failed` : "\nALL PASS");
 process.exit(failures ? 1 : 0);
