@@ -234,14 +234,21 @@ let pDir = 0, pDirIns = 0, pInf = 0, pInfIns = 0, pSig = 0, pSigIns = 0, pSpV = 
 // Individual CP95: online-nex 91.5, monster-em 91.6, render-gfx 89.0, weapon-wp 80.3. render-gfx and weapon-wp miss on their
 // own but the pool of the four is 7,464/8,146 = 91.6% (CP95 91.1), so the four stay together as one validated class and no
 // further label is admitted: quest 70.3, physics-math 72.3, ui 80.7, otomo-ot 51.4, player-pl 61.0, item 45.8, save-data 60.1.
-const VALID_SPREAD = new Set(["online-nex", "weapon-wp", "render-gfx", "monster-em"]);
+// Independently measured (spread-precision-independent.mjs: truth is A-direct evidence, which propagation never produces):
+// online-nex 99.8% (CP95 99.3) and weapon-wp 98.4% (96.5) hold; render-gfx falls to 83.6% (81.7) and monster-em to 22.6%
+// (15.9). The old 90.1/92.8 numbers came from scoring the propagation against its own output, so only the first two stay.
+const VALID_SPREAD = new Set(["online-nex", "weapon-wp"]);
 // Second, vote-count-based rule for labels whose overall precision is too low but whose high-vote rows are not: ui is 73%
 // at one agreeing neighbour, 86% at two and 94.1% at three (CP95 92.9); kernel-os is 38% at one, 97.2% at two (90.3);
 // audio 3+ is 100% (90.6); weapon-wp 3+ is 96.9% (92.4). Measured by spread-precision.mjs with the same held-out windows.
 // Production votes use every anchor, the calibration removed the window's own: a production count of k corresponds to the
 // measured k-1 cell, so every threshold is shifted up by one. ui therefore needs 4 (measured cell 3+ = 94.1%, CP95 92.9),
 // kernel-os 3 (2 = 97.2/90.3), audio 4 (3+ = 100/90.6), weapon-wp 4 (3+ = 96.9/92.4).
-const VOTE_THRESHOLD = { ui: 4, "kernel-os": 3, audio: 4, "weapon-wp": 4 };
+// Disabled: those cells were measured against propagation-produced labels, which is the same self-consistency problem the
+// spread class had. They stay listed so the shape is not lost, and the partition counts zero until an independent
+// measurement replaces them.
+const VOTE_THRESHOLD = {};
+const VOTE_THRESHOLD_UNCALIBRATED = { ui: 4, "kernel-os": 3, audio: 4, "weapon-wp": 4 };
 const spreadVotes = new Map();
 if (fs.existsSync(path.join(INV, "spread-votes.tsv"))) {
   for (const l of fs.readFileSync(path.join(INV, "spread-votes.tsv"), "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
@@ -289,7 +296,7 @@ rows.push(["partition: no label", String(pNone), String(pNoneIns), pct(pNoneIns,
 // so it must never be quoted as "every label is at least 85%".
 rows.push(["covered at >=90% precision", String(pDir + pInf + pSig + pSpV + pSpVote), String(pDirIns + pInfIns + pSigIns + pSpVIns + pSpVoteIns),
   pct(pDirIns + pInfIns + pSigIns + pSpVIns + pSpVoteIns, totalIns), pct(pDir + pInf + pSig + pSpV + pSpVote, totalFn)]);
-rows.push(["covered at >=85% precision (pooled spread; per-label floor 58.6%)", String(pDir + pInf + pSig + pSpV + pSpVote + pSpU), String(pDirIns + pInfIns + pSigIns + pSpVIns + pSpVoteIns + pSpUIns),
+rows.push(["covered at >=72% precision (spread class, independently measured 72.4%)", String(pDir + pInf + pSig + pSpV + pSpVote + pSpU), String(pDirIns + pInfIns + pSigIns + pSpVIns + pSpVoteIns + pSpUIns),
   pct(pDirIns + pInfIns + pSigIns + pSpVIns + pSpVoteIns + pSpUIns, totalIns), pct(pDir + pInf + pSig + pSpV + pSpVote + pSpU, totalFn)]);
 rows.push(["spread labels (86.0% overall, CP95 85.5)", String(pSpU), String(pSpUIns),
   pct(pSpUIns, totalIns), pct(pSpU, totalFn)]);

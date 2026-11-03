@@ -9,10 +9,10 @@ headline A only	25584	3014249	57.7%	48.6%
 partition: direct evidence	13060	1248128	23.9%	24.8%
 partition: inferred only	13061	2180911	41.7%	24.8%
 partition: signature only	1255	121282	2.3%	2.4%
-partition: spread validated labels	6668	671320	12.8%	12.7%
-partition: spread validated by vote count	56	1533	0.0%	0.1%
-partition: spread unvalidated	5803	474071	9.1%	11.0%
+partition: spread validated labels	2116	128204	2.5%	4.0%
+partition: spread validated by vote count	0	0	0.0%	0.0%
+partition: spread unvalidated	10411	1018720	19.5%	19.8%
 partition: no label	12789	531032	10.2%	24.3%
-covered at >=90% precision	34100	4223174	80.8%	64.7%
-covered at >=85% precision (pooled spread; per-label floor 58.6%)	39903	4697245	89.8%	75.7%
-spread labels (86.0% overall, CP95 85.5)	5803	474071	9.1%	11.0%
+covered at >=90% precision	29492	3678525	70.4%	56.0%
+covered at >=72% precision (spread class, independently measured 72.4%)	39903	4697245	89.8%	75.7%
+spread labels (86.0% overall, CP95 85.5)	10411	1018720	19.5%	19.8%
