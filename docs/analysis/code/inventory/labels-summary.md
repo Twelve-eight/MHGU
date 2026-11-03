@@ -27,15 +27,15 @@
 
 | 子系统 | 函数 | 证据 |
 |---|---|---|
-| monster-em | `0xcb0` | ctor: rAngleLimitData |
+| monster-em | `0x459e0` | cEmDouMouKa_PartsAuraData_Element registrar 0x479a0 vtable 0x1731b20 slot 2 (class-record vtable written by str at 0x48308) |
 | render-gfx | `0x16984` | rStageCameraData registrar 0x17b5c vtable 0x1730b6c slot 2 (class-record vtable written by str at 0x17e20) [classprefix-map rStageCamera -> render-gfx, basis: r |
 | ui | `0x8914` | cUIOResultClearing::cRewardListDispParam registrar 0x8674 vtable 0x172fcc4 slot 2 (class-record vtable written by str at 0x9308) [classprefix-map cUI -> ui, bas |
-| online-nex | `0x1168` | string "_ZN2nn3ldn16GetNetworkConfigEPNS0_13NetworkConfigE" |
-| quest | `0x5bd8` | aQuest class consensus: 3/3 of the class's evidence-bearing members are quest |
+| online-nex | `0x17c540` | 4 of 4 referenced strings are RendezVous/NEX/PIA symbols and net_* member paths: N2nn3pia5local23LocalNetworkDescriptionE \| N2nn3pia5local14LdnSessionInfoE \|  |
+| quest | `0x2bd0c` | rPastQuestGroup registrar 0x2bc10 vtable 0x1730f80 slot 2 (class-record vtable written by str at 0x2c13c) |
 | physics-math | `0x360` | 3 of 4 referenced strings are collision/math parameter names: mPointPos \| mRadius \| mMinRadius |
-| weapon-wp | `0xe0e8` | rWeapon14MsgData class-record slot [classprefix-map rWeapon -> weapon-wp, basis: rWeapon00BaseData; rWeaponMsgData; rWeaponCreateData] |
+| weapon-wp | `0xd9b94` | cBowgunShellData registrar 0xd9de8 vtable 0x1736304 slot 2 (class-record vtable written by str at 0xda014) [classprefix-map cBowgun -> weapon-wp, basis: cBowgun |
 | otomo-ot | `0x9cb8` | nPastMonNyan::cMonNyanAdventEnemy registrar 0xb450 vtable 0x172ff14 slot 2 (class-record vtable written by str at 0xbf74) [relabelled monster-em -> otomo-ot by  |
-| audio | `0x34f4` | string "_ZN2nn5audio17AcquireMemoryPoolEPNS0_19AudioRendererConfigEPNS0_14Memo" |
+| audio | `0x4d3c2c` | cFestaSoundEmitter registrar 0x4d54a0 vtable 0x17694c4 slot 2 (class-record vtable written by str at 0x4d5714) [relabelled monster-em -> audio by class name] |
 | player-pl | `0x9f74` | nPastPlayer::cPlayerParam registrar 0xb450 vtable 0x172feec slot 2 (class-record vtable written by str at 0xc0fc) |
 | save-data | `0x9eac` | nPastMonNyan::cPastSaveDataMember registrar 0xb450 vtable 0x172ff78 slot 2 (class-record vtable written by str at 0xc08c) |
 | item | `0x9d1c` | nPastMonNyan::cPastMonNyanAdventItemData registrar 0xb450 vtable 0x172ff28 slot 2 (class-record vtable written by str at 0xbfac) |

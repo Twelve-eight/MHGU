@@ -17,6 +17,14 @@ const OUT = INV + "labels-summary.md";
 const fns = new Map(zlib.gunzipSync(fs.readFileSync(ROOT + "/docs/data/functions-retile.csv.gz")).toString("utf8")
   .split(/\r?\n/).filter(Boolean).slice(1).map((l) => { const c = l.split(","); return [c[0].toLowerCase(), +c[2]]; }));
 
+// The example is what a reader sees first, so it must come from the strongest source a label has, not the first row
+// encountered: a bare "ctor: <class>" line would teach that direct evidence often means only a class name.
+// rank 3: a structural claim that names the mechanism (slot in a vtable, motion signature, immediate, string list)
+// rank 2: a single named string or an address bracket
+// rank 1: a class name alone, which is the weakest shape and the one this page must not lead with
+const R3 = ["attr-fingerprint.tsv", "attr-vtable-retile.tsv", "attr-vtable-fixed.tsv", "attr-vtable-ns.tsv", "attr-vtable-rtti2.tsv", "attr-vtable-unknown.tsv", "attr-strings2.tsv", "attr-immscan.tsv"];
+const R2 = ["attr-registrar.tsv", "attr-blocks.tsv", "attr-xref.tsv", "attr-prefix.tsv"];
+const rankFile = (f) => R3.includes(f) ? 3 : R2.includes(f) ? 2 : 1;
 const per = new Map();
 let labelledFn = 0;
 for (const l of fs.readFileSync(INV + "function-labels.tsv", "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
@@ -33,7 +41,8 @@ for (const l of fs.readFileSync(INV + "function-labels.tsv", "utf8").split(/\r?\
   if (direct) {
     e.direct++;
     e.files.set(file, (e.files.get(file) || 0) + 1);
-    if (!e.example && reason) { e.example = k; e.exampleEv = reason; }
+    const r = rankFile(file);
+    if (reason && (!e.example || r > e.exampleRank)) { e.example = k; e.exampleEv = reason; e.exampleRank = r; }
   }
 }
 
