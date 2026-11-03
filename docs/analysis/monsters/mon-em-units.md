@@ -26,9 +26,9 @@
 紧接着 `0x1552C0F` 起是 **`roEm###.cro` / `roEms###.cro` 资源文件名列表**（见 C3），
 之后 `0x155303F` 起是属性名块（`rBodyData/bdd/rEmDouMouKaData/...`）。
 
-### C2. **`uEm###_00` 没有任何指针数组、没有任何 xref —— 它不是索引表**
+### C2. `uEm###_00` 没有绝对指针数组/索引表，但由 pc 相对增量逐名 materialize（不是死字符串）
 
-`em-units2.out.txt` 的 5 段独立搜索全部为 0：
+`em-units2.out.txt` 的 B/C/D/E/G/F 段（绝对地址口径）独立搜索全部为 0；补上 pc 相对增量的 H 段后 61/61 命中：
 
 | 段 | 搜索内容 | 结果 |
 |---|---|---|
@@ -38,15 +38,17 @@
 | E | `add rX,pc,#imm`(E28F) 与 `movw/movt` 对指向池内 | **0** |
 | G | 所有 `ldr rX,[pc,#imm]` 的**字面量值**落在池内 | **0** |
 | F | `crc32("uEm001_00")` 等 | 0（无哈希查表） |
+| H | 上述 B–G 都不覆盖的 **`ldr`-delta + `add rD,pc,rX`**（字面量是 **bias**，不是字符串地址） | **61 / 61** 个 `uEm` 名命中，全部位于函数 `0x4F078..0x50838`（如 `0x4F170 ldr r1,[pc,#3856]=0x1503654` → `0x4F178 add r1,pc,r1` → `0x15527D4` = `uEm001_00`；`0x4F180 bl 0x7aedcc`） |
 
 独立复核：同伴 `MonClassMap` 的 `mon-class-map.out.txt` S6 给出
 `# monster strings = 201  with xref = 0`，S4 给出 `# runs with monster names = 0`。
-两条互不相同的算法得同一结论。
+两条互不相同的算法得同一结论——但它们都只查**绝对地址**；§H 的 pc 相对增量形式
+（`ldr` 取 bias + `add rD,pc,rX`，`mon-class-map.md` §3 已有记载）绕过了这两套扫描。
 
-**结论**：`uEm###_00` 是**只读名字字面量（死字符串）**，运行时**不经绝对地址引用**
-（该构建无 RTTI `type_info::__name` 指针、无资源名指针数组）。
-因此任务书里设想的「索引 k ↔ uEm 名」的表**不存在**：`uEm###_00` 的 k **不是** type id，
-**type id 就是名字里那 3 位十进制数本身**（`uEm%03d_00`）。
+**结论**：`uEm###_00` **不是死字符串**——61/61 个名字都在函数 `0x4F078` 里被
+`ldr`-delta + `add rD,pc,rX` 逐个 materialize 后交给类注册 `0x7aedcc`，可以当作代码锚点。
+但任务书里设想的「索引 k ↔ uEm 名」的**指针/索引表确实不存在**（无绝对指针数组、无哈希表）：
+`uEm###_00` 的 k **不是** type id，**type id 就是名字里那 3 位十进制数本身**（`uEm%03d_00`）。
 
 > 范围限制：以上扫描只覆盖 `main.140`（含 `.text` 与 `main` 的 `.rodata`/`.data`）。
 > 同目录下的 `sdk` / `subsdk0` / `rtld` 是**独立模块**，本轮未扫描；如需排除跨模块引用，

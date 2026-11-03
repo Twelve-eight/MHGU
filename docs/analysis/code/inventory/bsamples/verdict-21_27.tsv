@@ -15,7 +15,7 @@ block	start	label	verdict	evidence
 22	0x8043c8	render-gfx	relabel:physics-math	sphere-vs-AABB test: |p2-p1|^2 vs r^2 (vsqrt, VCMPE/bvc), then per-axis min/max clamp of [r5..r5+0x18]; no render state or draw call
 22	0x81e430	render-gfx	relabel:online-nex	mutex pair 0x13efe00/0x13efe0c on [this+344]; reads [this+0x3be8c], calls 0x13b02a4/0x13b0044/0x13ae6b8 and 0x8103b8 (MtNetServiceError cluster); only caller class chains to the MtThread dtor 0x7bdd54; address sits between nn::nex classes 0x81d668 and 0x81fd1c
 22	0x826c38	quest	relabel:filesystem	stream compaction: [this+8]=buffer, [+12]=read pos, [+16]=write pos, [+20]=cap; unrolled byte move of the unread tail to offset 0 then virtual [+52] notify; 34 callers are XML/resource loaders; module is MtFile/MtStream (MtFile::FileInfo 0x82b674, MtStream 0x8394d0)
-22	0x839248	monster-em	relabel:filesystem	installs the MtCipherStream class vtable (GOT class record -> vtable 0x1787e50) then destroys the embedded MtStream at +0x3d0 (bl 0x8394d0, class anchor MtStream) and releases [this+988]
+22	0x839248	monster-em	relabel:filesystem	sits in the MtCipherStream/MtStream class cluster (retile row 0x8391f0 'MtCipherStream registrar 0x8394d0'; 0x8394d0 is attr-library's filesystem 'MtStream'): installs the cluster vtable from GOT 0x1841160 (0x1787e50), destroys the embedded MtStream at +0x3d0 (bl 0x8394d0) and releases [this+988]
 22	0x841b94	monster-em	relabel:online-nex	bl 0x841a84 (destructor: installs class + second base vtable at +0xb4, releases [this+152]) then tail b 0x820ec0, an MtNetObject method that dispatches the object-manager vtable [+52]
 22	0x844ef0	online-nex	confirm	484-byte frame; 12 calls into MtNetUniqueId methods 0x80d698/0x80d6f8 plus 0x80c640/0x80c0bc/0x80d4a4 of the same MtNet cluster; its only caller is online-nex
 22	0x859608	monster-em	unknown	80-byte record copy into [this+152] guarded by a busy flag [this+24], a counter [this+28] and the mutex at [this+4]; calls only memcpy/lock; its single pointer slot is a table entry at 0x1788ae8; nothing names a subsystem
@@ -38,7 +38,7 @@ block	start	label	verdict	evidence
 24	0x8ed708	monster-em	relabel:render-gfx	class uColorFog (exact; GOT class record -> vtable 0x178aa0c); installs the vtable, releases [this+440], calls 0x8eafe4 (uFog) and the object manager
 24	0x90b9b8	otomo-ot	relabel:render-gfx	property registrar: 4 registrations of uFullbodyIKHuman2, uFullbodyIKHuman2::Node, ::uCnsFBIKMatrix, ::uCnsUpVectorCalc (GOT class records 0x178ad18/0x178ad4c; names via pc-relative loads) with a 0..8 index table at 0x1815560
 24	0x9157e4	monster-em	relabel:render-gfx	class uGrassWindLine (exact; vtable 0x178b160): allocates 2160 bytes through the class-object vtable [+32], then bl 0xc5b948 and installs the instance vtable
-24	0x919258	monster-em	relabel:ui	uGUI vtable slot target (0x91921c); installs an MtArray vtable for its child list and clears the +256..+280 block; callers are uFestaGUI x2, uGUIScheduler x2, uGUISubtitles
+24	0x919258	monster-em	relabel:ui	follows the uGUI class-record vtable slot-2 create at 0x91921c (registrar 0x91c79c, string 'uGUI' at 0x91d290) so it is a uGUI method; installs an MtArray vtable for its child list and clears the +256..+280 block; callers uFestaGUI x2, uGUIScheduler x2, uGUISubtitles
 24	0x91ce80	player-pl	relabel:ui	class uGUISubtitles (exact) with pc-relative property names Subtitles/MessageResourcePath/MessageInstanceId; builds {name,type 0x80000006,owner} records and calls the scene-object create 0x91a078
 24	0x923b84	monster-em	relabel:render-gfx	class uAmbientLight (exact): installs uLight (0x178b70c) then uAmbientLight (0x178b7cc) vtables, 976-byte allocation, string system\texture\DefaultCube_CM
 24	0x92a00c	monster-em	relabel:render-gfx	class uCapsuleCubeMapLight (exact): installs uLight then uCapsuleCubeMapLight (0x178bad0) vtables, 1168-byte allocation
@@ -51,14 +51,14 @@ block	start	label	verdict	evidence
 25	0x968dc0	player-pl	relabel:render-gfx	class uScreenSpace (exact); 24 property adds incl. mpCamera/mNearPlane/mFarPlane/mFOV/mSceneDrawMode/mClearColor/mFXAA/mDistortionEnabled/mpColorTarget
 25	0x9796b0	monster-em	relabel:render-gfx	class uSpotShadow (exact; vtable 0x178ca90): installs the vtable and calls 0x96c7f8/0x9f68ac
 25	0x981d68	monster-em	relabel:render-gfx	class uCuboidShadowRegion (exact): installs uShadowRegion (0x178cc24) and releases [this+0] via 0xbd5d64 (string mpTestTexture) and 0x8879b4
-25	0x9964e8	quest	relabel:render-gfx	fills 176-byte light constant blocks: three colour triples at +0x30/+0x40/+0x50 built from [this+0x370..0x390] plus the (1-r^2) range falloff at +0xb8; the source light object is [this+624]
+25	0x9964e8	quest	relabel:render-gfx	fills 176-byte light constant blocks: three colour triples at +0x30/+0x40/+0x50 built from [this+0x370..0x390] plus (r^2+1) and -2r stored at +0xb8/+0xbc; the source light object is [this+624]
 25	0x9a4090	otomo-ot	relabel:render-gfx	allocates two nDraw::Texture objects (0xb0804c/0xb09098/0xb091ec) into [this+100]/[this+104], frees them through cSystem 0x887660, toggles [this+567]; string HeightMap
 25	0x9b3ec0	monster-em	relabel:render-gfx	class uShallowWind (exact; vtable 0x178b290): calls 0x9b3bcc then tail-dispatches the object-manager vtable [+52]
 25	0x9b7df8	online-nex	relabel:render-gfx	class uCameraEffect: calls uEffect 0x9ba5b0 and the local uCameraEffect methods 0x9b7e80/0x9b8254/0x9b80e8 while walking [this+496]
 25	0x9bdc68	monster-em	relabel:render-gfx	64 callees all inside the particle module (cParticleNode, cParticleNodeInfinite, cParticleGeneratorTexline/Line/LiteBillboard/LitePolyline ...); its only caller is a uEffect method
 25	0x9c49ac	monster-em	relabel:physics-math	16 x |a-b| <= eps over two 4x4 matrices (16 vsub/vabs/vcmpe with movwls + and) returning one bool; sits in the uCnsChain block (class anchor 0x9c4d4c)
 25	0x9cd3fc	online-nex	relabel:physics-math	initialises 32-byte query records with 0x7f7f7f7f and dispatches to 0x7cf610/0x7d1238/0x7d15b8/0x7d4f2c/0x7d68d0, the 0x7c-0x7d MtGeom/MtCollision cluster; no net call
-25	0x9d51fc	quest	relabel:physics-math	quaternion -> matrix expansion (doubled vadd terms, then 1-2(y^2+z^2)) plus a transform loop over 16-word blocks; block is uCnsIK (uCnsIK::uCnsJoint 0x9d0540, uCnsJointOffset)
+25	0x9d51fc	quest	relabel:physics-math	quaternion-style rotation-matrix expansion (doubled vadd terms and a 1-2(...) form) plus a transform loop over 16-word blocks; block is uCnsIK (uCnsIK::uCnsJoint 0x9d0540, uCnsJointOffset)
 26	0x9dd82c	monster-em	relabel:physics-math	constructor installing uConstraint::cConstraint (0x178e474) then uCnsMatrix (0x178dd20) vtables and calling 0x9f4e20 (uCnsChain::cCnsChild)
 26	0x9e15c4	monster-em	relabel:physics-math	class uCnsRotateLimit (exact): 11 insns - virtual [+112], ldrb [this+144], tail b 0x9f5238 (uCnsChain::cCnsChild)
 26	0x9eaf7c	online-nex	relabel:physics-math	walks [this+92]->[+168] 64-byte entries (count [+108], base [+116]), switching on the type byte at +8 (0/1/3) and copying three words per node; block is uCnsGroup/uCnsParentN
@@ -69,7 +69,7 @@ block	start	label	verdict	evidence
 26	0xa174e8	otomo-ot	relabel:monster-em	property registrar whose pc-relative names are the AI trace family: cAIPathTrace, cAIPathTrace::TracePoint, cAINavPathTrace, cAINavMultiPathTrace, cAIWayPathTrace, cAIWayGraphTrace, cAIFieldPathTrace; vtable class cAIPathTrace::TracePoint (0x178ea48)
 26	0xa1c06c	otomo-ot	relabel:monster-em	9-case dispatch on r1 (cmp #8, jump table 0xa1c08c) calling 0xa1d158/0xa1da40/0xa1d494/0xa1d754/0xa1dcc4/0xa1e280/0xa1e508 in the cAISvOpenField/cAISvPathFinding block (0xa1c6b8/0xa1e9a0)
 26	0xa20a94	physics-math	relabel:monster-em	exact vtable class cAISvNavPathFinding; reads a nav cell (ldrh [r1+16] indexing [this+136]/[this+132]) and calls 0x805f78 once; no geometry primitive of its own
-26	0xa24bdc	monster-em	confirm	exact class cAISvNavWayPathFinding::ServiceInfo; calls cAISvNavWayPathFinding methods (0x1843160 -> 0x2122ec8) and tests bits 25 on the entry flags
+26	0xa24bdc	monster-em	confirm	exact class cAISvNavWayPathFinding::ServiceInfo; calls cAISvNavWayPathFinding methods (0x1843160 -> 0x2122ec8) and tests entry flag bits 0x19 (tst r0,#25)
 26	0xa287f8	monster-em	confirm	exact class cAITask; installs cAITask (0x178f234) and cAITaskJobPrimList (0x178f294) vtables; callers are cAIAStar/cAIGraph/cAIQuadTree methods
 27	0xa2a614	monster-em	relabel:physics-math	allocates count*4 pointers and count*304-byte entries ([this+2228]/[this+2232] from count [this+2200]->[+4]) and calls cBVHCollision::cWorkBuildOnlineFast 0xc969e8/0xc969fc (2, file, line 179) - collision BVH build
 27	0xa33b5c	monster-em	relabel:ui	class cGUIInstAnimation (exact): bit 0x8 of [this+84] toggled by r1 (teq), otherwise tail b 0xa344f4
@@ -81,5 +81,5 @@ block	start	label	verdict	evidence
 27	0xa523f8	monster-em	relabel:ui	class cGUIObjMessage (exact): bl 0xa522e4 (cGUIObjMessage method) then tail-dispatch the object-manager vtable [+52]
 27	0xa57650	monster-em	relabel:ui	class cGUIVarFloat (exact): clamps a value between [this+32] and [this+28], with the tst #2 wrap-around variant
 27	0xa5b584	monster-em	relabel:render-gfx	class cEffectUnitGenerator (exact): 8 insns - bounds check r0 < 8 then load a word from the pc-relative table at 0xa5b5a0
-27	0xa6370c	monster-em	relabel:render-gfx	its only caller is a cEffectUnitGenerator method; walks [this+176] entries (304-byte stride) and extracts bit fields (and/lsr #20/#21) from [entry+12]
+27	0xa6370c	monster-em	relabel:render-gfx	its only caller is a cEffectUnitGenerator method; walks the list at [this+176], copies 3 words per node into a 16-byte-stride array at [this+32] with a running count at [node+20], then calls 0xa66ec4/0xcad79c
 27	0xa6a434	quest	relabel:render-gfx	callers are cParticleGeneratorFilter/Model/PrimModel methods; tests [r4+16] bits 0x100000/0x100 and adds two floats into the +0x40/+0x48 colour block

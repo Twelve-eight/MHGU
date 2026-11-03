@@ -37,7 +37,7 @@
 `mon-class-map.py` S3 对 `0x1552200..0x1552d00` 逐字节 dump：**除池首前 4 B（`6d 65 72 00` = 上一串 "mer" 的尾巴）外，全部是 `STR … gap=0`**。
 
 - 池 `0x1551ac6..0x1553421`：474 个串（len≥3；len≥2 时 475），`gap` 全 0（`uQuestCamera@0x1551ac6` … `uEnemyBase@0x1553416`）。
-- 唯一例外：`rMonsterPartsManager::cPartsVisibleInfo`(0x15532b2,len 39) 与 `…::cPartsVisibleGroup`(0x15532f1,len 40) 之间 **gap=23 B**（非串数据，未解析）。
+- 唯一例外：`rMonsterPartsManager::cPartsVisibleInfo`(0x15532b2,len 39) 与 `…::cPartsVisibleGroup`(0x15532f1,len 40) 之间 **gap=23 B** = `cPartsVisibleInfo` 的两个 UTF-8 成员名 `\u30D1\u30FC\u30C4\u756A\u53F7`（part number）与 `\u63CF\u753B`（drawing），各以 NUL 结尾（0x15532da..0x15532f0），**已解析**。
 - ⇒ 池里**没有**定长记录、没有内嵌 offset/type 字段。名字的首地址 = 唯一索引；「序号」只能用出现顺序。
 
 **撤回一条早期推断**：`uEm###_00` 相邻地址差 0x14 曾被读成「20 B 定长记录」。逐字节 dump 显示 `gap` 全为 0，两个名字之间其实还有字符串（如 `uEm008_00@0x15527e8`），只是 name-dictionary「每串只留前 3 次」把它们过滤掉了，才显得间距恒 20 B ⇒ 该推断**错误，已撤回**。
@@ -190,7 +190,7 @@
 | `0x48698` | `mMonsterIndex, mTrueSize, mSmallScale, mBigScale, mKingScale, mQuestSizeMin, mQuestSizeMax` | **`cEmSizeCalcTblElement` 的 7 成员读取器，顺序与池序完全一致** |
 | `0x48ad4` | `cEmSizeCalcTblElement(XML), mScaleRate, mProbability, cEmSizeYureTblElement, cEmSizeYureTbl` | 类注册 + `cEmSizeYureTbl` 成员读取 |
 | `0x4a13c` / `0x4a46c` | `mPropName, mMonsterType`, `cEnemyDebugSetData(XML)` | `cEnemyDebugSetData` 读取器/注册 |
-| `0x4edec` | **全部 `uEm###_00`(61) + `uEms###_00`(29) + `uEm087_088_*` + `uEmOstgaloaArm`**，105 处 | `cEnemyResourceBroker` 的**单元清单 + 逐单元类注册（含 size）** ← 这是怪物资源装载的总入口 |
+| `0x4f078` | **全部 `uEm###_00`(61) + `uEms###_00`(28) + `uEm087_088_*` + `uEmOstgaloaArm`**，105 处 | `cEnemyResourceBroker` 的**单元清单 + 逐单元类注册（含 size）** ← 这是怪物资源装载的总入口 |
 | `0x53ea0` | `BaseScale…MoguriBaseOfs`(26) + `dtb` + `rEnemyDtBase` | `rEnemyDtBase` 26 属性读取器 + 注册 |
 | `0x564bc` | `dtt/rEnemyDtTune`, `nan/rEnemyNandoData`, `DieEraseTime…Genus/rdb/rEnemyResidentDtBase`, `hde/rHitDataEnemy`, `mPartsVisibleGroupList`, `mPartsVisibleInfo` | 4 个 `r*` 资源类 + `rMonsterPartsManager` 成员 |
 | `0x59f30` | `mpm/rMonsterPartsManager` + 2 个内嵌类 | 注册 |
@@ -332,11 +332,11 @@
 | # | 名 | 地址 | 说明 |
 |---|---|---|---|
 | 0 | mPartsVisibleGroupList | 0x155329b | 可见部位组列表 |
-| — | (内嵌类) rMonsterPartsManager::cPartsVisibleInfo | 0x15532b2 | 嵌套类名，不是成员 |
+| — | (内嵌类) rMonsterPartsManager::cPartsVisibleInfo | 0x15532b2 | 嵌套类名；2 个成员名紧随其后（0x15532da..0x15532f0）|
 | — | (内嵌类) rMonsterPartsManager::cPartsVisibleGroup | 0x15532f1 | 嵌套类名，不是成员 |
 | 1 | mPartsVisibleInfo | 0x155331a | 可见部位信息 |
 
-尾部标签 `mpm` @0x155332c。（0x15532b2 与 0x15532f1 之间 gap=23 B 非串数据。）
+尾部标签 `mpm` @0x155332c。（0x15532b2 与 0x15532f1 之间 gap=23 B = `cPartsVisibleInfo` 的两个成员名，见 §2。）
 
 ### 5.8 `rEmDouMouKaData` @0x155304d — 1 成员
 `mpData` @0x155305d，尾部标签 `mdd` @0x1553064。
@@ -476,7 +476,7 @@ struct cEmSizeCalcTblElement {   // size = 0x20（注册 r3=32）
 
 1. 类型码枚举（6 / 12 / 其他）的完整含义未定；需要看属性记录的「读取虚函数」如何按类型码解码。`UNCONFIRMED`（6 与 `str` 写指令同现、12 与 `vstr` 同现，倾向「整型 vs 浮点」）
 2. `cEmDouMouKaData` 的 39..41 号（`mPartsChangeData/mPartsAuraData/mModifyData`）为池序推断，但 `fn 0x479a0` 在同一构造序列里逐个 materialize 了这三个名字，且 42 个成员被 3 个函数**无缝覆盖**（11+19+12），可信度高。
-3. `0x15532da..0x15532f0`（23 B）非串数据内容未解析。
+3. `0x15532da..0x15532f0`（23 B）已解析 = `cPartsVisibleInfo` 的两个 UTF-8 成员名（见 §2 与 §5.7）。
 4. 其余怪物类（`rEnemyDtBase` 26 成员、`cEmDouMouKaData` 42 成员、`rEnemyResidentDtBase` 6、`cEmSizeYureTbl` 2、`cEnemyDebugSetData` 2）的 offset 表：抽取器 `mon-offsets.py` 已写好并按 §10.2 形状验证过（在 `cEmSizeCalcTblElement` 上应出 7 条），但本批**没拿到该脚本的产出**（`mon-offsets.out.txt` records=0，疑为旧文件/未重跑）。⇒ 这 6 个类的 offset 仍是**待跑一条命令**的状态，配方与陷阱见 §10。
 5. `mQuestSizeMin/Max` 的 offset 已确认（`fn-48698-tail.dis.txt`：`0x4896c #24` / `0x489dc #28`）。
 

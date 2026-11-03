@@ -35,7 +35,7 @@
 ## analysis/members/
 | 文件 | 内容 |
 |---|---|
-| `member-census.md` | **19 成员槽 = 18 反序列化器 + 2 fixup**、19 个 GOT 槽表、4 类读原语 |
+| `member-census.md` | **19 个成员对象 = 18 个 reader + member[2] 第二段（0x521398）；调度器 20 次调用（19 bl + 1 尾跳）**、19 个 GOT 槽表、4 类读原语 |
 | `member4-17-layout.md` | member[4..17] 逐字段表（86,997B）|
 | `member14-17-semantics.md` | m14 运行时镜像 / m16 VFP×2.05 / m17 kind-7 快照库 |
 | `member4-residual.md` | 三残留定案（128B 族仅 1 FF、3444B 全零、68B 族 544bit）+ 旧 dump 早 0x550 根源 |
@@ -59,7 +59,7 @@
 2. **结论分级**：定案 / 高 / 中 / 未知；不确定标 `[INFERENCE]`。
 3. **外部资料**（`reference/mhxx-wiki/`）只用于交叉验证，**不接受为唯一证据**，也不修改。
 
-## 语言文字规范（AGENTS.md §5）
+## 语言文字规范（工作区 `../AGENTS.md` §5；本 repo 不随附 AGENTS.md）
 - **叙述与分析文字**只用中文/英文；**不使用假名**。历史报告已规范化（`狩猟スタイル`→狩猎风格、`揺れ`→尺寸浮动、`二つ名`→二名、`怒り`→愤怒、`・`→`·` 等）。
-- **数据文件例外**：`data/viewer/monsters.txt`、`mechanics/quests.md` 中的日文是**游戏内原名（verbatim 数据）**，来自 `mhgu.db` / 前人 wiki，用于与原始资料对齐，不得翻译或删除（AGENTS.md §6 保真要求）。
+- **数据文件例外**：`data/viewer/monsters.txt`、`mechanics/quests.md` 中的日文是**游戏内原名（verbatim 数据）**，来自 `mhgu.db` / 前人 wiki，用于与原始资料对齐，不得翻译或删除（工作区 `../AGENTS.md` §6 保真要求）。
 - 外部资料 `reference/mhxx-wiki/` 原样保留，不改动。

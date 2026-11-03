@@ -190,7 +190,8 @@ bl  0x7aedcc          ; 以名查表
 
 | 结论 | 证据 |
 |---|---|
-| `uMonsterUnitConductor` @`0x15535dc`、`uEnemy` @`0x15535c9`、`uEnemyCharacter` @`0x155358a`、`actionNo` @`0x1553633`、`uEmXXX` @`0x15533c8`、`emXXXFwMove` @`0x15533db` | **三种机制全部 0 引用**（原始 u32 指针 / literal pool / pc 相对增量） ⇒ 仅存在于静态名称池，**不可作为代码锚点** |
+| `uMonsterUnitConductor` @`0x15535dc`、`uEnemy` @`0x15535c9`、`uEnemyCharacter` @`0x155358a`、`actionNo` @`0x1553633` | **三种机制全部 0 引用**（原始 u32 指针 / literal pool / pc 相对增量） ⇒ 仅存在于静态名称池，**不可作为代码锚点** |
+| ~~`uEmXXX` @`0x15533c8`、`emXXXFwMove` @`0x15533db`~~ **（本条作废）** | 二者并非 0 引用：`uEmXXX` @`0x15533c8` 在 `0x6c3b4`、`emXXXFwMove` @`0x15533cf` 在 `0x6baf4` 由 pc 相对增量引用（E9）。`0x15533db` 是 `uEnemyActCustom`（在 `0x6d83c` 被引用），不是动作模板 |
 | `cEnemyResourceBroker` @`0x15527bf`、`cEnemyDebugSetDataXML`、`cEmSetListXML`、`mMonsterIndex`、`mTrueSize` | 同上，0 引用 |
 | 名称池 `0x1551ac6..0x1586000` 是**静态符号/资源名池**（含 `uEm087_00::cActCustomExecMonitor`、`roEm001.cro` 这类 demangled 符号与资源名），不是 vtable、不是描述符数组 | `em-units.out.txt` S3：对 `uEm` 串的绝对指针 **0**、严格 4B run **0**；本报告 §0 的机制分析 |
 | 全镜像仅有 **62** 个带 RTTI 名称的 vtable，**没有一个**名字匹配 `cEm|uEm|cEnemy|uEnemy|Monster` | `ai-entry.out.txt` §3 ⇒ 怪物类**不能**靠 RTTI 名反查 vtable，只能靠构造器/注册函数的调用图 |
