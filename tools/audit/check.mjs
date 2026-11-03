@@ -116,7 +116,7 @@ try {
   else {
     const want = cm[1];
     const stated = [];
-    for (const f of ["docs/analysis/code/coverage/METER.md", "HANDOFF.md", "docs/PROGRESS.md"]) {
+    for (const f of ["docs/analysis/code/coverage/METER.md", "HANDOFF.md", "docs/PROGRESS.md", "docs/analysis/code-metrics.md"]) {
       const lines = fs.readFileSync(path.join(ROOT, f), "utf8").split(/\r?\n/);
       lines.forEach((l, i) => {
         if (!/(项目原始口径|Tier B conf=A)/.test(l)) return;
@@ -125,8 +125,16 @@ try {
         if (!/Tier\s*A[^。]{0,60}B/.test(l)) return;
         const pcts = [...l.matchAll(/(\d+\.\d)%/g)].map((x) => x[1]);
         if (!pcts.length) return; // a definition line ("主指标 = Tier A + Tier B conf=A") states no value
-        if (!pcts.includes(want)) bad(`${f}:${i + 1} states the project calibre as ${pcts.join("/") || "no percentage"} but canonical-metric.mjs says ${want}%`);
-        else stated.push(`${f}:${i + 1}`);
+        if (!pcts.includes(want)) { bad(`${f}:${i + 1} states the project calibre as ${pcts.join("/") || "no percentage"} but canonical-metric.mjs says ${want}%`); return; }
+        // A line that carries the right total can still carry a stale part, or parts that do not add up (HANDOFF once said
+        // 57.7 + 0.3 = 58.0 and, in the same sentence, "58.4% is the comparable calibre"). Check the formula itself.
+        const sum = /(\d+\.\d)%\**\s*\+\s*.{0,80}?(\d+\.\d)%\**\s*=\s*\**\s*(\d+\.\d)%/.exec(l);
+        if (sum) {
+          const [x, y, z] = [+sum[1], +sum[2], +sum[3]];
+          if (Math.abs(x + y - z) > 0.15) bad(`${f}:${i + 1} calibre does not add up: ${x} + ${y} = ${z}`);
+          else if (Math.abs(z - +want) > 0.001) bad(`${f}:${i + 1} calibre sum ends in ${z} but the script says ${want}`);
+        }
+        stated.push(`${f}:${i + 1}`);
       });
     }
     if (stated.length) ok(`published project calibre matches canonical-metric.mjs (${want}%) at ${stated.length} site(s)`);

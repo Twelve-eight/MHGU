@@ -73,8 +73,12 @@ for (const f of extraArgs) {
 // Demotions are part of the meter, not an optional flag: every docs/analysis/code/inventory/demote-*.tsv is loaded by
 // default, and --demote only adds a file from elsewhere. A challenge that must be remembered at every invocation is a
 // challenge that will be forgotten, and the report would quietly drift back up.
+// pins.tsv is the same mechanism (recompute.mjs reads `^(demote-.*|pins)\.tsv$`), and until 2026-11-04 this file read only
+// demote-*, so a pinned function would still have counted as verified here while recompute refused to seed it -- the same
+// policy read two ways. The four pins happen to be tier C today, which is why the numbers did not differ; the asymmetry
+// would have surfaced only once one of them gained a label.
 const demoteArg = [
-  ...fs.readdirSync(INV).filter((f) => /^demote-.*\.tsv$/.test(f)).map((f) => path.join(INV, f)),
+  ...fs.readdirSync(INV).filter((f) => /^(demote-.*|pins)\.tsv$/.test(f)).map((f) => path.join(INV, f)),
   ...process.argv.reduce((a, v, i) => (v === "--demote" ? [...a, process.argv[i + 1]] : a), []),
 ];
 console.log(`demotions: ${demoteArg.length} file(s)`);
