@@ -79,9 +79,15 @@ function purity(anchor) {
       tot++;
       cnt.set(l, (cnt.get(l) || 0) + 1);
     }
-    if (tot < MIN_CALLERS) continue;
     const top = [...cnt].sort((a, b) => b[1] - a[1])[0];
-    if (top[1] / tot >= MIN_PURITY) m.set(k, { lab: top[0], share: top[1] / tot, tot });
+    // Sparse but unanimous helpers count too. small-sample-purity.mjs measures the band: a callee whose 6 or 7 labelled
+    // callers are all one label is 93.4% / 95.0% accurate (CP95 92.1 / 93.9), while at five callers it falls to 90.8%
+    // (89.4) and at four to 75.6%, so the sparse rule starts at six and demands unanimity.
+    if (tot >= MIN_CALLERS) {
+      if (top[1] / tot >= MIN_PURITY) m.set(k, { lab: top[0], share: top[1] / tot, tot });
+    } else if (tot >= 6 && cnt.size === 1) {
+      m.set(k, { lab: top[0], share: 1, tot });
+    }
   }
   return m;
 }

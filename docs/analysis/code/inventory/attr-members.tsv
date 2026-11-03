@@ -1,7 +1,5 @@
 start	label	conf	evidence
 0x31070	otomo-ot	B	partial: member names mOtomoPrizeNo,mOtomoTrend,mOtomoLevel,mOtomoTargetType,... (42/42 labelled names, 100%) match taxonomy rules -> otomo-ot (domain only, class not named); agrees with attr-vtable-fixed.tsv
-0x54028	monster-em	A	unambiguous: member run of rEnemyDtBase (registrar 0x53ea0): 22/22 names, registration sites in this function -> labelOf=monster-em; agrees with attr-vtable-fixed.tsv
-0x58fd0	monster-em	B	partial: member run of rEnemyDtTune (registrar 0x564bc): 5/7 names, registration sites in this function -> labelOf=monster-em; agrees with attr-vtable-fixed.tsv
 0x206928	otomo-ot	B	partial: member names mOtomoTotalAtkNear,mOtomoTotalAtkBoom,mOtomoTotalDefence (3/3 labelled names, 100%) match taxonomy rules -> otomo-ot (domain only, class not named); agrees with attr-xref.tsv
 0x209f08	otomo-ot	B	partial: member names mOtomoTotalAtkNear,mOtomoTotalAtkBoom,mOtomoTotalDefence (3/3 labelled names, 100%) match taxonomy rules -> otomo-ot (domain only, class not named); agrees with attr-xref.tsv
 0x52a690	otomo-ot	B	partial: member names mOtomoSkill[0],mOtomoSkill[1],mOtomoSkill[2],mOtomoSkill[3] (4/4 labelled names, 100%) match taxonomy rules -> otomo-ot (domain only, class not named); agrees with attr-vtable-fixed.tsv
