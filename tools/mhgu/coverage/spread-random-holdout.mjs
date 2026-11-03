@@ -28,6 +28,7 @@ const fns = zlib.gunzipSync(fs.readFileSync(ROOT + "/docs/data/functions-retile.
 const rev = new Map();
 for (const f of fns) for (const c of new Set(f.callees)) { const k = "0x" + c.toString(16); if (!rev.has(k)) rev.set(k, []); rev.get(k).push(f.s); }
 const cp = (o, n) => { if (!n) return 0; const p = o / n, z = 1.959963985, d = 1 + z * z / n; return ((p + z * z / (2 * n) - z * Math.sqrt(p * (1 - p) / n + z * z / (4 * n * n))) / d) * 100; };
+const per = new Map();
 let n = 0, ok = 0;
 for (let rep = 0; rep < REPS; rep++) {
   const held = new Set();
@@ -46,6 +47,12 @@ for (let rep = 0; rep < REPS; rep++) {
     if (top.length > 1 && top[0][1] === top[1][1]) continue;
     n++;
     if (top[0][0] === truth) ok++;
+    { const e = per.get(truth) || { n: 0, ok: 0 }; e.n++; if (top[0][0] === truth) e.ok++; per.set(truth, e); }
   }
 }
 console.log(`spread rule, random ${(SHARE * 100).toFixed(0)}% holdout x ${REPS}: ${ok}/${n} = ${((100 * ok) / (n || 1)).toFixed(1)}%  CP95 ${cp(ok, n).toFixed(1)}%`);
+// Per-label numbers under the same construction, so the conservative and optimistic weightings can be compared.
+const out = ["label\taccuracy\tcp95"];
+for (const [lab, e] of [...per].sort((a, b) => b[1].n - a[1].n)) out.push(`${lab}\t${(e.ok / e.n).toFixed(4)}\t${cp(e.ok, e.n).toFixed(1)}`);
+fs.writeFileSync(INV + "spread-accuracy-random.tsv", out.join("\n") + "\n");
+console.log(`wrote spread-accuracy-random.tsv (${per.size} labels)`);

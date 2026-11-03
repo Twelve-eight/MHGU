@@ -319,11 +319,31 @@ for (const [start, t] of tiers) {
   if (VALID_SPREAD.has(b.label)) continue; // counted at 0.99 above
   spreadWeighted += t.insns * (spreadAcc.get(b.label) ?? 0.724);
 }
+// Optimistic counterpart: the same weighting with per-label accuracies from the random holdout, which keeps neighbours in
+// place and therefore overstates. The pair brackets the truth; the conservative end is the one quoted.
+const spreadAccOpt = new Map();
+{
+  const p3 = path.join(INV, "spread-accuracy-random.tsv");
+  if (fs.existsSync(p3)) for (const l of fs.readFileSync(p3, "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
+    const [lab, acc] = l.split("\t");
+    if (lab && acc) spreadAccOpt.set(lab, Number(acc));
+  }
+}
+let spreadWeightedOpt = 0;
+for (const [start, t] of tiers) {
+  const b = best.get(start);
+  if (!b || !b.label || direct.has(start) || Vset.has(start) || Sset.has(start)) continue;
+  if (VALID_SPREAD.has(b.label)) continue;
+  spreadWeightedOpt += t.insns * (spreadAccOpt.get(b.label) ?? 0.884);
+}
+const explainedOpt = pDirIns * precisions.dir + pInfIns * precisions.inf + pSigIns * precisions.sig + pSpVIns * precisions.spv + pSpVoteIns * precisions.spv + spreadWeightedOpt;
 const explained = pDirIns * precisions.dir + pInfIns * precisions.inf + pSigIns * precisions.sig + pSpVIns * precisions.spv + pSpVoteIns * precisions.spv + spreadWeighted;
 // Instructions only: a function-level version would need a per-function weight, and inventing one (e.g. 0.85 x labelled)
 // would be a made-up number in the one row that exists to avoid made-up numbers.
 rows.push(["expected explained fraction (precision-weighted, instructions only)", "—", String(Math.round(explained)),
   pct(explained, totalIns), "—"]);
+rows.push(["expected explained fraction (optimistic, random-holdout weights)", "—", String(Math.round(explainedOpt)),
+  pct(explainedOpt, totalIns), "—"]);
 rows.push(["covered at >=90% precision", String(pDir + pInf + pSig + pSpV + pSpVote), String(pDirIns + pInfIns + pSigIns + pSpVIns + pSpVoteIns),
   pct(pDirIns + pInfIns + pSigIns + pSpVIns + pSpVoteIns, totalIns), pct(pDir + pInf + pSig + pSpV + pSpVote, totalFn)]);
 // Named for what it is: a POOLED 72.4% over a bucket whose labels range from 5.5% (otomo-ot) to 99.8% (online-nex). Calling
