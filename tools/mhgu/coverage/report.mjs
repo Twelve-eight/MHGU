@@ -144,20 +144,23 @@ rows.push(["conf B (unverified)", String(B.fn), String(B.ins), pct(B.ins, totalI
 // Inferred labels are a separate class on purpose: a callee vote is inference, and mixing it into A-direct would repeat
 // the mistake that got tier A inflated. The rule that produces them was validated leave-one-file-out at 96.0%.
 const CV = (() => {
-  const p = path.join(INV, "attr-callvote.tsv");
-  if (!fs.existsSync(p)) return { fn: 0, ins: 0, rows: 0 };
+  const files = fs.readdirSync(INV).filter((f) => /^attr-.*vote\.tsv$/.test(f));
   let fn = 0, ins = 0, rows = 0;
-  for (const l of fs.readFileSync(p, "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
-    const [start, label, conf] = l.split("\t");
-    if (conf !== "V" || !label) continue;
-    rows++;
-    if (direct.has(start)) continue;
-    const t = tiers.get(start);
-    if (t) { fn++; ins += t.insns; }
+  const seen = new Set();
+  for (const f of files) {
+    for (const l of fs.readFileSync(path.join(INV, f), "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
+      const [start, label, conf] = l.split("\t");
+      if (conf !== "V" || !label) continue;
+      rows++;
+      if (direct.has(start) || seen.has(start)) continue;
+      seen.add(start);
+      const t = tiers.get(start);
+      if (t) { fn++; ins += t.insns; }
+    }
   }
   return { fn, ins, rows };
 })();
-rows.push(["A-inferred (callee vote, 8 rounds, fold 93.6-96.0%)", String(CV.fn), String(CV.ins), pct(CV.ins, totalIns), pct(CV.fn, totalFn)]);
+rows.push(["A-inferred (callee+class vote, fold 93.6-99.3%)", String(CV.fn), String(CV.ins), pct(CV.ins, totalIns), pct(CV.fn, totalFn)]);
 rows.push(["headline A only", String(A.fn), String(A.ins), pct(A.ins, totalIns), pct(A.fn, totalFn)]);
 rows.push(["unattributed", String(totalFn - A.fn - B.fn), String(totalIns - A.ins - B.ins), pct(totalIns - A.ins - B.ins, totalIns), pct(totalFn - A.fn - B.fn, totalFn)]);
 
