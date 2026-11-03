@@ -1,0 +1,143 @@
+doc	item	verdict	evidence	note
+docs/README.md	index-entries-exist	OK	bash: for f in <20 paths from the index>; [ -e $f ] -> 20 OK / 0 MISSING	All save-layout/, analysis/members/, analysis/fields/, save-io/ entries resolve
+docs/README.md	inline-links	OK	grep -o '](' docs/README.md -> 2 links (PROGRESS.md, save-layout/coverage-map.md); both exist	
+docs/README.md	mhgu.db-18MB	OK	node: stat docs/data/mhgu.db -> 18,333,696 B	18 MB claim holds
+docs/README.md	hunterAdds-decimals	OK	node: 0x18CC9C/0x2AC560/0x3CBE24 = 1625244/2803040/3980836	
+docs/README.md	member-census-19=18+2	WRONG	member-census.md:29 says 20 calls (19 bl + 1 b) covering 19 member objects; the 2 fixups are extra calls, 18+2=20 != 19	Arithmetic misstatement copied into the index description
+docs/README.md	AGENTS.md-section-ref	WRONG	ls ../AGENTS.md exists (workspace); ls AGENTS.md -> missing; git ls-files | grep -c '^AGENTS.md' -> 0	Public repo index cites AGENTS.md §5/§6 which is not in the repo
+docs/PROGRESS.md	struct-coverage-88pct	OK	node: (227386+950374*0.85)/1177760 = 0.8790	Arithmetic reproduced
+docs/PROGRESS.md	member-layer-size-227386	WRONG	node: 0x3783A-0x278 = 226754	Row says char_off 0x278..0x3783A size 227,386; 227,386 is the end offset (head+member), the range is 226,754 B
+docs/PROGRESS.md	field-level-78pct-vs-165KB	WRONG	node: 224643*0.78 = 175222 B (14.9%); component list 12955+9543+76+115072+35131+822 = 173599	78% of 224,643 is ~175 KB/14.9%, not 165 KB/14%; doc's own components sum to 173,599
+docs/PROGRESS.md	code-denominator-5228411-23885	STALE	node: (0x13F1DEC-0)/4 = 5228347 words; tiers.csv sum = 5228277; commit 3a7c731 (2026-11-03) retiled 23,885 regions into 52,692 real functions	Superseded by docs/analysis/code/inventory/RETILE.md + tools/mhgu/coverage/retile.mjs
+docs/PROGRESS.md	L1-80.8pct-71.7pct	UNVERIFIABLE	ls .tmp -> empty; functions.csv.gz strings column is empty (23885/23885 rows '""')	10-fold seed data not in repo; cannot recompute from committed artifacts
+docs/PROGRESS.md	tier-table-8856-51.5	OK	node: tiers.csv aggregation A 8856/2690231 (51.46%), B 14863/2533932, C 166/4114	Exact match
+docs/PROGRESS.md	otomo-1041-224608	OK	node: tiers.csv rows label=otomo-ot & tier=A -> 1041 rows / 224,608 insns (4.30% of .text, 8.35% of Tier A)	Exact match
+docs/PROGRESS.md	tail-unframed-100903-48247	OK	node: 0xC8535-0xAFB0E = 100903; 0xDA604-0xCE98D = 48247	Exact match
+docs/PROGRESS.md	members-19=18readers+2fixup	WRONG	member-census.md:29 -> 20 calls (19 bl + 1 b), 19 member objects, 0x521398 is member[2]'s second segment not a slot	18 readers + 1 second segment + 2 post-load fixups = 20 calls
+docs/PROGRESS.md	editor-window-1177760	OK	grep -n 1177760 editor-src/*/MainForm.cs -> 255,276,346,361 (clamp Math.Min(512, hunterBlockSize-i)); 821248 occurrences -> 0	Claim matches code; 'live save still unverified' is still true (HANDOFF.md:104)
+docs/PROGRESS.md	nca-size-12.17GB	OK	ls -l G:/mhgu-romfs/secure/98abd400*.nca -> 12,168,003,584 B	= 12.17 GB / 11.33 GiB as claimed
+docs/PRIVATE-DATA.md	link-paths	OK	powershell Get-Item -> main.140.flat.bin HardLink, save-snapshots Junction, editor-src Junction; all 6 listed paths exist	
+docs/PRIVATE-DATA.md	gitignore-coverage	OK	git check-ignore -v docs/data/mhgu.db -> .gitignore:51; docs/data/json/items.json -> :35; git ls-files -> monster-slot-map{,-137}.json tracked	Matches the two-tracked-slot-maps exception
+docs/PRIVATE-DATA.md	romfs-nca-size	OK	ls -l -> 12,168,003,584 B	Exact
+docs/PRIVATE-DATA.md	romfs-35531-files	UNVERIFIABLE	no file count committed; counting the 12 GB romfs tree is out of scope	
+docs/PRIVATE-DATA.md	backup-robocopy-target	OK	ls -d G:/backups/MHGU-private -> exists	
+docs/analysis/code-metrics.md	text-insn-count-5228411	WRONG	node: 0x13F1DEC/4 = 5228347; sum of function spans (functions.csv.gz col3, tiers.csv) = 5228277	5,228,411 is 64 above the word count of .text and 134 above the function-coverage sum; also mixes vaddr 0..TEXT_END with flat 0x100..
+docs/analysis/code-metrics.md	functions-23885	STALE	RETILE.md (2026-11-03): 46,087 prologues, 23,885 == region tiling, retiled 52,692; commit 3a7c731	Denominator superseded; doc has no retile notice
+docs/analysis/code-metrics.md	classes-3201	OK	wc -l docs/data/class-inventory.tsv -> 3202 (header + 3201)	
+docs/analysis/code-metrics.md	string-functions-1923	UNVERIFIABLE	node: functions.csv.gz strings column is empty in all 23,885 rows	Source CSV lost the column; .tmp/mhgu/inventory/functions2.csv no longer exists
+docs/analysis/code-metrics.md	seeds-725	UNVERIFIABLE	same as above; .tmp empty	3.0% arithmetic is right (725/23885)
+docs/analysis/code-metrics.md	10fold-80.8-71.7	UNVERIFIABLE	tools/mhgu/validate-repeat.mjs exists but the 10 fold seed sets are not committed; METER.md says the old numbers cannot be rerun	METER.md 2026-11-03 replaces the headline with recomputable 52.9% tier A on 52,692
+docs/analysis/code-metrics.md	L2-roles-6239-7050-10596	UNVERIFIABLE	node: functions.csv.gz 'callees' column is a single address or empty, so role counts are not derivable; node: 6239+7050+10596 = 23885 and +1991 = 25876	Counts not reproducible; additivity statements verified
+docs/analysis/code-metrics.md	tierA-B-C-table	OK	node: tiers.csv -> A 8856/2690231/51.46%, B 14863/2533932/48.47%, C 166/4114/0.08%; fn% 37.1/62.2/0.7	Exact match to §7
+docs/analysis/code-metrics.md	pass3-6-658-223-13	UNVERIFIABLE	ls -l docs/analysis/code/tierB3p -> 0-byte file; no slice data in docs/analysis/code/tierb-pass3	pass3 inputs not published
+docs/analysis/code-metrics.md	headline-52.2pct	STALE	coverage-report.tsv (2026-11-03, retiled) -> tier A 52.9% insns / 48.3% fns; METER.md: old table 62.1%, retiled 49.1%	Superseded by the 2026-11-03 recompute chain
+docs/analysis/code-metrics.md	otomo-1041-224608	OK	node: tiers.csv label=otomo-ot tier=A -> 1041/224608	Exact
+docs/analysis/gameplay/entry-map.md	movw-72c-39f-68s	OK	node: movw #0x72c -> 68 sites, 39 push-prologue functions; first sites 161bd0/248984/2489a8/2489cc	Exact
+docs/analysis/gameplay/entry-map.md	movw-83e-9f-12s	OK	node: movw #0x83e -> 12 sites, 9 functions; first 3001c0/301578	Exact
+docs/analysis/gameplay/entry-map.md	movw-42c-78f-359s	WRONG	node: movw #0x42c -> 361 sites, 78 functions	Site count is 361, not 359 (function count matches)
+docs/analysis/gameplay/entry-map.md	movw-52c-8f-8s	OK	node: movw #0x52c -> 8 sites, 8 functions; first 21fd10	Exact
+docs/analysis/gameplay/entry-map.md	movw-62c-10f-10s	OK	node: movw #0x62c -> 10 sites, 10 functions; first 1e5690	Exact
+docs/analysis/gameplay/entry-map.md	52308c-reads-obj+0xB0/B8	WRONG	FLAT=main.140.flat.bin disasm 0x5230d0 -> ldrh r0,[r1,r0] (kill[slot]) ; 0x5230d4 -> ldrh r1,[r1,r8] with r8=0x112 (capture[slot]) ; 0x5230d8 add	Role cell says ldrh[obj+0xB0]+[obj+0xB8]; actual reads are obj+0x72C+2*slot and obj+0x83E+2*slot
+docs/analysis/gameplay/entry-map.md	2484c0-row	OK	FLAT disasm 0x2484c0..0x2484ec; node: 114 entries at 0x2484f0, 49 distinct targets (22/14/14/9/6/6); 3 movw #0x72c; non-SP stores in fn = 0	Matches the detailed claim
+docs/analysis/monsters/mon-class-map.md	name-pool-474-ascii	OK	node: walk 0x1551ac6..0x1553421 -> 477 byte-strings; minus the 2 UTF-8 CJK strings = 475 (len>=2), 474 (len>=3)	ASCII-only counts are correct
+docs/analysis/monsters/mon-class-map.md	gap23-nonstring	WRONG	node: bytes 0x15532b2..0x1553330 as utf8 -> 'rMonsterPartsManager::cPartsVisibleInfo\0パーツ番号\0描画\0rMonsterPartsManager::cPartsVisibleGroup...'	The '23 B non-string data' is 2 UTF-8 member names of cPartsVisibleInfo
+docs/analysis/monsters/mon-class-map.md	bl-7aedcc-3205	OK	node: bl sites to 0x7aedcc = 3205	Exact; 3204 parsed names / 3201 unique classes are consistent with class-inventory.tsv
+docs/analysis/monsters/mon-class-map.md	class-sizes-sample	OK	class-inventory.tsv: cEmSizeCalcTblElement 32, cEnemyResourceBroker 204, uEnemy 51840, sEnemy 10880, rEnemyDtBase 208, uEm001_00 51920, uEm084_00 156448, uEm088_00 54528	All sampled sizes match
+docs/analysis/monsters/mon-class-map.md	uEm-61-roEm-59-roEms-28	OK	node: pool counts 61 / 59 / 28; missing roEm ids = 020,088	Exact, including the 020/088 gap
+docs/analysis/monsters/mon-class-map.md	5bis-uEms-29	WRONG	node: pool regex ^uEms\\d{3}_00$ -> 28	Doc's own §7 says 28
+docs/analysis/monsters/mon-class-map.md	5bis-unit-registry-fn-0x4edec	WRONG	FLAT disasm 0x4edec -> 0x4ee30 pop {r11,pc} (function ends); 0x4f078 push {r4,r5,r6,r7,r8,lr} is a separate function; node: all 61 uEm add-sites lie in fn 0x4f078	The 105 unit-name registrations belong to 0x4F078, not 0x4EDEC (class-inventory.tsv inherits the same misattribution: registrar_fn 0x4edec with site 0x4f180)
+docs/analysis/monsters/mon-class-map.md	mov-r3-32-at-0x48c40	OK	FLAT disasm 0x48c40 -> e3a03020 mov r3,#32; 0x48c68 bl 0x7aedcc	
+docs/analysis/monsters/mon-counter-slots.md	table-166-at-0x162bf0c	OK	node: 166 u16, base ids 1..87, no value >=4096, first 1,101,201,401,2	Exact
+docs/analysis/monsters/mon-counter-slots.md	map137-at-0x1597ea4	OK	node: 137 x {u32 EmId,u32 slot}, slot==row 137/137, 137 unique; second copy at 0x164f7e4 112 rows slot==row, last id 4202	Exact
+docs/analysis/monsters/mon-counter-slots.md	layout-94-large-43-small	OK	node: rows 0-70 large (71), 71-111 = 4097..4144(34)+4196..4202(7), 112-134 large (23), 135-136 = 4113,4118	Exact
+docs/analysis/monsters/mon-counter-slots.md	73-ids-without-slot	OK	node: 166 table ids, 93 present in map -> 73 without	Exact
+docs/analysis/monsters/mon-counter-slots.md	repo-json-129-wrong	STALE	node: docs/data/json/monster-slot-map.json -> 137 rows, kinds big 94 / small 43, 0 mismatches vs 0x1597ea4; slot58=69 slot61=76; commit 9293e14 (2026-10-25)	§4.3/§4.5 critique of the repo map was fixed on 2026-10-25
+docs/analysis/monsters/mon-counter-slots.md	monster-slot-map-small.json	STALE	ls docs/data/json | grep small -> no such file	Split map merged into monster-slot-map.json
+docs/analysis/monsters/mon-counter-slots.md	50b64-60-call-sites	WRONG	node: bl sites to 0x50b64 = 53 (first 0x4a878, last 0x560cac)	Endpoints right, count is 53
+docs/analysis/monsters/mon-em-units.md	cro-pointer-array-137	OK	node: 137 pointers at 0x1732050; distinct names 87; k58=roEm069, k61=roEm076; roEms100 x7; terminator 0 at 0x1732274	Exact
+docs/analysis/monsters/mon-em-units.md	uEm61-uEms28	OK	node: pool uEm###_00 61, uEms###_00 28	Exact
+docs/analysis/monsters/mon-em-units.md	db-129-75-36-18	OK	bun: sqlite mhgu.db -> 129 monsters; class0 75 (1..1351), class1 36 (4097..4144), class2 18 (1025..1107)	Exact
+docs/analysis/monsters/mon-em-units.md	no-xref-dead-strings	WRONG	node: all 61 uEm###_00 names have a pc-relative add-site, all inside the function that starts at 0x4F078 (e.g. 0x4F170 ldr r1,[pc,#3856]=0x1503654 ; 0x4F178 add r1,pc,r1 -> 0x15527D4 ; 0x4F180 bl 0x7aedcc)	C2 searched absolute words / literals inside the pool / movw / add pc,#imm and missed the ldr-delta + add rX,pc,rY form documented in mon-class-map §3
+docs/analysis/monsters/mon-em-units.md	slot-columns-C5-C6	STALE	node: map137 index 112 = emid 4 (uEm004), index 71 = 4097; doc C5 puts uEm004 at 71 and C6 puts uEms001 at 93	Slot numbers use the superseded 129-slot layout
+docs/analysis/monsters/mon-em-units.md	db_id-var<<8-base	OK	node: table 0x162bf0c values (variant<<8)|base; 87 variant-0 entries; all 21 hole ids present as v0	Exact
+docs/analysis/monsters/mon-quest-dispatch.md	114-entries-49-targets	OK	node: 114 u32 at 0x2484f0 -> targets 0x2486b8..0x248f40, 49 distinct, counts 22/14/14/9/6/6, 43 single-use	Exact
+docs/analysis/monsters/mon-quest-dispatch.md	3x-movw-72c-no-83e	OK	node: movw in 0x2484c0..0x248f4c at 0x248984/0x2489a8/0x2489cc = 0x72c; 0x83e/0x52c/0x62c = 0 hits	Exact
+docs/analysis/monsters/mon-quest-dispatch.md	no-nonsp-store	OK	node: stores in fn with Rn != 13 -> 0	Exact
+docs/analysis/monsters/mon-quest-dispatch.md	outer-163-key29	OK	node: bl callers of 0x2484c0 = [0x2456e8]; outer table 0x2451fc[28]=0x4e0 -> 0x2456dc	Exact
+docs/analysis/monsters/mon-quest-dispatch.md	uxtah-at-0x5230ec	OK	node: 0xE6F55071 decodes as UXTAH r5,r5,r1 (opcode 0110 1111 0101, Rn=Rd=5, Rm=1)	Resolves the 'encoding undecided' note in mon-counter-slots U1
+docs/analysis/monsters/mon-size-calc.md	save-size-records	OK	node: clean slot1 42 nonzero all <=70, range 92..125, 17 mini==maxi, head 0x60C6 = 00000000; dirty slot0 74 nonzero, range 88..154, i=26 = 94/154	Exact
+docs/analysis/monsters/mon-size-calc.md	dirty-112-132-21-records	WRONG	node: indices 112..132 -> 14 nonzero (101/104,101/110,89/123,97/115,106/111,90/97,92/110,94/110,89/116,104/112,97/110,105/113,97/97,91/118); byte span 0x628A..0x62DA	Doc §4 says 21 records at 0x62C6..0x62DA; §10 itself says 14
+docs/analysis/monsters/mon-size-calc.md	crc32raw-anchors	OK	node: crc32raw('rEmSizeCalcTblElement')=0x5adc692c count 1 at 0x160fdd4; crc32raw('rEmSizeYureTbl')=0x1800eb37 count 1 at 0x160fddc; class/member name hashes count 0	Exact
+docs/analysis/monsters/mon-size-calc.md	cEmSizeCalcTblElement-layout	OK	class-inventory: 32 B; FLAT disasm 0x48a54 str r0,[r4,#4] + 0x48a68 vstr s0,[r4,#8]; ctor 0x486f0 add r1,r10,#4 / str r1,[r0,#12]	7 fields at +4..+0x1C confirmed
+docs/analysis/monsters/mon-size-calc.md	slot-names-in-10	STALE	node: map137 -> 112=emid 4 (Basarios), 113=5 (Gravios), 120=19 ...; doc labels them Ceanataur/Conga/Blango	Names come from the superseded 129-slot map
+docs/analysis/monsters/mon-size-calc.md	physical-137-valid-129	STALE	node: 137 records at 0x60CA; all 137 slots are meaningful under the settled layout (map137 has 137 unique emids)	'valid 129' is the old slot count
+docs/analysis/monsters/mon-ai-entry.md	em043-dispatch-table	OK	node: 18 u32 at 0xe81b74 = 48 54 60 6c 16c 16c 9c a8 b4 d8 114 120 12c 148 16c 16c 154 160; targets 0xe81bbc/0xe81ce0	Exact
+docs/analysis/monsters/mon-ai-entry.md	em043-data-pointer	OK	node: 0x17c6fd0.. = 6bf08 6bf0c e84530 e84b18 e81b4c 6bf18 e75cc4 6bf1c	Exact
+docs/analysis/monsters/mon-ai-entry.md	73e0-477f-89disp	OK	node: 638 movw #0x73e0 sites in 481 push-prologue functions; 87 sites with ldrb+cmp#17	Independently within heuristic error of 477/89
+docs/analysis/monsters/mon-ai-entry.md	52308c-4-callers-6aa9b8-94	OK	node: callers 0x52308c = 4 (248994,2489b8,2489dc,3d440c); 0x6aa9b8 = 94	Exact
+docs/analysis/monsters/mon-ai-entry.md	emXXXFwMove-0x15533db	WRONG	node: 0x15533cf = 'emXXXFwMove', 0x15533db = 'uEnemyActCustom'	§3 negative table still cites 0x15533db for the template (E9 already corrects it)
+docs/analysis/save-io/social-checksum.md	C7-cross-save-stats	OK	node: clean slot1 nonzero 200479 (56.2%), dirty slot0 127946 (35.9%), diff 239842 (67.3%), first 32 B zero in both	Exact
+docs/analysis/save-io/social-checksum.md	C8-fill-runs	OK	node: 0xBD4B1..0xBD722 all 0x10; {0f,10} run ends 0xC71BD len 40204; zero run 0x117125..0x11B636 len 17681; tail nonzero 2098/17002	Exact
+docs/analysis/save-io/social-checksum.md	C1-readers-632	OK	FLAT disasm 0x3e77b0 -> 18 reader calls in order 19a4ec..55d2c0; 0x3e0e4c mov r2,#632; 0x3e0e50 bl 0x13efe30	Exact
+docs/analysis/save-io/social-checksum.md	C3-movw-index-fullscan	UNVERIFIABLE	find . -name movw-index.json -> none; doc cites analysis/movw-index.json (172,435 rows)	Input index not in repo; doc itself flags the method boundary
+docs/analysis/save-io/social-checksum.md	C4-editor-821248	STALE	grep -n 821248 editor-src/*/MainForm.cs -> 0 hits; 1177760 at 255/276/346; Math.Min(512, hunterBlockSize-i) at 361	Code excerpt describes the pre-fix editor; fix implemented as the doc requires
+docs/analysis/save-io/social-checksum.md	member-region-227386	WRONG	node: 0x3783A-0x278 = 226754	Same off-by-632 length error as PROGRESS
+docs/analysis/save-io/tail-containers.md	interval-653472-72.62pct	OK	node: 0x11F8A0-0x80000 = 653472; slot1 nonzero 474575 (72.62%)	Exact
+docs/analysis/save-io/tail-containers.md	holes-16-30043	OK	node: 16 zero runs >=256 B, total 30,043; addresses/lengths identical to the table	Exact
+docs/analysis/save-io/tail-containers.md	same-role-diff-71.969	OK	node: diff 470296 (71.969%), clean-only 225499, dirty-only 93390	Exact
+docs/analysis/save-io/tail-containers.md	zlib-grid-50x73	OK	node: 50/50 inflate at 0xC9B99+k*73 (len at +12, stream at +16) to 6328 zero bytes; header 78 9c; len 29	Exact
+docs/analysis/save-io/tail-containers.md	closure-C0..C7	OK	node: 1966+193376+174838+248609+17681+206+4700+12096 = 653472	Exact
+docs/analysis/save-io/tail-containers.md	16B-grid-22940	WRONG	node: 8-byte frame ff00 499224499224 at 0x80000..0x117117 -> 22939 hits, delta 16 x 22340	Off by one (boundary); rest of the grid description verified
+docs/analysis/save-io/tail-dense-3783A.md	length-and-md5	OK	node: 296902; md5 clean 7729559b03ee73914001f17a30cb5d72, dirty slot0 0e7d24ca5653450a90daacaf16a2d141	Exact
+docs/analysis/save-io/tail-dense-3783A.md	zero-residual-98295	OK	node: zero bytes 98295 (33.1%); mod-16 residual 6754,5415,5299,5992,6878,5729,5694,5252,15813,...	Exact including the r=8 peak
+docs/analysis/save-io/tail-dense-3783A.md	bit-pattern-counts	OK	node: u32 0x24924900 x8959; u16 4900/2492/9249 = 9408/9005/9745; bytes 49/24/92 = 59167 (29.8% of nonzero)	Exact
+docs/analysis/save-io/tail-dense-3783A.md	lag16-vs-15-17	OK	node: lag16 0.3977, lag15 0.1543, lag17 0.1554, lag432 0.4274	Exact
+docs/analysis/save-io/tail-dense-3783A.md	phaseB-7291-hdr100pct	OK	node: records 0x63841..0x80000 = 7291, hdr match 7291/7291, payload 58328 B, entropy 7.534, lag16 0.5277	Doc says 7,292/7,292; 7,292 is the u32 count, records are 7,291
+docs/analysis/save-io/tail-dense-3783A.md	runs-24966-max-129	OK	node: zero runs >=64 = 0; nonzero runs 24965; max run 129 at 0x52A71	Run count off by one (last run boundary)
+docs/analysis/save-io/write-side-desc.md	ctor-0xdaba4-44B	OK	FLAT disasm 0xdaba4..0xdac0c matches the 28 documented instructions; 0xdac10 literal 0x175f1b8	Exact
+docs/analysis/save-io/write-side-desc.md	write-entry-no-3df378	OK	node: calls in 0x3e0ea4 = 7x0xdaba4, 0x275a30, 2x0x13efe30, 0x13efdd0, 7x0xdadf0, 0x3e75f8, 7x0xdad24; 0x3df378/0x3df2a8 = 0	Exact
+docs/analysis/save-io/write-side-desc.md	18-writers	OK	node: 0x3e75f8..0x3e77b0 -> 17 bl at 0x3e760c..0x3e774c + 1 b at 0x3e7764 -> 0x55d45c	Exact pair table
+docs/analysis/save-io/write-side-desc.md	0x0B1-HR-second-copy	WRONG	FLAT disasm 0x3e104c movw r0,#0x506 ; 0x3e1050 ldrh r0,[r9,r0] ; 0x3e1054 strh r0,[r12,r1] (source is not obj+0xB0); node: 0x0B1 = 0 in all 8 .hnt and all 18 system slot blocks while HR = 5/8/10/198	Source offset is obj+0x506; saved 0x0B1 is never HR. Spec 01 invariant 3 REFUTED this too
+docs/analysis/save-io/write-side-desc.md	14b0b0-14b1c4-labels	WRONG	SUBAGENT-LEDGER.md WriteSideDesc row: vetoed; 0x14b0b0 11 reads/0 writes, 0x14b1c4 0 reads/10 writes, original labels correct	Doc claims the older docs swapped the labels
+docs/analysis/save-io/write-side-desc.md	0x270-residue-never-written	UNVERIFIABLE	no direct store to sp+0x270 in 0x3e0ea4; but writes also come via memcpy of 632 B, so 'never written' needs full dataflow	Claim is plausible and consistent with spec 01 but not independently closed
+docs/editor-spec/01-container-header.md	container-constants	OK	node: system_CLEAN 5,159,100 B; 0x14 = 36b2ee74; 0x1C = 4eb898; 0x24 = c6; 0x28..2A = 1,1,0	Exact
+docs/editor-spec/01-container-header.md	slot-offset-table	OK	node: 0x34/0x38/0x3C = 0x18CC78/0x2AC53C/0x3CBE00 = hunterAdds - 0x24	Gap 1 can be closed with these values
+docs/editor-spec/01-container-header.md	slot-state-word-0x50	WRONG	node: system 0x50 = 0x756e736e, 0x54 = 103, 0x58 = 0; FLAT disasm 0x3e121c-0x3e1224 compares [r0+4*slot+0x2C] where r0 is the context object (its +0x28 holds the payload pointer)	Row claims a file field 'must equal 1'; the compared field is in the runtime object, not the payload
+docs/editor-spec/01-container-header.md	7x44-record-vptr	OK	node: hunterA_HR5_V7.hnt 0x10C+44k -> 7x 0x193a514	Exact
+docs/editor-spec/01-container-header.md	HR-0x0B1-refuted	OK	node: 0x0B1 = 0 in all 8 .hnt and all 18 system slot blocks	Matches the bytes; contradicts spec 03
+docs/editor-spec/01-container-header.md	observed-values	OK	node: 70310 / 3355345 in system_CLEAN slot1 (HR 8); 1560082 / 8345419 in v6-ready system slot0 (HR 198)	All four quoted values exist in the samples
+docs/editor-spec/02-items-equipment.md	codec-closures	OK	node: ceil(2300*19/8)=5463, ceil(2992*19/8)=7106; 0x62EE+0x11940=0x17C2E, +0x8CA0=0x208CE, +0x1540=0x21E0E; 6095+24*170=10175; 7738+14*170=10118, +2437=10175	Exact
+docs/editor-spec/02-items-equipment.md	pouch-sample-21-24	OK	node: 19-bit LSB decoder at char_off 10175 -> clean slot1 21 occupied, dirty slot0 24; first entries 10:10, 88:6	Exact
+docs/editor-spec/02-items-equipment.md	preset-name-42B	OK	node: char_off 133326 -> '设置01' + 34 zero bytes	Exact
+docs/editor-spec/02-items-equipment.md	v7-57B-deadzone	OK	node: 7738+2380 = 10118; 10175-10118 = 57	Exact
+docs/editor-spec/03-quests-monsters-palico.md	monster-arrays	OK	node: kill 62 nonzero / max 45 at 0x5EA6; capture 26 / max 3 at 0x5FB8; size 42 nonzero at 0x60CA; capture[71..111]=0, capture[135..136]=0	Exact
+docs/editor-spec/03-quests-monsters-palico.md	137-slot-layout	OK	node: map137 rows 0-70/71-111/112-134/135-136 = 71/41/23/2; 94 large + 43 small	Exact
+docs/editor-spec/03-quests-monsters-palico.md	palico-108x324	OK	node: 0x23BB6+324*84 = 0x2A606 (173574); +324*24 = 0x2C466; record 0 name 'Miao', 0x11A 9xRGBA with 0xFF, id7 = 14,15,18,65535x4, owner @0x9C 'Sakiko'	Exact
+docs/editor-spec/03-quests-monsters-palico.md	medals-A-B	OK	node: clean 0x3157 / 0x316B = 12 bits each, first 17 B equal, +16..+19 zero; dirty A 132 bits / B 33 bits	Exact
+docs/editor-spec/03-quests-monsters-palico.md	HR-second-copy-0x0B1	WRONG	node: 0x0B1 = 0 while HR (0x28) = 198 in the same blocks	Contradicts spec 01 invariant 3 and the bytes
+docs/editor-spec/03-quests-monsters-palico.md	palico-colors-residue	OK	node: 0x11A = 9 groups ending 0xFF; 0x58 = 20 06 00 e9 25 60 06 (contains 0x066025E9 at +0x5B)	Exact
+docs/history/DEVELOP-state-20261022.md	V6-22-lines	STALE	git show 5ec46c8:patch/1.4.0.pchtxt -> 22 patch lines; current file 123 (V7, 53bcc3f 2026-10-22)	Snapshot predates V7
+docs/history/DEVELOP-state-20261022.md	only-open-item-markers	STALE	DEVLOG.md:214 '30 页扩容验证通过（用户实机确认）✅'	The capacity question the markers were meant to settle was closed the same day; marker visibility itself is not recorded
+docs/history/DEVELOP-state-20261022.md	bitstream-forward	OK	node: box slot 0..5 decode to 1:99..6:98; pouch slot 0..5 = 10:10, 88:6, 16:1, 18:5, 21:5, 24:5 (forward indexing, sensible ids)	Supports the forward direction ruling
+docs/history/DEVELOP-state-20261022.md	no-checksum	OK	social-checksum C6/C7 reproduced: 0 CRC matches and 67.3% cross-save difference in the tail	
+docs/history/PROJECT-EVAL-20261023.md	C1-C3-C4-now-fixed	STALE	docs/PROGRESS.md:96-98 now shows '80.8%/71.7%' with 95.7% struck; :14 and :24 both 78%; :70 shows '~~77%~~ 已作废'	Findings were valid on 2026-10-23 and have since been applied
+docs/history/PROJECT-EVAL-20261023.md	C5-now-fixed	STALE	docs/PROGRESS.md D table rows 1-5 now '✅ 完成'	
+docs/history/PROJECT-EVAL-20261023.md	C6-C7-C8-C16-C19-C21-now-fixed	STALE	coverage-map.md:42 (137/94+43 superseded line), :40 (5440 superseded 5430), DEVELOPMENT.md:206-208 (134 rows/12,955 superseded 159), DEVELOP.md:343 (cmp r4,#384 superseded), HANDOFF.md:17 (234KB struck)	All these now carry explicit superseded markers
+docs/history/PROJECT-EVAL-20261023.md	C9-nca-size	STALE	DEVELOP.md:49 and :304 now both 12,168,003,584 B with '~~9.1 GB~~/~~10.8GB~~ superseded'	
+docs/history/PROJECT-EVAL-20261023.md	C12-append-200-vs-30	STALE	SUBAGENT-LEDGER.md:31 now '每 30 函数 append 落盘（~~每 200 函数~~ 作废）'	
+docs/history/PROJECT-EVAL-20261023.md	C15-105-A-estimate	WRONG	node: docs/analysis/code/tierb-pass1|2 contain 7 'conf=A' mentions; HANDOFF.md:147 records recompute = 54 conf=A	The +1.0pp is not explained by ~105 A rows
+docs/history/PROJECT-EVAL-20261023.md	R1-tierb-labels-contamination	OK	wc -l docs/data/tierb-labels.csv -> 379 (header + 378); every row src=tierB-slice-03.md	Still present without a void marker
+docs/history/PROJECT-EVAL-20261023.md	R8-metrics-not-reproducible	STALE	docs/analysis/code/inventory/tiers.csv is now in-repo (23,885 rows); docs/analysis/code/inventory/METER.md + tools/mhgu/coverage/{recompute,report,sample}.mjs document a rerunnable chain	Fixed 2026-11-03
+docs/patches/item-box-v7-plugin-spec.md	123-patch-lines	OK	grep -c '^[0-9a-f]\{8\} ' patch/1.4.0.pchtxt -> 123; wc -l -> 136	Exact
+docs/patches/item-box-v7-plugin-spec.md	all-123-vaddr-vs-pchtxt	OK	node: 123 doc rows (vaddr) vs 123 pchtxt offsets, vaddr+0x100 == offset -> 0 mismatches	Exact, row numbers 1..123 contiguous
+docs/patches/item-box-v7-plugin-spec.md	code-sites-123-data-sites-0	OK	node: every pchtxt offset %4 == 0 and (offset-0x100) < 0x13F1DEC -> 0 violations	Matches the .text-only claim
+docs/patches/item-box-v7-plugin-spec.md	group-composition-123	OK	node: 9+2+5+6+2+30+23+9+11+17+3+2+4 = 123	Exact
+docs/patches/item-box-v7-plugin-spec.md	v8-immediates	OK	grep -o '74FA|80B0' patch/experimental-v8/1.4.0.pchtxt -> 1 each	Matches '0x64C2->0x74FA, 0x6DC4->0x80B0'
+docs/spec-crossgame/monster-gu.md	U1-U20-reference	OK	docs/mechanics/monsters.md has 662 lines; §15 starts line 630, U20 at line 653	Citation resolvable
+docs/spec-crossgame/monster-gu.md	kill-capture-char_off	WRONG	node: settled arrays are kill 0x5EA6..0x5FB7, capture 0x5FB8..0x60C9; doc gives 0x5EA2..0x5FB4 and 0x5FB4..0x60C6 (overlapping at 0x5FB4)	Off by 4 B relative to the 2026-10-23 ruling
+docs/spec-crossgame/monster-gu.md	slot-0..92-writable	STALE	node: map137 -> 112..134 are named large monsters (23), small are 71..111 and 135..136	Advice 'editor should only write 0..92' is the superseded layout
+docs/spec-crossgame/monster-gu.md	size-block-552	STALE	node: size block 0x60CA..0x62EE = 548 B = 137x4; the 4 B before 0x60CA belong to member#4	Doc keeps the old 552 B / 138-row ambiguity
+docs/spec-crossgame/monster-gu.md	quest-link-2305	OK	node: monster_to_quest.json rows = 2305	Exact
+docs/spec-crossgame/monster-gu.md	slot-map-137-file	OK	node: monster-slot-map-137.json rows = 137	Exact
+docs/spec-crossgame/monster-gu.md	size-record-capacity-129	STALE	node: 137 records exist and all 137 slots are addressable in the settled map	'valid 129' superseded
+docs/spec-crossgame/monster-gu.md	93-large-monsters	OK	bun sqlite: monsters class0 75 + class2 18 = 93 hunter-visible large; binary has 94 large slots incl. em087	Both statements are true under their own definition
