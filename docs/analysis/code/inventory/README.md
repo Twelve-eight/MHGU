@@ -16,7 +16,7 @@
 
 每行一个已标注函数：`start / insns / label / provenance / reason`。
 
-- `provenance` **五类**，对应报告的分区顺序：`evidence:`（conf A，函数自己有一行依据）→ `inferred:`（conf V，由通道推断）→ `signature:`（conf S，立即数签名）→ `spread:`（邻域传播）→ `adjudication:`（Tier B 切片里的人工裁定；它**不计入 ≥90% 验证桶**，见 METER「三次更正」）。
+- `provenance` **五类**，对应报告的分区顺序：`evidence:`（conf A，函数自己有一行依据）→ `inferred:`（conf V，由通道推断）→ `signature:`（conf S，立即数签名）→ `spread:`（邻域传播）→ `adjudication:`（Tier B 切片里的人工裁定）。**优先级是 A > V > S > 脊柱 > 裁定**：裁定只在函数没有前几类标签时才生效，且**不计入 ≥90% 验证桶**（见 METER「三次更正」）。
 - `reason` 是通道当时写下的**原句**，不是摘要；想复核就去 `provenance` 指向的那个文件里按 `start` 找同一行。
 - **没有出现的函数就是没标签的**，共 **12,318 个（23.4% 函数 / 10.0% 指令）**。不要把它当成"全表"。
 
