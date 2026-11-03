@@ -33,7 +33,7 @@ const bump = (ch, ok, note) => {
   result.set(ch, e);
 };
 
-for (const file of ["attr-strings2.tsv", "attr-vtable-fixed.tsv", "attr-vtable-ns.tsv", "attr-vtable-rtti2.tsv", "attr-immscan.tsv", "attr-fingerprint.tsv"]) {
+for (const file of ["attr-strings2.tsv", "attr-vtable-fixed.tsv", "attr-vtable-ns.tsv", "attr-vtable-rtti2.tsv", "attr-immscan.tsv", "attr-fingerprint.tsv", "attr-vtable-retile.tsv"]) {
   const p = INV + file;
   if (!fs.existsSync(p)) continue;
   const rows = fs.readFileSync(p, "utf8").split(/\r?\n/).filter(Boolean).slice(1)
