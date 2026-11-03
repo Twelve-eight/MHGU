@@ -298,7 +298,9 @@ rows.push(["partition: no label", String(pNone), String(pNoneIns), pct(pNoneIns,
 // in or out at a threshold. Evidence rows were re-verified against the image (100% of 8,089), inference folds at 99.3%
 // (class), 96.4% (caller) and 94.9% (callee), signature at 97.1%, the validated spread labels at 99.8/98.4, and the rest of
 // the spread class at 72.4% (CP95 71.3). The no-label bucket contributes nothing.
-const precisions = { dir: 1.0, inf: 0.95, sig: 0.971, spv: 0.99, spu: 0.724, none: 0 };
+// Direct evidence is not assumed perfect: the three rule families agree on 94.0-97.9% of the functions where they overlap
+// (string vs class-name 840/894, class-name vs structural 937/958), so 0.97 is the defensible value rather than 1.0.
+const precisions = { dir: 0.97, inf: 0.95, sig: 0.971, spv: 0.99, spu: 0.724, none: 0 };
 const explained = pDirIns * precisions.dir + pInfIns * precisions.inf + pSigIns * precisions.sig + pSpVIns * precisions.spv + pSpVoteIns * precisions.spv + pSpUIns * precisions.spu;
 // Instructions only: a function-level version would need a per-function weight, and inventing one (e.g. 0.85 x labelled)
 // would be a made-up number in the one row that exists to avoid made-up numbers.
