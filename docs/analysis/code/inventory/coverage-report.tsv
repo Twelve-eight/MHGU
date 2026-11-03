@@ -3,16 +3,16 @@ class	functions	insns	pct_insns	pct_functions
 A-direct (evidence row)	13060	1248128	23.9%	24.8%
 tier A (verified)	25584	3014249	57.7%	48.6%
 conf B (unverified)	11842	1483290	28.4%	22.5%
-A-inferred (cascade vote, per-round 93.0-94.4%)	18026	2816711	53.9%	34.2%
-A-signature (32-bit constant, fold 97.1%)	1467	106051	2.0%	2.8%
+A-inferred (cascade vote, per-round 93.0-94.4%)	14416	2221533	42.5%	27.4%
+A-signature (32-bit constant, fold 97.1%)	2142	245932	4.7%	4.1%
 headline A only	25584	3014249	57.7%	48.6%
 partition: direct evidence	13060	1248128	23.9%	24.8%
-partition: inferred only	18026	2816711	53.9%	34.2%
-partition: signature only	873	57696	1.1%	1.7%
-partition: spread validated labels	3911	257523	4.9%	7.4%
-partition: spread validated by vote count	79	3042	0.1%	0.1%
-partition: spread unvalidated	4719	380398	7.3%	9.0%
-partition: no label	12024	464779	8.9%	22.8%
-covered at >=90% precision	35870	4380058	83.8%	68.1%
-covered at >=85% precision	40589	4760456	91.1%	77.0%
-spread labels (86.0% overall, CP95 85.5)	4719	380398	7.3%	9.0%
+partition: inferred only	14416	2221533	42.5%	27.4%
+partition: signature only	1275	140293	2.7%	2.4%
+partition: spread validated labels	5352	589895	11.3%	10.2%
+partition: spread validated by vote count	87	3458	0.1%	0.2%
+partition: spread unvalidated	5749	522400	10.0%	10.9%
+partition: no label	12753	502570	9.6%	24.2%
+covered at >=90% precision	34103	4199849	80.3%	64.7%
+covered at >=85% precision	39852	4722249	90.3%	75.6%
+spread labels (86.0% overall, CP95 85.5)	5749	522400	10.0%	10.9%
