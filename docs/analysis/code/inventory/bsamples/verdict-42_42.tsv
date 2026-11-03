@@ -1,0 +1,13 @@
+block	start	label	verdict	evidence
+42	0x13c8a68	online-nex	confirm	143 条 libcurl 侧函数：callee 0x13c8ca4 就是 attr-strings 记录的 libcurl 错误文本函数（"Operation timed out after %ld milliseconds…"），另 bl 0x13d7360/0x13d7394/0x13ce1bc/0x13c9f50/0x13cdf8c/0x13ce558/0x13ce544 全在 0x13c-0x13d 的 libcurl 段；block 内 0x13c8ae0 bl 后回到本函数分支收尾
+42	0x13cbb28	online-nex	unknown	3 条动态导入 thunk（add r12,pc,#0x400000; add r12,r12,#0x47000; ldr pc,[r12,#off]），目标槽在 0x17fxxxx 导入表内且未重定位，函数体无任何子系统信息；调用者 0x13ce8ec/0x13d3d10 虽在 libcurl 段，但 thunk 可为多模块共享
+42	0x13ce2bc	online-nex	confirm	59 条 libcurl 连接管理：校验 r2/r5 非空后取 [r5,#12]&[r5,#16]==-1 判特殊连接，bl 0x13cdf8c 得对象并比较指针，再写 [r4]；同段 callee 0x13cdf8c 与调用者 0x13c8ca4（libcurl 错误文本函数）、0x13c7ad4/0x13c7ca4 均属 libcurl
+42	0x13d39b4	online-nex	confirm	15 条 libcurl 回调分发：r0 空则置 flag=1 返回 0，否则 ldr [r0,#1048]→[+28] 取函数指针并 bx（curl easy handle 的 read/write 回调字段），写 [r1] 字节标志；该地址与调用者 0x13c8ca4 同在 libcurl 段 0x13cxxxx-0x13dxxxx
+42	0x13f004c	monster-em	unknown	3 条动态导入 thunk（ldr pc,[r12,#180]），目标在未重定位导入表；214 个调用者几乎全是 nFestaNetwork::netEm*Procedure / cRemoteProcedure 类（网络过程注册/调用），但 thunk 本身不含子系统信息，且被多处共享
+42	0x13f0430	save-data	unknown	3 条动态导入 thunk（ldr pc,[r12,#3612]），唯一调用者 0x829b4c 无字符串/类证据；thunk 共享，不可归属
+42	0x13f07a8	monster-em	unknown	3 条动态导入 thunk（ldr pc,[r12,#3020]），调用者 0x8641b4/0x864540/0xbbbde0 分属不同段（0x864xxx 与 0xbbxxxx），无共同子系统
+42	0x13f0b44	monster-em	unknown	3 条动态导入 thunk（ldr pc,[r12,#2404]），唯一调用者 0x86e420 无证据
+42	0x13f0de4	save-data	unknown	3 条动态导入 thunk（ldr pc,[r12,#1956]），唯一调用者 0x878da0 带 attr-xref 字符串 "savedata"（save-data A）；thunk 本身可直接被其它模块复用，故按 thunk 判 unknown 而不继承调用者标签
+42	0x13f1030	kernel-os	unknown	3 条动态导入 thunk（ldr pc,[r12,#1564]），5 个调用者 0xbad64c/0xbad7a4/0xbad978/0xbadad0/0xbadc28 全在 0xbadxxx 单一段，但 thunk 共享、目标未解析
+42	0x13f11c8	monster-em	unknown	3 条动态导入 thunk（ldr pc,[r12,#1292]），唯一调用者 0xbf8b8c 无证据（tiers 把该行记为 A 只是邻居预测一致，不构成独立证据）
+42	0x13f1450	monster-em	unknown	3 条动态导入 thunk（ldr pc,[r12,#860]），两个调用者 0xbfd8c4/0xbfee70 同在 0xbfdxxxx，无类/串证据

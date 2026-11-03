@@ -6,7 +6,7 @@ block	start	label	verdict	evidence
 28	0xa88634	monster-em	relabel:render-gfx	cParticleGeneratorLensFlare vtable 0x179057c slot 6（注册 0xa89e34）；bl 0xa58fa8（cParticleGenerator slot 6）后以掩码 192/4080 调 0xa5b658
 28	0xa8d5d4	monster-em	relabel:render-gfx	cParticleGeneratorLightShaft vtable 0x179067c slot 24（注册 0xa8dc30）；与 0xacf1e8 同模板：[r8+176] 链 + 0xa8d6f4/0xa5b224
 28	0xa948c0	monster-em	relabel:render-gfx	cParticleGeneratorModel vtable 0x1790868 slot 2（注册 0xa9af40）；bl 0x7aa47c 单例 + bl 0xa58d7c（cParticleGenerator create），并把静态指针 [0xdaf134]+8 写入返回对象
-28	0xa9c1f4	quest	relabel:render-gfx	函数体内含 cParticleGeneratorPoint 类注册点 0xa9c414（class-inventory size 464）；按索引表（mask 0xAA/0x154）混合颜色写 [r4+96]/[r4+104]，bl 0xaed74c/0xaf938c 取粒子表项
+28	0xa9c1f4	quest	relabel:render-gfx	粒子颜色/参数混合：bl 0xaed74c（按 [r1+3]&7 分派粒子轨道类型，cParticleGenerator 颜色代码共用）与 0xaf938c，按索引表（mask 0xAA/0x154）混合颜色写 [r4+96]/[r4+104]；类注册 cParticleGeneratorPoint 位于紧随的 0xa9c38c 函数
 28	0xaa46b0	monster-em	relabel:render-gfx	cParticleGeneratorAdhesion vtable 0x17909d4 slot 1（create 0xaa4608，注册 0xaab650）；bl 0xa58e70（cParticleGenerator slot 0）
 28	0xaabc28	monster-em	relabel:render-gfx	cParticleGeneratorPolygonStrip vtable 0x1790c04 slot 1（create 0xaabb7c，注册 0xab0ad8）；bl 0xa58e70（cParticleGenerator slot 0）
 28	0xab1d24	render-gfx	confirm	粒子发射/更新：28 个 callee 全在粒子簇（0xa74880/0xa7491c/0xa74fcc/0xa74b9c/0xa75734/0xab84f8/0xab8cd4/0xab956c）；遍历 [r9+176] 生成器链与 [r5+4]/[r7+4] 子链，被 0xabc8dc 以 b 0xab1d24 尾跳
@@ -28,17 +28,17 @@ block	start	label	verdict	evidence
 30	0xb15ad0	quest	relabel:physics-math	nCollision::cGeometry vtable 0x17918c4 slot 6（create 0xb155e8，注册 0xb1f720）；读流字节 + 经 0x7aef68 单例取对象，再以 32 字节调 vtable[+60]（碰撞几何反序列化）
 30	0xb1d04c	monster-em	relabel:physics-math	709 指令几何查询：callee 0x7bece8/0x7bef68/0x7bfbf8/0x7bfcb0/0x7c0394 均为按 [r1+4] 类型 20/15 路跳转的几何分派器；遍历 [r8+16] 计数与 [r8+24] 指针表；调用者 0xc13a00/0xc1478c/0xc148ec 属碰撞簇
 30	0xb21388	render-gfx	relabel:online-nex	装 30 槽 vtable 0x1791c7c（方法 0xb21xxx/0xb22xxx/0xb24310）；59 个调用者含 nNetwork::RpcNetSystem_*、nFestaNetwork::net*、sFestaRemoteProcedure；bl 0x8385e8 初始化子对象
-30	0xb250e4	online-nex	confirm	网络记录表：槽表 [r4+0x3490] 起 296 字节步长，4 次 bl 0x80d150（MtNetUniqueId 0x80dbbc 同簇的 net 助手），0x85fa20/0x8103b8 与 64 字节 memcpy 0x13efe30（源 [r5+0x354c]）
+30	0xb250e4	online-nex	confirm	网络会话记录表：nNetwork::SessionDriver 方法 0x874328/0x874394 调用（class-inventory 0x874e18）；记录表 [r4+0x3490] 296 字节步长、4 次 bl 0x80d150 位流读取、0x85fa20/0x8103b8、64 字节 memcpy 0x13efe30（源 [r5+0x354c]）
 30	0xb27e24	monster-em	unknown	单例转发壳：全局 [0xd1c000] -> 0x7aa47c -> bx [r1,#52]；无子系统符号
-30	0xb2aeb8	online-nex	confirm	nNetwork::Session 构造/析构（实例 vtable 0x1792148，class-inventory 注册 0xb2cb24）；调用 sNetwork 0xba8810、nNetwork::TagChecker 0xb2dba8、nNetwork::Callback 0xb1fe58、MtNetUniqueId 0x80dbbc
+30	0xb2aeb8	online-nex	confirm	nNetwork::Session 析构（装实例 vtable 0x1792148，class-inventory 注册 0xb2cb24），随后释放 sNetwork 0xba8810、nNetwork::TagChecker 0xb2dba8、nNetwork::Callback 0xb1fe58、MtNetUniqueId 0x80dbbc 等子对象
 30	0xb2f414	monster-em	unknown	数组槽设置器：虚调 [r4]->[+24] 后写 [r6+r5*4+8]，无类型/子系统符号
 30	0xb35c00	render-gfx	unknown	链表节点查找：遍历 [r1] 链，命中 [r1+40]==24 且 [r1+4]==r2 时返回节点；入参/返回无类型符号
 30	0xb3b5e0	otomo-ot	relabel:physics-math	类注册 rChain/rChainCol（字符串 0x15797b7/0x15797be，bl 0x7aedcc）；classprefix-map rChain->physics-math；并初始化 0..9/128 枚举表
-30	0xb43d50	monster-em	relabel:render-gfx	描述符发射器：经源对象 vtable[+40] 六次取 float 写 [r4+0/4/8/0x10/0x14/0x18]、经 [+12] 取 int 写 [+32..44]；唯一调用者 0xb41f54/0xb44238 各调 25 次，是 rGraphPatch/rGrass2Setting 成员描述构建器
-31	0xb48ae0	otomo-ot	relabel:render-gfx	注册 rMetaSet/rMetaSetXml/rMetaSetXml::ObjectData（site 0xb48b68/0xb48ba4/0xb48bdc）；成员 mClassName/mInnerClass/mClassIndex/mObjectArray、文件 id mst/mst.xml = 场景对象元数据资源（uMetaSet 消费侧）
-31	0xb4b924	player-pl	relabel:render-gfx	rNavigationMesh node 成员描述构建：mAABB（site 0xb4b9d8）、mNodeOffset（0xb4b96c）、mIndex/mNumberOfAttribute/mpAttribute；classprefix-map rNavigation->render-gfx
+30	0xb43d50	monster-em	unknown	接口对象->结构体拷贝：经源对象 vtable[+40] 六次取 float 写 [r4+0/4/8/0x10/0x14/0x18]、经 [+12] 取 int 写 [+32..44]；唯一调用者 0xb41f54/0xb44238（各 25 次）本体无类名串，无法归属
+31	0xb48ae0	otomo-ot	relabel:render-gfx	注册 rMetaSet/rMetaSetXml/rMetaSetXml::ObjectData（site 0xb48b68/0xb48ba4/0xb48bdc）；成员 mClassName/mInnerClass/mClassIndex/mObjectArray、文件 id mst/mst.xml = 场景对象元数据资源
+31	0xb4b924	player-pl	relabel:render-gfx	rNavigationMesh 成员描述构建（函数末尾 0xb4ba34 即 rNavigationMesh class-record 写点，vtable 0x17933f0，site 0xb4ddc4）：mAABB（site 0xb4b9d8）、mNodeOffset（0xb4b96c）、mIndex/mNumberOfAttribute/mpAttribute；classprefix-map rNavigation->render-gfx
 31	0xb506b4	otomo-ot	relabel:render-gfx	类注册 rShader2（字符串 0x1579c30，bl 0x7aedcc）并装 vtable；classprefix-map rShader->render-gfx
-31	0xb54af0	player-pl	relabel:monster-em	rAIWayPoint::Link 成员描述构建（实例 vtable 0x17938b4 slot 4）：mID/mNumberOfAttribute/mpAttribute/mCost/mHeight；AI 域按 pass2/3 惯例（cAISv*/cAIGraph->monster-em）
+31	0xb54af0	player-pl	relabel:quest	rAIWayPoint::Link 成员描述构建（实例 vtable 0x17938b4 slot 4）：mID/mNumberOfAttribute/mpAttribute/mCost/mHeight；rAI* 是 are.xml/gway 区域路径资源（同族 rAIPathBase 在 tierB3-slice-04 判 quest，classprefix-map 的 rArea/rStage 均为 quest）
 31	0xb5c288	otomo-ot	unknown	资源名装载器：由 [r5+4]+[r5+28] 取名字，经 3 个全局函数指针（GOT 0xcdd160/0xcdd100/0xcdd0a4）查 3 个子资源，失败置 [r4+0] 位 64/128/256/16384；无类/子系统符号
 31	0xb6241c	kernel-os	unknown	cResource 派生类析构壳：装 vtable 0x1793cdc、bl 0x690（MtArray 析构）、尾跳 0x887100；类未在 class-inventory 注册，无法定子系统
 31	0xb6a42c	quest	unknown	2 指令 getter：add r0,r0,#104; bx lr
@@ -53,16 +53,16 @@ block	start	label	verdict	evidence
 32	0xba8174	online-nex	unknown	锁内更新缓存字段：[r4+76/80/84/88] 与入参比较，变化时 0xcd8ee8 更新 [r4+44] 块、0x842d2c 引用计数；无可归属类/协议符号
 32	0xbad2a4	online-nex	unknown	sPad::Pad 状态查询：[r0+0x6b60] 为索引、步长 2896（=sPad::Pad size），检查 [pad+68]/[pad+71]；输入子系统在 classprefix-map 无标签
 32	0xbbbc10	otomo-ot	relabel:online-nex	类注册 sRemoteProcedure 与 sRemoteProcedure::cTemporaryRemoteCall（字符串 0x157be43/0x157be54，bl 0x7aedcc x2）；并初始化 [0x156ace8] 枚举表与 0xffff 哨兵
-32	0xbc74e0	filesystem	confirm	字符串 %s%\%s.%s；bl 0x83805c/0x83824c/0x838168/0x838024（MtFileStream 方法）、0x838008、0x82a440/0x82a4c8（MtFile）；文件读写/换名流程
+32	0xbc74e0	filesystem	confirm	字符串 %s\%s.%s；bl 0x83805c/0x83824c/0x838168/0x838024（MtFileStream 方法）、0x838008、0x82a440/0x82a4c8（MtFile）；文件读写/换名流程
 32	0xbd6e68	monster-em	relabel:render-gfx	sScene::TextureInfo vtable 0x1795a1c slot 1（create 0xbcc438，注册 0xbd6d3c）；bl 0x7aa47c 单例后 bx [r1,#52]
 32	0xbde700	monster-em	relabel:render-gfx	sShadow 资源组析构：装 vtable 0x1795e28，释放 [r4+8..36] 子对象，再把 [r4+40] 归还步长 364（=sShadow::ResourceGroup size）的池表（[r2+272] 计数）
 32	0xbe6450	otomo-ot	relabel:audio	对 sSound 单例（size 206976）更新：[r4+4] 状态 0/1、[r4+224] 位 12/1 门控，调 0xbe67b0/0xbe23dc/0xbe6b84/0xbe61c8/0xbe696c；0xbe23dc 访问 [r4+0x31f98]（<0x32800）
 32	0xbee8f0	render-gfx	relabel:audio	音量/分贝换算：s0/20 后 vmov #10 + bl 0x13f00d0 得 10^(x/20)，夹取到 [r4+0x31a1c]（sSound size 0x32800 内）
-32	0xbf07c4	otomo-ot	relabel:audio	sSound 请求池插入：容量 [r9+0x31880]、计数 [r9+0x318a8]、池头 [r9+0x318a4]、锁 [r9+0x31848]（均在 0x32800 内），条目 68 字节，写声音 id/位置并 0x887648 加引用
+32	0xbf07c4	otomo-ot	relabel:audio	sSound 请求池插入：容量 [r9+0x31880]、计数 [r9+0x318a8]、池头 [r9+0x318a4]、锁 [r9+0x31848]（均在 0x32800 内），记录约 68 字节（add r2,r5,#68），写声音 id/位置并 0x887648 加引用
 33	0xbf6364	item	relabel:audio	sSound 单例字段 [r11+0x31874]（<0x32800）计数循环：记录区 [r11+0x2b840] 步长 2736，逐条 bl 0xbf3f18（两次）
-33	0xbf94e4	monster-em	relabel:audio	装 vtable [0xc4bb34]+8 后析构 cSoundMultiBandEQ 子对象（bl 0x8707a8，class-inventory 0x872e00）；再释放 [r4+32]/[r4+36] 经全局 [+52]
+33	0xbf94e4	monster-em	relabel:audio	装 vtable [0xc4bb34]+8 后在 [r4+64] 构造 cSoundMultiBandEQ（bl 0x8707a8 = 该类 vtable 0x17894c8 slot 0，注册 0x872e00）；再释放 [r4+32]/[r4+36] 经全局 [+52]
 33	0xc00940	render-gfx	relabel:audio	音频对象状态机：bl 0xb68e60（rSoundReverb 类注册）两次、dB 到线性 10^(x/20)（vmov #10/vdiv #20/bl 0x13f00d0）写 [r4+0xbc..0xc4]
-33	0xc06088	monster-em	relabel:render-gfx	sToolBase 实例 vtable 0x17967ac slot 0（class-inventory 注册 0xc06088 自身，size 28）；装 vtable、清全局 [0xc3ebd0]、尾跳 0x88784c；sTool 成员 mDraw/mDeltaTime/Draw Command Cache 属绘制工具域
+33	0xc06088	monster-em	unknown	sToolBase 实例 vtable 0x17967ac slot 0（class-inventory 注册 0xc06088 自身，size 28）；装 vtable、清全局 [0xc3ebd0]、尾跳 0x88784c；sTool 成员含 mDraw/mDeltaTime/UnitNum，但 classprefix-map 无 sTool/sFestaTool 归属（sFesta 前缀显式标 unknown）
 33	0xc0ab50	quest	unknown	sVibration 方法：锁内构造栈对象（vtable [0xc38f30]+8）并 bl 0xc0ac10 取 [r0+16]；振动子系统在 classprefix-map 无标签
 33	0xc10a9c	monster-em	relabel:physics-math	遍历 80 字节记录数组（[r4+12] 指向末尾，[-12] 为计数）逐项 bl 0xc18244（sCollision::cSbcMoveReserveInfo 方法），最后 bl 0xc18200 释放容器
 33	0xc15e6c	kernel-os	unknown	仅 bl 0x690（MtArray 析构）+ 尾跳 0x7ca854（全局单例 [+52]）；无可归属类
@@ -73,7 +73,7 @@ block	start	label	verdict	evidence
 33	0xc29db4	monster-em	relabel:physics-math	调用 sCollision::SbcInfo 0xc1ef38、Sbc 0xc1bf24/0xc1c020、0xb798dc/0xb799c4，做平面/胶囊判定后把三轴增量累加到 [r4]；callee 0xc1703c/0xc47f50 参与取参
 34	0xc358e8	monster-em	relabel:physics-math	sCollision::SbcInfo 0xc1ef38 + Sbc 0xc1bf24/0xc1b778；三点距离/归一化/点积容差判定后把 [r5+72..88] 拷到 [r4+200..220]，写 [r4+0x1b4]
 34	0xc3f130	monster-em	unknown	位掩码 (flags&0x407)==0x402 后以 0xc71ba0/0xc71ba8 getter（+135/+136）与 0xc71c5c 处理；无类/子系统符号
-34	0xc46cc0	otomo-ot	unknown	二级数组索引器：[r0+188] 计数、[r0+200] 指针表、条目 [+92]/[+88]+r2*64，命中则写 [r0+12]；无类型符号
+34	0xc46cc0	otomo-ot	unknown	二级数组索引器：[r0+188] 计数、[r0+200] 指针表、条目 [+92] 计数/ [+88]+r2*64 数据区，命中则写 [entry+88+r2*64+12]；无类型符号
 34	0xc49168	render-gfx	confirm	渲染状态/常量装配：读 [r4+264/268/284/288/4036/0x100c/0x1174/0x1178] 与 [r4+196..208]，调 0x87a7ac/0x87ff38/0x86a438/0x882674/0xc48ae0 与 0x29d48（VFP 相机矩阵），写常量块
 34	0xc4df70	online-nex	unknown	6 指令 setter：写 [r0+4]/[r0+5]/[r0+8]
 34	0xc514a0	player-pl	relabel:physics-math	rCnsLookAtEyeball 成员描述构建（实例 vtable 0x17977f4 slot 4）：mTargetPos/mTargetJointNo/mREyeJointNo/mLEyeJointNo/mRotLimitInside|Outside|Up|Down（site 0xc514ec..0xc5182a）；classprefix-map rCns->physics-math

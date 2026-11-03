@@ -54,7 +54,7 @@ block	start	label	verdict	evidence
 25	0x9964e8	quest	relabel:render-gfx	fills 176-byte light constant blocks: three colour triples at +0x30/+0x40/+0x50 built from [this+0x370..0x390] plus (r^2+1) and -2r stored at +0xb8/+0xbc; the source light object is [this+624]
 25	0x9a4090	otomo-ot	relabel:render-gfx	allocates two nDraw::Texture objects (0xb0804c/0xb09098/0xb091ec) into [this+100]/[this+104], frees them through cSystem 0x887660, toggles [this+567]; string HeightMap
 25	0x9b3ec0	monster-em	relabel:render-gfx	class uShallowWind (exact; vtable 0x178b290): calls 0x9b3bcc then tail-dispatches the object-manager vtable [+52]
-25	0x9b7df8	online-nex	relabel:render-gfx	class uCameraEffect: calls uEffect 0x9ba5b0 and the local uCameraEffect methods 0x9b7e80/0x9b8254/0x9b80e8 while walking [this+496]
+25	0x9b7df8	online-nex	relabel:render-gfx	uCameraEffect block (retile entries uCameraEffect 0x9b7d20, uEffect 0x9ba5b0): calls uEffect 0x9ba5b0 and 0x9b7e80/0x9b8254/0x9b80e8 while walking [this+496]
 25	0x9bdc68	monster-em	relabel:render-gfx	64 callees all inside the particle module (cParticleNode, cParticleNodeInfinite, cParticleGeneratorTexline/Line/LiteBillboard/LitePolyline ...); its only caller is a uEffect method
 25	0x9c49ac	monster-em	relabel:physics-math	16 x |a-b| <= eps over two 4x4 matrices (16 vsub/vabs/vcmpe with movwls + and) returning one bool; sits in the uCnsChain block (class anchor 0x9c4d4c)
 25	0x9cd3fc	online-nex	relabel:physics-math	initialises 32-byte query records with 0x7f7f7f7f and dispatches to 0x7cf610/0x7d1238/0x7d15b8/0x7d4f2c/0x7d68d0, the 0x7c-0x7d MtGeom/MtCollision cluster; no net call
