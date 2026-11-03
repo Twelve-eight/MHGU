@@ -1,12 +1,15 @@
-// callvote.mjs — extend labels by a validated one-hop inference, kept in its own class.
+// callvote.mjs — extend labels by validated one-hop inference, kept in its own confidence class.
 //
-// A function that calls two or more "high-purity" callees (callees whose A-direct callers are >=85% one label, with >=12
-// callers) and gets one unambiguous label from them is very likely that subsystem. This is inference, not observation, so
-// it is written to attr-callvote.tsv as confidence "V" and never merged into A-direct.
+// Rule: a function that calls two or more "high-purity" callees (callees whose A-direct callers are >=85% one label,
+// over >=12 callers) and receives one unambiguous label is very likely that subsystem. This is inference, not
+// observation, so rows are written to attr-callvote.tsv as confidence "V" and are never merged into A-direct.
 //
-// It is only used because it was validated first: holding out one evidence file at a time and predicting that file's own
-// labels from the other files, the rule scores 1757/1831 = 96.0% (confusions: otomo-ot->ui 53, item->ui 5, ui->render-gfx
-// 5, physics-math->render-gfx 4). That number is printed on every run so a later reader can see it without re-deriving.
+// Two rounds, each validated before use, holding out one evidence file at a time:
+//   round 1  anchors = A-direct.                    1757/1831 = 96.0%
+//   round 2  anchors = A-direct + round-1 rows, with the V rows REBUILT inside every fold so the held-out file cannot
+//            leak into its own prediction.          2082/2210 = 94.2%
+// Requiring more votes does not help (>=3 votes scores 95.5%, >=4 scores 94.0%): the votes are correlated. A third round
+// is deliberately not attempted — each hop costs about two points of precision and the folds get expensive to keep clean.
 import fs from "node:fs";
 import path from "node:path";
 import zlib from "node:zlib";
@@ -35,7 +38,6 @@ const fns = zlib.gunzipSync(fs.readFileSync(path.join(ROOT, "docs/data/functions
   .map((l) => { const c = l.split(","); return { s: c[0].toLowerCase(), callees: c[4] ? c[4].split("|").map((x) => parseInt(x, 16)) : [] }; });
 const byStart = new Map(fns.map((f) => [f.s, f]));
 
-// ---- high-purity callees from the full anchor set
 const purity = (anchors) => {
   const stat = new Map();
   for (const [s, lab] of anchors) {
@@ -56,10 +58,17 @@ const purity = (anchors) => {
   }
   return pure;
 };
+const vote = (f, pure) => {
+  const votes = new Map();
+  for (const c of new Set(f.callees)) { const h = pure.get(c); if (h) { const v = votes.get(h.lab) || []; v.push(h); votes.set(h.lab, v); } }
+  if (votes.size !== 1) return null;
+  const [lab, hits] = [...votes][0];
+  return hits.length >= 2 ? { lab, hits } : null;
+};
 
-// ---- validation: hold out one file, predict its labels from the rest
-let tested = 0, correct = 0;
-const confusion = new Map();
+// ---- round 1 validation (A anchors, leave one file out)
+let t1 = 0, c1 = 0;
+const conf1 = new Map();
 for (const holdFile of anchorsByFile.keys()) {
   const anchor = new Map();
   for (const [f, m] of anchorsByFile) if (f !== holdFile) for (const [s, lab] of m) if (!anchor.has(s)) anchor.set(s, lab);
@@ -67,34 +76,64 @@ for (const holdFile of anchorsByFile.keys()) {
   for (const [s, truth] of anchorsByFile.get(holdFile)) {
     const f = byStart.get(s);
     if (!f) continue;
-    const votes = new Map();
-    for (const c of new Set(f.callees)) { const h = pure.get(c); if (h) votes.set(h.lab, (votes.get(h.lab) || 0) + 1); }
-    if (votes.size !== 1) continue;
-    const [lab, n] = [...votes][0];
-    if (n < 2) continue;
-    tested++;
-    if (lab === truth) correct++;
-    else confusion.set(truth + "->" + lab, (confusion.get(truth + "->" + lab) || 0) + 1);
+    const v = vote(f, pure);
+    if (!v) continue;
+    t1++; if (v.lab === truth) c1++; else conf1.set(truth + "->" + v.lab, (conf1.get(truth + "->" + v.lab) || 0) + 1);
   }
 }
-const loo = tested ? (100 * correct / tested).toFixed(1) : "n/a";
+const loo1 = t1 ? (100 * c1 / t1).toFixed(1) : "n/a";
 
-// ---- emit for functions with no direct evidence
-const pure = purity(direct);
+// ---- round 1 rows over the whole corpus
+const pure1 = purity(direct);
+const r1 = new Map();
+for (const f of fns) {
+  if (direct.has(f.s)) continue;
+  const v = vote(f, pure1);
+  if (v) r1.set(f.s, v);
+}
+
+// ---- round 2 validation (A + round-1 anchors, V rebuilt inside each fold)
+let t2 = 0, c2 = 0;
+for (const holdFile of anchorsByFile.keys()) {
+  const anchor = new Map();
+  for (const [f, m] of anchorsByFile) if (f !== holdFile) for (const [s, lab] of m) if (!anchor.has(s)) anchor.set(s, lab);
+  const held = new Set(anchorsByFile.get(holdFile).keys());
+  const p1 = purity(anchor);
+  const v = new Map();
+  for (const f of fns) {
+    if (anchor.has(f.s) || held.has(f.s)) continue;
+    const got = vote(f, p1);
+    if (got) v.set(f.s, got);
+  }
+  const p2 = purity(new Map([...[...v].map(([s, g]) => [s, g.lab]), ...anchor]));
+  for (const [s, truth] of anchorsByFile.get(holdFile)) {
+    const f = byStart.get(s);
+    if (!f) continue;
+    const got = vote(f, p2);
+    if (!got) continue;
+    t2++; if (got.lab === truth) c2++;
+  }
+}
+const loo2 = t2 ? (100 * c2 / t2).toFixed(1) : "n/a";
+
+// ---- round 2 rows over the whole corpus
+const anchors2 = new Map([...[...r1].map(([s, g]) => [s, g.lab]), ...direct]);
+const pure2 = purity(anchors2);
 const out = [["start", "label", "conf", "evidence"]];
+const tally = { round1: 0, round2: 0 };
 const perLabel = new Map();
 for (const f of fns) {
   if (direct.has(f.s)) continue;
-  const votes = new Map();
-  for (const c of new Set(f.callees)) { const h = pure.get(c); if (h) { const v = votes.get(h.lab) || []; v.push(h); votes.set(h.lab, v); } }
-  if (votes.size !== 1) continue;
-  const [lab, hits] = [...votes][0];
-  if (hits.length < 2) continue;
-  perLabel.set(lab, (perLabel.get(lab) || 0) + 1);
-  out.push([f.s, lab, "V", "callee vote: " + hits.map((h) => "0x" + h.n + "/" + h.tot).length + " high-purity callees agree on " + lab +
-    " (" + hits.map((h) => h.n + "/" + h.tot).join(", ") + "); rule validated leave-one-file-out at " + loo + "% on " + tested + " cases"]);
+  const v1 = r1.get(f.s);
+  const v = v1 || vote(f, pure2);
+  if (!v) continue;
+  const round = v1 ? 1 : 2;
+  tally["round" + round]++;
+  perLabel.set(v.lab, (perLabel.get(v.lab) || 0) + 1);
+  out.push([f.s, v.lab, "V", `callee vote round ${round}: ${v.hits.length} high-purity callees agree on ${v.lab} (` +
+    v.hits.map((h) => h.n + "/" + h.tot).join(", ") + `); rule validated leave-one-file-out at ${round === 1 ? loo1 : loo2}%`]);
 }
 fs.writeFileSync(path.join(INV, "attr-callvote.tsv"), out.map((x) => x.join("\t")).join("\n") + "\n");
-console.log(`leave-one-file-out ${correct}/${tested} = ${loo}%`);
-console.log("confusions:", [...confusion].sort((a, b) => b[1] - a[1]).slice(0, 5).map((x) => x.join(":")).join(" "));
-console.log(`wrote ${out.length - 1} inferred rows:`, [...perLabel].sort((a, b) => b[1] - a[1]).map((x) => x.join(":")).join(" "));
+console.log(`round1 LOO ${c1}/${t1} = ${loo1}% (confusions: ${[...conf1].sort((a, b) => b[1] - a[1]).slice(0, 3).map((x) => x.join(":")).join(" ")})`);
+console.log(`round2 LOO ${c2}/${t2} = ${loo2}%`);
+console.log(`wrote ${out.length - 1} rows (round1 ${tally.round1}, round2 ${tally.round2}):`, [...perLabel].sort((a, b) => b[1] - a[1]).map((x) => x.join(":")).join(" "));
