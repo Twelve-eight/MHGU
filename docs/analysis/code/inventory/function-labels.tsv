@@ -223,6 +223,7 @@ start	insns	label	provenance	reason
 0x1d4a0	162	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on render-gfx
 0x1d728	118	render-gfx	spread:spread+address	tier A, spread+address
 0x1d900	62	render-gfx	spread:spread+address	tier A, spread+address
+0x1dd08	75	monster-em	inferred:attr-offsets.tsv	1 pure struct offset(s) say monster-em (each touched by >=5 A-labelled functions at >=95% agreement; 75 insns)
 0x1de34	75	render-gfx	spread:spread+address	tier A, spread+address
 0x1df60	159	render-gfx	spread:spread+address	tier A, spread+address
 0x1e1dc	478	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 8 strongly-typed neighbour(s) agree on monster-em
@@ -4181,8 +4182,10 @@ start	insns	label	provenance	reason
 0x190764	12	ui	inferred:attr-callervote.tsv	caller vote: 3/3 evidence-bearing callers are ui; rule validated leave-one-file-out at 96.4%
 0x190794	10	ui	inferred:attr-callervote.tsv	caller vote: 3/3 evidence-bearing callers are ui; rule validated leave-one-file-out at 96.4%
 0x1907bc	28	render-gfx	spread:spread	tier B, spread
+0x1908d4	100	monster-em	inferred:attr-offsets.tsv	1 pure struct offset(s) say monster-em (each touched by >=5 A-labelled functions at >=95% agreement; 100 insns)
 0x190a64	533	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 3 strongly-typed neighbour(s) agree on ui
 0x1912b8	47	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on ui
+0x1913d0	41	monster-em	inferred:attr-offsets.tsv	1 pure struct offset(s) say monster-em (each touched by >=5 A-labelled functions at >=95% agreement; 41 insns)
 0x191474	11	ui	spread:spread	tier B, spread
 0x191554	26	ui	spread:spread	tier B, spread
 0x19163c	19	ui	spread:spread	tier B, spread
@@ -4519,6 +4522,7 @@ start	insns	label	provenance	reason
 0x1a8bcc	105	ui	spread:spread	tier B, spread
 0x1a8d70	381	ui	spread:spread	tier B, spread
 0x1a9364	359	ui	spread:spread	tier B, spread
+0x1a9900	80	ui	inferred:attr-offsets.tsv	1 pure struct offset(s) say ui (each touched by >=5 A-labelled functions at >=95% agreement; 80 insns)
 0x1a9a40	241	ui	spread:spread	tier B, spread
 0x1a9e64	103	otomo-ot	evidence:attr-prefix.tsv	class prefix "cMonNyan" (cMonNyanProcBase; cMonNyanExp; cMonNyanReward) in string "cMonNyanDataGame"
 0x1aa000	36	otomo-ot	evidence:attr-vtable-unknown.tsv	cMonNyanDataResult registrar 0x1ab510 vtable 0x173fd24 slot 2 (class-record vtable written by str at 0x1ab95c) [classprefix-map cMonNyan -> otomo-ot, basis: cMonNyanProcBase; cMonNyanExp; cMonNyanReward]
@@ -7591,6 +7595,8 @@ start	insns	label	provenance	reason
 0x333fd8	12	player-pl	evidence:attr-vtable-fixed.tsv	cAcPlayerEquip registrar 0x35235c vtable 0x1752d28 slot 1 (instance vtable installed by create 0x333ec8 @ install 0x3542f0)
 0x334008	18767	player-pl	evidence:attr-vtable-fixed.tsv	cAcPlayerEquip registrar 0x35235c vtable 0x1752d28 slot 4 (instance vtable installed by create 0x333ec8 @ install 0x3542f0)
 0x346544	6124	quest	spread:spread	tier B, spread
+0x34c4f4	6042	monster-em	inferred:attr-offsets.tsv	2 pure struct offset(s) say monster-em (each touched by >=5 A-labelled functions at >=95% agreement; 6042 insns)
+0x35235c	1463	monster-em	inferred:attr-offsets.tsv	2 pure struct offset(s) say monster-em (each touched by >=5 A-labelled functions at >=95% agreement; 1463 insns)
 0x353a38	45	player-pl	evidence:attr-vtable-fixed.tsv	cAcPlayerEquipXML registrar 0x35235c vtable 0x1752d7c slot 2 (class-record vtable written by str at 0x354328)
 0x353aec	12	player-pl	evidence:attr-vtable-fixed.tsv	cAcPlayerEquipXML registrar 0x35235c vtable 0x1752d48 slot 1 (instance vtable installed by create 0x353a38 @ install 0x354328)
 0x353b1c	487	player-pl	evidence:attr-vtable-fixed.tsv	cAcPlayerEquipXML registrar 0x35235c vtable 0x1752d48 slot 4 (instance vtable installed by create 0x353a38 @ install 0x354328)
@@ -10507,6 +10513,7 @@ start	insns	label	provenance	reason
 0x50cb48	12	online-nex	spread:spread	tier B, spread
 0x50cbd0	260	ui	spread:spread	tier B, spread
 0x50cfe0	38	online-nex	spread:spread	tier B, spread
+0x50d078	6	monster-em	inferred:attr-offsets.tsv	1 pure struct offset(s) say monster-em (each touched by >=5 A-labelled functions at >=95% agreement; 6 insns)
 0x50d090	228	ui	spread:spread	tier B, spread
 0x50d420	13	ui	spread:spread	tier B, spread
 0x50d494	40	ui	spread:spread	tier B, spread
@@ -11416,11 +11423,13 @@ start	insns	label	provenance	reason
 0x560fbc	36	ui	spread:spread	tier B, spread
 0x5610a8	10	ui	inferred:attr-callervote.tsv	caller vote: 3/3 evidence-bearing callers are ui; rule validated leave-one-file-out at 96.4%
 0x5610d0	3	ui	spread:spread	tier B, spread
+0x561124	5	monster-em	inferred:attr-offsets.tsv	1 pure struct offset(s) say monster-em (each touched by >=5 A-labelled functions at >=95% agreement; 5 insns)
 0x561188	16	ui	spread:spread	tier B, spread
 0x561208	6	ui	spread:spread	tier B, spread
 0x561220	5	ui	inferred:attr-callervote.tsv	caller vote: 4/4 evidence-bearing callers are ui; rule validated leave-one-file-out at 96.4%
 0x561270	9	ui	spread:spread	tier B, spread
 0x561294	2	ui	spread:spread	tier B, spread
+0x56129c	65	ui	inferred:attr-offsets.tsv	1 pure struct offset(s) say ui (each touched by >=5 A-labelled functions at >=95% agreement; 65 insns)
 0x561440	3	ui	spread:spread	tier B, spread
 0x56144c	5	ui	spread:spread	tier B, spread
 0x561460	5	ui	spread:spread	tier B, spread
@@ -13463,6 +13472,7 @@ start	insns	label	provenance	reason
 0x609274	49	ui	evidence:attr-blocks.tsv	block 15 purity 12/12 (0 confirm, 12 relabel, 0 unknown) sample verdict-14_20.tsv
 0x609338	86	ui	evidence:attr-blocks.tsv	block 15 purity 12/12 (0 confirm, 12 relabel, 0 unknown) sample verdict-14_20.tsv
 0x609490	19	ui	evidence:attr-blocks.tsv	block 15 purity 12/12 (0 confirm, 12 relabel, 0 unknown) sample verdict-14_20.tsv
+0x6094dc	67	ui	inferred:attr-offsets.tsv	1 pure struct offset(s) say ui (each touched by >=5 A-labelled functions at >=95% agreement; 67 insns)
 0x6095e8	480	ui	evidence:attr-blocks.tsv	block 15 purity 12/12 (0 confirm, 12 relabel, 0 unknown) sample verdict-14_20.tsv
 0x609d68	454	ui	evidence:attr-blocks.tsv	block 15 purity 12/12 (0 confirm, 12 relabel, 0 unknown) sample verdict-14_20.tsv
 0x60a480	635	ui	evidence:attr-blocks.tsv	block 15 purity 12/12 (0 confirm, 12 relabel, 0 unknown) sample verdict-14_20.tsv
@@ -17853,8 +17863,14 @@ start	insns	label	provenance	reason
 0x8389e0	26	quest	spread:spread	tier B, spread
 0x838d08	70	render-gfx	spread:spread	tier B, spread
 0x838e20	93	render-gfx	spread:spread	tier B, spread
+0x839248	36	monster-em	inferred:attr-offsets.tsv	1 pure struct offset(s) say monster-em (each touched by >=5 A-labelled functions at >=95% agreement; 36 insns)
+0x8392d8	50	monster-em	inferred:attr-offsets.tsv	1 pure struct offset(s) say monster-em (each touched by >=5 A-labelled functions at >=95% agreement; 50 insns)
+0x839458	30	monster-em	inferred:attr-offsets.tsv	1 pure struct offset(s) say monster-em (each touched by >=5 A-labelled functions at >=95% agreement; 30 insns)
+0x8394d0	58	monster-em	inferred:attr-offsets.tsv	1 pure struct offset(s) say monster-em (each touched by >=5 A-labelled functions at >=95% agreement; 58 insns)
 0x8395b8	106	render-gfx	spread:spread	tier B, spread
 0x839760	176	render-gfx	spread:spread	tier B, spread
+0x839a20	70	monster-em	inferred:attr-offsets.tsv	1 pure struct offset(s) say monster-em (each touched by >=5 A-labelled functions at >=95% agreement; 70 insns)
+0x839b38	50	monster-em	inferred:attr-offsets.tsv	1 pure struct offset(s) say monster-em (each touched by >=5 A-labelled functions at >=95% agreement; 50 insns)
 0x839d2c	110	filesystem	evidence:attr-xref.tsv	string "MtFileStream"
 0x839f30	28	quest	spread:spread	tier B, spread
 0x839fa0	22	quest	spread:spread	tier B, spread
@@ -18076,6 +18092,7 @@ start	insns	label	provenance	reason
 0x853198	80	online-nex	spread:spread+address	tier A, spread+address
 0x853344	77	ui	spread:spread	tier B, spread
 0x8535f8	206	online-nex	spread:spread+address	tier A, spread+address
+0x853930	47	monster-em	inferred:attr-offsets.tsv	1 pure struct offset(s) say monster-em (each touched by >=5 A-labelled functions at >=95% agreement; 47 insns)
 0x8539ec	121	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on online-nex
 0x853bd0	84	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on online-nex
 0x853d20	566	online-nex	spread:spread+address	tier A, spread+address
@@ -18118,6 +18135,7 @@ start	insns	label	provenance	reason
 0x859328	78	online-nex	spread:spread+address	tier A, spread+address
 0x8594cc	79	ui	spread:spread	tier B, spread
 0x859788	206	online-nex	spread:spread+address	tier A, spread+address
+0x859ac0	47	monster-em	inferred:attr-offsets.tsv	1 pure struct offset(s) say monster-em (each touched by >=5 A-labelled functions at >=95% agreement; 47 insns)
 0x859b7c	121	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on online-nex
 0x859d60	84	online-nex	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on online-nex
 0x859eb0	619	online-nex	spread:spread	tier B, spread
@@ -19465,6 +19483,7 @@ start	insns	label	provenance	reason
 0x971998	554	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 3 strongly-typed neighbour(s) agree on render-gfx
 0x972240	362	render-gfx	inferred:attr-callvote.tsv	callee vote round 1: 3 high-purity callees agree on render-gfx (8/9, 12/14, 12/13); this round validated fold-wise at 97.2%
 0x97281c	20	render-gfx	spread:spread+address	tier A, spread+address
+0x97286c	120	ui	inferred:attr-offsets.tsv	1 pure struct offset(s) say ui (each touched by >=5 A-labelled functions at >=95% agreement; 120 insns)
 0x972a4c	51	render-gfx	evidence:attr-vtable-unknown.tsv	uLightSpaceShadow registrar 0x97f1e0 vtable 0x178cbc8 slot 2 (class-record vtable written by str at 0x97fcfc) [classprefix-map uLight -> render-gfx, basis: uLight; uLightShaft; uLightScatteringFog]
 0x972b18	12	render-gfx	evidence:attr-vtable-unknown.tsv	uLightSpaceShadow registrar 0x97f1e0 vtable 0x178c8f4 slot 1 (instance vtable installed by create 0x972a4c @ install 0x97fcfc) [classprefix-map uLight -> render-gfx, basis: uLight; uLightShaft; uLightScatteringFog]
 0x972b48	347	render-gfx	evidence:attr-vtable-unknown.tsv	uLightSpaceShadow registrar 0x97f1e0 vtable 0x178c8f4 slot 4 (instance vtable installed by create 0x972a4c @ install 0x97fcfc) [classprefix-map uLight -> render-gfx, basis: uLight; uLightShaft; uLightScatteringFog]
@@ -19688,6 +19707,7 @@ start	insns	label	provenance	reason
 0x9b9e0c	489	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on render-gfx
 0x9ba5b0	85	render-gfx	evidence:attr-vtable-unknown.tsv	uEffect registrar 0x9bf9f8 vtable 0x178d620 slot 12 (instance vtable installed by create 0x9b8c90 @ install 0x9c0728) [classprefix-map uEffect -> render-gfx, basis: uEffect; uEffectEmitter; uEffect2D]
 0x9ba704	2062	render-gfx	evidence:attr-xref.tsv	string "TextureOmitMode"
+0x9bcb0c	186	monster-em	inferred:attr-offsets.tsv	1 pure struct offset(s) say monster-em (each touched by >=5 A-labelled functions at >=95% agreement; 186 insns)
 0x9bcdf4	111	render-gfx	evidence:attr-vtable-unknown.tsv	uEffect registrar 0x9bf9f8 vtable 0x178d620 slot 15 (instance vtable installed by create 0x9b8c90 @ install 0x9c0728) [classprefix-map uEffect -> render-gfx, basis: uEffect; uEffectEmitter; uEffect2D]
 0x9bcfb0	38	render-gfx	evidence:attr-vtable-unknown.tsv	uEffect registrar 0x9bf9f8 vtable 0x178d620 slot 18 (instance vtable installed by create 0x9b8c90 @ install 0x9c0728) [classprefix-map uEffect -> render-gfx, basis: uEffect; uEffectEmitter; uEffect2D]
 0x9bd048	110	render-gfx	evidence:attr-vtable-unknown.tsv	uEffect registrar 0x9bf9f8 vtable 0x178d620 slot 22 (instance vtable installed by create 0x9b8c90 @ install 0x9c0728) [classprefix-map uEffect -> render-gfx, basis: uEffect; uEffectEmitter; uEffect2D]
@@ -19701,6 +19721,7 @@ start	insns	label	provenance	reason
 0x9bd6b4	31	render-gfx	spread:spread+address	tier A, spread+address
 0x9bd730	34	render-gfx	spread:spread+address	tier A, spread+address
 0x9bd7b8	30	render-gfx	spread:spread+address	tier A, spread+address
+0x9bd830	4	monster-em	inferred:attr-offsets.tsv	1 pure struct offset(s) say monster-em (each touched by >=5 A-labelled functions at >=95% agreement; 4 insns)
 0x9bd840	40	render-gfx	inferred:attr-callervote.tsv	caller vote: 10/10 evidence-bearing callers are render-gfx; rule validated leave-one-file-out at 96.4%
 0x9bd8e0	76	render-gfx	inferred:attr-callervote.tsv	caller vote: 4/4 evidence-bearing callers are render-gfx; rule validated leave-one-file-out at 96.4%
 0x9bda10	10	render-gfx	spread:spread+address	tier A, spread+address
@@ -19743,6 +19764,7 @@ start	insns	label	provenance	reason
 0x9c4c98	45	physics-math	evidence:attr-prefix.tsv	class prefix "uScrollCollision" (uScrollCollision; uScrollCollisionSbc) in string "uScrollCollisionSbc"
 0x9c4d4c	14	physics-math	evidence:attr-vtable-unknown.tsv	uCnsChain registrar 0x9d0160 vtable 0x178d9ac slot 2 (class-record vtable written by str at 0x9d04d0) [classprefix-map uCns -> physics-math, basis: uCnsChain; uCnsMatrix; uCnsTinyChain]
 0x9c4d88	33	physics-math	evidence:attr-vtable-unknown.tsv	uCnsChain::cCnsChild registrar 0x9d0160 vtable 0x178d9c0 slot 2 (class-record vtable written by str at 0x9d0504) [classprefix-map uCns -> physics-math, basis: uCnsChain; uCnsMatrix; uCnsTinyChain]
+0x9c4e0c	129	monster-em	inferred:attr-offsets.tsv	1 pure struct offset(s) say monster-em (each touched by >=5 A-labelled functions at >=95% agreement; 129 insns)
 0x9c5010	88	monster-em	spread:spread	tier B, spread
 0x9c5170	105	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on render-gfx
 0x9c5314	75	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on render-gfx
@@ -20041,8 +20063,10 @@ start	insns	label	provenance	reason
 0x9fe2d0	281	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 4 strongly-typed neighbour(s) agree on render-gfx
 0x9fe734	277	render-gfx	spread:spread+address	tier A, spread+address
 0x9feb88	324	render-gfx	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 4 strongly-typed neighbour(s) agree on render-gfx
+0x9ff218	125	render-gfx	inferred:attr-offsets.tsv	1 pure struct offset(s) say render-gfx (each touched by >=5 A-labelled functions at >=95% agreement; 125 insns)
 0x9ffd48	986	physics-math	evidence:attr-class.tsv	ctor: sCollision
 0xa00cb0	81	render-gfx	spread:spread	tier B, spread
+0xa00ecc	125	render-gfx	inferred:attr-offsets.tsv	1 pure struct offset(s) say render-gfx (each touched by >=5 A-labelled functions at >=95% agreement; 125 insns)
 0xa01404	907	render-gfx	spread:spread	tier B, spread
 0xa02230	75	render-gfx	spread:spread	tier B, spread
 0xa0274c	1189	render-gfx	spread:spread	tier B, spread
@@ -31420,6 +31444,7 @@ start	insns	label	provenance	reason
 0x10edf18	54	ui	spread:spread	tier B, spread
 0x10edff0	17	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
 0x10ee034	44	monster-em	signature:attr-immscan.tsv	constant 0x1428 only (assembled movw/movt; 1570/1583 = 99% of its labelled carriers are monster-em); rule validated fold-wise at 97.0% and this function has no other evidence
+0x10ee0e4	80	monster-em	inferred:attr-offsets.tsv	1 pure struct offset(s) say monster-em (each touched by >=5 A-labelled functions at >=95% agreement; 80 insns)
 0x10ee224	27	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0x10ee290	61	monster-em	evidence:attr-fingerprint.tsv	movw #0x1428 x2 (act-object field) plus a monster motion-API callee; scored against A-direct rows: 7 labelled carriers, 7 monster-em
 0x10ee384	52	monster-em	inferred:attr-callvote.tsv	callee vote round 1: 2 high-purity callees agree on monster-em (15/15, 13/13); this round validated fold-wise at 97.2%
@@ -31912,10 +31937,12 @@ start	insns	label	provenance	reason
 0x1126e14	367	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on monster-em
 0x1127484	413	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 5 strongly-typed neighbour(s) agree on monster-em
 0x1127ce0	416	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 6 strongly-typed neighbour(s) agree on monster-em
+0x1128360	89	ui	inferred:attr-offsets.tsv	1 pure struct offset(s) say ui (each touched by >=5 A-labelled functions at >=95% agreement; 89 insns)
 0x1128594	7	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on ui
 0x1128758	12	monster-em	spread:spread+address	tier A, spread+address
 0x1129214	9	monster-em	spread:spread+address	tier A, spread+address
 0x112b610	469	ui	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on ui
+0x112bd64	86	monster-em	inferred:attr-offsets.tsv	1 pure struct offset(s) say monster-em (each touched by >=5 A-labelled functions at >=95% agreement; 86 insns)
 0x112bfec	114	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 1 strongly-typed neighbour(s) agree on monster-em
 0x112c1b4	135	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 2 strongly-typed neighbour(s) agree on monster-em
 0x112c3d0	189	monster-em	inferred:attr-callvote1.tsv	one-vote round 1 (callee): 3 strongly-typed neighbour(s) agree on monster-em
@@ -39053,6 +39080,7 @@ start	insns	label	provenance	reason
 0x13f1348	3	audio	spread:spread	tier B, spread
 0x13f1354	3	audio	spread:spread	tier B, spread
 0x13f1360	3	audio	spread:spread	tier B, spread
+0x13f1390	3	monster-em	inferred:attr-offsets.tsv	1 pure struct offset(s) say monster-em (each touched by >=5 A-labelled functions at >=95% agreement; 3 insns)
 0x13f139c	3	audio	spread:spread	tier B, spread
 0x13f1408	3	ui	spread:spread	tier B, spread
 0x13f1444	3	ui	spread:spread	tier B, spread
