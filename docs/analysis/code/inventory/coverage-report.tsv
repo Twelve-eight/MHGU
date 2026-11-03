@@ -16,4 +16,4 @@ partition: no label	13050	554689	10.6%	24.8%
 expected explained fraction (precision-weighted, instructions only)	—	4229773	80.9%	—
 covered at >=90% precision	27416	3423323	65.5%	52.0%
 covered at >=72% precision (spread class, independently measured 72.4%)	39642	4673588	89.4%	75.2%
-spread labels (86.0% overall, CP95 85.5)	12226	1250265	23.9%	23.2%
+spread labels (independent 72.4% overall, CP95 71.3)	12226	1250265	23.9%	23.2%

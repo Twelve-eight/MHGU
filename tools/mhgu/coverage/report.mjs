@@ -308,7 +308,7 @@ rows.push(["covered at >=90% precision", String(pDir + pInf + pSig + pSpV + pSpV
   pct(pDirIns + pInfIns + pSigIns + pSpVIns + pSpVoteIns, totalIns), pct(pDir + pInf + pSig + pSpV + pSpVote, totalFn)]);
 rows.push(["covered at >=72% precision (spread class, independently measured 72.4%)", String(pDir + pInf + pSig + pSpV + pSpVote + pSpU), String(pDirIns + pInfIns + pSigIns + pSpVIns + pSpVoteIns + pSpUIns),
   pct(pDirIns + pInfIns + pSigIns + pSpVIns + pSpVoteIns + pSpUIns, totalIns), pct(pDir + pInf + pSig + pSpV + pSpVote + pSpU, totalFn)]);
-rows.push(["spread labels (86.0% overall, CP95 85.5)", String(pSpU), String(pSpUIns),
+rows.push(["spread labels (independent 72.4% overall, CP95 71.3)", String(pSpU), String(pSpUIns),
   pct(pSpUIns, totalIns), pct(pSpU, totalFn)]);
 // Guard: the five buckets must account for every function and every instruction. Two earlier bugs (spread-A falling into
 // "no label", and the inferred class double-counted) would both have been caught here.
