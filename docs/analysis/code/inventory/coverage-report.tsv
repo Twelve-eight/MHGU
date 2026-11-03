@@ -11,5 +11,5 @@ partition: signature only	1861	209019	4.0%	3.5%
 partition: spread validated labels	5376	637502	12.2%	10.2%
 partition: spread unvalidated	8528	745137	14.3%	16.2%
 partition: no label	12935	503227	9.6%	24.5%
-covered at >=90% precision	31229	3979913	76.1%	59.3%
+covered at >=90% precision	25853	3342411	63.9%	49.1%
 spread unvalidated labels (74.2% overall)	8528	745137	14.3%	16.2%
