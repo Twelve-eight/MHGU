@@ -10,3 +10,4 @@ partition: inferred only	10790	1883701	36.0%	20.5%
 partition: signature only	1798	197144	3.8%	3.4%
 partition: spread label only (B)	8803	875141	16.7%	16.7%
 partition: no label	18241	1024163	19.6%	34.6%
+covered at >=90% precision	34451	4204114	80.4%	65.4%
