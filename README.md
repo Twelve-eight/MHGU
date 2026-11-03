@@ -5,8 +5,14 @@ save-file layout, a code map, monster mechanics, an item-box expansion patch, an
 The goal is to help more people play MHGU with more variety, on emulators and on the native
 recompiled build ([SUYU-GURecomp](https://github.com/GUReComp/SUYU-GURecomp)).
 
-Nothing here ships game code, keys, game files, or save files. What it does ship is a claim: that
-its numbers can be recomputed. The two sections below name the numbers and the commands.
+Nothing here ships game code, keys, game files, or save files. One tracked artefact needs a precise
+qualification: `docs/data/functions*.csv.gz` carry a `strings` column holding short printable
+runs lifted from the binary (function and class names). 51 of their rows also contain Nintendo NEX
+SDK symbol fragments (`Nex`, `nn::`); they are third-party strings that came out of the same
+extraction. The column is what the coverage pipeline reads, so removing it would break
+reproducibility without changing a single number; see `docs/PUBLISH-READINESS.md` for the two ways
+to deal with it. Everything else the repository ships is a claim: that its numbers can be
+recomputed. The two sections below name the numbers and the commands.
 
 ## What is established, and what is not
 
@@ -29,6 +35,43 @@ commands read back.
 Save side: 87.8% of the 1,177,760-byte `.hnt` hunter block is mapped structurally and about 14.9%
 at field level (`docs/PROGRESS.md`). Those two figures are arithmetic over measurements taken from
 private save snapshots, so they cannot be recomputed from a clone.
+
+## Where the work stands
+
+Numbers below are the ones a reader can check against the artefacts named beside them; the ones
+that cannot be checked say so.
+
+| Area | State | Evidence |
+|---|---|---|
+| Code coverage | **58.0%** of instructions under the project's original calibre; **66.2% / 53.5%** under the stricter per-label >= 90% calibre. Target 90%, **not met** | the two commands above |
+| Function table | 52,692 functions over 5,228,277 instructions, rebuilt from a 23,885-region tiling; 3,201 classes | `docs/analysis/code/inventory/RETILE.md` |
+| Save layout | 87.8% of the 1,177,760-byte hunter block mapped structurally, ~14.9% at field level | `docs/save-layout/coverage-map.md` |
+| Monster mechanics | 53 state tables over two constants, 60 documented sections, 1,223 state rows, 119 with a motion name (9.7%); 3,429 dispatch sites in 2,546 functions; 137 authoritative slots | `docs/mechanics/` |
+| Data | 39 tables, 129 monsters, 21,153 items, 1,355 quests | `docs/data/README.md` |
+| Wiki pages | 42 of 47 reproduce their numbers exactly against the database and the ROM | `docs/analysis/audit/W4-WIKI.md` |
+| Reference guides | 78 of 92 claims confirmed, 12 contradictions, 2 unverified by construction | `docs/analysis/audit/W4-REFERENCE.md` |
+| Tools | 138 scripts: 7 run with no game input, 4 need the database, 2 need saves, 42 need the image, 83 need an intermediate artefact | `docs/analysis/audit/PUBLISH-TOOL-DEPS.md` |
+| Audit ledger | **73 fixed, 6 open, 4 rejected, 1 unresolved, 1 reverted** over 250 tracked documents | `docs/analysis/audit/LINK-STATUS.tsv` |
+
+Two things this table deliberately says: the 90% target is not met, and the review is not finished.
+"Rejected" means the finding was wrong, not that the document was right; "unresolved" means three
+readings disagree and none has been adopted.
+
+## What comes next, in order
+
+1. **Finish the sweep.** Every document cluster gets one pass against its artefacts; the open items
+   in `LINK-STATUS.tsv` are what remains of the last two passes. A number that cannot be recomputed
+   from the repository is demoted to history, not defended.
+2. **Settle the two publication questions.** (a) `tools/mhgu/vendor/` (101 MIT files) sits in
+   unpushed history; either add a NOTICE with attribution or rewrite those commits before the next
+   push. (b) the `strings` column of `docs/data/functions*.csv.gz` carries 51 rows with third-party
+   SDK symbol fragments; strip or keep, but the README must say which.
+3. **Re-run the two headline commands and the gate after every change** — they are cheap, and a
+   document that stops matching them is the failure mode this project has hit most often.
+4. **Live verification, which needs a person.** The editor, the DLC page and a save round-trip
+   cannot be driven by keyboard automation (tried, documented in `DEVLOG.md`); they need someone at
+   the machine with the game running.
+5. **Push only after steps 1-2.** The public branch is 251 commits behind the working tree.
 
 ## Which numbers need the game image, and which do not
 
