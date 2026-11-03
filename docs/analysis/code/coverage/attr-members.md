@@ -3,7 +3,7 @@
 Ticket: turn "members registered by name" into a general attribution mechanism, emit
 `docs/analysis/code/inventory/attr-members.tsv`, run the meter, and report the tier-A movement.
 
-**Result: 454 functions qualify (≥3 member names), 9 seeds are emitted (1 A, 8 B), 0 of them are new, and
+**Result: 454 functions qualify (≥3 member names), 7 seeds are emitted (0 A, 7 B), 0 of them are new, and
 the meter does not move — 0 functions, 0 instructions.** The mechanism is real but, in this binary, the
 functions it finds are already attributed by the vtable channel, because the member-registering functions
 *are* vtable slots. The evidence below is what makes that conclusion checkable rather than a shrug.
@@ -23,8 +23,9 @@ str r1,[r0,#12]                 ; record->data
 ```
 
 `bl 0x7bb638` has 10,268 call sites, so this is the dominant data-description idiom in the image.
-`member-offsets.tsv` already carries 110 such records over 27 registration runs; the run's name set is the
-class schema (e.g. `0x53ea0` → `BaseScale, Size, Rank, Nando, SpDieDamageType, …`, 22 names).
+`member-offsets.tsv` already carries 110 such records (87 distinct names) over 37 registration runs; the run's
+name set is the class schema (e.g. `0x54028` → `BaseScale, Size, Rank, Nando, SpDieDamageType, …`, 22 names;
+its registrar is `0x53ea0`).
 
 `tools/mhgu/coverage/member-seeds.mjs`:
 
@@ -45,8 +46,9 @@ domain, not the class).
 
 ```
 node tools/mhgu/coverage/member-seeds.mjs
-xref cross-check: 382/454 qualifying functions have a row, but only 4666/6526 (71%) of their member names are visible
-must-fail gate: PASS (10 cases)
+xref cross-check: 454/454 qualifying functions have a row, but only 5808/6526 (89%) of their member names are visible to stringxref.tsv
+seeds emitted: 7  (A 0, B 7)  new 0  unknown 447  conflicts 1
+must-fail gate: PASS (11 cases)
 ```
 
 The cases live in `docs/analysis/code/coverage/mustfail-members.json`; the gate runs on every invocation and
@@ -63,7 +65,8 @@ exits 1 if any hand-picked ambiguous function is promoted to A.
 | `0x45f3c` | `uMHProofEffectModel`: model/effect class no rule covers | unknown |
 | `0x12d20` | 31 generic members (`mType`/`mIndex`/`mFlag` style) | unknown |
 | `0xd4914` | 94 generic members — schema shape alone cannot name a class | unknown |
-| `0x58fd0` | correct class (`rEnemyDtTune`) but only 5 of 7 names | **B** |
+| `0x58fd0` | 5 of the 7 `rEnemyDtTune` names belonged here only while `member-offsets.fn` pointed at the old tiling region; after the 2026-11-03 re-anchor the run resolves to `0x54028` | unknown |
+| `0x54028` | known limitation: its 22 `rEnemyDtBase` names are visible to `stringxref` (26 rows), but `member-seeds` does not resolve the run to this function, so the channel stays silent | unknown |
 
 The gate has teeth: an earlier draft also required ≥ 2 member names to hit a rule, which made `0x3b6790`
 otomo (it carries `mPoolAcNyanterEquip`) — a false positive the conflict rule now blocks, because
@@ -74,16 +77,15 @@ otomo (it carries `mPoolAcNyanterEquip`) — a false positive the conflict rule 
 | label | seeds | source |
 |---|---:|---|
 | otomo-ot | 5 | member vocabulary (`mOtomoSkill[]`, `mOtomoTotalAtk*`, …) |
-| monster-em | 2 | registrar run `rEnemyDtBase` (22/22 names), `rEnemyDtTune` (5/7) |
 | render-gfx | 2 | member vocabulary (`mShaderQuality`, `mShaderNum`, …) |
-| **total** | **9** | 1 A (`0x54028`, `rEnemyDtBase`), 8 B |
+| **total** | **7** | 0 A, 7 B — the seven data rows `attr-members.tsv` holds today |
 
 The distribution is skewed by construction: otomo and render member names are the only ones whose vocabulary
-happens to be covered by `taxonomy.mjs` rules (`Otomo`/`Nyanter`, `Shader`/`Texture`). 445 of the 454 stay
+happens to be covered by `taxonomy.mjs` rules (`Otomo`/`Nyanter`, `Shader`/`Texture`). 447 of the 454 stay
 `unknown`, and 1 is suppressed as a conflict.
 
-Coverage overlap: 141 of the qualifying functions are already in the two seed files `recompute.mjs` reads
-(`attr-xref.tsv`, `attr-vtable-fixed.tsv`); ≈ 390 are in some attribution file. The 9 seeds are all in that
+Coverage overlap: 143 of the qualifying functions are already in the two seed files `recompute.mjs` reads
+(`attr-xref.tsv`, `attr-vtable-fixed.tsv`); ≈ 390 are in some attribution file. The 7 seeds are all in that
 overlap — `new 0`.
 
 ## 4. Meter delta
@@ -96,17 +98,17 @@ node tools/mhgu/coverage/recompute.mjs --functions docs/data/functions-retile.cs
 node tools/mhgu/coverage/report.mjs --demote docs/analysis/code/inventory/demote-otomo.tsv
 ```
 
-* seed file accepted: **9**, rejected non-start 0, rejected bad label 0
-* recomputed: A 26,704 (55.1 % insns), B 24,229, C 1,759
-* report: tier A **25,924 functions / 2,824,295 instructions** (54.0 % / 49.2 %), unattributed 2,642 / 151,502
+* seed file accepted: **7**, rejected non-start 0, rejected bad label 0 (`member-seeds.mjs` also prints `new 0`)
+* the run of record (2026-11-04, against that day's spine): recomputed A 26,704 (55.1 % insns), B 24,229, C 1,759; report tier A **25,924 functions / 2,824,295 instructions** (54.0 % / 49.2 %), unattributed 2,642 / 151,502. Those move whenever the spine is recomputed (today: 25,584 / 57.7 %), so **only the two lines below are the reproducible claim**
 
 Run with and without `attr-members.tsv`: `tiers-recomputed.csv` is **byte-identical**.
 **Δ tier A = 0 functions, 0 instructions.**
 
 That is not a measurement accident. Every emitted seed duplicates an anchor that is already present, and
-`recompute.mjs` keys anchors by start address, so the seed set is unchanged. The 9 rows are corroboration:
-they independently confirm one A and eight B labels that came from the vtable channel, which is what a
-schema check is supposed to do — but corroboration does not move a meter that already counted them.
+`recompute.mjs` keys anchors by start address, so the seed set is unchanged. The 7 rows are corroboration:
+all seven carry an `agrees with attr-vtable-fixed.tsv` or `agrees with attr-xref.tsv` clause and none is A,
+which is what a schema check is supposed to do — but corroboration does not move a meter that already counted
+them.
 
 ## 5. Why the yield is zero (the actual finding)
 
@@ -122,19 +124,21 @@ Two consequences:
   class-inventory registrars, their own strings contain no class name (only member names), and their member
   vocabulary hits no rule.
 
-## 6. Two defects found while building this (both reproduce)
+## 6. Two defects found while building this (both since fixed)
 
-1. **`stringxref.mjs` drops add-pc references whose delta lands in .rodata.** The delta-loaded literal is
-   treated as a table pointer when its value is > `TEXT_END`, so `prevDelta` stays null and the following
-   `add rD,pc,rX` is never resolved. Result: 71 % of the member names this tool resolves in qualifying
-   functions (4,666 of 6,526) are visible to `stringxref.tsv`, and the add-pc-only cases are invisible
-   entirely — `0x54028` (22 names: `BaseScale`, `Size`, `Rank`, `Nando`, …) and `0x58fd0` have **zero**
-   rows in `stringxref.tsv`. Fixing the resolver by *register* with a 4-instruction
-   lookahead raises the image-wide string-reference count and is a precondition for every string-based channel.
-2. **`member-offsets.tsv`'s `fn` column predates the retile.** Its sites are in other functions — 25 of the
-   27 runs have all their sites in exactly one other function (`0x53ea0` → `0x54028`, `0x479a0` → `0x47bb0`,
-   `0x4201c` → `0x4210c`). The *class* in class-inventory is still correct (it is the registrar), but any
-   consumer that reads `fn` as "the function that registers these members" is looking at the wrong address.
+1. **`stringxref.mjs` dropped add-pc references whose delta lands in .rodata** (fixed 2026-11-04, `566c882`).
+   The delta-loaded literal was treated as a table pointer when its value was > `TEXT_END`, so `prevDelta`
+   stayed null and the following `add rD,pc,rX` was never resolved: at the time only 71 % of the member names
+   this tool resolves in qualifying functions (4,666 of 6,526) were visible, and the add-pc-only cases were
+   invisible entirely (`0x54028` had zero rows). The register-tracked resolver that replaced it now shows
+   **5,808 of 6,526 (89 %)**, and `0x54028` resolves 26 names (`BaseScale`, `Size`, `Rank`, `Nando`, …) while
+   `0x58fd0` resolves 6. Register tracking is a precondition for every string-based channel, not just this one.
+2. **`member-offsets.tsv`'s `fn` column predated the retile** (fixed 2026-11-03 by `fix-member-fn.mjs`). The
+   column used to name the registrar or a neighbouring region, so 25 of the 27 old `fn` values had all their
+   sites in exactly one *other* function (`0x53ea0` → `0x54028`, `0x479a0` → `0x47bb0`, `0x4201c` → `0x4210c`).
+   After the re-anchor the file has **37 `fn` groups and 110/110 sites lie inside the row's own `fn`** (the copy
+   at `docs/data/` and the re-anchored `inventory/member-offsets-refn.tsv` are byte-identical). The *class* in
+   class-inventory is still the registrar, which is what it should be.
 
 ## 7. A channel I built, measured, and removed
 
@@ -153,8 +157,10 @@ numbers to small records.
 
 ## 8. Recommendation
 
-1. Fix the add-pc resolver in `stringxref.mjs` — it is upstream of `attr-xref`, `attr-strings` and this tool.
-2. Re-key `member-offsets.tsv` by the enclosing function of each `site` (keep the registrar as the class).
+1. ~~Fix the add-pc resolver in `stringxref.mjs`~~ — done 2026-11-04 (`566c882`): 89 % of the names are visible
+   and `0x54028` resolves 26. Keep it green; it is upstream of `attr-xref`, `attr-strings` and this tool.
+2. ~~Re-key `member-offsets.tsv` by the enclosing function of each `site`~~ — done 2026-11-03
+   (`fix-member-fn.mjs`): 110/110 sites are inside their own `fn` across 37 groups, registrar kept as the class.
 3. Do not add member names to `taxonomy.mjs` to raise this tool's yield: the 454 qualifying functions are
    already covered by vtable class names, so a wider member rule changes B rows, not coverage
    (502 enemy-ish classes exist in class-inventory, 74 map today, and the 812 enemy-class vtable rows are

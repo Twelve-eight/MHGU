@@ -785,7 +785,7 @@
 抽查（2026-10-24，主会话）：从 212 条不一致里等距抽 10 条，8 条是 `cUIO*` 类名（UI 对象）所在函数，却落在 Tier A 标为 `otomo-ot` 的区段里（0x8674、0x571794、0x594ce8、0x5f5e58、0x613e18、0x62b184、0x640e84、0x653830）。这说明出错的可能是 **Tier A 的区段标签**，而不只是关键词规则；`cUIO` 很可能被当成 Ot 前缀匹配了。**未复核**，在查清之前 Tier A 中的 otomo-ot 区段和 51.5% 都应视为待复核。
 
 ## 前缀映射重算（2026-10-24 夜）
-关键词规则换成审查过的类名前缀表 `classprefix-map.tsv`（224 个前缀，DsvPrefixMap + DsvPrefixMapReview PASS 0/25 降级；审查另指出 `cArmor`/`rArmor`→weapon-wp 偏牵强）。主会话重算：唯一标签 769 个函数，落在 Tier A 区段的 362 个里与 Tier A 一致 151 个（41.7%）——**和关键词规则几乎相同**。拆开看：
-- 不在 Tier A `otomo-ot` 区段的 215 个：一致 145 个（**67.4%**）。
-- 在 Tier A `otomo-ot` 区段的 147 个：前缀表判 ui 134、otomo-ot 6。
-所以 41% 的低一致率主要来自 Tier A 把 UI 模块成片标成 otomo-ot（与 code-metrics §9 的抽样结论一致），不是类名规则太粗。其余 33% 的分歧尚未逐条判定，本表仍只作候选，不计入达标。
+关键词规则换成审查过的类名前缀表 `classprefix-map.tsv`（225 个前缀，DsvPrefixMap + DsvPrefixMapReview PASS 0/25 降级；审查另指出 `cArmor`/`rArmor`→weapon-wp 偏牵强）。主会话重算（2026-11-04 W7 复核；口径写死：本表 771 行逐行按**最长前缀**取标签，再取 `tiers.csv` 里「起点不晚于该函数」的最近一个区段，只统计该区段 tier=A 的行）：唯一标签 **770** 个函数（1 行被判 `unknown`：`0x12a5c` `sFestaArea`），落在 Tier A 区段的 **363** 个里与 Tier A 一致 **161** 个（**44.4%**）——**和关键词规则的 41.6% 几乎相同**。拆开看：
+- 不在 Tier A `otomo-ot` 区段的 216 个：一致 155 个（**71.8%**）。
+- 在 Tier A `otomo-ot` 区段的 147 个：前缀表判 ui 134、otomo-ot 6，其余 7（item 2、quest 3、weapon-wp 2）。
+所以 44% 的低一致率主要来自 Tier A 把 UI 模块成片标成 otomo-ot（与 code-metrics §9 的抽样结论一致），不是类名规则太粗。其余 28% 的分歧尚未逐条判定，本表仍只作候选，不计入达标。

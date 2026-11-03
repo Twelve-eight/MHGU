@@ -49,9 +49,9 @@ that cannot be checked say so.
 | Monster mechanics | 53 state tables over two constants, 60 documented sections, 1,223 state rows, 119 with a motion name (9.7%); 6,777 `add pc, rX, rY` dispatch sites in 4,527 functions (`node tools/audit/scan-dispatch.mjs`); 137 authoritative slots | `docs/mechanics/` |
 | Data | 39 tables, 129 monsters, 21,153 items, 1,355 quests | `docs/data/README.md` |
 | Wiki pages | 42 of 47 reproduce their numbers exactly against the database and the ROM | `docs/analysis/audit/W4-WIKI.md` |
-| Reference guides | 78 of 92 claims confirmed, 12 contradictions, 2 unverified by construction | `docs/analysis/audit/W4-REFERENCE.md` |
-| Tools | 138 scripts: 7 run with no game input, 4 need the database, 2 need saves, 42 need the image, 83 need an intermediate artefact | `docs/analysis/audit/PUBLISH-TOOL-DEPS.md` |
-| Audit ledger | **73 fixed, 6 open, 4 rejected, 1 unresolved, 1 reverted** over 250 tracked documents | `docs/analysis/audit/LINK-STATUS.tsv` |
+| Reference guides | 72 claims confirmed, 16 contradictions, 4 unverified by construction (the report's verdict table is the count) | `docs/analysis/audit/W4-REFERENCE.md` |
+| Tools | about 140 scripts; the dependency table classifies 138 of them by input (7 need no game input, 4 the database, 2 saves, 42 the image, 83 an intermediate artefact) | `docs/analysis/audit/PUBLISH-TOOL-DEPS.md` |
+| Audit ledger | every disagreement a review reported, with its disposition and one line of evidence; the file carries the counts, which move with each pass | `docs/analysis/audit/LINK-STATUS.tsv` |
 
 Two things this table deliberately says: the 90% target is not met, and the review is not finished.
 "Rejected" means the finding was wrong, not that the document was right; "unresolved" means three
@@ -71,7 +71,9 @@ readings disagree and none has been adopted.
 4. **Live verification, which needs a person.** The editor, the DLC page and a save round-trip
    cannot be driven by keyboard automation (tried, documented in `DEVLOG.md`); they need someone at
    the machine with the game running.
-5. **Push only after steps 1-2.** The public branch is 251 commits behind the working tree.
+5. **Push deliberately.** The public branch lags the working tree by several hundred commits; read
+   the number from `git rev-list --count origin/master..HEAD` when you need it rather than quoting a
+   snapshot that ages the moment it is written.
 
 ## Which numbers need the game image, and which do not
 

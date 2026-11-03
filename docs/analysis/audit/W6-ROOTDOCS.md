@@ -5,13 +5,14 @@ Scope: `README.md`, `HANDOFF.md`, `docs/PROGRESS.md`, `docs/README.md`,
 `docs/LICENSE`, and `DEVLOG.md` (last 200 lines plus its section headers). Review only; no
 document was edited.
 
-**Snapshot.** HEAD `9eb31ea` (2026-11-04 07:35:51 +0800). The tree moved twice while this sweep was
-reading it: `03c6544` (07:24) added the README state table, `9eb31ea` (07:35) relicensed the
-repository to MIT. Every number below was re-read and re-checked at `9eb31ea`. The working tree
-also carried other agents' edits while this ran (`docs/analysis/audit/W6-EXTERNAL.md` and
-`W6-PASS3.md` modified, `W6-INVENTORY.md` / `W6-MONSTERS.md` untracked,
-`tools/mhgu/tierb-gen.mjs` modified). Counts that move with every commit (commits ahead, ledger
-tallies, script count) are given with the command and the value at this commit.
+**Snapshot.** The sweep read the tree at `9eb31ea` (2026-11-04 07:35:51 +0800) and re-checked every
+finding at `31be4a3` (07:45:31), with `README.md` modified in the working tree on top of that. Four
+commits landed while this report was being written (`76735a9`, `ca7c193`, `7db37db`, `31be4a3`),
+and they closed several of the items below; each such item is marked **closed** with the commit or
+working-tree edit that closed it, and the state at `9eb31ea` is kept because it is the record of
+what the audit found. Other agents were also editing `docs/analysis/audit/W6-*.md` and
+`tools/mhgu/tierb-gen.mjs` at the same time. Counts that move with every commit (commits ahead,
+ledger tallies, script count) are given with the command and the value at the last read.
 
 Method: the two headline commands and the gate were executed as the documents advertise them; every
 table was parsed rather than eyeballed; the database was queried read-only; the save snapshots were
@@ -28,9 +29,9 @@ Occurrences are line numbers in the document named. "report" = `docs/analysis/co
 |---|---|---|---|---|
 | 1 | canonical calibre **58.0%** (Tier A verified **57.7%** + Tier B conf=A **0.3%**) | `README.md:24,27,46,83`; `HANDOFF.md:22,160,212`; `docs/PROGRESS.md:73,98`; `docs/PUBLISH-READINESS.md:21`; `METER.md:4,14,208,225,293,700,1114,1122` | `node tools/mhgu/coverage/canonical-metric.mjs` → `Tier A verified 25584 functions, 57.7%`, `Tier B conf=A 74 functions, 0.3%`, `canonical total 58.0%` | confirmed |
 | 2 | **66.2%** instructions / **53.5%** functions at >=90% precision | `README.md:25,46,84`; `HANDOFF.md:21,146`; `docs/PROGRESS.md:36,73,98`; `docs/PUBLISH-READINESS.md:21`; `METER.md:3,55,82,225,293` | `independent-coverage.mjs` → `covered at >=90% independently: 3460532 = 66.19%`; report row `covered at >=90% precision 28187 3460532 66.2% 53.5%` | confirmed |
-| 3 | **90.0%** / **76.6%** (spread pooled at 72.4%) | `METER.md:3,82,240,517`; nobody else states it | report row `covered, spread pooled at 72.4% 40374 4704134 90.0% 76.6%` | confirmed |
+| 3 | **90.0%** / **76.6%** (spread pooled at 72.4%) | `METER.md:3,82,240,517`; `DEVLOG.md:1185` | report row `covered, spread pooled at 72.4% 40374 4704134 90.0% 76.6%` | confirmed |
 | 4 | expected explained **75.0%–82.5%** | `METER.md:3`; `HANDOFF.md:21` | report rows `3919967 75.0%` and `4315652 82.5%` | confirmed |
-| 5 | no label **10.0%** instructions / **23.4%** functions = **12,318** functions | `METER.md:3`; `HANDOFF.md:21,147,152`; `DEVLOG.md:1184` | report `partition: no label 12318 524143 10.0% 23.4%`; `function-labels.tsv` has 40,374 data rows, 52,692 − 40,374 = 12,318 | confirmed |
+| 5 | no label **10.0%** instructions / **23.4%** functions = **12,318** functions | `METER.md:3`; `HANDOFF.md:21,147,152`; `DEVLOG.md:1187` | report `partition: no label 12318 524143 10.0% 23.4%`; `function-labels.tsv` has 40,374 data rows, 52,692 − 40,374 = 12,318 | confirmed |
 | 6 | direct evidence **23.9%** = **13,061** functions / 1,248,279 insns | `METER.md:240,293`; `HANDOFF.md:142` | report `A-direct (evidence row) 13061 1248279 23.9% 24.8%` | confirmed |
 | 7 | partition **36.3 / 2.8 / 3.3 / 23.8** | `METER.md:225`; `HANDOFF.md:145-147` | report rows `inferred only 11250 1896778 36.3%`, `signature only 1475 144714 2.8%`, `spread validated labels 2401 170761 3.3%`, `spread unvalidated 12187 1243602 23.8%` | confirmed |
 | 8 | **52,692** functions / **5,228,277** instructions | `README.md:47,85`; `HANDOFF.md:19,21,137,163`; `docs/PROGRESS.md:91,98` | `gzip -dc docs/data/functions-retile.csv.gz \| wc -l` = 52,693 lines (52,692 rows + header); column `insns` sums to 5,228,277; gate 4 prints the same | confirmed |
@@ -38,29 +39,31 @@ Occurrences are line numbers in the document named. "report" = `docs/analysis/co
 | 10 | `.text` **5,228,411** instructions | `HANDOFF.md:41` (paired with the range `0x100..0x13F1DEC`) | `0x13F1DEC/4 = 5228411`, the count from vaddr 0; the stated range holds 5,228,347; the function-span denominator is 5,228,277 | **contradiction C1** (range/count convention mixed) |
 | 11 | **23,885** regions (pre-retile) | `README.md:47`; `HANDOFF.md:19,139,163,165,246`; `tools/mhgu/README.md:24,46` | `gzip -dc docs/data/functions.csv.gz \| wc -l` = 23,885 newlines + 1 final row = 23,885 data rows | confirmed (as history) |
 | 12 | **3,201** classes | `README.md:47`; `HANDOFF.md:19,67,122,165`; `docs/PROGRESS.md:92` | `docs/data/class-inventory.tsv` = 3,201 data rows | confirmed |
-| 13 | save side **87.8%** structural / **14.9%** field | `README.md:35,48,88,155`; `docs/PROGRESS.md:23,24,72`; `docs/PUBLISH-READINESS.md:23`; `docs/save-layout/coverage-map.md:10-11` (`≈88%`, `14.9%`) | `(226754+950374*0.85)/1177760 = 0.878423`; `224643*0.78/1177760 = 0.148775` | confirmed (arithmetic; the 0.85/0.78 inputs are measurements) |
+| 13 | save side **87.8%** structural / **14.9%** field | `README.md:35,48,90,157`; `docs/PROGRESS.md:23,24,72`; `docs/PUBLISH-READINESS.md:23`; `docs/save-layout/coverage-map.md:10-11` (`≈88%`, `14.9%`) | `(226754+950374*0.85)/1177760 = 0.878423`; `224643*0.78/1177760 = 0.148775` | confirmed (arithmetic; the 0.85/0.78 inputs are measurements) |
 | 14 | **226,754** member layer / **224,643** decomposed / **950,374** tail / **1,177,760** block | `HANDOFF.md:16,17`; `docs/PROGRESS.md:23,24` | 0x3783A−0x278 = 227,386−632 = 226,754; 9,543+76+12,955+115,072+86,997 = 224,643; 1,177,760−227,386 = 950,374; all four `.hnt` snapshots are exactly 1,177,760 B | confirmed |
-| 15 | **129** monsters / **21,153** items / **1,355** quests | `README.md:53`; `docs/PUBLISH-READINESS.md:25` | `SELECT count(*)` on `docs/data/mhgu.db` → 129 / 21153 / 1355 | confirmed |
-| 16 | **39** tables | `README.md:53` | `sqlite_master` → 39 tables (38 user tables + `sqlite_sequence`), which is what `docs/data/README.md:26` says | confirmed |
-| 17 | **12 gates**, twelve PASS + `ALL PASS` | `README.md:100`; `docs/PUBLISH-READINESS.md:21,63`; `HANDOFF.md:244`; `DEVLOG.md` (contradicts itself, see C14) | `node tools/audit/check.mjs` at `9eb31ea`: 12 `PASS` lines, then `ALL PASS` (2.68 s) | confirmed |
-| 18 | **24** evidence tables / **46,858** rows / **25,786** functions | `README.md:84`; `METER.md:46` | gate 5 prints `PASS evidence tables: 24 files, 46858 rows, 25786 functions` | confirmed |
+| 15 | **129** monsters / **21,153** items / **1,355** quests | `README.md:50`; `docs/PUBLISH-READINESS.md:25` | `SELECT count(*)` on `docs/data/mhgu.db` → 129 / 21153 / 1355 | confirmed |
+| 16 | **39** tables | `README.md:50` | `sqlite_master` → 39 tables (38 user tables + `sqlite_sequence`), which is what `docs/data/README.md:27` says | confirmed |
+| 17 | **12 gates**, twelve PASS + `ALL PASS` | `README.md:93`; `docs/PUBLISH-READINESS.md:21,40`; `HANDOFF.md:241`; `DEVLOG.md` (contradicts itself, see C15) | `node tools/audit/check.mjs` at `9eb31ea`: 12 `PASS` lines, then `ALL PASS` (2.68 s); re-run at `31be4a3`: 12 `PASS`, `ALL PASS` (4.65 s) | confirmed |
+| 18 | **24** evidence tables / **46,858** rows / **25,786** functions | `README.md:84`; `METER.md:49` | gate 5 prints `PASS evidence tables: 24 files, 46858 rows, 25786 functions` (METER:817 notes only 16 of the 24 carry A rows; the 24 is the `sources.json` list the gate reads) | confirmed |
 | 19 | **22,957** A rows re-checked 100% + **4,479** taxonomy + **2,731** unparsed = **30,167** | `README.md:87`; `HANDOFF.md:142` | gate 6 prints `22,957 rows, all consistent; 4479 rest on a class-name or taxonomy judgement; 2731 carry a claim shape no handler parses` | confirmed |
-| 20 | **40,374** rows in `function-labels.tsv` | `docs/PUBLISH-READINESS.md:22`; `METER.md`; `DEVLOG.md:1198` | `wc -l` = 40,375 lines incl. header → 40,374 data rows | confirmed |
+| 20 | **40,374** rows in `function-labels.tsv` | `docs/PUBLISH-READINESS.md:22`; `METER.md`; `DEVLOG.md:1196` | `wc -l` = 40,375 lines incl. header → 40,374 data rows | confirmed |
 | 21 | **51** NEX rows in `functions*.csv.gz` | `README.md:10-12` | union of `Nex\|nn::\|Nintendo` = 51 rows in each file (tokens: `Nex` 178, `nn::` 15, `Nintendo` 17); with only the two listed tokens the count is 36 | confirmed, parenthetical incomplete (C18) |
 | 22 | **53** state tables / **60** sections / **1,223** rows / **119** (9.7%) / **137** slots / **110** members | `README.md:49`; `HANDOFF.md:20-24`; `docs/PROGRESS.md:106`; `docs/mechanics/monster-state-machine.md:6` | the cited docs state each; not re-derived here (see UNVERIFIED) | transcription confirmed, value UNVERIFIED |
-| 22b | dispatch sites: **3,429 in 2,546 functions** vs **6,777 in 4,527** | `README.md:49`; `HANDOFF.md:118` (old pair) | `docs/PROGRESS.md:106` and `docs/mechanics/monster-code-map.md:28` strike the old pair; `node tools/audit/scan-dispatch.mjs` prints `sites: 6777 | without shift: 6026 | in functions: 4527` and says of 3,429/2,546: "Treat that number as withdrawn" | **contradiction C21** |
+| 22b | dispatch sites: **3,429 in 2,546 functions** vs **6,777 in 4,527** | `README.md:49`; `HANDOFF.md:118` (old pair at `9eb31ea`; **closed** by `76735a9`) | `docs/PROGRESS.md:106` and `docs/mechanics/monster-code-map.md:28` strike the old pair; `node tools/audit/scan-dispatch.mjs` prints `sites: 6777 | without shift: 6026 | in functions: 4527` and says of 3,429/2,546: "Treat that number as withdrawn" | **contradiction C21** |
 | 23 | base NCA **12,168,003,584** B | `docs/PROGRESS.md:107`; `HANDOFF.md:129`; `docs/PRIVATE-DATA.md` | `stat -c %s G:/mhgu-romfs/secure/98abd400…nca` → 12168003584 | confirmed |
-| 24 | **18 MB** db, **25 MB** image | `README.md:82,154`; `PRIVATE-DATA.md` | 18,333,696 B and 25,472,632 B | confirmed |
-| 25 | **138** scripts (7 / 4 / 2 / 42 / 83) | `README.md:53` | `PUBLISH-TOOL-DEPS.md` has exactly 138 rows classified 7/4/2/42/83; by that document's own per-directory rule the tree now holds **143** (4 + 50 + 71 + 10 + 2 + 1 + 5: `tools/audit` grew 5 → 10), or 148 counting `gu-moves/lib`'s 5 modules, which the document excluded | confirmed vs the named artefact, **stale vs the tree** |
-| 26 | ledger **73 fixed / 6 open / 4 rejected / 1 unresolved / 1 reverted** | `README.md:54` | `LINK-STATUS.tsv` 86 data rows: fixed 75, open 4, rejected 4, done 1, reverted 1, unresolved 1 | **contradiction C6** |
-| 27 | public branch **251** commits behind / **242** ahead | `README.md:74`; `docs/PUBLISH-READINESS.md:7,13` | `git rev-list --count origin/master..HEAD` = **253** | **contradiction C7** |
+| 24 | **18 MB** db, **25 MB** image | `README.md:80,156`; `PRIVATE-DATA.md` | 18,333,696 B and 25,472,632 B | confirmed |
+| 25 | **138** scripts (7 / 4 / 2 / 42 / 83) | `README.md:53` (**closed** in the working tree: "about 140 scripts; the dependency table classifies 138 of them") | `PUBLISH-TOOL-DEPS.md` has exactly 138 rows classified 7/4/2/42/83; by that document's own per-directory rule the tree now holds **143** (4 + 50 + 71 + 10 + 2 + 1 + 5: `tools/audit` grew 5 → 10), or 148 counting `gu-moves/lib`'s 5 modules, which the document excluded | confirmed vs the named artefact, **stale vs the tree** |
+| 26 | ledger **73 fixed / 6 open / 4 rejected / 1 unresolved / 1 reverted** | `README.md:54` (**closed** in the working tree: the tally is gone, the file is cited as the count) | `LINK-STATUS.tsv` 86 data rows: fixed 75, open 4, rejected 4, done 1, reverted 1, unresolved 1 | **closed** (was C6; working-tree README) |
+| 27 | public branch **251** commits behind / **242** ahead | `README.md:74` (**closed** in the working tree: "several hundred commits"); `docs/PUBLISH-READINESS.md:7,13` (**live**) | `git rev-list --count origin/master..HEAD` = **257** (253 at `9eb31ea`) | **closed in README, live in PUBLISH-READINESS** (C7) |
 | 28 | wiki **42 of 47** pages reproduce | `README.md:51` | `W4-WIKI.md`: 46 page rows = 42 confirmed (41 plus 1 "confirmed with a caveat"), 3 contradiction, 1 stale; the 47th file is `README.md` itself, which has defects | confirmed |
 | 29 | reference **78 of 92** confirmed, **12** contradictions, **2** unverified | `README.md:52` | `W4-REFERENCE.md`'s 92-row table: **72 / 16 / 4** | **contradiction C5** |
 | 30 | **250** tracked documents | `README.md:54` | `git ls-files '*.md' \| wc -l` = 250 | confirmed |
 
-Cross-document agreement: numbers 1–9 and 11–24 agree wherever two entry documents state them. The
-disagreements are 10 (HANDOFF alone), 25–27 (each document with the tree), and 29 (README with its
-own named artefact). `docs/README.md` states no code-side number at all; its save-side numbers
+Cross-document agreement: numbers 1–9, 11–21 and 23–24 agree wherever two entry documents state
+them. The disagreements were 10 (HANDOFF alone), 22b (README and HANDOFF against the mechanics
+document), 25–27 (each document with the tree) and 29 (README with its own named artefact). Of
+these, 22b, 25, 26 and the README half of 27 are closed; 10, the PUBLISH-READINESS half of 27, and
+29 remain. `docs/README.md` states no code-side number at all; its save-side numbers
 (134 rows, 86,997 B, 653,472 B, 122 bits, 32 slots x 19 bit, 19 objects / 20 calls) were all
 checked and agree with the documents it indexes, with one row-count exception (C15).
 
@@ -82,13 +85,13 @@ or a count one off.
 | C3 | where the 90% gap sits | `HANDOFF.md:27`: "Tier B's 48.5% of instructions", per-function adjudication "in progress" | `METER.md:225`: 58.0 -> 90 is a **32.0-point** gap; report `conf B` = 28.4%; `HANDOFF.md:246`: the adjudication workflow is **retired** | METER / report | P2 |
 | C4 | schema of `monster-slot-map-137.json` | `HANDOFF.md:123`: `slot/emid/cn/en/kind`; 94 big + 43 small | the tracked file: `slot/emid/cn/cn_src/en` (no `kind`, no `ro`); `kind` lives in `monster-slot-map.json` | the JSON file | P3 |
 | C5 | reference-audit tally | `README.md:52`: 78 confirmed / 12 contradictions / 2 unverified | `W4-REFERENCE.md` 92-row table: 72 / 16 / 4 | the table | P2 |
-| C6 | audit-ledger tally | `README.md:54`: 73 fixed, 6 open, 4 rejected, 1 unresolved, 1 reverted (= 85) | `LINK-STATUS.tsv`: 86 rows, 75 fixed, 4 open, 4 rejected, 1 done, 1 reverted, 1 unresolved | the TSV | P2 |
-| C7 | commits not yet pushed | `README.md:74`: 251; `docs/PUBLISH-READINESS.md:7,13`: 242 | `git rev-list --count origin/master..HEAD`: **253** | git | P3 |
-| C8 | number of scripts | `README.md:53`: 138 | by `PUBLISH-TOOL-DEPS`'s own rule the tree now holds **143** (the document counted `tools/audit` as 5, it now holds 10); a flat find with `vendor/` pruned gives 148 because it adds `gu-moves/lib`'s 5 modules | the tree | P3 |
-| C9 | can a stranger run the gate? | `docs/PUBLISH-READINESS.md:63`: the three commands, `check.mjs` included, are "entries a stranger can run themselves" | `tools/audit/check.mjs:10`: `const ROOT = "G:/omp works/MHGU";` | the script | P2 |
-| C10 | toolchain input paths | `tools/mhgu/README.md:9`: image at `.tmp/mhgu/extract/exefs-0eb5/main.140.flat.bin`; `:13`: "all scripts default to absolute `G:/omp works/...` paths" | `tools/mhgu/arm32.mjs:7` and `reader-fields.mjs:7`: `FLAT` env or `<repo>/main.140.flat.bin`; `README.md:145-147` says the same | the scripts | P2 |
+| C6 | audit-ledger tally | `README.md:54` at `9eb31ea`: 73 fixed, 6 open, 4 rejected, 1 unresolved, 1 reverted (= 85) | `LINK-STATUS.tsv`: 86 rows, 75 fixed, 4 open, 4 rejected, 1 done, 1 reverted, 1 unresolved | the TSV — **closed** in the working tree (tally removed) | P2 |
+| C7 | commits not yet pushed | `README.md:74` at `9eb31ea`: 251 (**closed** in the working tree: no number); `docs/PUBLISH-READINESS.md:7,13`: 242 (**live**) | `git rev-list --count origin/master..HEAD`: **257** at the last read | git | P3 |
+| C8 | number of scripts | `README.md:53` at `9eb31ea`: 138 | by `PUBLISH-TOOL-DEPS`'s own rule the tree then held **143** (audit 5 → 10); a flat find with `vendor/` pruned gives 148 because it adds `gu-moves/lib`'s 5 modules | the tree — **closed** in the working tree ("about 140 scripts") | P3 |
+| C9 | can a stranger run the gate? | `docs/PUBLISH-READINESS.md:40`: the three commands, `check.mjs` included, are "entries a stranger can run themselves" | `tools/audit/check.mjs:10`: `const ROOT = "G:/omp works/MHGU";` | the script | P2 |
+| C10 | toolchain input paths | `tools/mhgu/README.md:9`: image at `.tmp/mhgu/extract/exefs-0eb5/main.140.flat.bin`; `:13`: "all scripts default to absolute `G:/omp works/...` paths" | `tools/mhgu/arm32.mjs:7` and `reader-fields.mjs:7`: `FLAT` env or `<repo>/main.140.flat.bin`; `README.md:142-143` says the same | the scripts | P2 |
 | C11 | which script produces four tracked tables | `HANDOFF.md:61,67,68,69`: `func-inventory5` -> `functions.csv.gz`; `mon-final.py` -> `class-inventory.tsv`; `mon-offsets.py` -> `member-offsets.tsv`; `em-units.py`/`counter-slots*` -> `monster-slot-map-137.json` | `tools/mhgu/README.md:24,32,33,34,46`: all four write elsewhere or only print; none writes the tracked file | the scripts (`grep writeFile`) | P2 |
-| C12 | producer of the save-side percentages | `README.md:88,155`: `tools/mhgu/mon/size-final.mjs` | `size-final.mjs:1-2`: it inverts the emsizetbl/emyure name hash and joins kill/capture counters with size records; no coverage code anywhere in `tools/` | the script | P2 |
+| C12 | producer of the save-side percentages | `README.md:90,157`: `tools/mhgu/mon/size-final.mjs` | `size-final.mjs:1-2`: it inverts the emsizetbl/emyure name hash and joins kill/capture counters with size records; no coverage code anywhere in `tools/` | the script | P2 |
 | C13 | direct-evidence assertion rate | `DEVLOG.md:1194`: 95.3% | `METER.md:997`: 95.3% was the wrong denominator, the value is **95.0%**; `HANDOFF.md:142` uses 95.0% | 1,189,308 / 1,251,869 = 95.0% | P3 |
 | C14 | string evidence in the unlabelled bucket | `DEVLOG.md:1203` (in "conclusions not to redo"): 2.0% of unlabelled functions, 60 class names | `DEVLOG.md:1264`, `METER.md:859`, `HANDOFF.md:152`: **958 (7.8%)**, 124,509 insns (2.38%), **233** class names | recomputed 958 / 12,318 = 7.8% | P3 |
 | C15 | number of gates | `DEVLOG.md:1175` title "eight gates all green", `:1214` "8 gates, ~2 s" | `tools/audit/check.mjs` has 12; `DEVLOG.md:1258` itself records "gates 8 -> 12" | the gate prints 12 PASS | P3 |
@@ -97,7 +100,7 @@ or a count one off.
 | C18 | what the 51 NEX rows contain | `README.md:10-12`: rows containing "NEX SDK symbol fragments (`Nex`, `nn::`)" | 36 rows match `Nex\|nn::`; 51 requires the third token `Nintendo` | the CSVs | P3 |
 | C19 | repository licence in a spec doc | `docs/spec-crossgame/monster-gu.md:40`: "public repo (code GPL-3.0-or-later, docs CC BY 4.0)" | `README.md:162`, `HANDOFF.md:4`, `LICENSE`: **MIT** | LICENSE | P2 |
 | C20 | does `analysis/dumps/` ship? | `docs/README.md:21` marks it as project output (tick) | it is a symlink to `MHGU-private`, **0** tracked files; `PRIVATE-DATA.md` lists it as non-public | `git ls-files` | P3 |
-| C21 | dispatch-site count | `README.md:49`: 3,429 sites in 2,546 functions; `HANDOFF.md:118`: same pair | `docs/PROGRESS.md:106` and `docs/mechanics/monster-code-map.md:28`: **6,777 sites (6,026 unshifted) in 4,527 functions**, old pair struck; `tools/audit/scan-dispatch.mjs`: same, and "treat that number as withdrawn" | the scanner | P1 |
+| C21 | dispatch-site count | `README.md:49` and `HANDOFF.md:118` at `9eb31ea`: 3,429 sites in 2,546 functions | `docs/PROGRESS.md:106` and `docs/mechanics/monster-code-map.md:28`: **6,777 sites (6,026 unshifted) in 4,527 functions**; `tools/audit/scan-dispatch.mjs`: same, and "treat that number as withdrawn" | the scanner — **closed** by `76735a9` | P1 |
 | C22 | which DEVLOG section is "the last" | `HANDOFF.md:239`: read the last section, "（2026-11-04 三次更正 + 审计加固）" | the last section is `## 2026-11-04（续四）：实机窗口 06:39–06:56` (`DEVLOG.md:1296`); the named section is at 1175 and has four sections after it | the file | P3 |
 
 ### C1 — `HANDOFF.md:41` counts words from vaddr 0
@@ -185,20 +188,28 @@ file as `fixed / open / rejected` only. (b) The counts are stale *at the commit 
 line*: commit `03c6544` wrote 73/6 and commit `9eb31ea` then changed two rows to `fixed` without
 touching the README, so the file now says 75/4.
 
+**Closed** in the working tree after `31be4a3`: `README.md:54` no longer states a tally — it says the
+file carries the counts and that they move with each pass, which is the right fix for a number that
+changes under the prose.
+
 ### C7 — the commit count is a moving snapshot, and both documents are behind it
 
 ```
 $ git rev-list --count origin/master..HEAD
-253
+257        (253 at 9eb31ea, when this check was first run)
 $ git rev-parse --short origin/master
 f199842
 ```
 
 `README.md:74` says 251 and `docs/PUBLISH-READINESS.md:7,13` says 242. 242 was the value the prior
 entry-docs audit measured (`PUBLISH-ENTRY-DOCS.md` §0 prints 242 at the same `origin/master`), 251
-was the value when the README was written, and HEAD has since gained `03c6544` and `9eb31ea`. This
+was the value when the README was written, and HEAD has since gained `03c6544`, `9eb31ea` and
+four more commits (257 ahead at the last read). This
 is unavoidable drift for a hand-typed count; the fix is to print the command rather than the
 number, or to drop the sentence.
+
+**Closed** for the README in the working tree ("the public branch lags the working tree by several
+hundred commits"); still **live** in `docs/PUBLISH-READINESS.md:7,13`, which says 242.
 
 ### C8 — `README.md:53`: 138 scripts
 
@@ -219,10 +230,14 @@ $ find tools -path 'tools/mhgu/vendor' -prune -o -type f \( -name '*.mjs' -o -na
 
 The README's number reproduces from the artefact it names, and the artefact's own split (7 / 4 / 2 /
 42 / 83) reproduces exactly from its 138 classified rows. The artefact is what has drifted: the
-audit directory grew from 5 to 9 scripts (the W3/W4/W5/W6 audit tools) and ten more scripts exist,
-so the entry sentence understates the tree by ten.
+audit directory grew from 5 to 10 scripts (the W3/W4/W5/W6 audit tools), and the same rule now
+counts 143 scripts, so the entry sentence understated the tree by five.
 
-### C9 — `docs/PUBLISH-READINESS.md:63` and `check.mjs:10`
+**Closed** in the working tree: `README.md:53` now reads "about 140 scripts; the dependency table
+classifies 138 of them by input (7 need no game input, 4 the database, 2 saves, 42 the image, 83 an
+intermediate artefact)".
+
+### C9 — `docs/PUBLISH-READINESS.md:40` and `check.mjs:10`
 
 ```
 $ sed -n '10p' tools/audit/check.mjs
@@ -253,7 +268,7 @@ The input table names a `.tmp` path that has been cleaned, and the blanket sente
 default to absolute `G:/omp works/...` paths; change the constants at the top" is false for the two
 shared readers and for every coverage script (which resolve from their own location). `README.md`
 already documents the correct behaviour; the toolchain README is the stale one. (It is true for the
-four scratch-path scripts `README.md:132` names.)
+six scratch-path scripts `README.md:144` names.)
 
 ### C11 — `HANDOFF.md:61,67,68,69`: four tracked tables whose producer is not the script named
 
@@ -273,7 +288,7 @@ worse in a different way: the script **does** write that path (`state-motion2.mj
 superseded generator; the live document's banner names `state-motion3.mjs`, which writes at line
 120. Running the cited script replaces the current document with the old one.
 
-### C12 — `README.md:88,155`: the save-side figures have no producer
+### C12 — `README.md:90,157`: the save-side figures have no producer
 
 ```
 $ sed -n '1,3p' tools/mhgu/mon/size-final.mjs
@@ -285,7 +300,7 @@ $ grep -rln "1177760" tools/
 (no output)
 ```
 
-The script does read two fixed snapshots (so the second half of `README.md:155` is true), but it
+The script does read two fixed snapshots (so the second half of `README.md:157` is true), but it
 computes neither 87.8% nor 14.9%; no script in `tools/` contains the block length at all. The
 figures exist as arithmetic in `docs/PROGRESS.md:23-24`, which reproduces:
 `(226754 + 950374*0.85)/1177760 = 0.878423`, `224643*0.78/1177760 = 0.148775`.
@@ -369,7 +384,7 @@ It is one of seven symlinks into `MHGU-private` (`editor-src`, `save-snapshots`,
 directory; the root README's "What a clone does not contain" table lists six of the seven and omits
 this one (reasonably — it changes nothing you can run, but the index and PRIVATE-DATA should agree).
 
-### C21 — `README.md:49` and `HANDOFF.md:118` publish a dispatch count the mechanics document withdrew
+### C21 — `README.md:49` and `HANDOFF.md:118` published a dispatch count the mechanics document withdrew
 
 ```
 $ node tools/audit/scan-dispatch.mjs
@@ -389,11 +404,16 @@ signature reproduces it (W6-MONSTERS). Treat that number as withdrawn.
 
 `docs/PROGRESS.md:106` and `docs/mechanics/monster-code-map.md:28` now carry 6,777 / 6,026 / 4,527
 and strike the old pair ("~~3,429 / 2,546 / 10~~ 无法复现，2026-11-04 撤回"). The README's monster
-row (`README.md:49`) and the HANDOFF mechanics table (`HANDOFF.md:118`) still print the withdrawn
-pair, so the two entry documents disagree with the document cluster the README's own evidence column
+row (`README.md:49`) and the HANDOFF mechanics table (`HANDOFF.md:118`) still printed the withdrawn
+pair at `9eb31ea`, so the two entry documents disagree with the document cluster the README's own evidence column
 names (`docs/mechanics/`) and with a one-command reproduction. This is the only P1 in this report
 because it sits on the front page's "Monster mechanics" line. The same edit wave also changed the
 inline-jump-table count from 10 to 3; neither README nor HANDOFF prints that number.
+
+**Closed** by `76735a9` (07:39): README, HANDOFF, PROGRESS, `code-metrics` and the code map all
+carry 6,777 / 6,026 / 4,527 with the old pair struck. The finding is kept because it was live when
+the sweep started, and because it is the failure mode the entry documents exist to prevent: a
+front-page number outlived its retraction by a whole edit wave.
 
 ### C22 — `HANDOFF.md:239` points at a section that is no longer the last one
 
@@ -401,7 +421,7 @@ inline-jump-table count from 10 to 3; neither README nor HANDOFF prints that num
 $ grep -n '^## ' DEVLOG.md | tail -5
 1175:## 2026-11-04（三次更正 + 审计加固）：≥90 线定在 66.2%，八道门全绿
 1249:## 2026-11-04（续）：项目口径 58.4% → 58.0%，因为降级表一直没进这个数
-1262:## 2026-11-04（续二）：未标桶的字符串证据被少算了 4 倍；…
+1262:## 2026-11-04（续二）：未标桶的字符串证据被少算了 4 倍；串共识通道测过但暂不接
 1275:## 2026-11-04（续三）：六份关联审查 + 三处会改变解读的修正
 1296:## 2026-11-04（续四）：实机窗口 06:39–06:56（SUYU / MHGU 导出）
 $ sed -n '239p' HANDOFF.md
@@ -409,7 +429,7 @@ $ sed -n '239p' HANDOFF.md
 ```
 
 The step is still useful (the 续 entries correct the 三次更正 numbers), but the parenthetical names
-the wrong section, and `README.md:125`'s "read the last section" now lands on a live-testing note.
+the wrong section, and `README.md:127`'s "read the last section" now lands on a live-testing note.
 Neither log entry records the 2026-11-04 relicensing (Section 5), so the log the entry documents
 send a reader to is the one place where the current licence is not stated.
 
@@ -456,7 +476,7 @@ repository root, the document's own directory, and the plausible sub-bases (`doc
 | 18 | `HANDOFF.md:18,129`; `docs/PROGRESS.md:65,104,107`; `docs/README.md` tables | `coverage-map.md`, `METER.md`, `coverage-report.tsv`, `code-metrics.md`, `member-census.md`, … | all resolve, but only after trying `docs/save-layout/`, `docs/analysis/code/coverage/`, `docs/analysis/code/inventory/`, `docs/analysis/code/`, `docs/analysis/members/` respectively |
 
 **Paths that resolve but name the wrong producer** (counted as contradictions C11/C12, listed here
-for completeness): `README.md:88,155` -> `size-final.mjs`; `HANDOFF.md:61,67,68,69` -> four
+for completeness): `README.md:90,157` -> `size-final.mjs`; `HANDOFF.md:61,67,68,69` -> four
 `tools/mhgu` scripts.
 
 **Absolute private paths, all present on this machine (so the documents are accurate here):**
@@ -470,7 +490,7 @@ private — consistent with `PRIVATE-DATA.md`.
 
 ## 4. The stated reading order, walked
 
-`README.md:108-118` gives six steps. Walked in order at `9eb31ea`:
+`README.md:99-110` gives six steps. Walked in order at `9eb31ea`:
 
 | Step | Target | Walk |
 |---|---|---|
@@ -491,7 +511,7 @@ the db counts.
 
 ## 5. Licence vs what the repository actually ships
 
-**What the statement says** (`README.md:160-171`, `HANDOFF.md:4`): MIT for the whole repository —
+**What the statement says** (`README.md:162-172`, `HANDOFF.md:4`): MIT for the whole repository —
 code, tools, documentation; `LICENSE` holds the text, `docs/LICENSE` repeats it for the notes;
 relicensed from GPL-3.0-or-later on 2026-11-04 after an earlier MIT period; third-party material
 keeps its own terms, with `docs/data/` (a community database extraction and derived tables) and
@@ -521,7 +541,7 @@ that was used between 2026-10-24 and 2026-11-04 is in the history, not in the tr
 **Where the licence statement is still contradicted by what ships:** `docs/spec-crossgame/monster-gu.md:40`
 says the public repo is "code GPL-3.0-or-later, docs CC BY 4.0" (C19); `DEVLOG.md` has no entry for
 the 2026-11-04 change, so its most recent licence statement (`DEVLOG.md:597-599`, 2026-10-24) still
-says GPL-3.0-or-later and "文档仍是 CC BY 4.0" — and that log is what `README.md:125` and
+says GPL-3.0-or-later and "文档仍是 CC BY 4.0" — and that log is what `README.md:127` and
 `HANDOFF.md:239` tell a new reader to read for "what changed". The three `PUBLISH-*` audit reports
 also describe the old regime, but they are dated reports, not live statements.
 
@@ -544,7 +564,7 @@ own measurement tables inside `docs/data/` looking third-party.
 | 95.0% = 1,189,308 / 1,251,869 and the 762-function zero-assertion set | `HANDOFF.md:142`; `METER.md:987-997` | the gate re-checks 22,957 rows, not this per-function union; not re-derived |
 | "`curl https://github.com/Twelve-eight/MHGU` returns 200" | `docs/PUBLISH-READINESS.md:7` | no network request was made in this sweep |
 | the concrete hashes of the live save files (`Lay1nn_HR198.hnt`, `system`, `qt-config.ini`) | `DEVLOG.md:1296-1320` | the live install is outside the repository. The snapshot files do match the quoted hashes (`sha256sum` on the four `.hnt`: `69392be8…e5e2` twice, `54826478…af95` twice), and the backup directory exists at 13 MB |
-| "emulator / console" for `patch/1.4.0.pchtxt` | `README.md:126` | the patch is a `@nsobid-` text patch; the only installation path anywhere in the repo is the emulator `load/` directory (`DEVELOP.md` asset table, `DEVLOG.md` 2026-10-24). No console (Atmosphere IPS/cheat) path is documented, and the pchtxt format is not one Atmosphere reads. Could not be falsified from the repo; treat the word "console" as unsupported |
+| "emulator / console" for `patch/1.4.0.pchtxt` | `README.md:128` | the patch is a `@nsobid-` text patch; the only installation path anywhere in the repo is the emulator `load/` directory (`DEVELOP.md` asset table, `DEVLOG.md` 2026-10-24). No console (Atmosphere IPS/cheat) path is documented, and the pchtxt format is not one Atmosphere reads. Could not be falsified from the repo; treat the word "console" as unsupported |
 | `mon-offsets.py` grouping "110 条、27 组" | `tools/mhgu/README.md:48` | the tracked `member-offsets.tsv` has 110 rows over **37** distinct containing functions; the "27 groups" is the script's registrar grouping, and the script needs the image at the now-dead `.tmp` path |
 | the 25.9 MB size of the tracked inventory | `docs/PUBLISH-ENTRY-DOCS.md:248` | recomputed over the 173 tracked files under `docs/analysis/code/inventory/`: 25.9 MB — agrees |
 
@@ -585,11 +605,11 @@ own measurement tables inside `docs/data/` looking third-party.
 ## VERDICT
 
 ```
-README.md                  contradiction  Headline calibres, 52,692/5,228,277, save percentages, 129/21,153/1,355 and the 51 NEX rows all reproduce, but the state table does not: W4-REFERENCE is 72/16/4 not 78/12/2, the ledger has 86 rows not 85 (fixed/open 75/4 not 73/6), the commit count is 253 not 251, the monster row prints the withdrawn 3,429/2,546 dispatch pair (C21), and the save-side figures are attributed to a script that does not compute them.
-HANDOFF.md                 contradiction  Five current-state defects live here while most of the file is synced to METER: .text 5,228,411 paired with the 0x100 range (the range holds 5,228,347), "19 = 18 + 2" member slots (census: 19 objects/20 calls), the Tier B 48.5% conclusion (gap 32.0 points, plan retired), the withdrawn 3,429/2,546 dispatch pair (C21), four tool-table rows naming tracked outputs their scripts do not write, and a DEVLOG pointer that names a section no longer last (C22).
-docs/PROGRESS.md           confirmed      Every headline (58.0/66.2/53.5/87.84/14.9/52,692/5,228,277/3,201/110/332/53/6,777/4,527/12,168,003,584) reproduces — including the dispatch retraction the README and HANDOFF missed; only a line anchor drifts (coverage-map 320-322 quoted for the read-side discard).
+README.md                  contradiction  Headline calibres, 52,692/5,228,277, save percentages, 129/21,153/1,355 and the 51 NEX rows all reproduce, but the state table does not: W4-REFERENCE is 72/16/4 not 78/12/2, the save-side figures are attributed to a script that does not compute them, and the 51-row parenthetical lists two of three tokens. (The ledger tally, the bare script count, the commit number and the withdrawn dispatch pair were all live at 9eb31ea and are closed by 76735a9 or by the working-tree README.)
+HANDOFF.md                 contradiction  Five current-state defects live here while most of the file is synced to METER: .text 5,228,411 paired with the 0x100 range (the range holds 5,228,347), "19 = 18 + 2" member slots (census: 19 objects/20 calls), the Tier B 48.5% conclusion (gap 32.0 points, plan retired), four tool-table rows naming tracked outputs their scripts do not write, and a DEVLOG pointer that names a section no longer last (C22).
+docs/PROGRESS.md           confirmed      Every headline (58.0/66.2/53.5/87.84/14.9/52,692/5,228,277/3,201/110/332/53/6,777/4,527/12,168,003,584) reproduces — including the dispatch retraction it carried before README and HANDOFF did; only a line anchor drifts (coverage-map 320-322 quoted for the read-side discard).
 docs/README.md             contradiction  Every indexed file and save-side number checks out except two descriptions: member4-file-layout.txt has 135 data rows not 134, and analysis/dumps/ is marked project output although it is a private symlink with 0 tracked files.
-docs/PUBLISH-READINESS.md  contradiction  The vendor/DEVELOP/reproducibility facts verify (vendor blobs in unpushed history = 101 files, DEVELOP lines 10 and 12 correct, both headline commands print the quoted lines), but "a stranger can run check.mjs" is false (ROOT is hardcoded) and the ahead count (242) is 253.
+docs/PUBLISH-READINESS.md  contradiction  The vendor/DEVELOP/reproducibility facts verify (vendor blobs in unpushed history = 101 files, DEVELOP lines 10 and 12 correct, both headline commands print the quoted lines), but "a stranger can run check.mjs" is false (ROOT is hardcoded) and the ahead count (242) is 257.
 docs/PRIVATE-DATA.md       confirmed      All six local links and all three absolute paths exist; the NCA is 12,168,003,584 B and the romfs holds the stated 35,531 files.
 tools/mhgu/README.md       contradiction  The producer table is the accurate document in the repo, but the input table points at a deleted .tmp image, the "all scripts read absolute paths" sentence is false for arm32/reader-fields and the coverage chain, and nine .tmp evidence citations are dead.
 DEVLOG.md                  stale          The last 200 lines plus headers still carry 95.3% (METER: 95.0%), "2.0% / 60 classes" (same file later: 7.8% / 233), "8 gates" (12), and 45/2/2/1 ledger counts (75/4/4/1/1/1); no entry records the 2026-11-04 relicensing.

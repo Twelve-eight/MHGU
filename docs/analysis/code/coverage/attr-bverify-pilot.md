@@ -100,30 +100,27 @@ median on this block is 0, because 39 of the 60 rows are clones or template inst
 settled by skeleton hash + call sites + pc-delta strings + one vtable word — only 21 distinct bodies were ever
 disassembled. Mean is 0.65 including the 18 one-time helper disassemblies.
 
-## The string channel: 1,737 tier-B rows are invisible to the current tools
+## The string channel: the defect this pilot reported was fixed on 2026-11-04
 
-The retile `strings` column is empty for all 60 rows and `stringxref.tsv` has **0 of 60**, yet **43 of 60** rows
-materialise a class or field name in their own instructions. Two defects in `tools/mhgu/coverage/stringxref.mjs`:
+When the pilot ran, the retile `strings` column was empty for all 60 rows and `stringxref.tsv` had **0 of 60**,
+yet **43 of 60** rows materialise a class or field name in their own instructions. The two defects that caused
+it were as diagnosed — the pc-bias branch only ran when the loaded value was inside `.text` (`else if
+(inText(V)) thisDelta = V`), and `prevDelta` was a single-instruction carry with no register tracking, so
+`ldr rX,[pc,#imm]` …(2–6 insns)… `add rD,pc,rX` was unseen — and were fixed exactly the way this section asked
+(`stringxref.mjs`, commit `566c882`, register state tracked per basic block).
 
-1. The pc-bias branch only runs when the loaded value is inside `.text` (`else if (inText(V)) thisDelta = V`). The
-   dominant idiom here loads a bias larger than `.text` (`ldr r1,[pc,#4084]` → `0x144fa96`, then `add r1,pc,r1` →
-   `0x1554662` = `"mIndex"`); `0x144fa96 > TEXT_END`, so it takes the "table hop" branch and no string is recorded.
-2. `prevDelta` is a single-instruction carry with no register tracking, so `ldr rX,[pc,#imm]` …(2–6 insns)…
-   `add rD,pc,rX` — the shape used by every registrar — is unseen.
+Re-measured on the committed tables (2026-11-04):
 
-Measured over the whole image (register-tracked, 40-instruction window, `strAt` printable-ASCII check):
+| measurement | then | now |
+|---|---:|---:|
+| pilot rows present in `stringxref.tsv` | 0 of 60 | **46 of 60** |
+| … carrying a class or field name | 43 of 60 (measured by hand) | **43 of 60** (`cWeapon03MsgBase`, `rAmuletData`, `mIndex`, …) |
+| pilot rows with a non-empty retile `strings` column | 0 of 60 | 3 of 60 (`0x127bb8` "amlt", `0x12806c` "amskl", `0x1284cc` "amslt\|ased") |
 
-| measurement | count |
-|---|---:|
-| functions with ≥1 pc-delta string | 4,717 |
-| … absent from `stringxref.tsv` | 2,420 |
-| … of those, tier B | **1,737** |
-| … of those, the string has a `classprefix-map.tsv` prefix → label seed | **813** (3.2 % of tier B) |
-
-8/8 spot checks are real names (`mPointPos`, `cAmuletSlotBaseXML`, `cMonNyanProcSelectLocationWindow`,
-`uShellEmBase07`, `uShellEm083_sp_00_02`, `cUIOWeaponGunLance`, `mUniqueHaveShellCount[0]`, `lcm`), most of them
-immediately before `bl 0x7aedcc`. Fixing the two conditions and re-running `seeds-from-xref.mjs` seeds 813 tier-B
-rows with no per-function agent work; that is worth more than several agents and should precede the wave.
+The image-wide projection that justified the work item — 4,717 functions with a pc-delta string, 2,420 absent
+from the old extractor, 1,737 of those tier B, 813 label-seedable — was measured with a scratch
+re-implementation of the fixed resolver and is not reproducible from the committed tables. **It is history: do
+not spend a wave re-fixing the extractor.** The 43 rows it made invisible are the 43 that now resolve.
 
 ## Is 60 a realistic per-agent unit for a 20-agent wave?
 
@@ -205,10 +202,11 @@ judgement call the repo itself flags as flippable.
    data-class region: 21 skeletons, 48/60 rows in clone groups, one template 28×. 0/60 confirms is therefore not an
    estimate of tier-B quality, and a wave built the same way cannot report one. Stride the selection and dedupe by
    skeleton.
-2. **Both string sources are empty for 43/60 rows that do name a class.** The retile column inherits the old
-   region-based extraction; `stringxref.tsv` misses the dominant idiom for two concrete reasons (bias ≥ `TEXT_END`
-   is misread as a table pointer; `prevDelta` carries one instruction and is not register-tracked). 1,737 tier-B rows
-   are affected, 813 of them label-seedable — fix the tool before spending agents.
+2. **The string sources were empty for 43/60 rows that do name a class — no longer.** The retile column inherits
+   the old region-based extraction (3 of 60 rows non-empty now); `stringxref.tsv` missed the dominant idiom for
+   two concrete reasons (bias ≥ `TEXT_END` misread as a table pointer; `prevDelta` carried one instruction and was
+   not register-tracked). Both were fixed on 2026-11-04 and the extractor now sees 46 of the 60 rows, so the
+   1,737-row work item this pilot recommended is obsolete.
 3. **Retile extents merge adjacent leaves.** `0x127bb8` is four functions (accessor + tail thunk + getter + ext
    getter), `0x11b2c0`/`0x11d320` carry trailing 2-insn and vtable-thunk leaves. A verdict describes the row, not one
    function; at least five rows (0x127bb8, 0x12806c, 0x1284cc, 0x11b2c0, 0x11d320) are partly glue, which caps

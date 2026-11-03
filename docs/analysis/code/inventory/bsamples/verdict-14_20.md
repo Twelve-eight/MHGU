@@ -113,7 +113,7 @@ node tools/mhgu/coverage/class-from-code.mjs [--start 0x..] [--end 0x..] [--chan
 
 | with a class | by name | by ctor | recorded slot | array slot | none |
 |---:|---:|---:|---:|---:|---:|
-| **16,579 (31.5 %)** | 1,443 | 5,560 | 7,636 | 1,940 | 36,112 |
+| **16,579 (31.5 %)** | 1,443 | 5,560 | 7,636 | 1,940 | 36,113 |
 
 **7,003 functions (13.3 %) come from the two code idioms alone** — no metadata, no string column. Precision, where two channels overlap: ctor vs recorded slot agrees on the class in **88.9 %** of 3,961 pairs; ctor vs registrar name in **81.2 %** of 1,370 pairs.
 

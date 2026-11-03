@@ -6,8 +6,10 @@
 import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
 
-const ROOT = "G:/omp works/MHGU";
+// Resolved from this file so a clone runs the gate wherever it lives (audit W6-ROOTDOCS C9).
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 let failures = 0;
 const ok = (m) => console.log(`PASS ${m}`);
 const bad = (m) => { console.log(`FAIL ${m}`); failures++; };

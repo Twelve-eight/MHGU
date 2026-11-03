@@ -1318,3 +1318,22 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 即：存档未被改动，`keyboard_enabled` 的 true→false 往返把配置还原到**逐字节相同**。结论：本机 `sha256sum -c` 不可信，校验一律逐文件比对哈希字符串。
 
 **结论**：这一轮实机只买到两个事实：①导出 exe 在本机能启动并跑到标题；②存档在两次启动/退出后逐字节未变（`Lay1nn_HR198.hnt` = `69392be8…42e5e2`）。存档选择、编辑器、DLC 页仍然只能由用户点击验证。
+
+
+## 2026-11-04（续五）：全仓改 MIT + 两轮全量扫描
+
+**许可**：用户令"全仓开源，用 mit"。`LICENSE` 换成 MIT 全文，`docs/LICENSE` 同步并声明覆盖 docs、不含 `docs/data/` 第三方数据；`editor/`、`forge/`、`tools/mhgu/quest-ext.mjs` 共 11 个文件的 SPDX 头由 `GPL-3.0-or-later` 改为 `MIT`；`README.md`、`HANDOFF.md`、`docs/spec-crossgame/monster-gu.md` 的许可表述同步。
+合法性依据：仓库 643 个提交全部为同一身份 `Twelve-eight`，无第三方贡献；forge 基于 MIT 的 `mod_host_api.h`；`docs/analysis/external` 只记 SUYU-GUReComp（GPL-3.0）的事实、不抄代码。第三方数据（`docs/data/` 的社区数据库导出）不随本次许可变更。
+
+**全量重扫**：此前只扫过约 97/250 个 md。本轮 10 个并发切片补齐：`tierb-pass1/2/3`（48）、`inventory`+`coverage`（17）、`external`（23）、`monsters`+`mechanics`（15）、根文档（11），加上此前的 save-layout / editor-spec / fields / members / save-io / wiki / reference / patches / history / spec-crossgame。
+
+**撤回的数字（本轮最重要的输出）**：
+
+1. **`3,429 处 / 2,546 个函数` 的"偏移表派发点"**：定义从未记录，七种读法给 112–5,791 都对不上。改为可复现口径 **`add pc,rX,rY` 6,777 处（无移位 6,026）/ 4,527 个函数**、内联表 **3 处**，工具 `tools/audit/scan-dispatch.mjs`。README / HANDOFF / PROGRESS / code-metrics / monster-code-map 五处已改并保留删除线。
+2. **裁定语料的 "N callee"**：`tierb-gen.mjs` 过去把 callee 列表截在 200 字符且不留标记，239 条里有 193 条描述的是 dump 不是代码。生成器已修（打印真实总数并标记截断），METER 的裁定小节已加前置说明：切片只当"人的判断"，不当测量。140 个标签抽查 96 一致、12 不一致，12 条全是证据缺陷。
+3. **`monsters.md` 的 93 行名单**：现行编辑器是 `new string[137]`，编辑器行号 = 槽号 0..136；94 大怪槽 + 43 小怪槽。整页重写（§1/§3/§9/§12/§13/§14 与 U1–U4），137 行机器校验 0 错配。
+4. **`check.mjs` 的硬编码根路径**：改为从文件位置解析，已在 `G:/tmp` 成功跑出 ALL PASS——现在"陌生人可跑门禁"这句话是真的。
+
+**处置表**：`LINK-STATUS.tsv` 现 88 fixed / 4 open / 4 rejected / 1 unresolved / 1 reverted / 2 done。
+
+**推送前备份**：`G:/backups/MHGU-pre-push-20261104.bundle`（18.5 MB，`git bundle verify` = complete history）。
