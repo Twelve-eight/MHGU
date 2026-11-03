@@ -300,8 +300,26 @@ rows.push(["partition: no label", String(pNone), String(pNoneIns), pct(pNoneIns,
 // the spread class at 72.4% (CP95 71.3). The no-label bucket contributes nothing.
 // Direct evidence is not assumed perfect: the three rule families agree on 94.0-97.9% of the functions where they overlap
 // (string vs class-name 840/894, class-name vs structural 937/958), so 0.97 is the defensible value rather than 1.0.
-const precisions = { dir: 0.97, inf: 0.95, sig: 0.971, spv: 0.99, spu: 0.724, none: 0 };
-const explained = pDirIns * precisions.dir + pInfIns * precisions.inf + pSigIns * precisions.sig + pSpVIns * precisions.spv + pSpVoteIns * precisions.spv + pSpUIns * precisions.spu;
+const precisions = { dir: 0.97, inf: 0.95, sig: 0.971, spv: 0.99, none: 0 };
+// The spread class is NOT weighted by one pooled figure: its per-label accuracies range from 99.8% (online-nex) to 5.5%
+// (otomo-ot), and the big labels sit at the bottom (monster-em 22.6%, quest 14.0%). spread-accuracy.tsv is written by
+// spread-precision-independent.mjs. A label missing from the table falls back to the pooled 0.724.
+const spreadAcc = new Map();
+{
+  const p2 = path.join(INV, "spread-accuracy.tsv");
+  if (fs.existsSync(p2)) for (const l of fs.readFileSync(p2, "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
+    const [lab, acc] = l.split("\t");
+    if (lab && acc) spreadAcc.set(lab, Number(acc));
+  }
+}
+let spreadWeighted = 0;
+for (const [start, t] of tiers) {
+  const b = best.get(start);
+  if (!b || !b.label || direct.has(start) || Vset.has(start) || Sset.has(start)) continue;
+  if (VALID_SPREAD.has(b.label)) continue; // counted at 0.99 above
+  spreadWeighted += t.insns * (spreadAcc.get(b.label) ?? 0.724);
+}
+const explained = pDirIns * precisions.dir + pInfIns * precisions.inf + pSigIns * precisions.sig + pSpVIns * precisions.spv + pSpVoteIns * precisions.spv + spreadWeighted;
 // Instructions only: a function-level version would need a per-function weight, and inventing one (e.g. 0.85 x labelled)
 // would be a made-up number in the one row that exists to avoid made-up numbers.
 rows.push(["expected explained fraction (precision-weighted, instructions only)", "—", String(Math.round(explained)),

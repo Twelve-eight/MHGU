@@ -1,0 +1,15 @@
+label	accuracy	cp95
+kernel-os	0.3846	22.4
+render-gfx	0.8356	81.7
+quest	0.1402	10.4
+monster-em	0.2261	15.9
+physics-math	0.5931	54.1
+weapon-wp	0.9837	96.5
+otomo-ot	0.0547	3.3
+save-data	0.2449	14.6
+player-pl	0.2828	20.4
+item	0.1974	12.3
+online-nex	0.9981	99.3
+audio	0.1674	12.5
+ui	0.7729	75.6
+filesystem	0.0000	0.0

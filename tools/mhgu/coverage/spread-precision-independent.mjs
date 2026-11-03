@@ -66,6 +66,13 @@ for (const off of [0, 0x20000, 0x40000, 0x60000, 0x80000]) {
     }
   }
 }
+// Persist the per-label numbers: the coverage report weights the spread class by them instead of applying one pooled
+// figure to every label, because monster-em (22.6%) and quest (14.0%) sit under the same pool as online-nex (99.8%).
+{
+  const out = ["label\taccuracy\tcp95"];
+  for (const [lab, e] of per) out.push(`${lab}\t${(e.ok / e.n).toFixed(4)}\t${cp(e.ok, e.n).toFixed(1)}`);
+  fs.writeFileSync(INV + "spread-accuracy.tsv", out.join("\n") + "\n");
+}
 console.log(`spread rule vs A-direct truth (independent): ${ok}/${n} = ${((100 * ok) / (n || 1)).toFixed(1)}%  CP95 ${cp(ok, n).toFixed(1)}%`);
 for (const [k, e] of [...buckets].sort()) console.log(`  votes ${k}: ${e.ok}/${e.n} = ${((100 * e.ok) / e.n).toFixed(1)}%  CP95 ${cp(e.ok, e.n).toFixed(1)}%`);
 for (const [lab, e] of [...per].sort((a, b) => b[1].n - a[1].n)) console.log(`  ${lab.padEnd(16)} ${e.ok}/${e.n} = ${((100 * e.ok) / e.n).toFixed(1)}%  CP95 ${cp(e.ok, e.n).toFixed(1)}%`);
