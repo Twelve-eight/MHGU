@@ -36,9 +36,9 @@ node tools/mhgu/coverage/recompute.mjs --functions docs/data/functions-retile.cs
 node tools/mhgu/coverage/report.mjs [--demote f]
 ```
 
-**第 5 道门（2026-11-04）**：`tools/audit/check.mjs` 现在除了文档清单、切片表头和计量器，还跑 `tools/mhgu/coverage/check-artifacts.mjs`——它校验 14 个采用来源的 23,949 行证据：每行能解析、每个 `start` 都是真函数起点、置信只在 A/B/V/S 内、分区指令和等于报告自己写出的 `denominator:` 行。这两条正是过去两次"静默错账"（分区不守恒、1,673 行裸十六进制永不匹配）会踩中的地方；反向对照是把一行非函数起点塞进 `attr-xref.tsv`，门必须在那一行报错。
+**第 5 道门（2026-11-04）**：`tools/audit/check.mjs` 现在除了文档清单、切片表头和计量器，还跑 `tools/mhgu/coverage/check-artifacts.mjs`——它校验**全部 24 张采用来源的 46,858 行证据**（并额外断言 `function-labels.tsv` 与报告、与 `labels-summary.md` 三处函数总数相等）：每行能解析、每个 `start` 都是真函数起点、置信只在 A/B/V/S 内、分区指令和等于报告自己写出的 `denominator:` 行。这两条正是过去两次"静默错账"（分区不守恒、1,673 行裸十六进制永不匹配）会踩中的地方；反向对照是把一行非函数起点塞进 `attr-xref.tsv`，门必须在那一行报错。
 
-**全链复现检查（2026-11-04）**：按上面的顺序把 15 个证据/推断脚本 + recompute + report 全部重跑一遍，`git status docs/analysis/code/inventory` 只有预先存在的手改文件（'attr-members.tsv'），**没有派生文件发生变化**——说明 76.1% 这个数可以从镜像重新算出来，不依赖会话状态。
+**全链复现检查（2026-11-04，当日再次实测）**：按上面的顺序把证据/推断脚本 + `recompute` + `report` + `function-labels` + `form-classify` + `labels-summary` + `summarize` 全部重跑一遍，`git status` **一个派生文件都没变**——说明**当前口径（66.2% 指令 / 53.5% 函数）**可以从镜像重新算出来，不依赖会话状态。
 
 逐子系统的规模、直接证据比例与主要证据来源见 `docs/analysis/code/inventory/labels-summary.md`（`labels-summary.mjs` 生成，勿手改）。
 
