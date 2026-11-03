@@ -40,7 +40,7 @@ MC5	MECHANICS	sMain 230,256 = 227,386+632	fixed	229,952 from class-inventory, 3,
 MC6	MECHANICS	registration-function column points at thunks	fixed	banner in monster-classes.md, 0x48698 is a 4-byte bx lr
 MC7	MECHANICS	red_blue does not exist as a string	fixed	row now names red_Change/blue_Change
 MC8	MECHANICS	8 states without handler	fixed	counted the state table: 890 rows, exactly 8 with no handler
-MC9	MECHANICS	two-level dispatch in 3 sections	partial	0x81ca4 spot-checked: cmp r0,#0xa then sub/cmp giving 35 entries; the other two sections not re-derived
+MC9	MECHANICS	two-level dispatch in 3 sections	fixed	generator now detects second-level dispatch by its sub/cmp range-test signature: 9 tables, the three named plus six never recorded; document grew from 890 to 1223 state rows with level-1 output unchanged
 N1	SWEEP	member-census and the mechanics findings read movw r7,#0x8fc as 2292	fixed	0x8FC is 2300; disassembled 0x19a4f8 = e30078fc
 N2	SWEEP	tail-dense first run labelled 0x3783A..0x3B03A as 15360	fixed	span is 14336 (0x3800)
 N3	SWEEP	coverage-map group-name block 0x2EFF..0x3FEF stated 4080	fixed	the reader constant mov r2,#4080 settles the length; a 4080 block ending at 0x3FEF starts at 0x2FFF, so 0x2EFF..0x2FFF is a 256-byte gap and not part of the block. Content still unverifiable because the clean save is zeros there
