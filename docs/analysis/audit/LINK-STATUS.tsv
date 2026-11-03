@@ -50,3 +50,7 @@ N6	SWEEP	header rows overlapped by 8 bytes and left 584 bytes uncovered	fixed	0x
 N7	SWEEP	member zero claimed 9543 = 5463 + 38 misc + 4080	fixed	5463+4080 closes exactly; the 38 byte term is gone
 N8	SWEEP	species table changed to 10/4 on the strength of one wiki page	reverted	the game classifies Giadrome as a bird wyvern; the table keeps 11/3 and records the wiki disagreement
 N9	SWEEP	editor-spec line references looked dead (32 past EOF)	rejected	my resolver only searched three directories; a recursive name index resolves all 244 references with none past EOF. Recorded so the next sweep does not repeat the false alarm
+MC10	MECHANICS	C5: 0x50B64 "60 处调用"	fixed	recounted: 53 bl + 1 b = 54 references; monster-code-map row updated
+MC11	MECHANICS	C7: per-class member counts 42/26/6	fixed	0x54028 holds 22 rows/22 names (not 26); the three small classes match exactly; cEmDouMouKaData and rEnemyResidentDtBase cannot be reproduced from member-offsets.tsv and are marked unreproduced
+MC12	MECHANICS	C10: 0x6AA9B8 called save data	fixed	labelled otomo-ot by caller vote (LOO 96.4); row now says save-data for 0x52308C and otomo-ot for 0x6AA9B8
+MC13	MECHANICS	C12: mParam 131 strings	fixed	image has 134 distinct mParam.* strings; the three missing rows are named in the doc header

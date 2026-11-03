@@ -1271,3 +1271,23 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 - 真实可加：只发两个放行标签、只发原本无标签的函数，**8 个函数 / 6,651 条指令 = 0.13 点**。不接——写进 `attr-*.tsv` 会让它当种子传播，涨出来的部分不是这条规则测到的。接入需要"只贴标签、不传播"的路径（`report.mjs --source` 是，但门 8 的独立重算还不认识它）。
 
 **类名共识的前提也补了**：958 个函数涉及 233 个类名；全库 938 个类有已标成员，但没有任何一个类同时有未标成员和 ≥2 个标签一致的已标成员——候选 0，旧结论实质成立。
+
+## 2026-11-04（续三）：六份关联审查 + 三处会改变解读的修正
+
+**来源**：`docs/analysis/audit/LINK-*.md` 六份（METER-CHAIN / SAVE-SIDE / DATA-SIDE / INVENTORY / MECHANICS-CODE / SINGLE-MENTION），英文，每份含 CONFIRMED / CONTRADICTION / STALE / UNVERIFIED / Difficulties。**处置表在 `docs/analysis/audit/LINK-STATUS.tsv`**——下一会话先读它，不要读这六份正文。
+
+**计数**：fixed **45**、open **2**（149 派发器、58 张方法表，原算法不在仓库）、rejected **2**、reverted 1。
+
+**三个会改变解读的数字**：
+
+1. **`A-signature` 行 2,496 → 1,511 个函数（5.0% → 2.8%）**。旧代码按**行数**累加，而 `attr-immscan.tsv` 有 3,067 行 / 1,861 个函数。分区桶本来就对（1,475 / 2.8%），头部 66.2% 与项目口径 58.0% 不受影响。
+2. **`A-inferred` 35.1%（10,138 函数）≠ 分区 `inferred only` 36.3%（11,250）**。差额 1,112 函数 / 64,160 指令 / 1.2 点来自 5 张只出 conf=V 的通道表（`attr-offsets/offsetpairs/dualpredict/classsingle/tableseeds`）——它们不进 `A-inferred` 行，但在分区里。
+3. **状态机 890 → 1,223 行状态**。生成器补上二级派发检测（`sub/cmp` range-test 签名），51 个一级小节 + **9 个二级表**（含审计点名的 `0x81ca4` 11+35、`0xd3137c` 8+17、`0xf48ef0` 8+62，另有 6 处此前从未记录）。状态级命名率 **119/1,223 = 9.7%**，8 行无 handler。
+
+**其他落地**：`report.mjs` 去掉文件名耦合（显式 `VOTE_FILES`/`SIG_FILES` + 未分类警告）；`canonical-metric.mjs` 读 verified 行；门 9 校验口径公式自洽、门 10 读回抬头、门 11 存档公式首项、门 12 数据侧外键；存档侧修正（角色头 48B、猫装备箱 0x208CE、128B 族 0x4D5F、member[0] = 5,463+4,080 = 9,543、道具预设块 `0x17CF..0x27BF`）。
+
+**教训（本轮新增两条）**：
+- **不要用 shell 里的 `node -e` 改文档**：反引号会被 shell 先执行，两次把句子里的标识符整段删掉（`direct-split.mjs`、`0x17CF`）。改文档一律 `edit`/`write`。
+- **"全 0"不等于"可以忽略"**：`0x2EFF..0x3FEF` 有 577 个非零字节，只是没有可读字符串；据此判定"组名块存在"是错的，`mov r2,#4080` 实际属 `0x17CF` 的道具预设块。
+
+**接下来从哪读**：`LINK-STATUS.tsv`（处置状态）→ `METER.md` 抬头（口径）→ `HANDOFF.md`（入口）→ 本段。

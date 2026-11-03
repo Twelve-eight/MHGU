@@ -21,7 +21,7 @@
 | 代码：L1（**2026-11-04 重测**，见 `docs/analysis/code/coverage/METER.md`；Tier A 保留率 83.6%、条件精度 93.7%、联合 78.3%） | 分母已按重切函数表变成 **52,692 函数**（指令分母不变 5,228,277）：直接证据 **23.9%**；≥90% 精度可溯源覆盖 **66.2% 指令 / 53.5% 函数**；按各通道实测精度加权的**期望解释比例 75.0%**；摊开未验 23.8%（逐标签 5.5–83.6%）；无标签 10.0% | 口径收紧后**未达 90%**（见 §5 顶部说明） |
 | 代码：L1 覆盖率（含 Tier B conf=A）| **58.0% 指令**（Tier A verified 57.7% + B 切片 conf=A 0.3%；函数口径见 §5）| ❌（目标 90% **指令**，函数并列；见 §5 口径）|
 | 怪物机制：数据侧 | mhgu.db 全表（HP/肉质/异常/弱点/掉落/栖息地/任务出现）| ✅ |
-| 怪物机制：代码侧 | 类成员 `{名,offset,type}` 110 条 / 状态机 state→handler 全解 / motion 名 41/53 派发器 | ✅ 主要结构 |
+| 怪物机制：代码侧 | 类成员 `{名,offset,type}` 110 条 / 状态机 **60 节（51 一级 + 9 二级）共 1,223 行状态**，119 行有 motion 名（9.7%）、8 行无 handler | ✅ 主要结构（**不是「全解」**） |
 | 怪物机制：数值表 | 体型/冠阈值在 **romfs**，被 base NCA（`98abd400…nca`，**12,168,003,584 B = 12.17 GB / 11.33 GiB**）缺失阻塞 | ❌ 硬边界 |
 
 **结论**：存档与怪物机制的结构层已基本完成；**代码 90% 的缺口在 Tier B 的 48.5% 指令**，只能靠逐函数裁定（批次化进行中）。
@@ -115,8 +115,8 @@ node 用 `G:/omp works` 为 cwd。
 
 | 文档 | 内容 |
 |---|---|
-| `docs/mechanics/monster-code-map.md` | 代码侧总图：149 动作派发器 / 58 方法表 / 477 个读 `u8[+0x73E0]` 的函数 / 166 项主表 / 137 槽 / 类注册 |
-| `docs/mechanics/monster-state-machine.md` | **state→handler 53 派发器全解**；motion 名 41/53 解出（`em003_00ActionMove` 等），共享 handler 状态未解 |
+| `docs/mechanics/monster-code-map.md` | 代码侧总图：**偏移表派发点 3,429 处 / 2,546 个函数**、`movw #0x73e0` 状态表 53 张、该常数出现 638 次落在 489 个函数（332 个紧跟 ldrb）/ 166 项主表 / 137 槽 / 类注册；~~149 派发器 / 58 方法表 / 477 读取者~~ 均未复现 |
+| `docs/mechanics/monster-state-machine.md` | **state→handler 部分解决**：60 节 / 1,223 行状态，119 行有 motion 名（9.7%）、8 行无 handler；二级派发 9 个（含 `0x81ca4` 11+35 等）；~~53 派发器全解 / 41-53~~ |
 | `docs/mechanics/monster-ai-params.md` | `mParam.*` 131 字段（移动/索敌/蓄积阈值/行动控制/网络）+ 44 动作名 + 225 uEm 单元名 |
 | `docs/mechanics/monster-classes.md` | 27 个类的成员 `{offset,type,name}`（110 条，offset/type 是代码立即数） |
 | `docs/data/class-inventory.tsv` | 3,201 类名+大小（8 个 >0x40000 标 `SUSPECT`）|
@@ -213,7 +213,7 @@ MHGU/
 | 2 | 编辑器扩窗实机验证 | **待用户**（唯一未验环节）|
 | 3 | `MonsterForm` 137 槽显示实机确认 | 待用户 |
 | 4 | 体型/冠阈值数值 | **阻塞**：需 romfs base NCA |
-| 5 | state→motion 剩余 12 个派发器 + 共享 handler 状态 | 未解（可能数据驱动）|
+| 5 | state→motion 的命名率（当前 119/1,223 = 9.7%） | 未解：多数状态走共享 handler，`PAT` 匹配不到 motion 串 |
 | 6 | member#4 layout 表 4B 漂移确切位置 | **已解决 2026-10-24**：第 107 行 0x5057 嵌套 4 B 读，第 107..134 行 +4，见 coverage-map.md |
 | 7 | 尾部 928KB 剩余结构 | 已定性为缓存；逐字节标注**不建议**做 |
 | 8 | 32 个类的成员 offset 缺失（`cEmDouMouKaData` 42 成员只解出部分平面）| 未完成 |
