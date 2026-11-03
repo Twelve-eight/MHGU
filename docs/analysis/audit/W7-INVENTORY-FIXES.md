@@ -44,10 +44,12 @@ METER 头部那八个门读数字（66.2 / 53.5 / 90.0 / 76.6 / 75.0 / 82.5 / 10
 
 ## 1. 一次跑完全部口径（read-only，可整段复现）
 
-除 §0 两条与 `offset-signature.mjs` / `member-seeds.mjs` / `class-from-code.mjs` 之外，本报告所有数字都由
-同一个脚本从 `docs/analysis/code/inventory/` 读到（脚本放在 `.tmp/w7-evidence.mjs`，只读）：
+除 §0 两条与 `offset-signature.mjs` / `member-seeds.mjs` / `ctor-vtable.mjs` / `class-from-code.mjs` 之外，
+本报告的数字全由一条命令从提交物读出。这条命令随本轮一起提交（`tools/audit/inventory-numbers.mjs`，只读，
+ROOT 由自身路径解析，在任意 cwd 下都能跑），理由就是 W6 的 F10：数字不能只活在 scratch 里。
 
 ```
+$ node tools/audit/inventory-numbers.mjs
 == A. channel table rows
 attr-prefix.tsv      rows 2140 A 2140 real-label rows 1619 real-label functions 900
 attr-uifamily.tsv    rows 2289 A 1772 real-label rows 2289 real-label functions 2289
@@ -67,7 +69,7 @@ callers 1185 call sites 10268
 stringxref rows 46/60, class-or-field name 43/60; retile strings non-empty 3: 0x127bb8=amlt, 0x12806c=amskl, 0x1284cc=amslt|ased
 
 == H. batchA prefix remap
-prefixes 225, table rows 771, labelled 770; in tier A 363, agree 161 (44.4%)
+rows 771 insns 58818; prefixes 225; labelled 770; in tier A 363, agree 161 (44.4%)
 otomo band 147 {"ui":134,"otomo-ot":6,"item":2,"quest":3,"weapon-wp":2}; outside 216 agree 155 (71.8%)
 
 == D. vtable union
@@ -164,7 +166,8 @@ player-pl+quest                                                                 
 - W6 判 `unverified` 的那些（投票桶 M8、地理留出 M32、LIBFINGERPRINT 的 3,216/16,317/11,857、BA3 的
   2,291/2,076、BS8 的 2,454 类 / 6,582 labelFor）：依赖未提交 scratch，文档已注明来源，本轮不动。
 - `attr-vtable.md` 的两块 "denominator: 23885"：W6 判为自带分母、不会被误读，已由后一节取代。
-- 任何 TSV / CSV / 镜像 / 工具代码：本轮只改文档。
+- 任何 TSV / CSV / 镜像或已有工具：本轮只改文档。唯一新增的代码是只读复核脚本
+  `tools/audit/inventory-numbers.mjs`（它不改任何文件，只打印上面 §1 的那六段）。
 
 ## VERDICT
 

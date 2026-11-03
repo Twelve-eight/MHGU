@@ -4,7 +4,7 @@
 
 ## 零、发布状态（2026-11-04 核实，改写了整个前提）
 
-**2026-11-04 更新：已推送。**  = 当前工作树，公开树 664 个文件，不含镜像/数据库/存档/vendor， 为 MIT。以下已公开/未推送的统计是推送前的快照，保留作为记录。
+**2026-11-04 更新：已推送。** `origin/master` = 当前工作树，公开树 664 个文件，不含镜像/数据库/存档/vendor，`LICENSE` 为 MIT。以下"已公开 / 未推送"的统计是推送前的快照，保留作为记录。
 
 **仓库已经是公开的。** `curl` `https://github.com/Twelve-eight/MHGU` 返回 200，页面标题为 "MHGU (Switch 1.4.0) reverse-engineering notes, tools, save layout, patches"。`origin/master` = `f199842`（2026-10-29/30），本地领先 **242 个提交未推送**。
 
