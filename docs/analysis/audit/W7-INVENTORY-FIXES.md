@@ -121,7 +121,7 @@ wrote G:/omp works/MHGU/docs/analysis/code/inventory/attr-ctor-vtable.tsv
 | 7 | `coverage/attr-bverify-pilot.md` | `stringxref.tsv` 有 0/60；retile `strings` 列 60 行全空；1,737 / 2,420 / 813 工作项 | **46/60**（其中 **43/60** 带类名或字段名，正是文档手测的那 43 个）；retile 列 **3/60** 非空；工作项标为**已完成/作废** | §1 的 G 段。1,737 那条投影来自未提交的 scratch 复现，文档已明确写成"历史、不可从提交物复算、不要再花一波" |
 | 8 | `batchA-classname-xref.md` 前缀映射段 | 224 个前缀；769 唯一标签；362 在 Tier A；151 一致（41.7%）；otomo 段外 215 / 145（67.4%） | **225 个前缀**；**770**；**363**；**161（44.4%）**；段外 **216 / 155（71.8%）**；段内 147 保持（ui 134、otomo 6，补上其余 7） | §1 的 H 段。口径写进文档：最长前缀取标签 + `tiers.csv` 里「起点不晚于该函数」的最近区段，只算 tier=A 的行。该口径同时复现原文的 147 / ui 134 / otomo 6 |
 | 9 | `inventory/bsamples/verdict-14_20.md` 类表 | none **36,112** | **36,113** | `class-from-code.mjs` 尾行 `none=36113`；同文档结尾段本来就写 36,113 |
-| 10 | `inventory/RETILE.md` | 见 `attr-library.md` §findings | 见 **`../coverage/LIBFINGERPRINT.md` §1** | `attr-library.md` 全仓不存在（只有 `attr-library.tsv`）；754 条假阳性的分解（855 = 754 + 101）在 `LIBFINGERPRINT.md` §1 |
+| 10 | `inventory/RETILE.md` | 见 `attr-library.md` §findings | 见 **`../coverage/LIBFINGERPRINT.md` §1** | `attr-library.md` 在仓库与 `git log --all` 里都不存在（同名 TSV 存在，但没有 .md）；754 条假阳性的分解（855 = 754 + 101）在 `LIBFINGERPRINT.md` §1 |
 | 11 | `inventory/README.md` 文件角色表 | `cov-report.tsv` / `coverage-report.tsv` | 只留 **`coverage-report.tsv`**（注明由 `report.mjs` 写） | `cov-report.tsv` 在仓库与 `git log --all` 里都不存在 |
 
 ### 2.1 冲突表为什么按标签对重排
