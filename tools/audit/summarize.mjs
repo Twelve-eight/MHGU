@@ -58,6 +58,7 @@ const md = [
   "",
   "- 行级裁决可能多于文档数（一个文档多个条目）；上面的\"已有裁决\"按文档计。",
   "- 每个非 OK 裁决在对应切片 TSV 里带命令证据；本表只做汇总，不替代证据。",
+  "- **43 条 STALE 已于 2026-11-04 全部关闭**：逐条处置见 `STALE-FIXES.tsv`（其中 5 条实测后发现文档已先行修正）。STALE 列是 round-1 的历史记录，不是待办。",
 ].join("\n") + "\n";
 fs.writeFileSync(OUT, md);
 fs.writeFileSync(path.join(DIR, "ROUND1-ALL.tsv"), ["slice\tdoc\titem\tverdict\tevidence\tnote", ...all.map((r) => [r.slice, r.doc, r.item, r.verdict, r.evidence, r.note].join("\t"))].join("\n") + "\n");

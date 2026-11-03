@@ -122,8 +122,15 @@ const pct = (x, t) => (t ? ((100 * x) / t).toFixed(1) + "%" : "-");
 const SOURCES = fs.existsSync(path.join(INV, "sources.json"))
   ? JSON.parse(fs.readFileSync(path.join(INV, "sources.json"), "utf8"))
   : [];
+// A source listed in sources.json but missing on disk is a broken meter, not a smaller one: fail loudly instead of
+// silently reporting a lower A-direct (the failure mode that once published A-direct = 0).
+const missingSources = SOURCES.filter((f) => !fs.existsSync(path.join(INV, f)));
+if (missingSources.length) {
+  console.error("sources.json lists " + missingSources.length + " file(s) that do not exist: " + missingSources.join(", "));
+  process.exit(2);
+}
 const directArgs = [
-  ...SOURCES.map((f) => path.join(INV, f)).filter((p) => fs.existsSync(p)),
+  ...SOURCES.map((f) => path.join(INV, f)),
   ...process.argv.reduce((a, v, i) => (v === "--direct" ? [...a, process.argv[i + 1]] : a), []),
 ];
 console.log(`direct sources: ${directArgs.length}`);
