@@ -81,3 +81,7 @@ W3-TF3	TOOLFIX	tools/mhgu/README.md claimed three outputs the code does not writ
 W4-RF1	REFERENCE	dttune registration anchored at 0x564bc, which is the class destructor	fixed	refs_to 0x1553200 returns one pc-delta at 0x58914 beside mov r3,#296 and bl 0x7aedcc in fn 0x58894; both reference docs now name the real registration and 0x58fd0 for the member records
 W4-RF2	REFERENCE	"no descriptor holds the class name"	fixed	the same refs_to disproves it; the line now explains that a literal-load scan cannot see a pc-delta
 W4-RF3	REFERENCE	11 P3 defects (lits arity, copy-out range straddles two functions, hunter thresholds at 0x9d8b4, rage fan-out, 14% of .text, 43,353 writeback words, Wind strings, caller range end, rem.md pool offsets, suyu README line, ledger line)	open	each is a separate edit; the audit gives the corrected value for every one
+W4-WK1	WIKI	docs/wiki/README.md six SQL templates all raise no such column	open	WikiPageFix is rewriting them against the live schema and pasting the outputs
+W4-WK2	WIKI	wiki README says 37 pages, 994 gathering points, 484 hitzone rows, 67/24 markers, not reached slot 46	open	measured 46 pages / 984 / 513 / 70/22 / slot 46 reached; same agent applies the values
+W4-WK3	WIKI	monsters-index.md has 387 topic anchors that resolve to nothing	open	the target pages use no emNNN headings; relinking is the open part
+W4-WK4	WIKI	farm-trade-canteen TradeShop 145 strings vs 146, and monster-status boar poison 27 vs 30	open	two page-level values, same agent
