@@ -11,7 +11,7 @@ S1	METER-CHAIN	METER 13,816 form table	fixed	recounted against 12,318 unlabelled
 S2	METER-CHAIN	"seven gates" vs 12	fixed	HANDOFF step 3 says 12 gates
 S3	METER-CHAIN	code-metrics keeps 94.7% inside the acceptance definition	fixed	the 94.7 percent inside the acceptance definition is struck through with the 2026-11-04 three-number retest beside it
 S4	METER-CHAIN	gate-9 "5 site(s)" quote stale	fixed	the gate prints 7 sites; the old sentence refers to the pre-edit state and now says so
-S5	METER-CHAIN	pre-correction tables still labelled current	open	Listed individually below where verified
+S5	METER-CHAIN	pre-correction tables still labelled current	fixed	the 2026-11-03 section now carries the current values in its banner (23.9 / 36.3 / 2.8 / 66.2 / 53.5 / 10.0 / 23.4) instead of leaving 65.5 and 52.0 unmarked
 TA	SAVE	PROGRESS:25 decomposition sums to 174,231, not 224,643	fixed	PROGRESS:25 now states the residual 86997 and the 50412 bytes still unaccounted
 TB	SAVE	hunter header 0x0..0x27 (40B) cannot hold HR at 0x28 / gender at 0x2A	fixed	coverage-map row now 0x0..0x2F (48B), CURRENT-RULING:58 was already right
 TC	SAVE	member layer start 0x28 vs member[0] at 0x278	fixed	coverage-map coarse row now names 0x28..0x278 as a 592B unknown header instead of members 1-3
