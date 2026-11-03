@@ -58,16 +58,9 @@ for(let a=0x100;a<TE;a+=4){const w=rd(a);
 const seen=new Set(); const U=disp.filter(d=>{if(seen.has(d.tb))return false;seen.add(d.tb);return true;});
 const seen2=new Set(); const U2=disp2.filter(d=>{if(seen2.has(d.tb))return false;seen2.add(d.tb);return true;});
 const PAT=/^(ems?\d{3}_\d\d)?[A-Za-z_]*?(move|Move|Loop|Start|Change|Attack|Fwd|Demo|Fly|Hover|Catch|Turn|Wait|Run|Down|Up|Jump|Guard|Escape|Sleep|Angry|Rest)/;
-const lines=['# 怪物动作状态机：state → handler → motion','',
-'> **2026-11-04 关联审计后必须知道的四件事**（横幅由生成器写出，重跑不会丢）：',
-'> 1. **本文件的小节数不等于派发器总数**：生成器只保留 `N<=64` 的 `movw #0x73e0` 表，去掉该过滤会多出 `0x5c2cc`（N=225）与 `0x1081408`（N=100）两张非怪物表；',
-'> 2. **下面的派发器地址是函数内部地址**（全部不在 `functions-retile.csv.gz` 的函数起点集合里，通常是起点 +8）；',
-'> 3. **有 8 个状态没有 handler**（全部小节共 1,223 行状态，handler 列为 `—` 的正好 8 行）；',
-'> 4. **两级派发已单独成节**：检出 9 个二级表（各带 range-test `sub/cmp` 签名），含审计点名的三处 `0x81ca4`（一级 11 + 二级 35，state 30..64）、`0xd3137c`（8 + 17，5..21）、`0xf48ef0`（8 + 62，2..63），另有 6 处此前从未记录；标题带「（二级）」与起始 state。',
-'',
-'> 生成：`tools/mhgu/state-motion3.mjs`（可复现）。**修正版**：每个 handler 只在 `[handler, 下一个 handler 起点)` 窗口内取名字，',
-'> 若窗口内无名字则**只跟一层尾调用**到 target 再取；仍无则写 `—`。**每个状态最多保留 1 个名字**（避免窗口污染）。',''];
+const lines=['# 怪物动作状态机：state → handler → motion',''];
 
+const STATS={rows:0,named:0,noHandler:0};
 function emit(d, note, from){
   from = from || 0;
   const raw=[];
@@ -101,6 +94,7 @@ function emit(d, note, from){
   lines.push('## 派发器 `0x'+d.a.toString(16)+'`'+(note||'')+' — 状态 '+from+'..'+(from+d.N)+'，有名字 '+namedCount+'/'+(d.N+1)+(unit?'，单位 `'+unit+'`':''));
   lines.push('','| state | handler | motion |','|---|---|---|');
   st.forEach((x,k)=>lines.push('| '+(from+k)+' | '+(x.h?'`0x'+x.h.toString(16)+'`':'—')+' | '+(x.n||'—')+' |'));
+  STATS.rows += st.length; STATS.named += namedCount; STATS.noHandler += st.filter(x=>!x.h).length;
   lines.push('');
   return namedCount;
 }
@@ -110,5 +104,18 @@ for(const d of U){ if(emit(d,'',0)) good++; }
 let good2=0;
 for(const d of U2){ if(emit(d,'（二级）',d.K)) good2++; }
 
+// self-check: the document must contain exactly the rows the emitter produced
+const body=lines.join('\n');
+const rowCount=(body.match(/^\| \d+ \|/gm)||[]).length;
+if(rowCount!==STATS.rows) throw new Error('state row count mismatch: body '+rowCount+' vs emitted '+STATS.rows);
+const banner=['> **2026-11-04 关联审计后必须知道的四件事**（横幅由生成器写出，重跑不会丢）：',
+'> 1. **本文件的小节数不等于派发器总数**：生成器只保留 `N<=64` 的 `movw #0x73e0` 表，去掉该过滤会多出 `0x5c2cc`（N=225）与 `0x1081408`（N=100）两张非怪物表；',
+'> 2. **下面的派发器地址是函数内部地址**（全部不在 `functions-retile.csv.gz` 的函数起点集合里，通常是起点 +8）；',
+'> 3. **'+U.length+' 个一级小节 + '+U2.length+' 个二级表，共 '+STATS.rows+' 行状态；其中 '+STATS.noHandler+' 行无 handler、'+STATS.named+' 行有 motion 名（'+(100*STATS.named/STATS.rows).toFixed(1)+'%）**；',
+'> 4. **两级派发已单独成节**：检出 '+U2.length+' 个二级表（各带 range-test `sub/cmp` 签名），含审计点名的三处 `0x81ca4`（一级 11 + 二级 35，state 30..64）、`0xd3137c`（8 + 17，5..21）、`0xf48ef0`（8 + 62，2..63）；标题带「（二级）」与起始 state。',
+'',
+'> 生成：`tools/mhgu/state-motion3.mjs`（可复现）。每个 handler 只在 `[handler, 下一个 handler 起点)` 窗口内取名字，',
+'> 若窗口内无名字则只跟一层尾调用到 target 再取；仍无则写 `—`。每个状态最多保留 1 个名字。',''];
+lines.splice(2,0,...banner);
 fs.writeFileSync('G:/omp works/MHGU/docs/mechanics/monster-state-machine.md',lines.join('\n'));
 console.log('dispatchers kept:',U.length,' with >=1 named state:',good,'; second level:',U2.length,' named:',good2);
