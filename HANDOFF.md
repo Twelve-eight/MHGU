@@ -233,19 +233,16 @@ MHGU/
 
 ## 9. 快速上手（新会话前 10 分钟）
 
-1. 读 `docs/PROGRESS.md`（总账）+ `docs/analysis/code-metrics.md`（代码口径）
-2. 读 `docs/save-layout/coverage-map.md`（存档权威布局）
-3. 读 `tools/mhgu/README.md`（工具 + 7 条坑）
-4. 若要继续 Tier B（**精确命令，已验证可跑**）：
-   ```bash
-   cd "G:/omp works/MHGU"
-   node tools/mhgu/tierb-gen.mjs 1200 1200 120 .tmp/mhgu/tierB3   # OFF COUNT NPROC OUTDIR
-   # 派 dsv 代理读 .tmp/mhgu/tierB3/slice-NN.txt，写 .tmp/reports-mhgu/tierB3-slice-NN.md
-   cd "G:/omp works" && "G:/omp works/archive/retired/workbuddy-desktop-api/.venv/Scripts/python.exe" MHGU/tools/mhgu/coverage-final.py
-   ```
-   `tierb-gen.mjs` 用绝对路径读 `tierB` 输入，cwd 无关；生成后打印每片 `slice-NN ... header=OK` 自查。
-5. 若要继续怪物：`docs/mechanics/monster-code-map.md` 的「下一步」；romfs 部分需用户提供 XCI
-6. 提交规范：`git -c user.name=Twelve-eight -c user.email=Twelve-eight@users.noreply.github.com commit`
+**当前口径与工具链**（`code-metrics.md` 已降为历史文档，只有需要旧测量方法时才读）：
+
+1. 读 `DEVLOG.md` **最后一段**（2026-11-04 三次更正 + 审计加固）：当前数字、今天改了什么、哪些结论被推翻，都写在那。
+2. 读 `docs/analysis/code/coverage/METER.md` 的**抬头 + 「覆盖线（三次更正）」节**：当前口径与全部更正记录。
+3. 跑 `node tools/audit/check.mjs`（8 道门，约 2 s），**全绿再动手**。
+4. 要重算或改通道，按顺序跑：`recompute → report → function-labels → form-classify → labels-summary → summarize → check.mjs`（命令块见 METER 顶部）。改 `sources.json` 或任何 `attr-*.tsv` 之后**必须整链重跑**。
+5. 存档侧权威布局 `docs/save-layout/coverage-map.md`；代码侧资产入口 `docs/analysis/code/inventory/README.md`；数据侧 `docs/data/README.md`；怪物机制下一步见 `docs/mechanics/monster-code-map.md`（romfs 部分需用户提供 XCI）。
+6. 提交规范：`git -c user.name=Twelve-eight -c user.email=Twelve-eight@users.noreply.github.com commit`。
+
+**历史工作流（已停用，勿按此开工）**：旧的 Tier B 逐函数裁定用 `tools/mhgu/tierb-gen.mjs` 切片、`coverage-final.py` 汇总——那条链的分母是 23,885 个区域平铺（真函数 52,692），结果不可复算。切片文本仍保留在 `docs/analysis/code/tierb-pass*/`，因为门 4 与门 8 还会读它（人工裁定是当前标签的来源之一），但**不要再生成新切片**。
 
 ### 7 #10 修补方案（2026-10-24 主会话推导，待用户选择）
 每格大小按溢出量反推：A 4 B/格（0x2EC0 = 2992×4）；B 4 B/格（原 2300 条）；C 2 B/格（溢出 0x568 = 692×2）；D 1 B/格（溢出 0x2B2，D 原长 0x8FE = 2302）。
