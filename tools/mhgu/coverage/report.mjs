@@ -92,12 +92,12 @@ for (const [start, t] of tiers) {
   if (t.label && t.label !== "unknown" && !demoted.has(parseInt(start, 16))) {
     // tier A = address prediction agreed with propagation; tier B = propagation only. Both are recorded so the
     // report can separate "verified" from "labelled but unverified" instead of hiding the second group.
-    best.set(start, { conf: t.tier === "A" ? "A" : "B", label: t.label, src: "spine" });
+    best.set(start, { conf: t.tier === "A" ? "A" : "B", label: t.label, src: "spine", fromSpine: true });
   }
 }
 for (const [start, a] of adjud) {
   const cur = best.get(start);
-  if (!cur || rank[a.conf] > rank[cur.conf]) best.set(start, { conf: a.conf, label: a.label, src: a.src });
+  if (!cur || rank[a.conf] > rank[cur.conf]) best.set(start, { conf: a.conf, label: a.label, src: a.src, fromSpine: false });
 }
 for (const [start, a] of extra) {
   const cur = best.get(start);
@@ -267,7 +267,7 @@ for (const [start, t] of tiers) {
   // Spread labels are only trusted per label, because their cross-region precision is wildly uneven: online-nex 147/147,
   // weapon-wp 36/37, render-gfx 139/146 clear 90%, while ui 174/210, kernel-os 0/24, otomo-ot 14/19, physics-math 11/15
   // and quest 9/12 do not (256 KB folds). Only the three validated labels count toward the >=90% line.
-  else if (b && b.label && VALID_SPREAD.has(b.label)) { pSpV++; pSpVIns += ins; }
+  else if (b && b.label && VALID_SPREAD.has(b.label) && b.fromSpine !== false) { pSpV++; pSpVIns += ins; }
   else if (b && b.label && VOTE_THRESHOLD[b.label]) {
     const v = spreadVotes.get(start);
     if (v && v.agrees && v.votes >= VOTE_THRESHOLD[b.label]) { pSpVote++; pSpVoteIns += ins; }

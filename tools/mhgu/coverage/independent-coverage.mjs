@@ -87,7 +87,10 @@ for (const f of fns) {
   if (v && v.kind === "direct") add("direct evidence", f.insns);
   else if (v && v.kind === "inferred") add("inferred only", f.insns);
   else if (v && v.kind === "signature") add("signature only", f.insns);
-  else if (b) add(VALID_SPREAD.has(b.label) ? "spread validated labels" : "spread unvalidated", f.insns);
+  // the validated bucket is propagation only: a slice adjudication names a label but was never in the population the
+  // 99.8/98.4 precision was measured on, so it cannot be counted as validated
+  else if (b && b.kind !== "adjudication") add(VALID_SPREAD.has(b.label) ? "spread validated labels" : "spread unvalidated", f.insns);
+  else if (b) add("spread unvalidated", f.insns);
   else add("no label", f.insns);
 }
 

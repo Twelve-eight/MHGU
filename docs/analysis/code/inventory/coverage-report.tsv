@@ -9,12 +9,12 @@ headline A only	25584	3014249	57.7%	48.6%
 partition: direct evidence	13061	1248279	23.9%	24.8%
 partition: inferred only	11250	1896778	36.3%	21.4%
 partition: signature only	1475	144714	2.8%	2.8%
-partition: spread validated labels	2471	173981	3.3%	4.7%
+partition: spread validated labels	2401	170761	3.3%	4.6%
 partition: spread validated by vote count	0	0	0.0%	0.0%
-partition: spread unvalidated	12117	1240382	23.7%	23.0%
+partition: spread unvalidated	12187	1243602	23.8%	23.1%
 partition: no label	12318	524143	10.0%	23.4%
-expected explained fraction (precision-weighted, instructions only)	—	3923155	75.0%	—
-expected explained fraction (optimistic, random-holdout weights)	—	4318840	82.6%	—
-covered at >=90% precision	28257	3463752	66.3%	53.6%
+expected explained fraction (precision-weighted, instructions only)	—	3919967	75.0%	—
+expected explained fraction (optimistic, random-holdout weights)	—	4315652	82.5%	—
+covered at >=90% precision	28187	3460532	66.2%	53.5%
 covered, spread pooled at 72.4% (per-label range 5.5-99.8%)	40374	4704134	90.0%	76.6%
-spread labels (independent 72.4% overall, CP95 71.3)	12117	1240382	23.7%	23.0%
+spread labels (independent 72.4% overall, CP95 71.3)	12187	1243602	23.8%	23.1%
