@@ -326,7 +326,9 @@ rows.push(["expected explained fraction (precision-weighted, instructions only)"
   pct(explained, totalIns), "—"]);
 rows.push(["covered at >=90% precision", String(pDir + pInf + pSig + pSpV + pSpVote), String(pDirIns + pInfIns + pSigIns + pSpVIns + pSpVoteIns),
   pct(pDirIns + pInfIns + pSigIns + pSpVIns + pSpVoteIns, totalIns), pct(pDir + pInf + pSig + pSpV + pSpVote, totalFn)]);
-rows.push(["covered at >=72% precision (spread class, independently measured 72.4%)", String(pDir + pInf + pSig + pSpV + pSpVote + pSpU), String(pDirIns + pInfIns + pSigIns + pSpVIns + pSpVoteIns + pSpUIns),
+// Named for what it is: a POOLED 72.4% over a bucket whose labels range from 5.5% (otomo-ot) to 99.8% (online-nex). Calling
+// it ">=72% precision" would repeat the pooling mistake one row above it.
+rows.push(["covered, spread pooled at 72.4% (per-label range 5.5-99.8%)", String(pDir + pInf + pSig + pSpV + pSpVote + pSpU), String(pDirIns + pInfIns + pSigIns + pSpVIns + pSpVoteIns + pSpUIns),
   pct(pDirIns + pInfIns + pSigIns + pSpVIns + pSpVoteIns + pSpUIns, totalIns), pct(pDir + pInf + pSig + pSpV + pSpVote + pSpU, totalFn)]);
 rows.push(["spread labels (independent 72.4% overall, CP95 71.3)", String(pSpU), String(pSpUIns),
   pct(pSpUIns, totalIns), pct(pSpU, totalFn)]);
