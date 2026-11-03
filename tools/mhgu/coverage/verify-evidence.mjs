@@ -30,6 +30,8 @@ const perFileSkip = new Map();
 let expectedA = 0;
 let unparsed = 0; // no handler below recognises this claim shape
 const DUMP = process.env.DUMP ? [] : null;
+const REST = ROOT + "/";
+const verdictCache = new Map();
 const bump = (ch, ok, note) => {
   const e = result.get(ch) || { n: 0, ok: 0, bad: [] };
   e.n++;
@@ -146,6 +148,30 @@ for (const file of ["attr-strings2.tsv", "attr-vtable-fixed.tsv", "attr-vtable-n
       }
       const missing = want.filter((x) => !have.has(x));
       bump(file, missing.length === 0, `${start}: calls none of ${missing.map((x) => "0x" + x.toString(16)).join(",")}`);
+      continue;
+    }
+    // 6. block-purity claims: the verdict sample is in the repo, so the block-level counts it quotes are re-read.
+    // The sample is a judgement sample of the block, not the block itself (block 14 has 576 rows but an 84-row sample),
+    // so the check is per block: the quoted counts must match the sample file, which is the evidence the whole block rests on.
+    const bm2 = /^block (\d+) purity (\d+)\/(\d+) \((\d+) confirm, (\d+) relabel, (\d+) unknown\) sample (\S+)/.exec(evidence);
+    if (bm2) {
+      const file2 = REST + "docs/analysis/code/inventory/bsamples/" + bm2[7];
+      if (!fs.existsSync(file2)) { bump(file, false, `${start}: verdict sample ${bm2[7]} is missing from the repo`); continue; }
+      const ck = file2 + "#" + bm2[1];   // per block: the sample file spans several
+      if (!verdictCache.has(ck)) {
+        const counts = { confirm: 0, relabel: 0, unknown: 0 };
+        // the sample file spans a range of blocks, so only this block's rows count toward its purity figure
+        for (const l of fs.readFileSync(file2, "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
+          const c2 = l.split("\t");
+          if (c2[0] !== bm2[1]) continue;
+          const v = (c2[3] || "").split(":")[0];
+          if (counts[v] !== undefined) counts[v]++;
+        }
+        verdictCache.set(ck, counts);
+      }
+      const c = verdictCache.get(ck);
+      const ok = c.confirm === Number(bm2[4]) && c.relabel === Number(bm2[5]) && c.unknown === Number(bm2[6]);
+      bump(file, ok, `${start}: sample ${bm2[7]} holds ${c.confirm}/${c.relabel}/${c.unknown}, evidence claims ${bm2[4]}/${bm2[5]}/${bm2[6]}`);
       continue;
     }
     if (evidence.length >= 95) { unparsed++; if (DUMP) DUMP.push([file, start, "unparsed"]); continue; }
