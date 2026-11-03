@@ -41,3 +41,7 @@ MC6	MECHANICS	registration-function column points at thunks	fixed	banner in mons
 MC7	MECHANICS	red_blue does not exist as a string	fixed	row now names red_Change/blue_Change
 MC8	MECHANICS	8 states without handler	open	audit claim, marked unverified in the banner
 MC9	MECHANICS	two-level dispatch in 3 sections	open	audit claim, marked unverified in the banner
+N1	SWEEP	member-census and the mechanics findings read movw r7,#0x8fc as 2292	fixed	0x8FC is 2300; disassembled 0x19a4f8 = e30078fc
+N2	SWEEP	tail-dense first run labelled 0x3783A..0x3B03A as 15360	fixed	span is 14336 (0x3800)
+N3	SWEEP	coverage-map group-name block 0x2EFF..0x3FEF stated 4080	open	span is 4336, 256 unexplained; already editor-spec G-05
+N4	SWEEP	mechanical range-vs-size check across all docs	done	15 remaining rows are inclusive-end or count columns, checked by eye
