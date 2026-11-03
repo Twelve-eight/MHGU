@@ -238,7 +238,7 @@ MHGU/
 
 1. 读 `DEVLOG.md` **最后一段**（2026-11-04 三次更正 + 审计加固）：当前数字、今天改了什么、哪些结论被推翻，都写在那。
 2. 读 `docs/analysis/code/coverage/METER.md` 的**抬头 + 「覆盖线（三次更正）」节**：当前口径与全部更正记录。
-3. 跑 `node tools/audit/check.mjs`（**11 道门**，约 2 s），**全绿再动手**。
+3. 跑 `node tools/audit/check.mjs`（**12 道门**，约 5 s），**全绿再动手**。
 4. 要重算或改通道，按顺序跑：`recompute → report → function-labels → form-classify → labels-summary → summarize → check.mjs`（命令块见 METER 顶部）。改 `sources.json` 或任何 `attr-*.tsv` 之后**必须整链重跑**。
 5. 存档侧权威布局 `docs/save-layout/coverage-map.md`；代码侧资产入口 `docs/analysis/code/inventory/README.md`；数据侧 `docs/data/README.md`；怪物机制下一步见 `docs/mechanics/monster-code-map.md`（romfs 部分需用户提供 XCI）。
 6. 提交规范：`git -c user.name=Twelve-eight -c user.email=Twelve-eight@users.noreply.github.com commit`。

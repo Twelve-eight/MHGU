@@ -197,5 +197,41 @@ try {
   bad(`save-side formula check failed: ${String(e.message).slice(0, 120)}`);
 }
 
+// 12. data side: the database is the authority for the mechanics documents and had no gate. `pragma foreign_key_check`
+// reports 2,621 violations and all of them are known and explained -- two foreign keys name a parent table that does not
+// exist (`skill_tree` for `skill_trees`, `meow_location` for `meow_locations`) and one uses 0 as a "none" sentinel. The
+// point of the gate is not to demand zero; it is to pin the known set, so a genuinely new dangling reference fails here
+// instead of being waved through under cover of the 2,621. MHGU_DB overrides the path, which is how the must-fail sample
+// runs against a doctored copy.
+try {
+  const dbPath = process.env.MHGU_DB || path.join(ROOT, "docs/data/mhgu.db");
+  if (!fs.existsSync(dbPath)) {
+    console.log(`note database ${path.relative(ROOT, dbPath)} is not present (it is an untracked 18 MB artefact); foreign-key gate skipped`);
+  } else {
+    const { DatabaseSync } = await import("node:sqlite");
+    const db = new DatabaseSync(dbPath, { readOnly: true });
+    const KNOWN = { quests: 1127, meow_rewards: 1168, skills: 326 };
+    const got = {};
+    let total = 0;
+    for (const r of db.prepare("pragma foreign_key_check").all()) { got[r.table] = (got[r.table] || 0) + 1; total++; }
+    // the three known groups must still be exactly the three known groups
+    const unknown = Object.keys(got).filter((t) => !(t in KNOWN));
+    const changed = Object.keys(KNOWN).filter((t) => (got[t] || 0) !== KNOWN[t]);
+    if (unknown.length) bad(`database foreign keys: new dangling table(s) ${unknown.join(", ")} (${unknown.map((t) => got[t]).join("/")})`);
+    else if (changed.length) bad(`database foreign keys: known table(s) changed count ${changed.map((t) => `${t} ${got[t] || 0} != ${KNOWN[t]}`).join(", ")}`);
+    else {
+      // and filtering the two misnamed parents and the sentinel must still leave zero real orphans
+      const real = db.prepare(`select
+        (select count(*) from skills where skill_tree_id>0 and skill_tree_id not in (select _id from skill_trees)) +
+        (select count(*) from meow_rewards where meow_location_id>0 and meow_location_id not in (select _id from meow_locations)) +
+        (select count(*) from quests where permit_monster_id>0 and permit_monster_id not in (select _id from monsters)) as n`).get().n;
+      if (real !== 0) bad(`database foreign keys: ${real} real orphan(s) after correcting the two misnamed parents and the 0 sentinel`);
+      else ok(`database foreign keys: ${total} known violations only (quests 1127 / meow_rewards 1168 / skills 326), 0 real orphans`);
+    }
+  }
+} catch (e) {
+  bad(`database foreign-key check failed: ${String(e.message).slice(0, 120)}`);
+}
+
 console.log(failures ? `\n${failures} check(s) failed` : "\nALL PASS");
 process.exit(failures ? 1 : 0);

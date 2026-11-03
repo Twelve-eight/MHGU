@@ -55,17 +55,18 @@
 
 **ID 约定（2026-11-04 核对）**：`monsters._id` 就是 `emNNN` 的 EnemyTypeIndex——`_id=1` = Rathian、`_id=24` = Kushala Daora，与 `AGENTS.md` §2f 记下的枚举事实完全一致（em001 = Rathian，em024 = Kushala Daora）。按 `class` 分组：class 0 = 75 只、class 2 = 18 只（合计 **93 只大型怪**，与 `monster_damage` 的 93 个 `monster_id` 相同），class 1 = 36 只无 `base_hp` 的小型怪。
 
-**外键完整性（2026-11-04 核对，0 孤儿）**：`monster_damage→monsters`、`monster_to_quest→monsters`、`monster_to_quest→quests`、`quest_rewards→items` 四条关系全部闭合（各 0 条悬空引用）。
+**外键完整性（2026-11-04 核对）**：最早就这 4 条关系逐个核对过，全部闭合（各 0 条悬空引用）：`monster_damage→monsters`、`monster_to_quest→monsters`、`monster_to_quest→quests`、`quest_rewards→items`。**那 4 条不等于整库结论**；整库的完整口径在下表。
 
-**但 `pragma foreign_key_check` 会报 2,621 条"违规"，那不是孤儿，别按它修数据**（2026-11-04 实测并定性）：
+**整库 38 条外键的实测（2026-11-04）**：用"`列 IS NOT NULL AND 列 <> 0 AND 列 NOT IN (SELECT _id FROM 父表)`"逐条数，**36 条为 0 悬空**，剩下的 2 条与 `foreign_key_check` 报的 2,621 行是同一件事：
 
-| 报告 | 条数 | 真实情况 |
-|---|---:|---|
-| `meow_rewards → meow_location` | 1,168 | **父表名写错**：库里是 `meow_locations`（6 行），没有 `meow_location`。按正确表名查，`meow_location_id>0` 的悬空引用 **0** 条 |
-| `quests → monsters`（`permit_monster_id`） | 1,127 | **0 是哨兵**（= 无许可怪），被当成引用。`permit_monster_id>0` 的悬空引用 **0** 条 |
-| `skills → skill_tree` | 326 | **父表名写错**：库里是 `skill_trees`（205 行），没有 `skill_tree`。按正确表名查，`skill_tree_id>0` 的悬空引用 **0** 条 |
+| 项 | 结果 |
+|---|---|
+| 外键定义总数 | **38** |
+| 0 悬空的 | **36** |
+| 父表名写错（库里的真名是复数） | **2**：`skills.skill_tree_id → skill_tree`（应为 `skill_trees`，205 行）、`meow_rewards.meow_location_id → meow_location`（应为 `meow_locations`，6 行）。改名后各 **0** 悬空 |
+| `pragma foreign_key_check` 报的 2,621 行 | = 上述两条父表名不存在（`skills` 326 + `meow_rewards` 1,168）+ `quests.permit_monster_id=0` 被当成引用（1,127）。**没有一条是真孤儿** |
 
-复现：`pragma foreign_key_check`（2,621 行）→ 按上表三条分别过滤后为 0。全库共 **38 条外键定义**，只有这 3 张表报违规，其余 **35 条**在 `foreign_key_check` 里是干净的。生成库的脚本不在本仓库（`mhgu.db` 也未入库，18MB 二进制产物），所以这两处 DDL 名字错要在**重建库时**改，不能靠改数据补救。
+复现：`pragma foreign_key_check`（2,621 行）；逐条计数见上表的过滤式。生成库的脚本不在本仓库（`mhgu.db` 也未入库，18MB 二进制产物），所以这两处 DDL 名字错要在**重建库时**改，不能靠改数据补救。**这道检查已做成门 12**：已知违规集合被钉死为 `{quests:1127, meow_rewards:1168, skills:326}`，出现第四张表或计数变化即 FAIL，并对三条过滤式后再确认 0 真孤儿。
 
 **与 agroff JSON 的关系**：agroff 944 任务/204 技能是 Kiranico 网页爬取（英文为主）；mhgu.db 是更全的官方数据（1355 任务、多语言、含肉质/掉落/采集）。**mhgu.db 为权威**，agroff 作交叉验证。
 
