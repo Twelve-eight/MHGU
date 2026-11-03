@@ -182,7 +182,7 @@ const CV = (() => {
   }
   return { fn, ins, rows };
 })();
-rows.push(["A-inferred (callee/class/caller vote, region-held-out 95.7%)", String(CV.fn), String(CV.ins), pct(CV.ins, totalIns), pct(CV.fn, totalFn)]);
+rows.push(["A-inferred (cascade vote, per-round 93.0-94.4%)", String(CV.fn), String(CV.ins), pct(CV.ins, totalIns), pct(CV.fn, totalFn)]);
 // Single-immediate signatures are their own class: the rule is weaker than a call vote (97.2% fold-wise versus 93.6-99.3%)
 // and was selected on the same labels it predicts, so it stays separable and withdrawable.
 const SG = (() => {

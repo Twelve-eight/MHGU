@@ -2,10 +2,10 @@
 //
 // Two rules, each measured on five held-out offset grids before it was allowed in:
 //
-//  callee: ONE callee at >=85% purity over >=8 labelled callers is enough. A sweep over (min callers x min purity x
-//    agreeing votes) gave 95.2% for one callee at 95% purity and 92.7% at 85% purity (CP95 92.3), where the older
-//    callvote channel needed two agreeing votes to reach the same place. The safety comes from purity, not from a second
-//    vote: a callee whose callers are 85% one subsystem is effectively a typed API.
+//  callee: ONE callee at >=75% purity over >=8 labelled callers is enough. The sweep over (min callers x min purity x
+//    agreeing votes) gave 95.2% for one callee at 95% purity, 92.7% at 85% and 91.7% at 75% (CP95 91.3), all above the
+//    90% bar, where the older callvote channel needed two agreeing votes to reach the same place. The safety comes from
+//    purity, not from a second vote: a callee whose callers are three quarters one subsystem is a typed API in practice.
 //  caller: a function whose labelled callers all agree AND number at least four. Measured 174/184 = 94.6% (CP95 90.3);
 //    with three callers it is 91.1% but the CP95 lower bound drops to 87.5, so three is not enough.
 //
@@ -20,7 +20,7 @@ const ROOT = "G:/omp works/MHGU";
 const INV = path.join(ROOT, "docs/analysis/code/inventory");
 const OUT = path.join(INV, "attr-callvote1.tsv");
 const MIN_CALLERS = 8;
-const MIN_PURITY = 0.85;
+const MIN_PURITY = 0.75; // measured floor: 91.7% (CP95 91.3) on the five-grid hold-out
 const MIN_CALLER_VOTES = 4;
 const ROUNDS = 6;
 const ROUND_FLOOR = 90.0;
