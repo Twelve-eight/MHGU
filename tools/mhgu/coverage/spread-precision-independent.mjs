@@ -28,6 +28,7 @@ const cp = (o, n) => {
   return ((p + (z * z) / (2 * n) - z * Math.sqrt((p * (1 - p)) / n + (z * z) / (4 * n * n))) / d) * 100;
 };
 const per = new Map();
+const buckets = new Map();
 let ok = 0, n = 0;
 const WIN = 0x100000;
 for (const off of [0, 0x20000, 0x40000, 0x60000, 0x80000]) {
@@ -54,6 +55,10 @@ for (const off of [0, 0x20000, 0x40000, 0x60000, 0x80000]) {
       if (top.length > 1 && top[0][1] === top[1][1]) continue;
       n++;
       if (top[0][0] === truth) ok++;
+      const bk = top[0][1] >= 3 ? "3+" : String(top[0][1]);
+      const b = buckets.get(bk) || { n: 0, ok: 0 };
+      b.n++; if (top[0][0] === truth) b.ok++;
+      buckets.set(bk, b);
       const e = per.get(truth) || { n: 0, ok: 0 };
       e.n++;
       if (top[0][0] === truth) e.ok++;
@@ -62,4 +67,5 @@ for (const off of [0, 0x20000, 0x40000, 0x60000, 0x80000]) {
   }
 }
 console.log(`spread rule vs A-direct truth (independent): ${ok}/${n} = ${((100 * ok) / (n || 1)).toFixed(1)}%  CP95 ${cp(ok, n).toFixed(1)}%`);
+for (const [k, e] of [...buckets].sort()) console.log(`  votes ${k}: ${e.ok}/${e.n} = ${((100 * e.ok) / e.n).toFixed(1)}%  CP95 ${cp(e.ok, e.n).toFixed(1)}%`);
 for (const [lab, e] of [...per].sort((a, b) => b[1].n - a[1].n)) console.log(`  ${lab.padEnd(16)} ${e.ok}/${e.n} = ${((100 * e.ok) / e.n).toFixed(1)}%  CP95 ${cp(e.ok, e.n).toFixed(1)}%`);
