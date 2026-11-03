@@ -12,6 +12,7 @@ const ROOT = "G:/omp works/MHGU";
 const INV = ROOT + "/docs/analysis/code/inventory/";
 const SHARE = Number(process.env.SHARE || 0.2);
 const REPS = Number(process.env.REPS || 3);
+const REP_OFFSET = Number(process.env.REP_OFFSET || 0); // lets a run cover the selection or the reporting half
 
 const A = new Map();
 for (const f of JSON.parse(fs.readFileSync(INV + "sources.json", "utf8"))) {
@@ -30,7 +31,7 @@ for (const f of fns) for (const c of new Set(f.callees)) { const k = "0x" + c.to
 const cp = (o, n) => { if (!n) return 0; const p = o / n, z = 1.959963985, d = 1 + z * z / n; return ((p + z * z / (2 * n) - z * Math.sqrt(p * (1 - p) / n + z * z / (4 * n * n))) / d) * 100; };
 const per = new Map();
 let n = 0, ok = 0;
-for (let rep = 0; rep < REPS; rep++) {
+for (let rep = REP_OFFSET; rep < REP_OFFSET + REPS; rep++) {
   const held = new Set();
   for (const s of A.keys()) {
     const h = crypto.createHash("sha1").update(`${rep}:${s}`).digest();
@@ -54,5 +55,5 @@ console.log(`spread rule, random ${(SHARE * 100).toFixed(0)}% holdout x ${REPS}:
 // Per-label numbers under the same construction, so the conservative and optimistic weightings can be compared.
 const out = ["label\taccuracy\tcp95"];
 for (const [lab, e] of [...per].sort((a, b) => b[1].n - a[1].n)) out.push(`${lab}\t${(e.ok / e.n).toFixed(4)}\t${cp(e.ok, e.n).toFixed(1)}`);
-fs.writeFileSync(INV + "spread-accuracy-random.tsv", out.join("\n") + "\n");
+fs.writeFileSync(INV + (process.env.ACC_OUT || "spread-accuracy-random.tsv"), out.join("\n") + "\n");
 console.log(`wrote spread-accuracy-random.tsv (${per.size} labels)`);
