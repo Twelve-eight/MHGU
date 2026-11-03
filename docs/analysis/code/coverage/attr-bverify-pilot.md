@@ -19,9 +19,9 @@ name the subsystem, B = the label rests on the vtable slot the row occupies or o
 | distinct mnemonic skeletons | 21; 48 of 60 rows sit in a clone group (largest 28) |
 
 The block is one contiguous run of the image, and the whole run is the **weapon / armor / amulet data-class region**:
-31 class registrars for `cWeapon03..14` `BaseData`/`LevelData`/`MsgBase` (+XML), 3 field-descriptor tables
-(bowgun/bow), 3 weapon base-class registrars, 1 shared weapon-data virtual, and 21 rows of the `rAmuletData` /
-`rAmuletSkillData` / `rAmuletSlotData` / `rArmorBuildData` family.
+31 class registrars for `cWeapon03`/`cWeapon04`/`cWeapon06..14` `BaseData`/`LevelData`/`MsgBase` (+XML; no 05 in
+the block), 3 field-descriptor tables (bowgun/bow), 3 weapon base-class registrars, 1 shared weapon-data virtual,
+and 21 rows of the `rAmuletData` / `rAmuletSkillData` / `rAmuletSlotData` / `rArmorBuildData` family.
 
 ## Result
 
@@ -66,16 +66,19 @@ helpers that are themselves unverified tier B rows with arbitrary labels:
 | rows with no call at all (merged fragment bundles, label from elsewhere) | 3/60 |
 | rows labelled by a minority callee label | 2/60 |
 
-The three carriers:
+The carriers (dominant callee address → number of rows, all of them tier B unless noted):
 
-- `0x7aedcc` (60 insns, tier B **otomo-ot**) — class-record constructor: `bl 0x7aedcc(r0=record, r1=name, r2=parent,
-  r3=size)` fills `[rec]=GOT+8` (vtable), `[rec+16]=parent`, links the record into a global list. it is the dominant
-  callee of **36 rows**; 3 more have the otomo-ot-labelled stream reader `0x8260d4` as dominant callee, and 3 have no
-  call at all. 36 registrars + 3 base registrars call `0x7aedcc` (37 rows).
-- `0x7bb638` (96 insns, tier B **player-pl**) — field-descriptor allocator. The 3 bowgun/bow field tables call it
-  once per field and inherited `player-pl`.
-- `0x7aa47c` (7 insns, tier B **monster-em**) — global manager lookup (`table[GOT 0x108efc0][[r0+24]]`). The amulet
-  create/destructor rows inherited `monster-em` from it.
+- `0x7aedcc` (60 insns, **otomo-ot**) — class-record constructor: `bl 0x7aedcc(r0=record, r1=name, r2=parent,
+  r3=size)` fills `[rec]=GOT+8` (vtable), `[rec+16]=parent`, links the record into a global list. Dominant callee of
+  **36 rows**; 37 rows of the block call it (31 data-class registrars, 3 base-class registrars, 3 amulet-class
+  registrars).
+- `0x8260d4` (23 insns, **otomo-ot**) — stream-reader constructor. Dominant callee of 3 rows (the deserialisers).
+- `0x7bb638` (96 insns, **player-pl**) — field-descriptor allocator. Dominant callee of 6 rows (the bowgun/bow and
+  `mVersion` field tables), all of which inherited `player-pl`.
+- `0x7aa47c` (7 insns, **monster-em**) — global manager lookup (`table[GOT 0x108efc0][[r0+24]]`). Dominant callee of
+  4 rows (the amulet creates), which inherited `monster-em`.
+- `0xcdf30` / `0xce528` / `0xcea4c` (1 insn each, **monster-em** / **otomo-ot** / **otomo-ot**, tail branches into
+  the record free path) — dominant callee of 4 destructor rows.
 
 So the tier-B label in this block is a bootstrap cycle: an unverified helper's arbitrary label votes itself into
 every caller, and the voters are the helpers. This is a property of `src=spread`, not of the individual functions —
@@ -147,7 +150,8 @@ class-name strings `"cWeapon03MsgBase"` (0x1554a97) and `"cWeapon03MsgBaseXML"` 
 `add r1,pc,r0` at 0x100170 / 0x10019c; `add r0,r0,#8; str r0,[r4,#0]` at 0x1001a0–0x1001a4 installs the class-record
 vtable; the same body is written to a pointer table at 0x1848c38 (… `0xf990c` `0xfa4f4` `0xfaaa0` … `0x1000f0`
 `0x101970` `0x1076dc` `0x107d00` …). Skeleton `af1760e7`, 28 rows of the block.
-Recheck: `disasm(0x1000f0,63)`; the class names are at `pc+8+word(0x1001cc..)`.
+Recheck: `disasm(0x1000f0,63)`; the two names are the pc-delta targets of the `ldr r1,[pc,#imm]` at
+0x10016c and 0x100180 (offsets in the literal pool 0x1001d8 / 0x1001e4).
 
 **2. `0x127bfc` — 45 insns, B/otomo-ot → `item` (A).** Class registrar for `"rAmuletData"` (pc-delta at 0x127c70,
 `ldr r1,[pc,#48]` → `0x142dbb0` → `0x1555834`), `mov r3,#112` size, `bl 0x7aedcc`, then class-record vtable
@@ -207,7 +211,8 @@ judgement call the repo itself flags as flippable.
    are affected, 813 of them label-seedable — fix the tool before spending agents.
 3. **Retile extents merge adjacent leaves.** `0x127bb8` is four functions (accessor + tail thunk + getter + ext
    getter), `0x11b2c0`/`0x11d320` carry trailing 2-insn and vtable-thunk leaves. A verdict describes the row, not one
-   function; two of the 60 rows are partly glue, which caps any per-function precision claim.
+   function; at least five rows (0x127bb8, 0x12806c, 0x1284cc, 0x11b2c0, 0x11d320) are partly glue, which caps
+   any per-function precision claim.
 4. **`attr-vtable-retile.tsv`'s "registrar <start>" field is wrong for this family.** It names the *preceding*
    function that contains the extension getter — "rAmuletData registrar 0x127bb8" — while the actual registrar is
    0x127bfc (it is 0x127bfc's own bytes that pass `"rAmuletData"` to `0x7aedcc`). Class names from that file are
@@ -234,9 +239,10 @@ Minimal recheck of any row:
 
 ```js
 // node -e, repo root, FLAT set
-const A = await import('./tools/mhgu/arm32.mjs');
-const s = 0x1000f0, e = 0x1001ec;                 // start,end from functions-retile.csv.gz
-console.log(A.disasm(s, (e - s) / 4));             // body
+import('./tools/mhgu/arm32.mjs').then((A) => {
+  const s = 0x1000f0, e = 0x1001ec;          // start,end from functions-retile.csv.gz
+  console.log(A.disasm(s, (e - s) / 4));      // body, one call per row
+});
 // calls: bl/blx immediate targets; pc-delta strings: ldr rX,[pc,#imm] then add rD,pc,rX (target = add+8+word)
 // class identity: GOT word + 8 = instance vtable; class-record vtable = instance vtable + 0x48
 ```

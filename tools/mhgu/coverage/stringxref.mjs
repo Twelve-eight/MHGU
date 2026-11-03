@@ -1,14 +1,11 @@
 // stringxref.mjs — rebuild string references from the code itself, instead of trusting the strings column.
 //
-// Why: the committed `functions.csv.gz` strings column is produced by a heuristic that confuses a table access with a
-// string pointer (documented in attr-library.md: `ldr rX,[pc,#imm]` then `ldr rY,[pc,rX]` makes `table - pc` land
-// inside the string blob). A validator that demands a literal pointing at the exact bytes accepted only 32 of 4,461
-// tokens. Meanwhile the image really does hold the names: 527 `_ZN2nn...` symbols, thousands of message strings.
-//
-// This pass reads the two reference mechanisms the format doc describes:
-//   A. `ldr rX,[pc,#imm]`            -> literal L = aligned pc+8+imm; V = word at L; if V is a .text vaddr of ASCII -> ref
-//   B. `ldr rX,[pc,#imm]` + `add rD,pc,rX` -> delta loaded, then target = instr_addr+8+delta
-// Output: (function start, referenced strings) for every function in the retiled table.
+// Two reference forms exist in this binary and the first version only handled one:
+//   A. absolute: the literal word IS the string address (rodata)
+//   B. delta:    the literal word is a small offset; `add rD, pc, rX` turns it into the address
+// The pilot measured the miss: 4,717 functions use form B, 2,420 of them were absent from the first pass. Both forms
+// need register tracking, so this version follows one register at a time inside a basic block and drops the state at
+// every branch.
 import fs from "node:fs";
 import zlib from "node:zlib";
 import path from "node:path";
@@ -18,18 +15,16 @@ const OUT = path.join(ROOT, "docs/analysis/code/inventory/stringxref.tsv");
 
 const buf = fs.readFileSync(path.join(ROOT, "main.140.flat.bin"));
 const TEXT_END = 0x13f1dec;
+const IMG_END = buf.length - 0x100;
 const rd = (v) => buf.readUInt32LE(v + 0x100) >>> 0;
 const byte = (v) => buf[v + 0x100];
 const inText = (v) => v > 0x100 && v < TEXT_END;
-const IMG_END = buf.length - 0x100;
-// strings live in rodata beyond .text, which is why restricting to .text found almost nothing
 const inRodata = (v) => v > TEXT_END && v < IMG_END - 8;
 const isAscii = (b) => b >= 0x20 && b < 0x7f;
 
 const readStr = (v) => {
-  // a string starts after a NUL (or at the very start of the data region); without this, pointers that land in the
-  // middle of a data blob produce long runs of printable bytes that are not strings
-  if (v > TEXT_END && byte(v - 1) !== 0) return "";
+  if (!inRodata(v)) return "";
+  if (byte(v - 1) !== 0) return ""; // strings start after a NUL; this kills data-blob hits
   let n = 0;
   while (n < 96 && isAscii(byte(v + n))) n++;
   if (n < 4 || byte(v + n) !== 0) return "";
@@ -44,59 +39,48 @@ for (const l of zlib.gunzipSync(fs.readFileSync(path.join(ROOT, "docs/data/funct
 }
 
 const rows = [["start", "string", "via", "site"]];
-let withRefs = 0;
-const seen = new Map(); // start -> Set(strings)
+let withRefs = 0, viaAbs = 0, viaDelta = 0, viaTable = 0;
 for (const f of fns) {
   const set = new Set();
-  let prevDelta = null; // value of a delta loaded two instructions ago
+  const delta = new Map(); // reg -> literal value (possible pc bias)
   for (let v = f.s; v + 4 <= f.e; v += 4) {
     const w = rd(v);
-    let thisDelta = null;
-    // ldr rX,[pc,#imm]  (0xE59Fxxxx) — literal address = pc+8+imm, aligned
-    if ((w >>> 16) === 0xe59f) { // ldr rD,[pc,#imm]; Rd is in bits 15-12, so compare the top half only
-      const imm = w & 0xfff;
-      const L = v + 8 + imm;
-      if (L + 4 <= TEXT_END + 0x100) {
-        const V = rd(L);
-        if (inRodata(V)) {
-          const s = readStr(V);
-          if (s) set.add(s);
-          else {
-            // the literal points at a data table, not at a string: entries are .text pointers to names/messages
-            for (let k = 0; k < 256; k++) {
-              const E0 = rd(V + k * 4);
-              if (!(E0 > TEXT_END && E0 < IMG_END)) break;
-              const s2 = readStr(E0);
-              if (s2) set.add(s2);
-            }
-          }
-        } else if (inText(V)) {
-          thisDelta = V | 0; // not a string: remember as a possible pc-delta
-        } else if (V > TEXT_END && V < buf.length - 0x200) {
-          // table hop: the function loaded a data table; entries that point at ASCII are string references
-          for (let k = 0; k < 256; k++) { // message/name tables are long: stop at 256 entries
-            const E0 = rd(V + k * 4);
-            if (!(E0 > TEXT_END && E0 < IMG_END)) break;
-            const s2 = readStr(E0); if (s2) set.add(s2);
-          }
+    // branch or bl: basic block ends, register state is gone
+    if (((w >>> 25) & 7) === 5 || (w >>> 24) === 0xea || (w >>> 24) === 0xeb) { delta.clear(); continue; }
+    if ((w >>> 16) === 0xe59f) {
+      const rdN = (w >>> 12) & 0xf;
+      const L = v + 8 + (w & 0xfff);
+      if (L + 4 > IMG_END) continue;
+      const V = rd(L);
+      const s = readStr(V);
+      if (s) { set.add(s); viaAbs++; }
+      else if (inRodata(V)) {
+        // data table: entries that point at ASCII strings
+        for (let k = 0; k < 256; k++) {
+          const E = rd(V + k * 4);
+          if (!(E > TEXT_END && E < IMG_END)) break;
+          const s2 = readStr(E);
+          if (s2) { set.add(s2); viaTable++; }
         }
+      } else if (V < 0x2000000) {
+        delta.set(rdN, V); // small value: a pc bias, resolved by a following add
       }
+      continue;
     }
-    // add rD,pc,rX (0xE08Fxxxx family: cond 1110, opcode 0100, S=0, Rn=pc)
-    if ((w >>> 16) === 0xe08f && prevDelta !== null) { // add rD, pc, rX
-      const t = (v + 8 + prevDelta) >>> 0;
+    if ((w >>> 16) === 0xe08f) { // add rD, pc, rM
+      const rm = w & 0xf;
+      if (!delta.has(rm)) continue;
+      const t = (v + 8 + delta.get(rm)) >>> 0;
       const s = readStr(t);
-      if (s) set.add(s);
+      if (s) { set.add(s); viaDelta++; }
+      delta.delete(rm);
     }
-    prevDelta = thisDelta;
   }
   if (set.size) {
     withRefs++;
-    seen.set(f.s, set);
     for (const s of set) rows.push([`0x${f.s.toString(16)}`, s.replace(/[\t"]/g, " "), "code", ""]);
   }
 }
 fs.writeFileSync(OUT, rows.map((r) => r.join("\t")).join("\n") + "\n");
-console.log(`functions with string refs: ${withRefs}/${fns.length} (${((100 * withRefs) / fns.length).toFixed(1)}%); rows ${rows.length - 1}`);
-const uniq = new Set([...seen.values()].flatMap((s) => [...s]));
-console.log(`distinct strings: ${uniq.size}`);
+console.log(`functions with refs: ${withRefs}/${fns.length} (${((100 * withRefs) / fns.length).toFixed(1)}%); rows ${rows.length - 1}`);
+console.log(`via absolute ${viaAbs}, via pc-delta ${viaDelta}, via table ${viaTable}`);
