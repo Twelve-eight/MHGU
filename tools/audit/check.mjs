@@ -80,5 +80,16 @@ try {
   bad(`evidence re-check failed: ${String(e.message).slice(0, 120)}`);
 }
 
+// 7. the inferred rows: re-derive each one from the anchors its channel used. This is the counterpart of gate 6 for the
+// 16.8k rows that are not evidence but still make a checkable claim.
+try {
+  const out = execFileSync(process.execPath, ["tools/mhgu/coverage/verify-inferred.mjs"], { cwd: ROOT, encoding: "utf8", env: { ...process.env, SAMPLE: "100000" } });
+  const m = /total (\d+)\/(\d+) = ([\d.]+)%/.exec(out);
+  if (m && Number(m[3]) >= 99.5) ok(`inferred rows re-derived: ${m[1]}/${m[2]} (${m[3]}%)`);
+  else bad(`inferred rows re-derived: ${out.split("\n").filter((l) => l.includes("FAIL")).slice(0, 2).join(" ") || out.slice(0, 160)}`);
+} catch (e) {
+  bad(`inferred re-derivation failed: ${String(e.message).slice(0, 120)}`);
+}
+
 console.log(failures ? `\n${failures} check(s) failed` : "\nALL PASS");
 process.exit(failures ? 1 : 0);
