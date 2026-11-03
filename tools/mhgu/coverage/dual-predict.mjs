@@ -25,6 +25,7 @@ for (const f of fns) for (const c of new Set(f.callees)) { const k = "0x" + c.to
 const cp = (o, n) => { if (!n) return 0; const p = o / n, z = 1.959963985, d = 1 + z * z / n; return ((p + z * z / (2 * n) - z * Math.sqrt(p * (1 - p) / n + z * z / (4 * n * n))) / d) * 100; };
 const LOCAL = Number(process.env.LOCAL || 8);
 const WIN = 0x100000;
+const seen = new Map(); // function start -> {ok, n} so the five grids cannot count the same function five times
 let ok = 0, n = 0;
 for (const off of [0, 0x20000, 0x40000, 0x60000, 0x80000]) {
   for (let w = off; w < 0x1400000; w += WIN) {
@@ -57,7 +58,14 @@ for (const off of [0, 0x20000, 0x40000, 0x60000, 0x80000]) {
       if (cTop[0][0] !== lTop[0][0]) continue; // the conjunction: both predictions agree
       n++;
       if (cTop[0][0] === truth) ok++;
+      const u = seen.get(f.s) || { n: 0, ok: 0 };
+      u.n++; if (cTop[0][0] === truth) u.ok++;
+      seen.set(f.s, u);
     }
   }
 }
-console.log(`call-graph AND locality agree: ${ok}/${n} = ${((100 * ok) / (n || 1)).toFixed(1)}%  CP95 ${cp(ok, n).toFixed(1)}%  (locality window ${LOCAL} neighbours)`);
+// The five grids shift the window boundaries, so the same function is measured up to five times. Report both: the pair
+// count is what the loop sees, the unique count is the honest sample size for the confidence bound.
+let uOk = 0, uN = 0;
+for (const [, u] of seen) { uN++; if (u.ok > 0) uOk++; }
+console.log(`call-graph AND locality agree: pairs ${ok}/${n} = ${((100 * ok) / (n || 1)).toFixed(1)}% (CP95 ${cp(ok, n).toFixed(1)}%); unique ${uOk}/${uN} = ${((100 * uOk) / (uN || 1)).toFixed(1)}% (CP95 ${cp(uOk, uN).toFixed(1)}%)  (locality window ${LOCAL})`);
