@@ -2,7 +2,7 @@ start	insns	form	subsystem	why
 0x218	28	mid-worker		13-60 insns with calls
 0x288	6	small-worker	online-nex	<=12 insns with calls
 0x2a0	37	mid-worker		13-60 insns with calls
-0x334	11	small-worker		<=12 insns with calls
+0x334	11	small-worker	physics-math	<=12 insns with calls
 0x360	129	worker	physics-math	>60 insns with calls
 0x564	33	mid-worker		13-60 insns with calls
 0x5e8	42	mid-worker		13-60 insns with calls
@@ -862,8 +862,8 @@ start	insns	form	subsystem	why
 0x2d3bc	15	mid-worker		13-60 insns with calls
 0x2d3f8	11	small-worker		<=12 insns with calls
 0x2d424	13	mid-worker		13-60 insns with calls
-0x2d458	50	dispatch		indirect call, no direct call
-0x2d520	58	mid-worker		13-60 insns with calls
+0x2d458	50	dispatch	monster-em	indirect call, no direct call
+0x2d520	58	mid-worker	monster-em	13-60 insns with calls
 0x2d608	162	worker	monster-em	>60 insns with calls
 0x2d890	136	worker	ui	>60 insns with calls
 0x2dab0	34	mid-worker	audio	13-60 insns with calls
@@ -1942,7 +1942,7 @@ start	insns	form	subsystem	why
 0x6ba8c	42	mid-worker	monster-em	13-60 insns with calls
 0x6bb34	58	forwarder	monster-em	one call then tail branch
 0x6bc1c	112	dispatch	monster-em	indirect call, no direct call
-0x6bddc	20	dispatch		indirect call, no direct call
+0x6bddc	20	dispatch	monster-em	indirect call, no direct call
 0x6be2c	268	dispatch	monster-em	indirect call, no direct call
 0x6c25c	24	mid-worker	monster-em	13-60 insns with calls
 0x6c2bc	77	worker	monster-em	>60 insns with calls
@@ -2070,7 +2070,7 @@ start	insns	form	subsystem	why
 0x72cc4	28	mid-worker	render-gfx	13-60 insns with calls
 0x72d34	44	mid-worker	monster-em	13-60 insns with calls
 0x72de4	31	mid-worker	monster-em	13-60 insns with calls
-0x72e60	18	dispatch		indirect call, no direct call
+0x72e60	18	dispatch	render-gfx	indirect call, no direct call
 0x72ea8	111	worker	render-gfx	>60 insns with calls
 0x73064	69	worker	monster-em	>60 insns with calls
 0x73178	136	worker	monster-em	>60 insns with calls
@@ -4481,9 +4481,9 @@ start	insns	form	subsystem	why
 0x126d10	50	mid-worker	weapon-wp	13-60 insns with calls
 0x126dd8	83	worker	weapon-wp	>60 insns with calls
 0x126f24	83	worker	weapon-wp	>60 insns with calls
-0x127070	28	dispatch		indirect call, no direct call
-0x1270e0	15	mid-worker		13-60 insns with calls
-0x12711c	127	dispatch		indirect call, no direct call
+0x127070	28	dispatch	weapon-wp	indirect call, no direct call
+0x1270e0	15	mid-worker	weapon-wp	13-60 insns with calls
+0x12711c	127	dispatch	weapon-wp	indirect call, no direct call
 0x127318	68	worker	weapon-wp	>60 insns with calls
 0x127428	18	mid-worker	weapon-wp	13-60 insns with calls
 0x127470	6	mutator	weapon-wp	no call, stores only, <=12 insns
@@ -7336,23 +7336,23 @@ start	insns	form	subsystem	why
 0x1eb890	16	mid-worker		13-60 insns with calls
 0x1eb8d0	1738	orchestrator		>=8 direct calls
 0x1ed3f8	135	worker	ui	>60 insns with calls
-0x1ed614	16	mid-worker		13-60 insns with calls
+0x1ed614	16	mid-worker	online-nex	13-60 insns with calls
 0x1ed654	284	orchestrator	online-nex	>=8 direct calls
 0x1edac4	45	mid-worker	ui	13-60 insns with calls
 0x1edb78	16	mid-worker		13-60 insns with calls
 0x1edbb8	457	orchestrator		>=8 direct calls
 0x1ee2dc	55	mid-worker	ui	13-60 insns with calls
-0x1ee3b8	16	mid-worker		13-60 insns with calls
+0x1ee3b8	16	mid-worker	online-nex	13-60 insns with calls
 0x1ee3f8	353	orchestrator	online-nex	>=8 direct calls
 0x1ee97c	49	mid-worker	ui	13-60 insns with calls
-0x1eea40	16	mid-worker		13-60 insns with calls
+0x1eea40	16	mid-worker	online-nex	13-60 insns with calls
 0x1eea80	290	orchestrator	online-nex	>=8 direct calls
-0x1eef08	16	mid-worker		13-60 insns with calls
+0x1eef08	16	mid-worker	online-nex	13-60 insns with calls
 0x1eef48	325	orchestrator	online-nex	>=8 direct calls
-0x1ef45c	16	mid-worker		13-60 insns with calls
+0x1ef45c	16	mid-worker	online-nex	13-60 insns with calls
 0x1ef49c	284	orchestrator	online-nex	>=8 direct calls
 0x1ef90c	45	mid-worker	ui	13-60 insns with calls
-0x1ef9c0	16	mid-worker		13-60 insns with calls
+0x1ef9c0	16	mid-worker	online-nex	13-60 insns with calls
 0x1efa00	446	orchestrator	online-nex	>=8 direct calls
 0x1f00f8	115	worker	ui	>60 insns with calls
 0x1f02c4	16	mid-worker		13-60 insns with calls
@@ -7367,15 +7367,15 @@ start	insns	form	subsystem	why
 0x1f2044	16	mid-worker		13-60 insns with calls
 0x1f2084	457	orchestrator		>=8 direct calls
 0x1f27a8	55	mid-worker	ui	13-60 insns with calls
-0x1f2884	16	mid-worker		13-60 insns with calls
+0x1f2884	16	mid-worker	online-nex	13-60 insns with calls
 0x1f28c4	353	orchestrator	online-nex	>=8 direct calls
 0x1f2e48	49	mid-worker	ui	13-60 insns with calls
-0x1f2f0c	16	mid-worker		13-60 insns with calls
+0x1f2f0c	16	mid-worker	online-nex	13-60 insns with calls
 0x1f2f4c	353	orchestrator	online-nex	>=8 direct calls
 0x1f34d0	49	mid-worker	ui	13-60 insns with calls
-0x1f3594	16	mid-worker		13-60 insns with calls
+0x1f3594	16	mid-worker	online-nex	13-60 insns with calls
 0x1f35d4	325	orchestrator	online-nex	>=8 direct calls
-0x1f3ae8	16	mid-worker		13-60 insns with calls
+0x1f3ae8	16	mid-worker	online-nex	13-60 insns with calls
 0x1f3b28	353	orchestrator	online-nex	>=8 direct calls
 0x1f40ac	133	worker	ui	>60 insns with calls
 0x1f42c0	16	mid-worker		13-60 insns with calls
@@ -7443,7 +7443,7 @@ start	insns	form	subsystem	why
 0x1f75d8	63	worker		>60 insns with calls
 0x1f76d4	40	mid-worker	ui	13-60 insns with calls
 0x1f7774	46	orchestrator	ui	>=8 direct calls
-0x1f782c	20	mid-worker		13-60 insns with calls
+0x1f782c	20	mid-worker	weapon-wp	13-60 insns with calls
 0x1f787c	118	orchestrator	weapon-wp	>=8 direct calls
 0x1f7a54	33	mid-worker	ui	13-60 insns with calls
 0x1f7ad8	8	small-worker		<=12 insns with calls
@@ -7459,7 +7459,7 @@ start	insns	form	subsystem	why
 0x1f9cc0	105	worker		>60 insns with calls
 0x1f9e64	16	mid-worker		13-60 insns with calls
 0x1f9ea4	500	orchestrator		>=8 direct calls
-0x1fa674	35	mid-worker		13-60 insns with calls
+0x1fa674	35	mid-worker	weapon-wp	13-60 insns with calls
 0x1fa700	16	mid-worker		13-60 insns with calls
 0x1fa740	43	mid-worker		13-60 insns with calls
 0x1fa7ec	47	mid-worker	quest	13-60 insns with calls
@@ -7688,8 +7688,8 @@ start	insns	form	subsystem	why
 0x20053c	76	worker	ui	>60 insns with calls
 0x20066c	76	worker	ui	>60 insns with calls
 0x20079c	68	worker	ui	>60 insns with calls
-0x2008ac	116	worker	ui	>60 insns with calls
-0x200a7c	158	orchestrator	weapon-wp	>=8 direct calls
+0x2008ac	116	worker	otomo-ot	>60 insns with calls
+0x200a7c	158	orchestrator	otomo-ot	>=8 direct calls
 0x200cf4	33	mid-worker	ui	13-60 insns with calls
 0x200d78	97	worker	ui	>60 insns with calls
 0x200efc	98	orchestrator	weapon-wp	>=8 direct calls
@@ -7708,7 +7708,7 @@ start	insns	form	subsystem	why
 0x202bb8	542	orchestrator	weapon-wp	>=8 direct calls
 0x203430	54	orchestrator	ui	>=8 direct calls
 0x203508	94	orchestrator	ui	>=8 direct calls
-0x203680	20	mid-worker		13-60 insns with calls
+0x203680	20	mid-worker	weapon-wp	13-60 insns with calls
 0x2036d0	119	orchestrator	ui	>=8 direct calls
 0x2038ac	30	mid-worker	monster-em	13-60 insns with calls
 0x203924	8	small-worker		<=12 insns with calls
@@ -7779,7 +7779,7 @@ start	insns	form	subsystem	why
 0x206644	105	worker		>60 insns with calls
 0x2067e8	16	mid-worker	quest	13-60 insns with calls
 0x206828	48	mid-worker	quest	13-60 insns with calls
-0x2068e8	16	mid-worker		13-60 insns with calls
+0x2068e8	16	mid-worker	otomo-ot	13-60 insns with calls
 0x206928	777	orchestrator	otomo-ot	>=8 direct calls
 0x20754c	16	mid-worker		13-60 insns with calls
 0x20758c	256	orchestrator		>=8 direct calls
@@ -7789,8 +7789,8 @@ start	insns	form	subsystem	why
 0x207bb0	74	worker		>60 insns with calls
 0x207cd8	16	mid-worker		13-60 insns with calls
 0x207d18	50	mid-worker		13-60 insns with calls
-0x207de0	33	mid-worker		13-60 insns with calls
-0x207e64	35	mid-worker		13-60 insns with calls
+0x207de0	33	mid-worker	weapon-wp	13-60 insns with calls
+0x207e64	35	mid-worker	weapon-wp	13-60 insns with calls
 0x207ef0	16	mid-worker		13-60 insns with calls
 0x207f30	44	mid-worker		13-60 insns with calls
 0x207fe0	16	mid-worker		13-60 insns with calls
@@ -7832,7 +7832,7 @@ start	insns	form	subsystem	why
 0x209c34	57	mid-worker	quest	13-60 insns with calls
 0x209d18	47	mid-worker	quest	13-60 insns with calls
 0x209dd4	61	worker	quest	>60 insns with calls
-0x209ec8	16	mid-worker		13-60 insns with calls
+0x209ec8	16	mid-worker	otomo-ot	13-60 insns with calls
 0x209f08	407	orchestrator	otomo-ot	>=8 direct calls
 0x20a564	47	mid-worker	quest	13-60 insns with calls
 0x20a620	41	mid-worker		13-60 insns with calls
@@ -7962,7 +7962,7 @@ start	insns	form	subsystem	why
 0x20ff10	78	worker	quest	>60 insns with calls
 0x210048	47	mid-worker	quest	13-60 insns with calls
 0x210104	53	mid-worker	quest	13-60 insns with calls
-0x2101d8	16	mid-worker		13-60 insns with calls
+0x2101d8	16	mid-worker	quest	13-60 insns with calls
 0x210218	163	worker	quest	>60 insns with calls
 0x2104a4	47	mid-worker	quest	13-60 insns with calls
 0x210560	41	mid-worker		13-60 insns with calls
@@ -8086,7 +8086,7 @@ start	insns	form	subsystem	why
 0x217ac4	34	mid-worker	ui	13-60 insns with calls
 0x217b4c	36	mid-worker	ui	13-60 insns with calls
 0x217bdc	22	forwarder		one call then tail branch
-0x217c34	22	forwarder		one call then tail branch
+0x217c34	22	forwarder	quest	one call then tail branch
 0x217c8c	22	forwarder		one call then tail branch
 0x217ce4	22	forwarder		one call then tail branch
 0x217d3c	22	forwarder		one call then tail branch
@@ -8240,7 +8240,7 @@ start	insns	form	subsystem	why
 0x21fae8	332	orchestrator	ui	>=8 direct calls
 0x220018	1360	orchestrator	otomo-ot	>=8 direct calls
 0x221558	40	mid-worker		13-60 insns with calls
-0x2215f8	16	mid-worker		13-60 insns with calls
+0x2215f8	16	mid-worker	otomo-ot	13-60 insns with calls
 0x221638	201	orchestrator	ui	>=8 direct calls
 0x22195c	33	mid-worker		13-60 insns with calls
 0x2219e0	125	worker	ui	>60 insns with calls
@@ -8256,7 +8256,7 @@ start	insns	form	subsystem	why
 0x222434	33	mid-worker	ui	13-60 insns with calls
 0x2224b8	28	mid-worker	ui	13-60 insns with calls
 0x222528	130	orchestrator	ui	>=8 direct calls
-0x222730	31	mid-worker		13-60 insns with calls
+0x222730	31	mid-worker	otomo-ot	13-60 insns with calls
 0x2227ac	27	mid-worker		13-60 insns with calls
 0x222818	16	mid-worker		13-60 insns with calls
 0x222858	136	worker		>60 insns with calls
@@ -9233,8 +9233,8 @@ start	insns	form	subsystem	why
 0x269cac	15	mid-worker		13-60 insns with calls
 0x269ce8	11	small-worker		<=12 insns with calls
 0x269d14	14	mid-worker		13-60 insns with calls
-0x269d4c	1	tail-jump		first instruction branches to another function
-0x269d50	12	small-worker		<=12 insns with calls
+0x269d4c	1	tail-jump	item	first instruction branches to another function
+0x269d50	12	small-worker	item	<=12 insns with calls
 0x269d80	319	orchestrator	item	>=8 direct calls
 0x26a27c	104	worker	quest	>60 insns with calls
 0x26a41c	104	dispatch		indirect call, no direct call
@@ -11518,7 +11518,7 @@ start	insns	form	subsystem	why
 0x3839bc	531	orchestrator	ui	>=8 direct calls
 0x384208	128	worker	ui	>60 insns with calls
 0x384408	115	orchestrator	ui	>=8 direct calls
-0x3845d4	17	mid-worker		13-60 insns with calls
+0x3845d4	17	mid-worker	ui	13-60 insns with calls
 0x384618	29	mid-worker	ui	13-60 insns with calls
 0x38468c	111	orchestrator	ui	>=8 direct calls
 0x384848	170	orchestrator	ui	>=8 direct calls
@@ -12289,8 +12289,8 @@ start	insns	form	subsystem	why
 0x3ca5e8	122	worker	weapon-wp	>60 insns with calls
 0x3ca7d0	33	mid-worker		13-60 insns with calls
 0x3ca854	23	mid-worker		13-60 insns with calls
-0x3ca8b0	29	dispatch		indirect call, no direct call
-0x3ca924	36	mid-worker		13-60 insns with calls
+0x3ca8b0	29	dispatch	monster-em	indirect call, no direct call
+0x3ca924	36	mid-worker	monster-em	13-60 insns with calls
 0x3ca9b4	301	orchestrator	monster-em	>=8 direct calls
 0x3cae68	96	worker	ui	>60 insns with calls
 0x3cafe8	8	small-worker	render-gfx	<=12 insns with calls
@@ -15109,8 +15109,8 @@ start	insns	form	subsystem	why
 0x4aacd4	15	mid-worker		13-60 insns with calls
 0x4aad10	11	small-worker		<=12 insns with calls
 0x4aad3c	10	mutator		no call, stores only, <=12 insns
-0x4aad64	1	stub		<=3 instructions, no call
-0x4aad68	11	small-worker		<=12 insns with calls
+0x4aad64	1	stub	item	<=3 instructions, no call
+0x4aad68	11	small-worker	item	<=12 insns with calls
 0x4aad94	320	orchestrator	item	>=8 direct calls
 0x4ab294	94	worker	quest	>60 insns with calls
 0x4ab40c	94	dispatch		indirect call, no direct call
@@ -15858,8 +15858,8 @@ start	insns	form	subsystem	why
 0x4ca83c	15	mid-worker		13-60 insns with calls
 0x4ca878	11	small-worker		<=12 insns with calls
 0x4ca8a4	15	mid-worker		13-60 insns with calls
-0x4ca8e0	1	tail-jump		first instruction branches to another function
-0x4ca8e4	12	small-worker		<=12 insns with calls
+0x4ca8e0	1	tail-jump	otomo-ot	first instruction branches to another function
+0x4ca8e4	12	small-worker	otomo-ot	<=12 insns with calls
 0x4ca914	494	orchestrator	otomo-ot	>=8 direct calls
 0x4cb0cc	234	orchestrator	quest	>=8 direct calls
 0x4cb474	220	dispatch		indirect call, no direct call
@@ -17424,12 +17424,12 @@ start	insns	form	subsystem	why
 0x539da4	15	dispatch	render-gfx	indirect call, no direct call
 0x539de0	28	dispatch	render-gfx	indirect call, no direct call
 0x539e50	18	dispatch		indirect call, no direct call
-0x539e98	25	mid-worker		13-60 insns with calls
+0x539e98	25	mid-worker	monster-em	13-60 insns with calls
 0x539efc	20	mid-worker	monster-em	13-60 insns with calls
 0x539f4c	55	dispatch	render-gfx	indirect call, no direct call
 0x53a028	12	accessor	monster-em	no call, loads only, <=12 insns
 0x53a058	5	accessor	online-nex	no call, loads only, <=12 insns
-0x53a06c	27	dispatch		indirect call, no direct call
+0x53a06c	27	dispatch	render-gfx	indirect call, no direct call
 0x53a0d8	8	small-worker	monster-em	<=12 insns with calls
 0x53a0f8	23	mid-worker	monster-em	13-60 insns with calls
 0x53a154	4	small-worker	monster-em	<=12 insns with calls
@@ -17448,7 +17448,7 @@ start	insns	form	subsystem	why
 0x53a8a4	45	mid-worker		13-60 insns with calls
 0x53a958	11	small-worker	otomo-ot	<=12 insns with calls
 0x53a984	30	dispatch	monster-em	indirect call, no direct call
-0x53a9fc	29	mid-worker		13-60 insns with calls
+0x53a9fc	29	mid-worker	render-gfx	13-60 insns with calls
 0x53aa70	5	small-worker	monster-em	<=12 insns with calls
 0x53aa84	21	mid-worker	monster-em	13-60 insns with calls
 0x53aad8	22	dispatch	monster-em	indirect call, no direct call
@@ -17730,7 +17730,7 @@ start	insns	form	subsystem	why
 0x5485ac	24	mid-worker	ui	13-60 insns with calls
 0x54860c	16	mid-worker		13-60 insns with calls
 0x54864c	25	mid-worker		13-60 insns with calls
-0x5486b0	16	mid-worker		13-60 insns with calls
+0x5486b0	16	mid-worker	render-gfx	13-60 insns with calls
 0x5486f0	4	forwarder		one call then tail branch
 0x548700	4	forwarder		one call then tail branch
 0x548710	113	worker	ui	>60 insns with calls
@@ -22081,8 +22081,8 @@ start	insns	form	subsystem	why
 0x69c1d4	33	mid-worker	quest	13-60 insns with calls
 0x69c258	32	dispatch		indirect call, no direct call
 0x69c2d8	65	worker		>60 insns with calls
-0x69c3dc	29	dispatch		indirect call, no direct call
-0x69c450	36	mid-worker		13-60 insns with calls
+0x69c3dc	29	dispatch	quest	indirect call, no direct call
+0x69c450	36	mid-worker	quest	13-60 insns with calls
 0x69c4e0	1092	orchestrator	quest	>=8 direct calls
 0x69d5f0	71	worker	quest	>60 insns with calls
 0x69d70c	32	mid-worker	quest	13-60 insns with calls
@@ -25053,7 +25053,7 @@ start	insns	form	subsystem	why
 0x81d524	25	mid-worker	online-nex	13-60 insns with calls
 0x81d588	23	mid-worker	online-nex	13-60 insns with calls
 0x81d5e4	33	mid-worker	online-nex	13-60 insns with calls
-0x81d668	10	dispatch		indirect call, no direct call
+0x81d668	10	dispatch	online-nex	indirect call, no direct call
 0x81d690	27	mid-worker	online-nex	13-60 insns with calls
 0x81d6fc	104	worker	online-nex	>60 insns with calls
 0x81d89c	698	orchestrator	online-nex	>=8 direct calls
@@ -26071,8 +26071,8 @@ start	insns	form	subsystem	why
 0x86f9cc	45	mid-worker		13-60 insns with calls
 0x86fa80	31	mid-worker		13-60 insns with calls
 0x86fafc	20	mid-worker		13-60 insns with calls
-0x86fb4c	1	tail-jump		first instruction branches to another function
-0x86fb50	12	small-worker		<=12 insns with calls
+0x86fb4c	1	tail-jump	render-gfx	first instruction branches to another function
+0x86fb50	12	small-worker	render-gfx	<=12 insns with calls
 0x86fb80	170	worker	render-gfx	>60 insns with calls
 0x86fe28	134	worker	render-gfx	>60 insns with calls
 0x870040	45	mid-worker		13-60 insns with calls
@@ -26414,7 +26414,7 @@ start	insns	form	subsystem	why
 0x88f45c	38	mid-worker	render-gfx	13-60 insns with calls
 0x88f4f4	12	small-worker	render-gfx	<=12 insns with calls
 0x88f524	66	worker	render-gfx	>60 insns with calls
-0x88f62c	4	accessor	monster-em	no call, loads only, <=12 insns
+0x88f62c	4	accessor	render-gfx	no call, loads only, <=12 insns
 0x88f63c	1101	orchestrator	render-gfx	>=8 direct calls
 0x890770	167	worker		>60 insns with calls
 0x890a0c	52	mid-worker	quest	13-60 insns with calls
@@ -26541,13 +26541,13 @@ start	insns	form	subsystem	why
 0x8a8a9c	24	mid-worker		13-60 insns with calls
 0x8a8afc	52	mid-worker		13-60 insns with calls
 0x8a8bcc	1	stub		<=3 instructions, no call
-0x8a8bd0	56	mid-worker		13-60 insns with calls
-0x8a8cb0	40	mid-worker		13-60 insns with calls
+0x8a8bd0	56	mid-worker	render-gfx	13-60 insns with calls
+0x8a8cb0	40	mid-worker	render-gfx	13-60 insns with calls
 0x8a8d50	427	orchestrator	render-gfx	>=8 direct calls
 0x8a93fc	20	mid-worker		13-60 insns with calls
 0x8a944c	45	mid-worker	render-gfx	13-60 insns with calls
 0x8a9500	42	mid-worker	render-gfx	13-60 insns with calls
-0x8a95a8	69	dispatch		indirect call, no direct call
+0x8a95a8	69	dispatch	render-gfx	indirect call, no direct call
 0x8a96bc	80	worker	render-gfx	>60 insns with calls
 0x8a97fc	74	worker	render-gfx	>60 insns with calls
 0x8a9924	90	orchestrator	render-gfx	>=8 direct calls
@@ -26557,8 +26557,8 @@ start	insns	form	subsystem	why
 0x8aae40	45	mid-worker		13-60 insns with calls
 0x8aaef4	80	worker		>60 insns with calls
 0x8ab034	1	stub	render-gfx	<=3 instructions, no call
-0x8ab038	64	worker		>60 insns with calls
-0x8ab138	40	mid-worker		13-60 insns with calls
+0x8ab038	64	worker	render-gfx	>60 insns with calls
+0x8ab138	40	mid-worker	render-gfx	13-60 insns with calls
 0x8ab1d8	584	orchestrator	render-gfx	>=8 direct calls
 0x8abaf8	195	orchestrator	render-gfx	>=8 direct calls
 0x8abe04	55	mid-worker	render-gfx	13-60 insns with calls
@@ -26622,20 +26622,20 @@ start	insns	form	subsystem	why
 0x8b70a0	11	small-worker		<=12 insns with calls
 0x8b70cc	133	worker	render-gfx	>60 insns with calls
 0x8b72e0	102	worker		>60 insns with calls
-0x8b7478	16	mid-worker		13-60 insns with calls
+0x8b7478	16	mid-worker	render-gfx	13-60 insns with calls
 0x8b74b8	24	mid-worker	render-gfx	13-60 insns with calls
-0x8b7518	96	dispatch		indirect call, no direct call
+0x8b7518	96	dispatch	render-gfx	indirect call, no direct call
 0x8b7698	329	large-body	render-gfx	>=200 insns
 0x8b7bbc	342	orchestrator	render-gfx	>=8 direct calls
 0x8b8114	101	worker		>60 insns with calls
-0x8b82a8	16	mid-worker		13-60 insns with calls
+0x8b82a8	16	mid-worker	render-gfx	13-60 insns with calls
 0x8b82e8	24	mid-worker	render-gfx	13-60 insns with calls
-0x8b8348	97	dispatch		indirect call, no direct call
+0x8b8348	97	dispatch	render-gfx	indirect call, no direct call
 0x8b84cc	372	orchestrator	render-gfx	>=8 direct calls
 0x8b8a9c	91	worker	render-gfx	>60 insns with calls
 0x8b8c08	61	worker		>60 insns with calls
 0x8b8cfc	130	worker	render-gfx	>60 insns with calls
-0x8b8f04	32	mid-worker		13-60 insns with calls
+0x8b8f04	32	mid-worker	render-gfx	13-60 insns with calls
 0x8b8f84	19	dispatch	render-gfx	indirect call, no direct call
 0x8b8fd0	49	mid-worker	render-gfx	13-60 insns with calls
 0x8b9094	2654	large-body	render-gfx	>=200 insns
@@ -26652,7 +26652,7 @@ start	insns	form	subsystem	why
 0x8c090c	99	worker		>60 insns with calls
 0x8c0a98	30	mid-worker	render-gfx	13-60 insns with calls
 0x8c0b10	38	mid-worker	render-gfx	13-60 insns with calls
-0x8c0ba8	113	dispatch		indirect call, no direct call
+0x8c0ba8	113	dispatch	render-gfx	indirect call, no direct call
 0x8c0d6c	741	large-body	render-gfx	>=200 insns
 0x8c1900	431	orchestrator	render-gfx	>=8 direct calls
 0x8c1fbc	30	mid-worker		13-60 insns with calls
@@ -26665,8 +26665,8 @@ start	insns	form	subsystem	why
 0x8c28e4	282	orchestrator	render-gfx	>=8 direct calls
 0x8c2d4c	14	mid-worker		13-60 insns with calls
 0x8c2d84	101	worker	render-gfx	>60 insns with calls
-0x8c2f18	26	dispatch		indirect call, no direct call
-0x8c2f80	36	mid-worker		13-60 insns with calls
+0x8c2f18	26	dispatch	render-gfx	indirect call, no direct call
+0x8c2f80	36	mid-worker	render-gfx	13-60 insns with calls
 0x8c3010	347	orchestrator	render-gfx	>=8 direct calls
 0x8c357c	321	large-body	render-gfx	>=200 insns
 0x8c3a80	1480	large-body	render-gfx	>=200 insns
@@ -26754,8 +26754,8 @@ start	insns	form	subsystem	why
 0x8dcd30	211	orchestrator	render-gfx	>=8 direct calls
 0x8dd07c	3208	orchestrator	render-gfx	>=8 direct calls
 0x8e029c	39	mid-worker		13-60 insns with calls
-0x8e0338	18	dispatch		indirect call, no direct call
-0x8e0380	27	mid-worker		13-60 insns with calls
+0x8e0338	18	dispatch	render-gfx	indirect call, no direct call
+0x8e0380	27	mid-worker	render-gfx	13-60 insns with calls
 0x8e03ec	254	orchestrator	render-gfx	>=8 direct calls
 0x8e07e4	718	large-body	render-gfx	>=200 insns
 0x8e131c	100	worker		>60 insns with calls
@@ -26774,7 +26774,7 @@ start	insns	form	subsystem	why
 0x8e7724	24	mid-worker	render-gfx	13-60 insns with calls
 0x8e7784	14	mid-worker		13-60 insns with calls
 0x8e77bc	207	orchestrator	render-gfx	>=8 direct calls
-0x8e7af8	48	mid-worker		13-60 insns with calls
+0x8e7af8	48	mid-worker	render-gfx	13-60 insns with calls
 0x8e7bb8	56	mid-worker	render-gfx	13-60 insns with calls
 0x8e7c98	500	orchestrator	render-gfx	>=8 direct calls
 0x8e8468	1390	orchestrator	render-gfx	>=8 direct calls
@@ -27214,7 +27214,7 @@ start	insns	form	subsystem	why
 0x9396a8	161	orchestrator	render-gfx	>=8 direct calls
 0x93992c	221	orchestrator	render-gfx	>=8 direct calls
 0x939ca0	12	small-worker	render-gfx	<=12 insns with calls
-0x939cd0	53	forwarder	player-pl	one call then tail branch
+0x939cd0	53	forwarder	render-gfx	one call then tail branch
 0x939da4	484	orchestrator	render-gfx	>=8 direct calls
 0x93a534	119	orchestrator	render-gfx	>=8 direct calls
 0x93a710	532	large-body	render-gfx	>=200 insns
@@ -27292,7 +27292,7 @@ start	insns	form	subsystem	why
 0x94e7b4	117	worker	render-gfx	>60 insns with calls
 0x94e988	357	large-body	render-gfx	>=200 insns
 0x94ef1c	351	large-body	render-gfx	>=200 insns
-0x94f498	15	mid-worker		13-60 insns with calls
+0x94f498	15	mid-worker	render-gfx	13-60 insns with calls
 0x94f4d4	111	worker	render-gfx	>60 insns with calls
 0x94f690	186	worker	render-gfx	>60 insns with calls
 0x94f978	8	mutator		no call, stores only, <=12 insns
@@ -27479,17 +27479,17 @@ start	insns	form	subsystem	why
 0x9686b0	14	mid-worker		13-60 insns with calls
 0x9686e8	420	orchestrator	render-gfx	>=8 direct calls
 0x968d78	1	stub		<=3 instructions, no call
-0x968d7c	17	dispatch		indirect call, no direct call
+0x968d7c	17	dispatch	render-gfx	indirect call, no direct call
 0x968dc0	787	orchestrator	render-gfx	>=8 direct calls
 0x969a0c	33	mid-worker	render-gfx	13-60 insns with calls
 0x969a90	95	worker	render-gfx	>60 insns with calls
-0x969c0c	36	dispatch		indirect call, no direct call
+0x969c0c	36	dispatch	render-gfx	indirect call, no direct call
 0x969c9c	304	large-body	render-gfx	>=200 insns
 0x96a15c	924	orchestrator	render-gfx	>=8 direct calls
-0x96afcc	57	dispatch		indirect call, no direct call
+0x96afcc	57	dispatch	render-gfx	indirect call, no direct call
 0x96b0b0	76	worker	render-gfx	>60 insns with calls
 0x96b1e0	51	mid-worker	render-gfx	13-60 insns with calls
-0x96b2ac	22	mid-worker		13-60 insns with calls
+0x96b2ac	22	mid-worker	render-gfx	13-60 insns with calls
 0x96b304	34	mid-worker	render-gfx	13-60 insns with calls
 0x96b38c	219	large-body	render-gfx	>=200 insns
 0x96b6f8	45	mid-worker		13-60 insns with calls
@@ -27550,27 +27550,27 @@ start	insns	form	subsystem	why
 0x974128	811	large-body	render-gfx	>=200 insns
 0x974dd4	107	worker	render-gfx	>60 insns with calls
 0x974f80	45	mid-worker		13-60 insns with calls
-0x975034	12	small-worker		<=12 insns with calls
-0x975064	316	orchestrator		>=8 direct calls
+0x975034	12	small-worker	render-gfx	<=12 insns with calls
+0x975064	316	orchestrator	render-gfx	>=8 direct calls
 0x975554	65	dispatch		indirect call, no direct call
 0x975658	64	dispatch		indirect call, no direct call
-0x975758	67	dispatch		indirect call, no direct call
+0x975758	67	dispatch	render-gfx	indirect call, no direct call
 0x975864	142	worker	render-gfx	>60 insns with calls
 0x975a9c	127	worker	render-gfx	>60 insns with calls
-0x975c98	99	worker		>60 insns with calls
+0x975c98	99	worker	render-gfx	>60 insns with calls
 0x975e24	450	orchestrator	render-gfx	>=8 direct calls
 0x97652c	948	orchestrator	render-gfx	>=8 direct calls
 0x9773fc	946	orchestrator	render-gfx	>=8 direct calls
 0x9782c4	9	small-worker		<=12 insns with calls
 0x9782e8	130	worker	render-gfx	>60 insns with calls
 0x9784f0	32	mid-worker		13-60 insns with calls
-0x978570	12	small-worker		<=12 insns with calls
-0x9785a0	131	worker		>60 insns with calls
-0x9787ac	67	dispatch		indirect call, no direct call
+0x978570	12	small-worker	render-gfx	<=12 insns with calls
+0x9785a0	131	worker	render-gfx	>60 insns with calls
+0x9787ac	67	dispatch	render-gfx	indirect call, no direct call
 0x9788b8	261	orchestrator	render-gfx	>=8 direct calls
 0x978ccc	220	large-body	render-gfx	>=200 insns
 0x97903c	276	orchestrator	render-gfx	>=8 direct calls
-0x97948c	9	small-worker		<=12 insns with calls
+0x97948c	9	small-worker	render-gfx	<=12 insns with calls
 0x9794b0	114	worker	render-gfx	>60 insns with calls
 0x979678	14	mid-worker		13-60 insns with calls
 0x9796b0	132	worker		>60 insns with calls
@@ -27741,7 +27741,7 @@ start	insns	form	subsystem	why
 0x99e544	123	worker	render-gfx	>60 insns with calls
 0x99e730	44	mid-worker		13-60 insns with calls
 0x99e7e0	1	stub	render-gfx	<=3 instructions, no call
-0x99e7e4	52	mid-worker		13-60 insns with calls
+0x99e7e4	52	mid-worker	render-gfx	13-60 insns with calls
 0x99e8b4	64	worker	render-gfx	>60 insns with calls
 0x99e9b4	355	orchestrator	render-gfx	>=8 direct calls
 0x99ef40	115	worker	render-gfx	>60 insns with calls
@@ -28981,8 +28981,8 @@ start	insns	form	subsystem	why
 0xa4fa8c	25	dispatch		indirect call, no direct call
 0xa4faf0	26	mid-worker		13-60 insns with calls
 0xa4fb58	39	dispatch		indirect call, no direct call
-0xa4fbf4	42	dispatch		indirect call, no direct call
-0xa4fc9c	134	orchestrator	ui	>=8 direct calls
+0xa4fbf4	42	dispatch	render-gfx	indirect call, no direct call
+0xa4fc9c	134	orchestrator	render-gfx	>=8 direct calls
 0xa4feb4	247	large-body	render-gfx	>=200 insns
 0xa50290	662	large-body	render-gfx	>=200 insns
 0xa50ce8	61	worker	ui	>60 insns with calls
@@ -30100,7 +30100,7 @@ start	insns	form	subsystem	why
 0xb13db8	34	mid-worker	physics-math	13-60 insns with calls
 0xb13e40	101	worker	physics-math	>60 insns with calls
 0xb13fd4	21	mid-worker		13-60 insns with calls
-0xb14028	21	dispatch		indirect call, no direct call
+0xb14028	21	dispatch	render-gfx	indirect call, no direct call
 0xb1407c	25	mid-worker	quest	13-60 insns with calls
 0xb140e0	546	orchestrator	render-gfx	>=8 direct calls
 0xb14968	39	mid-worker	quest	13-60 insns with calls
@@ -30113,7 +30113,7 @@ start	insns	form	subsystem	why
 0xb14bbc	28	mid-worker	render-gfx	13-60 insns with calls
 0xb14c2c	3	stub		<=3 instructions, no call
 0xb14c38	6	accessor	render-gfx	no call, loads only, <=12 insns
-0xb14c50	33	mid-worker		13-60 insns with calls
+0xb14c50	33	mid-worker	render-gfx	13-60 insns with calls
 0xb14cd4	133	worker	physics-math	>60 insns with calls
 0xb14ee8	30	mid-worker		13-60 insns with calls
 0xb14f60	11	small-worker		<=12 insns with calls
@@ -30988,8 +30988,8 @@ start	insns	form	subsystem	why
 0xb5916c	33	mid-worker		13-60 insns with calls
 0xb591f0	25	mid-worker		13-60 insns with calls
 0xb59254	80	worker	monster-em	>60 insns with calls
-0xb59394	13	mid-worker		13-60 insns with calls
-0xb593c8	195	worker		>60 insns with calls
+0xb59394	13	mid-worker	monster-em	13-60 insns with calls
+0xb593c8	195	worker	monster-em	>60 insns with calls
 0xb596d4	23	mid-worker		13-60 insns with calls
 0xb59730	101	worker	monster-em	>60 insns with calls
 0xb598c4	23	mid-worker		13-60 insns with calls
@@ -33333,7 +33333,7 @@ start	insns	form	subsystem	why
 0xc5369c	921	orchestrator	render-gfx	>=8 direct calls
 0xc54500	21	mid-worker		13-60 insns with calls
 0xc54554	14	forwarder		one call then tail branch
-0xc5458c	29	mid-worker		13-60 insns with calls
+0xc5458c	29	mid-worker	render-gfx	13-60 insns with calls
 0xc54600	141	worker	render-gfx	>60 insns with calls
 0xc54834	134	worker		>60 insns with calls
 0xc54a4c	369	orchestrator	render-gfx	>=8 direct calls
@@ -33674,7 +33674,7 @@ start	insns	form	subsystem	why
 0xc75a88	2	thunk		tail branch only
 0xc75a90	3	stub	render-gfx	<=3 instructions, no call
 0xc75a9c	111	worker	render-gfx	>60 insns with calls
-0xc75c58	17	mid-worker		13-60 insns with calls
+0xc75c58	17	mid-worker	render-gfx	13-60 insns with calls
 0xc75c9c	17	mid-worker	render-gfx	13-60 insns with calls
 0xc75ce0	2	stub		<=3 instructions, no call
 0xc75ce8	30	mid-worker	render-gfx	13-60 insns with calls
@@ -34083,8 +34083,8 @@ start	insns	form	subsystem	why
 0xc96624	47	mid-worker		13-60 insns with calls
 0xc966e0	15	mid-worker		13-60 insns with calls
 0xc9671c	38	mid-worker		13-60 insns with calls
-0xc967b4	22	mid-worker		13-60 insns with calls
-0xc9680c	31	mid-worker		13-60 insns with calls
+0xc967b4	22	mid-worker	render-gfx	13-60 insns with calls
+0xc9680c	31	mid-worker	render-gfx	13-60 insns with calls
 0xc96888	43	mid-worker	render-gfx	13-60 insns with calls
 0xc96934	45	mid-worker		13-60 insns with calls
 0xc969e8	6	small-worker		<=12 insns with calls
@@ -47588,7 +47588,7 @@ start	insns	form	subsystem	why
 0x12dc6bc	11	small-worker	online-nex	<=12 insns with calls
 0x12dc6e8	18	forwarder	online-nex	one call then tail branch
 0x12dc730	9	small-worker	online-nex	<=12 insns with calls
-0x12dc754	9	small-worker		<=12 insns with calls
+0x12dc754	9	small-worker	online-nex	<=12 insns with calls
 0x12dc778	10	forwarder	online-nex	one call then tail branch
 0x12dc7a0	99	worker	online-nex	>60 insns with calls
 0x12dc92c	45	mid-worker	online-nex	13-60 insns with calls
@@ -47620,7 +47620,7 @@ start	insns	form	subsystem	why
 0x12de770	201	orchestrator	online-nex	>=8 direct calls
 0x12dea94	197	orchestrator	online-nex	>=8 direct calls
 0x12deda8	14	mid-worker	online-nex	13-60 insns with calls
-0x12dede0	14	mid-worker		13-60 insns with calls
+0x12dede0	14	mid-worker	online-nex	13-60 insns with calls
 0x12dee18	14	mid-worker	online-nex	13-60 insns with calls
 0x12dee50	9	small-worker	online-nex	<=12 insns with calls
 0x12dee74	336	orchestrator	online-nex	>=8 direct calls
@@ -47631,35 +47631,35 @@ start	insns	form	subsystem	why
 0x12df4ac	13	mid-worker	online-nex	13-60 insns with calls
 0x12df4e0	15	mid-worker	online-nex	13-60 insns with calls
 0x12df51c	16	mid-worker	online-nex	13-60 insns with calls
-0x12df55c	13	forwarder		one call then tail branch
+0x12df55c	13	forwarder	online-nex	one call then tail branch
 0x12df590	59	mid-worker	online-nex	13-60 insns with calls
 0x12df67c	140	orchestrator	online-nex	>=8 direct calls
 0x12df8ac	15	forwarder	online-nex	one call then tail branch
 0x12df8e8	142	orchestrator	online-nex	>=8 direct calls
-0x12dfb20	13	forwarder		one call then tail branch
+0x12dfb20	13	forwarder	online-nex	one call then tail branch
 0x12dfb54	144	orchestrator	online-nex	>=8 direct calls
-0x12dfd94	13	forwarder		one call then tail branch
+0x12dfd94	13	forwarder	online-nex	one call then tail branch
 0x12dfdc8	16	mid-worker	online-nex	13-60 insns with calls
 0x12dfe08	16	mid-worker	online-nex	13-60 insns with calls
-0x12dfe48	13	forwarder		one call then tail branch
+0x12dfe48	13	forwarder	online-nex	one call then tail branch
 0x12dfe7c	140	orchestrator	online-nex	>=8 direct calls
-0x12e00ac	15	forwarder		one call then tail branch
+0x12e00ac	15	forwarder	online-nex	one call then tail branch
 0x12e00e8	144	orchestrator	online-nex	>=8 direct calls
 0x12e0328	138	orchestrator	online-nex	>=8 direct calls
 0x12e0550	138	orchestrator	online-nex	>=8 direct calls
 0x12e0778	152	orchestrator	online-nex	>=8 direct calls
 0x12e09d8	142	orchestrator	online-nex	>=8 direct calls
 0x12e0c10	145	orchestrator	online-nex	>=8 direct calls
-0x12e0e54	9	small-worker		<=12 insns with calls
+0x12e0e54	9	small-worker	online-nex	<=12 insns with calls
 0x12e0e78	194	orchestrator	online-nex	>=8 direct calls
 0x12e1180	47	mid-worker	online-nex	13-60 insns with calls
-0x12e123c	13	forwarder		one call then tail branch
+0x12e123c	13	forwarder	online-nex	one call then tail branch
 0x12e1270	140	orchestrator	online-nex	>=8 direct calls
-0x12e14a0	15	forwarder		one call then tail branch
+0x12e14a0	15	forwarder	online-nex	one call then tail branch
 0x12e14dc	138	orchestrator	online-nex	>=8 direct calls
 0x12e1704	136	orchestrator	online-nex	>=8 direct calls
-0x12e1924	19	mid-worker		13-60 insns with calls
-0x12e1970	10	small-worker		<=12 insns with calls
+0x12e1924	19	mid-worker	online-nex	13-60 insns with calls
+0x12e1970	10	small-worker	online-nex	<=12 insns with calls
 0x12e1998	168	orchestrator	online-nex	>=8 direct calls
 0x12e1c38	90	worker	online-nex	>60 insns with calls
 0x12e1da0	138	orchestrator	online-nex	>=8 direct calls
@@ -47668,8 +47668,8 @@ start	insns	form	subsystem	why
 0x12e2294	194	orchestrator	online-nex	>=8 direct calls
 0x12e259c	45	mid-worker	online-nex	13-60 insns with calls
 0x12e2650	194	orchestrator	online-nex	>=8 direct calls
-0x12e2958	18	mid-worker		13-60 insns with calls
-0x12e29a0	20	forwarder		one call then tail branch
+0x12e2958	18	mid-worker	online-nex	13-60 insns with calls
+0x12e29a0	20	forwarder	online-nex	one call then tail branch
 0x12e29f0	144	orchestrator	online-nex	>=8 direct calls
 0x12e2c30	174	orchestrator	online-nex	>=8 direct calls
 0x12e2ee8	167	orchestrator	online-nex	>=8 direct calls
@@ -47705,22 +47705,22 @@ start	insns	form	subsystem	why
 0x12e5be0	144	orchestrator	online-nex	>=8 direct calls
 0x12e5e20	136	orchestrator	online-nex	>=8 direct calls
 0x12e6040	154	orchestrator	online-nex	>=8 direct calls
-0x12e62a8	14	mid-worker		13-60 insns with calls
-0x12e62e0	14	mid-worker		13-60 insns with calls
+0x12e62a8	14	mid-worker	online-nex	13-60 insns with calls
+0x12e62e0	14	mid-worker	online-nex	13-60 insns with calls
 0x12e6318	151	orchestrator	online-nex	>=8 direct calls
-0x12e6574	14	mid-worker		13-60 insns with calls
-0x12e65ac	14	mid-worker		13-60 insns with calls
+0x12e6574	14	mid-worker	online-nex	13-60 insns with calls
+0x12e65ac	14	mid-worker	online-nex	13-60 insns with calls
 0x12e65e4	171	orchestrator	online-nex	>=8 direct calls
-0x12e6890	14	mid-worker		13-60 insns with calls
-0x12e68c8	17	mid-worker		13-60 insns with calls
+0x12e6890	14	mid-worker	online-nex	13-60 insns with calls
+0x12e68c8	17	mid-worker	online-nex	13-60 insns with calls
 0x12e690c	155	orchestrator	online-nex	>=8 direct calls
-0x12e6b78	17	mid-worker		13-60 insns with calls
-0x12e6bbc	10	small-worker		<=12 insns with calls
+0x12e6b78	17	mid-worker	online-nex	13-60 insns with calls
+0x12e6bbc	10	small-worker	online-nex	<=12 insns with calls
 0x12e6be4	145	orchestrator	online-nex	>=8 direct calls
-0x12e6e28	10	small-worker		<=12 insns with calls
-0x12e6e50	9	small-worker		<=12 insns with calls
+0x12e6e28	10	small-worker	online-nex	<=12 insns with calls
+0x12e6e50	9	small-worker	online-nex	<=12 insns with calls
 0x12e6e74	141	orchestrator	online-nex	>=8 direct calls
-0x12e70a8	11	forwarder		one call then tail branch
+0x12e70a8	11	forwarder	online-nex	one call then tail branch
 0x12e70d4	165	orchestrator	online-nex	>=8 direct calls
 0x12e7368	163	orchestrator	online-nex	>=8 direct calls
 0x12e75f4	23	mid-worker	online-nex	13-60 insns with calls
@@ -48536,7 +48536,7 @@ start	insns	form	subsystem	why
 0x131cdb0	42	dispatch	online-nex	indirect call, no direct call
 0x131ce58	21	mid-worker	online-nex	13-60 insns with calls
 0x131ceac	19	mid-worker	online-nex	13-60 insns with calls
-0x131cef8	4	forwarder		one call then tail branch
+0x131cef8	4	forwarder	online-nex	one call then tail branch
 0x131cf08	9	forwarder	online-nex	one call then tail branch
 0x131cf2c	4	forwarder	online-nex	one call then tail branch
 0x131cf3c	32	mid-worker	online-nex	13-60 insns with calls
@@ -48658,7 +48658,7 @@ start	insns	form	subsystem	why
 0x1323da4	50	mid-worker	online-nex	13-60 insns with calls
 0x1323e6c	46	dispatch	online-nex	indirect call, no direct call
 0x1323f24	9	forwarder	online-nex	one call then tail branch
-0x1323f48	4	forwarder		one call then tail branch
+0x1323f48	4	forwarder	online-nex	one call then tail branch
 0x1323f58	102	orchestrator	online-nex	>=8 direct calls
 0x13240f0	43	mid-worker	online-nex	13-60 insns with calls
 0x132419c	12	small-worker	online-nex	<=12 insns with calls
@@ -48776,7 +48776,7 @@ start	insns	form	subsystem	why
 0x1336c48	24	mid-worker	online-nex	13-60 insns with calls
 0x1336ca8	68	worker	online-nex	>60 insns with calls
 0x1336db8	86	worker	online-nex	>60 insns with calls
-0x1336f10	7	small-worker		<=12 insns with calls
+0x1336f10	7	small-worker	online-nex	<=12 insns with calls
 0x1336f2c	17	forwarder	online-nex	one call then tail branch
 0x1336f70	4	forwarder	online-nex	one call then tail branch
 0x1336f80	115	orchestrator	online-nex	>=8 direct calls
@@ -48823,7 +48823,7 @@ start	insns	form	subsystem	why
 0x13393e4	24	mid-worker	online-nex	13-60 insns with calls
 0x1339444	68	worker	online-nex	>60 insns with calls
 0x1339554	86	worker	online-nex	>60 insns with calls
-0x13396ac	7	small-worker		<=12 insns with calls
+0x13396ac	7	small-worker	online-nex	<=12 insns with calls
 0x13396c8	16	forwarder	online-nex	one call then tail branch
 0x1339708	4	forwarder	online-nex	one call then tail branch
 0x1339718	64	worker	online-nex	>60 insns with calls
@@ -50032,8 +50032,8 @@ start	insns	form	subsystem	why
 0x1379048	46	mid-worker	online-nex	13-60 insns with calls
 0x1379100	9	mutator		no call, stores only, <=12 insns
 0x1379124	2	thunk	online-nex	tail branch only
-0x137912c	4	mutator		no call, stores only, <=12 insns
-0x137913c	25	mid-worker		13-60 insns with calls
+0x137912c	4	mutator	online-nex	no call, stores only, <=12 insns
+0x137913c	25	mid-worker	online-nex	13-60 insns with calls
 0x13791a0	5	mutator	online-nex	no call, stores only, <=12 insns
 0x13791b4	46	mid-worker	online-nex	13-60 insns with calls
 0x137926c	48	mid-worker	online-nex	13-60 insns with calls
@@ -50259,7 +50259,7 @@ start	insns	form	subsystem	why
 0x1385c54	4	forwarder	online-nex	one call then tail branch
 0x1385c64	141	orchestrator	online-nex	>=8 direct calls
 0x1385e98	29	mid-worker	online-nex	13-60 insns with calls
-0x1385f0c	16	mid-worker		13-60 insns with calls
+0x1385f0c	16	mid-worker	online-nex	13-60 insns with calls
 0x1385f4c	55	mid-worker	online-nex	13-60 insns with calls
 0x1386028	47	mid-worker	online-nex	13-60 insns with calls
 0x13860e4	62	worker	online-nex	>60 insns with calls
@@ -50706,7 +50706,7 @@ start	insns	form	subsystem	why
 0x139f8c4	14	mid-worker	online-nex	13-60 insns with calls
 0x139f8fc	2	thunk	online-nex	tail branch only
 0x139f904	10	dispatch		indirect call, no direct call
-0x139f92c	18	mid-worker		13-60 insns with calls
+0x139f92c	18	mid-worker	online-nex	13-60 insns with calls
 0x139f974	17	mid-worker	online-nex	13-60 insns with calls
 0x139f9b8	27	mid-worker	online-nex	13-60 insns with calls
 0x139fa24	21	mid-worker	online-nex	13-60 insns with calls

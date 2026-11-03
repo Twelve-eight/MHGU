@@ -7,9 +7,9 @@
 
 | 子系统 | 函数 | 指令 | 指令占比 | 直接证据 | 主要证据来源 |
 |---|---:|---:|---:|---:|---|
-| monster-em | 9,529 | 1,382,244 | 26.4% | 2,038（21%） | fingerprint 1839, vtable-fixed 360, class 122 |
+| monster-em | 9,529 | 1,382,244 | 26.4% | 2,038（21%） | fingerprint 1839, vtable-fixed 360, prefix 159 |
 | render-gfx | 5,789 | 1,039,332 | 19.9% | 2,109（36%） | vtable-unknown 1071, blocks 885, class2 285 |
-| ui | 8,818 | 910,021 | 17.4% | 2,897（33%） | uifamily 1556, blocks 1336, vtable-unknown 1306 |
+| ui | 8,818 | 910,021 | 17.4% | 2,898（33%） | uifamily 1556, blocks 1336, vtable-unknown 1306 |
 | online-nex | 6,645 | 558,095 | 10.7% | 2,164（33%） | vtable-rtti2 1595, vtable-ns 1305, vtable-unknown 522 |
 | quest | 1,705 | 183,050 | 3.5% | 464（27%） | vtable-fixed 169, class2 167, class 166 |
 | physics-math | 1,075 | 117,442 | 2.2% | 613（57%） | vtable-unknown 359, class 178, class2 167 |
@@ -19,7 +19,7 @@
 | audio | 405 | 40,250 | 0.8% | 275（68%） | class2 161, vtable-fixed 155, class 82 |
 | save-data | 240 | 35,400 | 0.7% | 62（26%） | vtable-fixed 21, xref 18, class 13 |
 | item | 459 | 26,577 | 0.5% | 360（78%） | vtable-fixed 178, class 128, class2 115 |
-| kernel-os | 221 | 15,593 | 0.3% | 129（58%） | vtable-unknown 83, vtable-rtti2 78, vtable-fixed 38 |
+| kernel-os | 221 | 15,593 | 0.3% | 129（58%） | prefix 110, vtable-unknown 83, vtable-rtti2 78 |
 | filesystem | 22 | 1,302 | 0.0% | 19（86%） | vtable-fixed 11, class 7, xref 2 |
 
 ## 每个子系统的一个直接证据样例
