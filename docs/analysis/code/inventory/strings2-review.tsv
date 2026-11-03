@@ -1,6 +1,9 @@
 start	label	labelled/total	strings
+0x360	physics-math	3/4	mPointPos | mRadius | mMinRadius
 0x2e808	ui	1/3	uShellEms101_sp_01
 0x2fd18	item	21/22	mItemPackPrizeNo | mItem1Type | mItem1Num
+0x482d0	monster-em	10/10	cEmDouMouKa_PartsAuraData_Element | cEmDouMouKa_PartsAuraData | cEmDouMouKa_ModifyData::cRandomElement
+0x59fc0	monster-em	3/3	rMonsterPartsManager | rMonsterPartsManager::cPartsVisibleInfo | rMonsterPartsManager::cPartsVisibleGroup
 0xf6db8	weapon-wp	2/2	cWeapon00BaseData | cWeapon00BaseDataXML
 0xf79a0	weapon-wp	2/2	cWeapon00LevelData | cWeapon00LevelDataXML
 0xf7f4c	weapon-wp	2/2	cWeapon00MsgBase | cWeapon00MsgBaseXML
@@ -43,9 +46,20 @@ start	label	labelled/total	strings
 0x12586c	weapon-wp	2/2	cWeapon14BaseData | cWeapon14BaseDataXML
 0x126500	weapon-wp	2/2	cWeapon14LevelData | cWeapon14LevelDataXML
 0x126aac	weapon-wp	2/2	cWeapon14MsgBase | cWeapon14MsgBaseXML
+0x17c540	online-nex	4/4	N2nn3pia5local23LocalNetworkDescriptionE | N2nn3pia5local14LdnSessionInfoE | N2nn3pia5local17LdnNetworkFactoryE
 0x18f0b0	item	9/14	mItem[0] | mItemNum[0] | mItemCondition[0]
 0x1bca58	item	9/9	mItemId[0] | mItemId[1] | mItemId[2]
 0x1c1ab8	item	12/18	mItemId[0] | mItemNum[0] | mItemId[1]
+0x1ed654	online-nex	4/8	mParam.net_em.prio | mParam.net_em.master_id | mParam.net_em.uid
+0x1ee3f8	online-nex	4/10	mParam.net_em.prio | mParam.net_em.master_id | mParam.net_em.uid
+0x1eea80	online-nex	4/8	mParam.net_em.prio | mParam.net_em.master_id | mParam.net_em.uid
+0x1eef48	online-nex	4/9	mParam.net_em.prio | mParam.net_em.master_id | mParam.net_em.uid
+0x1ef49c	online-nex	4/8	mParam.net_em.prio | mParam.net_em.master_id | mParam.net_em.uid
+0x1efa00	online-nex	4/8	mParam.net_em.prio | mParam.net_em.master_id | mParam.net_em.uid
+0x1f28c4	online-nex	4/10	mParam.net_em.prio | mParam.net_em.master_id | mParam.net_em.uid
+0x1f2f4c	online-nex	4/10	mParam.net_em.prio | mParam.net_em.master_id | mParam.net_em.uid
+0x1f35d4	online-nex	4/9	mParam.net_em.prio | mParam.net_em.master_id | mParam.net_em.uid
+0x1f3b28	online-nex	4/10	mParam.net_em.prio | mParam.net_em.master_id | mParam.net_em.uid
 0x1f60f0	online-nex	36/36	nFestaNetwork::netEmAction | nFestaNetwork::netEmActionProcedure | nFestaNetwork::netEmMasterChange
 0x1fb334	online-nex	12/12	nFestaNetwork::netOtAction | nFestaNetwork::netOtActionProcedure | nFestaNetwork::netOtActTargetPos
 0x211a18	online-nex	124/124	nFestaNetwork::netPlAction | nFestaNetwork::netPlActionProcedure | nFestaNetwork::netPlActionBubble
@@ -216,8 +230,12 @@ start	label	labelled/total	strings
 0x49acd8	ui	1/1	uShellSysEffect000
 0x4a37f0	ui	177/180	uShellEm001_sp_00 | uShellEm001_sp_01 | uShellEm001_sp_11
 0x4aad94	item	4/9	mItem[0] | mItem[1] | mItem[2]
+0x7be22c	physics-math	4/4	mCapsule.p0 | mCapsule.p1 | mCapsule.r
 0x865408	render-gfx	331/331	nvnDeviceBuilderSetDefaults | nvnDeviceBuilderSetFlags | nvnDeviceInitialize
 0x86989c	render-gfx	1/1	nvnDeviceGetProcAddress
+0x9d330c	physics-math	3/3	CollisionType | CollisionFilter | CollisionCheckGroupBit
+0xb0b064	render-gfx	3/3	nDraw::RenderTargetView | nDraw::DepthStencilView | nDraw::Texture
+0xb12bd8	render-gfx	4/4	nDraw::Animation | nDraw::CBuffer | nDraw::CBufferSystem
 0xcf13c8	monster-em	3/3	emUniqueActMain | em001_00PreCatchMove | em001_00CatchMove
 0xd227d0	monster-em	4/4	emUniqueActMain | em003_00PreCatchMove | em003_00RevivalMove
 0xd3103c	monster-em	3/3	em004_00RevivalMove | emUniqueActMain | em004_00DemoMove
@@ -225,6 +243,7 @@ start	label	labelled/total	strings
 0xd60468	monster-em	3/3	emUniqueActMain | em009_00RevivalMove | em009_00DemoMove
 0xd76970	monster-em	3/3	em011_00RevivalMove | em011_00DemoMove | emUniqueActMain
 0xd98748	monster-em	4/4	em014_00DemoMove | emUniqueActMain | em014_00PreCatchMove
+0xd989c4	monster-em	8/15	em->mPos | em->mRate | em->mVec.x
 0xd9b470	monster-em	4/4	emUniqueActMain | em017_00RevivalMove | em017_00DemoMove
 0xdb3ba4	monster-em	3/3	emUniqueActMain | em018_00RevivalMove | em018_00DemoMove
 0xdc3900	monster-em	4/4	emUniqueActMain | em019_00PreCatchMove | em019_00DemoMove
@@ -246,6 +265,7 @@ start	label	labelled/total	strings
 0xfdc074	monster-em	5/5	emUniqueActMain | em076_00PreCatchMove | em076_00RevivalMove
 0xfddfd0	monster-em	3/3	emUniqueActMain | em077_00PreCatchMove | em077_00RevivalMove
 0x10a255c	monster-em	3/3	emUniqueActMain | em086_00RevivalMove | em086_00DemoMove
+0x10e2198	monster-em	6/6	em->mPos | em->mRate | em->mVec.x
 0x1316a3c	online-nex	1/1	NexNotificationDataJob::WaitUpdateNotificationData
 0x1316dc4	online-nex	1/1	NexNotificationDataJob::WaitRetrieveNotificationData
 0x1317624	online-nex	2/2	NexProcessHostMigrationJob::ManualHostMigration | NexProcessHostMigrationJob::AutomaticHostMigration
@@ -422,3 +442,4 @@ start	label	labelled/total	strings
 0x133ee98	online-nex	1/1	NexMatchUpdateSessionSettingJob::WaitUpdateAttributes
 0x133efb8	online-nex	1/2	NexMatchUpdateSessionSettingJob::WaitModifyAttribute
 0x133f18c	online-nex	1/1	NexMatchUpdateSessionSettingJob::WaitUpdateSessionSetting
+0x13b7520	physics-math	3/3	mSphere.pos | mSphere.r | mSphere

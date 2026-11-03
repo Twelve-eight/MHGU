@@ -1,0 +1,15 @@
+[
+  "attr-xref.tsv",
+  "attr-prefix.tsv",
+  "attr-vtable-fixed.tsv",
+  "attr-vtable-ns.tsv",
+  "attr-vtable-rtti2.tsv",
+  "attr-vtable-unknown.tsv",
+  "attr-vtable-classconsensus.tsv",
+  "attr-strings2.tsv",
+  "attr-blocks.tsv",
+  "attr-registrar.tsv",
+  "attr-uifamily.tsv",
+  "attr-class.tsv",
+  "attr-class2.tsv"
+]

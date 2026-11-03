@@ -1,6 +1,6 @@
 # MHGU 文档补审总账（2026-11-03）
 
-分母：`docs/analysis/audit/MANIFEST.tsv` 的 189 篇；已有裁决 **189** 篇，未覆盖 **0** 篇。
+分母：`docs/analysis/audit/MANIFEST.tsv` 的 212 篇；已有裁决 **212** 篇，未覆盖 **0** 篇。
 
 | 切片 | OK | WRONG | UNVERIFIABLE | STALE | MISSING |
 |---|---:|---:|---:|---:|---:|
@@ -11,7 +11,8 @@
 | WIKI | 46 | 2 | 0 | 0 | 0 |
 | analysis-code-half1 | 6 | 2 | 0 | 11 | 6 |
 | analysis-code-half2 | 28 | 13 | 3 | 0 | 1 |
-| **合计（行）** | 292 | 74 | 21 | 43 | 10 |
+| analysis-coverage-new | 21 | 0 | 2 | 0 | 0 |
+| **合计（行）** | 313 | 74 | 23 | 43 | 10 |
 
 ## 未覆盖的文档
 

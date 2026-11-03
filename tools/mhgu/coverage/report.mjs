@@ -113,7 +113,20 @@ const pct = (x, t) => (t ? ((100 * x) / t).toFixed(1) + "%" : "-");
 
 // direct evidence: a row in an attr-*.tsv with conf A. This is separable from the prediction-agreement heuristic,
 // which is what tier A has meant so far; conflating them is how a seed could fail to raise the headline.
-const directArgs = process.argv.reduce((a, v, i) => (v === "--direct" ? [...a, process.argv[i + 1]] : a), []);
+// Every evidence table in the inventory is a source by default. The old behaviour took --direct flags only, so the audit
+// gate (which runs the meter without arguments) rewrote coverage-report.tsv with A-direct = 0, and the committed artefact
+// then contradicted METER. Sources are discovered, not supplied.
+// The list is explicit rather than globbed on purpose: the inventory also holds superseded tables (attr-vtable-retile has
+// 8,360 rows labelled unknown, attr-vtable.tsv is the first 1,375-row pass that relabel-vtable refuted) and globbing them
+// back in would restore labels that were deliberately demoted. Adding a channel means adding it here.
+const SOURCES = fs.existsSync(path.join(INV, "sources.json"))
+  ? JSON.parse(fs.readFileSync(path.join(INV, "sources.json"), "utf8"))
+  : [];
+const directArgs = [
+  ...SOURCES.map((f) => path.join(INV, f)).filter((p) => fs.existsSync(p)),
+  ...process.argv.reduce((a, v, i) => (v === "--direct" ? [...a, process.argv[i + 1]] : a), []),
+];
+console.log(`direct sources: ${directArgs.length}`);
 const direct = new Set();
 for (const f of directArgs) {
   for (const l of fs.readFileSync(f, "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {

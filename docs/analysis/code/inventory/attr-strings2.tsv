@@ -1,6 +1,9 @@
 start	label	conf	evidence
+0x360	physics-math	A	3 of 4 referenced strings are collision/math parameter names: mPointPos | mRadius | mMinRadius
 0x2e808	ui	A	1 of 3 referenced strings are uShell* shell UI resource and setup-param names: uShellEms101_sp_01
 0x2fd18	item	A	21 of 22 referenced strings are item-slot field names (mItem[0], mItemNum, mItemPackPrizeNo): mItemPackPrizeNo | mItem1Type | mItem1Num
+0x482d0	monster-em	A	10 of 10 referenced strings are monster instance/member paths and rEm* resources: cEmDouMouKa_PartsAuraData_Element | cEmDouMouKa_PartsAuraData | cEmDouMouKa_ModifyData::cRandomElement
+0x59fc0	monster-em	A	3 of 3 referenced strings are monster instance/member paths and rEm* resources: rMonsterPartsManager | rMonsterPartsManager::cPartsVisibleInfo | rMonsterPartsManager::cPartsVisibleGroup
 0xf6db8	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon00BaseData | cWeapon00BaseDataXML
 0xf79a0	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon00LevelData | cWeapon00LevelDataXML
 0xf7f4c	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon00MsgBase | cWeapon00MsgBaseXML
@@ -43,9 +46,20 @@ start	label	conf	evidence
 0x12586c	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon14BaseData | cWeapon14BaseDataXML
 0x126500	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon14LevelData | cWeapon14LevelDataXML
 0x126aac	weapon-wp	A	2 of 2 referenced strings are cWeaponNN data/message class names: cWeapon14MsgBase | cWeapon14MsgBaseXML
+0x17c540	online-nex	A	4 of 4 referenced strings are RendezVous/NEX/PIA symbols and net_* member paths: N2nn3pia5local23LocalNetworkDescriptionE | N2nn3pia5local14LdnSessionInfoE | N2nn3pia5local17LdnNetworkFactoryE
 0x18f0b0	item	A	9 of 14 referenced strings are item-slot field names (mItem[0], mItemNum, mItemPackPrizeNo): mItem[0] | mItemNum[0] | mItemCondition[0]
 0x1bca58	item	A	9 of 9 referenced strings are item-slot field names (mItem[0], mItemNum, mItemPackPrizeNo): mItemId[0] | mItemId[1] | mItemId[2]
 0x1c1ab8	item	A	12 of 18 referenced strings are item-slot field names (mItem[0], mItemNum, mItemPackPrizeNo): mItemId[0] | mItemNum[0] | mItemId[1]
+0x1ed654	online-nex	A	4 of 8 referenced strings are RendezVous/NEX/PIA symbols and net_* member paths: mParam.net_em.prio | mParam.net_em.master_id | mParam.net_em.uid
+0x1ee3f8	online-nex	A	4 of 10 referenced strings are RendezVous/NEX/PIA symbols and net_* member paths: mParam.net_em.prio | mParam.net_em.master_id | mParam.net_em.uid
+0x1eea80	online-nex	A	4 of 8 referenced strings are RendezVous/NEX/PIA symbols and net_* member paths: mParam.net_em.prio | mParam.net_em.master_id | mParam.net_em.uid
+0x1eef48	online-nex	A	4 of 9 referenced strings are RendezVous/NEX/PIA symbols and net_* member paths: mParam.net_em.prio | mParam.net_em.master_id | mParam.net_em.uid
+0x1ef49c	online-nex	A	4 of 8 referenced strings are RendezVous/NEX/PIA symbols and net_* member paths: mParam.net_em.prio | mParam.net_em.master_id | mParam.net_em.uid
+0x1efa00	online-nex	A	4 of 8 referenced strings are RendezVous/NEX/PIA symbols and net_* member paths: mParam.net_em.prio | mParam.net_em.master_id | mParam.net_em.uid
+0x1f28c4	online-nex	A	4 of 10 referenced strings are RendezVous/NEX/PIA symbols and net_* member paths: mParam.net_em.prio | mParam.net_em.master_id | mParam.net_em.uid
+0x1f2f4c	online-nex	A	4 of 10 referenced strings are RendezVous/NEX/PIA symbols and net_* member paths: mParam.net_em.prio | mParam.net_em.master_id | mParam.net_em.uid
+0x1f35d4	online-nex	A	4 of 9 referenced strings are RendezVous/NEX/PIA symbols and net_* member paths: mParam.net_em.prio | mParam.net_em.master_id | mParam.net_em.uid
+0x1f3b28	online-nex	A	4 of 10 referenced strings are RendezVous/NEX/PIA symbols and net_* member paths: mParam.net_em.prio | mParam.net_em.master_id | mParam.net_em.uid
 0x1f60f0	online-nex	A	36 of 36 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: nFestaNetwork::netEmAction | nFestaNetwork::netEmActionProcedure | nFestaNetwork::netEmMasterChange
 0x1fb334	online-nex	A	12 of 12 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: nFestaNetwork::netOtAction | nFestaNetwork::netOtActionProcedure | nFestaNetwork::netOtActTargetPos
 0x211a18	online-nex	A	124 of 124 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: nFestaNetwork::netPlAction | nFestaNetwork::netPlActionProcedure | nFestaNetwork::netPlActionBubble
@@ -216,8 +230,12 @@ start	label	conf	evidence
 0x49acd8	ui	A	1 of 1 referenced strings are uShell* shell UI resource and setup-param names: uShellSysEffect000
 0x4a37f0	ui	A	177 of 180 referenced strings are uShell* shell UI resource and setup-param names: uShellEm001_sp_00 | uShellEm001_sp_01 | uShellEm001_sp_11
 0x4aad94	item	A	4 of 9 referenced strings are item-slot field names (mItem[0], mItemNum, mItemPackPrizeNo): mItem[0] | mItem[1] | mItem[2]
+0x7be22c	physics-math	A	4 of 4 referenced strings are collision/math parameter names: mCapsule.p0 | mCapsule.p1 | mCapsule.r
 0x865408	render-gfx	A	331 of 331 referenced strings are NVN graphics API entry points (nvnDevice*, nvnCommandBuffer*): nvnDeviceBuilderSetDefaults | nvnDeviceBuilderSetFlags | nvnDeviceInitialize
 0x86989c	render-gfx	A	1 of 1 referenced strings are NVN graphics API entry points (nvnDevice*, nvnCommandBuffer*): nvnDeviceGetProcAddress
+0x9d330c	physics-math	A	3 of 3 referenced strings are collision/math parameter names: CollisionType | CollisionFilter | CollisionCheckGroupBit
+0xb0b064	render-gfx	A	3 of 3 referenced strings are draw/light/shader symbols (nDraw::*, mLight*, rShader*): nDraw::RenderTargetView | nDraw::DepthStencilView | nDraw::Texture
+0xb12bd8	render-gfx	A	4 of 4 referenced strings are draw/light/shader symbols (nDraw::*, mLight*, rShader*): nDraw::Animation | nDraw::CBuffer | nDraw::CBufferSystem
 0xcf13c8	monster-em	A	3 of 3 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): emUniqueActMain | em001_00PreCatchMove | em001_00CatchMove
 0xd227d0	monster-em	A	4 of 4 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): emUniqueActMain | em003_00PreCatchMove | em003_00RevivalMove
 0xd3103c	monster-em	A	3 of 3 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): em004_00RevivalMove | emUniqueActMain | em004_00DemoMove
@@ -225,6 +243,7 @@ start	label	conf	evidence
 0xd60468	monster-em	A	3 of 3 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): emUniqueActMain | em009_00RevivalMove | em009_00DemoMove
 0xd76970	monster-em	A	3 of 3 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): em011_00RevivalMove | em011_00DemoMove | emUniqueActMain
 0xd98748	monster-em	A	4 of 4 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): em014_00DemoMove | emUniqueActMain | em014_00PreCatchMove
+0xd989c4	monster-em	A	8 of 15 referenced strings are monster instance/member paths and rEm* resources: em->mPos | em->mRate | em->mVec.x
 0xd9b470	monster-em	A	4 of 4 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): emUniqueActMain | em017_00RevivalMove | em017_00DemoMove
 0xdb3ba4	monster-em	A	3 of 3 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): emUniqueActMain | em018_00RevivalMove | em018_00DemoMove
 0xdc3900	monster-em	A	4 of 4 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): emUniqueActMain | em019_00PreCatchMove | em019_00DemoMove
@@ -246,6 +265,7 @@ start	label	conf	evidence
 0xfdc074	monster-em	A	5 of 5 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): emUniqueActMain | em076_00PreCatchMove | em076_00RevivalMove
 0xfddfd0	monster-em	A	3 of 3 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): emUniqueActMain | em077_00PreCatchMove | em077_00RevivalMove
 0x10a255c	monster-em	A	3 of 3 referenced strings are monster action symbols (emUniqueActMain, emXXXFwMove): emUniqueActMain | em086_00RevivalMove | em086_00DemoMove
+0x10e2198	monster-em	A	6 of 6 referenced strings are monster instance/member paths and rEm* resources: em->mPos | em->mRate | em->mVec.x
 0x1316a3c	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexNotificationDataJob::WaitUpdateNotificationData
 0x1316dc4	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexNotificationDataJob::WaitRetrieveNotificationData
 0x1317624	online-nex	A	2 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexProcessHostMigrationJob::ManualHostMigration | NexProcessHostMigrationJob::AutomaticHostMigration
@@ -422,3 +442,4 @@ start	label	conf	evidence
 0x133ee98	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchUpdateSessionSettingJob::WaitUpdateAttributes
 0x133efb8	online-nex	A	1 of 2 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchUpdateSessionSettingJob::WaitModifyAttribute
 0x133f18c	online-nex	A	1 of 1 referenced strings are Nintendo NEX/PIA and the Festa online service symbols: NexMatchUpdateSessionSettingJob::WaitUpdateSessionSetting
+0x13b7520	physics-math	A	3 of 3 referenced strings are collision/math parameter names: mSphere.pos | mSphere.r | mSphere

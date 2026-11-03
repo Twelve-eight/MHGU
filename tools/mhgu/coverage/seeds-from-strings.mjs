@@ -25,6 +25,15 @@ const RULES = [
   ["monster-em", /^em(?:UniqueAct|XXX|\d\d\d)/, "monster action symbols (emUniqueActMain, emXXXFwMove)"],
   ["save-data", /^mSaveData|^SaveData::/, "save-data field names"],
   ["quest", /^mQuest|^QuestData::|^uQuest/, "quest record field names"],
+  // second wave: families whose own spelling names the subsystem, each with the counter-example that keeps it honest
+  ["render-gfx", /^(?:nDraw|nvn|nScreenShot|mLight(?:Pos|Dir|Cone|Spread|Color)|rCloud|rFog|rLight|rShadow|rShader|rModel)/, "draw/light/shader symbols (nDraw::*, mLight*, rShader*)"],
+  ["online-nex", /^(?:RendezVous|nn::(?:nex|pia)|N2nn3(?:nex|pia)|Nex[A-Z][a-z]|net_|mParam\.net_|Matchmake|Ngs)/, "RendezVous/NEX/PIA symbols and net_* member paths"],
+  ["weapon-wp", /^(?:rSquatshot|cInsect|rInsect|cWeapon|rWeapon|cBowgun|rBowgun|cChargeAx|rChargeAx)/, "weapon data families (rSquatshot = bowgun squat shot, cInsect = kinsect)"],
+  ["item", /^(?:cCoinTrade|rCoinTrade|rEquipShop|cShop|rShop|cItemBox|mItemBox)/, "shop/trade/item-box families"],
+  ["audio", /^(?:cSe(?!tup|tPara)|rSe[A-Z]|sSe[A-Z]|Ase[A-Z]|Wwise|bgm|BGM)/, "Se/Ase/Wwise/bgm sound symbols (cSet* is setup code and is excluded)"],
+  ["monster-em", /^(?:em->|emXXX|rEm|rMonster[A-Z]|cEm[A-Z])/, "monster instance/member paths and rEm* resources"],
+  ["physics-math", /^(?:mPointPos|mRadius|mMinRadius|mCapsule|mSphere|mPlane|Collision|rCollision)/, "collision/math parameter names"],
+  ["save-data", /^(?:mSaveData|SaveData::|mSave[A-Z])/, "save record field names"],
 ];
 
 function labelOf(str) {
