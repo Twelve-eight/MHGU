@@ -50,10 +50,12 @@ for (const w0 of [0, 0x20000, 0x40000, 0x60000, 0x80000]) {
     const inside = (s) => { const a = pos.get(s); return a !== undefined && a >= w && a < w + WIN; };
     for (const [v, members] of byClass) {
       if (members.length < MIN_MEMBERS) continue;
-      const outside = members.filter((m) => !inside(m));
-      if (outside.length !== 1) continue;            // exactly one labelled anchor outside the window
-      const lab = A.get(outside[0]);
-      if (!lab) continue;
+      // The population that gets emitted is "a class whose labelled members all agree". Selecting on the number of MEMBERS
+      // outside the window (as the first version did) measures only classes that straddle a window boundary, because a
+      // vtable is contiguous and its members sit in one region. Select on the number of LABELLED members instead.
+      const anchors = members.filter((m) => !inside(m) && A.has(m));
+      if (anchors.length !== 1) continue;            // exactly one labelled anchor outside the window
+      const lab = A.get(anchors[0]);
       for (const m of members) {
         if (!inside(m)) continue;
         const truth = A.get(m);
