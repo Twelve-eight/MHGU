@@ -222,12 +222,23 @@ const Vset = (() => {
   }
   return s;
 })();
-let pDir = 0, pDirIns = 0, pInf = 0, pInfIns = 0, pSig = 0, pSigIns = 0, pSpV = 0, pSpVIns = 0, pSpU = 0, pSpUIns = 0, pNone = 0, pNoneIns = 0;
+let pDir = 0, pDirIns = 0, pInf = 0, pInfIns = 0, pSig = 0, pSigIns = 0, pSpV = 0, pSpVIns = 0, pSpVote = 0, pSpVoteIns = 0, pSpU = 0, pSpUIns = 0, pNone = 0, pNoneIns = 0;
 // Re-measured on the current tiers by spread-precision.mjs (five shifted 1 MB grids, evidence from outside the window only).
 // Individual CP95: online-nex 91.5, monster-em 91.6, render-gfx 89.0, weapon-wp 80.3. render-gfx and weapon-wp miss on their
 // own but the pool of the four is 7,464/8,146 = 91.6% (CP95 91.1), so the four stay together as one validated class and no
 // further label is admitted: quest 70.3, physics-math 72.3, ui 80.7, otomo-ot 51.4, player-pl 61.0, item 45.8, save-data 60.1.
 const VALID_SPREAD = new Set(["online-nex", "weapon-wp", "render-gfx", "monster-em"]);
+// Second, vote-count-based rule for labels whose overall precision is too low but whose high-vote rows are not: ui is 73%
+// at one agreeing neighbour, 86% at two and 94.1% at three (CP95 92.9); kernel-os is 38% at one, 97.2% at two (90.3);
+// audio 3+ is 100% (90.6); weapon-wp 3+ is 96.9% (92.4). Measured by spread-precision.mjs with the same held-out windows.
+const VOTE_THRESHOLD = { ui: 3, "kernel-os": 2, audio: 3, "weapon-wp": 3 };
+const spreadVotes = new Map();
+if (fs.existsSync(path.join(INV, "spread-votes.tsv"))) {
+  for (const l of fs.readFileSync(path.join(INV, "spread-votes.tsv"), "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
+    const [s0, votes, lab, agrees] = l.split("\t");
+    spreadVotes.set(s0.toLowerCase(), { votes: Number(votes), lab, agrees: agrees === "yes" });
+  }
+}
 for (const [start, t] of tiers) {
   const ins = t.insns;
   const b = best.get(start);
@@ -240,6 +251,11 @@ for (const [start, t] of tiers) {
   // weapon-wp 36/37, render-gfx 139/146 clear 90%, while ui 174/210, kernel-os 0/24, otomo-ot 14/19, physics-math 11/15
   // and quest 9/12 do not (256 KB folds). Only the three validated labels count toward the >=90% line.
   else if (b && b.label && VALID_SPREAD.has(b.label)) { pSpV++; pSpVIns += ins; }
+  else if (b && b.label && VOTE_THRESHOLD[b.label]) {
+    const v = spreadVotes.get(start);
+    if (v && v.agrees && v.votes >= VOTE_THRESHOLD[b.label]) { pSpVote++; pSpVoteIns += ins; }
+    else { pSpU++; pSpUIns += ins; }
+  }
   else if (b && b.label) { pSpU++; pSpUIns += ins; }
   else { pNone++; pNoneIns += ins; }
 }
@@ -247,6 +263,7 @@ rows.push(["partition: direct evidence", String(pDir), String(pDirIns), pct(pDir
 rows.push(["partition: inferred only", String(pInf), String(pInfIns), pct(pInfIns, totalIns), pct(pInf, totalFn)]);
 rows.push(["partition: signature only", String(pSig), String(pSigIns), pct(pSigIns, totalIns), pct(pSig, totalFn)]);
 rows.push(["partition: spread validated labels", String(pSpV), String(pSpVIns), pct(pSpVIns, totalIns), pct(pSpV, totalFn)]);
+rows.push(["partition: spread validated by vote count", String(pSpVote), String(pSpVoteIns), pct(pSpVoteIns, totalIns), pct(pSpVote, totalFn)]);
 rows.push(["partition: spread unvalidated", String(pSpU), String(pSpUIns), pct(pSpUIns, totalIns), pct(pSpU, totalFn)]);
 rows.push(["partition: no label", String(pNone), String(pNoneIns), pct(pNoneIns, totalIns), pct(pNone, totalFn)]);
 // Everything except the no-label bucket carries some label whose precision has been measured: direct evidence and the two
@@ -269,8 +286,8 @@ rows.push(["spread labels (86.0% overall, CP95 85.5)", String(pSpU), String(pSpU
   pct(pSpUIns, totalIns), pct(pSpU, totalFn)]);
 // Guard: the five buckets must account for every function and every instruction. Two earlier bugs (spread-A falling into
 // "no label", and the inferred class double-counted) would both have been caught here.
-const pFn = pDir + pInf + pSig + pSpV + pSpU + pNone;
-const pIns = pDirIns + pInfIns + pSigIns + pSpVIns + pSpUIns + pNoneIns;
+const pFn = pDir + pInf + pSig + pSpV + pSpVote + pSpU + pNone;
+const pIns = pDirIns + pInfIns + pSigIns + pSpVIns + pSpVoteIns + pSpUIns + pNoneIns;
 if (pFn !== totalFn || pIns !== totalIns) {
   console.error(`partition does not close: ${pFn}/${totalFn} functions, ${pIns}/${totalIns} instructions`);
   process.exit(3);
