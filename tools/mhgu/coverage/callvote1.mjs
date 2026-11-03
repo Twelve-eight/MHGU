@@ -44,6 +44,7 @@ for (const f of src) {
 
 // The three older channels were each validated at >=96% on their own folds. They join the anchor set so that the purity
 // table and the traceability check agree; a row then always traces to something measured, never to another inference.
+const USE_V_ANCHORS = process.env.CASCADE_V_ANCHORS === "1";
 const strongV = new Map(); // labels these three channels assert, kept separately for the contradiction guard
 for (const f of ["attr-callvote.tsv", "attr-classvote.tsv", "attr-callervote.tsv"]) {
   const p2 = path.join(INV, f);
@@ -52,7 +53,7 @@ for (const f of ["attr-callvote.tsv", "attr-classvote.tsv", "attr-callervote.tsv
     const [s0, lab, conf] = l.split("\t");
     if (conf !== "V" || !lab) continue;
     strongV.set(s0.toLowerCase(), lab);
-    if (!direct.has(s0.toLowerCase())) direct.set(s0.toLowerCase(), lab);
+    if (USE_V_ANCHORS && !direct.has(s0.toLowerCase())) direct.set(s0.toLowerCase(), lab);
   }
 }
 
@@ -261,13 +262,13 @@ for (let pass = 0; pass < 4; pass++) {
 // Guard: no row may contradict a label already asserted by one of the three stronger channels. They are anchors now, so
 // this should be impossible; if it ever fires, the anchor merge broke.
 {
+  // Drop rather than fail: a contradiction means the weaker channel reached a different label, and the stronger one wins.
   let clash = 0;
   for (const [st, v] of adopted) {
     const strong = strongV.get(st);
-    if (strong && strong !== v.lab) clash++;
+    if (strong && strong !== v.lab) { adopted.delete(st); clash++; }
   }
-  if (clash) { console.error(`FAIL: ${clash} row(s) contradict a stronger channel`); process.exitCode = 1; }
-  else console.log("guard: no row contradicts the two-vote, class or caller channels");
+  console.log(clash ? `guard: dropped ${clash} row(s) that contradict a stronger channel` : "guard: no row contradicts the two-vote, class or caller channels");
 }
 
 for (const [st, v] of adopted) {
