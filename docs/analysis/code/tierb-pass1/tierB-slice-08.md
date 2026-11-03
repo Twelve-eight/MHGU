@@ -8,7 +8,7 @@
 - 另一系统性现象: 本片密集区（`0x65c000` 之后）大量函数同时拿到 quest 与 otomo-ot 票；两者在本作里共用 quest/Palico 数据与 UI，票数常接近持平，此时一律 conf=C。
 
 ## 汇总
-共 **78** 行裁决。
+共 **78** 行裁决，覆盖 **78 / 1062（7.3%）**——本页声明的范围 0x60d6f4..0x72a844 里有 **984 个函数没有裁决**，表格只是其中一部分，不要当作完整裁定；缺失部分的当前归属见 `docs/analysis/code/inventory/function-labels.tsv`（按地址查）。
 
 - 标签分布：quest 35、unknown 22、otomo-ot 14、monster-em 5、render-gfx 1、ui 1
 - conf 分布：C 42、B 35、A 1

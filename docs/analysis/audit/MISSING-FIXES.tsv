@@ -1,7 +1,7 @@
 slice	file	claim	action	evidence
 analysis-code-half2	docs/analysis/code/tierb-pass3/tierB3-slice-13a.md	whole document	改为索引：20 个 region 的裁决本来就在 13a1/13a2，本页只保留指针与空表说明	grep 13a1/13a2 各 10 行；13a.md 现有 3 行正文 + 索引表
-analysis-code-half1	docs/analysis/code/tierb-pass1/tierB-slice-05.md	汇总（SUMMARY 占位）	按本文 550 行表格机械统计补全标签/conf/role 分布，并说明原为占位	§汇总 现列 550 行、11 个标签、conf C403/B143/A4
-analysis-code-half1	docs/analysis/code/tierb-pass1/tierB-slice-08.md	汇总	同上，按 78 行补全	§汇总 现列 78 行、6 个标签、conf C42/B35/A1
+analysis-code-half1	docs/analysis/code/tierb-pass1/tierB-slice-05.md	汇总（SUMMARY 占位）	按本文 550 行表格机械统计补全分布，并写明覆盖 550/1062（51.8%）、512 个函数无裁决	§汇总 现列 550 行、11 个标签、conf C403/B143/A4
+analysis-code-half1	docs/analysis/code/tierb-pass1/tierB-slice-08.md	汇总	同上，按 78 行补全，并写明覆盖 78/1062（7.3%）、984 个函数无裁决	§汇总 现列 78 行、6 个标签、conf C42/B35/A1
 analysis-code-half1	docs/analysis/code/tierb-pass1/tierB-slice-09.md	裁定表	标记为**未完成**：表格从未落盘，保留方法与证据等级判断，指向 function-labels.tsv 查当前归属	文件头状态行 + TABLE 占位替换为说明
 analysis-code-half1	docs/analysis/code/tierb-pass2/tierB2-slice-04.md	覆盖（30 / 120）	标记为**部分完成**（30/120），指向 function-labels.tsv	文件头状态行
 analysis-code-half1	docs/analysis/code/tierb-pass2/tierB2-slice-09.md	汇总「见文末终版统计」	标记为**部分完成**（30/120），指向 function-labels.tsv	文件头状态行

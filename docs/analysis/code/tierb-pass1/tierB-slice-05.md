@@ -17,7 +17,7 @@
 
 ## 汇总
 
-共 **550** 行裁决。
+共 **550** 行裁决，覆盖 **550 / 1062（51.8%）**——本页声明的范围 0x3241bc..0x47206c 里有 **512 个函数没有裁决**，表格只是其中一部分，不要当作完整裁定；缺失部分的当前归属见 `docs/analysis/code/inventory/function-labels.tsv`（按地址查）。
 
 - 标签分布：quest 192、otomo-ot 190、monster-em 125、audio 24、render-gfx 8、item 4、kernel-os 2、save-io 2、unknown 1、player-pl 1、save-data 1
 - conf 分布：C 403、B 143、A 4
