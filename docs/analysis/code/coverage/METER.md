@@ -34,6 +34,8 @@ node tools/mhgu/coverage/report.mjs [--demote f]
 
 **全链复现检查（2026-11-04）**：按上面的顺序把 15 个证据/推断脚本 + recompute + report 全部重跑一遍，`git status docs/analysis/code/inventory` 只有预先存在的手改文件（'attr-members.tsv'），**没有派生文件发生变化**——说明 76.1% 这个数可以从镜像重新算出来，不依赖会话状态。
 
+逐子系统的规模、直接证据比例与主要证据来源见 `docs/analysis/code/inventory/labels-summary.md`（`labels-summary.mjs` 生成，勿手改）。
+
 ## 两条覆盖线：91.1% @ ≥85%，83.8% @ ≥90%（2026-11-04）
 
 口径现在给**两行**，不是一个数。两行用同一把尺子（1 MB 窗、5 个错开网格、Clopper–Pearson 95% 下界），区别只在"算到什么精度的标签才计入"。
