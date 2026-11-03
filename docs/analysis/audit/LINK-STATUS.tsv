@@ -22,13 +22,13 @@ TG	SAVE	2300 slots = 5451B	fixed	5,463B (19x2300/8, 0x17CF-0x278)
 TH	SAVE	r7=0x8FC=2292	fixed	0x8FC is 2,300; 2,292 would be 0x8F4
 TI	SAVE	vol_only 0 in PROGRESS:46 vs 1 in coverage-map:263	fixed	PROGRESS:46 now says vol_only=1 under the code alignment (15 under the old one), matching coverage-map:263
 TJ	SAVE	pouch-verified lists 34 items for 32 slots	fixed	re-decoded both saves: clean has 21 non-empty of 32 slots and dirty 24; the doc listed 34 slots because the trailing run said 10 empty instead of 8
-TK	SAVE	71.97% cross-save figure has no pairing/interval	open	the 67.3% pair is the documented one; 71.97 needs its own pairing
+TK	SAVE	71.97% cross-save figure has no pairing/interval	fixed	the 71.97 percent cross-save figure had no pairing and does not reproduce; replaced with the measured grid 67.27 / 74.60 / 62.38 over 0xC8800..0x11F8A0
 DL1	DATA	equipment.md cites armor/*.json for 5,637; files hold 5,609	fixed	citation changed to the armor table, 28 missing ids stated
 DL2	DATA	monsters.md 85 species pages vs 94	fixed	94, recount method stated
 DL3	DATA	species table 11/3 vs source 10/4	fixed	bird 10 / fish 4 with the page-2989 note
 DL4	DATA	deviant HP +500 lower bound	fixed	+400 (Dreadqueen 4900-4500)
-DL5	DATA	damage/duration "exactly equal to wiki"	open	two counterexamples in the report; needs the wiki rows re-read
-DL6	DATA	armor points -6..15 vs -8..15	open	points live outside the armor table; needs the skills join to recompute
+DL5	DATA	damage/duration "exactly equal to wiki"	fixed	monsters.md now lists the two counterexamples (Valstrax para duration 9 vs wiki 10; Alatreon blast zero row) and says not to overwrite the wiki unconditionally
+DL6	DATA	armor points -6..15 vs -8..15	fixed	armor skill points run -8..15; the two -8 rows are 1573942 and 1573943
 DL7	DATA	README says 21 exports, lists 24	rejected	21 table exports plus 6 hand-mapped files is 27, which is what docs/data/json holds; the row count in the prose table is a different unit
 DL8	DATA	README calls the item file 日文名 and 中文名 in two places	fixed	README line 155 said the original item file had Chinese names; it is the Japanese 2930 line table per json/README:28
 DL9	DATA	quests.md id range 1xxxx-11xxxxx	fixed	101..1,120,012 measured

@@ -231,7 +231,7 @@ saveLV      = level
 | `max_defense` | ≤180 | 强化满防御（wiki「防御 / 最大」的分子/分母） | 否 |
 | `fire_res` `water_res` `thunder_res` `ice_res` `dragon_res` | 可负 | 五属性耐性 | 否 |
 | `num_slots` | 0..3 | 孔数 | 否 |
-| `skills[]` | `{name, points, skill_tree}` | 每件 1–4 条技能点；`points` −6..15；`skill_tree` = 技能树 id | 否 |
+| `skills[]` | `{name, points, skill_tree}` | 每件 1–4 条技能点；`points` **−8..15**（`item_to_skill_tree.point_value` 实测：`1573942`/`1573943` 两件 XR 腿是 −8；原写 −6 是错的）；`skill_tree` = 技能树 id | 否 |
 | `rarity` | 1..11 | **11 = 二名（X）** | 否 |
 | `gender` | 0/1/2 | 0 = 女性专用，1 = 男性专用，2 = 通用 | 否 |
 | `hunter_type` | 0/1/2 | 0 = 剑士，1 = 神枪手，2 = 通用 | 否 |
