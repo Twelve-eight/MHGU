@@ -8,7 +8,8 @@ docs/README.md	AGENTS.md-section-ref	WRONG	ls ../AGENTS.md exists (workspace); l
 docs/PROGRESS.md	struct-coverage-88pct	OK	node: (227386+950374*0.85)/1177760 = 0.8790	Arithmetic reproduced
 docs/PROGRESS.md	member-layer-size-227386	WRONG	node: 0x3783A-0x278 = 226754	Row says char_off 0x278..0x3783A size 227,386; 227,386 is the end offset (head+member), the range is 226,754 B
 docs/PROGRESS.md	field-level-78pct-vs-165KB	WRONG	node: 224643*0.78 = 175222 B (14.9%); component list 12955+9543+76+115072+35131+822 = 173599	78% of 224,643 is ~175 KB/14.9%, not 165 KB/14%; doc's own components sum to 173,599
-docs/PROGRESS.md	code-denominator-5228411-23885	STALE	node: (0x13F1DEC-0)/4 = 5228347 words; tiers.csv sum = 5228277; commit 3a7c731 (2026-11-03) retiled 23,885 regions into 52,692 real functions	Superseded by docs/analysis/code/inventory/RETILE.md + tools/mhgu/coverage/retile.mjs
+docs/PROGRESS.md	code-denominator-23885	STALE	node: tiers.csv has 23885 rows / 5228277 insns; commit 3a7c731 (2026-11-03) retiled the 23,885 regions into 52,692 real functions (RETILE.md: 46,087 prologues, 22,202 non-region starts)	Only the function denominator is superseded; the 5,228,411 instruction count itself reproduces
+docs/PROGRESS.md	section-E-snapshot-ratios	OK	node: hunterA.hnt vs system slot1 members 86.75% (doc 86.76), hunterB.hnt vs slot0 0x0..0x3783A 99.31%, dense tail 0x3783A..0x80000 100.00%; 2300*512+160 = 1177760	'尾中段 100.00%' holds for the dense segment 0x3783A..0x80000 (and 0x117125..0x11B636); other tail subranges differ
 docs/PROGRESS.md	L1-80.8pct-71.7pct	UNVERIFIABLE	ls .tmp -> empty; functions.csv.gz strings column is empty (23885/23885 rows '""')	10-fold seed data not in repo; cannot recompute from committed artifacts
 docs/PROGRESS.md	tier-table-8856-51.5	OK	node: tiers.csv aggregation A 8856/2690231 (51.46%), B 14863/2533932, C 166/4114	Exact match
 docs/PROGRESS.md	otomo-1041-224608	OK	node: tiers.csv rows label=otomo-ot & tier=A -> 1041 rows / 224,608 insns (4.30% of .text, 8.35% of Tier A)	Exact match
@@ -21,7 +22,7 @@ docs/PRIVATE-DATA.md	gitignore-coverage	OK	git check-ignore -v docs/data/mhgu.db
 docs/PRIVATE-DATA.md	romfs-nca-size	OK	ls -l -> 12,168,003,584 B	Exact
 docs/PRIVATE-DATA.md	romfs-35531-files	UNVERIFIABLE	no file count committed; counting the 12 GB romfs tree is out of scope	
 docs/PRIVATE-DATA.md	backup-robocopy-target	OK	ls -d G:/backups/MHGU-private -> exists	
-docs/analysis/code-metrics.md	text-insn-count-5228411	WRONG	node: 0x13F1DEC/4 = 5228347; sum of function spans (functions.csv.gz col3, tiers.csv) = 5228277	5,228,411 is 64 above the word count of .text and 134 above the function-coverage sum; also mixes vaddr 0..TEXT_END with flat 0x100..
+docs/analysis/code-metrics.md	text-insn-count-5228411	OK	node: 0x13F1DEC/4 = 5228411; functions.csv.gz insns sum = 5228277; 5228411-5228277 = 134	Count reproduces for vaddr 0..TEXT_END; the 134-word gap is the uncovered tail, so '100.00%' is a rounding. The range string mixes flat 0x100 with vaddr 0x13F1DEC
 docs/analysis/code-metrics.md	functions-23885	STALE	RETILE.md (2026-11-03): 46,087 prologues, 23,885 == region tiling, retiled 52,692; commit 3a7c731	Denominator superseded; doc has no retile notice
 docs/analysis/code-metrics.md	classes-3201	OK	wc -l docs/data/class-inventory.tsv -> 3202 (header + 3201)	
 docs/analysis/code-metrics.md	string-functions-1923	UNVERIFIABLE	node: functions.csv.gz strings column is empty in all 23,885 rows	Source CSV lost the column; .tmp/mhgu/inventory/functions2.csv no longer exists
@@ -30,7 +31,7 @@ docs/analysis/code-metrics.md	10fold-80.8-71.7	UNVERIFIABLE	tools/mhgu/validate-
 docs/analysis/code-metrics.md	L2-roles-6239-7050-10596	UNVERIFIABLE	node: functions.csv.gz 'callees' column is a single address or empty, so role counts are not derivable; node: 6239+7050+10596 = 23885 and +1991 = 25876	Counts not reproducible; additivity statements verified
 docs/analysis/code-metrics.md	tierA-B-C-table	OK	node: tiers.csv -> A 8856/2690231/51.46%, B 14863/2533932/48.47%, C 166/4114/0.08%; fn% 37.1/62.2/0.7	Exact match to §7
 docs/analysis/code-metrics.md	pass3-6-658-223-13	UNVERIFIABLE	ls -l docs/analysis/code/tierB3p -> 0-byte file; no slice data in docs/analysis/code/tierb-pass3	pass3 inputs not published
-docs/analysis/code-metrics.md	headline-52.2pct	STALE	coverage-report.tsv (2026-11-03, retiled) -> tier A 52.9% insns / 48.3% fns; METER.md: old table 62.1%, retiled 49.1%	Superseded by the 2026-11-03 recompute chain
+docs/analysis/code-metrics.md	headline-52.2pct	STALE	METER.md (2026-11-03) on the retiled 52,692-function table: tier A 45.6% baseline / 49.1% with the three evidence files (old-table baseline 52.3%, 62.1% with evidence); coverage-report.tsv is being re-run by the parallel slices and now prints 48.9%	Superseded by the 2026-11-03 recompute chain; the exact retiled headline is still moving
 docs/analysis/code-metrics.md	otomo-1041-224608	OK	node: tiers.csv label=otomo-ot tier=A -> 1041/224608	Exact
 docs/analysis/gameplay/entry-map.md	movw-72c-39f-68s	OK	node: movw #0x72c -> 68 sites, 39 push-prologue functions; first sites 161bd0/248984/2489a8/2489cc	Exact
 docs/analysis/gameplay/entry-map.md	movw-83e-9f-12s	OK	node: movw #0x83e -> 12 sites, 9 functions; first 3001c0/301578	Exact
@@ -122,10 +123,10 @@ docs/history/DEVELOP-state-20261022.md	bitstream-forward	OK	node: box slot 0..5 
 docs/history/DEVELOP-state-20261022.md	no-checksum	OK	social-checksum C6/C7 reproduced: 0 CRC matches and 67.3% cross-save difference in the tail	
 docs/history/PROJECT-EVAL-20261023.md	C1-C3-C4-now-fixed	STALE	docs/PROGRESS.md:96-98 now shows '80.8%/71.7%' with 95.7% struck; :14 and :24 both 78%; :70 shows '~~77%~~ 已作废'	Findings were valid on 2026-10-23 and have since been applied
 docs/history/PROJECT-EVAL-20261023.md	C5-now-fixed	STALE	docs/PROGRESS.md D table rows 1-5 now '✅ 完成'	
-docs/history/PROJECT-EVAL-20261023.md	C6-C7-C8-C16-C19-C21-now-fixed	STALE	coverage-map.md:42 (137/94+43 superseded line), :40 (5440 superseded 5430), DEVELOPMENT.md:206-208 (134 rows/12,955 superseded 159), DEVELOP.md:343 (cmp r4,#384 superseded), HANDOFF.md:17 (234KB struck)	All these now carry explicit superseded markers
+docs/history/PROJECT-EVAL-20261023.md	C6-C7-C8-C16-C19-C21-now-fixed	STALE	coverage-map.md:42 (137/94+43 superseded line), :40 (5440 superseded 5430), DEVELOP.md:206-208 (134 rows/12,955 superseded 159), DEVELOP.md:343 (cmp r4,#384 superseded), HANDOFF.md:17 (234KB struck)	All these now carry explicit superseded markers
 docs/history/PROJECT-EVAL-20261023.md	C9-nca-size	STALE	DEVELOP.md:49 and :304 now both 12,168,003,584 B with '~~9.1 GB~~/~~10.8GB~~ superseded'	
 docs/history/PROJECT-EVAL-20261023.md	C12-append-200-vs-30	STALE	SUBAGENT-LEDGER.md:31 now '每 30 函数 append 落盘（~~每 200 函数~~ 作废）'	
-docs/history/PROJECT-EVAL-20261023.md	C15-105-A-estimate	WRONG	node: docs/analysis/code/tierb-pass1|2 contain 7 'conf=A' mentions; HANDOFF.md:147 records recompute = 54 conf=A	The +1.0pp is not explained by ~105 A rows
+docs/history/PROJECT-EVAL-20261023.md	C15-105-A-estimate	WRONG	grep '^| 0x' docs/analysis/code/tierb-pass1|2 reports | awk conf==A -> 74 A rows in total (not ~105 from 7 slices); HANDOFF.md:147 recompute over the same repo inputs -> 52.5% with 54 conf=A	Premise 'snapshot lags disk' is contradicted; the +1.0pp is not ~105 A rows
 docs/history/PROJECT-EVAL-20261023.md	R1-tierb-labels-contamination	OK	wc -l docs/data/tierb-labels.csv -> 379 (header + 378); every row src=tierB-slice-03.md	Still present without a void marker
 docs/history/PROJECT-EVAL-20261023.md	R8-metrics-not-reproducible	STALE	docs/analysis/code/inventory/tiers.csv is now in-repo (23,885 rows); docs/analysis/code/inventory/METER.md + tools/mhgu/coverage/{recompute,report,sample}.mjs document a rerunnable chain	Fixed 2026-11-03
 docs/patches/item-box-v7-plugin-spec.md	123-patch-lines	OK	grep -c '^[0-9a-f]\{8\} ' patch/1.4.0.pchtxt -> 123; wc -l -> 136	Exact

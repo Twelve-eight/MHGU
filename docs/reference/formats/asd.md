@@ -18,7 +18,7 @@
 | 偏移 | 类型 | 成员名（主程序池） | 证据与说明 | 标签 |
 |---|---|---|---|---|
 | +0x00 | u32 | 记录 id | 等于记录下标，也等于 `armor_families._id` | [A] |
-| +0x04 | u16 | mSortID | 与 `armor_families` 的排序字段一致，但不是身份标识（1201 条不同，如 rec513 sort=545） | [A] |
+| +0x04 | u16 | mSortID | 排序 id；db 的 `armor_families` 没有排序列，无法对拍。不是身份标识：1201/1287 条与其记录 id 不同（如 rec513 sort=545） | [A] |
 | +0x06 | u8[5] | mEnableParts[0..4] | 头、胴、腕、腰、脚是否启用，共 18 种组合 | [A] |
 | +0x0B | u16 | mModel | 模型 / 外观 id（如 皮制 1、Loc Lac 7、Redhelm 673） | [A] |
 | +0x0D | u8[4] | mMale/Female/Blade/GunnerWearable | 性别、太刀、狩猎枪装备标志 | [A] |

@@ -79,21 +79,21 @@ Yes. Files and folders (README "Install", "Mods"):
 
 - API surface: `include/forge_pc.h`, included by every plugin; one translation unit must contain
   `FORGE_PLUGIN_DEFINE_API`, which exports the function through which the loader hands over the
-  API table (`forge_api`) (forge_pc.h lines 864-866, 1362-1364).
+  API table (`forge_api`) (forge_pc.h lines 38-39, 325-327).
 - Required export `forge_onLoad(ForgePluginInfo*)`; optional `forge_onInit`,
   `forge_onUpdate(float dt)`, `forge_onUnload`, `forge_onImGuiInit/Render/FreeRender`,
-  `forge_onPresent(const ForgePresent*)` (0.6+) (forge_pc.h lines 832-858).
+  `forge_onPresent(const ForgePresent*)` (0.6+) (forge_pc.h lines 22-34).
 - Version negotiation: `ForgePluginInfo { ForgeVersion required_ver; char name[64]; }`, comment
-  "the loader must have the same major and at least this minor" (forge_pc.h lines 938-944).
+  "the loader must have the same major and at least this minor" (forge_pc.h lines 81-84).
   Current header constants: `FORGE_PC_VERSION_MAJOR 0`, `FORGE_PC_VERSION_MINOR 7`,
-  `FORGE_PC_VERSION_PATCH 0` (forge_pc.h lines 912-916).
+  `FORGE_PC_VERSION_PATCH 0` (forge_pc.h lines 65-67).
 - ABI growth policy: features are appended and gated by the API table size - "check
   `forge_api->size` before use; list "required_ver" 0.4" for the 0.4 block, and the README repeats
   "Ask for minor 7 ... if you use any of this". The exe side states the same rule for its own
   structs: "Structs only grow at the end. Each starts with its size and version; read a field only
   if the size the other side reports covers it (`MODHOST_HAS(Type, ptr, field)`)"
-  (mod_host_api.h lines 626-628), and mentions "an exe older than mod host ABI 2" (forge_pc.h
-  line 1230).
+  (mod_host_api.h lines 18-19), and mentions "an exe older than mod host ABI 2" (forge_pc.h
+  line 248).
 - Binary format: x64 Windows DLL / Linux shared object; Linux plugins build with
   `-shared -fPIC -fvisibility=hidden` and export only `forge_*` so each plugin keeps its own Dear
   ImGui (README "Building"); plugins that draw with ImGui must use the same Dear ImGui version
@@ -107,7 +107,7 @@ Yes. Files and folders (README "Install", "Mods"):
 
 ### Documentation
 
-README (340 lines, covers install, mod layout, plugin writing, hook ordering, config API, Vulkan
+README (244 lines, covers install, mod layout, plugin writing, hook ordering, config API, Vulkan
 present callbacks, menu, tracing via `forge.ini` `[trace]`, crash reporting, building, credits),
 the two header files with structured doc comments, `AI_DISCLOSURE.md`,
 `THIRD_PARTY_NOTICES.md`, `mods/UIFix/README.md`, `rust/README.md`, and the release notes. The

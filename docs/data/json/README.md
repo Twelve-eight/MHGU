@@ -1,6 +1,6 @@
 # docs/data/json/ — 派生 JSON（mhgu.db 导出 + 映射表）
 
-由 `docs/data/mhgu.db`（MHGenDatabase）导出的 20 表 + 手工对拍的映射表。
+由 `docs/data/mhgu.db`（MHGenDatabase）导出的 21 表 + 手工对拍的映射表。
 
 ## 映射表（知识库核心资产）
 
@@ -16,7 +16,7 @@
 - 93 槽全是**大型怪物**；db 还有 4097-4144 的小怪（Aptonoth/Jaggi 等）不在此计数器组（另有小型怪计数器）。
 
 ### `monster-name-map.json` — db monsters EN→JA + HP
-129 条 `{id, ja, base_hp, sort}`——`name_ja` 覆盖不全（MHGenDatabase 是英文应用，部分 JA 字段空）。
+129 条 `{id, ja, base_hp, sort}`——`name_ja` 在 db 中 129/129 齐全（本映射无空 JA 名）。
 
 ## 导出表（mhgu.db → JSON，供编辑器/文档直读）
 见 `docs/data/README.md` 的表清单。`monsters/quests/items/weapons/armor/skills/skill_trees/decorations/combining/gathering/monster_damage/monster_weakness/monster_status/monster_to_quest/quest_rewards/horn_melodies/palico_weapons/palico_armor/locations`。

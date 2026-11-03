@@ -5,7 +5,7 @@ Denominator frozen by `docs/analysis/audit/MANIFEST.tsv` (189 docs) and
 `analysis-save-io` (4), `history` (2), `patches` (1), `editor-spec` (3),
 `root` (3), `analysis` (1), `analysis-gameplay` (1), `spec-crossgame` (1).
 
-Verdicts: **OK** 93 · **WRONG** 20 · **STALE** 20 · **UNVERIFIABLE** 9 · **MISSING** 0 · **NA** 0.
+Verdicts: **OK** 93 · **WRONG** 21 · **STALE** 20 · **UNVERIFIABLE** 9 · **MISSING** 0 · **NA** 0.
 Every row in `REST.tsv` carries the command and its output; this file groups the
 load-bearing ones and records cross-document contradictions.
 
@@ -21,23 +21,26 @@ files under `save-snapshots/`, `docs/data/mhgu.db` (18,333,696 B),
 
 ## 1. Denominators and headline numbers
 
-### 1.1 `5,228,411` is wrong; the consistent sum is `5,228,277`
+### 1.1 The instruction denominator reproduces; the range string is loose
 
-`docs/analysis/code-metrics.md:10` and `docs/PROGRESS.md:91` both print
-`.text 0x100..0x13F1DEC / 5,228,411 条指令`. Two independent recomputations disagree:
+`docs/analysis/code-metrics.md:10` and `docs/PROGRESS.md:91` print
+`.text 0x100..0x13F1DEC / 5,228,411 条指令`. The count is **correct** for the
+vaddr range `0 .. TEXT_END`:
 
 ```
-node -e "console.log((0x13F1DEC)/4, (0x13F1DEC-0x100)/4)"
-  5228347 5228347          # words in vaddr 0..TEXT_END, and in flat 0x100..TEXT_END
-node: sum of functions.csv.gz column insns   -> 5228277
-node: sum of tiers.csv column insns         -> 5228277
+node -e "console.log(0x13F1DEC, 0x13F1DEC/4, 5228411-5228277)"
+  20913644 5228411 134
+node: sum of functions.csv.gz column insns -> 5228277
+node: sum of tiers.csv column insns       -> 5228277
 ```
 
-So `.text` holds 5,228,347 words, of which 5,228,277 are covered by the function
-table (70 words of tail gap). `5,228,411` is 64 above the word count and 134 above
-the function coverage; the same number also mixes the vaddr range (`0x0`) with the
-flat range (`0x100`). The count must be replaced by 5,228,277 wherever it is used
-as the instruction denominator (`code-metrics.md` §6/§8/§9, `PROGRESS.md` §G).
+So `.text` holds 5,228,411 words and the function table covers 5,228,277 of them;
+the 134-word residual (0.0026 %) is the uncovered tail, which is why
+code-metrics' "函数跨度合计 5,228,277 = 100.00 %" is a rounding, not a partition.
+The only defect in the row is the range notation: it mixes the flat start
+(`0x100` = vaddr 0) with the vaddr end (`0x13F1DEC`, whose flat end is
+`0x13F1EEC`). The exact spans are 5,228,283 words for the literal string and
+5,228,411 for the intended vaddr range.
 
 ### 1.2 The 23,885-function denominator is superseded (2026-11-03)
 
@@ -46,8 +49,10 @@ as the instruction denominator (`code-metrics.md` §6/§8/§9, `PROGRESS.md` §G
 prologues, 23,885 regions, and the real function count is **52,692**.
 `docs/analysis/code/inventory/METER.md` adds that `code-metrics.md`'s
 72.8% / 52.2% cannot be rerun and reports, on the retiled table, tier A =
-**52.9 % instructions / 48.3 % functions** (`coverage-report.tsv`)
-(or 49.1 % with the three extra evidence files). `code-metrics.md`,
+**45.6 % instructions / 35.8 % functions** (49.1 % / 42.0 % with the three extra
+evidence files). `coverage-report.tsv` is being re-run by the parallel slices
+while this audit runs (it printed 48.9 % / 45.8 % at the last read), so only the
+denominator and the METER table are stable here. `code-metrics.md`,
 `PROGRESS.md` §G and `HANDOFF.md:21` all still quote the old denominator without
 a retile notice.
 
@@ -118,11 +123,16 @@ denominator has no row for it — so no verdict is issued here.)
 | line / claim | state | superseded by |
 |---|---|---|
 | §G denominator `5,228,411 条指令 / 23,885 个函数` | STALE | commit `3a7c731` (2026-11-03): `functions.csv.gz` is a 23,885-region tiling; retile = 52,692 functions, instruction sum 5,228,277 (`RETILE.md`, `METER.md`) |
-| §G `L1 80.8% / 71.7%（10 折）` and `自动推断止步 ≈80.8%` | STALE | `METER.md` (2026-11-03): the 10-fold numbers cannot be rerun from the repo; rerunnable chain gives tier A 62.1 % (old table + 3 evidence files) / 49.1 % (retiled) |
-| §G `L1 子系统（全 23,885 函数）留出验证精度 72.8%` | STALE | same: denominator is a region tiling; `coverage-report.tsv` on the retiled table = tier A 52.9 % insns / 48.3 % fns |
+| §G `L1 80.8% / 71.7%（10 折）` and `自动推断止步 ≈80.8%` | STALE (the underlying measurement is itself UNVERIFIABLE) | `METER.md` (2026-11-03): the 10-fold numbers cannot be rerun from the repo; rerunnable chain gives tier A 62.1 % (old table + 3 evidence files) / 49.1 % (retiled) |
+| §G `L1 子系统（全 23,885 函数）留出验证精度 72.8%` | STALE | same: denominator is a region tiling; `METER.md` on the retiled table = tier A 45.6 % / 35.8 %, 49.1 % / 42.0 % with the three evidence files |
 | §A member layer `0x278..0x3783A = 227,386` | WRONG | range is 226,754 B (see §1.3) |
 | §A field level `165KB / 14%` next to `78%` | WRONG | 78 % = ~175 KB / 14.9 % (see §1.4) |
 | §C.1 `19 槽 = 18 + 2` | WRONG | `member-census.md:29` (20 calls / 19 objects) |
+
+Section E's snapshot ratios were also recomputed: `hunterA.hnt` vs slot1 members
+86.75 % (doc 86.76 %), `hunterB.hnt` vs slot0 members 99.31 %, dense tail
+`0x3783A..0x80000` 100.00 % (the doc's "尾中段"), and
+`2300×512+160 = 1,177,760`.
 
 Lines that hold up (recomputed, not copied): structural 88 %
 `(227,386 + 950,374×0.85)/1,177,760 = 87.90 %`; tier table A/B/C; the otomo
@@ -239,7 +249,7 @@ doc's 477/89). One **WRONG** row: §3's negative table still gives
 `emXXXFwMove @0x15533DB` — `0x15533DB` is `uEnemyActCustom`; the template is at
 `0x15533CF` (as E9 itself notes).
 
-`entry-map.md` (gameplay): three of the five `movw` censuses are exact
+`entry-map.md` (gameplay): four of the five `movw` censuses are exact
 (`0x72C` 68 sites/39 fns, `0x83E` 12/9, `0x52C` 8/8, `0x62C` 10/10), but
 `0x42C` is **361** sites, not 359 — the table omits fn `0xF93330` (two real
 `movweq r0,#0x42c` sites at `0xF935B0`/`0xF936A0`) and lists `0x3D17F8` with 3
@@ -283,7 +293,7 @@ text counts also reproduce.)
 `tail-dense-3783A.md`: the segment MD5s, 98,295 zero bytes, the mod-16 residual
 table (peak 15,813 at r=8), the fill-pattern counts (8,959 / 9,408 / 9,005 /
 9,745 / 59,167), lag-16 0.3977 vs 0.1543/0.1554 and lag-432 0.4274 all match.
-Phase B: 7,291 records, header 7,291/7,291, payload 58,328 B, entropy 7.534,
+Phase B: 7,292 records, header 7,292/7,292, payload 58,328 B, entropy 7.534,
 lag16 0.5277, u32 count 7,292. "7,292/7,292" is correct: the record array runs
 `0x63841 + 16k`, k = 0..7,291, the last head at `0x7FFF1` crosses `0x80000`
 (which the doc itself states). Non-zero runs are 24,966 once the run that
@@ -407,10 +417,10 @@ to 123, and the V8 re-encoded immediates (`74FA`, `80B0`) are present in
   number (10-fold folds, pass3 slices), the row says UNVERIFIABLE rather than
   guessing.
 * Function-boundary heuristics differ: `+0x73E0` gives 477/89 in the doc and
-  481/87 with a plain `push {..,lr}` walk, and `entry-map`'s `0x42C` count is
-  361 vs 359. These are recorded as OK/WRONG per the size of the gap; a shared
-  real-function table (`RETILE`) would settle them and should be the reference
-  for any future recount.
+  481/87 with a plain `push {..,lr}` walk (recorded OK, within heuristic noise),
+  while `entry-map`'s `0x42C` count misses two whole sites in a listed function
+  (recorded WRONG). A shared real-function table (`RETILE`) would settle both
+  and should be the reference for any future recount.
 * Two byte facts that several docs get wrong are only visible by reading the
   sample saves, not the analysis notes: the `0x0B1` byte is 0 in every save,
   and the `system 0x50` word is `0x756E736E`/`103`. Both propagate into editor

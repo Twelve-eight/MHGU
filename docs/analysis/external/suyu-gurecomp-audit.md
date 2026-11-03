@@ -2,7 +2,8 @@
 
 Audit of the three reports against their inputs in `G:/omp works/.tmp/mhgu/suyu/`
 (`dis-gs-1.txt`, `dis-gs-2.txt`, `dis-gs.txt`, `dis-nvntrace.txt`, `dis-other.txt`,
-`dis-nvnrec.txt`, `dis-armrecomp.txt`, `sdk-helpers.txt`, `ex-*.txt`, `chunks/c*.txt`) and
+`addr-disasm.txt` (the `nvn_rec.cpp` / `arm_recomp*.cpp` blocks also exist in `dis-other.txt`),
+`sdk-helpers.txt`, `ex-*.txt`, `chunks/c*.txt`) and
 the SUYU source line each row cites. SUYU `main+X` == our `vaddr` (anchored at 0xBBCD34 →
 `mov r0,#1920`/`movw r7,#0x438`); SUYU `kHelpers` sdk_offset == our `sdk.flat.bin` offset
 (nvn_trace.cpp:296-324 `addr = sdk + kHelpers[k].sdk_offset`).
@@ -101,7 +102,7 @@ Status legend for verdict: PASS = evidence + status + cite all check out; DOWNGR
 | 0x1f00 | SKIP | PASS | FPCR mask `0x1f00`, not addr; real prologue is at 0x1f08. Correct SKIP. |
 | 0x10000 | SKIP | PASS | `r[1+a]>=0x10000` sanity bound in a 96-byte range check, not a code ref. Correct SKIP. |
 
-### nnSdk helpers (nvn_trace.cpp:102-104, sdk-flat.bin)
+### nnSdk helpers (nvn_trace.cpp:101-103, sdk-flat.bin)
 
 | vaddr | report status | verdict | reason |
 |---|---|---|---|
@@ -112,7 +113,7 @@ Status legend for verdict: PASS = evidence + status + cite all check out; DOWNGR
 ### Honesty / licensing / coordinate checks (addr-check)
 
 - **No verbatim GPL**: PASS — only mnemonics/offsets/identifiers quoted.
-- **Citations resolve**: PASS — `game_settings.cpp:1205-1218/1332/1380/1493/1494/1542/1595/1701`, `game_settings.h:341`, `arm_recomp.cpp:160/590/608/611`, `arm_recomp32.cpp:116`, `nvn_rec.cpp:226`, `game_settings_ini.cpp:69`, `nvn_trace.cpp:102-104` all match `## <file>:<line> 0x<addr>` block headers in the dumps.
+- **Citations resolve**: PASS — `game_settings.cpp:1205-1218/1332/1380/1493/1494/1542/1595/1701`, `game_settings.h:341`, `arm_recomp.cpp:160/590/608/611`, `arm_recomp32.cpp:116`, `nvn_rec.cpp:226`, `game_settings_ini.cpp:69`, `nvn_trace.cpp:101-103` all match `## <file>:<line> 0x<addr>` block headers in the dumps.
 - **Coordinate correctness**: PASS — main-relative rows use main vaddrs; the three kHelpers rows are correctly prefixed `sdk+` and verified against the sdk image (not main). The single biggest prior error is fixed.
 - **Status honesty**: PASS — CONTRADICTED count is now 0 (0xbc1204 reclassified VERIFIED by main session, see row); SKIP used for every literal/illustrative number (0x2160, 0xe7ff0, 0x100000, 0x4000, 0x1000, 0x3c00, 0x3d80, 0x1f00, 0x10000) — exactly right; PLAUSIBLE used where semantics come from SUYU and only structure is provable. No over-claiming observed.
 
@@ -141,7 +142,7 @@ Licensing: PASS — prose is own-words, no source lines reproduced. Status hones
 ## Summary
 
 - `suyu-gs-part1.md` — **PASS** (12 rows; 1 retained caveat on VFP field-offset detail).
-- `suyu-addr-check.md` — **PASS** (50 rows audited; every VERIFIED/CONTRADICTED row checked against disasm, all PASS; 5 PLAUSIBLE + 5 SKIP rows spot-checked, all PASS; the three kHelpers rows now correctly VERIFIED against sdk.flat.bin).
+- `suyu-addr-check.md` — **PASS** (50 rows audited: 21 VERIFIED (one `as mid-fn predicate`), 20 PLAUSIBLE, 9 SKIP; every VERIFIED/CONTRADICTED row checked against disasm, all PASS; 20 PLAUSIBLE + 9 SKIP rows also all checked, all PASS; the three kHelpers rows now correctly VERIFIED against sdk.flat.bin).
 - `chunks/spk-format.md` — **PASS** (all file-format claims PLAUSIBLE, sourced, no verbatim code).
 
 **Correction recorded:** my earlier CONTRADICTED verdicts on `helper_int64_to_double`/`helper_double_to_int64`/`helper_memcpy` were computed against the wrong image (main instead of nnSdk). Against `sdk.flat.bin` they are genuine function entries → **VERIFIED**. The audit above reflects the corrected coordinate.

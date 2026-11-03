@@ -60,7 +60,7 @@
 **obj+0x0..0x28 是成员#4 obj 的头字段**（非角色头）——obj 是运行时单例，文件里成员#4 数据从 char_off ~0x2C0B 起（delta 0x284B for 0x42C,但 obj+0 起点待 0x51dbb4 首个读取定位）。
 
 ## P1 成员#4 文件布局 + clean/dirty 差分（完整）
-**文件布局**：成员#4 数据 char_off `0x2C0B..0x59AC`（159 字段、0x2DA1 字节）。`member4-file-layout.txt` = reader 序↔obj+off↔size 全表；`member4-diff.txt` = 逐字段 clean/dirty 差分。
+**文件布局**：成员#4 数据 char_off `0x2C0B..0x5EA6`（134 静态字段 + 1 处嵌套 4B 读、**12,955 字节 = 0x329B**）。`member4-file-layout.txt` = reader 序↔obj+off↔size 全表；`member4-diff.txt` = 逐字段 clean/dirty 差分。
 **编辑器涂 FF 实锤字段**（dirty=FF 且 clean≠FF）：
 - 狩技 0xD24(19B)/0xD3C(7B)；位域 0x42C(38)/0x52C(56)
 - 164B 数组 0x9D0(18)/0xB18(42)；勋章邻 0xBDC(14)/0xC28(16)
@@ -74,15 +74,15 @@
 
 ### 矛盾位最终定性（122 个，全解锁涂的）
 用 `mhgu.db quests.sort_order`（=位域 bit 的权威寻址）反查 `cleared=1 & seen=0` 的 122 个位：
-- **Permit（特殊许可）98 + Arena（斗技场）3 + Guild G★14 16 + Permit HR 若干 = 全部解锁功能涂的位**
+- **Permit（特殊许可）103 + Arena（斗技场）3 + Guild G★14 16 = 122 = 全部解锁功能涂的位**（Permit 内部：★1-3 各 9、★4 0、★5 2、★6-10 各 5、★11-16 7/8/9/6/8/11）
 - **0 个落在普通村/集任务** → 玩家不可能「clear 了 EX 关却没见过」
 - 结论：**`seen |= cleared` 收敛 100% 安全**，无真进度被误清（`contradictory-bits-verdict.md`）
 
 ### 怪物计数器结构定案
-- 击杀段 `char_off 24230..24502` = **274B = 137×u16，无表头**（推翻旧「4+135×2」）
-- 槽 0-92 = 94 大怪（MonsterForm 数组），**槽 93-128 = 43 小怪**（db _id 4097-4144），槽 129-136 = 8 保留槽全 0
+- 击杀段 `char_off 24230..24503` = **274B = 137×u16，无表头**（推翻旧「4+135×2」）
+- 槽 `0..70` + `112..134` = 94 大怪（MonsterForm 数组，静态表 `0x1597ea4`），**槽 `71..111` + `135..136` = 43 小怪**（db _id 4097-4144 稀疏 + 4196-4202 七只 `uEms100..106` + 135=4113/136=4118），**无保留槽**（dirty 档 kill[135]=247、kill[136]=117）
 - 捕获/尺寸段小怪位全 0（小怪不可捕获无体型）
-- `monster-slot-map.json`（94 大怪）+ `monster-slot-map-small.json`（43 小怪）全链落盘
+- `monster-slot-map.json`（137 行，含 `kind` big/small）+ `monster-slot-map-137.json`（137 行）全链落盘（无 `-small.json`）
 
 ### G4/Permit 写点修正（6eb1e8a）
 - G★4 = quests.stars=14 → sort_order **782-862 + 939-943**（原写 786-865 漏头涂尾）
