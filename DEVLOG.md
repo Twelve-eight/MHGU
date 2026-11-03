@@ -975,3 +975,13 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 - **门**：\`member-seeds\` 的 must-fail 11 例；\`tools/audit/check.mjs\` 校验 189 篇分母、每篇有裁决、切片表头、计量器可跑。
 - **当前**：tier A **61.1%** 指令 / 57.0% 函数；**A-direct（有证据行）12.2%**；tier B 36.1%；未归属 2.7%。精度：280 行抽样中 53 行可判定，48 行正确（90.6%）。
 - **结论**：旧口径（72.8% / 52.2%）既不可复算、又建立在残缺的 tierB 抽判上，不能再用；引用覆盖率必须同时给出 A-direct。
+
+### 2026-11-03 深夜：两条新证据通道 + 一次自查纠错
+
+- **先纠错**：`recompute` 之前把 conf=B 也当种子传播，tier A 因此虚高到 61.1%。改为只收 conf=A（`--accept-b` 才放开）后掉到 **46.5%**，同时每文件打印 accepted/conf-B 计数。这是一次自我推翻，记在此处以免再次引用 61.1%。
+- **vtable 机械校验**：`verify-vtable-rows.mjs` 逐行验证 `word[V+4·slot]==start`，5,217 行全过 → 该表是函数级键控，不是类块键控（类块 0 行）。
+- **RTTI 重标**（`relabel-rtti.mjs`）：1,365 行降级 B 的行其实带着 Itanium 名字，解码后 `nn::nex` 1,075 / `nn::pia` 290，按命名空间归属 online-nex，回到 A。
+- **全量 vtable 扫描**（`vtable-scan.mjs`）：按 Itanium ABI（V−4 是 typeinfo、typeinfo+4 是类名）扫 rodata，2,561 个槽里只留落在函数起点的槽，779 个跨类共享槽（通用 getter/析构 thunk）丢弃 → 1,781 行。与上一条独立发现路径在 **1,226 个函数上重合、标签零分歧**。
+- **字符串词表**（`seeds-from-strings.mjs`）：从 16,998 条已证引用里按词表定标签，423 行。第一版把"占已标注引用的比例"当dominance，于是 `0x12d20`（31 条引用里 6 条 mItem，其余是 mVillageType/mNpcName/mContributePointNum）被标成 item；改成"占全部引用字符串 ≥40% 且 ≥3 条"后该行被剔除，46 行同类被剔除。
+- **当前口径**：A-direct **14.1%**（9,085 函数 / 736,873 指令）；tier A **59.5%**（28,548 函数）；B 37.7%；未归属 2.8%。12 行新 A 手检：monster 表引用 fly_move/moguri_move、ui 行调 ui 行、nex 行集中在 0x1200000 尾部区，11 行吻合、1 行无可证证据。
+- **vendor 清退**：`tools/mhgu/vendor` 101 个第三方文件（opus-decoder / @wasm-audio-decoders/common，MIT）曾被一次宽范围 `git add` 带进 f16e75f，现已移出索引并写入 `.gitignore` + `tools/mhgu/VENDOR-NOTICE.md`。⚠️ 26 个未推送提交的树里仍含这些 blob；**首次 push 前必须先 filter 或基于 origin/master 重建**，否则公开仓会带上第三方代码。
