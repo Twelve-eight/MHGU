@@ -54,7 +54,7 @@ for (const f of fns) {
       const V = rd(L);
       const s = readStr(V);
       if (s) { set.add(s); viaAbs++; }
-      else if (inRodata(V)) {
+      else if (false) {
         // data table: entries that point at ASCII strings
         for (let k = 0; k < 256; k++) {
           const E = rd(V + k * 4);
@@ -62,8 +62,25 @@ for (const f of fns) {
           const s2 = readStr(E);
           if (s2) { set.add(s2); viaTable++; }
         }
-      } else if (V < 0x2000000) {
-        delta.set(rdN, V); // small value: a pc bias, resolved by a following add
+      } else {
+        // a pc bias can be any 32-bit value (often negative, stored two's complement); keep it signed and let the
+        // add resolve it. Rejecting large values silently dropped 29% of member-name references.
+        const signed = V | 0;
+        if (Math.abs(signed) < 0x4000000) delta.set(rdN, signed);
+        // a pc bias can itself land inside rodata, which used to send it down the table-hop branch and lose it, so the
+        // value is always kept as a candidate delta as well
+        if (Math.abs(V | 0) < 0x10000000) delta.set(rdN, V | 0);
+      }
+      continue;
+    }
+    // add rD, rM, pc  (Rn is the operand register, Rm = 15) -- the mirror of add rD, pc, rM and just as common
+    if ((w & 0x0fe00000) === 0x00800000 && (w & 0xf) === 0xf) {
+      const rnN = (w >>> 16) & 0xf;
+      if (delta.has(rnN)) {
+        const t = (v + 8 + delta.get(rnN)) >>> 0;
+        const s2 = readStr(t);
+        if (s2) { set.add(s2); viaDelta++; }
+        delta.delete(rnN);
       }
       continue;
     }

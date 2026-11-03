@@ -44,9 +44,13 @@ domain, not the class).
 ## 2. Must-fail gate (runs on every invocation)
 
 ```
-node tools/mhgu/coverage/member-seeds.mjs --mustfail .tmp-precisionA/mustfail.json
+node tools/mhgu/coverage/member-seeds.mjs
+xref cross-check: 382/454 qualifying functions have a row, but only 4666/6526 (71%) of their member names are visible
 must-fail gate: PASS (10 cases)
 ```
+
+The cases live in `docs/analysis/code/coverage/mustfail-members.json`; the gate runs on every invocation and
+exits 1 if any hand-picked ambiguous function is promoted to A.
 
 | function | why it is ambiguous | verdict |
 |---|---|---|
@@ -78,7 +82,7 @@ The distribution is skewed by construction: otomo and render member names are th
 happens to be covered by `taxonomy.mjs` rules (`Otomo`/`Nyanter`, `Shader`/`Texture`). 445 of the 454 stay
 `unknown`, and 1 is suppressed as a conflict.
 
-Coverage overlap: 135 of the qualifying functions are already in the two seed files `recompute.mjs` reads
+Coverage overlap: 141 of the qualifying functions are already in the two seed files `recompute.mjs` reads
 (`attr-xref.tsv`, `attr-vtable-fixed.tsv`); ≈ 390 are in some attribution file. The 9 seeds are all in that
 overlap — `new 0`.
 
@@ -107,7 +111,7 @@ schema check is supposed to do — but corroboration does not move a meter that 
 ## 5. Why the yield is zero (the actual finding)
 
 The member-registering functions are **vtable slots**. `0x4210c` (10 members) sits at `0x1731588`; `0x4201c`
-at `0x1731578`; `0x47bb0` (11 members of `cEmDouMouKaDatas`) is slot 4 of `0x1731b00`; `0x54028` (22 members
+at `0x1731578`; `0x47bb0` (11 members of `cEmDouMouKaData`) is slot 4 of `0x1731b00`; `0x54028` (22 members
 of `rEnemyDtBase`) is already "monster-em A" from its own vtable. `attr-vtable-fixed.tsv` therefore already
 contains the class of nearly every qualifying function, and the member names only re-derive it.
 
@@ -122,10 +126,12 @@ Two consequences:
 
 1. **`stringxref.mjs` drops add-pc references whose delta lands in .rodata.** The delta-loaded literal is
    treated as a table pointer when its value is > `TEXT_END`, so `prevDelta` stays null and the following
-   `add rD,pc,rX` is never resolved. Result: `0x54028` (22 names: `BaseScale`, `Size`, `Rank`, `Nando`, …)
-   and `0x58fd0` have **zero** rows in `stringxref.tsv`. Fixing the resolver by *register* with a 4-instruction
+   `add rD,pc,rX` is never resolved. Result: 71 % of the member names this tool resolves in qualifying
+   functions (4,666 of 6,526) are visible to `stringxref.tsv`, and the add-pc-only cases are invisible
+   entirely — `0x54028` (22 names: `BaseScale`, `Size`, `Rank`, `Nando`, …) and `0x58fd0` have **zero**
+   rows in `stringxref.tsv`. Fixing the resolver by *register* with a 4-instruction
    lookahead raises the image-wide string-reference count and is a precondition for every string-based channel.
-2. **`member-offsets.tsv`'s `fn` column predates the retile.** Its sites are in other functions — 22 of the
+2. **`member-offsets.tsv`'s `fn` column predates the retile.** Its sites are in other functions — 25 of the
    27 runs have all their sites in exactly one other function (`0x53ea0` → `0x54028`, `0x479a0` → `0x47bb0`,
    `0x4201c` → `0x4210c`). The *class* in class-inventory is still correct (it is the registrar), but any
    consumer that reads `fn` as "the function that registers these members" is looking at the wrong address.

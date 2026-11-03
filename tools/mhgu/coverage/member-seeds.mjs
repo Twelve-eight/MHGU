@@ -29,9 +29,12 @@
 //         conf A = schema is unambiguous for one class/label (>=3 supporting names, >=80% of the labelled ones)
 //         conf B = class maps but the overlap is partial (2 names, or <80%)
 //
+// The must-fail gate runs by default against docs/analysis/code/coverage/mustfail-members.json (10 hand-picked
+// ambiguous functions) and exits 1 if any of them is promoted to A.
+//
 // Usage:
-//   node tools/mhgu/coverage/member-seeds.mjs
-//   node tools/mhgu/coverage/member-seeds.mjs --mustfail .tmp-precisionA/mustfail.json   (exit 1 on regression)
+//   node tools/mhgu/coverage/member-seeds.mjs                    (scan, emit, run the gate)
+//   node tools/mhgu/coverage/member-seeds.mjs --mustfail other.json
 import fs from "node:fs";
 import zlib from "node:zlib";
 import path from "node:path";
@@ -48,7 +51,7 @@ const CLASSES = arg("--classes", path.join(ROOT, "docs/data/class-inventory.tsv"
 const XREF = arg("--xref", path.join(ROOT, "docs/analysis/code/inventory/stringxref.tsv"));
 const OUT = arg("--out", path.join(ROOT, "docs/analysis/code/inventory/attr-members.tsv"));
 const EXISTING = arg("--existing", "attr-vtable-fixed.tsv,attr-xref.tsv").split(",");
-const MUSTFAIL = arg("--mustfail", "");
+const MUSTFAIL = arg("--mustfail", path.join(ROOT, "docs/analysis/code/coverage/mustfail-members.json"));
 
 const IMG = path.join(ROOT, "main.140.flat.bin");
 const buf = fs.readFileSync(IMG);
@@ -205,8 +208,10 @@ for (const f of funcs) {
     const share = names.length / total;
     if (names.length >= 2 && share >= 0.6) {
       label = top; source = "member-vocab";
-      conf = names.length >= 3 && share >= 0.8 ? "A" : "B";
-      why = `member names ${names.slice(0, 4).join(",")}${names.length > 4 ? ",..." : ""} (${names.length}/${total} labelled names, ${(100 * share).toFixed(0)}%) match taxonomy rules -> ${label}`;
+      // B, not A: the member vocabulary names the subsystem's data domain but not a class, and the ticket
+      // reserves A for "unambiguous for one class". Only the registrar-run path below can claim A.
+      conf = "B";
+      why = `member names ${names.slice(0, 4).join(",")}${names.length > 4 ? ",..." : ""} (${names.length}/${total} labelled names, ${(100 * share).toFixed(0)}%) match taxonomy rules -> ${label} (domain only, class not named)`;
     }
   }
 
@@ -238,8 +243,8 @@ for (const f of funcs) {
     if (unknowns.length < 40) unknowns.push(key);
     continue;
   }
-  if (ex && rank[ex.conf] >= rank[conf]) conf = "B"; // cannot confirm above evidence that is already equal/stronger
-  out.push([key, label, conf, `${conf === "A" ? "unambiguous" : "partial"}: ${why}${ex ? `; agrees with ${ex.src}` : ""}`.replace(/\t/g, " ")]);
+  const text = `${conf === "A" ? "unambiguous" : "partial"}: ${why}${ex ? `; agrees with ${ex.src}` : ""}`.replace(/\t/g, " ");
+  out.push([key, label, conf, text].join("\t"));
   stats.byLabel[label] = (stats.byLabel[label] || 0) + 1;
   stats.bySource[source] = (stats.bySource[source] || 0) + 1;
   stats[conf]++;
@@ -248,6 +253,21 @@ for (const f of funcs) {
 }
 fs.writeFileSync(OUT, out.join("\n") + "\n");
 
+// ---- xref cross-check (the ticket's other input): the committed xref only pairs an add-pc delta with the
+// instruction immediately before it, so most member references are invisible to it. Quantify, do not assume.
+let xrefSeen = 0;
+if (fs.existsSync(XREF)) {
+  const xs = new Map();
+  for (const l of fs.readFileSync(XREF, "utf8").split(/\r?\n/).slice(1)) { const [st, str] = l.split("\t"); if (!st || st === "start") continue; if (!xs.has(st)) xs.set(st, new Set()); if (str) xs.get(st).add(str); }
+  let memTotal = 0, memSeen = 0;
+  for (const [st, mem] of memOf) {
+    if (mem.size < 3) continue;
+    const k = "0x" + st.toString(16);
+    if (xs.has(k)) xrefSeen++;
+    for (const m of mem) { memTotal++; if (xs.get(k) && xs.get(k).has(m)) memSeen++; }
+  }
+  console.log(`xref cross-check: ${xrefSeen}/${stats.qualifying} qualifying functions have a row, but only ${memSeen}/${memTotal} (${(100*memSeen/memTotal).toFixed(0)}%) of their member names are visible to stringxref.tsv`);
+}
 console.log(`qualifying functions (>=3 member names): ${stats.qualifying}`);
 console.log(`already attributed elsewhere: ${stats.attributedElsewhere}`);
 console.log(`seeds emitted: ${out.length - 1}  (A ${stats.A}, B ${stats.B})  new ${stats.newSeeds}  unknown ${stats.unknown}  conflicts ${stats.conflicts}`);

@@ -1,0 +1,12 @@
+[
+ {"start":"0x3b6790","why":"quest class sQuestSelector whose schema carries mPoolAcNyanterEquip; an otomo reading would be a false positive","expect":"not-A"},
+ {"start":"0x93b1a8","why":"monster-em class with one render-sounding member mIsFromTextureCalcTangent","expect":"not-A"},
+ {"start":"0x370a4c","why":"quest message table with one audio member mBGMType","expect":"not-A"},
+ {"start":"0x4210c","why":"4-member run whose registrar 0x4201c is not in class-inventory","expect":"not-A"},
+ {"start":"0x486c8","why":"7-member monster-size run 0x48698 with no class name","expect":"not-A"},
+ {"start":"0x47bb0","why":"cEmDouMouKaData: enemy-looking class that no taxonomy rule covers","expect":"not-A"},
+ {"start":"0x45f3c","why":"uMHProofEffectModel: model/effect class not covered by any rule","expect":"not-A"},
+ {"start":"0x12d20","why":"31 generic members (mType/mIndex/mFlag style), no distinctive schema","expect":"not-A"},
+ {"start":"0xd4914","why":"94 generic members, schema shape alone cannot name a class","expect":"not-A"},
+ {"start":"0x58fd0","why":"5 of 7 rEnemyDtTune members: correct class but partial overlap","expect":"B"}
+]
