@@ -12,6 +12,7 @@
 import fs from "node:fs";
 import zlib from "node:zlib";
 import path from "node:path";
+import { RULES, LABELS, labelOf } from "./taxonomy.mjs";
 
 const ROOT = "G:/omp works/MHGU";
 const fnArg = process.argv.reduce((a, v, i) => (v === "--functions" ? process.argv[i + 1] : a), []);
@@ -19,27 +20,7 @@ const SRC = fnArg || path.join(ROOT, "docs/data/functions.csv.gz"); // use docs/
 const OLD = path.join(ROOT, "docs/analysis/code/inventory/tiers.csv");
 const OUT = path.join(ROOT, "docs/analysis/code/inventory/tiers-recomputed.csv");
 
-// Same rules as tiers-all.mjs: order matters, first match wins.
-const RULES = [
-  ["online-nex", /(OnlineCore|Nex[A-Z]|Nex::|InstanceTable|NNC_|RVCID|Matchmake|SessionJob|MeshJob|HostMigration|HTTP)/],
-  ["save-data", /(savedata|saveData|SaveData|sSlot|SaveSlot)/],
-  ["render-gfx", /(shader|Shader|texture|Texture|render|Render|vfx|Mesh|model|Model|camera)/],
-  ["audio", /(\bsnd|Snd|\bSE\b|BGM|bgm|Sound|sound|Music)/],
-  ["ui", /(\bMenu|Menu[A-Z]|\bHud|Layout[A-Z]|layout_)/],
-  ["monster-em", /(emUniqueAct|uEm\d|cEm|EnemyCharacter|MonsterUnit|mParam\.|actionNo|netEmAction|EmSetList|rEnemyDt)/],
-  ["player-pl", /(cPl|uPl|PlayerState|player_)/],
-  ["weapon-wp", /(\bwp_|cWp|Weapon|pEquipData)/],
-  ["otomo-ot", /(otomo|Otomo|nyanter|Nyanter|netOt[A-Z])/],
-  ["quest", /(quest|Quest)/],
-  ["item", /(\bitem|ItemData|cItem)/],
-  ["filesystem", /(romfs|Romfs|fw_fs|FileSystem|filedev)/],
-  ["physics-math", /(MtCollision|rigid|Rigid|Phys)/],
-  ["kernel-os", /(MtAllocator|MtArray|MtList|MtTree|MtDti|Thread|Heap|Mutex|BitIO|Archive|Stream)/],
-];
-const labelOf = (s) => { for (const [k, re] of RULES) if (re.test(s)) return k; return null; };
-// only real subsystem labels may enter the graph: "unknown" and "unmatched" are auditor verdicts, not labels, and
-// seeding them would spread a non-label across the call graph (it did: 900 rows).
-const LABELS = new Set(RULES.map(([k]) => k));
+// rules come from taxonomy.mjs (single definition shared with the evidence generators)
 
 // ---- load
 const text = zlib.gunzipSync(fs.readFileSync(SRC)).toString("utf8");
