@@ -510,9 +510,11 @@ vtable 通道靠 RTTI 认表，但镜像里还有大量**没有 typeinfo 的函�
 
 | 对照 | 一致 | 主要分歧 |
 |---|---:|---|
-| 字符串 vs 类名 | **840/894 = 94.0%** | player-pl↔quest 17（任务中的玩家 actor）、ui↔otomo-ot 11、render-gfx↔ui 7 |
+| 字符串 vs 类名 | **976/1,015 = 96.2%**（修正 uPlayerQuest 后；修正前 840/894 = 94.0%） | ui↔otomo-ot 11、render-gfx↔ui 7、weapon-wp↔player-pl 3 |
 | 字符串 vs 结构 | 143/146 = 97.9% | 各 1 |
 | 类名 vs 结构 | **937/958 = 97.8%** | ui↔render-gfx 15、online-nex↔render-gfx 6 |
+
+修正：`uPlayerQuest00/01/02` 被两个通道判成 player-pl 与 quest 两种，根因是前缀表里 `uPlayer` 的 basis 直接写了 `uPlayerQuest`。按既有约定（主题域优先，同 `uUISupplyBox`→item）新增更具体的 `uPlayerQuest → quest`，最长前缀命中后两边一致，族间一致率从 94.0% 升到 **96.2%**。
 
 两条结论：
 

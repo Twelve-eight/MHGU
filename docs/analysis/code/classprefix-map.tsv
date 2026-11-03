@@ -195,6 +195,7 @@ uPl	player-pl	uPlParts; uPlWeapon; uPlWeaponPreview
 cPlayer	player-pl	cPlayerGimmickType; cPlayerManyAttacks; cPlayerWeaponList
 rPlayer	player-pl	rPlayerDummyAction; rPlayerPartsDisp; rPlayerGimmickType
 sPlayer	player-pl	sPlayer
+uPlayerQuest	quest	uPlayerQuest, uPlayerQuest00/01/02: player quest state (theme domain wins, same convention as uUISupplyBox -> item; the registrar taxonomy already says quest)
 uPlayer	player-pl	uPlayerBase; uPlayerActor; uPlayerQuest
 cHunterArts	player-pl	cHunterArtsBase
 rHunterArts	player-pl	rHunterArtsData
