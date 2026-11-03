@@ -1,2 +1,3 @@
-immediate	occurrences	label	direct_monster	direct_other	precision	adopted
-0x1428	>=2	monster-em	7	0	100.0%	adopt
+rule	carriers	direct_monster	direct_other	precision	adopted
+0x1428 x>=2 + motion callee	485	7	0	100.0%	adopt
+motion signature >=3 sites / >=2 APIs + corroboration	1354	9	0	100.0%	adopt
