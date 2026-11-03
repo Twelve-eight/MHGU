@@ -130,7 +130,10 @@ console.log(`direct sources: ${directArgs.length}`);
 const direct = new Set();
 for (const f of directArgs) {
   for (const l of fs.readFileSync(f, "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
-    const [start, label, conf] = l.split("\t");
+    const [rawStart, label, conf] = l.split("\t");
+    // normalise: one channel used to write bare hex while the spine keys are 0x-prefixed, and those rows then never
+    // matched the function table (1,673 rows were invisible to A-direct before this)
+    const start = "0x" + parseInt(rawStart, 16).toString(16);
     if (conf === "A" && label && label !== "unknown") direct.add(start);
   }
 }
@@ -162,7 +165,31 @@ const CV = (() => {
 })();
 rows.push(["A-inferred (callee+class vote, fold 93.6-99.3%)", String(CV.fn), String(CV.ins), pct(CV.ins, totalIns), pct(CV.fn, totalFn)]);
 rows.push(["headline A only", String(A.fn), String(A.ins), pct(A.ins, totalIns), pct(A.fn, totalFn)]);
-rows.push(["unattributed", String(totalFn - A.fn - B.fn), String(totalIns - A.ins - B.ins), pct(totalIns - A.ins - B.ins, totalIns), pct(totalFn - A.fn - B.fn, totalFn)]);
+// The four classes below are a partition: each function counts once. "unattributed" used to be total - A - B, which left
+// the inferred rows inside it while also printing them on their own line.
+const Vset = (() => {
+  const s = new Set();
+  for (const f of fs.readdirSync(INV).filter((x) => /^attr-.*vote\.tsv$/.test(x))) {
+    for (const l of fs.readFileSync(path.join(INV, f), "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
+      const [start, label, conf] = l.split("\t");
+      if (conf === "V" && label) s.add(start);
+    }
+  }
+  return s;
+})();
+let pDir = 0, pDirIns = 0, pInf = 0, pInfIns = 0, pB = 0, pBIns = 0, pNone = 0, pNoneIns = 0;
+for (const [start, t] of tiers) {
+  const ins = t.insns;
+  const b = best.get(start);
+  if (direct.has(start)) { pDir++; pDirIns += ins; }
+  else if (Vset.has(start)) { pInf++; pInfIns += ins; }
+  else if (b && b.conf === "B") { pB++; pBIns += ins; }
+  else { pNone++; pNoneIns += ins; }
+}
+rows.push(["partition: direct evidence", String(pDir), String(pDirIns), pct(pDirIns, totalIns), pct(pDir, totalFn)]);
+rows.push(["partition: inferred only", String(pInf), String(pInfIns), pct(pInfIns, totalIns), pct(pInf, totalFn)]);
+rows.push(["partition: spread label only (B)", String(pB), String(pBIns), pct(pBIns, totalIns), pct(pB, totalFn)]);
+rows.push(["partition: no label", String(pNone), String(pNoneIns), pct(pNoneIns, totalIns), pct(pNone, totalFn)]);
 
 const byLabel = new Map();
 for (const [start, b] of best) {

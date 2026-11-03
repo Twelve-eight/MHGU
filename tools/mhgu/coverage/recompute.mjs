@@ -83,7 +83,10 @@ for (const r of rows) {
   const lab = labelOf(r.strings);
   if (lab) seeds.push({ r, lab });
 }
-for (const [start, e] of external) if (!demoted.has(start)) seeds.push({ r: rows.find((r) => r.s === start), lab: e.label, ext: e });
+// A demotion removes the *propagated* label; it does not erase evidence. If a later channel produced a direct row for a
+// demoted function, that row still seeds (the demotion suppressed votes, not facts), otherwise a demoted range could never
+// recover even when its own bytes are later explained.
+for (const [start, e] of external) seeds.push({ r: rows.find((r) => r.s === start), lab: e.label, ext: e });
 console.log(`functions ${rows.length}, seeded ${seeds.length} (${((100 * seeds.length) / rows.length).toFixed(1)}%) [${extraSeedFiles.length} external file(s)]`);
 
 // ---- spread

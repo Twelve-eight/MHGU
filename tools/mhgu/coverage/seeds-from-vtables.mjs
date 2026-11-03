@@ -66,7 +66,7 @@ for (const l of fs.readFileSync(SRC, "utf8").split(/\r?\n/).filter(Boolean).slic
   if (seen.has(start)) continue;
   seen.add(start);
   perLabel.set(hit[1], (perLabel.get(hit[1]) || 0) + 1);
-  out.push([start, hit[1], "A", `${cls} vtable 0x${vt} slot ${slot} [typeinfo-decoded class; ${hit[0]} is ${hit[2]}]`]);
+  out.push(["0x" + parseInt(start, 16).toString(16), hit[1], "A", `${cls} vtable 0x${vt} slot ${slot} [typeinfo-decoded class; ${hit[0]} is ${hit[2]}]`]);
 }
 fs.writeFileSync(OUT, out.map((r) => r.join("\t")).join("\n") + "\n");
 console.log(`labelled ${out.length - 1} functions:`, [...perLabel].sort((a, b) => b[1] - a[1]).map((x) => x.join(":")).join(" "));
