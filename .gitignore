@@ -58,3 +58,6 @@ docs/data/weapons.json
 !docs/data/json/README.md
 !docs/data/json/monster-slot-map.json
 !docs/data/json/monster-slot-map-137.json
+
+# third-party runtime deps are installed locally, never committed (AGENTS §7b)
+tools/mhgu/vendor/
