@@ -674,7 +674,7 @@ Tier A 的重测（随机留出）让人回头检查：**其余通道都是用�
 
 这正是选择半/报告半存在的理由：**render-gfx 在选择半上看着过线（91.3），换成报告半就掉到 87.4**。若无这道程序，今天就会因为它"随机口径 93.8%"而多算一个标签。
 
-**代码与文档一致（2026-11-04 核对）**：`report.mjs` 的 `VALID_SPREAD = {online-nex, weapon-wp}`，render-gfx 不在其中；`tiers-merged.csv` 里 `spread+address` 行的标签分布是 monster-em 7,715 / online-nex 5,713 / ui 4,118 / render-gfx 3,638 / weapon-wp 1,111 / physics-math 1,027 / otomo-ot 847 / quest 616 / item 417 / audio 310 / player-pl 259 / kernel-os 177——**只有 online-nex 与 weapon-wp 进 ≥90% 线**，其余全部落在"摊开未验证"，没有任何被否决的通道混进 66.3%。
+**代码与文档一致（2026-11-04 核对）**：`report.mjs` 的 `VALID_SPREAD = {online-nex, weapon-wp}`，render-gfx 不在其中；`tiers-merged.csv` 里 `spread+address` 行的标签分布是 monster-em 7,715 / online-nex 5,713 / ui 4,118 / render-gfx 3,638 / weapon-wp 1,111 / physics-math 1,027 / otomo-ot 847 / quest 616 / item 417 / audio 310 / player-pl 259 / kernel-os 177——**只有 online-nex 与 weapon-wp 进 ≥90% 线**，其余全部落在"摊开未验证"，没有任何被否决的通道混进 ≥90% 线（三次更正后该线为 66.2%）。
 
 **哪些标签会因构造而翻面**（随机口径 vs 地理口径）：render-gfx 93.8%（CP95 91.3）↔ 83.6%，ui 90.8%（88.7）↔ 77.3%，monster-em 74.5% ↔ 22.6%，quest 60.0% ↔ 14.0%，otomo-ot 48.1% ↔ 5.5%。**只有 render-gfx 在乐观口径下过线**；按"不因为换尺子就多算一个标签"的原则，它仍留在未验集合里。要真放它进来，必须先做选择半/报告半（按 rep 劈开），不能用同一份测量既挑又报。
 
@@ -853,6 +853,8 @@ bl  0x7aedcc      ; 注册器
 | spread unvalidated | 1,240,382 | 1,240,382 |
 | no label | 524,143 | 524,143 |
 | **≥90% 覆盖** | **3,463,752 = 66.25%** | 66.3% |
+
+> 这张表是修掉"裁定量混入"之前跑的。第三次更正后整组数字下调 3,220 条指令（覆盖 3,460,532 = 66.19%），见上一节；两套实现仍然逐项相等。
 
 **必失败样本**：把 `report.mjs` 的 `VALID_SPREAD` 偷偷加上 `monster-em`（模拟一次合并错误），门 8 立刻
 
