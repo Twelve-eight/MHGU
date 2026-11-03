@@ -106,5 +106,35 @@ try {
   bad(`independent recomputation disagrees with the report: ${diffs || String(e.message).slice(0, 120)}`);
 }
 
+// 9. the published project calibre must equal what canonical-metric.mjs prints. The 58.4% figure survived for a day
+// because every document hand-copied it while the script counted 512 functions a recorded review had refuted; nothing
+// compared the two. A number that is retyped into five files needs one place that reads it back.
+try {
+  const out = execFileSync(process.execPath, ["tools/mhgu/coverage/canonical-metric.mjs"], { cwd: ROOT, encoding: "utf8" });
+  const cm = /canonical total\s+([\d.]+)%/.exec(out);
+  if (!cm) bad("canonical-metric.mjs printed no 'canonical total' line");
+  else {
+    const want = cm[1];
+    const stated = [];
+    for (const f of ["docs/analysis/code/coverage/METER.md", "HANDOFF.md", "docs/PROGRESS.md"]) {
+      const lines = fs.readFileSync(path.join(ROOT, f), "utf8").split(/\r?\n/);
+      lines.forEach((l, i) => {
+        if (!/(项目原始口径|Tier B conf=A)/.test(l)) return;
+        // the calibre is always written as "Tier A ... + B conf=A"; a passing mention of 项目原始口径 that quotes some
+        // other percentage (e.g. the precision of a rule family) must not be read as the calibre
+        if (!/Tier\s*A[^。]{0,60}B/.test(l)) return;
+        const pcts = [...l.matchAll(/(\d+\.\d)%/g)].map((x) => x[1]);
+        if (!pcts.length) return; // a definition line ("主指标 = Tier A + Tier B conf=A") states no value
+        if (!pcts.includes(want)) bad(`${f}:${i + 1} states the project calibre as ${pcts.join("/") || "no percentage"} but canonical-metric.mjs says ${want}%`);
+        else stated.push(`${f}:${i + 1}`);
+      });
+    }
+    if (stated.length) ok(`published project calibre matches canonical-metric.mjs (${want}%) at ${stated.length} site(s)`);
+    else bad(`no document states the project calibre ${want}% next to 项目原始口径`);
+  }
+} catch (e) {
+  bad(`canonical metric failed: ${String(e.message).slice(0, 120)}`);
+}
+
 console.log(failures ? `\n${failures} check(s) failed` : "\nALL PASS");
 process.exit(failures ? 1 : 0);

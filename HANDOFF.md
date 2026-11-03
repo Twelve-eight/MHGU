@@ -19,7 +19,7 @@
 | 代码：L0 结构清点 | **52,692 函数**（重切后的当前分母；旧口径 23,885）/ 5,228,277 指令 / 3,201 类 | **100%** ✅ |
 | 代码：L1 子系统（**2026-10-23 历史值，勿引用**）| Tier A 8,856 函数 / 51.5% 指令，当时实测精度 94.7%——函数表重切后都不适用 | 历史记录 |
 | 代码：L1（**2026-11-04 重测**，见 `docs/analysis/code/coverage/METER.md`；Tier A 精度重测 78.3%） | 分母已按重切函数表变成 **52,692 函数**（指令分母不变 5,228,277）：直接证据 **23.9%**；≥90% 精度可溯源覆盖 **66.2% 指令 / 53.5% 函数**；按各通道实测精度加权的**期望解释比例 75.0%**；摊开未验 23.8%（逐标签 5.5–83.6%）；无标签 10.0% | 口径收紧后**未达 90%**（见 §5 顶部说明） |
-| 代码：L1 覆盖率（含 Tier B conf=A）| **58.4% 指令**（Tier A 58.1% + B 切片 conf=A 0.4%；函数口径见 §5）| ❌（目标 90% **指令**，函数并列；见 §5 口径）|
+| 代码：L1 覆盖率（含 Tier B conf=A）| **58.0% 指令**（Tier A verified 57.7% + B 切片 conf=A 0.3%；函数口径见 §5）| ❌（目标 90% **指令**，函数并列；见 §5 口径）|
 | 怪物机制：数据侧 | mhgu.db 全表（HP/肉质/异常/弱点/掉落/栖息地/任务出现）| ✅ |
 | 怪物机制：代码侧 | 类成员 `{名,offset,type}` 110 条 / 状态机 state→handler 全解 / motion 名 41/53 派发器 | ✅ 主要结构 |
 | 怪物机制：数值表 | 体型/冠阈值在 **romfs**，被 base NCA（`98abd400…nca`，**12,168,003,584 B = 12.17 GB / 11.33 GiB**）缺失阻塞 | ❌ 硬边界 |
@@ -157,7 +157,7 @@ node 用 `G:/omp works` 为 cwd。
 >
 > 也就是说：**目标（≥90%）未达成**，且差距不是执行问题——见 `METER.md` 里十余条被实测否决的通道。下面的 2026-10-23 记录保留作历史。
 >
-> **按本文件自己的口径（Tier A + Tier B conf=A）重算当前值**：Tier A **58.1%** + B 切片 conf=A **0.4%** = **58.4% 指令**（`node tools/mhgu/coverage/canonical-metric.mjs`）。**Tier A 的精度已在 2026-11-04 重测：78.3%（CP95 77.8，随机扣留 20% × 5 次，25,123 行）**，不是 94.7%——后者是旧函数表上的测量，不能沿用，见 METER「Tier A 的精度：地理留出测的是召回，随机留出测的才是精度」。两个数要一起读：58.4% 是与历史记录可比的项目口径，66.3% 是当前证据支持的"≥90% 精度"口径。
+> **按本文件自己的口径（Tier A + Tier B conf=A）重算当前值**：Tier A **verified 57.7%** + B 切片 conf=A **0.3%** = **58.0% 指令**（`node tools/mhgu/coverage/canonical-metric.mjs`）。**Tier A 的精度已在 2026-11-04 重测：78.3%（CP95 77.8，随机扣留 20% × 5 次，25,123 行）**，不是 94.7%——后者是旧函数表上的测量，不能沿用，见 METER「Tier A 的精度：地理留出测的是召回，随机留出测的才是精度」。两个数要一起读：58.0% 是与历史记录可比的项目口径，66.2% 是当前证据支持的"≥90% 精度"口径。
 
 **度量口径（`docs/analysis/code-metrics.md` 为准）**：
 - **主指标** = Tier A + Tier B conf=A，分母 = `.text` 指令 **5,228,277**（唯一主指标）；函数口径（分母 **23,885**）作为第二指标并列报出，不混用、不取平均；「留出 20% 人工标注测全函数子系统正确率 ≥90%」是**验证门（validation gate）**，不是主指标；conf=B/C 不计入。（`docs/analysis/code-metrics.md` §6 验收口径，2026-10-23 定案）
@@ -208,7 +208,7 @@ MHGU/
 
 | # | 项 | 状态 |
 |---|---|---|
-| 1 | Tier B 裁定 → 代码 90% | 进行中（52.5% 指令）|
+| 1 | Tier B 裁定 → 代码 90% | 进行中（**58.0% 指令**，2026-11-04 口径；52.5% 是 2026-10-23 旧函数表的值）|
 | 2 | 编辑器扩窗实机验证 | **待用户**（唯一未验环节）|
 | 3 | `MonsterForm` 137 槽显示实机确认 | 待用户 |
 | 4 | 体型/冠阈值数值 | **阻塞**：需 romfs base NCA |
@@ -237,7 +237,7 @@ MHGU/
 
 1. 读 `DEVLOG.md` **最后一段**（2026-11-04 三次更正 + 审计加固）：当前数字、今天改了什么、哪些结论被推翻，都写在那。
 2. 读 `docs/analysis/code/coverage/METER.md` 的**抬头 + 「覆盖线（三次更正）」节**：当前口径与全部更正记录。
-3. 跑 `node tools/audit/check.mjs`（8 道门，约 2 s），**全绿再动手**。
+3. 跑 `node tools/audit/check.mjs`（**9 道门**，约 2 s），**全绿再动手**。
 4. 要重算或改通道，按顺序跑：`recompute → report → function-labels → form-classify → labels-summary → summarize → check.mjs`（命令块见 METER 顶部）。改 `sources.json` 或任何 `attr-*.tsv` 之后**必须整链重跑**。
 5. 存档侧权威布局 `docs/save-layout/coverage-map.md`；代码侧资产入口 `docs/analysis/code/inventory/README.md`；数据侧 `docs/data/README.md`；怪物机制下一步见 `docs/mechanics/monster-code-map.md`（romfs 部分需用户提供 XCI）。
 6. 提交规范：`git -c user.name=Twelve-eight -c user.email=Twelve-eight@users.noreply.github.com commit`。
