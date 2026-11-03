@@ -1291,3 +1291,20 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 - **"全 0"不等于"可以忽略"**：`0x2EFF..0x3FEF` 有 577 个非零字节，只是没有可读字符串；据此判定"组名块存在"是错的，`mov r2,#4080` 实际属 `0x17CF` 的道具预设块。
 
 **接下来从哪读**：`LINK-STATUS.tsv`（处置状态）→ `METER.md` 抬头（口径）→ `HANDOFF.md`（入口）→ 本段。
+
+
+## 2026-11-04（续四）：实机窗口 06:39–06:56（SUYU / MHGU 导出）
+
+**窗口**：用户在 06:39 给出"离开到 8:00，7:30 前可实机"。按 §2e 记录。
+
+**备份**：`G:\backups\MHGU-20261104\`（`save/` 8 个文件 + `config/`，共 13 MB）。哈希清单 `SHA256SUMS.txt`。
+
+**做了什么**：用 `I:\suyu\export\MONSTER HUNTER GENERATIONS ULTIMATE\launch.bat` 同目录的导出 exe 启动，PID 14432 → 26660，两次启动都到标题画面，帧率 45–97 fps。截图在 `G:/tmp/mhgu-live/shot1..shotH.png`。
+
+**没做到**：**没有到达存档选择画面**。键盘映射（`player_0_button_a = code 67 = C`，`plus = code 77 = M`）在把 `qt-config.ini` 的 `keyboard_enabled` 改成 `true` 之后仍然无法把 "PRESS A" 推进到主菜单——每次按 A 都重新播放开场电影。判断：Autopad 只在特定窗口/焦点下生效，或者 A 在标题被用于"播放片头"。**结论：编辑器与存档的实机验证仍需用户手点（U1/U3）**，自动按键这条路在 30 分钟内不可靠，不再消耗窗口。
+
+**还原**：进程按路径核验后 `Stop-Process`（`I:\suyu\export\*`），`keyboard_enabled` 改回 `false`。
+
+**哈希校验的一个坑**：`sha256sum -c SHA256SUMS.txt` 对**全部 8 个文件**报 FAILED，但逐字段比对（`sha256sum <file>` vs 清单第一列）**完全相同**，且活动存档与备份完全相同——即存档**未被改动**。所以本机环境下 `sha256sum -c` 不可信，必须逐文件比对哈希字符串。这条要写进 §2e 的检查清单。
+
+**结论**：这一轮实机只买到两个事实：①导出 exe 在本机能启动并跑到标题；②存档在两次启动/退出后逐字节未变（`Lay1nn_HR198.hnt` = `69392be8…42e5e2`）。存档选择、编辑器、DLC 页仍然只能由用户点击验证。

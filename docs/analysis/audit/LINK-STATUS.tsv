@@ -54,3 +54,17 @@ MC10	MECHANICS	C5: 0x50B64 "60 处调用"	fixed	recounted: 53 bl + 1 b = 54 refe
 MC11	MECHANICS	C7: per-class member counts 42/26/6	fixed	0x54028 holds 22 rows/22 names (not 26); the three small classes match exactly; cEmDouMouKaData and rEnemyResidentDtBase cannot be reproduced from member-offsets.tsv and are marked unreproduced
 MC12	MECHANICS	C10: 0x6AA9B8 called save data	fixed	labelled otomo-ot by caller vote (LOO 96.4); row now says save-data for 0x52308C and otomo-ot for 0x6AA9B8
 MC13	MECHANICS	C12: mParam 131 strings	fixed	image has 134 distinct mParam.* strings; the three missing rows are named in the doc header
+W2-ES1	EDITOR-SPEC	MN-07 protected block ended at 0x22612; the 2064 B block runs to 0x2261D	fixed	main session measured 1 nonzero byte in 0x22612..0x2261D of Sakiko_HR5_V7.hnt; MN-07 end corrected and the measurement recorded
+W2-ES2	EDITOR-SPEC	Medal A/B rule claimed a mirror pair because clean A==B	fixed	main session recomputed both slots of system_CLEAN: slot0 A=54/B=33 with 21 A-only bits, slot1 A=B=12; relation is B subset of A; medal writing now forbidden, I9 rewritten
+W2-ES3	EDITOR-SPEC	Item 9 never-write range 0x50BA..0x5E2D vs table block 0x50BE..0x5E32	fixed	rule widened to the union 0x50BA..0x5E32 so no byte escapes
+W2-ES4	EDITOR-SPEC	22 citation refs point at blank/fence lines, 30+ off by 1-15 lines	open	not verified by the main session; needs the citation resolver re-run
+W2-ES5	EDITOR-SPEC	Gap 11 stale and unsafe (4 B drift described at the wrong place)	open	not verified; the drift localisation needs a byte check before the text is rewritten
+W2-ES6	EDITOR-SPEC	EQ-10/EQ-11 require zeroing record +12..+35 which is nonzero for type 11	open	not verified; deciding this needs the equipment record semantics
+W2-SV1	SAVE-IO	tail-containers:74 claims 50 zlib streams in each slot	unresolved	main session scan of slot0 found 34 adler-valid stream headers (median 29,516 B) and 2,131 raw 78 9C/DA/01 byte pairs; neither 50 nor the agent's 1,258 reproduces without the agent's script, so the metric needs a written definition before any number is quoted
+W2-SV2	SAVE-IO	13 contradictions on save numbers (zlib count, 4K windows, 214 B group, bucket sizes, 0x3e0ea4 callers, 0x0193A514, records-128 flood rows)	open	agent commands not preserved; each needs a re-run before the doc is changed
+W2-MB1	MEMBERS	member[14] size 98 B vs 6,248 B between two docs	open	needs disassembly re-check; the agent's 13 bl + 138 direct bytes is a claim, not a reproduced command
+W2-MB2	MEMBERS	member[7] bitstream 196 bit vs 157 bit	open	needs 0x3df1b8 re-run
+W2-MP1	MECH-PARAMS	monster-classes banner says records at 0x4869C; agent says 0x486C8	open	needs function_start re-check
+W2-MP2	MECH-PARAMS	monster-ai-params says 134 mParam strings; agent counted 131 NUL-delimited	open	main session has not re-counted; the unit mixture (token vs string) is plausible but unverified
+W2-MP3	MECH-PARAMS	uEm###_00 row count 225 is not the unit-name count	open	not verified
+W2-CS1	CONSTANTS	270 sites checked, 2 misuses	open	report lists them; neither acted on yet

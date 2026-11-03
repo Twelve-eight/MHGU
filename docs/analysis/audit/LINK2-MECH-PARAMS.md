@@ -1,0 +1,85 @@
+# Harvested from the agent's local:// report on 2026-11-04; the agent's write device refused working-tree paths.
+
+# LINK2 — mechanics/monster-ai-params.md + mechanics/monster-classes.md vs code image
+
+Reviewer: Link2MechanicsParams. 2026-11-04. Verdicts below are re-derived from the image; the
+documents were treated as claims only.
+
+**Tooling limits that shaped the method (read this before the tables).** No `run` tool is
+attached to this worker (`xd://run` answers "No such tool"), so `node tools/audit/check.mjs`
+could not be executed and no counting script could be run. The repository `grep` tool silently
+skips the 24.3 MB binary: `grep uEm001_00` and `grep mParam\.mSyncParam\.data` on
+`main.140.flat.bin` both return "No matches found" although the bytes are present, so a
+whole-image string scan is impossible. All byte evidence therefore comes from
+`mhgu_re_read_bytes` on the whitelisted copy
+`G:/omp works/.tmp/mhgu/extract/exefs-0eb5/main.140.flat.bin` (25,472,632 B, same flat image,
+`offset = vaddr + 0x100`; convention verified independently at 0x15527D4 and 0x1583420), decoded
+by hand from hex dumps of 48 B to 4 KB. Instruction evidence comes from `mhgu_re_disasm` and
+`mhgu_re_function_start`. Counts are line arithmetic over the documents.
+
+Coverage reached: **all 12 §0 symbols, all 134 §1 rows, all 44 §2 rows, all 32 §3 rows, all 225
+§4 rows** of monster-ai-params.md, and **all 110 rows / 27 groups** of monster-classes.md
+against member-offsets.tsv. Every address quoted by the two files was read.
+
+## CONFIRMED — claim, location, command, output
+
+| # | claim | location | command / evidence | result |
+|---|---|---|---|---|
+| C1 | `flat_off = vaddr + 0x100` | ai-params:3 | `read_bytes {"offset":22358228,"length":48}` = 0x15528D4 | `015528d4: 75 45 6d 30 30 31 5f 30 30 00 75 45 6d 30 30 33 / 5f 30 30 00` = `uEm001_00\0uEm003_00\0uEm008_00\0`; vaddr 0x15527D4 is §4's first row. |
+| C2 | §0 lists 12 symbols and each address is that string | ai-params:11-21 | dumps at 0x1552300/0x1553300/0x1556900/0x1585200/0x1583500 | all 12 exact: `emUniqueActMain`@0x1583420 (`01583520: 65 6d 55 6e 69 71 75 65 41 63 74 4d 61 69 6e 00`), `emUniqueActParamSet`@0x158520A (`01585300: 73 74 65 61 6c 74 68 30 32 00 65 6d 55 6e 69 71 / 01585310: 75 65 41 63 74 50 61 72 61 6d 53 65 74 00`), `uMonsterUnitConductor`@0x15535DC, `uEnemyCharacter`@0x155358A, `uEnemy`@0x15535C9, `actionNo`@0x1553633, `cEmSetList`@0x155681F (`01556910: … 63 53 65 74 45 6d 4d 61 69 6e 00 63 / 01556920: 45 6d 53 65 74 4c 69 73 74 00`), `cEnemyResourceBroker`@0x15527BF, `cEnemyDebugSetData`@0x155277F, `cEmSizeCalcTblElement`@0x15526BE, `cEmSizeYureTblElement`@0x1552742, `cEmDouMouKa_PartsAuraData_Element`@0x1552294. 12/12 PASS |
+| C3 | §1 = 134 rows; subtotals 17/13/12/9/12/10/16/45 | ai-params:24-198 | read of :24-198; headings at :26 :48 :66 :83 :97 :114 :129 :150 | 17+13+12+9+12+10+16+45 = 134 rows and each subtotal equals its heading. 3 rows repeat (`hang_ok_timer_flag`@0x15596F5 at :31 and :88, `sysSendData.q_target_type`@0x1559C37 at :60 and :121, `sysSendData.em_set_id`@0x1559BBE at :120 and :137) → 131 distinct rows = the "131 条" of :24. |
+| C4 | the 131 distinct `mParam.*` names are the 131 NUL-terminated `mParam.*` strings in the image | ai-params:26-198 | `read_bytes {"offset":22385920,"length":4096}` (vaddr 0x1559400..0x155A3FF) + `{"offset":22394112,"length":4096}` (vaddr 0x155B400..0x155C3FF) | cluster 1: 119 strings `mParam.net_em.prio`@0x1559491 … `mParam.call_area`@0x1559E14, then `mParam.mSyncParam`@0x155A252; cluster 2: 11 strings `mParam.clr_timer`@0x155BFA9 … `mParam.em_type`@0x155C198. Total 131, no table name missing and no extra `mParam.*` string in either block. |
+| C5 | every §1 vaddr points at the start of the named string | ai-params:30-198 | the two dumps, decoded row by row | 134/134 exact. Samples: `01559750: 6d 2e 61 72 65 61 5f 6e 6f 00 6d 50 61 72 61 6d` → `mParam.next_area` @file 0x155975A = vaddr 0x155965A; `01559c30 … 5f 68 00 6d 50 61 72 61` → `nando_h`@0x1559B2C, `nando_a`@0x1559B3B, `nando_o`@0x1559B4A; `0155c0a0 … 5d 00 6d 50 61 72 61 6d 2e` → `mParam.clr_timer`@0x155BFA9; `0155c290: … 49 6e 64 65 78 00 6d 50 61 72 61 6d 2e 65` → `mParam.em_type`@0x155C198. |
+| C6 | §2 lists 44 action names and each address is that string | ai-params:200-247 | dumps vaddr 0x1583900..0x15848FF (`{"offset":22559232,"length":4096}`), 0x1584A80..0x1584ABF, 0x15852F0..0x158534F, 0x1563F90..0x1563FCF, plus the §1 dump for `way_move_type` | 44/44 exact. E.g. `01583ad0: … 66 66 00 66 77 5f 6d 6f 76 65 00 61 63 74 69 6f 6e` → `fw_move`@0x15839DA, `action_move`@0x15839E2, `move_move`@0x15839EE, `moguri_move`@0x15839F8, `attack_move`@0x1583A04 (`01583b00: 6f 76 65 00 61 74 74 61 63 6b 5f 6d 6f 76 65 00`), `revival_move`@0x1583A10; `01583fe0: 30 5f 30 30 00 66 6c 79 5f 6d 6f 76 65 00` → `fly_move`@0x1583EE5; `015845e0: 00 64 65 6d 6f 5f 6d 6f 76 65 00` → `demo_move`@0x15844E1; `01584650: 4d 6f 76 65 00 68 6f 76 65 72 5f 6d 6f 76 65 00` → `hover_move`@0x1584555; `01584770: … 00 65 6d 30 34 37 5f / 01584780: 30 30 5f 66 77 5f 6d 6f 76 65 00` → `em047_00_fw_move`@0x158467A (then all five siblings to `em047_00_revival_move`@0x15846DD); `01584860: 5f 63 75 74 5f 73 75 62 00 65 6d 30 35 35 5f 30` → `em055_00_fw_move`@0x1584769 … `em055_00_revival_move`@0x15847CC; `01584a90: 00 6d 6f 64 65 5f 65 6e 64 00 70 72 65 5f 63 61 / 01584aa0: 74 63 68 5f 6d 6f 76 65 00 63 61 74 63 68 5f 6d / 01584ab0: 6f 76 65 00` → `pre_catch_move`@0x158499A, `catch_move`@0x15849A9; `01585300: … 00 65 6d 55 6e 69 71 / 01585310: 75 65 41 63 74 50 61 72 61 6d 53 65 74 00` → `emUniqueActParamSet`@0x158520A; `01563fa0: 70 5f 6e 70 63 5f 63 61 6d 65 72 61 00 73 65 74 / 01563fb0: 75 70 5f 6e 70 63 5f 6d 6f 76 65 5f 63 61 6d 65 / 01563fc0: 72 61 00` → `setup_npc_move_camera`@0x1563EAD; `01585ca0: 76 65 00 65 6d 73 30 33 39 5f 30 30 5f 66 77 5f` → `ems039_00_fw_move`@0x1585BA3 … `ems040_00_revival_move`@0x1585CA9. |
+| C7 | §3 lists 32 protocol names and each address is that string | ai-params:249-284 | `read_bytes {"offset":22384640,"length":768}` (vaddr 0x1558F00..0x1559200) + dump 1 | 32/32 exact: `01559020: 63 65 64 75 72 65 00 6e 46 65 73 74 61 4e 65 74 / 01559030: 77 6f 72 6b 3a 3a 6e 65 74 45 6d 41 63 74 69 6f / 01559040: 6e 00` → `nFestaNetwork::netEmAction`@0x1558F27, `…netEmActionProcedure`@0x1558F42, `…netEmMasterChange`@0x1558F66, `…Procedure`@0x1558F87, `…netEmSpecificStatus`@0x1558FB1, `…Procedure`@0x1558FD4, `…netEmRevivalSet`@0x1559000, `…Procedure`@0x155901F, `…netEmMasterOnlyStatus`@0x1559047, `…Procedure`@0x155906C, `…netEmMasterSelect`@0x155909A, `…Procedure`@0x15590BB, `…netEmMasterInquire`@0x15590E5, `…Procedure`@0x1559107, `…netEmBossFishAdd`@0x1559132, `…Procedure`@0x1559152, `…netEmUniqueData`@0x155917B, `…Procedure`@0x155919A; plus `netEm087_088_FreeUsePacket`@0x1559434 / `…Procedure`@0x155945E and the twelve `netOt*` rows 0x1559E3B..0x1559FB2. |
+| C8 | §4 states 225 entries and every row is that string | ai-params:286-514 | table body = lines 290..514 (heading :286, table header :288-289, §5 at :516); dumps vaddr 0x1552200..0x15531FF, 0x1555500..0x15563FF (two reads), 0x1585500 onward | 225 rows = 290..514 with no blank or heading line inside; and 225/225 addresses exact. The 96 unit rows (0x15527D4..0x1552C04) and 129 `ems…` rows (0x158546E..0x1585EF6) all check out: `015528d0: 6b 65 72 00 75 45 6d 30 30 31 5f 30 30` → `uEm001_00`@0x15527D4; `01552c60: 6c 55 6e 69 74 00 75 45 6d 30 38 37 5f 30 30 3a` → `uEm087_00::cActCustomExecMonitor`@0x1552B66; `01585560: 72 79 5f 6c 6f 6f 70 00 62 72 6f 77 6e 00 65 6d / 01585570: 73 30 30 31 5f 30 30 46 77 4d 6f 76 65 00` → `ems001_00FwMove`@0x158546E; `01585ff0: 77 4d 6f 76 65 00 65 6d 73 31 30 30 5f 30 30 44` → `ems100_00DemoMove`@0x1585EF6. |
+| C9 | monster-classes.md member data: "110/110 行与 member-offsets.tsv 完全一致" | classes:5 | read `docs/data/member-offsets.tsv` (111 lines = header + 110 data rows) and all 27 tables of the file | 110 data rows; the 27 tables hold 4+11+23+11+7+2+2+2+1+22+9+1+15×1 = 110 rows and every (offset,type,name,site) tuple equals the tsv. PASS |
+| C10 | 27 registration groups, each with the stated 记录数 | classes:7-35 | count headers and rows per table | 27 groups; per-table row counts 4,11,23,11,7,2,2,2,1,22,9,1, then 15 singletons = 110, each equal to its heading. PASS |
+| C11 | "27 组里有 25 组" have their member writes in a different function | classes:3 | compare each header with its rows' tsv `fn` | exactly 25 of 27 differ (examples 0x4201C→0x4210C, 0x45118→0x45F3C, 0x46498→8 fns 0x465D8..0x47650, 0x479A0→0x47BB0, 0x48698→0x486C8, 0x48AD4→0x48DC8, 0x4A13C→0x4A240, 0x4A46C→0x4A594, 0x50CE0→0x512B4, 0x53EA0→0x54028, 0x564BC→0x58FD0/0x5990C/0x59B90/0x59E78, 0x6B3FC→0x6B81C, 0x23AAD0→0x23AB04, 0x23AC70→0x23AD58, 0x8214E4→0x82173C, 0x88C9A8→0x88CA4C, 0x8A2A1C→0x8A2B04, 0x90BBF0→0x90BD64, 0x9683B8→0x96845C, 0x968D78→0x968DC0, 0xB31F7C→0xB32078, 0xB88630→0xB888BC, 0xC61BB4→0xC61D44, 0xCDCAD8→0xCDF00C, 0xCDF830→0xCDFF08); only 0x8AF8D0 and 0xBA4BE4 are unchanged. PASS |
+| C12 | every `site` in the tsv lies in the fn the tsv names | classes:8-374 | `function_start {vaddrs:[0x4234c,0x48720,0x54080,0x4a2a0,0x59bec,0x6b870,0x88cb94,0x47c0c]}` | `0x4234c in fn 0x4210c`, `0x48720 in fn 0x486c8`, `0x54080 in fn 0x54028`, `0x4a2a0 in fn 0x4a240`, `0x59bec in fn 0x59b90`, `0x6b870 in fn 0x6b81c`, `0x88cb94 in fn 0x88ca4c`, `0x47c0c in fn 0x47bb0` — 8/8 agree with the tsv `fn`. Also `0x53ea0 in fn 0x53ea0` proves 0x53EA0 is itself a function (`disasm 0x53e98: 00053ea0: e92d4010 push {r4, lr}`), i.e. the group header names a different function from the one that writes the 22 records, exactly as the banner warns. PASS |
+| C13 | `0x48698` is a 4-byte `bx lr` stub | classes:3 | `disasm {"vaddr":"0x48690","count":16}` | `00048698: e12fff1e  bx lr` (neighbours: `00048690: e12fff1e bx lr`, `0004869c: e92d4010 push {r4, lr}`). PASS |
+| C14 | registration chain: `bl 0x7bb638` → name string → `str r1,[r0]` → type immediate → `stm` → `add r1,r10,#off` → `str r1,[r0,#12]`, so offset and type are code immediates | classes:9-12 | `disasm 0x42300` (24), `0x486c8` (26), `0x4878c` (6), `0x42520` (6) | `0x42334: bl 0x7bb638`, `0x42338: ldr r1,[pc,#688] ; [0x425f0]=0x150feb8`, `0x42344: add r1, pc, r1` → 0x4234C+0x150FEB8 = 0x1552204 = `mTimer` (`01552300: 6d 65 72 00 6d 54 69 6d 65 72 00`), `0x4234c: add r1, r10, #428` (=0x1AC), `0x42350: str r1, [r0, #12]`. Second group: `0x486fc: bl 0x7bb638`, `0x48700: ldr r1,[pc,#788] ; [0x48a1c]=0x1509fbc`, `0x48710: add r1, pc, r1` → 0x48718+0x1509FBC = 0x15526D4 = `mMonsterIndex` (`015527d0: 65 6e 74 00 6d 4d 6f 6e 73 74 65 72 49 6e 64 65`), `0x48714: str r1,[r0,#0]`, `0x48718: mov r1,#6`, `0x4871c: stm r0 {r1,r10}` (e9800402 = STMIB → type at +4, name at +0 survives), `0x48720: add r1,r10,#4`, `0x48724: str r1,[r0,#12]`. Immediate/offset agreement with the table: mTimer type 0 (+0x1AC, site 0x4234C), mMonsterIndex type 6 (+0x4, site 0x48720: `mov r1,#6` … `add r1,r10,#4`), mTrueSize type 12 (+0x8, site 0x48794: `0004878c: mov r1,#12`, `00048794: add r1, r10, #8`), mPriority type 6 (+0x1B8, site 0x42528: `00042520: mov r1,#6`, `00042528: add r1, r10, #440` = 0x1B8). 4/4 PASS — the tsv's offset and type are the operands at the tsv's own `site`. |
+
+## CONTRADICTION — same fact stated differently
+
+| # | fact | side A | side B | what the artifact supports |
+|---|---|---|---|---|
+| X1 | where the 7 records of the `0x48698` group are | classes:3: "`0x48698` 其实是 4 字节 `bx lr` 桩，它的 7 条记录在 **`0x4869c`**" | `docs/data/member-offsets.tsv:44-50` (`mMonsterIndex`..`mQuestSizeMax`): `fn` = **`0x486c8`** | **0x486C8.** `disasm 0x48690`: `0004869c: e92d4010 push {r4, lr}` … `000486c0: e12fff12 bx r2` — 0x4869C is a 9-instruction thunk that ends at 0x486C0; the 7 sites (0x48720, 0x48794, 0x4880C, 0x48880, 0x488F8, 0x4896C, 0x489DC) are inside the function starting `000486c8: e92d4ff0 push {r4, r5, r6, r7, r8, r9, r10, r11, lr}`, and `0x48720 in fn 0x486c8` (C12). The banner's 0x4869C is a typo for 0x486C8. |
+| X2 | which side of the table/tsv mismatch is stale | classes:3: "`member-offsets.tsv` 的 `fn` 列早于函数表重切" (the tsv column predates the retile) | the tsv and `function_start` | **The tsv is current; the file's "注册函数" column is the stale one.** `function_start` reports each tsv value as a prologue (`0x4210c in fn 0x4210c`, `0x486c8 in fn 0x486c8`, `0x54028 in fn 0x54028`, `0x47bb0 in fn 0x47bb0`, …) while `0x48698 in fn 0x48638`, i.e. the doc's column points into the middle of functions. The sentence has the comparison backwards. |
+| X3 | how many `mParam.` strings the image has | ai-params:24: "`mParam.` 共 131 条；**镜像里实际有 134 条**" (and LINK-MECHANICS-CODE.md:168 "134 distinct `mParam.*` strings") | the same file's 131 distinct names (:24), and the byte enumeration (C4) | **131 NUL-delimited strings.** The three "omissions" are `mParam.` *substrings* of longer strings: `read_bytes {"offset":22466560,"length":128}` (0x156D000 = vaddr 0x156CF00) gives `…]\0festaEquip->mParam.mTalismanParam.skillType[no]\0festaEquip->mParam.mTalismanParam.itemId\0hunte`, so 0x156CF2E and 0x156CF5E are exactly 12 bytes (`festaEquip->`) into two strings; the mParam cluster holds `pEquipData.mParam.mSyncParam.data[i]` (string starts file 0x155A223 = vaddr 0x155A123: `0155a220: 69 5d 00 70 45 71 75 69 70 44 61 74 61 2e 6d 50`) and `pStatusParam.mCommonParam.mSyncParam.data[i]` (file 0x155A16D), so 0x155A12E is exactly 11 bytes (`pEquipData.`) into the first. "134" is a token count (131 + 3 substrings), "131" is a string count, and the sentence uses one unit for both. |
+| X4 | what §4's "225 条" counts | ai-params:286 heading "怪物单元名 `uEm###_00`（225 条）" | the table body (:290-514) | 225 is the **row** count, not a `uEm###_00` count: the 225 rows are 50 `uEm###_00` names (0x15527D4..0x15529BE), 26 `uEms###_00` names, 9 more `uEm###_00` (0x1552AF5..0x1552B45), 9 `uEm087/088`-prefixed names, 2 `uEms017/022_00`, and 129 `ems###_00XxxMove` action names (225 − 96 unit rows). Reproducible from the verified vaddr list in C8. |
+
+## STALE — number that was true earlier and what superseded it
+
+none. The 2026-11-04 banner (classes:3-5) already supersedes the old registration-function
+framing — but it introduces its own two errors (X1, X2) — and §1's 131 count agrees with both
+the table and the image (C3/C4).
+
+## UNVERIFIED — load-bearing claims that cannot be checked with these tools
+
+| # | claim | location | why |
+|---|---|---|---|
+| U1 | "名字顺序 = 结构声明序" and "这些名字是引擎在注册「怪物行动参数」结构时使用的字段名" | ai-params:4-5 | The strings exist and are named as claimed, but rodata order is string-pool order, and nothing in the image ties ordinal position to a member offset. The file itself says it claims no offset/size (:5), so no name→offset mapping is testable here: **all 131 `mParam.X` names are string-verified, none is offset-verified.** |
+| U2 | the owning class of the `mParam.*` pool (i.e. that these are the *monster action parameter* struct and not, say, debug-UI field labels) | ai-params:3-4 | No registrar/class-record tie was traced for this pool in this pass; the member-record chain that C14 verifies belongs to the class-member records, not to these strings. |
+| U3 | gate output `node tools/audit/check.mjs` (12 gates, ALL PASS) | ticket premise | no executor attached; see Difficulties. |
+| U4 | `msg`/localisation meaning of `uEmOstgaloaArm`, and whether §4's omission of it is deliberate | ai-params:290-514 | the string sits between `uEms048_00` and `uEms100_00` (0x1552ADB) and is not in the table; the file does not say its filter. |
+
+## Difficulties
+
+- **No `run` tool.** `xd://run` answers "No such tool: xd://run. Mounted devices:
+  mcp__mhgu_re_calls_to, …", so the gate tail could not be produced and no script could count
+  anything. Everything numeric here is line arithmetic on the documents plus hand-decoded hex.
+- **`grep` blind to the image.** `grep uEm001_00` and `grep mParam\.mSyncParam\.data` on
+  `main.140.flat.bin` both answer "No matches found" although C1/C4 prove the bytes exist; a
+  whole-image string scan was therefore impossible and completeness claims are claims about the
+  12 blocks that were read (which between them cover every address either file quotes).
+- **`read_bytes` whitelist.** `MHGU/main.140.flat.bin` is rejected ("path not in read
+  whitelist: …\.tmp\mhgu\extract, …\mhgu-private\romfs-extract, …"), so the allowed exefs copy
+  was used; the flat convention was confirmed twice on it.
+- **Cost.** 18 `read_bytes` calls (48 B to 4 KB) and 11 instruction calls (9 `disasm`,
+  2 `function_start`). Two reads were mis-aimed by my own decimal conversion and repeated: one
+  landed at 0x157F530 instead of 0x1583520, one at 0x1554000 instead of 0x1559000 (the latter is
+  the 768-byte read behind C7).
+- **Disassembler rendering.** `mhgu_re_disasm` prints block transfers without the addressing
+  mode (`ldm/stm r0 {r1, r10}`), so the record layout in C14 had to be settled from the encoding
+  (e8800602 = STMIA, e9800402 = STMIB). This is a display limitation, not a wrong decode.

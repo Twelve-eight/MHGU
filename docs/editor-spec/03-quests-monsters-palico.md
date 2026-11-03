@@ -132,13 +132,12 @@ entries is **not** decided (see G13), so this spec does not authorise inventing 
 
 ### F. Medals (132-bit A/B pair)
 
-`0x3157` and `0x316B` are the same 132-bit domain in two slots. In the clean sample both are byte-identical;
-the writing rule is therefore a mirror write, not an OR of two different states.
+`0x3157` and `0x316B` are the same 132-bit domain in two slots. **2026-11-04 correction:** the earlier claim "in the clean sample both are byte-identical, so the write rule is a mirror write" is false for slot0. Measured on `system_CLEAN`: slot0 has A = 54 bits, B = 33 bits, **B ⊆ A** (21 A-only bits, 0 B-only); slot1 has A = B = 12 bits. The relation that holds in both is `B ⊆ A`. **Medal writing is therefore FORBIDDEN until the semantics of the two slots are settled**: a mirror write of A into B would grant 21 medals the player never earned, and clearing bits is worse. The table below records the layout only.
 
 | name | location | size/encoding | valid range | write rule | source |
 |---|---|---|---|---|---|
 | `medal_A` | char_off `0x3157` (12631) | 20 B stored; **132 bits** in the first 17 B; byte +16 uses only the low 4 bits; bytes +17..+19 are zero | bit 0..131 | RMW with `|=`. When setting the final nibble use `|= 0x0F`; NEVER assign `15` (the old bug cleared the high 4 bits of the neighbouring field). NEVER paint `0xFF` over the 20 B. | member4-semantics.md:58; coverage-map.md:296; DEVELOP.md:240 |
-| `medal_B` | char_off `0x316B` (12651) | same 20 B / 132-bit layout | bit 0..131 | Write the **same** 132 bits as `medal_A`, byte for byte. The clean sample has A == B; dirty A=132 bits / B=33 bits is a defect, not a legal state. | member4-semantics.md:79; DEVELOP.md:316 |
+| `medal_B` | char_off `0x316B` (12651) | same 20 B / 132-bit layout | bit 0..131 | **DO NOT WRITE** (added 2026-11-04). Observed relation is B ⊆ A: clean slot0 is A=54 / B=33 with 0 B-only bits, clean slot1 A=B=12. Copying A into B would set 21 bits the player never earned; the slot that the game actually displays is not settled. | main session 2026-11-04, `system_CLEAN` both slots; member4-semantics.md:79 |
 
 ## Invariants
 
@@ -179,9 +178,9 @@ I8. **Size records are 4 B each.** 137 x `{u16 mini, u16 maxi}`, ending exactly 
 ordering of the two values and their null convention are not documented in the allowed sources (G10).
 Source: coverage-map.md:82,243.
 
-I9. **Medal A and B are a mirror pair.** After any medal write, the first 17 B of `0x3157` and `0x316B`
-must be equal (and the last 3 B of each 20 B block remain zero).
-Sources: member4-semantics.md:58,79; DEVELOP.md:316.
+I9. **Medal A and B are NOT a mirror pair (corrected 2026-11-04).** The observed relation in both clean slots is `B ⊆ A`; slot0 has 21 A-only bits. Writing medals is forbidden until the display slot is settled.
+The last 3 B of each 20 B block stay zero in every snapshot; the first 17 B carry the 132 bits.
+Sources: main session 2026-11-04 (system_CLEAN both slots); member4-semantics.md:58,79.
 
 I10. **Hunter arts are 3 x 24 B and must be written atomically.** The historical editor wrote only
 46 of 72 B, leaving X2's last 2 B and all of X3 stale; never repeat that. With no decided entry
@@ -233,7 +232,9 @@ Source: coverage-map.md:303.
    The old editor polluted it and the semantic owner is still unknown.
    Sources: member4-semantics.md:80-85; DEVELOP.md:290.
 9. **Never write the 164 B pair** `0x2FC7` / `0x306B`, the 16/20/32/40 B bitfield pairs, or the 3444 B
-   block `0x50BA..0x5E2D`. They are undecoded raw bitfields; several have a non-persisted middle slot.
+   block `0x50BA..0x5E32`. They are undecoded raw bitfields; several have a non-persisted middle slot.
+   **2026-11-04:** the earlier end `0x5E2D` and start `0x50BE` were each 4 B inside the current table's
+   block (`0x50BE..0x5E32`); the rule is widened to the union so no byte of the block escapes it.
    Sources: member4-semantics.md:56-57,257-263,313; DEVELOP.md:311-313,320.
 10. **Never write `0x2C6B4..0x335A8`** (member[13]). Its B2/B3/B5 blocks are variable content; the same
     hunter's two saves already differ by 9,570 B there.
