@@ -30,7 +30,7 @@ for (const f of JSON.parse(fs.readFileSync(INV + "sources.json", "utf8"))) {
 }
 
 const rows = [["start", "label", "conf", "evidence"]];
-let runs = 0, emitted = 0, mixed = 0;
+let runs = 0, emitted = 0, mixed = 0, weak = 0;
 for (let i = 0; i + 12 <= buf.length;) {
   const vaddr = i + 0x100;
   if (vaddr < TEXT_END) { i += 4; continue; }
@@ -46,6 +46,9 @@ for (let i = 0; i + 12 <= buf.length;) {
   }
   if (!votes.size) continue;
   if (votes.size > 1) { mixed++; continue; } // disagreement inside one table: say nothing
+  // A single labelled member is the weakest cell the channel has (94.1%, CP95 92.5) and covers 72% of its rows. Two or
+  // more members agree at 98.1% (CP95 97.1) and cost almost nothing in coverage, so the channel now requires two.
+  if ([...votes.values()][0] < 2) { weak++; continue; }
   const label = [...votes.keys()][0];
   const support = [...votes.values()][0];
   for (const m of members) {
@@ -56,4 +59,4 @@ for (let i = 0; i + 12 <= buf.length;) {
   }
 }
 fs.writeFileSync(OUT, rows.map((r) => r.join("\t")).join("\n") + "\n");
-console.log(`pointer runs ${runs}, skipped as mixed ${mixed}, emitted ${emitted} rows -> ${OUT.split("/").pop()}`);
+console.log(`pointer runs ${runs}, skipped as mixed ${mixed} or single-member ${weak}, emitted ${emitted} rows -> ${OUT.split("/").pop()}`);
