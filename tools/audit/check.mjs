@@ -71,9 +71,10 @@ try {
 // 6. the evidence rows themselves: re-read what each sampled A row claims (string present, vtable slot holds the start,
 // movw immediate in the body) instead of trusting the text. Deterministic sampling, ~0.2 s for 654 rows.
 try {
-  const out = execFileSync(process.execPath, ["tools/mhgu/coverage/verify-evidence.mjs"], { cwd: ROOT, encoding: "utf8" });
+  // SAMPLE is large on purpose: the full set is 8,089 rows and the pass takes 0.2 s, so there is no reason to sample.
+  const out = execFileSync(process.execPath, ["tools/mhgu/coverage/verify-evidence.mjs"], { cwd: ROOT, encoding: "utf8", env: { ...process.env, SAMPLE: "100000" } });
   const m = /total (\d+)\/(\d+) = ([\d.]+)%/.exec(out);
-  if (m && m[1] === m[2]) ok(`evidence rows re-verified: ${m[2]} sampled, all consistent`);
+  if (m && m[1] === m[2]) ok(`evidence rows re-verified: ${m[2]} rows, all consistent`);
   else bad(`evidence rows re-verified: ${out.split("\n").filter((l) => l.includes("FAIL")).join(" ") || out.slice(0, 160)}`);
 } catch (e) {
   bad(`evidence re-check failed: ${String(e.message).slice(0, 120)}`);

@@ -46,9 +46,11 @@ for (const file of ["attr-strings2.tsv", "attr-vtable-fixed.tsv", "attr-vtable-n
     const f = fns.get(k);
     if (!f) { bump(file, false, `${start}: not in the function table`); continue; }
     // 1. string claims: every named string must appear in this function's references
-    const sm = /referenced strings[^:]*:\s*(.+)$/.exec(evidence);
-    if (sm) {
-      const named = sm[1].split("|").map((s) => s.trim()).filter(Boolean);
+    // The list follows the label, but the label itself can contain colons inside parentheses ("(nDraw::*, mLight*,
+    // rShader*): nDraw::RenderTargetView | ..."), so the list starts after the last ") " when there is one.
+    if (/referenced strings/.test(evidence)) {
+      const tail = evidence.includes("): ") ? evidence.slice(evidence.lastIndexOf("): ") + 3) : (/:(.+)$/.exec(evidence)?.[1] ?? "");
+      const named = tail.split("|").map((s) => s.trim()).filter(Boolean);
       const have = strs.get(k) || new Set();
       const missing = named.filter((s) => !have.has(s));
       bump(file, missing.length === 0, `${start}: strings not referenced: ${missing.slice(0, 3).join(",")}`);
