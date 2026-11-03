@@ -1,15 +1,20 @@
-# MHGU 存档逆向知识库 — 索引
+# MHGU 研究仓库 — 目录索引（存档 / 代码 / 机制）
 
-> **总进度与差距：[`PROGRESS.md`](PROGRESS.md)** · **覆盖率记分牌：[`save-layout/coverage-map.md`](save-layout/coverage-map.md)**
+> **总进度与差距：[`PROGRESS.md`](PROGRESS.md)** · **代码覆盖率（唯一数字权威）：[`analysis/code/coverage/METER.md`](analysis/code/coverage/METER.md)**
+> · **存档覆盖率记分牌：[`save-layout/coverage-map.md`](save-layout/coverage-map.md)** · **不随仓库分发的私有数据：[`PRIVATE-DATA.md`](PRIVATE-DATA.md)**
 
-本 repo 只有两份「真相源」：`save-layout/`（权威布局/契约）与 `analysis/`（调查报告，含置信度）。
-其余目录均为**数据/参考资料**，不是本项目的产出结论。
+本 repo 的「真相源」分三层：`save-layout/`（存档权威布局/契约）、`analysis/code/`（代码侧函数表、证据通道与
+覆盖率计量器）、其余 `analysis/`（调查报告，含置信度）。其余目录均为**数据/参考资料**，不是本项目的产出结论。
+
+代码侧的两个口径与各自的命令写在仓库根目录 `README.md`；本索引只负责把目录讲清楚。
 
 ## 目录职责
 
 | 目录 | 职责 | 是否本项目成果 |
 |---|---|---|
 | `save-layout/` | **权威布局表与定案**（file_off ↔ obj_off ↔ 语义，改动前先改这里）| ✅ |
+| `analysis/code/` | **代码侧**：`inventory/`（函数表、采用来源、`coverage-report.tsv`）、`tierb-pass*/`（切片定案）、`coverage/METER.md`（**唯一数字权威**，含三次更正的过程）| ✅ |
+| `analysis/audit/` | 对本仓库文档与数字的审计、`LINK-STATUS.tsv`（每条指控的处置：fixed/open/rejected）、`MANIFEST.tsv`（冻结的文档清单）| ✅ |
 | `analysis/members/` | 成员级调查报告（census / 各 member 的布局与语义）| ✅ |
 | `analysis/fields/` | member#4 内字段族调查（288B / 68B / 128B）| ✅ |
 | `analysis/save-io/` | 序列化与尾部（读/写调度、尾部容器、校验和取证）| ✅ |
@@ -19,6 +24,9 @@
 | `data/` | `mhgu.db`(18MB 权威数据)、viewer 表、派生 JSON | 混合：db 权威，JSON 可再生 |
 | `reference/` | 前人知识库（mhxx-wiki HTML/文本）——**只做交叉验证，不改动、不作为结论来源** | ❌ 外部资料 |
 | `history/` | 历史存档 | — |
+| `tools/`（仓库根） | 反汇编、清单、覆盖率流水线与 `audit/check.mjs` 等脚本 | ✅ |
+| `forge/`、`editor/`（仓库根） | 道具箱扩容实验（debug 端口 / box probe / v7 构建）与存档编辑器源码 | ✅ |
+| `PRIVATE-DATA.md` | 不进本仓库的私有输入清单（镜像、存档快照、`mhgu.db`、wiki、第三方源码）及缺失后的后果 | — |
 
 ## save-layout/（权威）
 | 文件 | 内容 |

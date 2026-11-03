@@ -1,8 +1,10 @@
 // ARM32 (ARMv7-A) minimal disassembler for MHGU main.140.flat.bin
 // flat_offset = vaddr + 0x100
 import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-export const FLAT = process.env.FLAT || 'G:/omp works/.tmp/mhgu/extract/exefs-0eb5/main.140.flat.bin';
+export const FLAT = process.env.FLAT || path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', 'main.140.flat.bin');
 export const buf = fs.readFileSync(FLAT);
 export const TEXT_END = 0x13F1DEC;
 

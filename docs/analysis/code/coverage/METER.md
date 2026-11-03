@@ -8,20 +8,30 @@
 
 此前 `code-metrics.md` 的 72.8% / 52.2% 来自一次性脚本与 `.tmp` 中间表，重跑不出来。现在整条链路在仓库内，且**种子的真实性被单独验证过**。
 
+**只想看两个口径、不重跑整条链路的，跑这两条命令——都不读游戏镜像**（输入全是仓库内已跟踪的表）：
+
 ```
-node tools/mhgu/coverage/retile.mjs          # 用 46,087 个前导 + BL 目标重建函数表（52,692 个真函数）
-node tools/mhgu/coverage/stringxref.mjs      # 从指令里重建字符串引用（不信任旧 strings 列）
+node tools/mhgu/coverage/canonical-metric.mjs      # Tier A verified 25584 函数 57.7% + Tier B conf=A 74 函数 0.3% = canonical total 58.0%（目标 90% 未达成）
+node tools/mhgu/coverage/independent-coverage.mjs  # 分区逐行 + covered at >=90% independently: 3460532 = 66.19% of instructions + PASS 分区复现
+```
+
+**18 个脚本分两类**（逐脚本按 `arm32.mjs` / `FLAT` / `flat.bin` 判定）：带 `[IMG]` 的 5 个（`retile`、`stringxref`、`fingerprints`、`vtable-scan`、`immscan`）需要镜像，其余 13 个（`seeds-from-xref`、`seeds-from-vtables`、`relabel-rtti`、`vtable-unknown`、`class-family`、`seeds-from-strings`、`vtable-class-consensus`、`classvote`、`callervote`、`callvote`、`callvote1`、`recompute`、`report`）只读已跟踪的表；**顺序仍然重要**，5 个 `[IMG]` 是上游，删掉它们就只能从仓库内现成的表重新分层与出报告。`form-classify` 不在本块内，它同样需要镜像。
+
+```
+# [IMG] = 需要 main.140.flat.bin（本机 25 MB、不入库）；无标记者只读仓库内已跟踪的表
+node tools/mhgu/coverage/retile.mjs          # [IMG] 用 46,087 个前导 + BL 目标重建函数表（52,692 个真函数）
+node tools/mhgu/coverage/stringxref.mjs      # [IMG] 从指令里重建字符串引用（不信任旧 strings 列）
 node tools/mhgu/coverage/seeds-from-xref.mjs # 引用 → 种子（attr-xref.tsv）
 # 证据通道（每次全量重跑，顺序无关，但都要在 recompute 之前）
-node tools/mhgu/coverage/fingerprints.mjs    # 结构指纹 + 动作签名 → attr-fingerprint.tsv
-node tools/mhgu/coverage/vtable-scan.mjs     # rodata 全量 vtable → vtables-slots.tsv
+node tools/mhgu/coverage/fingerprints.mjs    # [IMG] 结构指纹 + 动作签名 → attr-fingerprint.tsv
+node tools/mhgu/coverage/vtable-scan.mjs     # [IMG] rodata 全量 vtable → vtables-slots.tsv
 node tools/mhgu/coverage/seeds-from-vtables.mjs  # 槽 → attr-vtable-rtti2.tsv
 node tools/mhgu/coverage/relabel-rtti.mjs    # RTTI 名解码 → attr-vtable-ns.tsv（含越界筛除）
 node tools/mhgu/coverage/vtable-unknown.mjs  # unknown 行的命名空间/前缀回填 → attr-vtable-unknown.tsv
 node tools/mhgu/coverage/class-family.mjs    # 前缀表接线 → attr-class2.tsv
 node tools/mhgu/coverage/seeds-from-strings.mjs  # 字符串词表 → attr-strings2.tsv
 node tools/mhgu/coverage/vtable-class-consensus.mjs  # 类内共识 → attr-vtable-classconsensus.tsv
-node tools/mhgu/coverage/immscan.mjs         # 32 位常量签名 → attr-immscan.tsv
+node tools/mhgu/coverage/immscan.mjs         # [IMG] 32 位常量签名 → attr-immscan.tsv
 # 推断通道（锚点只取 A 级证据；每条都在脚本内先做留一/折叠验证）
 node tools/mhgu/coverage/classvote.mjs       # 类内共识（LOO 99.4%）→ attr-classvote.tsv
 node tools/mhgu/coverage/callervote.mjs      # 调用者票（LOO 96.4%）→ attr-callervote.tsv

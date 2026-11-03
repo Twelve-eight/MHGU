@@ -6,12 +6,14 @@
 ## 资产
 | 项 | 路径 | 备注 |
 |---|---|---|
-| yuzu 主程序 | `LOCAL\yuzu1734\yuzu.exe` | 用户游玩端 |
-| 游戏镜像 | `I:\BaiduNetdiskDownload\MONSTER HUNTER GENERATIONS ULTIMATE][1.4.0].xci` | 12.57 GB |
-| yuzu AppData | `G:\appdata\C-Users-USER\Roaming\yuzu\`（junction） | nand/keys/load 全在 G: |
-| MHGU 存档 | `yuzu/nand/user/save/0000000000000000/85A7D07F6ED7C1D6F6045DE67FE969F1/0100770008DD8000/` | `*.hnt`(1,177,760 B/槽) + `system`(5,159,100 B) |
-| LayeredFS 目录 | `yuzu/load/0100770008DD8000/` | 已有 a商店MOD / b4k / ChuckPatch / c120FPS-Map |
-| prod.keys | `yuzu/keys/prod.keys` | hactool 可用（`-k` 传参即可，勿放 hactool 同目录） |
+| yuzu 主程序 | `<yuzu>\yuzu.exe` | 用户游玩端；版本号不入库 |
+| 游戏镜像 | `<你的 XCI>` | 12.57 GB，用户自备；**本仓库不记录获取途径** |
+| yuzu AppData | `<yuzu 数据目录>`（默认 `%APPDATA%\yuzu\`） | nand / keys / load 都在这一棵树下 |
+| MHGU 存档 | `<yuzu 数据目录>\nand\user\save\0000000000000000\<save-id>\0100770008DD8000\` | `*.hnt`(1,177,760 B/槽) + `system`(5,159,100 B)；`<save-id>` 是 yuzu 为该账号生成的 32 位十六进制目录名，逐机不同 |
+| LayeredFS 目录 | `<yuzu 数据目录>\load\0100770008DD8000\` | 已有 a商店MOD / b4k / ChuckPatch / c120FPS-Map |
+| prod.keys | `<yuzu 数据目录>\keys\prod.keys` | hactool 可用（`-k` 传参即可，勿放 hactool 同目录） |
+
+**这些值不写进仓库。** 表里全是占位符：真实的 yuzu 安装位置、XCI 路径、账号存档目录只存在于使用者本机。脚本能覆盖的输入走环境变量——`FLAT`（游戏镜像；`tools/mhgu/arm32.mjs`、`tools/mhgu/reader-fields.mjs` 读，默认 `<repo>/main.140.flat.bin`）、`MHGU_DB`（`docs/data/mhgu.db`，`tools/audit/check.mjs` 门 12）、`MHGU_ROMFS`（romfs，`tools/mhgu/stqr.mjs`、`tools/mhgu/guopus.mjs`）；其余只能由使用者按自己的安装位置重填，**换机后不要把它们写回本文件**。私有输入清单见 `docs/PRIVATE-DATA.md`。
 
 ## 已确认证据（主会话亲验）
 1. **XCI 解包**：`hactool.exe -t xci -k prod.keys --securedir=...` → secure 分区 12 NCA 已提取到 `.tmp/mhgu/extract/secure/`。

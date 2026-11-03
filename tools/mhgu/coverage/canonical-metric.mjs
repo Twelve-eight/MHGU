@@ -12,8 +12,10 @@
 // The verified number now comes from coverage-report.tsv and the raw spine figure is printed beside it for contrast.
 import fs from "node:fs";
 import zlib from "node:zlib";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-const ROOT = "G:/omp works/MHGU";
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..", "..");
 const INV = ROOT + "/docs/analysis/code/inventory";
 const DEN = 5228277;
 const tiers = fs.readFileSync(INV + "/tiers-merged.csv", "utf8").split(/\r?\n/).filter(Boolean).slice(1);

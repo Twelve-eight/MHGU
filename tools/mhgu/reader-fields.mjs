@@ -1,8 +1,10 @@
 // Symbolic field scanner for MHGU member readers (v3).
 // reg -> {t:'k'|'i'|'c'|'s'|'u',n} ; k = member obj base, c = ctx, s = sp scratch, i = imm
 import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const FLAT = process.env.FLAT || 'G:/omp works/.tmp/mhgu/extract/exefs-0eb5/main.140.flat.bin';
+const FLAT = process.env.FLAT || path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', 'main.140.flat.bin');
 const FL = fs.readFileSync(FLAT);
 export const rd32 = v => FL.readUInt32LE(v + 0x100);
 

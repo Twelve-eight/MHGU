@@ -20,6 +20,8 @@
 129 条 `{id, ja, base_hp, sort}`——`name_ja` 在 db 中 129/129 齐全（本映射无空 JA 名）。
 
 ## 导出表（mhgu.db → JSON，供编辑器/文档直读）
+
+**2026-11-04 复核：这份 JSON 是 `mhgu.db` 的*部分*镜像，不能反向重建数据库。** 数据库 39 张表里 21 张有导出，另有 10 张非空表没有（`components` 73,187 行、`meow_rewards` 1,168 行等），仓库里也没有导出脚本。`mhgu.db` 本身不入库（`docs/data/README.md:25`），所以克隆者拿到的是一组派生 JSON，而不是可重建的源。要补就得先补导出脚本，再决定哪些表可以公开——当前没有做，是有意为之：更多表只会把更多第三方文本带进公开仓库。
 见 `docs/data/README.md` 的表清单。`monsters/quests/items/weapons/armor/skills/skill_trees/decorations/combining/gathering/monster_damage/monster_weakness/monster_status/monster_to_quest/quest_rewards/horn_melodies/palico_weapons/palico_armor/locations`。
 
 ## 待建映射（下一步）

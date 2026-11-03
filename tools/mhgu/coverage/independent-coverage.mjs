@@ -6,8 +6,10 @@
 // prints the difference. Agreement is the corroboration; a mismatch names the function and the two verdicts.
 import fs from "node:fs";
 import zlib from "node:zlib";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-const ROOT = "G:/omp works/MHGU";
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..", "..");
 const INV = ROOT + "/docs/analysis/code/inventory/";
 const CONF_RANK = { A: 3, V: 2, S: 1 };
 const VALID_SPREAD = new Set(["online-nex", "weapon-wp"]);   // read from report.mjs by hand; must match METER

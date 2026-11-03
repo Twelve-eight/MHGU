@@ -1,5 +1,7 @@
 # 私有数据（不公开，不入本仓库）
 
+> 缺失后果（哪些命令与数字跑不了、哪些只是读不到）见仓库根 `README.md` 的「What a clone does not contain」；下面这张表回答「为什么它不公开」。
+
 以下路径在本机通过**目录联接 / 硬链接**指向 `G:/omp works/MHGU-private`（本地 git 仓库，**永不推送**），
 因此脚本与代理沿用原路径即可。公开仓库的 `.gitignore` 屏蔽这些路径。备份：`robocopy` 镜像到 `G:\backups\MHGU-private`。
 
