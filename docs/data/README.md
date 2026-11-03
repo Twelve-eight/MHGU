@@ -87,17 +87,21 @@
 
 本 README 此前写的"编辑器现有 `MHGU_item(uni).txt` 可与之对拍补齐"**不成立**——那份文件从来没有进过仓库，所以这条对拍一直跑不了。
 
-### 能重建的那个
+### 能重建的那个（但有语言限制）
 
-`tools/mhgu/export-item-table.mjs` 从 `mhgu.db` 的 `items` 表生成该文件：
+`tools/mhgu/export-item-table.mjs` 从 `mhgu.db` 的 `items` 表生成该文件，**输出路径必填**（工具会拒绝无参运行）：
 
 ```
 node tools/mhgu/export-item-table.mjs "编辑器目录/MHGU_item(uni).txt"
 ```
 
 - 21,153 行、1,044,342 字节、UTF-16LE + BOM、CRLF，`id` 用数据库的 `items._id`（`1` = Book of Combos 1，与游戏 id 空间一致）；
-- 生成前后各一道自检：任何名字含逗号就**拒绝生成**（`ItemsForm` 按逗号切分，否则名字会被截断），实测 0 条；再按 `ItemsForm` 的读法回放一遍，21,153 行全部被接受。
-- **这是派生产物，不提交**：改了 `mhgu.db` 就重跑一次，别把 1 MB 的生成物塞进 git。
+- 自检：名字含逗号就**拒绝生成**（`ItemsForm` 按逗号切分，否则名字被截断），实测 0 条；语言列可用 `LANG_COL=name_ja` 切换，但**除英文 `name` 外其余列在 items 表里是空的**（`name_ja` 全表 0 条有值），所以实际只能产出英文名；
+- 按 `ItemsForm` 的读法回放，21,153 行全部被接受。
+
+**语言限制必须说清楚**：`items` 表只有 `name/name_de/name_fr/name_es/name_it/name_ja`，**没有中文列**，而编辑器原本那份 `MHGU_item(uni).txt` 用的是**中文名**（`editor-src` 源码里查不到任何中文道具名，说明名字全部来自这个外部文件）。所以生成出来的是**功能可用的英文名替身**，不是原资产：编辑器能跑、id 对得上，但界面里显示的是英文。要恢复中文名，只能从**发布版的编辑器包**里取回那份 `MHGU_item(uni).txt`——本仓库里没有，也没法从数据库造。
+
+- **派生产物，不提交**：`docs/data/MHGU_item(uni).txt` 已加进 `.gitignore`，改了 `mhgu.db` 就重跑一次。
 
 ### 不能重建的那个
 
@@ -108,7 +112,7 @@ node tools/mhgu/export-item-table.mjs "编辑器目录/MHGU_item(uni).txt"
 **信源验证记录**：`docs/reference/source-verification.md`
 ## 缺口（待补，mhgu.db 已覆盖大部分）
 - 怪物数据：**已由 mhgu.db 覆盖**（monsters/monster_damage/monster_weakness/monster_status）
-- 道具（item）全表：**已由 mhgu.db 覆盖**（items 21153 条）；编辑器现有 txt 表待与之对拍
+- 道具（item）全表：**已由 mhgu.db 覆盖**（items 21153 条）；编辑器用的 `MHGU_item(uni).txt` 仓库里没有，需先用 `tools/mhgu/export-item-table.mjs` 从库生成（英文名）或从发布版编辑器包取回（中文名），再对拍；见上文「编辑器运行时数据文件」
 - 猫/Palico：palico_weapons/palico_armor/meow_locations/meow_rewards 已有；**charms/felyne_skills/food_combos 为空表待补**
 - 委托（Daily/委托任务）：wiki 有页，mhgu.db 无专表
 - 狩技（Hunter Arts）效果数值：wiki `1847` 狩技一览，mhgu.db 无专表
