@@ -16,7 +16,8 @@ import zlib from "node:zlib";
 const ROOT = "G:/omp works/MHGU";
 const INV = path.join(ROOT, "docs/analysis/code/inventory");
 const FLOOR = 92.0;
-const MAX_ROUNDS = 8;
+const MAX_ROUNDS = Number(process.env.VOTE_ROUNDS || 8);
+const OUTPATH = process.env.VOTE_OUT || null;
 
 const src = JSON.parse(fs.readFileSync(path.join(INV, "sources.json"), "utf8"));
 const anchorsByFile = new Map();
@@ -125,7 +126,7 @@ for (const rs of roundScore) {
   }
   perRound.push({ round: rs.round, pct: rs.pct, tested: rs.tested, added });
 }
-fs.writeFileSync(path.join(INV, "attr-callvote.tsv"), out.map((x) => x.join("\t")).join("\n") + "\n");
+fs.writeFileSync(path.join(INV, OUTPATH || "attr-callvote.tsv"), out.map((x) => x.join("\t")).join("\n") + "\n");
 fs.writeFileSync(path.join(INV, "attr-callvote-rounds.tsv"),
   [["round", "fold_tested", "fold_correct", "precision", "rows_added"]]
     .concat(roundScore.map((rs) => [rs.round, rs.tested, rs.correct, rs.pct + "%", (perRound.find((p) => p.round === rs.round) || {}).added ?? 0]))

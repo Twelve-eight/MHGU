@@ -12,6 +12,9 @@
   "attr-uifamily.tsv",
   "attr-class.tsv",
   "attr-class2.tsv",
+  "attr-classvote.tsv",
+  "attr-callervote.tsv",
+  "attr-callvote.tsv",
   "attr-callvote1.tsv",
   "attr-fingerprint.tsv"
 ]
