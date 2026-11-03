@@ -1,0 +1,8 @@
+docs/analysis/audit/EXTERNAL-FINDINGS.md
+docs/analysis/audit/MECHANICS-FINDINGS.md
+docs/analysis/audit/REFERENCE-DATA-FINDINGS.md
+docs/analysis/audit/REST-FINDINGS.md
+docs/analysis/audit/ROUND1-SUMMARY.md
+docs/analysis/audit/WIKI-FINDINGS.md
+docs/analysis/audit/analysis-code-half1-FINDINGS.md
+docs/analysis/audit/analysis-code-half2-FINDINGS.md
