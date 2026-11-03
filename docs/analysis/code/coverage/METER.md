@@ -894,6 +894,43 @@ bl  0x7aedcc      ; 注册器
 
 顺带记下：门 6 会继续检查这张表（它是被派生文件的源头，错一行会污染下游），但它**不参与覆盖率**——"检查"和"计数"是两件事，之前没有写清楚。
 
+### 反事实实测：把 `attr-vtable-retile.tsv` 计入会得到什么（2026-11-04）
+
+结论是"不加"，但要把代价量出来，不能只讲理由。两种口径都跑了，**committed `sources.json` 不动**：
+
+**口径 A — 只当传播种子**（`recompute --seed attr-vtable-retile.tsv --out tiers-cf-retile.csv`）：覆盖 **65.23%**，比现在 **低 0.96 点**。原因不是新增了什么，而是 retile 的标签参与了传播，把一批原本落在 online-nex / weapon-wp 的摊开行改判成了别的标签，验证桶从 170,761 掉到 120,835。**"加进去"不等于"变多"。**
+
+**口径 B — 当 A 级证据**（临时 `sources-cf-retile.json`，比 `sources.json` 多一行）：
+
+| 分区 | 现在 | 计入 retile | 差 |
+|---|---:|---:|---:|
+| direct evidence | 1,248,279 | 1,293,392 | **+45,113** |
+| inferred only | 1,896,778 | 1,889,645 | −7,133 |
+| signature only | 144,714 | 144,714 | 0 |
+| spread validated | 170,761 | 169,307 | −1,454 |
+| spread unvalidated | 1,243,602 | 1,235,398 | −8,204 |
+| no label | 524,143 | 495,821 | **−28,322** |
+| **≥90% 覆盖** | **3,460,532 = 66.19%** | **3,497,058 = 66.89%** | **+0.70 点** |
+
+**净收益 +0.70 点**，其中 28,322 条指令来自目前完全无标签的函数（785 个）。
+
+**为什么不采纳**：这 1,044 行涉及的 988 个类，**没有一个类在别处有已标成员**——它们的标签只来自类名映射，而那份映射就出自这张表自己。加上去的 0.70 点等于**用表证明表**。要采纳，先得有一条独立于该表的旁证（解码类记录、或运行时注册路径），这在 METER 里作为待办记着。
+
+复现命令：
+
+```
+S=$(node -e '...sources.json 映射成 --seed 参数...')
+node tools/mhgu/coverage/recompute.mjs --functions docs/data/functions-retile.csv.gz $S \
+     --seed docs/analysis/code/inventory/attr-vtable-retile.tsv \
+     --out docs/analysis/code/inventory/tiers-cf-retile.csv
+SPINE=tiers-cf-retile.csv node tools/mhgu/coverage/independent-coverage.mjs      # 口径 A
+
+# 口径 B：复制 sources.json 追加一行，然后
+SOURCES=sources-cf-retile.json node tools/mhgu/coverage/independent-coverage.mjs
+```
+
+`independent-coverage.mjs` 新增 `SPINE=` 与 `SOURCES=` 两个环境开关专门给反事实用；不设时行为与门 8 完全一致。
+
 ## 门 8：用第二套实现独立重算头条数字（2026-11-04）
 
 原有 7 道门有一个共同弱点：**它们都在拿产物和产物互相比**。报告的六个分区加起来等于分母、标签文件与报告对得上——只要 `report.mjs` 的合并逻辑本身错了，这些检查全都照样 PASS。

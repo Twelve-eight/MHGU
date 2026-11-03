@@ -33,7 +33,8 @@ function offer(start, kind, label, conf) {
 }
 
 // 1. evidence tables listed in sources.json
-for (const f of JSON.parse(fs.readFileSync(INV + "sources.json", "utf8"))) {
+const SRC = process.env.SOURCES ? INV + process.env.SOURCES : INV + "sources.json";
+for (const f of JSON.parse(fs.readFileSync(SRC, "utf8"))) {
   const p = INV + f;
   if (!fs.existsSync(p)) continue;
   for (const l of fs.readFileSync(p, "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
@@ -44,7 +45,8 @@ for (const f of JSON.parse(fs.readFileSync(INV + "sources.json", "utf8"))) {
 }
 
 // 2. the propagation spine
-for (const l of fs.readFileSync(INV + "tiers-merged.csv", "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
+const SPINE = process.env.SPINE ? INV + process.env.SPINE : INV + "tiers-merged.csv";
+for (const l of fs.readFileSync(SPINE, "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
   const [s, , , label] = l.split(",");
   if (!label || !LABELS.has(label)) continue;
   const tier = l.split(",")[2];
@@ -92,6 +94,14 @@ for (const f of fns) {
   else if (b && b.kind !== "adjudication") add(VALID_SPREAD.has(b.label) ? "spread validated labels" : "spread unvalidated", f.insns);
   else if (b) add("spread unvalidated", f.insns);
   else add("no label", f.insns);
+}
+
+if (process.env.SPINE) {
+  const coveredCf = (buckets.get("direct evidence") || 0) + (buckets.get("inferred only") || 0) + (buckets.get("signature only") || 0) + (buckets.get("spread validated labels") || 0);
+  console.log("counterfactual spine " + process.env.SPINE);
+  for (const [k, v] of [...buckets].sort()) console.log("  " + k.padEnd(26) + String(v).padStart(8));
+  console.log("  covered " + coveredCf + " = " + ((100 * coveredCf) / total).toFixed(2) + "%");
+  process.exit(0);
 }
 
 // ---- the report's own numbers, for comparison
