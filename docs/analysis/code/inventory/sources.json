@@ -11,5 +11,6 @@
   "attr-registrar.tsv",
   "attr-uifamily.tsv",
   "attr-class.tsv",
-  "attr-class2.tsv"
+  "attr-class2.tsv",
+  "attr-fingerprint.tsv"
 ]

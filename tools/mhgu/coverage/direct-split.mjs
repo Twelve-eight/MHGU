@@ -11,7 +11,8 @@ import zlib from "node:zlib";
 
 const INV = "G:/omp works/MHGU/docs/analysis/code/inventory";
 const HOOK = ["attr-xref.tsv", "attr-prefix.tsv", "attr-strings2.tsv", "attr-vtable-fixed.tsv", "attr-vtable-ns.tsv",
-  "attr-vtable-rtti2.tsv", "attr-vtable-unknown.tsv", "attr-vtable-classconsensus.tsv", "attr-registrar.tsv"];
+  "attr-vtable-rtti2.tsv", "attr-vtable-unknown.tsv", "attr-vtable-classconsensus.tsv", "attr-registrar.tsv",
+  "attr-fingerprint.tsv"];
 const BLOCK = ["attr-blocks.tsv"];
 const CLASSREC = ["attr-class.tsv", "attr-class2.tsv", "attr-uifamily.tsv"];
 
