@@ -57,6 +57,16 @@
 
 **外键完整性（2026-11-04 核对，0 孤儿）**：`monster_damage→monsters`、`monster_to_quest→monsters`、`monster_to_quest→quests`、`quest_rewards→items` 四条关系全部闭合（各 0 条悬空引用）。
 
+**但 `pragma foreign_key_check` 会报 2,621 条"违规"，那不是孤儿，别按它修数据**（2026-11-04 实测并定性）：
+
+| 报告 | 条数 | 真实情况 |
+|---|---:|---|
+| `meow_rewards → meow_location` | 1,168 | **父表名写错**：库里是 `meow_locations`（6 行），没有 `meow_location`。按正确表名查，`meow_location_id>0` 的悬空引用 **0** 条 |
+| `quests → monsters`（`permit_monster_id`） | 1,127 | **0 是哨兵**（= 无许可怪），被当成引用。`permit_monster_id>0` 的悬空引用 **0** 条 |
+| `skills → skill_tree` | 326 | **父表名写错**：库里是 `skill_trees`（205 行），没有 `skill_tree`。按正确表名查，`skill_tree_id>0` 的悬空引用 **0** 条 |
+
+复现：`pragma foreign_key_check`（2,621 行）→ 按上表三条分别过滤后为 0。全库共 **38 条外键定义**，只有这 3 张表报违规，其余 **35 条**在 `foreign_key_check` 里是干净的。生成库的脚本不在本仓库（`mhgu.db` 也未入库，18MB 二进制产物），所以这两处 DDL 名字错要在**重建库时**改，不能靠改数据补救。
+
 **与 agroff JSON 的关系**：agroff 944 任务/204 技能是 Kiranico 网页爬取（英文为主）；mhgu.db 是更全的官方数据（1355 任务、多语言、含肉质/掉落/采集）。**mhgu.db 为权威**，agroff 作交叉验证。
 
 **导出完整性（2026-11-04，不是交叉验证）**：`docs/data/json/` 是**本库自己的导出**（见本节开头"已导出 21 表为 json/<table>.json"），所以拿它跟 `mhgu.db` 比行数**必然相等**——逐表比过：quest_rewards 37,370、items 21,153、gathering 15,414、weapons 10,877、armor 5,637、quests 1,355、monsters 129 等 21 张表全部一致，另有 6 个手工映射 JSON 本就不在导出内。这只能证明**导出没坏**，不能当作两个独立来源互相印证（这正是 §4d 说的自证）。
