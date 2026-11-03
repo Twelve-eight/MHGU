@@ -1,6 +1,6 @@
 class	functions	insns	pct_insns	pct_functions
-A-direct (evidence row)	2028	222714	4.3%	3.8%
-tier A (verified)	24854	2711143	51.9%	47.2%
-conf B (unverified)	25196	2365632	45.2%	47.8%
-headline A only	24854	2711143	51.9%	47.2%
+A-direct (evidence row)	4007	352441	6.7%	7.6%
+tier A (verified)	26125	2848685	54.5%	49.6%
+conf B (unverified)	23925	2228090	42.6%	45.4%
+headline A only	26125	2848685	54.5%	49.6%
 unattributed	2642	151502	2.9%	5.0%

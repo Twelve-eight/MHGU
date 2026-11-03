@@ -10,6 +10,25 @@ import fs from "node:fs";
 import path from "node:path";
 import { labelOf } from "./taxonomy.mjs";
 
+// the class-prefix map covers 224 families; the taxonomy only 14. Longest prefix wins.
+const PREFIX = fs.readFileSync("G:/omp works/MHGU/docs/analysis/code/classprefix-map.tsv", "utf8")
+  .split(/\r?\n/).filter(Boolean).slice(1)
+  .map((l) => { const [prefix, label] = l.split("\t"); return { prefix, label }; })
+  .filter((p) => p.prefix && p.label && p.label !== "unknown")
+  .sort((a, b) => b.prefix.length - a.prefix.length);
+// match at a name boundary only: the class start, after "::", or at a CamelCase seam -- substring matching turned
+// "cQuickUI" into a UI class and moved 95 quest rows into ui
+const atBoundary = (cls, prefix) => {
+  let i = cls.indexOf(prefix);
+  while (i >= 0) {
+    const before = i === 0 ? ":" : cls[i - 1];
+    if (i === 0 || cls.startsWith("::", i - 2) || /[A-Z0-9_]/.test(before) === false) return true;
+    i = cls.indexOf(prefix, i + 1);
+  }
+  return false;
+};
+const byPrefix = (cls) => (PREFIX.find((p) => atBoundary(cls, p.prefix)) || {}).label || null;
+
 const ROOT = "G:/omp works/MHGU";
 const SRC = path.join(ROOT, "docs/analysis/code/inventory/attr-vtable-retile.tsv");
 const OUT = path.join(ROOT, "docs/analysis/code/inventory/attr-vtable-fixed.tsv");
@@ -23,7 +42,7 @@ for (const l of fs.readFileSync(SRC, "utf8").split(/\r?\n/).filter(Boolean).slic
   const [start, label, conf, ev] = l.split("\t");
   if (label === "unknown") { dropped++; continue; } // stays unknown; not evidence
   const c = cls(ev);
-  const byName = c ? labelOf(c) : null;
+  const byName = c ? (labelOf(c) || byPrefix(c)) : null;
   if (byName && byName !== label) {
     rows.push([start, byName, conf, `${ev} [relabelled ${label} -> ${byName} by class name]`]);
     moves[`${label}->${byName}`] = (moves[`${label}->${byName}`] || 0) + 1;
