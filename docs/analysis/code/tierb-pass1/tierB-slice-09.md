@@ -1,6 +1,6 @@
 # Tier B 裁定报告 — slice-09 (1062 函数, 0x72aa48..0x80c93c)
 
-状态：进行中（表格分批 append）。
+状态：**未完成**（2026-11-04 补审确认）。表格从未落盘，本页只有方法与规则，没有裁决行。这段范围 `0x72aa48..0x80c93c` 的当前归属见 `docs/analysis/code/inventory/function-labels.tsv`（按地址查）与 `coverage-report.tsv` 的统计口径，不要引用本页当作已裁定。
 
 ## 方法与证据等级
 本切片的 `callee_label_votes` 存在系统性偏差，已核对 `inventory/classified3.csv` 与 `inventory/tiers.csv`：
@@ -15,4 +15,4 @@
 3. `classified3.csv` 中 `ui` 对短访问器是兜底值，对 ≥100 指令的函数才当作真实 UI 证据。
 4. `role`：无 callee 且 `insns<=16` → leaf；`insns<=4` → thunk；callee 数 ≥8 → orchestrator；其余 worker。
 
-<!-- TABLE -->
+（表格从未生成，2026-11-04 补审时确认；本切片的方法与证据等级判断仍然有效，可直接复用。）

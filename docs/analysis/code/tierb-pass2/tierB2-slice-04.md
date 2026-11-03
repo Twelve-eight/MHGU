@@ -1,5 +1,8 @@
 # Tier B pass2 slice-04 裁定报告
 
+状态：**部分完成**（2026-11-04 补审确认）：本页只有 **30 / 120** 行裁决，剩余部分从未落盘。
+引用这段范围时请查 `docs/analysis/code/inventory/function-labels.tsv`（按地址）与 `coverage-report.tsv`，不要把本页当作完整裁定。
+
 来源：`.tmp/mhgu/tierB2/slice-04.txt`，120 个函数（按 insns 降序），范围 `0x6b3460..0x13b8d1c`。
 本文件每 30 个函数落盘一次。
 

@@ -23,3 +23,7 @@
 - 行级裁决可能多于文档数（一个文档多个条目）；上面的"已有裁决"按文档计。
 - 每个非 OK 裁决在对应切片 TSV 里带命令证据；本表只做汇总，不替代证据。
 - **43 条 STALE 已于 2026-11-04 全部关闭**：逐条处置见 `STALE-FIXES.tsv`（其中 5 条实测后发现文档已先行修正）。STALE 列是 round-1 的历史记录，不是待办。
+- **WRONG 74 行，74 行有处置记录，0 行没有**（处置表：CODEDOCS-FIXES.tsv、MECHANICS-FIXES.tsv、REST-FIXES.tsv）。
+- **STALE 43 行，43 行有处置记录，0 行没有**（处置表：STALE-FIXES.tsv）。
+- **MISSING 10 行，10 行有处置记录，0 行没有**（处置表：MISSING-FIXES.tsv）。
+- **UNVERIFIABLE 23 行**：按定义不作处置（静态不可核验，例如依赖外部页面或已删除的会话工件），逐行证据仍在对应切片 TSV 里。

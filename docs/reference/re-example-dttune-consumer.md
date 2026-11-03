@@ -80,7 +80,9 @@ Do not scan for res+0x98..0xB8 field reads. Follow who RECEIVES the resource poi
 
 ## 5. Dead ends (kept so you skip them)
 
-### 5a. Field-read scans (all scripts in `.tmp/scratch-t1/`)
+### 5a. Field-read scans
+
+> 脚本路径 `.tmp/scratch-t1/` 是**会话级 scratch**（AGENTS §3：临时文件放 .tmp，不保证留存），2026-11-04 补审时已不存在。方法本身写在下面的描述里，可以照描述重写，不要去找这些文件。
 1. `ldr rX,[rY,#0x98..0xB8]` over .text (`scan-ldr.mjs`): 1300-2000 hits per offset. Useless: vtable slot calls (`ldr r1,[r0,#176]; blx r1`) use the same immediates.
 2. Pair filter (`scan-pair.mjs`): member load followed within 4 insns by `ldrh/ldrsh [rX,#0..10]`: 53 hits, all unrelated.
 3. Index form `add rD,rN,#0x98..0xB8` + load + halfword (`scan-add.mjs`): 0 hits. Register-offset halfword form: 14 hits, all unrelated.

@@ -17,7 +17,12 @@
 
 ## 汇总
 
-<!-- SUMMARY -->
+共 **550** 行裁决。
+
+- 标签分布：quest 192、otomo-ot 190、monster-em 125、audio 24、render-gfx 8、item 4、kernel-os 2、save-io 2、unknown 1、player-pl 1、save-data 1
+- conf 分布：C 403、B 143、A 4
+- role 分布：worker 327、leaf 119、orchestrator 68、thunk 36
+- 统计口径：从本文表格自身机械统计（2026-11-04 补审补全；原为空占位，未引用任何外部脚本）。
 
 | vaddr | label | role | conf | evidence |
 |---|---|---|---|---|

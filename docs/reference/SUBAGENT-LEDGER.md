@@ -1,4 +1,6 @@
 
+
+> 本表里的 `.tmp/reports-mhgu/*` 是**会话级 scratch**（临时文件，不保证留存），补审时已不存在；报告内容如需引用请复制进 `docs/` 后再引用路径。
 ## 2026-10-23 批次 AnnotateMember4To17
 - **目标**: member[4..17] reader 逐字段标注（obj_off,size,file序）
 - **代理**: task / devin-northstar/swe-2-max (本会话第3个swe2,配额内)

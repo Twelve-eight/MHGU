@@ -1,5 +1,8 @@
 # Tier B pass2 裁定 — slice-09（120 函数）
 
+状态：**部分完成**（2026-11-04 补审确认）：本页只有 **30 / 120** 行裁决，剩余部分从未落盘。
+引用这段范围时请查 `docs/analysis/code/inventory/function-labels.tsv`（按地址）与 `coverage-report.tsv`，不要把本页当作完整裁定。
+
 输入：`.tmp/mhgu/tierB2/slice-09.txt`；交叉核对 `.tmp/mhgu/inventory/tiers.csv`（tier 预测，B 级多为邻域传播）、
 `inventory/tierb-labels.csv`（已裁定表）、`classified3.csv`（range→subsystem）。
 

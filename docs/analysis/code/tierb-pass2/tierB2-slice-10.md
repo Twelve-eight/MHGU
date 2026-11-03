@@ -1,5 +1,8 @@
 # Tier B pass2 — slice 10 (120 functions)
 
+状态：**部分完成**（2026-11-04 补审确认）：本页只有 **90 / 120** 行裁决，剩余部分从未落盘。
+引用这段范围时请查 `docs/analysis/code/inventory/function-labels.tsv`（按地址）与 `coverage-report.tsv`，不要把本页当作完整裁定。
+
 Source: `.tmp/mhgu/tierB2/slice-10.txt`. Rows are appended in file order, 30 functions per flush.
 `role` follows callee count of the block: leaf=0 calls, thunk=<=4 insns and 0 calls, orchestrator=>=8 calls, worker=rest.
 
