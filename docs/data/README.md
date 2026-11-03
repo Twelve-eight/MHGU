@@ -87,14 +87,14 @@
 - **名字可移植，`_id` 不可移植**。agroff 的 `_id` 与 db 完全不在一个编号空间（装饰珠 0/242 命中），跨源只用名字 + 归一化。
 - **两边命名有系统性差异**：agroff 用 `Petrified Hammer LV1`，db 用 `Petrified Hammer 1`；不转换会把 885 条全判成不一致（我第一版就是这样得到 0% 的）。
 
-## 编辑器运行时数据文件：两个都缺，一个能重建、一个不能（2026-11-04 审计）
+## 编辑器运行时数据文件：两个都缺，**两个都能重建**（2026-11-04 审计；DLC 一节当日更正）
 
 `editor-src` 的界面在启动时读两个外部文本文件（UTF-16），**两个都不在仓库里**：
 
 | 文件 | 谁读 | 格式 | 现状 |
 |---|---|---|---|
-| `MHGU_item(uni).txt` | `ItemsForm.cs:365` | 每行 `id,name`，`Split(',')`，读到长度 ≤2 的行就 `break` | **可从 `mhgu.db` 重建**（见下） |
-| `MHGU_DLC.txt` | `DLCForm.cs:57` | 每行 `identifier, address(hex), checked(hex), name`（`DLCForm.cs:70-73`） | **重建不了**：装的是存档里 DLC 标志的**地址**，不是数据库能给的数值 |
+| `MHGU_item(uni).txt` | `ItemsForm.cs:365` | 每行 `id,name`，`Split(',')`，读到长度 ≤2 的行就 `break` | **可从 `mhgu.db` 重建**（见下，英文名替身） |
+| `MHGU_DLC.txt` | `DLCForm.cs:57` | 每行 `identifier, address(hex), checked(hex), name`（`DLCForm.cs:70-73`） | **可从 `mhgu.db` 重建**（见下；地址是位置的函数、`checked` 列没人读、名字在 `quests` 表） |
 
 本 README 此前写的"编辑器现有 `MHGU_item(uni).txt` 可与之对拍补齐"**不成立**——那份文件从来没有进过仓库，所以这条对拍一直跑不了。
 
@@ -114,11 +114,40 @@ node tools/mhgu/export-item-table.mjs "编辑器目录/MHGU_item(uni).txt"
 
 - **派生产物，不提交**：`docs/data/MHGU_item(uni).txt` 已加进 `.gitignore`，改了 `mhgu.db` 就重跑一次。
 
-### 不能重建的那个
+### `MHGU_DLC.txt`：原来记成"不能重建"，2026-11-04 实测**可以重建**
 
-`MHGU_DLC.txt` 里每一行的第 2、3 字段是**存档内的地址**（`id_Address` / `id_checked`），属于存档布局知识，`mhgu.db` 里没有这类数据，本仓库的文档里也没有 DLC 地址分析。所以编辑器 DLC 页现在是**静默降级**：`DLCForm.cs:63-66` 对长度 ≤10 的行 `continue`，文件缺失时 `dlc` 一直是 `null`，导出会 NRE（代码注释里 `DLC-1` 记的就是这个坑）。
+原来这条写的是"第 2、3 字段是存档内地址，属于存档布局知识，`mhgu.db` 里没有这类数据"。读源码与实档后，三件事都不成立：
 
-要补，必须先做 DLC 标志位的存档定位（属于成员/存档侧逆向），不是"补一个数据文件"能解决的。记为待办，不假装已覆盖。
+| 结论 | 依据 |
+|---|---|
+| DLC 区是**固定数组**：200 槽 × 7,168B（0x1C00），起点存档偏移 **63,641（0xF899）**，共 1,433,600B | `DLCForm.cs` 读档 `Seek(63641)` 读 1,433,600B，循环 `i<200`、`num += 7168` |
+| 第 2 列 `id_Address` **是位置的函数**，不需要存：槽 i = `63641 + i*7168`；而且列表里显示的地址是编辑器自己算的，这一列只被解析 | 同上；`id_Address` 无其他读者 |
+| 第 3 列 `id_checked` **解析后从未被任何代码读取**（全仓 `grep -c id_checked` 只在 `DLCForm.cs` 命中 2 次：声明 + 赋值） | 已核 |
+| 标识符 = 槽首 **3 字节小端**，是一个 7 位任务号；**这些号全在 `mhgu.db` 的 `quests` 里**（`_id ≥ 1,000,000` 共 **166** 条，全是 type 0；实档 `system_CLEAN` 填了 165 槽，165/165 都能查到名字） | 见下表复现 |
+
+所以这个文件只是 **identifier → name** 的名字表，名字从库里取即可：
+
+```
+node tools/mhgu/export-dlc-table.mjs "编辑器目录/MHGU_DLC.txt" "<存档 system 文件>"
+```
+
+- 输出 UTF-16LE + BOM、CRLF（`Encoding.Unicode`），166 行；名字里的逗号替换为全角，避免 `Split(',')` 截断；
+- 给了存档就把每个 id 落到它所在的槽地址，否则第 2 列写 `0`（编辑器不用它）；
+- 自检：按 `DLCForm.cs` 的解析（行长 >10、按逗号切 4 段、第 1/2/3 段可解析）回放 166 行**全部接受**。
+
+**与"原名表"的差别**：原版是 DLC 任务的人类可读名（可能含日文/中文），这里出的是 `quests.name`（英文）。功能上等价——DLC 页能列出任务、能导出单个 `.dlc`——但显示语言是英文。
+
+- **派生产物，不提交**：与 `MHGU_item(uni).txt` 同样处理。
+
+复现（2026-11-04）：
+
+```
+node tools/mhgu/export-dlc-table.mjs .tmp-dlc.txt save-snapshots/20261022-clean-reference/system_CLEAN
+# wrote .tmp-dlc.txt: 166 rows from the database (165 placed in a save slot)
+bun -e "import {Database} from 'bun:sqlite'; const d=new Database('docs/data/mhgu.db',{readonly:true});
+  console.log(d.query('select count(*) c, min(_id) mn, max(_id) mx from quests where _id>=1000000').get())"
+# { c: 166, mn: 1010004, mx: 1120012 }
+```
 
 **信源验证记录**：`docs/reference/source-verification.md`
 ## 缺口（待补，mhgu.db 已覆盖大部分）
