@@ -5,7 +5,7 @@ Audit of the three reports against their inputs in `G:/omp works/.tmp/mhgu/suyu/
 `addr-disasm.txt` (the `nvn_rec.cpp` / `arm_recomp*.cpp` blocks also exist in `dis-other.txt`),
 `sdk-helpers.txt`, `ex-*.txt`, `chunks/c*.txt`) and
 the SUYU source line each row cites. SUYU `main+X` == our `vaddr` (anchored at 0xBBCD34 →
-`mov r0,#1920`/`movw r7,#0x438`); SUYU `kHelpers` sdk_offset == our `sdk.flat.bin` offset
+`mov r0,#1920`/`movw r7,#0x438`); SUYU `kHelpers` sdk_offset **+ 0x100** == our `sdk.flat.bin` offset (2026-11-04 correction: the offsets are 0x100 apart, verified by `xxd -s` on three blocks against `sdk-helpers.txt`; the verdicts in this file stand, only the coordinate note was wrong)
 (nvn_trace.cpp:296-324 `addr = sdk + kHelpers[k].sdk_offset`).
 
 **Round-2 correction applied:** the previous audit's CONTRADICTED verdicts for the three
@@ -19,7 +19,7 @@ Audit date: 2026-10-23.
 
 | report | state | overall |
 |---|---|---|
-| `suyu-gs-part1.md` | populated (camera/filter/render clusters); Pia/Unknown placeholder | **PASS** (see caveat) |
+| `suyu-gs-part1.md` | populated (camera/filter/render clusters, plus the 22-row Pia table; 39 rows total, not 12 — 2026-11-04) | **PASS** |
 | `suyu-addr-check.md` | 50 rows merged from c01..c17, all populated with evidence | **PASS** |
 | `chunks/spk-format.md` | full format-fact prose, all PLAUSIBLE, sourced | **PASS** |
 

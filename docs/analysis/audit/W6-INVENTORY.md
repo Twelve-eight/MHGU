@@ -15,6 +15,12 @@ were not edited. Tools that write into tracked paths were run in a scratch copy 
 hardcoded output path (`ctor-vtable.mjs`, `function-labels.mjs`) were checked afterwards with
 `git status` — the tracked files are byte-identical to HEAD.
 
+Concurrent edit: while this report was being written, another pass added a two-line banner to
+`coverage/METER.md` (the 人工裁定语料 section, about `tierb-gen.mjs` truncating callee lists). All
+METER figures below were read from the committed version (`git` blob `4272f6a`); the added banner
+does not touch any number audited here. The same applies to other passes editing docs outside
+this scope while the audit ran — their changes are not mine.
+
 ## 0. Gate
 
 ```
@@ -99,6 +105,7 @@ marks "作废/勿引用/old" are not counted against it; they are listed separat
 | M30 | `attr-vtable-retile.tsv` not in `sources.json`; 13,577 rows, 0 duplicate (vtable,slot) | `sources.json`; parse (vtable,slot) pairs | absent from the 24; 13,577 unique pairs | agree |
 | M31 | `attr-uifamily`: 1,772 rows = 429 `ctor:` + 1,145 `slot:` + 715 other | parse A rows | A rows 1,772 = 429 + 1,145 + **198** other; the three numbers sum to 2,289 (all rows), not 1,772 | disagree (label "1,772 rows" vs components summing 2,289) |
 | M32 | geographic Tier A holdout: 4,636/13,112 = 35.4% (CP95 34.5), 3,467 = 26.4%, 3,202 = 24.4% | `node tools/mhgu/coverage/canonical-holdout.mjs` | killed at the 300 s background-job deadline; not copied from the document | unverified (time) |
+| M33 | hub `0x7bb638`: 1,185 callers; labels render-gfx 154, weapon-wp 129, quest 54, otomo 54, physics 49, item 33, monster 32, ui 31, audio 23, player 15, online 14, save 3, kernel 3, unlabelled 591 | split the `callees` column, join `tiers-merged.csv` | callers **1,185** (exact); unlabelled 547, render-gfx 184, weapon-wp 130, quest 61, otomo 54, physics 51, ui 34, item 33 | disagree (population exact, distribution drifted) |
 
 Notes to M8/M24/M27/M29:
 - M8's six rows are internally consistent (253+171+86+242 = 752/990) but the committed
@@ -405,7 +412,10 @@ match, and the total is 52,692.
   correct, 1 new". The union of the twelve `attr-vtable*.tsv` files is **6,095** vtables, and
   `ctor-vtable.mjs` prints `vtables with a single known class: 2373`, `9201 stored to [rN+0],
   0 matched a known vtable`, and writes only a header. The "17 / 2 of 5 / 1 new" numbers are not
-  printed by any committed command. The channel is rejected either way.
+  printed by any committed command. The channel is rejected either way. The `0x7bb638` hub paragraph has the same shape: its
+  1,185-caller population reproduces exactly, but the label distribution has drifted (current
+  `tiers-merged.csv`: unlabelled 547, render-gfx 184, weapon-wp 130, quest 61; document: 591 /
+  154 / 129 / 54).
 
 ### F10 — numbers that can only be reproduced from untracked scratch (P2, verifiability)
 
@@ -415,7 +425,7 @@ alone:
 | document | numbers | dependency |
 |---|---|---|
 | `LIBFINGERPRINT.md` §1/§2 | 3,216 functions / 16,317 hits / 11,857 strings; the family table | `G:/tmp/LibFp/extract2.mjs`, `numbers.mjs`, `audit.mjs` (present on this machine, untracked) |
-| `attr-strings.md` | 462/462 A rows on a real reference (451 add-pc + 11 pool) | `annotate2` / `func-inventory5.mjs` provenance mode (not committed) |
+| `attr-strings.md` | 462/462 A rows on a real reference (451 add-pc + 11 pool) | `annotate2` re-implementation (not committed; the committed `func-inventory5.mjs` does not emit provenance) |
 | `attr-bverify-pilot.md` | 39 disassemblies, 21 bodies, skeleton hashes, 48/60 clones | `.tmp/bverify/{dossier,survey,emit}.mjs`, `block.json` |
 | `batchA-classname-xref.md` | 2,291 loads / 2,076 names / 8 conflicts / 590 no-rule | `.tmp/mhgu/mon/mon-final.out.txt` (absent) + the pass's scanner |
 | `verdict-14_20.md` | 2,454 classes, 6,582 labelFor functions, top-N shares | `class-from-code.mjs` prints rows only; no aggregate mode |

@@ -40,7 +40,7 @@ done
 
 | vaddr | 名称 | 归属（按 `cEm*` 类名分隔推断） |
 |---|---|---|
-| 0x1552600 | `iWaza_OtherParts_Bias` | （前一块，`cEm` 部位参数） |
+| 0x1552600 | ~~`iWaza_OtherParts_Bias`~~ **存疑（2026-11-04）** | `KariWaza_OtherParts_Bias` 的字符串在 `0x15525FD`，`0x1552600` 是它之后的第 3 个字节；本行不能作为 `iWaza_…` 的地址证据 |
 | 0x1552616 | `Support_OtherParts_Bias` | 同上 |
 | 0x155262e | `MeatChange_OtherParts_Bias` | 同上 |
 | 0x1552649 | `StaminaSubRate` | 同上 |

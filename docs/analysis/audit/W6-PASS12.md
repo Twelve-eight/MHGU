@@ -393,6 +393,9 @@ range, or comparison with a neighbour).
 | tierB2-slice-13 | 0x64a198 quest/B, 0x7c0f00 physics-math/C, 0xb72d88 physics-math/B, 0x5cb504 otomo-ot/B, 0x758d6c quest/C | 23 → 22 (0x7c7d54 named as "同型" of a slice-11 function) |
 | tierB2-slice-14 | 0x7d6324 render-gfx/B, 0x9fbf4c kernel-os/C, 0x812f4c quest/B, 0x2f2874 monster-em/B, 0x4fd66c quest/B | 15 → 12 (0x4c46e0/0x1c864c are prose about a 16-byte accessor, 0x7af3c4 is a `b` tail stub) |
 
+`tierB-slice-09` has no rows, so it has no labels to spot-check; the equivalent checks for that page are the
+`tiers.csv` family test and the `function-labels.tsv` coverage of its range (section 13).
+
 No spot check produced a false call target. The evidence text is grounded; the defects in this pass are
 tally/version defects, not invented disassembly.
 
@@ -426,8 +429,9 @@ All nine "misses" are explained by the sentence (caller, cluster range, comparis
 - `tierB2-slice-10.md` — no `## 汇总` section exists; the only status is line 3 ("90 / 120").
 - `tierB2-slice-04.md:22-24` — `<!-- SUMMARY-START --> 汇总在全部 120 个函数处理完后回填。` The file is
   the 30/120 partial page, so this is an honest placeholder, not a claim.
-- `tierB2-slice-13.md:6` — the heading itself is broken: `## 汇总`（追加式写入，故置于末尾）。` splitting a
-  heading with a backtick; the real summary is at line 308 as `## 汇总`.
+- `tierB2-slice-13.md:6` — the second heading is broken by a stray backtick after `## 汇总`: it opens an
+  inline-code span that swallows the rest of the line, so the section never renders as a heading. The real
+  summary is at line 308.
 - `tierB-slice-09.md:6,10,13` — method cites `inventory/classified3.csv` as cross-checked. No such file exists
   in `docs/analysis/code/inventory/` (only `tiers.csv`, `tiers-merged.csv`, `tiers-recomputed.csv`); the
   claim "通用访问器族…在 classified3.csv 中全部标记为 prop" cannot be reproduced.
@@ -440,8 +444,8 @@ All nine "misses" are explained by the sentence (caller, cluster range, comparis
 ## 14. Per-document notes
 
 **tierB-slice-03** — 250 rows, all real, all in range. Labels and confs (A1/B91/C158) exact; 108/108
-instruction counts exact. Four callee counts are short (0x188c84 "≥15" vs 14; 0x18d890 9 vs 10; 0x18dd88
-7 vs 8; 0x18e07c 9 vs 10) and 0x18dd88's role follows the wrong count (`:73`, worker where 8 callees make it
+instruction counts exact. Four callee counts do not reproduce (0x188c84 "≥15" against 14; 0x18d890 9 against 10; 0x18dd88
+7 against 8; 0x18e07c 9 against 10) and 0x18dd88's role follows the wrong count (`:73`, worker where 8 callees make it
 an orchestrator). The 2026-10-24 demotion note is correct and confirmed by `stringxref`.
 
 **tierB-slice-05** — 550 rows, every printed distribution exact (labels, conf, role). 8 role cells disagree
@@ -488,8 +492,8 @@ disagree with the callee counts — the page documents *why* (insns field unreli
 between its own summary and its own column.
 
 **tierB2-slice-08** — 120 rows; labels and conf exact; **role tally 83/21 wrong (81/23)**; 20 rows outside
-the printed domain; 11 role cells disagree with the callee lists (all rows whose visible head is `bx lr` —
-explained at line 5 for the input, not for the column).
+the printed domain; 11 role cells disagree with the callee lists (each such row states its own `bx lr`/tail-jump head in the
+evidence, so the column describes the visible head, not the region).
 
 **tierB2-slice-09** — 30/120 rows, honestly labelled partial, but the summary points at a "终版统计" section
 that does not exist; 5/7 callee counts match.
@@ -517,8 +521,9 @@ claim exact. Two contradictions: **"leaf 22" against 28 leaf rows** in its own t
 
 ## Difficulties
 
-- **The inputs are gone.** Every one of the 19 files reads its data from `.tmp/mhgu/…`, a tree that no
-  longer exists (`tierB2-slice-02.md:5` records this). Consequences: (a) "the table's N rows are the slice
+- **The inputs are gone.** 16 of the 19 files print their input as `.tmp/mhgu/…`, a tree that no longer
+  exists (`tierB2-slice-02.md:5` records this; the exceptions are `tierB-slice-03`, `-08` and `-09`, which
+  name their sources only as `slice-0N.txt` or not at all). Consequences: (a) "the table's N rows are the slice
   file's N entries" cannot be checked; (b) the pass2 "address domain" lines are quotes from a missing file
   and can only be checked against the tables themselves; (c) where a count disagrees with
   `functions.csv.gz` I cannot tell whether the slice used a filtered list.
@@ -543,7 +548,7 @@ claim exact. Two contradictions: **"leaf 22" against 28 leaf rows** in its own t
 ## VERDICT
 
 doc	status	evidence
-docs/analysis/code/tierb-pass1/tierB-slice-03.md	contradiction	250/250 rows real and 108/108 instruction counts exact, but four callee counts are short (0x188c84 "≥15" vs 14) and 0x18dd88 is graded worker against its own 8 callees.
+docs/analysis/code/tierb-pass1/tierB-slice-03.md	contradiction	250/250 rows real and 108/108 instruction counts exact, but four callee counts do not reproduce (0x188c84 "≥15" against 14) and 0x18dd88 is graded worker against its own 8 callees.
 docs/analysis/code/tierb-pass1/tierB-slice-05.md	contradiction	550/550 rows, every printed distribution exact, but 8 role cells contradict their callee lists (0x38eae4 15 callees → worker) and 5 callee counts are off by 1–15.
 docs/analysis/code/tierb-pass1/tierB-slice-08.md	confirmed	78/78 rows real, §A 37 rows all ≥1000 insns descending and §B 41 rows address-ascending, every tally exact; only a stale string citation (0x18bb60 "cMix" has no code reference).
 docs/analysis/code/tierb-pass1/tierB-slice-09.md	unverified	no table exists (0 rows), and the method cites inventory/classified3.csv which is not in the repository; its tiers.csv "uniformly quest" claim is false for 3 of 6 stub entries.
