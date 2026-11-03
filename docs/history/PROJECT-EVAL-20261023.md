@@ -202,6 +202,8 @@ member#4 内层跨度 12,951 vs 12,955，最终靠 **dirty 档 `vol_only=0`** �
 
 ### 4.1 代码 90%：瓶颈是「直接证据供给」，不是代理吞吐
 
+> **2026-11-04 更正（先读这条，本节算术已作废）：** 下表的分母 **23,885 是区域平铺，不是函数数**。2026-11-03 重切后为 **52,692 个函数**（指令和 5,228,277 不变；`tools/mhgu/coverage/retile.mjs`、`docs/analysis/code/inventory/RETILE.md`），审计门现打印 `52692 functions / 5228277 instructions`。因此本节所有"函数口径"百分比（37.3% 等）**不能与新表混用**；当前唯一口径是 **58.0% 指令**（`node tools/mhgu/coverage/canonical-metric.mjs`）与 **66.2% / 53.5%**（`independent-coverage.mjs`）。下面保留原文，只作 2026-10-23 的记录。
+
 先把算术摆出来（全部输入取自 `code-metrics.md:126-128` 与 `HANDOFF.md:21`，除法与百分比为本文计算）：
 
 | 项 | 值 | 来源 |
