@@ -19,6 +19,7 @@
   "attr-callvote1.tsv",
   "attr-offsetpairs.tsv",
   "attr-offsets.tsv",
+  "attr-dualpredict.tsv",
   "attr-classsingle.tsv",
   "attr-tableseeds.tsv",
   "attr-fingerprint.tsv"
