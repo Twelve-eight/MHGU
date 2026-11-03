@@ -64,7 +64,7 @@ MUST-NOT list below is strict.
 | slot count | container | 3 slots, indices 0..2 | 0,1,2 | hard-code 3; never probe for a 4th | DEVELOP.md:58; coverage-map.md:403 |
 | slot offset table | `system 0x0034 + 4*slot` (payload+`0x10+4*slot`) | 3 x u32 LE, payload-relative | each value `< 0x4EB898` | read-only; never rewrite; do not derive file offsets from it without a byte check (Gaps 1) | DEVELOP.md:58; social-checksum.md:107-108 `[A]` |
 | slot-used flag (existence byte) | `system 0x0028 + slot` (payload+`0x04+slot`) | u8 | `0` = empty, `1` = used | preserve by default; the only permitted change is setting `1` together with a complete 1,177,760 B block. Clearing a slot to `0` is unspecified (Gaps 2); **NEVER at `system 0x0004+slot`** | social-checksum.md:283 `[A]`; DEVELOP.md:220 |
-| slot state word | `system 0x0050 + 4*slot` (payload+`0x2C+4*slot`) | u32 LE | must equal `1` for a used slot | read-only; never write | social-checksum.md:82-83 `[A]` |
+| slot state word | **runtime save-context `[ctx+0x2C+4*slot]`** (`ctx+0x28` holds the payload pointer) — **not a payload field** | u32 | the code accepts a used slot only when this word = `1` | read-only; never map it onto `system 0x0050` (that dword is `0x756E736E`, next `0x54` = `103`, in both shipped systems) | `0x3e121c-0x3e1224` `[D]`; sample bytes `[B]` |
 | slot block origin | `system 0x18CC9C` / `0x2AC560` / `0x3CBE24` (slots 0/1/2) | 1,177,760 B each | n/a | `char_off = system_offset - hunterAdds[slot]`; a `.hnt` is a byte-for-byte copy of one block | HANDOFF.md:41-43; tail-containers.md:3 |
 | slot block stride | distance between consecutive origins | `0x11F8C4` = 1,177,796 B = 1,177,760 + 36 | fixed | never use the stride as a data length; the extra 36 B per slot is unmapped by this spec (Gaps 1) | DEVELOP.md:58; social-checksum.md:125 `[A]` |
 | `.hnt` file | any `*.hnt` in the save directory | 1,177,760 B, no header, no footer | exactly this | reject other sizes; read/write whole block; `char_off` applies unchanged | DEVELOP.md:59 |
@@ -81,9 +81,9 @@ MUST-NOT list below is strict.
 | opaque 224 B block | `char_off 0x002C..0x010B` | 224 B, opaque | n/a | never write (including `0x00B1`); the block is copied into a runtime object when the save is opened, so it is not inert padding | write-side-desc.md:341 `[A]`; social-checksum.md:87-88 `[A]` |
 | 7 x 44 B equipment snapshots | `char_off 0x010C..0x023F` | 308 B, 7 records x 44 B | n/a | never write; each record starts with the runtime vptr `0x0193A514`, so writing here injects host pointers | coverage-map.md:333; HANDOFF.md:85-86 |
 | appearance head + colours | `char_off 0x0240..0x026F` | 48 B: 12 B + 16 B + 20 B (six feature bytes at `0x0241..0x0248`, 4 x RGBA at `0x0260..0x026F`) | n/a | never write | write-side-desc.md:343-346 `[A]` |
-| stack residue | `char_off 0x0270..0x0273` | 4 B | any | preserve; the game never writes it and may change it between saves; never use it as a validity check | HANDOFF.md:85-86; coverage-map.md:333 |
+| header field + stack residue | `char_off 0x0270..0x0273` | 2 B + 2 B | `0x0270..0x0271` = u16 copied from runtime `obj+0x506` (semantics unknown; **not HR**); `0x0272..0x0273` = any | preserve both; never use either as a validity check | write-side-desc.md §5 (`0x3e104c-0x3e1054`); coverage-map.md:333 |
 | final header u32 | `char_off 0x0274..0x0277` | u32 | n/a | never write | write-side-desc.md:348 `[A]` |
-| member region | `char_off 0x0278..0x3783A` | 227,386 B | n/a | owned by the member specs; this file only requires that untouched bytes stay untouched | HANDOFF.md:87-103; coverage-map.md:199-210 |
+| member region | `char_off 0x0278..0x3783A` | 226,754 B | n/a | owned by the member specs; this file only requires that untouched bytes stay untouched | HANDOFF.md:87-103; coverage-map.md:199-210 |
 | tail pass-through cache | `char_off 0x3783A..0x11F8A0` | 950,374 B (81 % of the block) | arbitrary bytes | copy the loaded buffer back verbatim; no field edits; never zero, pad, regenerate or "clean" it | HANDOFF.md:103; coverage-map.md:268-299, 374-386 |
 
 ## Invariants
@@ -92,8 +92,8 @@ MUST-NOT list below is strict.
    `system` file offset, or payload-relative (`system` - `0x24`). A byte is never addressed
    by "block number + raw file offset" without naming the coordinate system.
 2. **Slot completeness.** A slot is offered to the user as used only when all three hold:
-   slot-used flag = 1, slot state word = 1, and a full 1,177,760 B block is readable at
-   `hunterAdds[slot]`. Any mismatch -> surface as corrupt, do not write.
+   file slot-used flag = 1, the **runtime** save-context word `[ctx+0x2C+4*slot]` = 1 (not a file field),
+   and a full 1,177,760 B block is readable at `hunterAdds[slot]`. Any mismatch -> surface as corrupt, do not write.
 3. **HR "dual copy" REFUTED (2026-10-23, main session).** In all 14 private saves
    (`.hnt` and system, HR 5 and 198) the u16 at `char_off 0x00B1` is `0`, never equal to
    `0x0028`. The editor writes `0x0028` only and preserves `0x00B1` byte-exact as part of
@@ -127,7 +127,7 @@ MUST-NOT list below is strict.
 | # | forbidden target | reason | source |
 |---|---|---|---|
 | M1 | `system 0x0000..0x0023` (36 B file prefix), incl. stamp `0x0014` and length `0x001C` | container metadata; the stamp is a format constant that no code validates, so a wrong value is not detected but is still corruption | DEVELOP.md:58; social-checksum.md:200, 284-285 `[A]` |
-| M2 | `system 0x0024` (payload version), `0x0034..0x003F` (offset table), `0x0050..0x005B` (state words) | only the game may author these; see Gaps 1-2 before touching any of them | social-checksum.md:82-83, 107-108, 285-286 `[A]` |
+| M2 | `system 0x0024` (payload version), `0x0034..0x003F` (offset table), `0x0050..0x005B` (header dwords — **not** the slot state words; those live in the runtime context) | only the game may author these; see Gaps 1-2 before touching any of them | social-checksum.md:82-83, 107-108, 285-286 `[A]` |
 | M3 | `system 0x0004 + slot` | the old editor's "slot flag" write target; it polluted the 36 B file prefix. The flag lives at `0x0028 + slot` | DEVELOP.md:220 |
 | M4 | `char_off 0x002B..0x0277` (no exceptions) | remainder of the write-only 632 B summary: 224 B opaque block, 7 x 44 B records carrying a host vptr, appearance/colour block, stack residue, final u32 | coverage-map.md:301-334; HANDOFF.md:85-86 |
 | M5 | `char_off 0x0278..0x3783A` | member data; only the member specs may write inside it | HANDOFF.md:87-103 |
@@ -137,14 +137,14 @@ MUST-NOT list below is strict.
 | M9 | any 512 B chunk that crosses `char_off 1,177,760` | `1,177,760 % 512 = 160`; an unclamped last chunk reads past the buffer and writes 352 B into the next slot header | DEVELOP.md:243; HANDOFF.md:107; social-checksum.md:293-295 `[A]` |
 | M10 | mixing `.hnt` bytes with a `system` slot that is not byte-equal | two snapshots of the same hunter can differ in the tail by >80 %; mixing silently loses progress | HANDOFF.md:191; coverage-map.md:374-386 |
 | M11 | resizing either file, or "fixing" a checksum | sizes are format constants and no checksum exists | DEVELOP.md:57-59, 160 |
-| M12 | `char_off 0x002B` (unknown save-kind) and `0x0270..0x0273` (stack residue) | no documented semantics; residue varies between saves | write-side-desc.md:340, 365-370 `[A]` |
+| M12 | `char_off 0x002B` (unknown save-kind) and `0x0270..0x0273` (`0x0270..0x0271` unknown runtime field; `0x0272..0x0273` stack residue) | no documented semantics; residue varies between saves | write-side-desc.md:340, 365-370 `[A]` |
 
 ## Gaps
 
 | # | gap | impact | how to close |
 |---|---|---|---|
 | 1 | **Slot offset table values and the 36 B per slot.** Docs publish the table location (`system 0x0034+4*slot`) and the code relation `dest = payload + offset[slot]`, and they publish stride `0x11F8C4` = 1,177,760 + 36. Concrete table values are not published, so the 36 B per slot is either a block header before each `char_off` origin or unread bytes between blocks. | An implementation cannot reconstruct slot origins from the payload; it must use the fixed `hunterAdds` table. A +/-36 B mistake silently shifts every field. | Dump the three u32 at `system 0x0034/0x0038/0x003C` in both published samples and compare with `hunterAdds[i]` and `hunterAdds[i] - 0x24`. |
-| 2 | **Slot-used flag semantics.** The flag byte is read by the code and the state word must equal 1, but no published byte-level test shows what the game does with flag 1 + stale/absent block, or what clearing a slot (flag 0 while the state word stays 1) does. The `system` file coordinate `0x0028+slot` is an arithmetic join of the payload base and the code's payload+4+slot. | Writing a "new" slot may be ignored or may produce a corrupt slot entry; a "delete slot" feature cannot be specified at all. | A/B test on a copy: set flag 1 for an empty slot, load, record result; then clear it for a used slot. |
+| 2 | **Slot-used flag semantics.** The flag byte is read by the code and the **runtime context** word `[ctx+0x2C+4*slot]` must equal 1 (not a file byte), but no published byte-level test shows what the game does with flag 1 + stale/absent block, or what clearing a slot (flag 0 while the runtime word stays 1) does. The `system` file coordinate `0x0028+slot` is an arithmetic join of the payload base and the code's payload+4+slot. | Writing a "new" slot may be ignored or may produce a corrupt slot entry; a "delete slot" feature cannot be specified at all. | A/B test on a copy: set flag 1 for an empty slot, load, record result; then clear it for a used slot. |
 | 3 | **Third hunter slot.** No published sample of a used slot2 is documented: the only slot2 evidence is that its 16 B tail array is zero (`coverage-map.md:403`), and `member15.md:9` records slot2 as empty `[A]`. The representation of an empty block (all-zero vs absent) is likewise unconfirmed. | A 3-slot UI may expose an operation the samples never exercised. | Compare a save that really has three hunters, or create slot2 in-game and diff. |
 | 4 | **`.hnt` <-> slot identity.** No published mapping says which `.hnt` belongs to which slot (file name? `char_off 0x002B`? save order?). It is also unproven that the game itself reads `.hnt` files rather than only `system`. | An import into the wrong slot silently overwrites another hunter; an export labelled "slot 1" may be stale. | Byte-compare each `.hnt` against the three blocks; test whether the game reacts to a modified `.hnt` without a `system` change. |
 | 5 | **Name limits.** Field width is 32 B (writer `memcpy`), but published notes also say UTF-8 ~16 B and `UTF-8[20]`; the per-character limit, truncation policy, and terminator padding are unconfirmed. | Truncating mid-codepoint or leaving garbage after the terminator may show a broken name in the slot list. | In-game test with maximum-length and multi-byte names; inspect the 32 B field after the game saves. |

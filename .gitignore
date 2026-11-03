@@ -61,3 +61,6 @@ docs/data/weapons.json
 
 # third-party runtime deps are installed locally, never committed (AGENTS §7b)
 tools/mhgu/vendor/
+
+# 会话临时scratch（真值不进 repo）
+.tmp/
