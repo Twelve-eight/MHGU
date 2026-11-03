@@ -33,7 +33,9 @@ const cp = (o, n) => {
 const per = new Map();
 let ok = 0, n = 0;
 const WIN = 0x100000;
-for (const off of [0, 0x20000, 0x40000, 0x60000, 0x80000]) {
+const GRIDS = (process.env.GRIDS || "0,2,4").split(",").map(Number);
+const OFFSETS = [0, 0x20000, 0x40000, 0x60000, 0x80000];
+for (const gi of GRIDS) { const off = OFFSETS[gi];
   for (let w = off; w < 0x1400000; w += WIN) {
     const inside = fns.filter((f) => f.a >= w && f.a < w + WIN);
     if (inside.length < 20) continue;

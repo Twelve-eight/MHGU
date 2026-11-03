@@ -44,12 +44,15 @@ for (const f of src) {
 
 // The three older channels were each validated at >=96% on their own folds. They join the anchor set so that the purity
 // table and the traceability check agree; a row then always traces to something measured, never to another inference.
+const strongV = new Map(); // labels these three channels assert, kept separately for the contradiction guard
 for (const f of ["attr-callvote.tsv", "attr-classvote.tsv", "attr-callervote.tsv"]) {
   const p2 = path.join(INV, f);
   if (!fs.existsSync(p2)) continue;
   for (const l of fs.readFileSync(p2, "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
     const [s0, lab, conf] = l.split("\t");
-    if (conf === "V" && lab && !direct.has(s0.toLowerCase())) direct.set(s0.toLowerCase(), lab);
+    if (conf !== "V" || !lab) continue;
+    strongV.set(s0.toLowerCase(), lab);
+    if (!direct.has(s0.toLowerCase())) direct.set(s0.toLowerCase(), lab);
   }
 }
 
@@ -191,7 +194,7 @@ for (const { round, added } of cascade(direct, ROUNDS)) {
   const e = perRound[round - 1];
   const lower = cpLower(e.ok, e.n);
   console.log(`round ${round}: fold ${e.ok}/${e.n} = ${((100 * e.ok) / (e.n || 1)).toFixed(1)}% (CP95 ${lower.toFixed(1)}%), adds ${added.size}`);
-  if (round > 1 && lower < ROUND_FLOOR) { console.log(`round ${round} below the ${ROUND_FLOOR}% floor: this round and later are dropped`); break; }
+  if (lower < ROUND_FLOOR) { console.log(`round ${round} is below the ${ROUND_FLOOR}% floor: rejected, nothing published`); process.exitCode = 1; break; }
   for (const [k, v] of added) adopted.set(k, { ...v, round });
 }
 
@@ -247,6 +250,18 @@ for (let pass = 0; pass < 4; pass++) {
   }
   if (unsupported) console.log(`note: ${unsupported} row(s) hold only through the strict traceability rule`);
   else console.log("self-check: every inferred row is supported by the final purity table");
+}
+
+// Guard: no row may contradict a label already asserted by one of the three stronger channels. They are anchors now, so
+// this should be impossible; if it ever fires, the anchor merge broke.
+{
+  let clash = 0;
+  for (const [st, v] of adopted) {
+    const strong = strongV.get(st);
+    if (strong && strong !== v.lab) clash++;
+  }
+  if (clash) { console.error(`FAIL: ${clash} row(s) contradict a stronger channel`); process.exitCode = 1; }
+  else console.log("guard: no row contradicts the two-vote, class or caller channels");
 }
 
 for (const [st, v] of adopted) {

@@ -231,7 +231,10 @@ const VALID_SPREAD = new Set(["online-nex", "weapon-wp", "render-gfx", "monster-
 // Second, vote-count-based rule for labels whose overall precision is too low but whose high-vote rows are not: ui is 73%
 // at one agreeing neighbour, 86% at two and 94.1% at three (CP95 92.9); kernel-os is 38% at one, 97.2% at two (90.3);
 // audio 3+ is 100% (90.6); weapon-wp 3+ is 96.9% (92.4). Measured by spread-precision.mjs with the same held-out windows.
-const VOTE_THRESHOLD = { ui: 3, "kernel-os": 2, audio: 3, "weapon-wp": 3 };
+// Production votes use every anchor, the calibration removed the window's own: a production count of k corresponds to the
+// measured k-1 cell, so every threshold is shifted up by one. ui therefore needs 4 (measured cell 3+ = 94.1%, CP95 92.9),
+// kernel-os 3 (2 = 97.2/90.3), audio 4 (3+ = 100/90.6), weapon-wp 4 (3+ = 96.9/92.4).
+const VOTE_THRESHOLD = { ui: 4, "kernel-os": 3, audio: 4, "weapon-wp": 4 };
 const spreadVotes = new Map();
 if (fs.existsSync(path.join(INV, "spread-votes.tsv"))) {
   for (const l of fs.readFileSync(path.join(INV, "spread-votes.tsv"), "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
@@ -273,15 +276,14 @@ rows.push(["partition: no label", String(pNone), String(pNoneIns), pct(pNoneIns,
 // shifted grids (same window size, more samples, no looser ruler): online-nex 322/322 = 100% (CP95 99.1), weapon-wp
 // 106/108 = 98.1% (94.3), render-gfx 384/416 = 92.3% (89.8), pooled 812/846 = 96.0% (CP95 94.7). render-gfx misses alone
 // but the pooled estimate for the three validated labels clears the bar, so those labels count.
-rows.push(["covered at >=90% precision", String(pDir + pInf + pSig + pSpV), String(pDirIns + pInfIns + pSigIns + pSpVIns),
-  pct(pDirIns + pInfIns + pSigIns + pSpVIns, totalIns), pct(pDir + pInf + pSig + pSpV, totalFn)]);
-// Second, clearly weaker line: the same classes plus the spread labels, whose recovery was re-measured on the current
-// tiers with the same 1 MB x five-grid hold-out: 13,317/15,476 = 86.0% (CP95 lower 85.5); per label ui 81.8%, online-nex
-// 92.5%, render-gfx 90.1%, monster-em 92.8%, quest 73.9%, physics-math 76.6%. Quoting this line means "a subsystem
-// attribution exists at >=85% measured precision", never the >=90% one.
-rows.push(["covered at >=85% precision", String(pDir + pInf + pSig + pSpV + pSpU), String(pDirIns + pInfIns + pSigIns + pSpVIns + pSpUIns),
-  pct(pDirIns + pInfIns + pSigIns + pSpVIns + pSpUIns, totalIns), pct(pDir + pInf + pSig + pSpV + pSpU, totalFn)]);
-// Re-measured on the current tiers: 13,317/15,476 = 86.0% (CP95 lower 85.5), which is why the >=85% line exists above.
+// One curve, two rungs, each with the number that was actually measured for it. The >=90 rung includes every class whose own
+// measurement clears 90 (evidence, traceable inference, signature, the four pooled spread labels, and the vote-count rows).
+// The >=85 rung adds the rest of the spread bucket; it is a POOLED 86.0% (CP95 85.5) and its weakest label is item at 58.6%,
+// so it must never be quoted as "every label is at least 85%".
+rows.push(["covered at >=90% precision", String(pDir + pInf + pSig + pSpV + pSpVote), String(pDirIns + pInfIns + pSigIns + pSpVIns + pSpVoteIns),
+  pct(pDirIns + pInfIns + pSigIns + pSpVIns + pSpVoteIns, totalIns), pct(pDir + pInf + pSig + pSpV + pSpVote, totalFn)]);
+rows.push(["covered at >=85% precision (pooled spread; per-label floor 58.6%)", String(pDir + pInf + pSig + pSpV + pSpVote + pSpU), String(pDirIns + pInfIns + pSigIns + pSpVIns + pSpVoteIns + pSpUIns),
+  pct(pDirIns + pInfIns + pSigIns + pSpVIns + pSpVoteIns + pSpUIns, totalIns), pct(pDir + pInf + pSig + pSpV + pSpVote + pSpU, totalFn)]);
 rows.push(["spread labels (86.0% overall, CP95 85.5)", String(pSpU), String(pSpUIns),
   pct(pSpUIns, totalIns), pct(pSpU, totalFn)]);
 // Guard: the five buckets must account for every function and every instruction. Two earlier bugs (spread-A falling into

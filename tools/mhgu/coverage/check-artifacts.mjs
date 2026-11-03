@@ -23,6 +23,8 @@ const seen = new Map(); // start -> Map(label -> files)
 // Only the adopted sources are checked: the directory also holds score tables and superseded passes, and a confidence of B
 // inside a source file is normal (it marks the rows that do not count as evidence).
 let files = 0, rows = 0;
+const perConf = new Map(); // conf -> {rows, starts}
+const confStarts = new Map();
 for (const f of sources) {
   const p = path.join(INV, f);
   const lines = fs.readFileSync(p, "utf8").split(/\r?\n/).filter(Boolean);
@@ -40,6 +42,9 @@ for (const f of sources) {
     if (!c[1]) { errors.push(`${f}:${i + 1}: empty label`); break; }
     if (c[2] === "B" || c[1] === "unknown") continue; // present but not evidence
     rows++;
+    if (!perConf.has(c[2])) { perConf.set(c[2], { rows: 0, starts: new Set() }); }
+    perConf.get(c[2]).rows++;
+    perConf.get(c[2]).starts.add(start);
     if (!seen.has(start)) seen.set(start, new Map());
     seen.get(start).set(f, c[1]);
   }
@@ -67,7 +72,11 @@ if (partitions.length) {
   if (sum !== total) errors.push(`partition instructions sum ${sum} != denominator ${total}`);
 }
 
+// Report the confidence split, not one merged total: a merged number lets 15k inference rows be quoted as if they were
+// evidence, and 29,091 is more than twice the 13,060 functions that actually carry an evidence row.
+const split = [...perConf].sort((a, b) => (b[1].rows - a[1].rows)).map(([c, e]) => `conf ${c}: ${e.rows} rows / ${e.starts.size} functions`).join("; ");
 console.log(`checked ${files} evidence files, ${rows} rows, ${seen.size} distinct functions`);
+console.log(`  ${split}`);
 if (contradictions) warn.push(`${contradictions} function(s) have a direct label and a different inferred label`);
 for (const w of warn) console.log("WARN " + w);
 for (const e of errors.slice(0, 10)) console.log("ERR  " + e);
