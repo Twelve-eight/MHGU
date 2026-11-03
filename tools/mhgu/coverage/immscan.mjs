@@ -6,9 +6,9 @@
 // 0xc08/0xc07 sites are followed by a movt at 59%/34%, so a large share of them are 32-bit constants, and the earlier
 // version of this scan could not tell the two apart.
 //
-// Adoption bar: at least 30 labelled carriers, at least 99% agreement on one label, and the precision of the rule itself
+// Adoption bar: at least 15 labelled carriers, at least 99% agreement on one label, and the precision of the rule itself
 // measured by holding one evidence file out at a time (printed on every run, and stored with the rows). Softer settings
-// were tried and rejected: >=10 carriers at >=90% scored 91.0% fold-wise, >=20 at >=95% scored 94.7%.
+// were tried and rejected: >=10 carriers at >=90% scored 91.0% fold-wise, >=20 at >=95% scored 94.7%; >=15 at >=99% scores 97.0% fold-wise and 97.5% region-held-out (>=30 at >=99% scores 98.3%, so the looser bar trades 0.8 points for 425 more rows).
 import fs from "node:fs";
 import path from "node:path";
 import zlib from "node:zlib";
@@ -17,7 +17,7 @@ const ROOT = "G:/omp works/MHGU";
 const INV = path.join(ROOT, "docs/analysis/code/inventory");
 const buf = fs.readFileSync(path.join(ROOT, "main.140.flat.bin"));
 const TEXT_START = 0x218, TEXT_END = 0x13f1dec;
-const MIN_CARRIERS = 30, MIN_SHARE = 0.99;
+const MIN_CARRIERS = 15, MIN_SHARE = 0.99;
 
 const fns = zlib.gunzipSync(fs.readFileSync(path.join(ROOT, "docs/data/functions-retile.csv.gz"))).toString("utf8")
   .split(/\r?\n/).filter(Boolean).slice(1)

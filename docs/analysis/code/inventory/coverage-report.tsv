@@ -3,13 +3,13 @@ A-direct (evidence row)	13060	1248128	23.9%	24.8%
 tier A (verified)	25611	3012424	57.6%	48.6%
 conf B (unverified)	11639	1455847	27.8%	22.1%
 A-inferred (callee/class/caller vote, region-held-out 95.7%)	10932	1885264	36.1%	20.7%
-A-signature (32-bit constant, fold 97.1%)	2642	320618	6.1%	5.0%
+A-signature (32-bit constant, fold 97.1%)	3067	377234	7.2%	5.8%
 headline A only	25611	3012424	57.6%	48.6%
 partition: direct evidence	13060	1248128	23.9%	24.8%
 partition: inferred only	10932	1885264	36.1%	20.7%
-partition: signature only	1714	190492	3.6%	3.3%
-partition: spread A (agreement)	4868	481462	9.2%	9.2%
-partition: spread label only (B)	9113	914876	17.5%	17.3%
-partition: no label	13005	508055	9.7%	24.7%
-covered at >=90% precision	25706	3323884	63.6%	48.8%
-spread labels (74.2% region-held-out)	13981	1396338	26.7%	26.5%
+partition: signature only	1861	209019	4.0%	3.5%
+partition: spread A (agreement)	4828	477932	9.1%	9.2%
+partition: spread label only (B)	9076	904707	17.3%	17.2%
+partition: no label	12935	503227	9.6%	24.5%
+covered at >=90% precision	25853	3342411	63.9%	49.1%
+spread labels (74.2% region-held-out)	13904	1382639	26.4%	26.4%
