@@ -35,7 +35,7 @@ Occurrences are line numbers in the document named. "report" = `docs/analysis/co
 | 7 | partition **36.3 / 2.8 / 3.3 / 23.8** | `METER.md:225`; `HANDOFF.md:145-147` | report rows `inferred only 11250 1896778 36.3%`, `signature only 1475 144714 2.8%`, `spread validated labels 2401 170761 3.3%`, `spread unvalidated 12187 1243602 23.8%` | confirmed |
 | 8 | **52,692** functions / **5,228,277** instructions | `README.md:47,85`; `HANDOFF.md:19,21,137,163`; `docs/PROGRESS.md:91,98` | `gzip -dc docs/data/functions-retile.csv.gz \| wc -l` = 52,693 lines (52,692 rows + header); column `insns` sums to 5,228,277; gate 4 prints the same | confirmed |
 | 9 | `.text` 0x100..0x13F1DEC = **5,228,347** words | `docs/PROGRESS.md:91` only | `(0x13F1DEC-0x100)/4 = 5228347` | confirmed |
-| 10 | `.text` **5,228,411** instructions | `HANDOFF.md:41` | `0x13F1DEC/4 = 5228411`, i.e. the count from vaddr 0, not from 0x100 | **contradiction C1** |
+| 10 | `.text` **5,228,411** instructions | `HANDOFF.md:41` (paired with the range `0x100..0x13F1DEC`) | `0x13F1DEC/4 = 5228411`, the count from vaddr 0; the stated range holds 5,228,347; the function-span denominator is 5,228,277 | **contradiction C1** (range/count convention mixed) |
 | 11 | **23,885** regions (pre-retile) | `README.md:47`; `HANDOFF.md:19,139,163,165,246`; `tools/mhgu/README.md:24,46` | `gzip -dc docs/data/functions.csv.gz \| wc -l` = 23,885 newlines + 1 final row = 23,885 data rows | confirmed (as history) |
 | 12 | **3,201** classes | `README.md:47`; `HANDOFF.md:19,67,122,165`; `docs/PROGRESS.md:92` | `docs/data/class-inventory.tsv` = 3,201 data rows | confirmed |
 | 13 | save side **87.8%** structural / **14.9%** field | `README.md:35,48,88,155`; `docs/PROGRESS.md:23,24,72`; `docs/PUBLISH-READINESS.md:23`; `docs/save-layout/coverage-map.md:10-11` (`≈88%`, `14.9%`) | `(226754+950374*0.85)/1177760 = 0.878423`; `224643*0.78/1177760 = 0.148775` | confirmed (arithmetic; the 0.85/0.78 inputs are measurements) |
@@ -47,10 +47,11 @@ Occurrences are line numbers in the document named. "report" = `docs/analysis/co
 | 19 | **22,957** A rows re-checked 100% + **4,479** taxonomy + **2,731** unparsed = **30,167** | `README.md:87`; `HANDOFF.md:142` | gate 6 prints `22,957 rows, all consistent; 4479 rest on a class-name or taxonomy judgement; 2731 carry a claim shape no handler parses` | confirmed |
 | 20 | **40,374** rows in `function-labels.tsv` | `docs/PUBLISH-READINESS.md:22`; `METER.md`; `DEVLOG.md:1198` | `wc -l` = 40,375 lines incl. header → 40,374 data rows | confirmed |
 | 21 | **51** NEX rows in `functions*.csv.gz` | `README.md:10-12` | union of `Nex\|nn::\|Nintendo` = 51 rows in each file (tokens: `Nex` 178, `nn::` 15, `Nintendo` 17); with only the two listed tokens the count is 36 | confirmed, parenthetical incomplete (C18) |
-| 22 | **53** state tables / **3,429** sites in **2,546** functions / **60** sections / **1,223** rows / **119** (9.7%) / **137** slots / **110** members | `README.md:49`; `HANDOFF.md:20-24,118`; `docs/PROGRESS.md:100-102` | the cited docs state each; not re-derived here (see UNVERIFIED) | transcription confirmed, value UNVERIFIED |
+| 22 | **53** state tables / **60** sections / **1,223** rows / **119** (9.7%) / **137** slots / **110** members | `README.md:49`; `HANDOFF.md:20-24`; `docs/PROGRESS.md:106`; `docs/mechanics/monster-state-machine.md:6` | the cited docs state each; not re-derived here (see UNVERIFIED) | transcription confirmed, value UNVERIFIED |
+| 22b | dispatch sites: **3,429 in 2,546 functions** vs **6,777 in 4,527** | `README.md:49`; `HANDOFF.md:118` (old pair) | `docs/PROGRESS.md:106` and `docs/mechanics/monster-code-map.md:28` strike the old pair; `node tools/audit/scan-dispatch.mjs` prints `sites: 6777 | without shift: 6026 | in functions: 4527` and says of 3,429/2,546: "Treat that number as withdrawn" | **contradiction C21** |
 | 23 | base NCA **12,168,003,584** B | `docs/PROGRESS.md:107`; `HANDOFF.md:129`; `docs/PRIVATE-DATA.md` | `stat -c %s G:/mhgu-romfs/secure/98abd400…nca` → 12168003584 | confirmed |
 | 24 | **18 MB** db, **25 MB** image | `README.md:82,154`; `PRIVATE-DATA.md` | 18,333,696 B and 25,472,632 B | confirmed |
-| 25 | **138** scripts (7 / 4 / 2 / 42 / 83) | `README.md:53` | `PUBLISH-TOOL-DEPS.md` has exactly 138 rows classified 7/4/2/42/83; the tree now holds 148 `.mjs/.js/.py` files outside `vendor/` (`tools/audit` grew 5 → 9) | confirmed vs the named artefact, **stale vs the tree** |
+| 25 | **138** scripts (7 / 4 / 2 / 42 / 83) | `README.md:53` | `PUBLISH-TOOL-DEPS.md` has exactly 138 rows classified 7/4/2/42/83; by that document's own per-directory rule the tree now holds **143** (4 + 50 + 71 + 10 + 2 + 1 + 5: `tools/audit` grew 5 → 10), or 148 counting `gu-moves/lib`'s 5 modules, which the document excluded | confirmed vs the named artefact, **stale vs the tree** |
 | 26 | ledger **73 fixed / 6 open / 4 rejected / 1 unresolved / 1 reverted** | `README.md:54` | `LINK-STATUS.tsv` 86 data rows: fixed 75, open 4, rejected 4, done 1, reverted 1, unresolved 1 | **contradiction C6** |
 | 27 | public branch **251** commits behind / **242** ahead | `README.md:74`; `docs/PUBLISH-READINESS.md:7,13` | `git rev-list --count origin/master..HEAD` = **253** | **contradiction C7** |
 | 28 | wiki **42 of 47** pages reproduce | `README.md:51` | `W4-WIKI.md`: 46 page rows = 42 confirmed (41 plus 1 "confirmed with a caveat"), 3 contradiction, 1 stale; the 47th file is `README.md` itself, which has defects | confirmed |
@@ -68,10 +69,11 @@ checked and agree with the documents it indexes, with one row-count exception (C
 ## 2. Contradictions
 
 The acceptance table: what document A says, what document B says, and which one the artefact
-supports. C1–C12 are current-state defects in the entry documents; C13–C17 are stale statements
-inside dated records (the DEVLOG) or in a document the entry set indexes; C18–C20 are smaller
-wording/count defects. Severity: P1 = a reader is actively misled about a headline; P2 = a
-regeneration path or a summary is wrong; P3 = friction or a count one off.
+supports. C1–C12, C21 and C22 are current-state defects in live documents; C13–C16 are stale
+numbers inside the DEVLOG's dated record; C17–C18 are smaller count/wording defects; C19–C20 are a
+live licence statement and an index description that no longer match the tree. Severity: P1 = a reader
+is actively misled about a headline; P2 = a regeneration path or a summary is wrong; P3 = friction
+or a count one off.
 
 | # | Subject | A says | B says | Artefact supports | Sev |
 |---|---|---|---|---|---|
@@ -82,7 +84,7 @@ regeneration path or a summary is wrong; P3 = friction or a count one off.
 | C5 | reference-audit tally | `README.md:52`: 78 confirmed / 12 contradictions / 2 unverified | `W4-REFERENCE.md` 92-row table: 72 / 16 / 4 | the table | P2 |
 | C6 | audit-ledger tally | `README.md:54`: 73 fixed, 6 open, 4 rejected, 1 unresolved, 1 reverted (= 85) | `LINK-STATUS.tsv`: 86 rows, 75 fixed, 4 open, 4 rejected, 1 done, 1 reverted, 1 unresolved | the TSV | P2 |
 | C7 | commits not yet pushed | `README.md:74`: 251; `docs/PUBLISH-READINESS.md:7,13`: 242 | `git rev-list --count origin/master..HEAD`: **253** | git | P3 |
-| C8 | number of scripts | `README.md:53`: 138 | the tree: 148 `.mjs/.js/.py` outside `vendor/`; the named artefact (`PUBLISH-TOOL-DEPS`) itself counted `tools/audit` as 5, it now holds 9 | the tree | P3 |
+| C8 | number of scripts | `README.md:53`: 138 | by `PUBLISH-TOOL-DEPS`'s own rule the tree now holds **143** (the document counted `tools/audit` as 5, it now holds 10); a flat find with `vendor/` pruned gives 148 because it adds `gu-moves/lib`'s 5 modules | the tree | P3 |
 | C9 | can a stranger run the gate? | `docs/PUBLISH-READINESS.md:63`: the three commands, `check.mjs` included, are "entries a stranger can run themselves" | `tools/audit/check.mjs:10`: `const ROOT = "G:/omp works/MHGU";` | the script | P2 |
 | C10 | toolchain input paths | `tools/mhgu/README.md:9`: image at `.tmp/mhgu/extract/exefs-0eb5/main.140.flat.bin`; `:13`: "all scripts default to absolute `G:/omp works/...` paths" | `tools/mhgu/arm32.mjs:7` and `reader-fields.mjs:7`: `FLAT` env or `<repo>/main.140.flat.bin`; `README.md:145-147` says the same | the scripts | P2 |
 | C11 | which script produces four tracked tables | `HANDOFF.md:61,67,68,69`: `func-inventory5` -> `functions.csv.gz`; `mon-final.py` -> `class-inventory.tsv`; `mon-offsets.py` -> `member-offsets.tsv`; `em-units.py`/`counter-slots*` -> `monster-slot-map-137.json` | `tools/mhgu/README.md:24,32,33,34,46`: all four write elsewhere or only print; none writes the tracked file | the scripts (`grep writeFile`) | P2 |
@@ -95,6 +97,8 @@ regeneration path or a summary is wrong; P3 = friction or a count one off.
 | C18 | what the 51 NEX rows contain | `README.md:10-12`: rows containing "NEX SDK symbol fragments (`Nex`, `nn::`)" | 36 rows match `Nex\|nn::`; 51 requires the third token `Nintendo` | the CSVs | P3 |
 | C19 | repository licence in a spec doc | `docs/spec-crossgame/monster-gu.md:40`: "public repo (code GPL-3.0-or-later, docs CC BY 4.0)" | `README.md:162`, `HANDOFF.md:4`, `LICENSE`: **MIT** | LICENSE | P2 |
 | C20 | does `analysis/dumps/` ship? | `docs/README.md:21` marks it as project output (tick) | it is a symlink to `MHGU-private`, **0** tracked files; `PRIVATE-DATA.md` lists it as non-public | `git ls-files` | P3 |
+| C21 | dispatch-site count | `README.md:49`: 3,429 sites in 2,546 functions; `HANDOFF.md:118`: same pair | `docs/PROGRESS.md:106` and `docs/mechanics/monster-code-map.md:28`: **6,777 sites (6,026 unshifted) in 4,527 functions**, old pair struck; `tools/audit/scan-dispatch.mjs`: same, and "treat that number as withdrawn" | the scanner | P1 |
+| C22 | which DEVLOG section is "the last" | `HANDOFF.md:239`: read the last section, "（2026-11-04 三次更正 + 审计加固）" | the last section is `## 2026-11-04（续四）：实机窗口 06:39–06:56` (`DEVLOG.md:1296`); the named section is at 1175 and has four sections after it | the file | P3 |
 
 ### C1 — `HANDOFF.md:41` counts words from vaddr 0
 
@@ -103,12 +107,16 @@ $ node -e "const T=0x13F1DEC;console.log(T/4,(T-0x100)/4)"
 5228411 5228347
 ```
 
-The row is the coordinate table ("reads first"), and it is the only place in the repository that
-attributes 5,228,411 instructions to `0x100..0x13F1DEC`. `docs/PROGRESS.md:91` prints the same range
-as 5,228,347 words and strikes the 5,228,411 value; `HANDOFF.md:19` and
-`coverage-report.tsv:1` use 5,228,277 as the function-span sum. The 5,228,411 number is right for
-`0..0x13F1DEC` (the 0x100 header is 64 words). `LINK2-CONSTANTS.md` item 3 already noted it as an
-"adjacent" defect; it is not in `LINK-STATUS.tsv` and the line is unchanged.
+The row is the coordinate table ("read first"), and three counts are in play: **5,228,411** words
+for `vaddr 0..0x13F1DEC` (now printed as `.text instructions` by `tools/audit/scan-dispatch.mjs`),
+**5,228,347** for the range the row actually names (`0x100..0x13F1DEC`, the 0x100 header is 64
+words), and **5,228,277** for the function-span denominator (`HANDOFF.md:19`,
+`coverage-report.tsv:1`). The row pairs the `0x100` range with the vaddr-0 count, so it is wrong as
+written by exactly the 64-word header. `docs/PROGRESS.md:91` states both conventions correctly
+(5,228,347 for the range, 5,228,277 as the sum) but strikes the 5,228,411 value, which the new
+scanner now uses — so the fix is to name the convention, not to change the number.
+`LINK2-CONSTANTS.md` item 3 already noted the row as an "adjacent" defect; it is not in
+`LINK-STATUS.tsv` and the line is unchanged.
 
 ### C2 — `HANDOFF.md:80`: 19 = 18 + 2
 
@@ -116,7 +124,8 @@ as 5,228,347 words and strikes the 5,228,411 value; `HANDOFF.md:19` and
 
 ```
 调度器共 **20 次调用**（19 `bl` + 1 尾跳 `b 0x2282a8`），覆盖 **19 个独立成员对象**——`0x3e7920` 的
-`bl 0x521398` ... 与 member[2] `0x51dbb4` **同一成员单例**，是 member[2] 的第二段 reader。
+`bl 0x521398` 用 `[r5,#0]`，r5=`0x3e77e4` 装的 `*0x145159c`，与 member[2] `0x51dbb4` **同一成员单例**，
+是 member[2] 的第二段 reader。
 ```
 
 `REST-FIXES.tsv` has two rows fixing exactly this sentence in `docs/README.md` and
@@ -159,8 +168,9 @@ rows 92 { confirmed: 72, contradiction: 16, unverified: 4 }
 
 `W4-REFERENCE.md`'s table (header at line 301) has 92 verdict rows: 72 confirmed, 16 contradiction,
 4 unverified. The README's 78 / 12 / 2 also sums to 92, which is why it reads plausibly, but all
-three components are wrong. Six of the difference is in `re-guide-gu.md` alone (5 contradictions
-there; e.g. the "rage pipeline" row, the "no wind strings" row, the "43,353 writeback words" row).
+three components are wrong: confirmed is overstated by 6, contradictions understated by 4, and
+unverified understated by 2. Five of the 16 contradictions are in `re-guide-gu.md` alone (e.g. the
+"rage pipeline" row, the "no wind strings" row, the "43,353 writeback words" row).
 
 ### C6 — `README.md:54` and the ledger it cites
 
@@ -200,10 +210,11 @@ MHGU/tools/mhgu/coverage/ .........  71 scripts
 MHGU/tools/audit/ .................   5 scripts
 ...
                                     138 scripts
+$ for d in tools tools/mhgu tools/mhgu/coverage tools/audit tools/gu-moves tools/mcp tools/wiki-gen tools/mhgu/mon; do
+    find "$d" -maxdepth 1 -type f \( -name '*.mjs' -o -name '*.js' -o -name '*.py' \) | wc -l; done
+4 40 71 10 2 1 5 10        -> 143 by the document's own rule (audit was 5, is now 10)
 $ find tools -path 'tools/mhgu/vendor' -prune -o -type f \( -name '*.mjs' -o -name '*.js' -o -name '*.py' \) -print | wc -l
-148
-$ find tools/audit -maxdepth 1 -type f \( -name '*.mjs' -o -name '*.py' -o -name '*.js' \) | wc -l
-9
+148                        (adds gu-moves/lib's 5 modules, which the doc excluded)
 ```
 
 The README's number reproduces from the artefact it names, and the artefact's own split (7 / 4 / 2 /
@@ -357,3 +368,233 @@ It is one of seven symlinks into `MHGU-private` (`editor-src`, `save-snapshots`,
 `docs/analysis/dumps`). The index marks it as project output without saying that a clone has no such
 directory; the root README's "What a clone does not contain" table lists six of the seven and omits
 this one (reasonably — it changes nothing you can run, but the index and PRIVATE-DATA should agree).
+
+### C21 — `README.md:49` and `HANDOFF.md:118` publish a dispatch count the mechanics document withdrew
+
+```
+$ node tools/audit/scan-dispatch.mjs
+scan-dispatch.mjs — image: main.140.flat.bin
+.text instructions: 5228411
+
+A. add pc, rX, rY  (register form, any shift)
+   sites: 6777 | without shift: 6026 | in functions: 4527
+
+C. add pc, pc, rM, lsl #2  (inline jump table)
+   sites: 3 | in functions: 2
+
+NOT defined here, and deliberately not quoted: the old "3,429 sites / 2,546 functions"
+offset-table figure. Its definition was never recorded and no reading of the stated
+signature reproduces it (W6-MONSTERS). Treat that number as withdrawn.
+```
+
+`docs/PROGRESS.md:106` and `docs/mechanics/monster-code-map.md:28` now carry 6,777 / 6,026 / 4,527
+and strike the old pair ("~~3,429 / 2,546 / 10~~ 无法复现，2026-11-04 撤回"). The README's monster
+row (`README.md:49`) and the HANDOFF mechanics table (`HANDOFF.md:118`) still print the withdrawn
+pair, so the two entry documents disagree with the document cluster the README's own evidence column
+names (`docs/mechanics/`) and with a one-command reproduction. This is the only P1 in this report
+because it sits on the front page's "Monster mechanics" line. The same edit wave also changed the
+inline-jump-table count from 10 to 3; neither README nor HANDOFF prints that number.
+
+### C22 — `HANDOFF.md:239` points at a section that is no longer the last one
+
+```
+$ grep -n '^## ' DEVLOG.md | tail -5
+1175:## 2026-11-04（三次更正 + 审计加固）：≥90 线定在 66.2%，八道门全绿
+1249:## 2026-11-04（续）：项目口径 58.4% → 58.0%，因为降级表一直没进这个数
+1262:## 2026-11-04（续二）：未标桶的字符串证据被少算了 4 倍；…
+1275:## 2026-11-04（续三）：六份关联审查 + 三处会改变解读的修正
+1296:## 2026-11-04（续四）：实机窗口 06:39–06:56（SUYU / MHGU 导出）
+$ sed -n '239p' HANDOFF.md
+1. 读 `DEVLOG.md` **最后一段**（2026-11-04 三次更正 + 审计加固）：当前数字、今天改了什么、哪些结论被推翻，都写在那。
+```
+
+The step is still useful (the 续 entries correct the 三次更正 numbers), but the parenthetical names
+the wrong section, and `README.md:125`'s "read the last section" now lands on a live-testing note.
+Neither log entry records the 2026-11-04 relicensing (Section 5), so the log the entry documents
+send a reader to is the one place where the current licence is not stated.
+
+---
+
+## 3. Broken paths and dead citations
+
+Checked: every backtick path and every markdown link in the ten documents, resolved against the
+repository root, the document's own directory, and the plausible sub-bases (`docs/`,
+`docs/analysis/…`, `docs/data/…`, `tools/…`), plus the absolute `G:/` paths. Markdown links: only
+`docs/README.md` has any (4), and all 4 resolve.
+
+**Dead (target does not exist):**
+
+| # | Document:line | Target | Status |
+|---|---|---|---|
+| 1 | `tools/mhgu/README.md:9` | `.tmp/mhgu/extract/exefs-0eb5/main.140.flat.bin` | absent; the image is at `<repo>/main.140.flat.bin` (25,472,632 B) and that is what `arm32.mjs` reads |
+| 2 | `tools/mhgu/README.md:24` | `.tmp/mhgu/inventory/functions4.csv` | absent |
+| 3 | `tools/mhgu/README.md:31` | `.tmp/mhgu/inventory/resource-registry.txt` | absent |
+| 4 | `tools/mhgu/README.md:34` | `.tmp/mhgu/mon/counter-slots.out.txt`, `.tmp/mhgu/mon/counter-slots3.out.txt` | absent |
+| 5 | `tools/mhgu/README.md:36` | `.tmp/mhgu/mon/quest-dispatch.out.txt` | absent |
+| 6 | `tools/mhgu/README.md:46` | `.tmp/mhgu/inventory/functions.csv` | absent (the tracked `functions.csv.gz` is present) |
+| 7 | `tools/mhgu/README.md:47` | `.tmp/mhgu/inventory/resource-registry.txt` | absent |
+| 8 | `tools/mhgu/README.md:48` | `.tmp/mhgu/mon/mon-offsets.out.txt:1-12` | absent |
+| 9 | `tools/mhgu/README.md:50` | `.tmp/mhgu/inventory/tierb-labels.csv` | absent |
+| 10 | `HANDOFF.md:129` | `.tmp/mhgu/xci-info.txt:50` (source of the NCA size) | absent |
+| 11 | `docs/PROGRESS.md:107` | `.tmp/mhgu/xci-info.txt:50` | absent |
+| 12 | `docs/README.md:70,72` | `../AGENTS.md` (§5, §6) | absent, and the document itself says "本 repo 不随附 AGENTS.md"; the rule it cites is restated inline, so only the pointer is dead |
+
+**Resolves, but the anchor is wrong:**
+
+| # | Document:line | Says | Actual |
+|---|---|---|---|
+| 13 | `HANDOFF.md:18` | `coverage-map.md:279` for the 67% cross-save figure | the figure is on line **280**; 279 is the `### 数据侧` heading |
+| 14 | `HANDOFF.md:18` | `coverage-map.md:393` for the "[INFERENCE, medium-high] host/runtime memory residue" conclusion | that conclusion is on line **408**; 393 is inside the Palico 324 B section |
+| 15 | `docs/PROGRESS.md:65` | `coverage-map.md:306,320-322` for "write side writes the header, read side discards it" | 306 is the sentence; 320-322 is the 覆盖含义 note below the field table (nothing about the read side). (The same document's line 72 cites only `:306`, which is right.) |
+
+**Resolves only with a guessed base (shorthand, not a defect but it costs a reader a search):**
+
+| # | Document:line | Written | Actual |
+|---|---|---|---|
+| 16 | `docs/PUBLISH-READINESS.md:22` | `inventory/function-labels.tsv` | `docs/analysis/code/inventory/function-labels.tsv` |
+| 17 | `docs/PUBLISH-READINESS.md:13` | `VENDOR-NOTICE.md` | `tools/mhgu/VENDOR-NOTICE.md` |
+| 18 | `HANDOFF.md:18,129`; `docs/PROGRESS.md:65,104,107`; `docs/README.md` tables | `coverage-map.md`, `METER.md`, `coverage-report.tsv`, `code-metrics.md`, `member-census.md`, … | all resolve, but only after trying `docs/save-layout/`, `docs/analysis/code/coverage/`, `docs/analysis/code/inventory/`, `docs/analysis/code/`, `docs/analysis/members/` respectively |
+
+**Paths that resolve but name the wrong producer** (counted as contradictions C11/C12, listed here
+for completeness): `README.md:88,155` -> `size-final.mjs`; `HANDOFF.md:61,67,68,69` -> four
+`tools/mhgu` scripts.
+
+**Absolute private paths, all present on this machine (so the documents are accurate here):**
+`G:/mhgu-romfs/romfs` (35,531 files), `G:/mhgu-romfs/secure/98abd400….nca` (12,168,003,584 B),
+`G:/omp works/MHGU-private/romfs-extract`, `G:/backups/MHGU-pre-filter-20261023{,.bundle}`
+(both exist), `G:/backups/MHGU-20261104` (13 MB, `save/` + `config/` + `SHA256SUMS.txt`). The
+`MonsterForm.cs` / `MainForm.cs` references resolve under `editor-src/MHGU存档修改/`, which is
+private — consistent with `PRIVATE-DATA.md`.
+
+---
+
+## 4. The stated reading order, walked
+
+`README.md:108-118` gives six steps. Walked in order at `9eb31ea`:
+
+| Step | Target | Walk |
+|---|---|---|
+| 1 | "This file, up to here" | fine |
+| 2 | `METER.md`, banner then "覆盖线（三次更正）" | **mostly walkable.** The banner is lines 3-6 and gives the current calibre + the two no-image commands. The section exists at line **55**, but its heading is `## 覆盖线（2026-11-04 三次更正）：…` — the literal string the README quotes appears only at line 6 and in the per-section banners as "覆盖线（更正后）". More importantly, the README calls it "the record of every number that was withdrawn and why": at least eight withdrawn headlines (83.8, 80.3, 80.4, 65.5, 70.4, 81.9, 76.1, 48.9) are in the *neighbouring* sections (lines 103-190, 206-240, 299-328), not in 55-86 |
+| 3 | `docs/PROGRESS.md`, "one page" | fine. 107 lines; it opens with the two calibres and the 32.0-point gap |
+| 4 | `docs/analysis/audit/LINK-STATUS.tsv` | **breaks.** The reader is told the dispositions are `fixed / open / rejected`; the file also uses `done`, `reverted`, `unresolved`, and the README's own tally (85) is one short of the 86 rows (C6). The claim "every disagreement a review reported" is also generous: the file is a 14-slice ledger of 86 rows, while the W4-WIKI / W4-REFERENCE / W6 waves carry their own defect tables |
+| 5 | `docs/README.md` | **soft break.** The index is current and its links resolve, but its row for `analysis/dumps/` presents a private symlink as project output (C20), and its language section points at `../AGENTS.md`, which it then says is not shipped |
+| 6 | `HANDOFF.md` §5 / §9 | **breaks at the first table the reader meets in that file.** §5 itself is usable (a dated banner at line 137 tells the reader what is current, the calibre sentence is at 160) and §9's "12 gates, ~5 s" is right. But §1's `.text` row (line 41) states 5,228,411 instructions against the 5,228,277 denominator §0/§5 just gave (C1), and §0's conclusion (line 27) still describes the retired Tier B plan (C3) |
+
+Net: every step lands on an existing file, so the order is walkable in the literal sense; it breaks
+where the target's numbers do not reconcile (step 4's ledger, step 6's §1 row), and it is thinner
+than advertised at steps 2 and 5. Nothing in the order points at `docs/PUBLISH-READINESS.md` or at
+`LICENSE` / `docs/LICENSE`, although the README's own data row cites the former as the source for
+the db counts.
+
+---
+
+## 5. Licence vs what the repository actually ships
+
+**What the statement says** (`README.md:160-171`, `HANDOFF.md:4`): MIT for the whole repository —
+code, tools, documentation; `LICENSE` holds the text, `docs/LICENSE` repeats it for the notes;
+relicensed from GPL-3.0-or-later on 2026-11-04 after an earlier MIT period; third-party material
+keeps its own terms, with `docs/data/` (a community database extraction and derived tables) and
+`tools/mhgu/vendor/` (MIT packages) named as examples.
+
+**What the repository ships, checked file by file:**
+
+| Artefact | Content | Statement covers it? |
+|---|---|---|
+| `LICENSE` | MIT, 21 lines, `Copyright (c) 2026 Twelve-eight` | yes, and the holder is named (the previous GPL/CC-BY pair named nobody) |
+| `docs/LICENSE` | the same 17 non-empty MIT lines plus 6 lines of scope text (documentation grant + third-party carve-out) | yes; "the same text is repeated" is accurate in substance (MIT body identical line for line) |
+| 11 source files | 10 `SPDX-License-Identifier: MIT` (5 `editor/`, 5 `forge/`) + `tools/mhgu/quest-ext.mjs:43` `// License: MIT.` | yes; zero GPL SPDX headers remain |
+| `docs/data/functions.csv.gz`, `functions-retile.csv.gz` | our measurements, plus a `strings` column with 51 rows of Nintendo NEX SDK symbols (C18) | **partly.** The README's opening paragraph calls these third-party strings, and `docs/LICENSE`'s general clause "third-party material is not covered" reaches them, but the named example is the community db, not the binary extraction |
+| `docs/data/json/monster-slot-map.json`, `monster-slot-map-137.json` (tracked) | 137 verbatim Chinese monster names with `cn_src` naming Capcom's `resident_chS.arc` | yes — inside `docs/data`, and the general clause names it |
+| `docs/data/class-inventory.tsv`, `member-offsets.tsv`, `resource-registry.tsv`, `tierb-labels.csv`, `functions-retile.csv.gz` | our own measurements | **ambiguous in the other direction**: the carve-out describes `docs/data/` as "a community database extraction and derived tables", which reads as if everything in the directory were third-party, so the grant over our own tables is unclear |
+| `tools/mhgu/vendor/` (ignored) | 101 MIT files, `VENDOR-NOTICE.md` with versions and upstream | yes, named and excluded |
+| `docs/wiki/*` (47 tracked files), `docs/mechanics/quests.md` | generated from the db + ROM: `monsters-index.md` alone has 4,716 CJK characters of monster names; `quests.md` is 734 lines with 9,041 CJK characters of quest titles (`PUBLISH-ENTRY-DOCS.md:248` records the wiki-derived titles and the missing attribution) | **no explicit carve-out.** They are outside `docs/data/`, so the MIT grant as written covers them; nothing states their upstream terms or an attribution line |
+| `editor-src/`, `save-snapshots/`, `docs/reference/mhxx-wiki/`, `docs/analysis/dumps/`, `docs/data/{armor,weapons,viewer,json/*}` | symlinks into `MHGU-private`; 0 tracked files each | not shipped, so not affected |
+
+**Relicensing soundness.** The claim "every commit is authored by one identity" checks out:
+`git log --format='%an <%ae>' | sort | uniq -c` → `646 Twelve-eight <Twelve-eight@users.noreply.github.com>`.
+The claim that no third-party code was incorporated is consistent with the repository's own evidence:
+`docs/analysis/external/` contains two fenced blocks in two files and both are ASCII directory
+trees, not source; the external notes cite line numbers instead of copying GPL code. The GPL text
+that was used between 2026-10-24 and 2026-11-04 is in the history, not in the tree.
+
+**Where the licence statement is still contradicted by what ships:** `docs/spec-crossgame/monster-gu.md:40`
+says the public repo is "code GPL-3.0-or-later, docs CC BY 4.0" (C19); `DEVLOG.md` has no entry for
+the 2026-11-04 change, so its most recent licence statement (`DEVLOG.md:597-599`, 2026-10-24) still
+says GPL-3.0-or-later and "文档仍是 CC BY 4.0" — and that log is what `README.md:125` and
+`HANDOFF.md:239` tell a new reader to read for "what changed". The three `PUBLISH-*` audit reports
+also describe the old regime, but they are dated reports, not live statements.
+
+**Answer to the question as put** (is the statement consistent with `docs/data/`?): yes for the
+*third-party* content — every tracked third-party file in `docs/data/` (the two slot maps, the two
+function tables) falls under either the named carve-out or the general "third-party material is not
+covered" clause, and the opening paragraph separately qualifies the SDK strings. The two remaining
+licence defects are (a) third-party-derived text outside `docs/data/` (`docs/wiki/`, `quests.md`)
+is granted MIT with no stated upstream terms, and (b) the carve-out's wording leaves the project's
+own measurement tables inside `docs/data/` looking third-party.
+
+---
+
+## 6. UNVERIFIED
+
+| Claim | Document | Why not checked |
+|---|---|---|
+| 53 state tables / 60 sections / 1,223 rows / 119 named (9.7%) / 166-entry main table / 137 slots / 110 members | `README.md:49`; `HANDOFF.md:20-24`; `docs/PROGRESS.md:106` | requires the image and the generators (`state-motion3.mjs`, scans over `main.140.flat.bin`). Verified only that the cited `docs/mechanics/*.md` state the same numbers (transcription is faithful). The dispatch-site pair is no longer in this row — it is contradicted (C21), not merely unverified |
+| 83.6% retention / 93.7% conditional precision / 78.3% joint, 25,123 rows | `HANDOFF.md:21,165`; `METER.md:680-700` | would need `canonical-holdout-random.mjs` (5 holdout runs); not run in this sweep |
+| 95.0% = 1,189,308 / 1,251,869 and the 762-function zero-assertion set | `HANDOFF.md:142`; `METER.md:987-997` | the gate re-checks 22,957 rows, not this per-function union; not re-derived |
+| "`curl https://github.com/Twelve-eight/MHGU` returns 200" | `docs/PUBLISH-READINESS.md:7` | no network request was made in this sweep |
+| the concrete hashes of the live save files (`Lay1nn_HR198.hnt`, `system`, `qt-config.ini`) | `DEVLOG.md:1296-1320` | the live install is outside the repository. The snapshot files do match the quoted hashes (`sha256sum` on the four `.hnt`: `69392be8…e5e2` twice, `54826478…af95` twice), and the backup directory exists at 13 MB |
+| "emulator / console" for `patch/1.4.0.pchtxt` | `README.md:126` | the patch is a `@nsobid-` text patch; the only installation path anywhere in the repo is the emulator `load/` directory (`DEVELOP.md` asset table, `DEVLOG.md` 2026-10-24). No console (Atmosphere IPS/cheat) path is documented, and the pchtxt format is not one Atmosphere reads. Could not be falsified from the repo; treat the word "console" as unsupported |
+| `mon-offsets.py` grouping "110 条、27 组" | `tools/mhgu/README.md:48` | the tracked `member-offsets.tsv` has 110 rows over **37** distinct containing functions; the "27 groups" is the script's registrar grouping, and the script needs the image at the now-dead `.tmp` path |
+| the 25.9 MB size of the tracked inventory | `docs/PUBLISH-ENTRY-DOCS.md:248` | recomputed over the 173 tracked files under `docs/analysis/code/inventory/`: 25.9 MB — agrees |
+
+---
+
+## Difficulties
+
+1. **The tree moved under the sweep.** Two commits landed mid-read (`03c6544` at 07:24 added the
+   README state table; `9eb31ea` at 07:35 relicensed the repository to MIT and rewrote
+   LICENSE/docs/LICENSE). The first read of README showed a GPL-3.0-or-later / CC BY 4.0 licence
+   section, which is now wrong for the tree; every finding above was re-read at `9eb31ea`. Two other
+   agents were editing `docs/analysis/audit/W6-*.md` and `tools/mhgu/tierb-gen.mjs` at the same
+   time.
+2. **`.tmp` is gone**, so nine citations in `tools/mhgu/README.md` and two in the entry documents
+   cannot be checked at all. I can say the files are absent; I cannot say whether the line counts
+   they quote were ever right. The two that can be checked against tracked files
+   (`resource-registry.tsv` 448 lines, `tierb-labels.csv` 379 lines) are correct.
+3. **Counting rules matter.** `functions.csv.gz` has 23,885 newlines and no trailing newline: `wc -l`
+   gives 23,885 while the file holds 23,886 lines (23,885 data rows + header), which is what the
+   tools README says. `tierb-labels.csv` is the opposite (trailing newline), 379 lines incl. header.
+   The 138-vs-tree script count depends on the rule: `PUBLISH-TOOL-DEPS` used `**/*.{mjs,js,py}` per
+   directory and excluded `gu-moves/lib`, so the comparable current figure is **143**, not the 148
+   a flat `find` returns (which adds the 5 lib modules).
+4. **The DEVLOG is a log.** I treated a dated number that no longer reproduces as `stale`, not as a
+   contradiction, except where the same file later says the number is wrong (the 2.0%/60-class
+   bullet, C14) or where the section is presented as the current state ("先读这段再动手", C15).
+5. **W4-REFERENCE repeats its claims twice** (prose tables in lines 55-170, then a 92-row
+   TSV-like table at 301+). Counting naively double-counts: 70 `CONFIRMED` in the prose section,
+   72 in the final table. The final table is the summary and the one the README's "92 claims"
+   matches.
+6. **The licence question has two halves** — the text of the licence files and the statement about
+   them. The files are now internally consistent (MIT text, named holder, 11 MIT headers); the
+   statement still reaches text (wiki-derived) that the repository does not own, and one live spec
+   document plus the DEVLOG still assert the old regime.
+
+---
+
+## VERDICT
+
+```
+README.md                  contradiction  Headline calibres, 52,692/5,228,277, save percentages, 129/21,153/1,355 and the 51 NEX rows all reproduce, but the state table does not: W4-REFERENCE is 72/16/4 not 78/12/2, the ledger has 86 rows not 85 (fixed/open 75/4 not 73/6), the commit count is 253 not 251, the monster row prints the withdrawn 3,429/2,546 dispatch pair (C21), and the save-side figures are attributed to a script that does not compute them.
+HANDOFF.md                 contradiction  Five current-state defects live here while most of the file is synced to METER: .text 5,228,411 paired with the 0x100 range (the range holds 5,228,347), "19 = 18 + 2" member slots (census: 19 objects/20 calls), the Tier B 48.5% conclusion (gap 32.0 points, plan retired), the withdrawn 3,429/2,546 dispatch pair (C21), four tool-table rows naming tracked outputs their scripts do not write, and a DEVLOG pointer that names a section no longer last (C22).
+docs/PROGRESS.md           confirmed      Every headline (58.0/66.2/53.5/87.84/14.9/52,692/5,228,277/3,201/110/332/53/6,777/4,527/12,168,003,584) reproduces — including the dispatch retraction the README and HANDOFF missed; only a line anchor drifts (coverage-map 320-322 quoted for the read-side discard).
+docs/README.md             contradiction  Every indexed file and save-side number checks out except two descriptions: member4-file-layout.txt has 135 data rows not 134, and analysis/dumps/ is marked project output although it is a private symlink with 0 tracked files.
+docs/PUBLISH-READINESS.md  contradiction  The vendor/DEVELOP/reproducibility facts verify (vendor blobs in unpushed history = 101 files, DEVELOP lines 10 and 12 correct, both headline commands print the quoted lines), but "a stranger can run check.mjs" is false (ROOT is hardcoded) and the ahead count (242) is 253.
+docs/PRIVATE-DATA.md       confirmed      All six local links and all three absolute paths exist; the NCA is 12,168,003,584 B and the romfs holds the stated 35,531 files.
+tools/mhgu/README.md       contradiction  The producer table is the accurate document in the repo, but the input table points at a deleted .tmp image, the "all scripts read absolute paths" sentence is false for arm32/reader-fields and the coverage chain, and nine .tmp evidence citations are dead.
+DEVLOG.md                  stale          The last 200 lines plus headers still carry 95.3% (METER: 95.0%), "2.0% / 60 classes" (same file later: 7.8% / 233), "8 gates" (12), and 45/2/2/1 ledger counts (75/4/4/1/1/1); no entry records the 2026-11-04 relicensing.
+LICENSE                    confirmed      MIT text, Copyright (c) 2026 Twelve-eight, 21 lines; every non-empty line also appears in docs/LICENSE.
+docs/LICENSE               confirmed      MIT body plus a documentation grant and a third-party carve-out naming docs/data/ and tools/mhgu/vendor/; the SDK strings are covered by the general clause.
+```
+
+10 documents: 4 confirmed, 5 contradiction, 1 stale, 0 unverified.

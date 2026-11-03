@@ -440,9 +440,9 @@ cannot defend on its own, which is the criterion this audit was asked to apply.
 
 METER marks most of its own history: the 48.9% baseline, the 83.8% / 80.3% / 80.4% traceability
 experiments, the self-scored 86.0% spread table, the 65.5%/52.0% intermediate, the 58.4% project
-calibre. Each is labelled 作废/勿引用/已被取代 and each is genuinely not reproducible from the
-current chain (by construction). I checked that the *current* replacement is right; I did not
-count the archived value as a defect. The same applies to `attr-vtable.md`'s two pre-retile
+calibre. Each is labelled 作废/勿引用/已被取代; they are historical values that the current rules are
+not expected to reproduce (the rules and the spine changed), and the document says so. I checked
+that the *current* replacement is right; I did not count the archived value as a defect. The same applies to `attr-vtable.md`'s two pre-retile
 "denominator: 23885" meter blocks (the document's later "Retiled pass" section supersedes them).
 
 ## 5. Commands that did not run or did not settle a claim

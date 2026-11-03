@@ -9,7 +9,7 @@ nothing here is quoted from another audit.
 
 | artefact | role in this sweep |
 |---|---|
-| row parser | every line matching `^\|\s*0x[0-9a-f]+\s*\|` with 5 cells; escaped pipes (`\|`) in 4 diagnostic rows were detected and their evidence cell not used for numeric parsing |
+| row parser | every line matching `^\|\s*0x[0-9a-f]+\s*\|` with 5 cells; escaped pipes (`\|`) in 5 diagnostic rows were detected and their evidence cell not used for numeric parsing |
 | `docs/data/functions.csv.gz` | 23,885 rows, `start,end,insns,callers,callees,strings` — the **region tiling** the slices were produced from (METER §198: "区域平铺，不是函数表") |
 | `docs/data/functions-retile.csv.gz` | 52,692 rows, same schema — the **current** function table (METER §42/§198; `RETILE.md`) |
 | `docs/analysis/code/inventory/stringxref.tsv` | 16,998 instruction-level string references, rebuilt from the image (METER §859 says this, not the `strings` column, is the authority) |
@@ -19,7 +19,8 @@ nothing here is quoted from another audit.
 
 Reproduction: the helper scripts used are in `.tmp/w6-pass12/` (`parse.mjs`, `claims3.mjs`, `claims4.mjs`,
 `rolecheck.mjs`, `strcheck3.mjs`, `agree.mjs`, `labelagree.mjs`, `spot.mjs`, `final.mjs`). They are scratch,
-not tracked; each finding below also gives the command whose output is quoted.
+not tracked; each numeric section names the script that produced it, and the two queries that matter most
+(the CSV agreement and the image probes) are reproduced inline below.
 
 ## 1. Row counts, addresses, alignment
 
@@ -31,7 +32,7 @@ not tracked; each finding below also gives the command whose output is quoted.
   (`tierB-slice-05.md:20`), slice-08 78/1062 = 7.3% and 1062−78 = 984 (`tierB-slice-08.md:11`),
   slice-14 300/1057 with conf A0/B183/C117 (`tierB-slice-14.md:11`, recomputed A0/B183/C117).
 - 145 addresses are adjudicated **twice**, in two different documents; 29 of those pairs carry different
-  labels (section 6).
+  labels (section 8).
 
 ## 2. Instruction counts and instruction sums — the docs describe the old region tiling, not the current table
 
@@ -129,7 +130,8 @@ tierB2-slice-13 0xc4b798  4 / 3
 Reading of the residuals: one failed lower bound (`0x188c84` "≥15" against 14, `tierB-slice-03.md:24`);
 11 off-by-one counts; 10 slice-10 rows that all say 22–23 where the table has 23–39 (the pattern of a
 truncated callee list in the deleted input file); two parser artefacts (`0x194228`, `0x614778`, where the
-number belongs to a different function or to a 0 that ends an address). `0x18dd88` matters more than its
+number belongs to a different function or to a 0 that ends an address); and seven that are short by 3–26
+(`0x3c1568`, `0x3cb008`, `0x50b4dc`, `0x9bdc68`, `0x170adc`, `0x6eae68`) except `0x13a57f8`, which is 3 over. `0x18dd88` matters more than its
 size: the row says "7 callee" and worker, and the eighth callee is what makes it an orchestrator under the
 doc's own rule (`tierB-slice-03.md:73`).
 
@@ -141,14 +143,15 @@ The `strings` column of `functions.csv.gz` was inherited by containment from the
 
 Of the 145 backticked tokens in these 19 files that actually exist as strings in the image:
 
-- **145 / 145 are referenced somewhere inside the row's old-table region** (3 are incidental mentions of
-  another function's string, e.g. "slice-10 以 `rtex` 同判");
+- **141 / 145 are referenced somewhere inside the row's old-table region**; the other four are incidental
+  mentions of another function's string (three on rows 0xb4ec44/0x86f158, plus a class name on 0x846674);
 - only **35 / 145 are referenced by the function that cites them** (containing retile function).
 
 So the A-level sentence "函数直接引用的字符串" in every method section is true at *region* level and false
 at *function* level for 76% of the string citations. The pass itself discovered this on 2026-10-24 and
-demoted four rows with the note "所引字符串未在真实函数体内经 pc 相对载入 → B" (`tierB-slice-03.md:96,102`,
-`tierB-slice-08.md:38,41`). That note is correct — the image confirms it:
+demoted 124 rows with the note "所引字符串未在真实函数体内经 pc 相对载入 → B" (counted: 124 occurrences of
+that note across these 19 files; e.g. `tierB-slice-03.md:96,102`, `tierB-slice-08.md:38,41`). That note is
+correct — the image confirms it:
 
 ```
 cOtodokeConditionList at flat 0x1557e69; literal words equal to its vaddr in .text: none
@@ -164,11 +167,21 @@ Two consequences worth recording as defects:
 
 - **`tierB-slice-08.md:60`** still cites "字符串 `cMix`" as part of the evidence for 0x18bb60 (B), although
   no instruction in the image references that string.
-- **`tierB2-slice-11.md` re-promotes a demoted row back to A**: `0x18ecb0` is listed among the 13 conf-A
-  rows (line 214, "字符串 `cOtodokeConditionList`"), which is exactly the evidence the 2026-10-24 review
-  rejected in `tierB-slice-03.md:96`. Ditto `0x381738` (A, "cResourceSample", body has no reference) and
-  `tierB2-slice-10.md:70` (`0x362438`, A, "mRewardTable[0]|resource", body has no reference). 11 of the 14
-  A-rows that cite an image string do reference it in their own body; these 3 do not.
+- **Region-level string evidence is still being graded A.** Of the 29 A rows in the 19 files that cite a
+  string present in the image, **24 reference it in their own retile body and 5 do not**:
+
+  ```
+  0x396e40  tierB2-slice-02:77   cSupplyList                  referenced by 0x3985b8, not by 0x396e40
+  0x658ae8  tierB2-slice-02:112  cUIORegistSrcPanelBase       referenced by 0x6591a4; demoted to B in
+                                                              tierB-slice-08:41 on 2026-10-24
+  0x362438  tierB2-slice-10:70   mRewardTable[0] | resource   no reference in body
+  0x381738  tierB2-slice-11:88   cResourceSample              no reference in body
+  0x18ecb0  tierB2-slice-11:214  cOtodokeConditionList        demoted to B in tierB-slice-03:96
+  ```
+
+  Two of the five (`0x18ecb0`, `0x658ae8`) re-promote evidence that the 2026-10-24 review had already
+  demoted in pass1; the other three are new instances of the same error. Both of the re-promoted rows now
+  carry conf A in pass2 and conf B in pass1 for the same function.
 
 `tierB-slice-14.md:29` ("0x13bdadc 自身字符串 `MtCollisionUtil::MtDtiSelecterIntermediate`") is the same
 kind of error: the string is referenced by `0x13bdd10` (`stringxref.tsv:16552`), 0x324 bytes later, and by
@@ -186,7 +199,7 @@ recomputed.
 | tierB-slice-08 | — | — | — | 78 rows, §A 37 ≥1000 insns descending, §B 41 address-ascending: exact |
 | tierB-slice-14 | "待回填" (`:12`) — actual: online-nex 300/300 | A0 B183 C117 exact (`:11`) | actual worker 170 / leaf 86 / thunk 22 / orch 22 | tally comment wrong (§7) |
 | tierB2-slice-01 | 13 classes exact (`:152`) | A6 B85 C29 exact | orch 82 / worker 34 / thunk 4 exact | ok |
-| tierB2-slice-02 | exact (`:152`) | A6 B80 C34 exact | 102 / 18 exact | ok |
+| tierB2-slice-02 | exact (`:152`) | A6 B80 C34 exact | 102 / 18 exact | counts ok; A evidence §4 |
 | tierB2-slice-03 | exact (`:150`) | A4 B85 C31 exact | 70 / 50 exact | ok |
 | tierB2-slice-04 | none (placeholder, honest for a 30/120 page) | — | — | partial |
 | tierB2-slice-05 | exact (`:152`) | A4 B78 C38 exact | **stated 60 orch / 53 worker / 7 leaf (`:154`) — table has 56 / 57 / 7** | contradiction |
@@ -409,8 +422,8 @@ All nine "misses" are explained by the sentence (caller, cluster range, comparis
   `tierB2-slice-12.md:304` "最小 171 insns" — exact (min 171, max 189).
   `tierB2-slice-13.md:310` "0x64a198, insns=161" — exact.
 - `tierB2-slice-13.md:311` admits inserting `0x64a198` at the head; the file has **two further ordering
-  breaks** it does not mention: `0xa9c1f4` (167 insns) after `0xa1da40` (161) at row 188, and `0x9eb780`
-  (167) after `0x6722a4` (156) at row 277.
+  breaks** it does not mention: `0xa9c1f4` (167 insns) after `0xa1da40` (161) at table row 189, and `0x9eb780`
+  (167) after `0x6722a4` (156) at table row 278.
 - `tierB2-slice-14.md:298` "21 rows inserted between 0x54a7b0 and 0x6fd448" — exactly 21 rows between those
   two table rows, no duplicate addresses.
 - `tierB-slice-14.md:18-21` PLT stubs: `0x13efd70..0x13f1dec` is a 12-byte-stride stub table. Confirmed —
@@ -455,7 +468,7 @@ exact. This is the file whose first 50 rows are the only slice-05 material in `t
 
 **tierB-slice-08** — 78 rows, all real; §A/§B structure exact; labels, conf and role tallies exact;
 instruction claims exact. Its only numeric defect is a stale string citation (0x18bb60 "cMix", section 4).
-The four 2026-10-24 demotions are correct.
+Its two 2026-10-24 demotions are correct (the other two are in slice-03).
 
 **tierB-slice-09** — **no table at all** (0 rows). The page is a method note, and it says so; but it cites
 `classified3.csv` (absent from the repo) as already cross-checked, and its `tiers.csv` claim is false for the
@@ -472,7 +485,8 @@ orchestrator with 2). Its A-list of 17 candidates and its 6 actual A rows are co
 
 **tierB2-slice-02** — 120 rows; every printed count exact (labels, A6/B80/C34, role 102/18); 12/12 callee
 counts exact. The input-traceability caveat at line 5 is honest and correct — the `.tmp/mhgu` tree is gone.
-No contradiction found; this is the cleanest file of the 19.
+Two of its six A rows (`0x396e40` at `:77`, `0x658ae8` at `:112`) cite strings that the function body does
+not reference (`0x3985b8` and `0x6591a4` do), and `0x658ae8` is the same row slice-08 demoted to B.
 
 **tierB2-slice-03** — 120 rows, all counts exact (labels, A4/B85/C31, role 70/50). 59 of 120 rows lie outside
 the domain printed at line 3, and 12 role cells contradict the callee lists.
@@ -499,12 +513,14 @@ evidence, so the column describes the visible head, not the region).
 that does not exist; 5/7 callee counts match.
 
 **tierB2-slice-10** — 90/120 rows and **no summary section at all**. Callee counts are systematically low
-(10 rows say 22–23 where the table has 23–39); role column is the only fully consistent one (0/90).
+(10 rows say 22–23 where the table has 23–39); role column is the only fully consistent one (0/90). One A
+row (`0x362438`, `:70`) cites `mRewardTable[0]`/`resource`, neither of which its body references.
 
 **tierB2-slice-11** — 286 rows. Conf exact (A13/B158/C115). Three defects: the label split is off by one
 (physics-math 17 vs 18, "other 230" vs 229 at `:370`); the A section still describes 29 A rows at `:365`
 while the file grades 13, and its A-label breakdown (12 online-nex / 5 quest / 3 filesystem / …) matches
-neither; and `0x18ecb0` is re-promoted to A on the exact evidence that was demoted in pass1.
+neither; and two A rows (`0x18ecb0`, `0x381738`) cite strings the body does not reference, the first being exactly
+the evidence demoted in pass1.
 
 **tierB2-slice-12** — 286 rows. Conf exact (A19/B157/C110); leaf 8 with the eight addresses exact; the
 "±8 approximate" label table is within tolerance. The A section header says 26 at `:307` while the file has
@@ -539,7 +555,7 @@ claim exact. Two contradictions: **"leaf 22" against 28 leaf rows** in its own t
 - **`tierb-labels.csv` has no tracked writer at its path.** `tools/mhgu/README.md:50` records that
   `tierb-merge.py` writes `.tmp/mhgu/inventory/tierb-labels.csv`, so the tracked copy is a manual snapshot;
   its mtime says nothing. I dated it by content (pre-`66e12a5`) instead.
-- Four rows contain escaped pipes in the evidence cell (`tierB-slice-08.md:38`, `tierB2-slice-06.md:61`,
+- Five rows contain escaped pipes in the evidence cell (`tierB-slice-08.md:38`, `tierB2-slice-06.md:61`,
   `tierB2-slice-08.md:61,131`, `tierB2-slice-14.md:212`). Their first five cells parse correctly; their
   evidence strings were not used for the numeric checks.
 - `python3` in this shell exits 49 without output, so every computation was done with Node; the arm32
@@ -547,14 +563,15 @@ claim exact. Two contradictions: **"leaf 22" against 28 leaf rows** in its own t
 
 ## VERDICT
 
+```
 doc	status	evidence
 docs/analysis/code/tierb-pass1/tierB-slice-03.md	contradiction	250/250 rows real and 108/108 instruction counts exact, but four callee counts do not reproduce (0x188c84 "≥15" against 14) and 0x18dd88 is graded worker against its own 8 callees.
 docs/analysis/code/tierb-pass1/tierB-slice-05.md	contradiction	550/550 rows, every printed distribution exact, but 8 role cells contradict their callee lists (0x38eae4 15 callees → worker) and 5 callee counts are off by 1–15.
-docs/analysis/code/tierb-pass1/tierB-slice-08.md	confirmed	78/78 rows real, §A 37 rows all ≥1000 insns descending and §B 41 rows address-ascending, every tally exact; only a stale string citation (0x18bb60 "cMix" has no code reference).
+docs/analysis/code/tierb-pass1/tierB-slice-08.md	confirmed	78/78 rows real, §A 37 rows all ≥1000 insns descending and §B 41 rows address-ascending, every tally exact; its one stale string citation (0x18bb60 "cMix" has no code reference) sits on a B-grade row, so it does not change the confidence.
 docs/analysis/code/tierb-pass1/tierB-slice-09.md	unverified	no table exists (0 rows), and the method cites inventory/classified3.csv which is not in the repository; its tiers.csv "uniformly quest" claim is false for 3 of 6 stub entries.
 docs/analysis/code/tierb-pass1/tierB-slice-14.md	contradiction	300/300 rows real, all inside the Pia band, conf A0/B183/C117 exact — but the tally comment at :357 is wrong in every field (B246/C154/roles 235-117-25-23) and sums to 400 against its own 300.
 docs/analysis/code/tierb-pass2/tierB2-slice-01.md	contradiction	120/120 rows real and all printed tallies exact, but 63 rows lie outside the printed domain 0x46b6d0..0xb58ba0 and 20 role cells contradict their callee counts.
-docs/analysis/code/tierb-pass2/tierB2-slice-02.md	confirmed	120 rows, all 11 label counts, A6/B80/C34 and role 102/18 exact, 12/12 callee counts exact, and its own input-traceability caveat is truthful.
+docs/analysis/code/tierb-pass2/tierB2-slice-02.md	contradiction	all 11 label counts, A6/B80/C34, role 102/18 and 12/12 callee counts reproduce, but two of its six A rows (0x396e40, 0x658ae8) are graded on strings their own function body does not reference.
 docs/analysis/code/tierb-pass2/tierB2-slice-03.md	contradiction	120 rows and every printed count exact, but 59 of them lie outside the domain at :3 (0x4cfa24..0xb8692c) and 12 role cells contradict their callee lists.
 docs/analysis/code/tierb-pass2/tierB2-slice-04.md	contradiction	honest 30/120 fragment with no tallies, but 8 of its 30 rows are below the domain printed at :5 (0x6b3460) and 7 role cells contradict their callee counts.
 docs/analysis/code/tierb-pass2/tierB2-slice-05.md	contradiction	labels and conf exact, role tally 60/53/7 wrong (table gives 56/57/7), and 95 of 120 rows lie outside the printed domain 0x5b7744..0x7cb374.
@@ -567,7 +584,8 @@ docs/analysis/code/tierb-pass2/tierB2-slice-11.md	contradiction	A13/B158/C115 ex
 docs/analysis/code/tierb-pass2/tierB2-slice-12.md	contradiction	A19/B157/C110, leaf 8 and the ±8 label table all reproduce, but the A-section header says 26 at :307 while the file grades 19.
 docs/analysis/code/tierb-pass2/tierB2-slice-13.md	confirmed	A3/B204/C79 exact and the three A addresses are exactly the three A rows; the 124-demotion commit reference reproduces. Only unmentioned ordering breaks (2) and role cells inconsistent with callee counts (20) remain.
 docs/analysis/code/tierb-pass2/tierB2-slice-14.md	contradiction	A4/B179/C99 and 19/19 callee counts exact, but "leaf 22" contradicts the 28 leaf rows in its own table (:300) and "A 级 14 行" (:301) contradicts the 4 A rows it grades.
+```
 
-Count: 19 documents — 4 confirmed, 13 contradiction, 0 stale, 2 unverified.
+Count: 19 documents — 3 confirmed, 14 contradiction, 0 stale, 2 unverified.
 Label agreement with `docs/data/tierb-labels.csv`: 378/378 labels (0.0% disagreement), 374/378 conf
 (1.06%), 50/50 in the requested 50-row sample; the 4 conf disagreements are listed in section 9.
