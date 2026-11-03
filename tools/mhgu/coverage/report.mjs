@@ -182,7 +182,7 @@ const CV = (() => {
   }
   return { fn, ins, rows };
 })();
-rows.push(["A-inferred (callee+class vote, fold 93.6-99.3%)", String(CV.fn), String(CV.ins), pct(CV.ins, totalIns), pct(CV.fn, totalFn)]);
+rows.push(["A-inferred (callee/class/caller vote, region-held-out 95.7%)", String(CV.fn), String(CV.ins), pct(CV.ins, totalIns), pct(CV.fn, totalFn)]);
 // Single-immediate signatures are their own class: the rule is weaker than a call vote (97.2% fold-wise versus 93.6-99.3%)
 // and was selected on the same labels it predicts, so it stays separable and withdrawable.
 const SG = (() => {
@@ -199,7 +199,7 @@ const SG = (() => {
   }
   return { fn, ins, rows };
 })();
-rows.push(["A-signature (single immediate, fold 97.2%)", String(SG.fn), String(SG.ins), pct(SG.ins, totalIns), pct(SG.fn, totalFn)]);
+rows.push(["A-signature (32-bit constant, fold 97.1%)", String(SG.fn), String(SG.ins), pct(SG.ins, totalIns), pct(SG.fn, totalFn)]);
 rows.push(["headline A only", String(A.fn), String(A.ins), pct(A.ins, totalIns), pct(A.fn, totalFn)]);
 // The four classes below are a partition: each function counts once. "unattributed" used to be total - A - B, which left
 // the inferred rows inside it while also printing them on their own line.
