@@ -252,6 +252,14 @@ rows.push(["covered at >=90% precision", String(pDir + pInf + pSig + pSpV), Stri
   pct(pDirIns + pInfIns + pSigIns + pSpVIns, totalIns), pct(pDir + pInf + pSig + pSpV, totalFn)]);
 rows.push(["spread unvalidated labels (74.2% overall)", String(pSpU), String(pSpUIns),
   pct(pSpUIns, totalIns), pct(pSpU, totalFn)]);
+// Guard: the five buckets must account for every function and every instruction. Two earlier bugs (spread-A falling into
+// "no label", and the inferred class double-counted) would both have been caught here.
+const pFn = pDir + pInf + pSig + pSpV + pSpU + pNone;
+const pIns = pDirIns + pInfIns + pSigIns + pSpVIns + pSpUIns + pNoneIns;
+if (pFn !== totalFn || pIns !== totalIns) {
+  console.error(`partition does not close: ${pFn}/${totalFn} functions, ${pIns}/${totalIns} instructions`);
+  process.exit(3);
+}
 
 const byLabel = new Map();
 for (const [start, b] of best) {
