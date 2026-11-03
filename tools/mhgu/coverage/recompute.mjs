@@ -68,7 +68,9 @@ for (const f of extraSeedFiles) {
 // function may not seed, may not vote and may not carry a label, otherwise its label keeps spreading even though the
 // report would hide it.
 const demoted = new Set();
-for (const f of fs.readdirSync(path.join(ROOT, "docs/analysis/code/inventory")).filter((x) => /^demote-.*\.tsv$/.test(x))) {
+// pins.tsv is the same mechanism as a demotion but permanent and explained per row: a hub function whose label came from
+// votes may not be relabelled by those same votes.
+for (const f of fs.readdirSync(path.join(ROOT, "docs/analysis/code/inventory")).filter((x) => /^(demote-.*|pins)\.tsv$/.test(x))) {
   for (const l of fs.readFileSync(path.join(ROOT, "docs/analysis/code/inventory", f), "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
     const v = parseInt(l.split("\t")[0], 16);
     if (Number.isFinite(v)) demoted.add(v);

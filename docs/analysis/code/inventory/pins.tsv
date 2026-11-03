@@ -1,0 +1,5 @@
+start	reason
+0x7aedcc	pinned 2026-11-04: reads a GOT slot, adds 8 and stores it into [r4] (base-vtable install). Called from hundreds of constructors, so its label was pure spread; no string, no subsystem call in the body. Read the code before pinning again.
+0x8260d4	pinned 2026-11-04: same shape as 0x7aedcc (GOT slot + 8 stored into [r4], zeroes [r4+12]). Generic constructor shell, not otomo code.
+0x7bb638	pinned 2026-11-04: lazily initialises a global (reads GOT slot, calls 0x13efe00 once, then tests the pointer). Utility getter, not renderer.
+0x7aa47c	pinned 2026-11-04: takes an object, reads its field +24 as an index and returns global_table[index] (ldr [r1, r0, lsl #2]; bx lr). Pure dispatch-table lookup; every subsystem calls it, so any single label it had was a vote artefact.
