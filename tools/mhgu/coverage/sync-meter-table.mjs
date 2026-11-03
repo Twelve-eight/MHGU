@@ -13,6 +13,20 @@ for (const line of fs.readFileSync(REPORT, "utf8").split(/\r?\n/).filter(Boolean
 const get = (k) => rows.get(k) || { fn: "?", ins: "?", pIns: "?" };
 const fmt = (x) => (x === "?" ? x : Number(x).toLocaleString("en-US"));
 
+// A missing row used to become "?" and then NaN through parseFloat, and the script wrote the file unconditionally, so a
+// report without `covered at >=85% precision` would have put "NaN%" into METER. Refuse instead of guessing.
+const REQUIRED = [
+  "partition: direct evidence", "partition: inferred only", "partition: signature only",
+  "partition: spread validated labels", "partition: spread unvalidated", "partition: no label",
+  "covered at >=90% precision", "covered at >=85% precision",
+];
+const missingRows = REQUIRED.filter((k) => !rows.has(k));
+if (missingRows.length) {
+  console.error(`refusing to write METER: coverage-report.tsv has no row(s): ${missingRows.join(", ")}`);
+  console.error("the script's table shape predates the current report; update the row names before using it");
+  process.exit(2);
+}
+
 const dir = get("partition: direct evidence");
 const inf = get("partition: inferred only");
 const sig = get("partition: signature only");
