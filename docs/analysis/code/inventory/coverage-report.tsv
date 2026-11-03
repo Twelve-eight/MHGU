@@ -1,0 +1,5 @@
+class	functions	insns	pct_insns	pct_functions
+tier A (verified)	26172	2829012	54.1%	49.7%
+conf B (unverified)	24434	2303534	44.1%	46.4%
+headline A only	26172	2829012	54.1%	49.7%
+unattributed	2086	95731	1.8%	4.0%

@@ -1,0 +1,155 @@
+// recompute.mjs — rebuild the attribution tiers from the committed function list, so the 52.2% headline has a
+// recomputable derivation instead of depending on a scratch functions4.csv that no longer exists.
+//
+// Method (ported from tools/mhgu/tiers-all.mjs, which read .tmp/mhgu/inventory/functions4.csv):
+//   1. seeds   functions whose string table matches one of the subsystem regexes
+//   2. spread  label propagation over caller/callee edges, 8 rounds, majority vote
+//   3. predict leave-one-out style: a function's label predicted from its nearest labelled neighbour by address
+//   4. tier    A = prediction equals the propagated label, B = both exist but differ, C = one side missing
+//
+// Output: docs/analysis/code/inventory/tiers-recomputed.csv (start,insns,tier,label,src)
+// and a summary that can be compared with tiers.csv row by row.
+import fs from "node:fs";
+import zlib from "node:zlib";
+import path from "node:path";
+
+const ROOT = "G:/omp works/MHGU";
+const fnArg = process.argv.reduce((a, v, i) => (v === "--functions" ? process.argv[i + 1] : a), []);
+const SRC = fnArg || path.join(ROOT, "docs/data/functions.csv.gz"); // use docs/data/functions-retile.csv.gz for real functions
+const OLD = path.join(ROOT, "docs/analysis/code/inventory/tiers.csv");
+const OUT = path.join(ROOT, "docs/analysis/code/inventory/tiers-recomputed.csv");
+
+// Same rules as tiers-all.mjs: order matters, first match wins.
+const RULES = [
+  ["online-nex", /(OnlineCore|Nex[A-Z]|Nex::|InstanceTable|NNC_|RVCID|Matchmake|SessionJob|MeshJob|HostMigration|HTTP)/],
+  ["save-data", /(savedata|saveData|SaveData|sSlot|SaveSlot)/],
+  ["render-gfx", /(shader|Shader|texture|Texture|render|Render|vfx|Mesh|model|Model|camera)/],
+  ["audio", /(\bsnd|Snd|\bSE\b|BGM|bgm|Sound|sound|Music)/],
+  ["ui", /(\bMenu|Menu[A-Z]|\bHud|Layout[A-Z]|layout_)/],
+  ["monster-em", /(emUniqueAct|uEm\d|cEm|EnemyCharacter|MonsterUnit|mParam\.|actionNo|netEmAction|EmSetList|rEnemyDt)/],
+  ["player-pl", /(cPl|uPl|PlayerState|player_)/],
+  ["weapon-wp", /(\bwp_|cWp|Weapon|pEquipData)/],
+  ["otomo-ot", /(otomo|Otomo|nyanter|Nyanter|netOt[A-Z])/],
+  ["quest", /(quest|Quest)/],
+  ["item", /(\bitem|ItemData|cItem)/],
+  ["filesystem", /(romfs|Romfs|fw_fs|FileSystem|filedev)/],
+  ["physics-math", /(MtCollision|rigid|Rigid|Phys)/],
+  ["kernel-os", /(MtAllocator|MtArray|MtList|MtTree|MtDti|Thread|Heap|Mutex|BitIO|Archive|Stream)/],
+];
+const labelOf = (s) => { for (const [k, re] of RULES) if (re.test(s)) return k; return null; };
+// only real subsystem labels may enter the graph: "unknown" and "unmatched" are auditor verdicts, not labels, and
+// seeding them would spread a non-label across the call graph (it did: 900 rows).
+const LABELS = new Set(RULES.map(([k]) => k));
+
+// ---- load
+const text = zlib.gunzipSync(fs.readFileSync(SRC)).toString("utf8");
+const rows = [];
+for (const l of text.split("\n").slice(1)) {
+  if (!l) continue;
+  const m = /^(0x[0-9a-f]+),(0x[0-9a-f]+),(\d+),(\d+),([^,]*),"(.*)"$/.exec(l);
+  if (!m) continue;
+  rows.push({
+    s: parseInt(m[1], 16),
+    e: parseInt(m[2], 16),
+    n: Number(m[3]),
+    callees: m[5] ? m[5].split("|").filter(Boolean).map((x) => parseInt(x, 16)) : [],
+    strings: m[6] || "",
+  });
+}
+rows.sort((a, b) => a.s - b.s);
+
+// ---- seeds (built-in string rules plus any --seed TSV: start,label,conf,evidence)
+const extraSeedFiles = process.argv.reduce((a, v, i) => (v === "--seed" ? [...a, process.argv[i + 1]] : a), []);
+const external = new Map(); // start -> {label, conf, src}
+for (const f of extraSeedFiles) {
+  let acc = 0, rejStart = 0, rejLabel = 0;
+  for (const l of fs.readFileSync(f, "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
+    const [start, label, conf, evidence] = l.split("\t");
+    const v = parseInt(start, 16);
+    if (!rows.some((r) => r.s === v)) { rejStart++; continue; } // attribution for a non-function start is a source bug
+    if (!LABELS.has(label)) { rejLabel++; continue; }
+    const rank = { A: 2, B: 1 };
+    const prev = external.get(v);
+    if (!prev || (rank[conf] || 0) > (rank[prev.conf] || 0)) { external.set(v, { label, conf, src: path.basename(f), evidence: evidence || "" }); acc++; }
+  }
+  console.log(`  seed file ${path.basename(f)}: accepted ${acc}, rejected non-start ${rejStart}, rejected bad label ${rejLabel}`);
+}
+const seeds = [];
+for (const r of rows) {
+  const lab = labelOf(r.strings);
+  if (lab) seeds.push({ r, lab });
+}
+for (const [start, e] of external) seeds.push({ r: rows.find((r) => r.s === start), lab: e.label, ext: e });
+console.log(`functions ${rows.length}, seeded ${seeds.length} (${((100 * seeds.length) / rows.length).toFixed(1)}%) [${extraSeedFiles.length} external file(s)]`);
+
+// ---- spread
+const rev = new Map();
+for (const r of rows) for (const c of r.callees) {
+  if (!rev.has(c)) rev.set(c, []);
+  rev.get(c).push(r.s);
+}
+const L = new Map();
+for (const s of seeds) L.set(s.r.s, s.lab);
+for (let it = 0; it < 8; it++) {
+  let changed = 0;
+  for (const r of rows) {
+    if (L.has(r.s)) continue;
+    const vote = new Map();
+    for (const c of r.callees) { const l = L.get(c); if (l) vote.set(l, (vote.get(l) || 0) + 1); }
+    for (const p of rev.get(r.s) || []) { const l = L.get(p); if (l) vote.set(l, (vote.get(l) || 0) + 1); }
+    if (!vote.size) continue;
+    const best = [...vote.entries()].sort((a, b) => b[1] - a[1] || String(a[0]).localeCompare(String(b[0])))[0];
+    if (best[1] >= 1) { L.set(r.s, best[0]); changed++; }
+  }
+  if (!changed) break;
+}
+
+// ---- address-neighbour prediction, using only seeds as anchors
+const train = seeds.slice().sort((a, b) => a.r.s - b.r.s);
+const predict = (addr) => {
+  let lo = 0, hi = train.length - 1, best = null;
+  while (lo <= hi) { const mid = (lo + hi) >> 1; if (train[mid].r.s <= addr) { best = train[mid]; lo = mid + 1; } else hi = mid - 1; }
+  let right = null;
+  for (const t of train) if (t.r.s > addr) { right = t; break; }
+  if (!best) return right ? right.lab : null;
+  if (!right) return best.lab;
+  return addr - best.r.e <= right.r.s - addr ? best.lab : right.lab;
+};
+
+// ---- tiers
+const outRows = [["start", "insns", "tier", "label", "src"]];
+const counts = { A: 0, B: 0, C: 0 };
+let aIns = 0, totalIns = 0;
+for (const r of rows) {
+  totalIns += r.n;
+  const pred = predict(r.s);
+  const got = L.get(r.s);
+  let tier, label, src;
+  if (pred && got && pred === got) { tier = "A"; label = got; src = "spread+address"; }
+  else if (pred && got) { tier = "B"; label = got; src = "spread"; }
+  else { tier = "C"; label = got || ""; src = got ? "spread" : ""; }
+  counts[tier]++;
+  if (tier === "A") aIns += r.n;
+  outRows.push([`0x${r.s.toString(16)}`, String(r.n), tier, label || "", src]);
+}
+fs.writeFileSync(OUT, outRows.map((x) => x.join(",")).join("\n") + "\n");
+console.log(`recomputed: A ${counts.A} (${((100 * aIns) / totalIns).toFixed(1)}% insns), B ${counts.B}, C ${counts.C}`);
+console.log(`wrote ${path.relative(ROOT, OUT).replace(/\\/g, "/")}`);
+
+// ---- compare with the committed tiers.csv
+if (fs.existsSync(OLD)) {
+  const old = new Map();
+  for (const l of fs.readFileSync(OLD, "utf8").split("\n").slice(1)) {
+    if (!l) continue;
+    const [s, ins, t, lab] = l.split(",");
+    old.set(s, { t, lab });
+  }
+  let same = 0, diffTier = 0, missing = 0;
+  for (const [start, , tier, lab] of outRows.slice(1)) {
+    const o = old.get(start);
+    if (!o) { missing++; continue; }
+    if (o.t === tier && (o.lab || "") === (lab || "")) same++;
+    else diffTier++;
+  }
+  console.log(`vs tiers.csv: identical ${same}, differing ${diffTier}, not-in-old ${missing} (of ${outRows.length - 1})`);
+}

@@ -1,0 +1,83 @@
+doc	item	verdict	evidence	note
+docs/data/README.md	mhgu.db 表行数（表清单 20 行）	WRONG	node sqlite_master+count(*)：meow_locations 6 / meow_rewards 1168；其余 19 行全部相等（monsters 129, monster_damage 893, monster_weakness 108, monster_status 728, monster_to_quest 2305, quests 1355, quest_rewards 37370, items 21153, weapons 10877, armor 5637, decorations 242, skills 326, skill_trees 205, combining 183, gathering 15414, horn_melodies 278, palico_weapons 495, palico_armor 1001, locations 31）	charms/food_combos/felyne_skills 确为 0 行；只有 meow_* 不是空表（meow_rewards 1168 条是实数据）
+docs/data/README.md	「已导出 20 表为 json/<table>.json（35MB）」	WRONG	ls docs/data/json/*.json | wc -l = 27；27 - README.md - 6 个手工映射（monster-slot-map, -137, monster-name-map, monster-names-chs, monster-dttune-index, motion-values）= 21 个表 JSON；du 合计 36,657,253 B（35.0 MiB）	表清单 20 行把 4 张空表并为一行，实际导出 21 个表文件（felyne_skills / food_combos 各一个）
+docs/data/README.md	表内字段名（icon / carry / slots / required_points / decorations 技能·材料）	WRONG	pragma_table_info：monsters 有 icon_name 无 icon；items 有 carry_capacity 无 carry；weapons 有 num_slots 无 slots；skills 有 required_skill_tree_points 无 required_points；decorations 只有 _id,num_slots（无技能/材料列）	按文档列名写 SQL 会 no such column；decorations 的技能/材料实际在 item_to_skill_tree / components
+docs/data/README.md	agroff 文件规模 944 / 204 / 242 / 885 / 14 类	OK	JSON.parse 计数：quests 944、skills 204、decorations 242、hammer 885、weapons.json types 14（Bow..Sword and Shield）	
+docs/data/README.md	mhgu.db 18MB / 39 表	OK	18333696 B；sqlite_master type=table 39	
+docs/data/json/README.md	monster-slot-map.json = 93 条 {slot,cn,en,db_id}，slot92=阁螳螂	STALE	现文件 137 条，键 slot,emid,cn,cn_src,en,kind,ro；slot92 = 飞甲虫 Bnahabra（emid 4122），Ahtal-Ka 在 slot 134；git log 9293e14「slot maps 137/137 official cn_src; 137 file is a projection」	另有 monster-slot-map-137.json；exe 0x1597ea4 的 137 对 {emid,slot} 与现文件 137/137 相同，现文件才是运行时口径
+docs/data/json/README.md	「93/93 全部 db_id 都能取到 base_hp + 肉质」	MISSING	grep '"db_id"' docs/data/json/monster-slot-map.json → 0 命中；现文件字段为 emid/cn_src/kind/ro	该交叉验证已无字段可依；需改用 emid 重做
+docs/data/json/README.md	monster-name-map.json 129 条 {id,ja,base_hp,sort}	OK	129 条，键恰为 id,ja,base_hp,sort（样本 {id:1,ja:リオレイア,base_hp:4500,sort:Rathian}）	
+docs/data/json/README.md	「db name_ja 覆盖不全（部分 JA 字段空）」	WRONG	SQL：monsters 129 行中 name_ja 空 = 0；导出 name-map 亦 129/129 非空	下一段「quests/items/skills name_ja 在 db 全空」才是真的（1355/21153/326 全空）
+docs/data/json/README.md	quests/items/skills 的 name_ja 在 db 全空	OK	SQL 空值计数：quests 1355/1355、items 21153/21153、skills 326/326（skill_trees 205/205）	
+docs/data/romfs-tables.md	itemData.itm 131,612 B / 2991 条 / id==记录下标	OK	len 131612；f32 21.3；count 2991；id==index 2991/2991；id9 mMaxCount 10 sell 7 buy 66	
+docs/data/romfs-tables.md	itemData_eng.gmd 280,586 B / 5982 串 / 0x20=串块字节 / str[2*id]	OK	0x18=5982，0x20=280537，0x24=8，组名 itemData；280586 = 0x28+9+280537；串[0]='--------' 串[1]='dummy' 串[2]='Book of Combos 1'	
+docs/data/romfs-tables.md	questData 1,849 / questLink 1,854 / 369 B / 308 B / Id@rec+4 / QuestTime	OK	ls|wc -l 1849 与 1854；两文件字节数 369/308；ext magic 00004b43 count 1 Id 101 QuestTime 50；qdl 308 B 槽 8 名 rem_210052	
+docs/data/romfs-tables.md	tq.arc 289.5 KiB	OK	296,402 B = 289.5 KiB	
+docs/data/romfs-tables.md	「nativeNX/table 下没有任何 quest 文件」	OK	ls G:/mhgu-romfs/romfs/nativeNX/table | grep -ci quest = 0	
+docs/reference/formats/tex.md	工具 tex2dds.mjs 存在与用法	OK	头注释：node tools/mhgu/tex2dds.mjs <file.241f5deb> <out.dds>；FORMATS 含 0x07/0x13/0x17/0x19/0x1f	
+docs/reference/formats/tex.md	「本工作区 383 个 *.241f5deb（0x07×363、0x13×3、0x17×6、0x19×6、0x1F×5）」	STALE	现 459 个：0x07×423 0x17×18 0x13×2 0x1F×8 0x19×8（自写 readTex 全量扫描）；按目录拆分也无 383/363 组合	0x13 由 3 降到 2，语料不是单纯增大；数字应改为按当前计数重写
+docs/reference/formats/tex.md	「每级 mip 步长 = max(该级块大小,512)，383/383」	WRONG	459 个中 457 满足；em011_00_BM 与 em011_00_NM_MIRROR 的 mip5 步长 1024 而块大小 512（1024×512、BC3/BC5、11 级，块 0x17/0x1f）	规则需补例外（这两文件可能是尾部 mip 成组打包），或标注 2/459 反例
+docs/reference/formats/tex.md	「头 + 数据区 = 文件长」	OK	459/459 成立（hdrLen=20+4*mips）	
+docs/reference/formats/mrl.md	190 个 MRL / 417 材质 / 245 条 bit31 / 401 条 MOD 名	STALE	mrl.mjs info 全量 225 个 .2749c8a8：490 条材质，284 条名字哈希 bit31=1	语料已扩（190→225）；结构性结论不受影响
+docs/reference/formats/mrl.md	各块互不重叠、正好铺满文件	OK	mrl.mjs check 225/225 OK，consumed == size，slack 0+0	含 tiling 与 size identity 的严格检查
+docs/reference/formats/mrl.md	名字哈希保留完整 32 位（XfB__m01_eye = 0xd1930ba0）；类型哈希 = ~crc32 & 0x7fffffff	OK	em001_00.2749c8a8 第 4 个材质 hash 0xd1930ba0；node：~zlib.crc32('rTexture')=0xa41f5deb→存 0x241f5deb，~zlib.crc32('rModel')=0xd8a15856→存 0x58a15856	
+docs/reference/formats/lmt.md	工具 lmt.mjs info/dump	OK	usage: node tools/mhgu/lmt.mjs info|dump <file> [motionIndex]	
+docs/reference/formats/lmt.md	「样本是 34 个动作文件」	STALE	现 39 个 .76820d81，39/39 为 LMT\0 + v0x43	
+docs/reference/formats/lmt.md	「type 1、2 本批样本 byteSize 都是 0」	OK	39 文件统计：type1 818 轨/0 有数据，type2 1196 轨/0 有数据	
+docs/reference/formats/lmt.md	「未解只列 type 1、2」	STALE	em024_00_{0,1,3}.76820d81 有 11 条 type 13 轨、548 B 数据；lmt.mjs DECODERS 无 13，文档类型表也无 13（trackKeys 返回 null）	type 13 只出现在 em024（不在文档的 em001/002/007/011 样本内），但读者会以为全部数据轨已解
+docs/reference/formats/emc.md	头 EMC\0 / 版本 0x20120804 / 21 段	OK	8 个 loose cmdtbl + 全 romfs 137 个：magic、版本、段数 21 均 137/137	
+docs/reference/formats/emc.md	「每个脚本恰以一个 0xff 结束」	OK	137 个 cmdtbl 共 19,130 条 entry，19,130/19,130 末字节 0xff	
+docs/reference/formats/emc.md	「111 files / 13514 entries / 143 distinct opcodes」	STALE	romfs 有 137 个 cmdtbl entry（94 大怪 + 43 小怪 arc 各 1），共 19,130 条 entry（自写解析，21 段全符）	111/13514 是当时抽取子集；全量数字应更新
+docs/reference/formats/emc.md	LEN 表指针 0x1839998 → 0x1732c8c（LEN[167]）	OK	read_words 0x1839998 = 01732c8c；0x1732c8c 后接 0x1732d34 等	
+docs/reference/formats/dtbase.md	em001 dtbase 字段值	OK	dtbase.mjs：magic DTB、0x15022601、BaseScale 1、Size 8、Rank 2、Nando 0、SpDieDamageType 0、DamageOnBit 0x8400066、DropDataCount 0、DropData [500,0,0,100,0]、kindByte 2	
+docs/reference/formats/dtbase.md	工具 `dtbase.mjs <file|arc>` 与 --json 字段名	OK	头注释与输出字段（magic/version/flags13/BaseScale/Size/Rank/Nando/SpDieDamageType/DamageOnBit/DropData + tail）与文档一致	
+docs/reference/formats/dttune.md	em001 HP@0x38=4500、0x3C=140、meat@0x8E 行0 90/80/70/0/15/15/20/35/100/100	OK	dttune.mjs --db --emid 1：baseHp 4500、smallInt0x3C 140、meat[0]._offset 142(0x8E) cut90 impact80 shot70 fire0 water15 ice15 thunder20 dragon35 ko100 pad100	dbMatch Head 一致
+docs/reference/formats/dttune.md	138 个 dttune 的 meat 基址分布 0x8C×70 / 0x8E×49 / 0x8F×18 / 0x90×1	OK	用当前 dttune.mjs 解全 romfs 138 个 *_dttune：{0x8e:49, 0x8c:70, 0x8f:18, 0x90:1}，逐字相同	该分布与文档完全吻合，是 index 过期而非文档错
+docs/reference/formats/dttune.md	小怪 ems* 44 arc 有同一 8×10 网格（ems020 行0 80/110/50/30/5/20/60/0/200/100）	OK	arc.mjs 解出 ems020_00_dttune，dttune.mjs：meat[0]._offset 140(0x8C)，cut80 impact110 shot50 fire30 water5 ice20 thunder60 dragon0 ko200 pad100	
+docs/reference/formats/dttune.md	大型 arc 93/94 的 meat 偏移与 index 一致，第 94 个 em087=null	OK	index 94 个大型 arc：93 个 offsets.meat 非空且与当前解码器 93/93 相同；em087_00 null	「94 个大型」不含 43 个 ems*
+docs/reference/formats/dttune.md	dttune 引用的 monster-dttune-index.json 本身	STALE	该 JSON：44 个 meat:null（em087_00 + 43 个 ems*），meat 分布 0x8c×29/0x8e×45/0x8f×18/0x90×1；当前解码器 138/138 全部定位，分布 0x8c×70/0x8e×49	索引 mtime 2026-10-27 04:10 晚于文档 10-26 15:55，但内容落后于当前 dttune.mjs；需重新生成（文档数字是对的）
+docs/reference/formats/mod.md	工具 / 版本 212 / em001 骨 43	OK	mod.mjs info：version 212、boneCount 43、materialCount 4；vertexOffset+vertexBufferSize = 47948+280836 = 328784 = faceOffset	
+docs/reference/formats/asd.md	头 1287×127=163,457；id==下标；样本 1/8/617/1286	OK	实测 armorSeriesData.asd：len 163457、f32 38、count 1287、8+1287*127 闭合；rec8 enable 01011 model 7；rec617 model 673 def 26 resist s8[-2,2,1,-1,0]；rec1286 仅胴 def 75；db armor 1311337/1377542 同值	
+docs/reference/formats/asd.md	部件 id 公式 1310720/1376256/1441792/1507328/1572864 + id	OK	SQL：1242 个 armor_families 的 head/body/arms/waist/legs_id 全部 = 基数+_id 或 0（1242/1242）	
+docs/reference/formats/asd.md	「+0x04 mSortID 与 armor_families 的排序字段一致」	WRONG	armor_families 列 = _id,name,name_de,name_fr,name_es,name_it,name_ja,rarity,head_id,body_id,arms_id,waist_id,legs_id,hunter_type；无排序列	样例 rec617 读到的 1160 在 db 中无对应字段可比
+docs/reference/formats/rem.md	q0000101.arc 36,305 B / 18 entries / rem 成员 184 B	OK	ls -la 36305；arc.mjs list「18 entries」；rem 条目 size 184（csize 47）	
+docs/reference/formats/rem.md	questLink 槽 8..12 = rem_210052 / rem_210001 / rem_000000 / rem_000000 / rem_210051	OK	rem.mjs arc --json：questLink.names[8..12] 与 remMain/remAdd/remSub 同上	
+docs/reference/formats/rem.md	101 的 A 组 272@15/3、273@15/2、275@20/2 …	OK	同上 JSON groups[0].condition 1 entries 逐项相同	
+docs/reference/formats/rem.md	vq.arc 1,424,521 B / 3,904 entries（488×8）	OK	ls 1424521；`arc.mjs list vq.arc | wc -l` = 3906 行（1 行 "# … 3904 entries" 头 + 1 行列名 + 3904 条）；488×8=3904	
+docs/reference/formats/sdl.md	708 files / 4,521,931 B / 0 failures / record type 直方图	OK	sdl.mjs verify G:/mhgu-romfs/romfs/nativeNX/arc/stage --exe main.140.flat.bin → 「708 file(s), 4521931 B, 0 failure(s)」；t1 708 t2 5921 t3 108 t4 128 t5 802 t6 20332 t8 17155 t9 12136 t11 12678 t12 652 t13 2088 t14 44 t15 561 t16 40 全同	
+docs/reference/formats/sdl.md	§7 类直方图（按 object record 数）	OK	自算 708 文件 6029 条 type2/3（12 unresolved）：uModel 893 uInfiniteLight 638 uMhFilter 501 … uFestActorModel 1，与文档逐个相同	按记录计数，非按文件
+docs/reference/formats/sdl.md	§8 m19d 7 文件 size/记录/value/pool 表	OK	verify m19d：13259/2605/13654/2269/2269/4521/4582，rec 222/29/228/38/38/71/73，pool 偏移 0x2c60/0x094c/… 与表中 pool 1,899/225/… 闭合	
+docs/reference/formats/sdl.md	§11「type/class histograms printed」的 classes 行口径	WRONG	工具 prints classes: uModel=281（每文件去重）；按记录复算 893	§7 的数字正确，缺一句「打印值是文件数」；读者会以为工具坏了
+docs/reference/formats/gmd.md	工具 list / json / batch 三子命令	OK	node tools/mhgu/gmd.mjs 无参输出 usage 三行与文档一致	
+docs/reference/formats/gmd.md	13 个文件的串数/文件长表	OK	gmd/index.json 逐项相同：itemData 5982/326124、skillData 656/22996、skillTypeData 412/15379、privilege_data 6/161、guestQuestData 462/10005、hunterArtsData 764/64763、armorSeriesData 12870/684182、MonsterDemo 96/5373、HN_MonsterListMsg 220/65006、CommonMsg 198/12036、HN_HunternoteMsg 60/4407、MapName 2/1124、Lb_TradeShopMsg 146/13020	
+docs/reference/formats/gmd.md	chS/table 385 个 gmd，batch 0 失败	OK	index.json files=385、failed=0、strings=61941	
+docs/reference/formats/gmd.md	resident_chS.arc table 部 58 成员 = 44 gmd + 14 非 gmd	OK	find resident/chS/table：44 个 .242bb29a + 14 个非 gmd（共 58）；GUI/06_msg 另 3 个 gmd	
+docs/reference/formats/gmd.md	0x20 是串块字节数、串块起点 = 文件长 - 0x20	OK	itemData_eng.gmd：0x20=280537，0x28 处组名 itemData(8)+NUL，280586=0x31+280537；切分得 5982 串	
+docs/reference/formats/weapon-tables.md	57/57 文件 size = 8 + n×rs；版本 Base 2.1 / Level,kad 1.2 / wpd,wcd 1.0	OK	自写校验：57 weapon files、size identity ok 57、bad 0；versions K1.2×1 B2.1×14 L1.2×14 C1.0×14 P1.0×14	NN 集 00-04,06-14（无 05）也一致
+docs/reference/formats/weapon-tables.md	Level 10,877/10,877 行逐字段一致	OK	按文档每族偏移解 10,925 条 → 落在 db 的 10,877 条 attack/defense/affinity/num_slots 全部相等（bad 0）	文件多出的 48 条即文档所述的占位/dev 家族
+docs/reference/formats/weapon-tables.md	wpd 10,077/10,077 与 components Improve 一致	OK	解 10,911 条 wpd（+0 fam/+2 idx，素材 +4 起 3 B）：10,077 条素材集合与 components Improve（剔除前一武器行与 1966084 点数行）完全相等，mismatch 0，834 条无 db	同时反过来验证了 fam/idx 键序
+docs/reference/formats/weapon-tables.md	wcd 1,145/1,145 与 components Create 一致	OK	解 1,152 条 wcd（+0 idx/+2 fam，素材 +6 起 4 B）：1,145 条完全相等，mismatch 0，7 条无 db	
+docs/reference/formats/weapon-tables.md	kad 164 条 × 14 B	OK	n=164，8+164*14=2304 与文件长闭合	全类型共用
+docs/reference/formats/weapon-tables.md	Base +12 价格 133/136 相等、3 例外（fam 75/78/121）	UNVERIFIABLE	Base 记录无 fam/idx 键（+4 是名称串 id，+8 起是 01 08 03 等），w00 137 条 vs db 低段 11 行，无法按文档构造 136 样本	文档未给 Base 键规则，样本无法重建
+docs/reference/re-guide-gu.md	工具 .tmp/re-cli.mjs 与 flat bin 路径	OK	ls -la G:/omp works/.tmp/re-cli.mjs = 1947 B；.tmp/mhgu/extract/exefs-0eb5/main.140.flat.bin 25,472,632 B 存在	DOC-LINKS 判 MISSING 是误报（按 MHGU 仓库解析相对路径）
+docs/reference/re-guide-gu.md	emid→slot 六项（em001/002/010/016/023/024）	OK	monster-slot-map.json：1→0, 2→3, 10→9, 16→13, 23→21, 24→23 全部命中	
+docs/reference/re-guide-gu.md	thunk 0x2864c4 有 978 个静态调用点	OK	mhgu_re MCP calls_to 0x2864c4 → 「978 direct-call hit(s)」	
+docs/reference/re-example-dttune-consumer.md	loader 0x5776c/0x57774/0x57784/0x57788 的字节与 mnemonic	OK	mcp disasm 0x5776c：movw r1,#0x5444；0x57774 movt r1,#0x54；0x57778 cmps；0x57784 movw r1,#0xa06c；0x57788 movt r1,#0x133	版本 0x0133A06C 与 dttune.md 0x04 的 6c a0 33 01 一致
+docs/reference/re-example-dttune-consumer.md	getter 0x71078 = ldr r0,[r0,#0x75EC]; add r0,#100; bx lr	OK	mcp disasm 0x71078：e30715ec movw r1,#0x75ec；e7900001 ldr r0,[r0,r1]；e2800064 add r0,r0,#100；e12fff1e bx lr	
+docs/reference/re-example-dttune-consumer.md	0x1597ea4 的 137 对 {emid,slot}（1→0、0x201→1、2→3）	OK	read_words 0x1597ea4：1,0 / 0x201,1 / 0x401,2 / 2,3 / 0x202,4 / 0x402,5 / 3,6 / 8,7；与 monster-slot-map.json 137/137 相同	
+docs/reference/re-example-dttune-consumer.md	Rathian poison [180,600,5,3600,100,580] @0x35C	OK	读 em001_00_dttune.48e8ac29 偏移 0x35C 六个 u16 = 180,600,5,3600,100,580	
+docs/reference/re-example-dttune-consumer.md	死路扫描脚本 .tmp/scratch-t1/scan-{ldr,pair,add,acc,ldm,cp,tri,back,add2}.mjs	MISSING	G:/omp works/MHGU/.tmp 下只剩 mydocs.txt；.tmp/scratch-t1 不存在	属 scratch 写集；正文结论已用 exe 反汇编独立复现，不阻塞
+docs/reference/SUBAGENT-LEDGER.md	输出集 docs/analysis/code/tierb-pass3/tierB3-slice-NN.md	OK	目录实有 29 个文件（slice-01a..15c）	DOC-LINKS 的 MISSING 是文件名含字面 "NN" 占位导致，误报
+docs/reference/SUBAGENT-LEDGER.md	批次交付路径（member4-residual/social-checksum/tail-containers/write-side-desc/member14-17/palico-324/PROJECT-EVAL/item-box-v7-plugin-spec）	OK	逐个 [ -e ] 全部存在	9/9
+docs/reference/SUBAGENT-LEDGER.md	写集 .tmp/reports-mhgu/tierB-slice-NN.md 等	MISSING	.tmp/reports-mhgu 不存在	历史批次 scratch，记录用，不指向现存产物
+docs/reference/source-verification.md	agroff 832 个英文任务名 100% 命中 mhgu.db quests	OK	distinct title 832，db 命中 832，missing 0	
+docs/reference/source-verification.md	mhgu.db 多出 411 个任务	OK	1355-944=411；去重后 1243-832=411	
+docs/reference/source-verification.md	agroff 204 技能树 100% 命中 skill_trees（205）	OK	204 命中；db-only = 'Torso Up'	
+docs/reference/source-verification.md	规模 18MB/39 表、11MB、290 页/37MB	OK	18333696 B/39 表；du -shL docs/data/weapons 4.5M + armor 5.4M + 根 ~1.1M ≈ 11M；mhxx-wiki/text 290 个文件、data 37M	
+docs/reference/source-verification.md	「db 自带 name_ja + 多语言，可自动对齐」	WRONG	SQL：quests/items/skills/skill_trees 的 name_ja 全空（1355、21153、326、205）	只有 monsters.name_ja 是全的（129/129）；EN↔JA↔CN 不能靠 db 自动对齐
+docs/reference/suyu/README.md	kLookupCache=4096、64 是 kChainBudget	OK	grep：src/core/arm/recomp/arm_recomp32.cpp:1158 static constexpr size_t kLookupCache = 4096；:105 constexpr s32 kChainBudget = 64	
+docs/reference/suyu/internals.md	DOC-LINKS 判 MISSING 的 12 条路径（tools/a32recomp/README.md、a32_runtime.h、make_link_kit.py、a32cov.cpp、docs/a32recomp/README.md 等）	OK	全部位于 G:/omp works/.tmp/ext/SUYU-GURecomp：tools/a32recomp/{README.md,a32_runtime.h,make_link_kit.py,a32cov.cpp} 存在；docs/a32recomp/ 无 README.md——文档原文正是「No README.md in that folder」	扫描按 MHGU 仓库根解析相对路径，12 条 MISSING 均为误报
+docs/reference/suyu/internals.md	「then 64-entry direct-mapped lookup cache」	WRONG	实际 arm_recomp32.cpp:1158 kLookupCache = 4096（索引式子 (pc>>2)&(kLookupCache-1) 在 :1102/:1331）	其 review 第 1/2 条与 suyu/README.md 已纠正（64 = kChainBudget），按归档 README「冲突以复核为准」可直接用
+docs/reference/suyu/internals.md	a32_runtime.h 布局断言 ext@96 / pending_svc@364 / host@368	OK	grep _Static_assert tools/a32recomp/a32_runtime.h:49-51 三行完全一致	
+docs/reference/suyu/internals.md	「tools/a32recomp/README.md:70 no direct block-to-block chaining yet」	WRONG	该句实际在 tools/a32recomp/README.md 第 78 行（:70 是上一段）	其 review 的 25 条降级未含此条，属残余行号漂移
+docs/reference/suyu/internals-review.md	kLookupCache=4096 @:1158、kChainBudget=64 @:105	OK	grep 命中 src/core/arm/recomp/arm_recomp32.cpp:1158 / :105	复核对报告错误的纠正成立

@@ -1,0 +1,3 @@
+docs/PRIVATE-DATA.md
+docs/PROGRESS.md
+docs/README.md

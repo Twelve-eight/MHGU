@@ -1,0 +1,9 @@
+docs/mechanics/equipment.md
+docs/mechanics/monster-ai-params.md
+docs/mechanics/monster-classes.md
+docs/mechanics/monster-code-map.md
+docs/mechanics/monster-state-machine.md
+docs/mechanics/monsters.md
+docs/mechanics/quests.md
+docs/mechanics/skills-arts.md
+docs/mechanics/systems.md

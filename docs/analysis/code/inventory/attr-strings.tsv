@@ -1,0 +1,1213 @@
+start	label	conf	evidence
+0xf8c	online-nex	B	net/nex sdk "S0_11NetworkInfoERKNS0_14SecurityConfigERKNS0_10UserConfigEiNS0_13ConnectOptionE" (literal-pool pointer at 0x105c)
+0x1168	online-nex	B	net/nex sdk "_ZN2nn3ldn16GetNetworkConfigEPNS0_13NetworkConfigE" (literal-pool pointer at 0x1188)
+0x15e0	online-nex	B	pia/ldn sdk "ext15ImportServerPkiEPyPKcjNS0_17CertificateFormatE" (literal-pool pointer at 0x1604)
+0x16c4	filesystem	B	path template "root" (pc-relative load at 0x16dc)
+0x10680	ui	A	ui class "uUIFacility" (pc-relative load at 0x10b2c)
+0x140d4	unmatched	C	no attributable name; strings "cActivityBase"
+0x1d1ac	render-gfx	A	render class "ParticleGeneratorForce" (literal-pool pointer at 0x1d258)
+0x2a440	unmatched	C	no attributable name; strings "333?"
+0x2ae40	ui	A	ui class "KeyboardWindow" (literal-pool pointer at 0x2ae48)
+0x2b410	unmatched	C	no attributable name; strings "oPieceBase"
+0x2cd34	unmatched	C	no attributable name; strings "333?"
+0x2dab0	debug-dev	A	debug class "cDebugActionData" (pc-relative load at 0x2dcdc)
+0x2e808	online-nex	B	capcom server url "https://meteor.capcom.co.jp/SSL/3ds/mhxx/login_eu.cgi" (pc-relative load at 0x2e904)
+0x30b3c	item	A	item class "cDLCItemPackInfo" (pc-relative load at 0x30e54)
+0x344c4	online-nex	B	dlc record (download) "cDLCUpdateInfo" (pc-relative load at 0x349c8)
+0x3c874	unmatched	C	no attributable name; strings "%d/%d/%d"
+0x3f400	ui	B	ui/message string "updateInfo_jpn.gmd" (pc-relative load at 0x3f4bc)
+0x4a46c	monster-em	A	enemy class "cEnemyDebugSetData" (pc-relative load at 0x4a700)
+0x51904	monster-em	A	enemy move key "emsizetbl" (pc-relative load at 0x51938)
+0x51d70	monster-em	A	enemy move key "emyure" (pc-relative load at 0x51da4)
+0x52874	monster-em	A	enemy class "rEnemyDataTable" (pc-relative load at 0x52ba4)
+0x564bc	monster-em	A	enemy class "rEnemyNandoData" (pc-relative load at 0x58c74)
+0x5fcb4	unmatched	C	no attributable name; strings "ffF@"
+0x6b3fc	monster-em	A	enemy move key "emXXXFwMove" (pc-relative load at 0x6baf0)
+0x701a8	unmatched	C	no attributable name; closest string "eventSetChrError" (event/demo has no bucket)
+0xce160	item	A	item class "cAmuletBase" (pc-relative load at 0xce3cc)
+0xce780	item	A	item class "cAmuletSkillBase" (pc-relative load at 0xce8f4)
+0xced80	item	A	item class "cAmuletSlotBase" (pc-relative load at 0xcef50)
+0xd0124	weapon-wp	A	weapon/armor class "cArmorProcBase" (pc-relative load at 0xd063c)
+0xd175c	weapon-wp	A	weapon/armor class "cArmorBuildBase" (pc-relative load at 0xd1cbc)
+0xd2210	weapon-wp	A	weapon/armor class "cArmorColorBase" (pc-relative load at 0xd241c)
+0xd37d0	weapon-wp	A	weapon/armor class "cArmorResistBase" (pc-relative load at 0xd3e50)
+0xd43a4	weapon-wp	A	weapon/armor class "cArmorSeBase" (pc-relative load at 0xd45b0)
+0xd8804	weapon-wp	A	weapon/armor class "cArmorSeriesBase" (pc-relative load at 0xd9b14)
+0xd9de8	weapon-wp	A	weapon/armor class "cBowgunShellData" (pc-relative load at 0xda008)
+0xda8ec	item	A	item class "cEquipBaseColorData" (pc-relative load at 0xdaa88)
+0xeb890	weapon-wp	A	weapon/armor class "cInsectAbirity" (pc-relative load at 0xeba64)
+0xebe28	weapon-wp	A	weapon/armor class "cInsectAttr" (pc-relative load at 0xebf9c)
+0xec64c	weapon-wp	A	weapon/armor class "cInsectAttrFeed" (pc-relative load at 0xec8a4)
+0xedc70	weapon-wp	A	weapon/armor class "cInsectData" (pc-relative load at 0xee220)
+0xee464	weapon-wp	A	weapon/armor class "cInsectEssenceSkill" (pc-relative load at 0xee638)
+0xeea40	weapon-wp	A	weapon/armor class "cInsectGrowFeed" (pc-relative load at 0xeeb80)
+0xef0fc	weapon-wp	A	weapon/armor class "cInsectLevel" (pc-relative load at 0xef29c)
+0xef7c8	weapon-wp	A	weapon/armor class "cInsectParam" (pc-relative load at 0xef994)
+0xeff4c	weapon-wp	A	weapon/armor class "cKireajiBase" (pc-relative load at 0xf00d0)
+0xf0ab0	otomo-ot	A	otomo class "cOtArmorProcBase" (pc-relative load at 0xf0f68)
+0xf223c	otomo-ot	A	otomo class "cOtArmorBase" (pc-relative load at 0xf284c)
+0xf427c	weapon-wp	A	weapon/armor class "cRapidshotBase" (pc-relative load at 0xf449c)
+0xf4bfc	weapon-wp	A	weapon/armor class "cSquatshotBase" (pc-relative load at 0xf4eb8)
+0xf51e4	weapon-wp	A	weapon/armor class "cTameshotBase" (pc-relative load at 0xf54a0)
+0x126c14	online-nex	A	NEX "do+NEX_MM-4_4_0" (literal-pool pointer at 0x127320)
+0x127bb8	item	A	amulet table key "amlt" (pc-relative load at 0x127bec)
+0x12806c	item	A	amulet table key "amskl" (pc-relative load at 0x1280a0)
+0x1284cc	item	A	amulet table key "amslt" (pc-relative load at 0x128500)
+0x129ffc	audio	B	audio key/path "bgsd" (pc-relative load at 0x12a030)
+0x12a45c	unmatched	C	no attributable name; strings "ebcd"
+0x12b254	weapon-wp	A	insect(kinsect) table name "insectabirity" (pc-relative load at 0x12b740)
+0x12c01c	weapon-wp	A	insect(kinsect) table name "insectessenceskill" (pc-relative load at 0x12c988)
+0x12e4cc	weapon-wp	B	weapon table key "raps" (pc-relative load at 0x12e9bc)
+0x12f7ac	weapon-wp	A	weapon level-data key "w00d" (pc-relative load at 0x12f7e4)
+0x12fc84	weapon-wp	A	weapon level-data key "w00d" (pc-relative load at 0x12fcbc)
+0x13013c	weapon-wp	B	weapon table key "w00m" (pc-relative load at 0x130170)
+0x130610	weapon-wp	A	weapon level-data key "w01d" (pc-relative load at 0x130648)
+0x130ae8	weapon-wp	A	weapon level-data key "w01d" (pc-relative load at 0x130b20)
+0x130fa0	weapon-wp	B	weapon table key "w01m" (pc-relative load at 0x130fd4)
+0x131474	weapon-wp	A	weapon level-data key "w02d" (pc-relative load at 0x1314ac)
+0x13194c	weapon-wp	A	weapon level-data key "w02d" (pc-relative load at 0x131984)
+0x131e04	weapon-wp	B	weapon table key "w02m" (pc-relative load at 0x131e38)
+0x1322d8	weapon-wp	A	weapon level-data key "w03d" (pc-relative load at 0x132310)
+0x1327b0	weapon-wp	A	weapon level-data key "w03d" (pc-relative load at 0x1327e8)
+0x132c68	weapon-wp	B	weapon table key "w03m" (pc-relative load at 0x132c9c)
+0x13313c	weapon-wp	A	weapon level-data key "w04d" (pc-relative load at 0x133174)
+0x133610	weapon-wp	A	weapon level-data key "w04d" (pc-relative load at 0x133648)
+0x133ac8	weapon-wp	B	weapon table key "w04m" (pc-relative load at 0x133afc)
+0x133f9c	weapon-wp	A	weapon level-data key "w06d" (pc-relative load at 0x133fd4)
+0x134470	weapon-wp	A	weapon level-data key "w06d" (pc-relative load at 0x1344a8)
+0x134928	weapon-wp	B	weapon table key "w06m" (pc-relative load at 0x13495c)
+0x134dfc	weapon-wp	A	weapon level-data key "w07d" (pc-relative load at 0x134e34)
+0x1352d4	weapon-wp	A	weapon level-data key "w07d" (pc-relative load at 0x13530c)
+0x13578c	weapon-wp	B	weapon table key "w07m" (pc-relative load at 0x1357c0)
+0x135c60	weapon-wp	A	weapon level-data key "w08d" (pc-relative load at 0x135c98)
+0x136138	weapon-wp	A	weapon level-data key "w08d" (pc-relative load at 0x136170)
+0x1365f0	weapon-wp	B	weapon table key "w08m" (pc-relative load at 0x136624)
+0x136ac4	weapon-wp	A	weapon level-data key "w09d" (pc-relative load at 0x136afc)
+0x136f9c	weapon-wp	A	weapon level-data key "w09d" (pc-relative load at 0x136fd4)
+0x137454	weapon-wp	B	weapon table key "w09m" (pc-relative load at 0x137488)
+0x137928	weapon-wp	A	weapon level-data key "w10d" (pc-relative load at 0x137960)
+0x137e00	weapon-wp	A	weapon level-data key "w10d" (pc-relative load at 0x137e38)
+0x1382b8	weapon-wp	B	weapon table key "w10m" (pc-relative load at 0x1382ec)
+0x13878c	weapon-wp	A	weapon level-data key "w11d" (pc-relative load at 0x1387c4)
+0x138c64	weapon-wp	A	weapon level-data key "w11d" (pc-relative load at 0x138c9c)
+0x13911c	weapon-wp	B	weapon table key "w11m" (pc-relative load at 0x139150)
+0x1395f0	weapon-wp	A	weapon level-data key "w12d" (pc-relative load at 0x139628)
+0x139ac8	weapon-wp	A	weapon level-data key "w12d" (pc-relative load at 0x139b00)
+0x139f80	weapon-wp	B	weapon table key "w12m" (pc-relative load at 0x139fb4)
+0x13a454	weapon-wp	A	weapon level-data key "w13d" (pc-relative load at 0x13a48c)
+0x13a92c	weapon-wp	A	weapon level-data key "w13d" (pc-relative load at 0x13a964)
+0x13ade4	weapon-wp	B	weapon table key "w13m" (pc-relative load at 0x13ae18)
+0x13b2b8	weapon-wp	A	weapon level-data key "w14d" (pc-relative load at 0x13b2f0)
+0x13b790	weapon-wp	A	weapon level-data key "w14d" (pc-relative load at 0x13b7c8)
+0x13bc48	weapon-wp	B	weapon table key "w14m" (pc-relative load at 0x13bc7c)
+0x14d408	filesystem	B	path/loader "movie\movie" (pc-relative load at 0x14d448)
+0x14ff70	kernel-os	B	nn::ro module enums "TEMPORARY_APP" (pc-relative load at 0x14ffa8)
+0x151ccc	unmatched	C	no attributable name; strings "Unit"
+0x15555c	render-gfx	A	render class "cGuestEffectiveAttr" (pc-relative load at 0x15587c)
+0x15893c	unmatched	C	no attributable name; strings "cGuestRemData"
+0x169d44	physics-math	A	collision class "MhHitObj" (pc-relative load at 0x169e84)
+0x17a884	online-nex	B	net/nex sdk "19RelayRouteManageJobE" (literal-pool pointer at 0x17b49c)
+0x17bdfc	unmatched	C	no attributable name; strings "MgrE"
+0x17c454	online-nex	B	nex type fragment "ypeInfo4RootE" (literal-pool pointer at 0x17c4cc)
+0x17c9d0	online-nex	B	pia/ldn sdk "3pia5local14LdnSessionInfoE" (literal-pool pointer at 0x17c9dc)
+0x17cbf0	online-nex	B	net/nex sdk "ManagementJobE" (literal-pool pointer at 0x17ce34)
+0x17d7d8	online-nex	B	net/nex sdk "NetworkFactoryE" (literal-pool pointer at 0x17d874)
+0x17dfb4	online-nex	B	net/nex sdk "AdaptorINS0_25DataStoreApiVersionTraitsILNS0_21DATASTORE_API_VERSIONE0EEEEE" (literal-pool pointer at 0x17e034)
+0x17e6bc	online-nex	A	NEX "3nex30_DDL_DataStoreSpecificMetaInfoE" (literal-pool pointer at 0x17e720)
+0x17ea00	unmatched	C	no attributable name; strings "ngInfoE"
+0x17fa4c	online-nex	A	NEX "3nex20PseudoGlobalVariableINS0_22UtilityDDLDeclarationsEEE" (literal-pool pointer at 0x17fa60)
+0x17fc78	online-nex	A	NEX "3nex20PseudoGlobalVariableINS0_39AccountManagementServiceDDLDeclarationsEEE" (literal-pool pointer at 0x17fd00)
+0x17ff74	online-nex	A	NEX "N2nn3nex15BackEndServicesE" (literal-pool pointer at 0x18008c)
+0x181290	unmatched	C	no attributable name; strings "lClientE"
+0x1812cc	online-nex	A	NEX "3nex21_DDL_DynamicGatheringE" (literal-pool pointer at 0x181324)
+0x1815a4	online-nex	B	net/nex sdk "S0_7qVectorINS1_INS0_12SocketDriver6SocketEEEEEEE" (literal-pool pointer at 0x181770)
+0x1819b8	online-nex	A	NEX "N2nn3nex20PacketBufferPacketInE" (literal-pool pointer at 0x181bcc)
+0x181ef0	online-nex	B	nex type fragment "10LiteBufferILj16EEE" (literal-pool pointer at 0x181f5c)
+0x182374	online-nex	A	NEX "N2nn3nex19ConnectivityManagerE" (literal-pool pointer at 0x18248c)
+0x182b30	online-nex	B	net/nex sdk "22KeyedChecksumAlgorithmE" (literal-pool pointer at 0x182d44)
+0x183d3c	online-nex	B	nex type fragment "reamSettingsE" (literal-pool pointer at 0x184094)
+0x184140	unmatched	C	no attributable name; strings "nPPropertiesE"
+0x18417c	unmatched	C	no attributable name; strings "ecInfE"
+0x1848f8	unmatched	C	no attributable name; strings "edulerE"
+0x18bb60	item	A	item class "cMix" (pc-relative load at 0x18bf64)
+0x18e07c	item	A	item class "cMixList" (pc-relative load at 0x18e428)
+0x18ecb0	otomo-ot	A	otomo class "cOtodokeConditionList" (pc-relative load at 0x18eed4)
+0x18f998	otomo-ot	A	otomo class "cOtodokeSetList" (pc-relative load at 0x18fcd4)
+0x191bd4	item	B	item/skill table key "deco" (pc-relative load at 0x191c0c)
+0x193e38	unmatched	C	no attributable name; strings "?@-BC0DE6FG3HI"
+0x198824	unmatched	C	no attributable name; strings "_rabbitid"
+0x19a5d4	item	A	item class "mItemMySet[i]" (pc-relative load at 0x19a678)
+0x19e108	item	A	item class "mItemPouch[i]" (pc-relative load at 0x19e130)
+0x19e794	item	A	item class "cKitchenListGrillItem" (pc-relative load at 0x19ea04)
+0x19fbd0	ui	A	ui class "cKitchenListMenu" (pc-relative load at 0x1a0160)
+0x1a0438	item	B	item/skill table key "cKitchenListSkillAlcohol" (pc-relative load at 0x1a0658)
+0x1a0930	item	B	item/skill table key "cKitchenListSkillRandom" (pc-relative load at 0x1a0b50)
+0x1a0fec	item	B	item/skill table key "cKitchenListSkillSet" (pc-relative load at 0x1a114c)
+0x1a14bc	item	B	item/skill table key "cKitchenListSuccessTable1" (pc-relative load at 0x1a1750)
+0x1a1ac4	item	B	item/skill table key "cKitchenListSuccessTable2" (pc-relative load at 0x1a1d58)
+0x1a20cc	item	B	item/skill table key "cKitchenListSuccessTable3" (pc-relative load at 0x1a2360)
+0x1a4ed8	unmatched	C	no attributable name; strings "#`#`#`#`"
+0x1a52c0	unmatched	C	no attributable name; strings "'\'\'\'\'\'\8""+1';%B$G#J#M#O#Q#R#S#T#U#V#V#W#X#X#X#X|*Y)Z)Z(['\'\'\'\"
+0x1a57ec	unmatched	C	no attributable name; strings "#\#X#S#M#I#E#A$=$;$8%5%3%1&/&-';'*(((((&"
+0x1a58c8	unmatched	C	no attributable name; strings "';'*(((("
+0x1a5a04	unmatched	C	no attributable name; strings "(((&"
+0x1a8700	unmatched	C	no attributable name; strings "*W*W*W+U.S.S.S.S.S.P0O1O1O1O1O1O|*U-S.S.S.S.R/O1O1O1O1O1O1O1O|1N1L"
+0x1aa108	unmatched	C	no attributable name; strings "`#`#`#`#"
+0x1aa5f4	unmatched	C	no attributable name; strings ".S.S.S.R/O1O1O1O1O1O1O1O|`#`#`#`#`#`#`#`#`#`#`#`#`#`#`#`#"
+0x1aa898	unmatched	C	no attributable name; strings "6$8$9$:$`#`#`#`#`#`#`#`#`#`#`#`#`#`#`#`#`#`#`#`#"
+0x1aab28	unmatched	C	no attributable name; strings "5J5J|F#H#`#`#`#`#`#`#`#`#`#`#`#`#`#`#`#`#`#`#`#`#|`#`#`#`#`#`#`#`#`#`#"
+0x1ab510	unmatched	C	no attributable name; strings "1N2K3J5J5I5H5F7F8F9F9F9F9F9F9F9E|6F8F9F9F|:;;-<.;.;/;0"
+0x1abb8c	unmatched	C	no attributable name; strings "9C9C9B:B"
+0x1ac9a8	unmatched	C	no attributable name; strings "3%3%`#`#`#`#`#`#`#`#`#`#`#`#`#`#`#`#`#`#`#`#"
+0x1aca28	unmatched	C	no attributable name; strings "`#`#`#`#`#`#`#`#`#`#"
+0x1ad850	unmatched	C	no attributable name; strings "`#`#`#`#`#`#`#`#"
+0x1aeca4	unmatched	C	no attributable name; strings "O1O1"
+0x1aef00	unmatched	C	no attributable name; strings "2&0&.';(*(()'*%*%+#+"
+0x1afd60	unmatched	C	no attributable name; strings "/</<0=1>2>2>\(V-R1O3N5K6J7J8I9G9F9F9F9F:F:F;F<F<F=E=|BABABABABABA"
+0x1b0788	unmatched	C	no attributable name; strings "DFCDCCBCBBBABABABABABABABABABABABABA|O2O4"
+0x1b16cc	unmatched	C	no attributable name; strings "Q1O2O3M5K5J5J5J7J8I9H9G9F9F9F9F9"
+0x1b1afc	unmatched	C	no attributable name; strings "!""!""!""!""!""!""!""!""!""!""|!:"":$:%:&;'<(<)<*<*<^&Z)W;S.S0P1O1O3N4"
+0x1b1cc0	unmatched	C	no attributable name; strings "Y1O8K:H;G<F<E=E=D=C=C=B=B=B=B=B=B=B=B=B="
+0x1b39f4	unmatched	C	no attributable name; strings "+++*+(*(((((!""!""!""!""!""!""!""!""!""!""!""!""!""!""!""!""!""!""!""!"
+0x1b3d18	unmatched	C	no attributable name; strings "*((((((')'''!""!""!""!""!""!""!""!""!""!""!""!""!""!""!""!""!""!""!""!"
+0x1b4ce8	unmatched	C	no attributable name; strings " e e d!a#`#`#`#_|%&%''''''('((((((((*|&%%%%$%$%$$$$$$$!""!""!""!""!""!"
+0x1b53b4	unmatched	C	no attributable name; strings "B=B=B=A=B=B=B=B=""""""""""##$#$$%%%%'&''(&(((()(+)++++++-+-;-"
+0x1b5580	unmatched	C	no attributable name; strings "B=B=B=A=B=B=B=B=B=B=B=A=B=B=B=B=!""""""""""""####$#$$$$%%%%&%''''''('("
+0x1b5b4c	unmatched	C	no attributable name; strings "A=B=B=A=B=B=B=A=B=B=B=B=B=B=B=A=B=B=B=B=""""""##$$%%'&(&((*(+*++-*-;--"
+0x1b600c	unmatched	C	no attributable name; strings "+++-+-;----/-0-0|/L1J2I3H4H5G5F6F6E7E8E8E9D9D"
+0x1b6ff8	unmatched	C	no attributable name; strings "'\'\'['Y| e b""`#`#`#_$\&\"
+0x1b73cc	unmatched	C	no attributable name; strings "B=A=B=B=B=B=!""""##$#$$%%'%''('((*(+)++++-+-;----/-0-0"
+0x1b7784	unmatched	C	no attributable name; strings " e b#`#`#]%\'\'\'Y(W*W*W"
+0x1b79b4	unmatched	C	no attributable name; strings "B=B=B=B=B=B=B=A=B=B=B=B=""""""""""##$$%$%%&%''''(((()(+)++++;+-+-----"
+0x1b7b24	unmatched	C	no attributable name; strings "(+*-*-;.-0-0.001020303132334|A=A=B=A=B=B=B=A=B=B=B=B=B=B=B=A=B=B=B=B=""
+0x1b8218	unmatched	C	no attributable name; strings "B=A=B=B=B=B=""##%$'%('*(;*-+.;/-0.1/20203132334353636"
+0x1bbe04	otomo-ot	A	otomo class "nMonNyanEvent::cEventDataSendTo" (pc-relative load at 0x1bc53c)
+0x1bcf80	otomo-ot	A	otomo class "cMonNyanAdventItem" (pc-relative load at 0x1bd17c)
+0x1bd8e4	otomo-ot	A	otomo class "cMonNyanCirclePattern" (pc-relative load at 0x1bdc28)
+0x1bdd94	unmatched	C	no attributable name; strings "d#a#`#`%^'\'\'\([*Y*"
+0x1bdf9c	otomo-ot	A	otomo class "cMonNyanCommonMaterial" (pc-relative load at 0x1be11c)
+0x1be62c	otomo-ot	A	otomo class "cMonNyanExp" (pc-relative load at 0x1be7f4)
+0x1be908	unmatched	C	no attributable name; strings "P2O3O4N5M5L5K5J6"
+0x1bf028	otomo-ot	A	otomo class "cMonNyanLotAdvent" (pc-relative load at 0x1bf318)
+0x1bfb4c	otomo-ot	A	otomo class "cMonNyanLotCommon" (pc-relative load at 0x1bfe3c)
+0x1bffb4	unmatched	C	no attributable name; strings "B=B=B=B=B=A=B=B=B=B="
+0x1c12dc	otomo-ot	A	otomo class "cMonNyanLotEnemy" (pc-relative load at 0x1c1908)
+0x1c26bc	otomo-ot	A	otomo class "cMonNyanReward" (pc-relative load at 0x1c2b34)
+0x1c3fcc	otomo-ot	A	otomo class "cMonNyanRewardEnemy" (pc-relative load at 0x1c4624)
+0x1c4738	unmatched	C	no attributable name; strings "B=B=B=B="
+0x1c4998	otomo-ot	A	otomo class "cMonNyanRewardSecret" (pc-relative load at 0x1c4b18)
+0x1c5034	otomo-ot	A	otomo class "cMonNyanVillagePoint" (pc-relative load at 0x1c51a0)
+0x1cd470	unmatched	C	no attributable name; strings "cMediate"
+0x214d2c	online-nex	B	shared (network) player param "mShareParam.guildCardId[i]" (pc-relative load at 0x2152cc)
+0x2346a8	quest	B	npc data (village) "cNpcBaseData" (pc-relative load at 0x234ae0)
+0x236258	quest	B	npc data (village) "cNpcBaseData_ID" (pc-relative load at 0x2369b0)
+0x236d50	quest	B	npc data (village) "cNpcBaseData_Mdl" (pc-relative load at 0x236ea8)
+0x2374f0	quest	B	npc data (village) "cNpcInitScript" (pc-relative load at 0x237850)
+0x237cc4	quest	B	npc data (village) "cNpcLocateData" (pc-relative load at 0x237e78)
+0x2383b0	quest	B	npc data (village) "cNpcMoveData" (pc-relative load at 0x238528)
+0x238a6c	quest	B	npc data (village) "cNpcSubData" (pc-relative load at 0x238c70)
+0x239ee0	quest	B	npc data (village) "cNpcTalkData" (pc-relative load at 0x23a47c)
+0x23a814	quest	B	npc data (village) "cSansaijijiExchange" (pc-relative load at 0x23a968)
+0x23ac70	quest	B	npc data (village) "cSansaijijiPresent" (pc-relative load at 0x23aeb8)
+0x23b26c	unmatched	C	no attributable name; strings "cSpActData"
+0x23b81c	quest	B	npc data (village) "npcBd" (pc-relative load at 0x23b854)
+0x23bca0	quest	B	npc data (village) "npcId" (pc-relative load at 0x23bcd8)
+0x23c110	quest	B	npc data (village) "npcMdl" (pc-relative load at 0x23c144)
+0x23ce90	quest	B	npc data (village) "npcMd" (pc-relative load at 0x23cec8)
+0x23d314	quest	B	npc data (village) "npcSd" (pc-relative load at 0x23d34c)
+0x23dc10	quest	B	npc data (village) "ssjje" (pc-relative load at 0x23dc48)
+0x23e074	quest	B	npc data (village) "ssjjp" (pc-relative load at 0x23e0a8)
+0x24834c	quest	B	npc data path "table\npc\script\npc_%03d_td_jpn" (pc-relative load at 0x248384)
+0x24e528	otomo-ot	A	otomo class "cOtLevel" (pc-relative load at 0x24e790)
+0x24efd0	otomo-ot	A	otomo class "cOtMessageLot" (pc-relative load at 0x24f1f4)
+0x250c98	otomo-ot	A	otomo class "cOtSkill" (pc-relative load at 0x250eb4)
+0x251334	otomo-ot	A	otomo class "cOtSpecialAction" (pc-relative load at 0x2514fc)
+0x251f1c	otomo-ot	A	otomo class "cOtSupportActionBase" (pc-relative load at 0x252258)
+0x252ed4	otomo-ot	A	otomo class "cOtSupportActionOtUnique" (pc-relative load at 0x2532d8)
+0x25382c	otomo-ot	A	otomo class "cOtTensionData" (pc-relative load at 0x253a38)
+0x253ed8	otomo-ot	A	otomo class "cOtTrainParam" (pc-relative load at 0x254030)
+0x254594	otomo-ot	B	otomo table key "olvl" (pc-relative load at 0x2545cc)
+0x254a18	otomo-ot	B	otomo table key "otml" (pc-relative load at 0x254a50)
+0x254e98	otomo-ot	B	otomo table key "oxpb" (pc-relative load at 0x254ed0)
+0x2552fc	otomo-ot	B	otomo table key "oxpv" (pc-relative load at 0x255330)
+0x255768	otomo-ot	B	otomo table key "oskl" (pc-relative load at 0x25579c)
+0x256560	otomo-ot	B	otomo table key "saou" (pc-relative load at 0x256598)
+0x26a41c	player-pl	A	player class "cAlchemyData" (pc-relative load at 0x26a6a8)
+0x26ab70	monster-em	A	enemy class "cAngryParam" (pc-relative load at 0x26acf0)
+0x26c86c	unmatched	C	no attributable name; strings "CmdBase|resource"
+0x26dfc4	otomo-ot	B	otomo table key "cSupportGaugeValue" (pc-relative load at 0x26e170)
+0x2709e0	monster-em	B	enemy param/act key "angryprm" (pc-relative load at 0x270a18)
+0x270fa0	player-pl	A	player table key "pldummyact" (pc-relative load at 0x2714bc)
+0x271970	player-pl	A	player table key "plgmktype" (pc-relative load at 0x2719a8)
+0x271f70	player-pl	A	player table key "plpartsdisp" (pc-relative load at 0x27260c)
+0x2731b4	player-pl	A	player table key "plbasecmd" (pc-relative load at 0x273234)
+0x2733a4	player-pl	A	player table key "plcmdtbllist" (pc-relative load at 0x273678)
+0x273ac4	player-pl	A	player table key "spval" (pc-relative load at 0x273afc)
+0x2a4324	unmatched	C	no attributable name; strings "response.|here"
+0x2a69dc	unmatched	C	no attributable name; strings "soon"
+0x2a7688	unmatched	C	no attributable name; strings " open/read local data from file/application"
+0x2a784c	online-nex	B	libcurl error text " asked for PAUSE when not supported!" (literal-pool pointer at 0x2a7a88)
+0x2a81dc	online-nex	B	libcurl error text "t after %ld milliseconds with %lld bytes received" (literal-pool pointer at 0x2a8300)
+0x2a84d8	unmatched	C	no attributable name; strings "d:%255s"
+0x2a86b4	render-gfx	B	shader api "SAMPLER_2D_MULTISAMPLE_ARRAY" (literal-pool pointer at 0x2a8734)
+0x2a8aa8	render-gfx	B	texture dimension enum "CUBE" (literal-pool pointer at 0x2a8ae8)
+0x2aa070	online-nex	B	nex type fragment "endJoinResponse" (literal-pool pointer at 0x2aa0b0)
+0x2aa660	online-nex	B	net/nex sdk "shJob::StartConnectingToHost" (literal-pool pointer at 0x2aa7a4)
+0x2aac98	online-nex	B	net/nex sdk "groundJob::AllowParticipating" (literal-pool pointer at 0x2aaca4)
+0x2ac4bc	online-nex	B	net/nex sdk "tchmakeSystemPasswordJob::FailureProcess" (literal-pool pointer at 0x2ac538)
+0x2ae238	online-nex	B	net/nex sdk "SessionEvent" (literal-pool pointer at 0x2ae3f4)
+0x2ae7f8	online-nex	B	net/nex sdk "ex(ProtocolCallContext*;const String&;const ResultRange&;qList<GatheringHolder>*)"
+0x2aeea0	online-nex	B	net/nex sdk "lBackgroundProcessJob::DisconnectNetwork" (literal-pool pointer at 0x2aefdc)
+0x2b290c	online-nex	B	pia/ldn sdk "and nn::os::SystemEvent::Wait()" (literal-pool pointer at 0x2b2914)
+0x2b2928	online-nex	B	pia/ldn sdk "lse. Call nn::account::Cancel() and nn::os::SystemEvent::Wait()" (literal-pool pointer at 0x2b2934)
+0x2b2fbc	unmatched	C	no attributable name; strings "wMove"
+0x2b33b4	unmatched	C	no attributable name; strings "SBMGMT"
+0x2b36d0	online-nex	B	net/nex sdk "SafeTransportBuffer" (literal-pool pointer at 0x2b36d8)
+0x2b3d50	kernel-os	B	runtime lib "TimeProvider" (literal-pool pointer at 0x2b3d58)
+0x2b40ac	online-nex	B	net/nex sdk "eLounge::AccessError" (literal-pool pointer at 0x2b40b4)
+0x2b450c	unmatched	C	no attributable name; strings "ermissionDenied"
+0x2b4cf8	online-nex	B	net/nex sdk "zVous::MatchmakingWithdrawn" (literal-pool pointer at 0x2b4d00)
+0x2b5104	unmatched	C	no attributable name; strings "dGID"
+0x2b5888	online-nex	B	net/nex sdk "re::InvalidLockState" (literal-pool pointer at 0x2b5890)
+0x2b5c90	unmatched	C	no attributable name; strings "owed"
+0x2b6418	unmatched	C	no attributable name; strings "far back"
+0x2b6894	unmatched	C	no attributable name; strings "i_move"
+0x2b8ac8	render-gfx	B	gfx/scene member "IDNum" (literal-pool pointer at 0x2b92f0)
+0x2ba82c	render-gfx	B	model skeleton property "mTargetJointNo" (literal-pool pointer at 0x2bad68)
+0x2bb164	render-gfx	B	shader api "ST_ALPHA" (literal-pool pointer at 0x2bb6fc)
+0x2bb990	unmatched	C	no attributable name; strings "bReqType"
+0x2bc928	render-gfx	B	gfx state/property "tingDiffuseLuminanceThreshold" (literal-pool pointer at 0x2bcad4)
+0x2bcfd0	unmatched	C	no attributable name; strings "f/255.0f)) / (1.001f - (%s * (1.0f/255.0f))))"
+0x2bde24	render-gfx	B	shader api "::GROUP_CPU" (literal-pool pointer at 0x2be250)
+0x2bf848	render-gfx	B	shader/vertex declaration semantic ";float s%d : INDEX"
+0x2bfa0c	render-gfx	B	shader api "SV_InstanceID" (literal-pool pointer at 0x2bfac0)
+0x2c0020	unmatched	C	no attributable name; strings "gActive"
+0x2c0580	render-gfx	B	shader api "TIALIAS_MSAA4X" (literal-pool pointer at 0x2c0670)
+0x2c071c	render-gfx	A	render class "GeneratorLitePolygon" (literal-pool pointer at 0x2c07a4)
+0x2c0e50	unmatched	C	no attributable name; strings "thFinding::TraceManagement"
+0x2c1780	unmatched	C	no attributable name; strings "eight"
+0x2c1a88	unmatched	C	no attributable name; strings "Object"
+0x2c1b80	unmatched	C	no attributable name; strings "id Message"
+0x2c7d58	render-gfx	B	shader api "vnCommandBufferResumeTransformFeedback" (literal-pool pointer at 0x2c7d58)
+0x2e115c	unmatched	C	no attributable name; strings "temId[7]"
+0x2e1e8c	unmatched	C	no attributable name; strings "temHoldStat|_ok_flag"
+0x2e2c64	weapon-wp	B	truncated cKireajiBase "eajiBase" (literal-pool pointer at 0x2e4870)
+0x2e491c	unmatched	C	no attributable name; strings "mAttrRegion"
+0x2e778c	unmatched	C	no attributable name; strings "nt[8]"
+0x2e8458	unmatched	C	no attributable name; strings "Map02"
+0x2e8c24	unmatched	C	no attributable name; strings "sxdigit"
+0x2e91fc	online-nex	B	pia/ldn sdk "nn3ldn12CloseStationEv" (literal-pool pointer at 0x2e924c)
+0x2e959c	online-nex	B	net/nex sdk "eeAddrInfoEP8addrinfo" (literal-pool pointer at 0x2e96a8)
+0x2e9720	online-nex	B	net/nex sdk "NtoaE7in_addr" (literal-pool pointer at 0x2e9730)
+0x2f0f04	unmatched	C	no attributable name; strings "ofanityFilter17GetContentVersionEv"
+0x2f1918	unmatched	C	no attributable name; strings "set8|of_rangeEv"
+0x2f64dc	unmatched	C	no attributable name; strings " to a build-time decision."
+0x2f7cec	render-gfx	B	shader api "GLSLC_PIQ_TYPE_BVEC4" (literal-pool pointer at 0x2f7d88)
+0x301890	unmatched	C	no attributable name; strings "i_move"
+0x3031b8	unmatched	C	no attributable name; strings "a7_gitai_Change"
+0x303c10	online-nex	B	network member name "Network::nRanking::Object" (literal-pool pointer at 0x304f7c)
+0x307c8c	unmatched	C	no attributable name; strings "eMatrix|Type|eltaTimeScale|meraVibrationEnable"
+0x30a8b0	render-gfx	B	gfx state/property "ialiasedLineEnable = " (literal-pool pointer at 0x30b0a0)
+0x30cbfc	render-gfx	B	gfx state/property "askBlendFactor" (literal-pool pointer at 0x30d898)
+0x310150	unmatched	C	no attributable name; strings "rgetView|asis|Target|umulationTrans0|eratorTrail"
+0x310e4c	unmatched	C	no attributable name; strings "nding|ISvDynamicPathFinding::TraceManagement|::Group|vWayPathTrace|oin"
+0x311be0	physics-math	B	physics property "ipulate EffectorRot" (literal-pool pointer at 0x3123c0)
+0x312ab4	render-gfx	B	gfx state/property "terFogColor" (literal-pool pointer at 0x313210)
+0x313530	physics-math	B	physics property "SbRayPower0" (literal-pool pointer at 0x313aa4)
+0x3141bc	render-gfx	B	model skeleton property "AnkleAdjust" (literal-pool pointer at 0x31492c)
+0x3157cc	unmatched	C	no attributable name; strings "tionNoise|uction|pFactor|nsitivity|tCurve|mmyZ|LogScene16|LogScene|loo"
+0x316830	physics-math	B	physics property ".mConstantExforce" (literal-pool pointer at 0x31739c)
+0x31769c	render-gfx	B	gfx state/property "LODLowDist" (literal-pool pointer at 0x317948)
+0x317a70	unmatched	C	no attributable name; strings "UnitGroup|NGWordList|gMarkerStatic"
+0x319edc	unmatched	C	no attributable name; strings "tAdvancedOverlap"
+0x324588	unmatched	C	no attributable name; strings "008::cSetupParamPl_com_008"
+0x326ec4	unmatched	C	no attributable name; strings "age_fre"
+0x32a4c4	unmatched	C	no attributable name; strings "ype[2]"
+0x32b834	unmatched	C	no attributable name; strings "t[37]|aponPreview"
+0x3562f8	unmatched	C	no attributable name; strings "cBui"
+0x361c34	quest	B	quest data class/key "cFishData" (pc-relative load at 0x362278)
+0x362438	unmatched	C	no attributable name; strings "mRewardTable[0]|resource|mRewardTable[1]|mRewardTable[2]|mRewardTable["
+0x362cd8	quest	B	quest data class/key "cFreeHuntData" (pc-relative load at 0x362fc8)
+0x370a4c	ui	B	ui/message string "mMessage_eng" (pc-relative load at 0x374f2c)
+0x37d464	unmatched	C	no attributable name; strings "cRem"
+0x3811f4	unmatched	C	no attributable name; strings "mResource[0]|resource|mResource[1]|mResource0|mResource[2]"
+0x381738	unmatched	C	no attributable name; strings "cResourceSample"
+0x382ffc	unmatched	C	no attributable name; strings "UKA<2_UF<7|_UF<7"
+0x3918f8	monster-em	A	enemy class "cSetEmMain" (pc-relative load at 0x391d60)
+0x396e40	item	A	item class "cSupplyList" (pc-relative load at 0x3985e4)
+0x39cadc	item	B	item/skill table key "rspl" (pc-relative load at 0x39cfc0)
+0x3b651c	online-nex	B	session member flag "mMemberIndex" (pc-relative load at 0x3b70e4)
+0x3c7b7c	monster-em	A	enemy class "rDebugAtkActSet" (pc-relative load at 0x3cae48)
+0x3cb008	unmatched	C	no attributable name; strings "Path|resource"
+0x3cb8d8	unmatched	C	no attributable name; strings "rFreeUseParam"
+0x3cc6ec	quest	B	quest data class/key "rMapTimeData" (pc-relative load at 0x3cc8f8)
+0x3ce060	quest	B	quest data class/key "rPointPos" (pc-relative load at 0x3ce708)
+0x3d09dc	quest	B	quest data class/key "cCommonScript" (pc-relative load at 0x3d0c18)
+0x3d0fd4	save-data	B	save-block flag name "[OTOMO_EXERCISE]" (pc-relative load at 0x3d11a0)
+0x3d15a4	save-data	B	save-block flag name "[PL_POS]" (pc-relative load at 0x3d16b4)
+0x3d17f8	save-data	B	save-block flag name "commonScriptEnum" (pc-relative load at 0x3d6258)
+0x3d7498	quest	B	npc data (village) "on_start_village" (pc-relative load at 0x3d7508)
+0x3d8154	quest	B	npc data (village) "setup_npc_multiple_talk" (pc-relative load at 0x3d823c)
+0x3d8a4c	filesystem	B	xml file name "vini2.xml" (pc-relative load at 0x3d968c)
+0x3d9974	filesystem	B	xml file name "vini2.xml" (pc-relative load at 0x3d9990)
+0x3de064	unmatched	C	no attributable name; strings "sFestaPad::cFestaData"
+0x3e6434	unmatched	C	no attributable name; strings "system"
+0x3ea1d4	unmatched	C	no attributable name; strings "undefined"
+0x3f9018	filesystem	B	path/loader "_jpn" (pc-relative load at 0x3f9034)
+0x3f9114	filesystem	B	path/loader "_jpn" (pc-relative load at 0x3f9130)
+0x48b164	render-gfx	A	render class "rShellEffectParam" (pc-relative load at 0x48b6dc)
+0x4a8fac	weapon-wp	A	weapon/armor class "cArmorCreateData" (pc-relative load at 0x4a9420)
+0x4aa280	weapon-wp	A	weapon/armor class "cArmorProcessData" (pc-relative load at 0x4aa608)
+0x4aaa3c	item	A	item class "cCoinTradeList" (pc-relative load at 0x4aabfc)
+0x4ab40c	item	A	item class "cDecoCreateData" (pc-relative load at 0x4ab6b4)
+0x4ae100	quest	B	npc data path "npc\mot\lpet_y_s" (pc-relative load at 0x4ae2d4)
+0x4b0d30	weapon-wp	A	weapon/armor class "cEquipShopListA00" (pc-relative load at 0x4b0ec8)
+0x4b1234	weapon-wp	A	weapon/armor class "cEquipShopListW00" (pc-relative load at 0x4b13cc)
+0x4b1738	weapon-wp	A	weapon/armor class "cEquipShopListW01" (pc-relative load at 0x4b18d0)
+0x4b1c3c	weapon-wp	A	weapon/armor class "cEquipShopListW02" (pc-relative load at 0x4b1dd4)
+0x4b2140	weapon-wp	A	weapon/armor class "cEquipShopListW03" (pc-relative load at 0x4b22d8)
+0x4b2644	weapon-wp	A	weapon/armor class "cEquipShopListW04" (pc-relative load at 0x4b27dc)
+0x4b2b94	weapon-wp	A	weapon/armor class "cEquipShopListW06" (pc-relative load at 0x4b2ce0)
+0x4b304c	weapon-wp	A	weapon/armor class "cEquipShopListW07" (pc-relative load at 0x4b31e4)
+0x4b3550	weapon-wp	A	weapon/armor class "cEquipShopListW08" (pc-relative load at 0x4b36e8)
+0x4b3a54	weapon-wp	A	weapon/armor class "cEquipShopListW09" (pc-relative load at 0x4b3bec)
+0x4b3f58	weapon-wp	A	weapon/armor class "cEquipShopListW10" (pc-relative load at 0x4b40f0)
+0x4b445c	weapon-wp	A	weapon/armor class "cEquipShopListW11" (pc-relative load at 0x4b45f4)
+0x4b4960	weapon-wp	A	weapon/armor class "cEquipShopListW12" (pc-relative load at 0x4b4af8)
+0x4b4e64	weapon-wp	A	weapon/armor class "cEquipShopListW13" (pc-relative load at 0x4b4ffc)
+0x4b5368	weapon-wp	A	weapon/armor class "cEquipShopListW14" (pc-relative load at 0x4b5500)
+0x4b62e4	otomo-ot	A	otomo class "cOtEquipCreate" (pc-relative load at 0x4b6368)
+0x4b68b4	otomo-ot	A	otomo class "cOtIniLot" (pc-relative load at 0x4b6aa0)
+0x4b6e24	otomo-ot	A	otomo class "cOtLotOwnSkill" (pc-relative load at 0x4b6f54)
+0x4b7358	otomo-ot	A	otomo class "cOtLotOwnSupport" (pc-relative load at 0x4b7498)
+0x4b8204	otomo-ot	A	otomo class "cOtParamLot" (pc-relative load at 0x4b8680)
+0x4b8f90	otomo-ot	A	otomo class "cOtPointTable" (pc-relative load at 0x4b92b8)
+0x4b961c	unmatched	C	no attributable name; strings "cPieceCreateList"
+0x4b9df8	unmatched	C	no attributable name; strings "cResearchReinforce"
+0x4ba420	item	A	item class "cShopList" (pc-relative load at 0x4ba5b8)
+0x4ba7fc	item	A	item class "cShopListSale" (pc-relative load at 0x4ba9d0)
+0x4bad4c	item	A	item class "cTradeCoinTicketList" (pc-relative load at 0x4bae78)
+0x4bba04	item	A	item class "cTradeDeliveryList" (pc-relative load at 0x4bbc50)
+0x4bc2ac	item	A	item class "cTradeItemList" (pc-relative load at 0x4bc444)
+0x4bc7bc	item	A	item class "cTradeLimitedItemList" (pc-relative load at 0x4bc8e8)
+0x4bd074	item	A	item class "cTradeLotList" (pc-relative load at 0x4bd328)
+0x4bd6a0	item	A	item class "cTradePointItemList" (pc-relative load at 0x4bd7cc)
+0x4c0090	item	B	item/skill table key "acrd" (pc-relative load at 0x4c00c8)
+0x4c12cc	weapon-wp	B	weapon table key "sla00" (pc-relative load at 0x4c1300)
+0x4c1788	weapon-wp	B	weapon table key "slw00" (pc-relative load at 0x4c17bc)
+0x4c1c44	weapon-wp	B	weapon table key "slw01" (pc-relative load at 0x4c1c78)
+0x4c2100	weapon-wp	B	weapon table key "slw02" (pc-relative load at 0x4c2134)
+0x4c25bc	weapon-wp	B	weapon table key "slw03" (pc-relative load at 0x4c25f0)
+0x4c2a78	weapon-wp	B	weapon table key "slw04" (pc-relative load at 0x4c2aac)
+0x4c2f34	weapon-wp	B	weapon table key "slw06" (pc-relative load at 0x4c2f68)
+0x4c33f0	weapon-wp	B	weapon table key "slw07" (pc-relative load at 0x4c3424)
+0x4c38ac	weapon-wp	B	weapon table key "slw08" (pc-relative load at 0x4c38e0)
+0x4c3d68	weapon-wp	B	weapon table key "slw09" (pc-relative load at 0x4c3d9c)
+0x4c4224	weapon-wp	B	weapon table key "slw10" (pc-relative load at 0x4c4258)
+0x4c46e0	weapon-wp	B	weapon table key "slw11" (pc-relative load at 0x4c4714)
+0x4c4b9c	weapon-wp	B	weapon table key "slw12" (pc-relative load at 0x4c4bd0)
+0x4c5058	weapon-wp	B	weapon table key "slw13" (pc-relative load at 0x4c508c)
+0x4c5514	weapon-wp	B	weapon table key "slw14" (pc-relative load at 0x4c5548)
+0x4c5e68	otomo-ot	B	otomo table key "otil" (pc-relative load at 0x4c5ea0)
+0x4c62e8	otomo-ot	B	otomo table key "olsk" (pc-relative load at 0x4c6320)
+0x4c6768	otomo-ot	B	otomo table key "olos" (pc-relative load at 0x4c67a0)
+0x4c7054	otomo-ot	B	otomo table key "otpt" (pc-relative load at 0x4c7088)
+0x4c879c	item	B	item/skill table key "tcil" (pc-relative load at 0x4c87d4)
+0x4c8c20	item	B	item/skill table key "trdl" (pc-relative load at 0x4c8c58)
+0x4c90a4	item	B	item/skill table key "tril" (pc-relative load at 0x4c90dc)
+0x4c9528	item	B	item/skill table key "tlil" (pc-relative load at 0x4c9560)
+0x4c99ac	item	B	item/skill table key "trll" (pc-relative load at 0x4c99e4)
+0x4c9e30	item	B	item/skill table key "tpil" (pc-relative load at 0x4c9e68)
+0x4cb474	otomo-ot	A	otomo class "cCatSkillBase" (pc-relative load at 0x4cb924)
+0x4cc09c	player-pl	A	player class "cHunterArtsBase" (pc-relative load at 0x4cc318)
+0x4cd374	item	B	item/skill table key "cSkillBase" (pc-relative load at 0x4cd3f0)
+0x4cdb14	item	B	item/skill table key "cSkillTypeBase" (pc-relative load at 0x4cdd4c)
+0x4ce1a4	otomo-ot	B	otomo table key "cskd" (pc-relative load at 0x4ce1dc)
+0x4d71dc	audio	A	audio class "cSeFsAse" (pc-relative load at 0x4d747c)
+0x4d9320	audio	A	audio class "rFestaPelTiedSe" (pc-relative load at 0x4d9360)
+0x4da300	audio	B	audio key/path "../capdev200/NXEnv/AudioCodec/" (pc-relative load at 0x4da42c)
+0x4da498	audio	A	audio scene resource "mpPrioCurveSet" (pc-relative load at 0x4da5f4)
+0x4dad64	audio	A	audio scene resource "mpResStrmEventSe" (pc-relative load at 0x4db220)
+0x4f3024	quest	A	quest/area class "nAreaConnect::AreaPosBase" (pc-relative load at 0x4f35f8)
+0x4f3e08	quest	A	quest/area class "cAreaInfo" (pc-relative load at 0x4f4004)
+0x4f489c	quest	B	quest data class/key "cFloorLvData" (pc-relative load at 0x4f4bac)
+0x4f53d8	render-gfx	B	stage/effect object data "cKowareObjData" (pc-relative load at 0x4f55c0)
+0x4f7cd8	quest	B	quest data class/key "AreaPosBase" (pc-relative load at 0x4f7e00)
+0x4f8220	quest	A	quest/area class "cVillageFirstPos" (pc-relative load at 0x4f84a0)
+0x4f9040	quest	A	area table key "areainfo" (pc-relative load at 0x4f9078)
+0x4fc8e4	quest	A	quest/area class "rStageInfoSet::SIPosition" (pc-relative load at 0x4fd1c4)
+0x505b40	quest	A	quest/area class "StageDataSet" (pc-relative load at 0x505b5c)
+0x50fc1c	unmatched	C	no attributable name; strings "v05a00-a05|v05a00-a06|v05a00-a07"
+0x51e6d8	unmatched	C	no attributable name; strings "rabbitNo|rabbitRecordNo"
+0x529048	player-pl	A	player class "cTrialArts" (pc-relative load at 0x529538)
+0x5297b0	weapon-wp	A	weapon/armor class "cTrialBowBottle" (pc-relative load at 0x529968)
+0x529bdc	weapon-wp	A	weapon/armor class "cTrialBowShot" (pc-relative load at 0x529d90)
+0x52a364	quest	B	quest data class/key "cTrialDataCommon" (pc-relative load at 0x52a4ec)
+0x52b8a0	weapon-wp	B	trial equipment data "cTrialEquipData" (pc-relative load at 0x52ba14)
+0x52dce0	weapon-wp	B	trial equipment data "cTrialEquipParam" (pc-relative load at 0x52e01c)
+0x52e63c	weapon-wp	A	weapon/armor class "cTrialHeavyBowgunData" (pc-relative load at 0x52e880)
+0x52fc60	item	A	item class "cTrialItemPoach" (pc-relative load at 0x52ffd8)
+0x530764	weapon-wp	A	weapon/armor class "cTrialLightBowgun" (pc-relative load at 0x530a18)
+0x530cf0	save-data	A	save class "cTrialLoadShellCount" (pc-relative load at 0x530f18)
+0x536298	unmatched	C	no attributable name; strings "cTutorialCylinderBase"
+0x536958	unmatched	C	no attributable name; strings "cTutorialFlowBase"
+0x536f18	unmatched	C	no attributable name; strings "tucyl"
+0x537398	unmatched	C	no attributable name; strings "tuto"
+0x53bb08	render-gfx	A	scene object member "mpMontage" (pc-relative load at 0x53c654)
+0x55159c	unmatched	C	no attributable name; strings "xxU_xU"
+0x557ac4	ui	A	ui class "cAdjustableBoard" (pc-relative load at 0x557ff4)
+0x55c1a4	monster-em	B	enemy param/act key "reaacttbl" (pc-relative load at 0x55c400)
+0x55f238	ui	B	ui/message string "SOFTWARE_KEBOARD_MODE_TRANSFER_PASS_NUMBER" (pc-relative load at 0x55f5e0)
+0x560c5c	unmatched	C	no attributable name; strings ".FGIHJK79;=A??8C>B:<DELNO"
+0x560c70	unmatched	C	no attributable name; strings ".FGIHJK79;=A??8C>B:<DELNO"
+0x565d74	ui	A	ui class "cUIOAlchemy" (pc-relative load at 0x566390)
+0x5666cc	unmatched	C	no attributable name; strings "%d%s"
+0x5796bc	ui	A	ui class "cUIOComLowerButtonList" (pc-relative load at 0x5797b8)
+0x57f5ac	unmatched	C	no attributable name; strings "%s%d"
+0x58a4f0	ui	A	ui class "cUIOFacilityShopArms" (pc-relative load at 0x58a7c0)
+0x58a924	ui	A	ui class "cUIOFacilityShopCmnWin" (pc-relative load at 0x58ada0)
+0x58b44c	ui	A	ui class "cUIOFacilityShopItem" (pc-relative load at 0x58b6fc)
+0x58eb04	ui	A	ui class "cUIOFacilityShopPreview" (pc-relative load at 0x58ee30)
+0x59152c	unmatched	C	no attributable name; strings "%s / %s"
+0x591e34	unmatched	C	no attributable name; strings "%d )"
+0x5926f0	ui	A	ui class "cUIOFacilityShopSmith" (pc-relative load at 0x592de8)
+0x5968c8	unmatched	C	no attributable name; strings "%s%s%s%s%s"
+0x5a3fd4	unmatched	C	no attributable name; strings "%s%s%s%s%s"
+0x5ae6c4	unmatched	C	no attributable name; strings "dummy"
+0x5b15dc	ui	A	ui class "cUIOHunterNote" (pc-relative load at 0x5b1a5c)
+0x5b1be8	ui	A	ui class "cUIOHunterNoteLow" (pc-relative load at 0x5b2e5c)
+0x5b3fc4	unmatched	C	no attributable name; strings "%s %s"
+0x5b5f84	ui	A	ui class "cUIOInsectCustom" (pc-relative load at 0x5b6368)
+0x5bda98	ui	B	ui/message string "<COL ff0000ff>" (pc-relative load at 0x5bdbb8)
+0x5bdef4	ui	A	ui class "cUIOKitchenDownBase" (pc-relative load at 0x5be9ec)
+0x5bf160	ui	A	ui class "cUIOKitchenUpBase" (pc-relative load at 0x5c1950)
+0x5c5b80	ui	A	ui class "cUIOListWindow" (pc-relative load at 0x5c5d10)
+0x61d220	ui	A	ui class "cUIOMapBase" (pc-relative load at 0x61dc9c)
+0x62b184	ui	A	ui class "cUIOSkill" (pc-relative load at 0x62b9b4)
+0x62cb68	ui	A	ui class "cUIOMenu" (pc-relative load at 0x62d458)
+0x62e258	weapon-wp	B	weapon table key "B_GREATSWORD" (pc-relative load at 0x62e428)
+0x634f28	ui	A	ui class "cUIOStatusPlate" (pc-relative load at 0x635218)
+0x640e84	ui	A	ui class "cUIOTradeCenter" (pc-relative load at 0x641300)
+0x643104	ui	A	ui class "cUIOUnderExpWindow" (pc-relative load at 0x643474)
+0x64ed9c	ui	A	ui class "cUIOCPanelChatBase" (pc-relative load at 0x64f568)
+0x64fed8	ui	A	ui class "cUIOCPanelItemBase" (pc-relative load at 0x650764)
+0x651d70	ui	A	ui class "cUIOCPanelItemSelector" (pc-relative load at 0x6520ac)
+0x652aa0	ui	A	ui class "cUIOCPanelKeyBase" (pc-relative load at 0x652df0)
+0x654828	ui	A	ui class "cUIOCPanelSupportBase" (pc-relative load at 0x65508c)
+0x656604	ui	A	ui class "cUIOCPanelSupportSelector" (pc-relative load at 0x656948)
+0x658ae8	ui	A	ui class "cUIORegistSrcPanelBase" (pc-relative load at 0x6592dc)
+0x68f5a0	unmatched	C	no attributable name; strings "%016llx"
+0x69c258	quest	A	quest/area class "rAreaActTblData" (pc-relative load at 0x69d5d0)
+0x69d9e8	quest	B	quest data class/key "areacmnlink" (pc-relative load at 0x69da4c)
+0x69ddfc	quest	B	quest data class/key "areaeatdat" (pc-relative load at 0x69de88)
+0x69e1e4	quest	B	quest data class/key "arealinkdat" (pc-relative load at 0x69e248)
+0x69e6f0	quest	B	quest data class/key "areapatrol" (pc-relative load at 0x69e768)
+0x69eb18	quest	B	quest data class/key "areaseldat" (pc-relative load at 0x69eb78)
+0x6a6a74	unmatched	C	no attributable name; strings " 6 w  s ^rmH +Tti*XGOK}9Y_[Q R B 8{!zcqxVUgo2~dL-=hj/AW#e;1v SDC k?IPb"
+0x6b2770	unmatched	C	no attributable name; strings "%3d%%"
+0x6bae04	unmatched	C	no attributable name; strings "%s %d|%s   ---|%s   %d|%s     %d|%s %d:%02d:%02d|%s   %d:%02d:%02d|%s "
+0x6bd720	quest	A	area table key "aMap%02d" (pc-relative load at 0x6bdb10)
+0x6da300	quest	B	npc data (village) "NPC_MODEL_TYPE" (pc-relative load at 0x6da5a8)
+0x73f8a4	unmatched	C	no attributable name; strings "test"
+0x78f658	unmatched	C	no attributable name; strings "xx-xxxx-xxxx-xxxx"
+0x7a9abc	unmatched	C	no attributable name; strings "DEFAULT"
+0x7aab08	unmatched	C	no attributable name; strings "Default"
+0x7aaf00	unmatched	C	no attributable name; strings "Default"
+0x7af9d8	unmatched	C	no attributable name; strings "custom"
+0x7afacc	unmatched	C	no attributable name; strings "custom"
+0x7bd808	kernel-os	A	mt runtime class "MtScalableAllocator" (pc-relative load at 0x7bd910)
+0x7c3984	physics-math	B	physics property "MtGeometry" (pc-relative load at 0x7c434c)
+0x80cbb0	unmatched	C	no attributable name; strings "%08X%08X%08X%08X%08X%08X%08X%08X%08X%08X|%016llX|%08X%08X%08X%08X%08X%"
+0x811548	kernel-os	B	runtime lib "cAsync" (pc-relative load at 0x811554)
+0x828cf8	unmatched	C	no attributable name; strings "Folder"
+0x82b674	filesystem	B	mt framework serializer "Invalid format." (pc-relative load at 0x82bc98)
+0x833354	unmatched	C	no attributable name; strings "class|name"
+0x833974	filesystem	B	mt framework serializer "classname" (pc-relative load at 0x8340c0)
+0x83a01c	unmatched	C	no attributable name; strings "Unknown error."
+0x83e1c8	unmatched	C	no attributable name; strings "mofumofu capcom(^-^)"
+0x84c850	unmatched	C	no attributable name; strings "MtNetLocalUserStorage\"
+0x861ddc	unmatched	C	no attributable name; strings "NGWordList"
+0x861efc	unmatched	C	no attributable name; strings "NGWordList"
+0x86224c	unmatched	C	no attributable name; strings "NGWordList"
+0x865010	unmatched	C	no attributable name; strings "NGWordList"
+0x86989c	render-gfx	B	nvn graphics api "nvnDeviceGetProcAddress" (pc-relative load at 0x8698a8)
+0x86ae80	unmatched	C	no attributable name; strings "vibpl"
+0x86e590	unmatched	C	no attributable name; strings "NPadUpdateEvent"
+0x86f158	unmatched	C	no attributable name; strings "ptex"
+0x873914	unmatched	C	no attributable name; strings "RESOURCE|SYSTEM|UNIT|AREA|SOUND|PHYSICS|NETWORK|EFFECT|INSTANCING"
+0x876e94	unmatched	C	no attributable name; strings "sbkr"
+0x8993e0	physics-math	A	physics scene res "mpChain" (pc-relative load at 0x89a5c0)
+0x89a8c8	physics-math	A	physics scene res "mpCollision" (pc-relative load at 0x89b220)
+0x8a2a1c	render-gfx	A	scene object member "mpResource" (pc-relative load at 0x8a2c24)
+0x8a4acc	render-gfx	A	scene object member "mpResourceArray" (pc-relative load at 0x8a5674)
+0x8a6324	render-gfx	A	scene object member "mpResouce" (pc-relative load at 0x8a65b4)
+0x8a8bd0	render-gfx	A	scene object member "mpCubeMap" (pc-relative load at 0x8a915c)
+0x8a9b48	render-gfx	B	scene render pass name "SceneParaboloid" (pc-relative load at 0x8a9ca4)
+0x8ab038	render-gfx	A	scene object member "mpCubeMap" (pc-relative load at 0x8ab7c0)
+0x8abaf8	render-gfx	B	render pass/target name "EnvCube" (pc-relative load at 0x8ac2a4)
+0x8ac4f8	render-gfx	B	render pass/target name "SceneEnv" (pc-relative load at 0x8ac6e4)
+0x8ae1a8	render-gfx	A	scene object member "mpAnimation" (pc-relative load at 0x8ae3ec)
+0x8c6c18	render-gfx	A	scene object member "mpVolumeColorCorrect" (pc-relative load at 0x8c9040)
+0x8d6978	unmatched	C	no attributable name; strings "Temp1|Temp2"
+0x8d76d8	render-gfx	B	scene render pass name "Outline" (pc-relative load at 0x8d7a28)
+0x8ebb34	unmatched	C	no attributable name; strings "uTestFog: BackDepth|uTestFog: FrontDepth"
+0x8f149c	render-gfx	A	render class "uFog" (pc-relative load at 0x8f3f4c)
+0x8f83c8	render-gfx	A	scene object member "mpResource" (pc-relative load at 0x8f8664)
+0x90c508	render-gfx	A	scene object member "mpGrass" (pc-relative load at 0x90c6d8)
+0x913858	render-gfx	A	render class "uGrassMark" (pc-relative load at 0x914a64)
+0x914ba0	unmatched	C	no attributable name; strings "draw point map"
+0x918e40	render-gfx	A	render class "uGrassWind" (pc-relative load at 0x919084)
+0x91a078	render-gfx	A	scene object member "mpResource" (pc-relative load at 0x91a0cc)
+0x91c79c	ui	A	ui class "uGUI" (pc-relative load at 0x91d284)
+0x91f9fc	render-gfx	A	scene object member "mpResISC" (pc-relative load at 0x920348)
+0x9293f0	render-gfx	A	scene object member "mpCubeMap" (pc-relative load at 0x929444)
+0x9296d8	render-gfx	A	render class "uCubeMapLight" (pc-relative load at 0x92c628)
+0x930730	render-gfx	A	scene object member "mpResource" (pc-relative load at 0x9308e4)
+0x932910	render-gfx	B	render pass/target name "Heat depth" (pc-relative load at 0x932a28)
+0x935c74	render-gfx	A	scene object member "mpRTTex" (pc-relative load at 0x936814)
+0x9372c4	unmatched	C	no attributable name; strings "RTMirror|Depth Stencil"
+0x9375fc	render-gfx	B	scene render pass name "Mirror" (pc-relative load at 0x937c18)
+0x93b1a8	render-gfx	A	scene object member "mpMotionList" (pc-relative load at 0x93b580)
+0x94b3dc	render-gfx	A	scene object member "mpMontage" (pc-relative load at 0x94b708)
+0x94cf88	unmatched	C	no attributable name; strings "mCalcNo|mChildNum"
+0x94fe8c	render-gfx	B	model skeleton property "KeyFrameNum" (pc-relative load at 0x9505dc)
+0x9578b8	render-gfx	A	scene object member "mpCameraList" (pc-relative load at 0x9584a4)
+0x95af54	unmatched	C	no attributable name; strings "Movie"
+0x963384	render-gfx	B	scene render pass name "ReflectiveShadowMapScene" (pc-relative load at 0x9633d8)
+0x96367c	render-gfx	B	scene render pass name "Indirect diffuse lighting" (pc-relative load at 0x963a98)
+0x966880	render-gfx	A	scene object member "mpScheduler" (pc-relative load at 0x966aec)
+0x968158	render-gfx	A	render class "uScheduler" (pc-relative load at 0x96829c)
+0x9683b8	render-gfx	A	scene object member "mpScreenMap" (pc-relative load at 0x968570)
+0x96a15c	render-gfx	B	render pass/target name "Screen Space" (pc-relative load at 0x96a424)
+0x96ec88	render-gfx	B	scene render pass name "ShadowCast" (pc-relative load at 0x96eeac)
+0x974128	render-gfx	B	scene render pass name "DepthStencil" (pc-relative load at 0x974eb8)
+0x97652c	render-gfx	B	scene render pass name "DepthStencil" (pc-relative load at 0x97841c)
+0x97aaa0	render-gfx	B	render pass/target name "CopyShadowMapCache" (pc-relative load at 0x97aaf8)
+0x97b424	render-gfx	B	scene render pass name "ShadowCast" (pc-relative load at 0x97b810)
+0x97d274	render-gfx	B	render pass/target name "CopyShadowMapCache" (pc-relative load at 0x97d2cc)
+0x97d928	render-gfx	B	scene render pass name "ShadowFillMargin" (pc-relative load at 0x97d984)
+0x97e82c	render-gfx	B	scene render pass name "ShadowCubeBlur" (pc-relative load at 0x97e890)
+0x97f1e0	render-gfx	A	render class "uShadow" (pc-relative load at 0x97fc88)
+0x981498	render-gfx	A	render class "uShadowRegion" (pc-relative load at 0x982e08)
+0x9845b8	render-gfx	A	scene object member "mpResWeightMap" (pc-relative load at 0x985bac)
+0x988030	render-gfx	B	render pass/target name "SoftBody" (pc-relative load at 0x989fcc)
+0x9933c8	render-gfx	B	render pass/target name "Temp cloud" (pc-relative load at 0x993554)
+0x996a2c	render-gfx	B	render pass/target name "Rayleigh/Mie Depth Map" (pc-relative load at 0x996a88)
+0x996e48	render-gfx	B	render pass/target name "Downscale Scatter Map" (pc-relative load at 0x996ea8)
+0x9aae64	render-gfx	B	scene render pass name "WaterShadow" (pc-relative load at 0x9ab084)
+0x9acabc	render-gfx	B	scene render pass name "WaterReflection" (pc-relative load at 0x9acd84)
+0x9ad25c	render-gfx	B	scene render pass name "WaterRefraction" (pc-relative load at 0x9ad428)
+0x9ad8e0	render-gfx	B	scene render pass name "Ripple" (pc-relative load at 0x9adad0)
+0x9aefb0	render-gfx	B	render pass/target name "WaterDepth" (pc-relative load at 0x9aefbc)
+0x9b47b0	render-gfx	A	render class "uWind" (pc-relative load at 0x9b4e10)
+0x9ba704	render-gfx	A	scene object member "mpEffectList" (pc-relative load at 0x9bc0c0)
+0x9c20f4	render-gfx	A	scene object member "Resource(rCollision)" (pc-relative load at 0x9c22c8)
+0x9c5598	physics-math	A	physics scene res "mpCollision" (pc-relative load at 0x9c67b8)
+0x9d16b4	physics-math	A	physics scene res "mpCnsIKRes" (pc-relative load at 0x9d17bc)
+0x9db20c	physics-math	A	physics scene res "mpCnsJointOffsetRes" (pc-relative load at 0x9db2e4)
+0x9dc5d0	physics-math	A	physics scene res "mpCnsLookAtRes" (pc-relative load at 0x9dc6a4)
+0x9dd9c8	physics-math	A	physics scene res "mpCnsMatrixRes" (pc-relative load at 0x9dd9fc)
+0x9de4bc	physics-math	A	physics scene res "mpCnsParentRes" (pc-relative load at 0x9de594)
+0x9df848	render-gfx	A	scene object member "mpResource" (pc-relative load at 0x9df920)
+0x9e0c78	render-gfx	A	scene object member "mpResouce" (pc-relative load at 0x9e0ce0)
+0x9e107c	unmatched	C	no attributable name; strings "Max limit ( %d >= limit >= 0 )"
+0x9e12ac	unmatched	C	no attributable name; strings "Min limit ( -%d <= limit <= 0 )"
+0x9e1fd0	render-gfx	A	scene object member "mpResource" (pc-relative load at 0x9e20a8)
+0x9e28e8	render-gfx	A	scene object member "mpResource" (pc-relative load at 0x9e2a50)
+0x9ef288	render-gfx	A	scene object member "mpResource" (pc-relative load at 0x9ef72c)
+0x9fc990	online-nex	B	rpc class "cRemoteProcedure" (pc-relative load at 0x9fcc30)
+0x9feb88	render-gfx	B	stage/effect object data "cSwing" (pc-relative load at 0x9ff114)
+0x9ff43c	unmatched	C	no attributable name; strings "AI Task"
+0xa1709c	unmatched	C	no attributable name; strings "cAIPathTrace|cAIPathTrace::TracePoint|cAINavPathTrace|cAIWayPathTrace"
+0xa179bc	render-gfx	A	scene object member "mpDynamicPath" (pc-relative load at 0xa17c94)
+0xa1bb14	unmatched	C	no attributable name; strings "%s\%s%s%d%s%s%d%s|%s%s%d%s"
+0xa1bdd0	unmatched	C	no attributable name; strings "%s%s%d%s%s%d%s|%s%s%d%s"
+0xa2533c	unmatched	C	no attributable name; strings "cAISvPathFinding|cAISvPathFinding::Node"
+0xa285a0	unmatched	C	no attributable name; strings "cAISvPathManager"
+0xa34c74	unmatched	C	no attributable name; strings "Mouse Reaction|Play|Priority|Visible"
+0xa3bdc4	ui	A	ui class "cGUIInstAnimVariable" (pc-relative load at 0xa3c150)
+0xa3c434	ui	B	gui transform field "ResolutionAdjust" (pc-relative load at 0xa3c4dc)
+0xa40b00	ui	A	ui class "cGUIInstMessage" (pc-relative load at 0xa412bc)
+0xa5242c	ui	B	gui transform field "ResolutionAdjust" (pc-relative load at 0xa52454)
+0xa57bf8	ui	A	ui class "cGUIVariable" (pc-relative load at 0xa57d88)
+0xa84c18	render-gfx	A	render class "cParticleGeneratorBillboard" (pc-relative load at 0xa84f5c)
+0xaab650	render-gfx	A	render class "cParticleGeneratorPolygon" (pc-relative load at 0xaaba30)
+0xabcf08	render-gfx	A	render class "cParticleGeneratorPolyline" (pc-relative load at 0xabd284)
+0xaf5ddc	render-gfx	A	render class "cParticleNode" (pc-relative load at 0xaf5fec)
+0xb0422c	render-gfx	A	render class "nDraw::Query" (pc-relative load at 0xb0440c)
+0xb05080	render-gfx	B	render pass/target name "LightAccumulationTrans0" (pc-relative load at 0xb05ef8)
+0xb140e0	render-gfx	A	scene object member "mpArray" (pc-relative load at 0xb14654)
+0xb16efc	unmatched	C	no attributable name; strings "Geometry"
+0xb1b17c	unmatched	C	no attributable name; strings "NoRegist"
+0xb1f720	physics-math	A	collision class "nCollision::cCollisionNode" (pc-relative load at 0xb1fae8)
+0xb2659c	unmatched	C	no attributable name; strings "Length"
+0xb26c4c	unmatched	C	no attributable name; strings "Length"
+0xb27630	online-nex	B	network member name "nNetwork::BlockBuffer" (pc-relative load at 0xb277ac)
+0xb2b000	unmatched	C	no attributable name; strings "[P00]PROTOCOL_COMMON|[P03]PROTOCOL_SYSTEM"
+0xb2dfb4	online-nex	B	network member name "nNetwork::TagChecker::RpcSyncReq" (pc-relative load at 0xb2e61c)
+0xb39a70	unmatched	C	no attributable name; strings "1.2.1"
+0xb3c240	unmatched	C	no attributable name; strings "Resource|resource"
+0xb40aa0	render-gfx	A	scene object member "mpSetting" (pc-relative load at 0xb410f0)
+0xb444d0	unmatched	C	no attributable name; strings "gr2s"
+0xb47b1c	unmatched	C	no attributable name; strings "MetaSet"
+0xb4814c	filesystem	B	xml file name "mst.xml" (pc-relative load at 0xb489cc)
+0xb48ae0	unmatched	C	no attributable name; strings "rMetaSet"
+0xb4a3d4	unmatched	C	no attributable name; strings "mem.mp4|mem.webm|webm|rMovie|rMovieOnMemory|rMovieOnDisk|rMovieOnMemor"
+0xb4b398	unmatched	C	no attributable name; strings "PNS0_5LayerEPNS0_7DisplayE|PNS0_13SemaphoreTypeE|eEPNS0_13SemaphoreTyp"
+0xb4def0	unmatched	C	no attributable name; strings "_-0123456789|rtex"
+0xb4ec44	unmatched	C	no attributable name; strings "stex"
+0xb51bfc	unmatched	C	no attributable name; strings "dpth"
+0xb529ec	unmatched	C	no attributable name; strings "79.cro|Ems004.cro|oEms025.cro|s045.cro|.cro"
+0xb53e80	filesystem	B	xml file name "are.xml" (pc-relative load at 0xb5487c)
+0xb580f0	unmatched	C	no attributable name; strings "tWindow|epthStencilRO|rans0|Buffer|Count"
+0xb58ba0	unmatched	C	no attributable name; strings "rk::netEmMasterOnlyStatus|etwork::netEmMasterSelectProcedure"
+0xb59254	unmatched	C	no attributable name; strings "tus_bit|point"
+0xb5ae10	unmatched	C	no attributable name; strings "gway"
+0xb61bfc	unmatched	C	no attributable name; strings "scsr"
+0xb62e98	unmatched	C	no attributable name; strings "sdsr"
+0xb67534	unmatched	C	no attributable name; strings "spsr"
+0xb68280	unmatched	C	no attributable name; strings "srqr"
+0xb68e60	unmatched	C	no attributable name; strings "revr"
+0xb6b9e4	unmatched	C	no attributable name; strings "adpcm|opus"
+0xb6d72c	unmatched	C	no attributable name; strings "stqr"
+0xb795e0	unmatched	C	no attributable name; strings "sbch"
+0xb811f0	unmatched	C	no attributable name; strings "%s_%02d%s"
+0xb82704	unmatched	C	no attributable name; strings "%s_%02d%s"
+0xb84db0	unmatched	C	no attributable name; strings "cAISvDynamicEnum|DynamicEnum|cAISvUserProcess|UserProcess"
+0xb85654	unmatched	C	no attributable name; strings "%s-%s"
+0xb8692c	unmatched	C	no attributable name; strings "Unknown"
+0xb87638	unmatched	C	no attributable name; strings "AreaRoot"
+0xb87ae8	unmatched	C	no attributable name; strings "AreaRoot"
+0xb87d58	unmatched	C	no attributable name; strings "Store::OperationNotAllowed"
+0xb8a534	render-gfx	B	gfx/scene member "SubScene" (pc-relative load at 0xb8a788)
+0xb8ad08	render-gfx	B	gfx/scene member "SubScene" (pc-relative load at 0xb8ad6c)
+0xb8e2e4	unmatched	C	no attributable name; strings "%s\%s.%s|%s\%s%04d.%s|%s\%s%04d-%05d.%s|%s\%s-%05d.%s"
+0xb8e7c0	filesystem	B	path template "%s\acctemp.bin" (pc-relative load at 0xb8eb90)
+0xb9f4e0	unmatched	C	no attributable name; strings "on returned an error"
+0xba09c0	render-gfx	A	scene object member "mpFontFilterResource" (pc-relative load at 0xba11b8)
+0xba1ce4	unmatched	C	no attributable name; strings "\_-.0123456789"
+0xba3ddc	unmatched	C	no attributable name; strings "lliderNodeParam"
+0xba408c	kernel-os	B	runtime lib "Cortex-AX(ARMvX)" (pc-relative load at 0xba41b8)
+0xba5efc	unmatched	C	no attributable name; strings "XFramework Scene 1.0|XFramework Config 1.0"
+0xba6cec	unmatched	C	no attributable name; strings "floor(%s * 32767.9999f)"
+0xbadd80	unmatched	C	no attributable name; strings "Matrix"
+0xbb4dd8	kernel-os	B	runtime lib "FAST_STACKWALK" (literal-pool pointer at 0xbb9264)
+0xbb9348	unmatched	C	no attributable name; strings "MT_NET_SHARED_MEMRY"
+0xbbc4a8	unmatched	C	no attributable name; strings "%dx%d"
+0xbc2774	unmatched	C	no attributable name; strings "Common|Overlay|Async Keyboard|SysMenu"
+0xbc64ac	unmatched	C	no attributable name; strings "null"
+0xbc6b44	filesystem	B	path/loader "Resource Loader" (pc-relative load at 0xbc7010)
+0xbc741c	unmatched	C	no attributable name; strings "%s\%s.%s|1.2.1"
+0xbc8578	unmatched	C	no attributable name; strings "%s\%s.%s"
+0xbc8a00	filesystem	B	xml file name "arc.xml" (pc-relative load at 0xbc8e14)
+0xbc9a9c	unmatched	C	no attributable name; strings "%s\%s.%s"
+0xbc9c5c	filesystem	B	path template "%s\temp\%s" (pc-relative load at 0xbc9d58)
+0xbcb0d0	unmatched	C	no attributable name; strings "%s\%s.%s"
+0xbcbe00	unmatched	C	no attributable name; strings "resource|tate"
+0xbce2f4	render-gfx	B	gfx state/property "TexCoord" (pc-relative load at 0xbce8a0)
+0xbced78	render-gfx	B	gfx state/property "TexCoord" (pc-relative load at 0xbcf800)
+0xbcfcf4	unmatched	C	no attributable name; strings "Position"
+0xbd6d3c	online-nex	B	net/nex sdk "onfigERKNS0_17SecurityParameterERKNS0_10UserConfigEiNS0_13ConnectOptionE" (literal-pool pointer at 0xbd6ec4)
+0xbd7314	render-gfx	B	gfx/scene member "ReferenceTarget" (pc-relative load at 0xbd75b4)
+0xbd7a1c	filesystem	B	path template "sc\%s\root" (pc-relative load at 0xbd7aa4)
+0xbd8450	unmatched	C	no attributable name; strings "Undefined"
+0xbd993c	filesystem	B	path template "sc\%s\%s\%08x%08x" (pc-relative load at 0xbd9a94)
+0xbda94c	render-gfx	B	shader cache key format "[SHADERKEY]:%s\%s:%08x%08x-%04x-%04x-%04x:%s-%d:%08x-%08x-%08x-%08x:%08x" (pc-relative load at 0xbdaa2c)
+0xbdac90	unmatched	C	no attributable name; strings "CBHDRFactor|CBScreen|CBROPTest"
+0xbdc8c0	unmatched	C	no attributable name; strings "EiPKvji"
+0xbebcc4	audio	A	audio scene resource "mpDirectionalSet" (pc-relative load at 0xbec694)
+0xc072cc	unmatched	C	no attributable name; strings "Undefined"
+0xc08458	unmatched	C	no attributable name; strings "undefined"
+0xc098f0	unmatched	C	no attributable name; closest string "mpVibration" (rumble/input has no bucket)
+0xc15d18	physics-math	A	collision class "sCollision::ActiveNodeInfo" (pc-relative load at 0xc15f18)
+0xc1ef38	physics-math	A	collision class "sCollision::SbcInfoBase" (pc-relative load at 0xc1f1c8)
+0xc256d8	physics-math	A	collision class "sCollision::ScrCollisionInfoCastConvex" (pc-relative load at 0xc25a60)
+0xc50f08	unmatched	C	no attributable name; strings "%s%d"
+0xc532dc	render-gfx	A	scene object member "mpDetailNormalMap" (pc-relative load at 0xc54314)
+0xc5ba40	render-gfx	A	scene object member "mpResource" (pc-relative load at 0xc5ba94)
+0xc5f7c8	unmatched	C	no attributable name; strings "%dx%d"
+0xc61bb4	render-gfx	A	scene object member "mpEffectList" (pc-relative load at 0xc61f88)
+0xc65618	render-gfx	A	render class "uMultiFilter" (pc-relative load at 0xc65ba4)
+0xc663cc	render-gfx	A	scene object member "mpEffectList" (pc-relative load at 0xc69f30)
+0xc6d934	render-gfx	A	scene object member "mpStaticData" (pc-relative load at 0xc6db34)
+0xc703a0	unmatched	C	no attributable name; strings "ScrollGroupIndex|ScrollGroup"
+0xc7245c	render-gfx	B	model skeleton property "mEyeJointNumRight" (pc-relative load at 0xc72798)
+0xc72cd4	render-gfx	B	gfx state/property "AvgLuminance" (pc-relative load at 0xc731a4)
+0xc746fc	render-gfx	A	scene object member "mpResource" (pc-relative load at 0xc74750)
+0xc752e0	render-gfx	A	scene object member "mpRGeometry2" (pc-relative load at 0xc75770)
+0xc76900	unmatched	C	no attributable name; strings "Move|Draw"
+0xc77fec	unmatched	C	no attributable name; strings "Resource|resource"
+0xc78fec	unmatched	C	no attributable name; strings "Loss|iver"
+0xc796b4	render-gfx	A	scene object member "mpRGeometry" (pc-relative load at 0xc79870)
+0xc81f90	unmatched	C	no attributable name; strings "resource"
+0xc843e8	unmatched	C	no attributable name; strings "custom|resource"
+0xc88328	unmatched	C	no attributable name; strings "resource|rtype|path|null"
+0xc8a3ac	unmatched	C	no attributable name; strings "resource"
+0xc8ec60	unmatched	C	no attributable name; strings "cAIGraph|cAIGraph::Node|cAITreeBase"
+0xcc7af8	unmatched	C	no attributable name; strings "mInputColor|mFunction"
+0xcc87ac	unmatched	C	no attributable name; strings "mInputR|mInputG|mInputB|mInputA|mOutput"
+0xcc8ecc	unmatched	C	no attributable name; strings "mOutput"
+0xcc9188	unmatched	C	no attributable name; strings "mInputA|mInputB|mOutput"
+0xcc96a4	unmatched	C	no attributable name; strings "mInputA|mInputB|mOutput"
+0xcc9bc0	unmatched	C	no attributable name; strings "mInputA|mInputB|mOutput"
+0xcca0dc	unmatched	C	no attributable name; strings "mInputA|mInputB|mOutput"
+0xcca7c8	unmatched	C	no attributable name; strings "mOutput"
+0xccab54	render-gfx	A	scene object member "mpBaseMap" (pc-relative load at 0xccaff4)
+0xccb284	unmatched	C	no attributable name; strings "nGraphComponent::Base"
+0xccc7cc	render-gfx	A	render class "nDraw::MaterialConstant" (pc-relative load at 0xccc8a8)
+0xcd0cec	render-gfx	A	render class "nDraw::MaterialStd" (pc-relative load at 0xcd0dac)
+0xcd4cf8	online-nex	B	network member name "nNetwork::Protocol" (pc-relative load at 0xcd6bac)
+0xcdcad8	render-gfx	A	scene object member "mpAlbedoMap" (pc-relative load at 0xcdcc1c)
+0xce1590	unmatched	C	no attributable name; strings "invalid"
+0xce1ba4	unmatched	C	no attributable name; strings "spkg"
+0xce5974	filesystem	B	xml file name "sssr.xml" (pc-relative load at 0xce5b64)
+0xce7af8	unmatched	C	no attributable name; strings "Geometry"
+0xcec3a8	render-gfx	A	scene object member "mpParentResource" (pc-relative load at 0xcec544)
+0xcec7b0	unmatched	C	no attributable name; strings "geog"
+0xceceec	unmatched	C	no attributable name; strings "geo3"
+0xcee3d8	render-gfx	A	scene object member "mpPD[i].pathLen" (pc-relative load at 0xcee95c)
+0xcf1190	monster-em	A	enemy move name "em001_00RevivalMove" (pc-relative load at 0xcf4590)
+0xd11b1c	monster-em	A	enemy move name "em003_00ActionMove" (pc-relative load at 0xd14354)
+0xd18694	monster-em	A	enemy move name "em003_00FlyMove" (pc-relative load at 0xd19224)
+0xd26154	monster-em	A	enemy move name "em004_00ActionMove" (pc-relative load at 0xd28930)
+0xd28f8c	monster-em	A	enemy move name "em004_00MoguriMove" (pc-relative load at 0xd2ae88)
+0xd2e730	monster-em	A	enemy move name "em004_00RevivalMove" (pc-relative load at 0xd310c0)
+0xd360d0	monster-em	A	enemy move name "em007_00FwMove" (pc-relative load at 0xd361d0)
+0xd36310	monster-em	A	enemy move name "em007_00ActionMove" (pc-relative load at 0xd3672c)
+0xd368fc	monster-em	A	enemy move name "em007_00MoveMove" (pc-relative load at 0xd36ddc)
+0xd37044	monster-em	A	enemy move name "em007_00MoguriMove" (pc-relative load at 0xd37290)
+0xd389d8	monster-em	A	enemy move name "em007_00DemoMove" (pc-relative load at 0xd38a5c)
+0xd4a33c	monster-em	A	enemy move name "em008_00ActionMove" (pc-relative load at 0xd4b148)
+0xd4b548	monster-em	A	enemy move name "em008_00MoveMove" (pc-relative load at 0xd4be4c)
+0xd555a8	monster-em	A	enemy move name "em009_00ActionMove" (pc-relative load at 0xd58478)
+0xd592a4	monster-em	A	enemy move name "em009_00MoveMove" (pc-relative load at 0xd59874)
+0xd5e044	monster-em	A	enemy move name "em009_00AttackMove" (pc-relative load at 0xd5f6a0)
+0xd65d14	monster-em	B	enemy fsm state name (no em prefix) "fw_move" (pc-relative load at 0xd65ea8)
+0xd66938	monster-em	B	enemy fsm state name (no em prefix) "action_move" (pc-relative load at 0xd66b18)
+0xd67ff4	monster-em	B	enemy fsm state name (no em prefix) "move_move" (pc-relative load at 0xd68370)
+0xd71464	monster-em	A	enemy move name "em011_00ActionMove" (pc-relative load at 0xd72154)
+0xd72410	monster-em	A	enemy move name "em011_00MoveMove" (pc-relative load at 0xd7367c)
+0xd7b7fc	monster-em	B	enemy fsm state "Angry_End" (pc-relative load at 0xd80a28)
+0xd81c04	monster-em	A	enemy move name "em013_00FwMove" (pc-relative load at 0xd81c9c)
+0xd82334	monster-em	A	enemy move name "em013_00ActionMove" (pc-relative load at 0xd82460)
+0xd82df4	monster-em	A	enemy move name "em013_00MoveMove" (pc-relative load at 0xd82ea8)
+0xd841f4	monster-em	A	enemy move name "em013_00FlyMove" (pc-relative load at 0xd84398)
+0xd8bc74	monster-em	A	enemy move name "em013_00AttackMove" (pc-relative load at 0xd8bf44)
+0xd8cabc	monster-em	A	enemy move name "em013_00DemoMove" (pc-relative load at 0xd8cbd0)
+0xd930cc	monster-em	A	enemy move name "em014_00MoveMove" (pc-relative load at 0xd93a20)
+0xd96fdc	monster-em	A	enemy move name "em014_00CatchMove" (pc-relative load at 0xd97c4c)
+0xd9a00c	monster-em	A	enemy move name "em017_00ActionMove" (pc-relative load at 0xd9c094)
+0xda6e2c	monster-em	A	enemy move name "em018_00FwMove" (pc-relative load at 0xda9e70)
+0xda9f64	monster-em	A	enemy move name "em018_00ActionMove" (pc-relative load at 0xdaae2c)
+0xdab1d4	monster-em	A	enemy move name "em018_00MoveMove" (pc-relative load at 0xdab8d0)
+0xdacf74	monster-em	A	enemy move name "em018_00FlyMove" (pc-relative load at 0xdaee7c)
+0xdba100	monster-em	A	enemy move name "em019_00FwMove" (pc-relative load at 0xdba1e8)
+0xdbb010	monster-em	A	enemy move name "em019_00ActionMove" (pc-relative load at 0xdbb57c)
+0xdbd5b8	monster-em	A	enemy move name "em019_00MoveMove" (pc-relative load at 0xdbdf1c)
+0xdbea3c	monster-em	A	enemy move name "em019_00MoguriMove" (pc-relative load at 0xdbec9c)
+0xdc16d8	monster-em	A	enemy move name "em019_00AttackMove" (pc-relative load at 0xdc1f00)
+0xdc9168	unmatched	C	no attributable name; strings "em020_00"
+0xdc92ac	monster-em	B	enemy fsm state name (no em prefix) "fw_move" (pc-relative load at 0xdc9314)
+0xdc93b8	monster-em	B	enemy fsm state name (no em prefix) "action_move" (pc-relative load at 0xdc957c)
+0xdca4e4	monster-em	B	enemy fsm state name (no em prefix) "fly_move" (pc-relative load at 0xdca5a4)
+0xdcaff8	monster-em	B	enemy fsm state name (no em prefix) "moguri_move" (pc-relative load at 0xdcb09c)
+0xdcb1f4	monster-em	B	enemy fsm state name (no em prefix) "attack_move" (pc-relative load at 0xdcb9e8)
+0xdcfca4	monster-em	B	enemy fsm state "angry_Change" (pc-relative load at 0xdd1bd4)
+0xdd2880	monster-em	A	enemy move name "em021_00FwMove" (pc-relative load at 0xdd2e84)
+0xdd3368	monster-em	A	enemy move name "em021_00ActionMove" (pc-relative load at 0xdd3dbc)
+0xdd40bc	monster-em	A	enemy move name "em021_00AttackMove" (pc-relative load at 0xdd99dc)
+0xddd994	monster-em	A	enemy move name "em022_00FwMove" (pc-relative load at 0xddda6c)
+0xdddc44	monster-em	A	enemy move name "em022_00ActionMove" (pc-relative load at 0xdde024)
+0xdde76c	monster-em	A	enemy move name "em022_00MoveMove" (pc-relative load at 0xddeac8)
+0xddf47c	monster-em	A	enemy move name "em022_00FlyMove" (pc-relative load at 0xddf548)
+0xddff80	monster-em	A	enemy move name "em022_00AttackMove" (pc-relative load at 0xde01e0)
+0xde1d20	monster-em	A	enemy move name "em022_00MoguriMove" (pc-relative load at 0xde1ea8)
+0xde4624	monster-em	B	enemy fsm state "Angry_Start" (pc-relative load at 0xde4d78)
+0xde6a88	monster-em	A	enemy move name "em023_00FwMove" (pc-relative load at 0xde70e4)
+0xde7318	monster-em	A	enemy move name "em023_00ActionMove" (pc-relative load at 0xde83d8)
+0xde8a6c	monster-em	A	enemy move name "em023_00MoveMove" (pc-relative load at 0xde9580)
+0xdeba80	monster-em	A	enemy move name "em023_00AttackMove" (pc-relative load at 0xdee31c)
+0xdeef24	monster-em	A	enemy move name "em023_00Catch2Move" (pc-relative load at 0xdef16c)
+0xdf42d4	monster-em	A	enemy move name "em024_00ActionMove" (pc-relative load at 0xdf501c)
+0xdf5514	monster-em	A	enemy move name "em024_00MoveMove" (pc-relative load at 0xdf6ae0)
+0xdfaf5c	monster-em	A	enemy move name "em024_00HoverMove" (pc-relative load at 0xdfb6dc)
+0xdfc3b0	monster-em	A	enemy move name "em024_00AttackMove" (pc-relative load at 0xdfe198)
+0xe01f44	monster-em	B	enemy mesh name "XfB_N__E0__m03_stealth01" (pc-relative load at 0xe024f0)
+0xe063fc	monster-em	A	enemy move name "em025_00ActionMove" (pc-relative load at 0xe081e4)
+0xe084c4	monster-em	A	enemy move name "em025_00AttackMove" (pc-relative load at 0xe0f9dc)
+0xe148e0	monster-em	A	enemy move name "em027_00ActionMove" (pc-relative load at 0xe15294)
+0xe162e0	monster-em	A	enemy move name "em027_00MoveMove" (pc-relative load at 0xe16628)
+0xe19890	monster-em	A	enemy move name "em027_00AttackMove" (pc-relative load at 0xe1c74c)
+0xe256b4	monster-em	B	enemy fsm state "Death" (pc-relative load at 0xe25844)
+0xe259f0	monster-em	A	enemy move name "em032_00FwMove" (pc-relative load at 0xe26034)
+0xe26340	monster-em	A	enemy move name "em032_00ActionMove" (pc-relative load at 0xe27598)
+0xe290e4	monster-em	A	enemy move name "em032_00MoveMove" (pc-relative load at 0xe2a934)
+0xe2bb44	monster-em	A	enemy move name "em032_00FlyMove" (pc-relative load at 0xe2cf4c)
+0xe3451c	monster-em	A	enemy move name "em032_00AttackMove" (pc-relative load at 0xe35c30)
+0xe36ad4	monster-em	A	enemy move name "em032_00DemoMove" (pc-relative load at 0xe37438)
+0xe3a568	monster-em	A	enemy move name "em033_00ActionMove" (pc-relative load at 0xe3baa8)
+0xe3c96c	monster-em	A	enemy move name "em033_00MoveMove" (pc-relative load at 0xe3d0c0)
+0xe3dce4	monster-em	A	enemy move name "em033_00AttackMove" (pc-relative load at 0xe3fd5c)
+0xe42788	monster-em	B	enemy fsm state name (no em prefix) "action_move" (pc-relative load at 0xe4303c)
+0xe4cf28	monster-em	B	enemy fsm state name (no em prefix) "action_move" (pc-relative load at 0xe4d90c)
+0xe4fea0	monster-em	B	enemy fsm state name (no em prefix) "attack_move" (pc-relative load at 0xe53828)
+0xe582a4	monster-em	B	enemy fsm state name (no em prefix) "demo_move" (pc-relative load at 0xe5a7c4)
+0xe5ebec	monster-em	A	enemy move name "em038_00FwMove" (pc-relative load at 0xe5f20c)
+0xe5f908	monster-em	A	enemy move name "em038_00ActionMove" (pc-relative load at 0xe600c4)
+0xe60904	monster-em	A	enemy move name "em038_00MoveMove" (pc-relative load at 0xe61154)
+0xe67d64	monster-em	B	enemy fsm state name (no em prefix) "action_move" (pc-relative load at 0xe69188)
+0xe754ec	monster-em	B	enemy fsm state "Angry_Start" (pc-relative load at 0xe75b54)
+0xe774b0	monster-em	A	enemy move name "em043_00FwMove" (pc-relative load at 0xe775ec)
+0xe77c9c	monster-em	A	enemy move name "em043_00ActionMove" (pc-relative load at 0xe77f7c)
+0xe791d0	monster-em	A	enemy move name "em043_00MoveMove" (pc-relative load at 0xe794a4)
+0xe7e34c	monster-em	A	enemy move name "em043_00AttackMove" (pc-relative load at 0xe7f238)
+0xe806b8	monster-em	A	enemy move name "em043_00Catch2Move" (pc-relative load at 0xe80820)
+0xe83678	monster-em	B	enemy fsm state "Angry_End" (pc-relative load at 0xe838f8)
+0xe86fd0	monster-em	B	enemy fsm state name (no em prefix) "fw_move" (pc-relative load at 0xe870dc)
+0xe87764	monster-em	B	enemy fsm state name (no em prefix) "action_move" (pc-relative load at 0xe87a40)
+0xe88c64	monster-em	B	enemy fsm state name (no em prefix) "move_move" (pc-relative load at 0xe8902c)
+0xe89150	monster-em	B	enemy fsm state name (no em prefix) "fly_move" (pc-relative load at 0xe89298)
+0xe8ed3c	monster-em	B	enemy fsm state name (no em prefix) "attack_move" (pc-relative load at 0xe8f078)
+0xe92028	monster-em	B	enemy fsm state name (no em prefix) "action_move" (pc-relative load at 0xe95c70)
+0xe9604c	monster-em	B	enemy fsm state name (no em prefix) "move_move" (pc-relative load at 0xe96914)
+0xe9d444	monster-em	B	enemy fsm state name (no em prefix) "attack_move" (pc-relative load at 0xe9e374)
+0xea3728	monster-em	B	enemy fsm state name (no em prefix) "fw_move" (pc-relative load at 0xea3850)
+0xea3d9c	monster-em	B	enemy fsm state name (no em prefix) "action_move" (pc-relative load at 0xea4088)
+0xea4870	monster-em	B	enemy fsm state name (no em prefix) "move_move" (pc-relative load at 0xea4924)
+0xea5564	monster-em	B	enemy fsm state name (no em prefix) "moguri_move" (pc-relative load at 0xea55a8)
+0xea9fe0	monster-em	B	enemy fsm state name (no em prefix) "attack_move" (pc-relative load at 0xeaa358)
+0xeaef44	monster-em	A	enemy move name "em047_00_fw_move" (pc-relative load at 0xeaf064)
+0xeaf478	monster-em	A	enemy move name "em047_00_action_move" (pc-relative load at 0xeaf668)
+0xeafaf4	monster-em	A	enemy move name "em047_00_move_move" (pc-relative load at 0xeafe9c)
+0xeb0958	monster-em	A	enemy move name "em047_00_moguri_move" (pc-relative load at 0xeb0c74)
+0xeb4704	monster-em	A	enemy move name "em047_00_attack_move" (pc-relative load at 0xeb4cf8)
+0xeb57cc	monster-em	A	enemy move name "em047_00_revival_move" (pc-relative load at 0xeb5880)
+0xeb8694	monster-em	B	enemy fsm state name (no em prefix) "fw_move" (pc-relative load at 0xeb87f0)
+0xeb9fd8	monster-em	B	enemy fsm state name (no em prefix) "action_move" (pc-relative load at 0xeba898)
+0xebb170	monster-em	B	enemy fsm state name (no em prefix) "move_move" (pc-relative load at 0xebb274)
+0xebbc9c	monster-em	B	enemy fsm state name (no em prefix) "fly_move" (pc-relative load at 0xebbe08)
+0xec1f5c	monster-em	B	enemy fsm state name (no em prefix) "attack_move" (pc-relative load at 0xec21ec)
+0xec5440	monster-em	B	enemy fsm state "maguma_Change" (pc-relative load at 0xec550c)
+0xec6d78	monster-em	B	enemy fsm state name (no em prefix) "action_move" (pc-relative load at 0xec8e68)
+0xece2a0	monster-em	B	enemy fsm state name (no em prefix) "attack_move" (pc-relative load at 0xecf170)
+0xecfe88	monster-em	B	enemy fsm state "blue_Change" (pc-relative load at 0xed090c)
+0xed28e8	monster-em	A	enemy move name "em055_00_action_move" (pc-relative load at 0xed4674)
+0xee4bf8	monster-em	B	enemy fsm state name (no em prefix) "action_move" (pc-relative load at 0xee6734)
+0xee6f64	monster-em	B	enemy fsm state name (no em prefix) "move_move" (pc-relative load at 0xee7828)
+0xee8560	monster-em	B	enemy fsm state name (no em prefix) "attack_move" (pc-relative load at 0xee9be0)
+0xeea098	monster-em	B	enemy fsm state name (no em prefix) "fw_move" (pc-relative load at 0xeeafe8)
+0xeedbcc	monster-em	B	enemy state/pattern "tyoutaiden_Loop" (pc-relative load at 0xeeed3c)
+0xef37b4	monster-em	A	enemy move name "em057_00ActionMove" (pc-relative load at 0xef526c)
+0xef5da4	monster-em	A	enemy move name "em057_00MoveMove" (pc-relative load at 0xef7d14)
+0xf00c6c	monster-em	A	enemy move name "em057_00CatchMove" (pc-relative load at 0xf02248)
+0xf08600	monster-em	B	enemy fsm state "hire_repeat02" (pc-relative load at 0xf0a194)
+0xf14c84	monster-em	B	enemy fsm state name (no em prefix) "fw_move" (pc-relative load at 0xf14f94)
+0xf15a68	monster-em	B	enemy fsm state name (no em prefix) "action_move" (pc-relative load at 0xf16274)
+0xf16f50	monster-em	B	enemy fsm state name (no em prefix) "move_move" (pc-relative load at 0xf1746c)
+0xf28408	monster-em	A	enemy move name "em061_00ActionMove" (pc-relative load at 0xf299f8)
+0xf38a04	monster-em	B	enemy fsm state "Angry_Repeat" (pc-relative load at 0xf39590)
+0xf39dec	monster-em	A	enemy move name "em063_00FwMove" (pc-relative load at 0xf3a894)
+0xf3acdc	monster-em	A	enemy move name "em063_00ActionMove" (pc-relative load at 0xf3b480)
+0xf3c9a8	monster-em	A	enemy move name "em063_00MoveMove" (pc-relative load at 0xf3d24c)
+0xf42e0c	monster-em	A	enemy move name "em063_00AttackMove" (pc-relative load at 0xf46714)
+0xf4de70	monster-em	A	enemy move name "em065_00FwMove" (pc-relative load at 0xf4df4c)
+0xf4e3b4	monster-em	A	enemy move name "em065_00ActionMove" (pc-relative load at 0xf4e4a8)
+0xf4efe8	monster-em	A	enemy move name "em065_00MoveMove" (pc-relative load at 0xf4f16c)
+0xf52100	monster-em	A	enemy move name "em065_00FlyMove" (pc-relative load at 0xf52604)
+0xf5768c	monster-em	A	enemy move name "em065_00AttackMove" (pc-relative load at 0xf579d0)
+0xf59b64	monster-em	A	enemy move name "em066_00_ActionMove" (pc-relative load at 0xf5dce8)
+0xf5e088	monster-em	A	enemy move name "em066_00_MoveMove" (pc-relative load at 0xf600b8)
+0xf6a428	monster-em	A	enemy move name "em067_00FwMove" (pc-relative load at 0xf6a598)
+0xf6cf0c	monster-em	A	enemy move name "em067_00ActionMove" (pc-relative load at 0xf6d1dc)
+0xf6eb14	monster-em	A	enemy move name "em067_00MoveMove" (pc-relative load at 0xf6ebec)
+0xf71034	monster-em	A	enemy move name "em067_00MoguriMove" (pc-relative load at 0xf712c8)
+0xf75678	monster-em	A	enemy move name "em067_00AttackMove" (pc-relative load at 0xf75b38)
+0xf7e700	monster-em	A	enemy move name "em068_00FwMove" (pc-relative load at 0xf7e7dc)
+0xf7f230	monster-em	A	enemy move name "em068_00ActionMove" (pc-relative load at 0xf7f2c4)
+0xf88938	monster-em	A	enemy move name "em068_00DemoMove" (pc-relative load at 0xf88988)
+0xf8b178	monster-em	B	enemy fsm state "Stamina_low_Start" (pc-relative load at 0xf8d648)
+0xf91778	monster-em	A	enemy move name "em069_00FwMove" (pc-relative load at 0xf91860)
+0xf93330	monster-em	A	enemy move name "em069_00ActionMove" (pc-relative load at 0xf93a4c)
+0xf960ac	monster-em	A	enemy move name "em069_00HoverMove" (pc-relative load at 0xf96150)
+0xf9a418	monster-em	A	enemy move name "em069_00AttackMove" (pc-relative load at 0xf9a608)
+0xf9bcec	monster-em	A	enemy move name "em069_00Catch2Move" (pc-relative load at 0xf9bd3c)
+0xf9fdb8	monster-em	A	enemy move name "em070_00ActionMove" (pc-relative load at 0xfa1fbc)
+0xfa3f84	monster-em	A	enemy move name "em070_00MoveMove" (pc-relative load at 0xfa45d4)
+0xfa6f38	monster-em	A	enemy move name "em070_00MoguriMove" (pc-relative load at 0xfa7ba0)
+0xfa8458	monster-em	A	enemy move name "em070_00AttackMove" (pc-relative load at 0xfac7a0)
+0xfaf0ec	monster-em	B	enemy fsm state "BodyLight_Normal" (pc-relative load at 0xfb09dc)
+0xfb26c4	monster-em	A	enemy move name "em071_00ActionMove" (pc-relative load at 0xfb2fb8)
+0xfc9434	monster-em	A	enemy move name "em076_00FwMove" (pc-relative load at 0xfcae20)
+0xfcca98	monster-em	A	enemy move name "em076_00ActionMove" (pc-relative load at 0xfcd560)
+0xfdda6c	monster-em	A	enemy move name "em077_00ActionMove" (pc-relative load at 0xfde8ec)
+0xff2614	monster-em	B	enemy mesh name "XfBAN__E0__m03_stealth01" (pc-relative load at 0xff2990)
+0xff5944	monster-em	B	enemy fsm state name (no em prefix) "action_move" (pc-relative load at 0xff6310)
+0x1003a80	monster-em	B	enemy fsm state name (no em prefix) "action_move" (pc-relative load at 0x1004058)
+0x100d3b4	monster-em	B	enemy fsm state "dark_Change_Loop_End" (pc-relative load at 0x100d4b8)
+0x100d86c	monster-em	B	enemy fsm state "overheat_Change" (pc-relative load at 0x100d9c8)
+0x101e170	monster-em	B	enemy fsm state name (no em prefix) "fw_move" (pc-relative load at 0x101e288)
+0x101e44c	monster-em	B	enemy fsm state name (no em prefix) "action_move" (pc-relative load at 0x101e778)
+0x101f3c0	monster-em	B	enemy fsm state name (no em prefix) "move_move" (pc-relative load at 0x101f550)
+0x101fd24	monster-em	B	enemy fsm state name (no em prefix) "fly_move" (pc-relative load at 0x101fef8)
+0x10251d0	monster-em	B	enemy fsm state name (no em prefix) "hover_move" (pc-relative load at 0x1025640)
+0x1026be4	monster-em	B	enemy fsm state name (no em prefix) "attack_move" (pc-relative load at 0x10270c0)
+0x103ca5c	monster-em	A	enemy move name "em082_00FwMove" (pc-relative load at 0x103cb28)
+0x103ccd0	monster-em	A	enemy move name "em082_00ActionMove" (pc-relative load at 0x103cf28)
+0x103ee38	monster-em	A	enemy move name "em082_00MoveMove" (pc-relative load at 0x103f430)
+0x1043554	monster-em	A	enemy move name "em082_00AttackMove" (pc-relative load at 0x1043a24)
+0x1052824	unmatched	C	no attributable name; strings "snow_saisei"
+0x1057e6c	monster-em	B	enemy fsm state name (no em prefix) "fw_move" (pc-relative load at 0x1057f7c)
+0x1057fe8	monster-em	B	enemy fsm state name (no em prefix) "action_move" (pc-relative load at 0x105826c)
+0x1058d9c	monster-em	B	enemy fsm state name (no em prefix) "move_move" (pc-relative load at 0x1058fb0)
+0x1059b84	monster-em	B	enemy fsm state name (no em prefix) "attack_move" (pc-relative load at 0x105a3b0)
+0x1060cf0	monster-em	B	enemy fsm state name (no em prefix) "revival_move" (pc-relative load at 0x1060d08)
+0x1060d9c	monster-em	B	enemy fsm state name (no em prefix) "demo_move" (pc-relative load at 0x1060e10)
+0x1067d58	monster-em	B	enemy state/pattern "hadouhouMAX_Start" (pc-relative load at 0x1068858)
+0x108016c	monster-em	B	enemy state/pattern "normal_Loop" (pc-relative load at 0x1080354)
+0x108e9f4	monster-em	B	enemy fsm state name (no em prefix) "action_move" (pc-relative load at 0x108f5d0)
+0x109729c	monster-em	A	enemy move name "em086_00FwMove" (pc-relative load at 0x1097504)
+0x109b8ec	monster-em	A	enemy move name "em086_00AttackMove" (pc-relative load at 0x109f2c4)
+0x10a1814	monster-em	B	enemy fsm state "tired_start" (pc-relative load at 0x10a1aec)
+0x10b26a0	monster-em	B	enemy fsm state name (no em prefix) "actionMove" (pc-relative load at 0x10b2b48)
+0x10b62e8	monster-em	B	enemy fsm state "angry_start" (pc-relative load at 0x10b64dc)
+0x10bf7a0	monster-em	B	enemy fsm state name (no em prefix) "actionMove" (pc-relative load at 0x10bff6c)
+0x10c0648	monster-em	B	enemy fsm state name (no em prefix) "attackMove" (pc-relative load at 0x10c2320)
+0x10c86c0	monster-em	A	enemy move name "ems001_00ActionMove" (pc-relative load at 0x10c9770)
+0x10cc518	monster-em	A	enemy move name "ems002_00ActionMove" (pc-relative load at 0x10cd510)
+0x10cfff4	monster-em	A	enemy move name "ems003_00FwMove" (pc-relative load at 0x10d00a4)
+0x10d0288	monster-em	A	enemy move name "ems003_00ActionMove" (pc-relative load at 0x10d0478)
+0x10d0f7c	monster-em	A	enemy move name "ems003_00MoveMove" (pc-relative load at 0x10d1184)
+0x10d146c	monster-em	A	enemy move name "ems003_00FlyMove" (pc-relative load at 0x10d14f0)
+0x10d3054	monster-em	B	enemy fsm state name (no em prefix) "fw_move" (pc-relative load at 0x10d30c4)
+0x10d3104	monster-em	B	enemy fsm state name (no em prefix) "action_move" (pc-relative load at 0x10d31cc)
+0x10d33e0	monster-em	B	enemy fsm state name (no em prefix) "move_move" (pc-relative load at 0x10d3458)
+0x10d3b1c	monster-em	B	enemy fsm state name (no em prefix) "fly_move" (pc-relative load at 0x10d3c08)
+0x10d4f04	monster-em	B	enemy fsm state name (no em prefix) "fw_move" (pc-relative load at 0x10d4f7c)
+0x10d549c	monster-em	B	enemy fsm state name (no em prefix) "move_move" (pc-relative load at 0x10d5530)
+0x10d5adc	monster-em	B	enemy fsm state name (no em prefix) "attack_move" (pc-relative load at 0x10d5b6c)
+0x10d6328	monster-em	B	enemy fsm state name (no em prefix) "action_move" (pc-relative load at 0x10d6eb4)
+0x10d75b0	monster-em	A	enemy move name "ems007_00ActionMove" (pc-relative load at 0x10daeec)
+0x10db374	monster-em	A	enemy move name "ems007_00MoveMove" (pc-relative load at 0x10dbc38)
+0x10de520	monster-em	A	enemy move name "ems009_00ActionMove" (pc-relative load at 0x10df140)
+0x10df3bc	monster-em	A	enemy move name "ems009_00AttackMove" (pc-relative load at 0x10e118c)
+0x10e5a48	monster-em	A	enemy move name "ems016_00FwMove" (pc-relative load at 0x10e5b18)
+0x10e5cfc	monster-em	A	enemy move name "ems016_00ActionMove" (pc-relative load at 0x10e5eec)
+0x10e6ba8	monster-em	A	enemy move name "ems016_00MoveMove" (pc-relative load at 0x10e6d70)
+0x10e7254	monster-em	A	enemy move name "ems016_00FlyMove" (pc-relative load at 0x10e72d8)
+0x10e925c	monster-em	A	enemy move name "ems019_00ActionMove" (pc-relative load at 0x10eb244)
+0x10ed758	monster-em	A	enemy move name "ems022_00ActionMove" (pc-relative load at 0x10ee654)
+0x10f0b84	monster-em	B	enemy fsm state name (no em prefix) "fw_move" (pc-relative load at 0x10f0c4c)
+0x10f0cb8	monster-em	B	enemy fsm state name (no em prefix) "action_move" (pc-relative load at 0x10f0e08)
+0x10f0ee4	monster-em	B	enemy fsm state name (no em prefix) "move_move" (pc-relative load at 0x10f10b4)
+0x10f1288	monster-em	B	enemy fsm state name (no em prefix) "attack_move" (pc-relative load at 0x10f1320)
+0x10f1a88	monster-em	B	enemy fsm state name (no em prefix) "revival_move" (pc-relative load at 0x10f1aa0)
+0x10f2754	monster-em	A	enemy move name "ems025_00FwMove" (pc-relative load at 0x10f27c0)
+0x10f2b84	monster-em	A	enemy move name "ems025_00ActionMove" (pc-relative load at 0x10f2cc0)
+0x10f33a4	monster-em	A	enemy move name "ems025_00MoveMove" (pc-relative load at 0x10f3544)
+0x10f3b08	monster-em	A	enemy move name "ems025_00AttackMove" (pc-relative load at 0x10f3bc4)
+0x10f423c	monster-em	A	enemy move name "ems025_00RevivalMove" (pc-relative load at 0x10f42d4)
+0x10f788c	monster-em	B	enemy state/pattern "hara_orange01" (pc-relative load at 0x10f8ccc)
+0x10f9d08	monster-em	A	enemy move name "ems027_00FwMove" (pc-relative load at 0x10f9dbc)
+0x10fa118	monster-em	A	enemy move name "ems027_00ActionMove" (pc-relative load at 0x10fa2e0)
+0x10fa8ec	monster-em	A	enemy move name "ems027_00MoveMove" (pc-relative load at 0x10faaa4)
+0x10fc120	monster-em	A	enemy move name "ems027_00FlyMove" (pc-relative load at 0x10fc204)
+0x10fc938	monster-em	A	enemy move name "ems027_00AttackMove" (pc-relative load at 0x10fca64)
+0x10fe6e0	monster-em	A	enemy move name "ems034_00AttackMove" (pc-relative load at 0x10fff78)
+0x1100780	monster-em	A	enemy move name "ems034_00DemoMove" (pc-relative load at 0x110083c)
+0x1101018	monster-em	A	enemy move name "ems035_00ActionMove" (pc-relative load at 0x1101ec0)
+0x1102750	monster-em	A	enemy move name "ems035_00MoveMove" (pc-relative load at 0x1102a74)
+0x1103360	monster-em	A	enemy move name "ems035_00AttackMove" (pc-relative load at 0x11033ac)
+0x1104410	monster-em	A	enemy move name "ems039_00_fw_move" (pc-relative load at 0x11044c0)
+0x11045e4	monster-em	A	enemy move name "ems039_00_zako_action_move" (pc-relative load at 0x11046ac)
+0x1104b84	monster-em	A	enemy move name "ems039_00_zako_move_move" (pc-relative load at 0x1104c28)
+0x11050a8	monster-em	A	enemy move name "ems039_00_zako_attack_move" (pc-relative load at 0x110515c)
+0x1105c90	monster-em	A	enemy move name "ems040_00_action_move" (pc-relative load at 0x1106f28)
+0x1107040	monster-em	A	enemy move name "ems040_00_moguri_move" (pc-relative load at 0x1108048)
+0x110a250	monster-em	A	enemy move name "ems042_00FwMove" (pc-relative load at 0x110a300)
+0x110a4d8	monster-em	A	enemy move name "ems042_00ActionMove" (pc-relative load at 0x110a5b4)
+0x110ae58	monster-em	A	enemy move name "ems042_00MoveMove" (pc-relative load at 0x110b0e0)
+0x110b650	monster-em	A	enemy move name "ems042_00AttackMove" (pc-relative load at 0x110b750)
+0x110d0ec	monster-em	A	enemy move name "ems044_00AttackMove" (pc-relative load at 0x110f454)
+0x111147c	monster-em	A	enemy move name "ems045_00FwMove" (pc-relative load at 0x1111508)
+0x1111d84	monster-em	A	enemy move name "ems045_00ActionMove" (pc-relative load at 0x1111ecc)
+0x111275c	monster-em	A	enemy move name "ems045_00MoveMove" (pc-relative load at 0x1112904)
+0x1114298	monster-em	A	enemy move name "ems045_00FlyMove" (pc-relative load at 0x1114488)
+0x1114e50	monster-em	A	enemy move name "ems045_00MoguriMove" (pc-relative load at 0x1114f5c)
+0x111642c	monster-em	A	enemy move name "ems045_00AttackMove" (pc-relative load at 0x1116538)
+0x1116c24	monster-em	A	enemy move name "ems045_00RevivalMove" (pc-relative load at 0x1116c3c)
+0x11170ec	monster-em	B	enemy fsm state name (no em prefix) "action_move" (pc-relative load at 0x1117a60)
+0x111b48c	monster-em	B	enemy fsm state name (no em prefix) "revival_move" (pc-relative load at 0x111c430)
+0x111ec10	monster-em	A	enemy move name "ems048_00FwMove" (pc-relative load at 0x111ecc0)
+0x111edf4	monster-em	A	enemy move name "ems048_00ActionMove" (pc-relative load at 0x111ee88)
+0x111f470	monster-em	A	enemy move name "ems048_00MoveMove" (pc-relative load at 0x111f59c)
+0x111f894	monster-em	A	enemy move name "ems048_00FlyMove" (pc-relative load at 0x111f918)
+0x1120360	monster-em	A	enemy move name "ems048_00DemoMove" (pc-relative load at 0x1120378)
+0x121dd8c	filesystem	B	zlib inflate "too many length or distance symbols" (pc-relative load at 0x121e508)
+0x1222ce8	filesystem	B	zlib inflate "invalid distance code" (pc-relative load at 0x1222dec)
+0x1224704	unmatched	C	no attributable name; strings "2%03d%04d"
+0x12275f8	unmatched	C	no attributable name; strings "/Incoming|/Outgoing"
+0x122832c	unmatched	C	no attributable name; strings "%04d-%02d-%02d %02d:%02d:%02d"
+0x12283c8	unmatched	C	no attributable name; strings "(null)"
+0x1229450	unmatched	C	no attributable name; strings "Unknown"
+0x122a3d4	online-nex	A	NEX "NEX " (pc-relative load at 0x122a410)
+0x122d788	unmatched	C	no attributable name; strings "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+0x122dd54	unmatched	C	no attributable name; strings "(null)"
+0x122de44	unmatched	C	no attributable name; strings "%02X"
+0x122e42c	unmatched	C	no attributable name; strings "true|false"
+0x122e598	unmatched	C	no attributable name; strings "%llu"
+0x122fc38	unmatched	C	no attributable name; strings "<INVALID>|(null)|%04d-%02d-%02d %02d:%02d:%02d|%lld|%llu"
+0x122ff3c	unmatched	C	no attributable name; strings "255.255.255.255"
+0x1230bbc	online-nex	A	NEX "SDK MW+Nintendo+NEX-4_4_0-AGQ" (pc-relative load at 0x1230bd4)
+0x1237d98	unmatched	C	no attributable name; strings "Encryption Error"
+0x1245bac	unmatched	C	no attributable name; strings "System Components|Core"
+0x12465ec	unmatched	C	no attributable name; strings "CallContextRegister|SystemComponent|SystemComponentGroup"
+0x1247e94	unmatched	C	no attributable name; strings "http"
+0x1257f98	unmatched	C	no attributable name; strings "probeinit"
+0x12580ec	unmatched	C	no attributable name; strings "Dummy"
+0x125b7f0	unmatched	C	no attributable name; strings "stream"
+0x125eb28	unmatched	C	no attributable name; strings "type"
+0x125f5d8	online-nex	B	net/nex sdk "prudps" (pc-relative load at 0x125f694)
+0x125f930	unmatched	C	no attributable name; strings "%s%s%llu|%s%s%s"
+0x12602bc	unmatched	C	no attributable name; strings "natm"
+0x1260314	unmatched	C	no attributable name; strings "natf"
+0x126036c	unmatched	C	no attributable name; strings "upnp"
+0x12603dc	unmatched	C	no attributable name; strings "type"
+0x126078c	unmatched	C	no attributable name; strings "address|port"
+0x1261bbc	online-nex	B	net/nex sdk "prudp:/" (pc-relative load at 0x1261d40)
+0x1282cd4	unmatched	C	no attributable name; strings "255.0.0.0"
+0x1287e00	unmatched	C	no attributable name; strings "ComponentState|SystemComponent"
+0x128f234	unmatched	C	no attributable name; strings "255.255.255.255|localhost|127.0.0.1"
+0x1298cdc	online-nex	B	net/nex sdk "ClientWebSocketDriver::ClientWebSocket" (pc-relative load at 0x12995cc)
+0x129cc60	unmatched	C	no attributable name; strings "expect"
+0x129d370	online-nex	B	net/nex sdk "Content-Type: multipart/form-data; boundary=%s" (pc-relative load at 0x129d40c)
+0x12a1c3c	unmatched	C	no attributable name; strings "Client call close"
+0x12a5278	unmatched	C	no attributable name; strings "<unknown>"
+0x12a81e0	online-nex	B	nex notification event "NintendoNotificationEventManager" (pc-relative load at 0x12a8290)
+0x12a82e4	online-nex	B	nex notification event "NintendoNotificationEventManager" (pc-relative load at 0x12a8458)
+0x12a8930	online-nex	B	nex notification event "NotificationEvent (" (pc-relative load at 0x12a8938)
+0x12a9060	online-nex	B	nex notification event "NotificationEventManager" (pc-relative load at 0x12a912c)
+0x12aa6c0	unmatched	C	no attributable name; strings "Protocol"
+0x12ad458	unmatched	C	no attributable name; strings "<unknown>"
+0x12af54c	unmatched	C	no attributable name; strings " UserMessage ("
+0x12af65c	unmatched	C	no attributable name; strings " MessageRecipient(| Type=PID-type| Type=GatheringID-type| UNK type="
+0x12b01fc	unmatched	C	no attributable name; strings "CallProtocolMethod|ClientProtocol|Protocol|SystemComponent|ServerProto"
+0x12b07d4	unmatched	C	no attributable name; strings "<unknown>"
+0x12b0984	unmatched	C	no attributable name; strings "<unknown>"
+0x12c60b0	online-nex	B	net/nex sdk "prudps" (pc-relative load at 0x12c6524)
+0x12c7aa0	online-nex	A	NEX "SDK MW+Nintendo+NEX_UT-4_4_0" (pc-relative load at 0x12c7acc)
+0x12d6e10	unmatched	C	no attributable name; strings "Community|PersistentGathering"
+0x12d91f0	unmatched	C	no attributable name; strings "BinaryMessage"
+0x12d9d7c	unmatched	C	no attributable name; strings "TextMessage"
+0x12db310	online-nex	A	NEX "SDK MW+Nintendo+NEX_DS-4_4_0" (pc-relative load at 0x12db39c)
+0x13067a4	online-nex	B	pia/ldn sdk "pia common heap" (pc-relative load at 0x13068e4)
+0x1306bbc	online-nex	B	pia/ldn sdk "SDK MW+Nintendo+PiaCommon-5_2_15" (pc-relative load at 0x1306bbc)
+0x130b4d0	online-nex	B	pia/ldn sdk "SDK MW+Nintendo+Pia-5_2_15" (pc-relative load at 0x130b4d0)
+0x130c2b4	online-nex	B	pia/ldn sdk "Pia BackgroundScheduler" (pc-relative load at 0x130c300)
+0x130ca5c	unmatched	C	no attributable name; strings "%d.%d.%d.%d:%d"
+0x130da44	online-nex	B	pia/ldn sdk "pia inet heap" (pc-relative load at 0x130da90)
+0x130dc50	online-nex	B	pia/ldn sdk "SDK MW+Nintendo+PiaInet-5_2_15" (pc-relative load at 0x130dc50)
+0x131e2e0	online-nex	B	net/nex sdk "MonitoringServerAddressResolveJob::StepResolveMonitoringServerAddress" (pc-relative load at 0x131e348)
+0x134c520	online-nex	B	net/nex sdk "MonitoringDataSendJob::StepSendReport" (pc-relative load at 0x134c578)
+0x134d28c	online-nex	B	net/nex sdk "NatDetectionJob::StepComplete" (pc-relative load at 0x134d340)
+0x134d3d8	online-nex	B	net/nex sdk "NatDetectionJob::StepComplete" (pc-relative load at 0x134d5f0)
+0x134f1e8	online-nex	B	pia/ldn sdk "pia local heap" (pc-relative load at 0x134f23c)
+0x134f42c	online-nex	B	pia/ldn sdk "SDK MW+Nintendo+PiaLocal-5_2_15" (pc-relative load at 0x134f42c)
+0x135a5b4	online-nex	B	net/nex sdk "LocalScanNetworkJob::WaitForCancel" (pc-relative load at 0x135a690)
+0x135a9d4	online-nex	B	net/nex sdk "LdnBackgroundProcessJob::WaitCreateNetworkEvent" (pc-relative load at 0x135ae88)
+0x135aea8	online-nex	B	net/nex sdk "LdnBackgroundProcessJob::WaitConnectNetworkEvent" (pc-relative load at 0x135b8a0)
+0x135b9f0	online-nex	B	net/nex sdk "LdnBackgroundProcessJob::WaitCreateNetworkEvent" (pc-relative load at 0x135bdd4)
+0x135bdf4	online-nex	B	net/nex sdk "LdnBackgroundProcessJob::WaitConnectNetworkEvent" (pc-relative load at 0x135c104)
+0x135dad8	online-nex	B	net/nex sdk "LocalAllowParticipatingJob::WaitAllowParticipating" (pc-relative load at 0x135db58)
+0x135df5c	online-nex	B	net/nex sdk "LocalBackgroundProcessJob::DestroyNetwork" (pc-relative load at 0x135dfd0)
+0x135e0f8	online-nex	B	net/nex sdk "LocalBackgroundProcessJob::DisconnectNetwork" (pc-relative load at 0x135e170)
+0x135e188	online-nex	B	net/nex sdk "LocalBackgroundProcessJob::CreateNetwork" (pc-relative load at 0x135e23c)
+0x135e2e8	online-nex	B	net/nex sdk "LocalBackgroundProcessJob::ConnectNetwork" (pc-relative load at 0x135e370)
+0x135e5bc	online-nex	B	net/nex sdk "LocalConnectNetworkJob::ProcessSucceeded" (pc-relative load at 0x135e734)
+0x135ec90	online-nex	B	net/nex sdk "LocalDestroyNetworkJob::WaitUntilAllClientsReceiveUpdateSessionMessage" (pc-relative load at 0x135edd0)
+0x135ee20	online-nex	B	net/nex sdk "LocalDestroyNetworkJob::WaitUntilAllClientsDisconnection" (pc-relative load at 0x135f098)
+0x135fab0	online-nex	B	net/nex sdk "LocalEjectClientListCheckJob::WaitEjectTargetClient" (pc-relative load at 0x135fcbc)
+0x135fe48	online-nex	B	net/nex sdk "LocalEventCheckBackgroundJob::UpdateConnectionStatus" (pc-relative load at 0x135fe90)
+0x1360040	online-nex	B	net/nex sdk "LocalEventJob::WaitConnectionStatusUpdated" (pc-relative load at 0x13600c4)
+0x13600e4	online-nex	B	net/nex sdk "LocalEventJob::WaitBackgroundJobEnd" (pc-relative load at 0x13601d4)
+0x13601f0	online-nex	B	net/nex sdk "LocalEventJob::WatchUpdateEvent" (pc-relative load at 0x136021c)
+0x1363a90	online-nex	B	net/nex sdk "LocalMatchUpdateSessionSettingJob::SignalProcess" (pc-relative load at 0x1363bd8)
+0x1365174	online-nex	B	net/nex sdk "LocalAllowParticipatingBackgroundJob::AllowParticipating" (pc-relative load at 0x13651e4)
+0x13653e4	online-nex	B	net/nex sdk "LocalEjectClientBackgroundJob::EjectClient" (pc-relative load at 0x136543c)
+0x136d4d0	unmatched	C	no attributable name; strings "%llu|%lld|%.8f"
+0x1371290	online-nex	B	pia/ldn sdk "pia session heap" (pc-relative load at 0x13712dc)
+0x1374af4	online-nex	B	pia/ldn sdk "SDK MW+Nintendo+PiaSession-5_2_15" (pc-relative load at 0x1374af4)
+0x138c548	online-nex	B	net/nex sdk "RelayRouteManageJob::WaitAllDirectConnectionReport" (pc-relative load at 0x138c5e8)
+0x138cad0	online-nex	B	net/nex sdk "RelayRouteManageJob::WaitAllDirectConnectionReport" (pc-relative load at 0x138cbf8)
+0x1395650	online-nex	B	net/nex sdk "AddPlayHistoryJob::CheckPlayerHistoryList" (pc-relative load at 0x13956b4)
+0x1395f04	online-nex	B	net/nex sdk "CloseParticipationJob::CloseParticipation" (pc-relative load at 0x1395fc0)
+0x139614c	online-nex	B	net/nex sdk "CloseParticipationJob::WaitP2pStable" (pc-relative load at 0x139627c)
+0x1398940	online-nex	B	pia/ldn sdk "pia transport heap" (pc-relative load at 0x139898c)
+0x139b704	online-nex	B	pia/ldn sdk "SDK MW+Nintendo+PiaTransport-5_2_15" (pc-relative load at 0x139b704)
+0x13b0518	online-nex	B	pia/ldn sdk "[Analysis] ------ BEGIN(Pia Connection info; %d.%03d sec. passed) ------"
+0x13c0014	unmatched	C	no attributable name; strings "mime|video/avc|video/|audio/|video/x-vnd.on2.vp8|video/x-vnd.on2.vp9|a"
+0x13c03dc	unmatched	C	no attributable name; strings ".mp4|.webm|.mkv|.ogg"
+0x13c04b8	unmatched	C	no attributable name; strings ".mp4|.webm|.mkv|.ogg"
+0x13c08e8	unmatched	C	no attributable name; strings "width|height|durationUs|frame-rate|stride|crop"
+0x13c0a14	unmatched	C	no attributable name; strings "video"
+0x13c0b44	unmatched	C	no attributable name; strings "video|video output"
+0x13c19ec	unmatched	C	no attributable name; strings "sample-rate|channel-count|durationUs"
+0x13c1c60	unmatched	C	no attributable name; strings "audio"
+0x13c1ccc	unmatched	C	no attributable name; strings "audio|audio output"
+0x13c3120	unmatched	C	no attributable name; strings "easy handle already used in multi handle"
+0x13c33dc	unmatched	C	no attributable name; strings "CONNECT_ONLY is required!|Failed to get recent socket"
+0x13c349c	unmatched	C	no attributable name; strings "CONNECT_ONLY is required!|Failed to get recent socket"
+0x13c3574	filesystem	B	xml file name ".xml" (pc-relative load at 0x13c3a70)
+0x13c40c4	online-nex	B	net/nex sdk "Content-Type: multipart/form-data" (pc-relative load at 0x13c4130)
+0x13c4aa0	unmatched	C	no attributable name; strings "; filename=""%s"""
+0x13c5078	unmatched	C	no attributable name; strings "%s:%d"
+0x13c516c	unmatched	C	no attributable name; strings "%s:%d"
+0x13c555c	unmatched	C	no attributable name; strings "%255[^:]:%d|%s:%d|%255[^:]:%d:%255s"
+0x13c5944	unmatched	C	no attributable name; strings "%d.%d.%d.%d"
+0x13c59f0	unmatched	C	no attributable name; strings "0123456789"
+0x13c5ce0	kernel-os	B	libc printf "(nil)" (pc-relative load at 0x13c671c)
+0x13c8ca4	online-nex	B	libcurl error text "Operation timed out after %ld milliseconds with %lld out of %lld bytes received" (pc-relative load at 0x13c8dbc)
+0x13cac70	unmatched	C	no attributable name; strings "Callback aborted|%2lld:%02lld:%02lld|%3lldd %02lldh|%7lldd"
+0x13cbb40	unmatched	C	no attributable name; strings "%5lld|%4lldk|%2lld.%0lldM|%4lldM|%2lld.%0lldG|%4lldG|%4lldT|%4lldP"
+0x13cd204	unmatched	C	no attributable name; strings "[%s %s %s]"
+0x13cd500	online-nex	B	libcurl error text "Send failure: %s" (pc-relative load at 0x13cd5e0)
+0x13cd61c	online-nex	B	libcurl error text "Send failure: %s" (pc-relative load at 0x13cd690)
+0x13cd75c	online-nex	B	libcurl error text "Write callback asked for PAUSE when not supported!" (pc-relative load at 0x13cd9d8)
+0x13cde9c	unmatched	C	no attributable name; strings "Operation too slow. Less than %ld bytes/sec transferred the last %ld s"
+0x13ce470	unmatched	C	no attributable name; strings "Unknown error %d"
+0x13ce5d4	online-nex	B	libcurl error text "Read callback asked for PAUSE when not supported!" (pc-relative load at 0x13ce6b4)
+0x13ce7bc	online-nex	B	libcurl error text "necessary data rewind wasn't possible" (pc-relative load at 0x13ce8c4)
+0x13cfb20	unmatched	C	no attributable name; strings "No URL set!"
+0x13cfc84	online-nex	B	libcurl error text "Maximum (%ld) redirects followed" (pc-relative load at 0x13cfcbc)
+0x13d0b9c	online-nex	B	net/nex sdk "CURLOPT_SSL_VERIFYHOST no longer supports 1 as value!" (pc-relative load at 0x13d1bec)
+0x13d3d10	online-nex	B	net/nex sdk "Protocol ""%s"" not supported or disabled in libcurl"
+0x13d758c	online-nex	B	net/nex sdk "SDK MW+Nintendo+NintendoSDK_libcurl-4_4_2-Release" (pc-relative load at 0x13d758c)
+0x13d7d90	unmatched	C	no attributable name; strings "LibcurlResolver"
+0x13d8668	unmatched	C	no attributable name; strings "host"
+0x13d8740	unmatched	C	no attributable name; strings "host"
+0x13d8bc4	unmatched	C	no attributable name; strings "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/|%c%c%"
+0x13d92b4	unmatched	C	no attributable name; strings "getpeername() failed with errno %d: %s|getsockname() failed with errno"
+0x13d9510	unmatched	C	no attributable name; strings "Connection time-out|Failed to connect to %s port %ld: %s"
+0x13d9d74	unmatched	C	no attributable name; strings "Connection time-out"
+0x13d9ee8	online-nex	B	pia/ldn sdk "Couldn't bind to interface '%s'" (pc-relative load at 0x13da600)
+0x13da98c	online-nex	B	net/nex sdk "Set-Cookie:" (pc-relative load at 0x13daa9c)
+0x13dabb0	online-nex	B	http cookie field "#HttpOnly_" (pc-relative load at 0x13db1bc)
+0x13dc384	online-nex	B	http cookie field "#HttpOnly_" (pc-relative load at 0x13dc5b8)
+0x13dcb40	unmatched	C	no attributable name; strings "/../"
+0x13e0330	online-nex	B	net/nex sdk "Authorization:" (pc-relative load at 0x13e0424)
+0x13e05f4	online-nex	B	net/nex sdk "Digest" (pc-relative load at 0x13e0658)
+0x13e0d44	online-nex	B	net/nex sdk "Content-Length" (pc-relative load at 0x13e0de8)
+0x13e0fb8	unmatched	C	no attributable name; strings "Invalid TIMEVALUE|%s; %02d %s %4d %02d:%02d:%02d GMT"
+0x13e2d9c	online-nex	B	net/nex sdk "Digest" (pc-relative load at 0x13e2dc4)
+0x13e2e24	unmatched	C	no attributable name; strings "%.*s|Proxy-"
+0x13e5168	unmatched	C	no attributable name; strings "machine|login|password|HOME|%s%s%s"
+0x13e7eec	unmatched	C	no attributable name; strings "stale|realm|opaque|algorithm|MD5-sess|auth|auth-int|true"
+0x13e856c	unmatched	C	no attributable name; strings "%s:%s:%s|%s:%s|%08x%08x%08x%08x|%s:%s:%08x:%s:%s:%s|username=""%s""; r"
+0x13e89f8	unmatched	C	no attributable name; strings "%02x"
+0x13f19fc	unmatched	C	no attributable name; strings "D:\ev1738_ts\Rabbit\buildout\MasterReleaseNXNX32\output\Rabbit_RoAppli"
+0x13f1a08	unmatched	C	no attributable name; strings "\Rabbit\buildout\MasterReleaseNXNX32\output\Rabbit_RoApplicationMTFMas"
+0x13f1a14	unmatched	C	no attributable name; strings "dout\MasterReleaseNXNX32\output\Rabbit_RoApplicationMTFMasterReleaseNX"
+0x13f1a20	unmatched	C	no attributable name; strings "eleaseNXNX32\output\Rabbit_RoApplicationMTFMasterReleaseNX.nss"
+0x13f1a2c	unmatched	C	no attributable name; strings "\output\Rabbit_RoApplicationMTFMasterReleaseNX.nss"
+0x13f1a38	unmatched	C	no attributable name; strings "it_RoApplicationMTFMasterReleaseNX.nss"
+0x13f1a44	unmatched	C	no attributable name; strings "tionMTFMasterReleaseNX.nss"
+0x13f1a50	unmatched	C	no attributable name; strings "rReleaseNX.nss"

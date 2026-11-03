@@ -1,0 +1,3 @@
+docs/editor-spec/01-container-header.md
+docs/editor-spec/02-items-equipment.md
+docs/editor-spec/03-quests-monsters-palico.md

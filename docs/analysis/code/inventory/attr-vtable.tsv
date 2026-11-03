@@ -1,0 +1,1376 @@
+start	label	conf	evidence
+0x2a0	unknown	B	cAngleLimitData registrar 0xb9c vtable 0x172f04c slot 2 (class-record vtable written by str at 0xc3c)
+0x334	unknown	B	cAngleLimitData registrar 0xb9c vtable 0x172f00c slot 1 (instance vtable installed by create 0x2a0 @ install 0xc3c)
+0x360	unknown	B	cAngleLimitData registrar 0xb9c vtable 0x172f00c slot 4 (instance vtable installed by create 0x2a0 @ install 0xc3c)
+0x564	unknown	B	cAngleLimitDataSet registrar 0xb9c vtable 0x172f060 slot 2 (class-record vtable written by str at 0xc74)
+0x5e8	unknown	B	cAngleLimitDataSet registrar 0xb9c vtable 0x172f02c slot 0 (instance vtable installed by create 0x564 @ install 0xc74)
+0x690	render-gfx	A	MtArray registrar 0x7cb8c8 vtable 0x1786fd0 slot 0 (instance vtable installed by create 0x7ca7bc @ install 0x7cbc78)
+0x780	unknown	B	cAngleLimitDataSet registrar 0xb9c vtable 0x172f02c slot 1 (instance vtable installed by create 0x564 @ install 0xc74)
+0x844	unknown	B	cAngleLimitDataSet registrar 0xb9c vtable 0x172f02c slot 4 (instance vtable installed by create 0x564 @ install 0xc74)
+0xcb0	unknown	B	rAngleLimitData registrar 0x10ac vtable 0x172f0dc slot 2 (class-record vtable written by str at 0x1130)
+0xd30	unknown	B	rAngleLimitData registrar 0x10ac vtable 0x172f094 slot 0 (instance vtable installed by create 0xcb0 @ install 0x1130)
+0xd60	unknown	B	rAngleLimitData registrar 0x10ac vtable 0x172f094 slot 1 (instance vtable installed by create 0xcb0 @ install 0x1130)
+0xdb0	unknown	B	rAngleLimitData registrar 0x10ac vtable 0x172f094 slot 12 (instance vtable installed by create 0xcb0 @ install 0x1130)
+0xe70	unknown	B	rAngleLimitData registrar 0x10ac vtable 0x172f094 slot 15 (instance vtable installed by create 0xcb0 @ install 0x1130)
+0xef4	unknown	B	rAngleLimitData registrar 0x10ac vtable 0x172f094 slot 4 (instance vtable installed by create 0xcb0 @ install 0x1130)
+0x1394	unknown	B	aFestaBase registrar 0x16f4 vtable 0x172f110 slot 0 (instance vtable installed by create 0x1160 @ install 0x1774)
+0x1534	unknown	B	aFestaBase registrar 0x16f4 vtable 0x172f110 slot 7 (instance vtable installed by create 0x1160 @ install 0x1774)
+0x153c	unknown	B	aFestaBase registrar 0x16f4 vtable 0x172f110 slot 6 (instance vtable installed by create 0x1160 @ install 0x1774)
+0x15e0	unknown	B	aFestaBase registrar 0x16f4 vtable 0x172f110 slot 9 (instance vtable installed by create 0x1160 @ install 0x1774)
+0x16c4	unknown	B	aFestaBase registrar 0x16f4 vtable 0x172f110 slot 11 (instance vtable installed by create 0x1160 @ install 0x1774)
+0x17f4	unknown	B	aFestaMain registrar 0x18a4 vtable 0x172f168 slot 1 (instance vtable installed by create 0x17a4 @ install 0x19a8)
+0x182c	unknown	B	aFestaMain registrar 0x18a4 vtable 0x172f168 slot 7 (instance vtable installed by create 0x17a4 @ install 0x19a8)
+0x1a30	unknown	B	aGameBase registrar 0x1ab0 vtable 0x172f1c0 slot 1 (instance vtable installed by create 0x19d8 @ install 0x1d04)
+0x1a68	unknown	B	aGameBase registrar 0x1ab0 vtable 0x172f1c0 slot 7 (instance vtable installed by create 0x19d8 @ install 0x1d04)
+0x1ab0	unknown	B	aGameBase registrar 0x1ab0 vtable 0x172f1c0 slot 9 (instance vtable installed by create 0x19d8 @ install 0x1d04)
+0x1d5c	unknown	B	aLobbyBase registrar 0x1dbc vtable 0x172f218 slot 0 (instance vtable installed by create 0x1d34 @ install 0x1ed8)
+0x1d90	unknown	B	aLobbyBase registrar 0x1dbc vtable 0x172f218 slot 6 (instance vtable installed by create 0x1d34 @ install 0x1ed8)
+0x1d94	unknown	B	aLobbyBase registrar 0x1dbc vtable 0x172f218 slot 9 (instance vtable installed by create 0x1d34 @ install 0x1ed8)
+0x1dbc	unknown	B	aLobbyBase registrar 0x1dbc vtable 0x172f218 slot 11 (instance vtable installed by create 0x1d34 @ install 0x1ed8)
+0x1fc8	unknown	B	aMap01 registrar 0x1fc8 vtable 0x172f274 slot 11 (instance vtable installed by create 0x1f08 @ install 0x20ec)
+0x211c	unknown	B	aMap02 registrar 0x21f0 vtable 0x172f310 slot 2 (class-record vtable written by str at 0x22f4)
+0x21d8	unknown	B	aMap02 registrar 0x21f0 vtable 0x172f2cc slot 11 (instance vtable installed by create 0x211c @ install 0x22f4)
+0x2324	unknown	B	aMap03 registrar 0x2324 vtable 0x172f368 slot 2 (class-record vtable written by str at 0x24fc)
+0x2fe8	unknown	B	aMap09 registrar 0x2fe8 vtable 0x172f534 slot 1 (instance vtable installed by create 0x2f98 @ install 0x31a8)
+0x32d4	unknown	B	aMap10 registrar 0x32d4 vtable 0x172f58c slot 11 (instance vtable installed by create 0x31d8 @ install 0x33f0)
+0x3af4	unknown	B	aMap14 registrar 0x3b0c vtable 0x172f6ec slot 11 (instance vtable installed by create 0x3a38 @ install 0x3c10)
+0x59e4	unknown	B	aMapBase registrar 0x5a28 vtable 0x172fbbc slot 0 (instance vtable installed by create 0x59bc @ install 0x5ba8)
+0x5a20	unknown	B	aMapBase registrar 0x5a28 vtable 0x172fbbc slot 7 (instance vtable installed by create 0x59bc @ install 0x5ba8)
+0x5a28	unknown	B	aMapBase registrar 0x5a28 vtable 0x172fbbc slot 8 (instance vtable installed by create 0x59bc @ install 0x5ba8)
+0x5bd8	quest	A	aQuest registrar 0x8674 vtable 0x172fc58 slot 2 (class-record vtable written by str at 0x8874)
+0xfb44	unknown	B	uLobbyNpc613 registrar 0x10680 vtable 0x17304dc slot 0 (instance vtable installed by create 0xf684 @ install 0x114f4)
+0xfc1c	unknown	B	aVillage07Offline registrar 0xb450 vtable 0x1730424 slot 6 (instance vtable installed by create 0xd6ac @ install 0xd838)
+0x10680	unknown	B	aVillage07Offline registrar 0xb450 vtable 0x1730424 slot 9 (instance vtable installed by create 0xd6ac @ install 0xd838)
+0x12cec	unknown	B	cActivityBase registrar 0x140d4 vtable 0x1730a10 slot 0 (instance vtable installed by create 0x12b90 @ install 0x146fc)
+0x16f2c	unknown	B	rStageCameraData::cCameraParam registrar 0x17b5c vtable 0x1730ad0 slot 0 (instance vtable installed by create 0x16d58 @ install 0x17e58)
+0x1c190	unknown	B	uFestaCamera registrar 0x1ebe8 vtable 0x1730c28 slot 0 (instance vtable installed by create 0x1bf00 @ install 0x1eebc)
+0x1c2c8	unknown	B	uFestaCamera registrar 0x1ebe8 vtable 0x1730c28 slot 6 (instance vtable installed by create 0x1bf00 @ install 0x1eebc)
+0x1c334	unknown	B	uFestaCamera registrar 0x1ebe8 vtable 0x1730c28 slot 10 (instance vtable installed by create 0x1bf00 @ install 0x1eebc)
+0x1c4ac	unknown	B	uFestaCamera registrar 0x1ebe8 vtable 0x1730c28 slot 21 (instance vtable installed by create 0x1bf00 @ install 0x1eebc)
+0x2b908	unknown	B	cElementBase registrar 0x2b908 vtable 0x1730ec4 slot 0 (instance vtable installed by create 0x2b8a8 @ install 0x2b980)
+0x2d458	unknown	B	cDebugActionData registrar 0x2dab0 vtable 0x1730fd8 slot 0 (instance vtable installed by create 0x2d35c @ install 0x2dce8)
+0x3103c	otomo-ot	A	cDLCOtomoInfo registrar 0x338a0 vtable 0x1731158 slot 0 (instance vtable installed by create 0x30ed0 @ install 0x33b38)
+0x33cb0	unknown	B	cDLCUpdateInfo registrar 0x344c4 vtable 0x17311c0 slot 0 (instance vtable installed by create 0x33ba8 @ install 0x349d4)
+0x33e60	unknown	B	cDLCUpdateInfo registrar 0x344c4 vtable 0x17311c0 slot 4 (instance vtable installed by create 0x33ba8 @ install 0x349d4)
+0x36244	unknown	B	sFestaDownload registrar 0x3fdc8 vtable 0x17313cc slot 0 (instance vtable installed by create 0x35fa4 @ install 0x3ff90)
+0x43c7c	unknown	B	uMHProofEffect registrar 0x43c7c vtable 0x17317dc slot 0 (instance vtable installed by create 0x43b30 @ install 0x44f60)
+0x45118	unknown	B	uMHProofEffectModel registrar 0x45118 vtable 0x173192c slot 0 (instance vtable installed by create 0x44f90 @ install 0x459b0)
+0x477f8	monster-em	A	cEmDouMouKaData registrar 0x479a0 vtable 0x1731b00 slot 0 (instance vtable installed by create 0x45dcc @ install 0x48500)
+0x48698	monster-em	A	cEmSizeCalcTblElement registrar 0x48ad4 vtable 0x1731ca8 slot 0 (instance vtable installed by create 0x48598 @ install 0x48c68)
+0x4a13c	monster-em	A	cEnemyDebugSetData registrar 0x4a46c vtable 0x1731d98 slot 0 (instance vtable installed by create 0x4a064 @ install 0x4a70c)
+0x4a820	monster-em	A	cEnemyResourceBroker registrar 0x4c124 vtable 0x1731e00 slot 0 (instance vtable installed by create 0x4a77c @ install 0x4c45c)
+0x53ea0	monster-em	A	rEnemyDtBase registrar 0x53ea0 vtable 0x1732fec slot 15 (instance vtable installed by create 0x530e4 @ install 0x54d84)
+0x56180	monster-em	A	rEnemyDtBaseParts registrar 0x56180 vtable 0x1733048 slot 15 (instance vtable installed by create 0x54db4 @ install 0x5639c)
+0x564bc	monster-em	A	rEnemyDtTune registrar 0x564bc vtable 0x17330a4 slot 15 (instance vtable installed by create 0x563cc @ install 0x58918)
+0x66ea8	monster-em	A	sEnemyOutsider registrar 0x67ed4 vtable 0x17335bc slot 0 (instance vtable installed by create 0x66e80 @ install 0x68050)
+0x66edc	monster-em	A	sEnemyOutsider registrar 0x67ed4 vtable 0x17335bc slot 6 (instance vtable installed by create 0x66e80 @ install 0x68050)
+0x66ee8	monster-em	A	sEnemyOutsider registrar 0x67ed4 vtable 0x17335bc slot 10 (instance vtable installed by create 0x66e80 @ install 0x68050)
+0x66eec	monster-em	A	sEnemyOutsider registrar 0x67ed4 vtable 0x17335bc slot 11 (instance vtable installed by create 0x66e80 @ install 0x68050)
+0x680a8	monster-em	A	sEnemyQuest registrar 0x682b8 vtable 0x173362c slot 0 (instance vtable installed by create 0x68080 @ install 0x68780)
+0x680ec	monster-em	A	sEnemyQuest registrar 0x682b8 vtable 0x173362c slot 11 (instance vtable installed by create 0x68080 @ install 0x68780)
+0x6a490	monster-em	A	sEnemyYobi registrar 0x6b0d8 vtable 0x173375c slot 0 (instance vtable installed by create 0x6a468 @ install 0x6b3cc)
+0x70d80	monster-em	A	uEmXXX registrar 0x6b3fc vtable 0x1733830 slot 83 (instance vtable installed by create 0x6b9f0 @ install 0x6c3b8)
+0x723a4	monster-em	A	uEmXXX registrar 0x6b3fc vtable 0x1733830 slot 81 (instance vtable installed by create 0x6b9f0 @ install 0x6c3b8)
+0x9d1a8	monster-em	A	uEmXXX registrar 0x6b3fc vtable 0x1733830 slot 260 (instance vtable installed by create 0x6b9f0 @ install 0x6c3b8)
+0x9d8b4	monster-em	A	uEmXXX registrar 0x6b3fc vtable 0x1733830 slot 259 (instance vtable installed by create 0x6b9f0 @ install 0x6c3b8)
+0xa7e7c	monster-em	A	uEmXXX registrar 0x6b3fc vtable 0x1733830 slot 242 (instance vtable installed by create 0x6b9f0 @ install 0x6c3b8)
+0xa7e80	monster-em	A	uEmXXX registrar 0x6b3fc vtable 0x1733830 slot 243 (instance vtable installed by create 0x6b9f0 @ install 0x6c3b8)
+0xac6c4	monster-em	A	uEmXXX registrar 0x6b3fc vtable 0x1733830 slot 264 (instance vtable installed by create 0x6b9f0 @ install 0x6c3b8)
+0xb0b84	monster-em	A	uEmXXX registrar 0x6b3fc vtable 0x1733830 slot 219 (instance vtable installed by create 0x6b9f0 @ install 0x6c3b8)
+0xb1d1c	monster-em	A	uEmXXX registrar 0x6b3fc vtable 0x1733830 slot 282 (instance vtable installed by create 0x6b9f0 @ install 0x6c3b8)
+0xc0528	monster-em	A	uEmXXX registrar 0x6b3fc vtable 0x1733830 slot 218 (instance vtable installed by create 0x6b9f0 @ install 0x6c3b8)
+0xc0908	monster-em	A	uEmXXX registrar 0x6b3fc vtable 0x1733830 slot 240 (instance vtable installed by create 0x6b9f0 @ install 0x6c3b8)
+0xc9f38	monster-em	A	uEmXXX registrar 0x6b3fc vtable 0x1733830 slot 10 (instance vtable installed by create 0x6b9f0 @ install 0x6c3b8)
+0xc9f3c	monster-em	A	uEmXXX registrar 0x6b3fc vtable 0x1733830 slot 12 (instance vtable installed by create 0x6b9f0 @ install 0x6c3b8)
+0xca22c	monster-em	A	uEmXXX registrar 0x6b3fc vtable 0x1733830 slot 79 (instance vtable installed by create 0x6b9f0 @ install 0x6c3b8)
+0xcd1d4	monster-em	A	uMonsterUnitConductor registrar 0xcd1d4 vtable 0x17351d8 slot 0 (instance vtable installed by create 0xcd078 @ install 0xcdc48)
+0xcdce4	unknown	B	cAmuletAccessor registrar 0xcdce4 vtable 0x173523c slot 0 (instance vtable installed by create 0xcdc78 @ install 0xcde14)
+0xcdf30	unknown	B	cAmuletBase registrar 0xce160 vtable 0x17353bc slot 0 (instance vtable installed by create 0xcde44 @ install 0xce3d8)
+0xce528	unknown	B	cAmuletSkillBase registrar 0xce780 vtable 0x17356bc slot 0 (instance vtable installed by create 0xce44c @ install 0xce900)
+0xcea4c	unknown	B	cAmuletSlotBase registrar 0xced80 vtable 0x1735724 slot 0 (instance vtable installed by create 0xce970 @ install 0xcef5c)
+0xcf048	unknown	B	cArmor00Base registrar 0xd0124 vtable 0x1735900 slot 0 (instance vtable installed by create 0xcf824 @ install 0xd0680)
+0xd08c8	unknown	B	cArmorBuildBase registrar 0xd175c vtable 0x17360bc slot 0 (instance vtable installed by create 0xd07cc @ install 0xd1cc8)
+0xd1e24	unknown	B	cArmorColorBase registrar 0xd2210 vtable 0x1736124 slot 0 (instance vtable installed by create 0xd1d38 @ install 0xd2428)
+0xd25ac	unknown	B	cArmorResistBase registrar 0xd37d0 vtable 0x173618c slot 0 (instance vtable installed by create 0xd2498 @ install 0xd3e5c)
+0xd3fb8	unknown	B	cArmorSeBase registrar 0xd43a4 vtable 0x17361f4 slot 0 (instance vtable installed by create 0xd3ecc @ install 0xd45bc)
+0xd48e0	unknown	B	cArmorSeriesBase registrar 0xd8804 vtable 0x173625c slot 0 (instance vtable installed by create 0xd462c @ install 0xd9b20)
+0xd9c70	unknown	B	cBowgunShellData registrar 0xd9de8 vtable 0x17362c4 slot 0 (instance vtable installed by create 0xd9b94 @ install 0xda014)
+0xda0e4	unknown	B	cEquipBase registrar 0xda0e4 vtable 0x173632c slot 0 (instance vtable installed by create 0xda084 @ install 0xda550)
+0xda66c	unknown	B	cEquipBaseColorData registrar 0xda8ec vtable 0x17364ac slot 0 (instance vtable installed by create 0xda580 @ install 0xdaa94)
+0xdad24	unknown	B	cFestaEquip registrar 0xde21c vtable 0x1736514 slot 0 (instance vtable installed by create 0xdab04 @ install 0xde35c)
+0xe1084	unknown	B	cBulletData registrar 0xe1190 vtable 0x173658c slot 0 (instance vtable installed by create 0xde3c4 @ install 0xe1308)
+0xe1158	unknown	B	cBinData registrar 0xe1190 vtable 0x17365ac slot 0 (instance vtable installed by create 0xde484 @ install 0xe1340)
+0xe14c8	unknown	B	cFestaStatusParam registrar 0xea028 vtable 0x173661c slot 0 (instance vtable installed by create 0xe13cc @ install 0xea2e0)
+0xe15f4	unknown	B	cFestaStatusParam registrar 0xea028 vtable 0x173661c slot 6 (instance vtable installed by create 0xe13cc @ install 0xea2e0)
+0xea3fc	audio	A	cFueMusicBase registrar 0xea67c vtable 0x1736654 slot 0 (instance vtable installed by create 0xea310 @ install 0xea874)
+0xea9d4	audio	A	cFueMusicInfBase registrar 0xeacf8 vtable 0x17366bc slot 0 (instance vtable installed by create 0xea8e8 @ install 0xeaeac)
+0xeb004	audio	A	cFueMusicScBase registrar 0xeb3f0 vtable 0x1736724 slot 0 (instance vtable installed by create 0xeaf20 @ install 0xeb658)
+0xeb7a8	unknown	B	cInsectAbirity registrar 0xeb890 vtable 0x173678c slot 0 (instance vtable installed by create 0xeb6cc @ install 0xeba70)
+0xebbc0	unknown	B	cInsectAttr registrar 0xebe28 vtable 0x17367f4 slot 0 (instance vtable installed by create 0xebae4 @ install 0xebfa8)
+0xec0fc	unknown	B	cInsectAttrFeed registrar 0xec64c vtable 0x173685c slot 0 (instance vtable installed by create 0xec018 @ install 0xec8b0)
+0xeca34	unknown	B	cInsectData registrar 0xedc70 vtable 0x17368c4 slot 0 (instance vtable installed by create 0xec920 @ install 0xee22c)
+0xee37c	unknown	B	cInsectEssenceSkill registrar 0xee464 vtable 0x173692c slot 0 (instance vtable installed by create 0xee2a0 @ install 0xee644)
+0xee79c	unknown	B	cInsectGrowFeed registrar 0xeea40 vtable 0x1736994 slot 0 (instance vtable installed by create 0xee6b8 @ install 0xeeb8c)
+0xeed08	unknown	B	cInsectLevel registrar 0xef0fc vtable 0x17369fc slot 0 (instance vtable installed by create 0xeebfc @ install 0xef2a8)
+0xef414	unknown	B	cInsectParam registrar 0xef7c8 vtable 0x1736a64 slot 0 (instance vtable installed by create 0xef318 @ install 0xef9a0)
+0xefb0c	unknown	B	cKireajiBase registrar 0xeff4c vtable 0x1736acc slot 0 (instance vtable installed by create 0xefa10 @ install 0xf00dc)
+0xf01b8	weapon-wp	A	cLongWeaponBase registrar 0xf01b8 vtable 0x1736b34 slot 0 (instance vtable installed by create 0xf014c @ install 0xf0284)
+0xf0320	weapon-wp	A	cLongWeaponLevel registrar 0xf0320 vtable 0x1736cb8 slot 0 (instance vtable installed by create 0xf02b4 @ install 0xf0460)
+0xf050c	otomo-ot	A	cOtArmor00Base registrar 0xf0ab0 vtable 0x1736f00 slot 0 (instance vtable installed by create 0xf0758 @ install 0xf0fac)
+0xf1180	otomo-ot	A	cOtArmorBase registrar 0xf223c vtable 0x1737214 slot 0 (instance vtable installed by create 0xf102c @ install 0xf2858)
+0xf2a10	otomo-ot	A	cOtWeaponBase registrar 0xf35d0 vtable 0x173727c slot 0 (instance vtable installed by create 0xf28cc @ install 0xf3ad4)
+0xf3f48	unknown	B	cRapidshotBase registrar 0xf427c vtable 0x1737584 slot 0 (instance vtable installed by create 0xf3e6c @ install 0xf44a8)
+0xf4588	weapon-wp	A	cShortWeaponBase registrar 0xf4588 vtable 0x17375ec slot 0 (instance vtable installed by create 0xf451c @ install 0xf4654)
+0xf46f0	weapon-wp	A	cShortWeaponLevel registrar 0xf46f0 vtable 0x1737770 slot 0 (instance vtable installed by create 0xf4684 @ install 0xf4920)
+0xf4a34	unknown	B	cSquatshotBase registrar 0xf4bfc vtable 0x173784c slot 0 (instance vtable installed by create 0xf4950 @ install 0xf4ec4)
+0xf501c	unknown	B	cTameshotBase registrar 0xf51e4 vtable 0x17378b4 slot 0 (instance vtable installed by create 0xf4f38 @ install 0xf54ac)
+0xf56ac	weapon-wp	A	cWeapon00BaseData registrar 0xf6758 vtable 0x173791c slot 0 (instance vtable installed by create 0xf5520 @ install 0xf6e40)
+0xf6fb8	weapon-wp	A	cWeapon00LevelData registrar 0xf76b8 vtable 0x1737c24 slot 0 (instance vtable installed by create 0xf6eb4 @ install 0xf7a28)
+0xf7b78	weapon-wp	A	cWeapon00MsgBase registrar 0xf7c60 vtable 0x1737ddc slot 0 (instance vtable installed by create 0xf7a9c @ install 0xf7fd4)
+0xf81d4	weapon-wp	A	cWeapon01BaseData registrar 0xf9280 vtable 0x1737ea4 slot 0 (instance vtable installed by create 0xf8048 @ install 0xf9994)
+0xf9b0c	weapon-wp	A	cWeapon01LevelData registrar 0xfa20c vtable 0x17381ac slot 0 (instance vtable installed by create 0xf9a08 @ install 0xfa57c)
+0xfa6cc	weapon-wp	A	cWeapon01MsgBase registrar 0xfa7b4 vtable 0x1738364 slot 0 (instance vtable installed by create 0xfa5f0 @ install 0xfab28)
+0xfad28	weapon-wp	A	cWeapon02BaseData registrar 0xfbdd4 vtable 0x173842c slot 0 (instance vtable installed by create 0xfab9c @ install 0xfc4bc)
+0xfc634	weapon-wp	A	cWeapon02LevelData registrar 0xfcd34 vtable 0x1738734 slot 0 (instance vtable installed by create 0xfc530 @ install 0xfd0a4)
+0xfd1f4	weapon-wp	A	cWeapon02MsgBase registrar 0xfd2dc vtable 0x17388ec slot 0 (instance vtable installed by create 0xfd118 @ install 0xfd650)
+0xfd850	weapon-wp	A	cWeapon03BaseData registrar 0xfe8fc vtable 0x17389b4 slot 0 (instance vtable installed by create 0xfd6c4 @ install 0xfefe4)
+0xff15c	weapon-wp	A	cWeapon03LevelData registrar 0xff85c vtable 0x1738cbc slot 0 (instance vtable installed by create 0xff058 @ install 0xffbcc)
+0xffd1c	weapon-wp	A	cWeapon03MsgBase registrar 0xffe04 vtable 0x1738e74 slot 0 (instance vtable installed by create 0xffc40 @ install 0x100178)
+0x100360	weapon-wp	A	cWeapon04BaseData registrar 0x101358 vtable 0x1738f3c slot 0 (instance vtable installed by create 0x1001ec @ install 0x1019f8)
+0x101b68	weapon-wp	A	cWeapon04LevelDataXML registrar 0x1060c0 vtable 0x173930c slot 0 (instance vtable installed by create 0x107590 @ install 0x10779c)
+0x10792c	weapon-wp	A	cWeapon04MsgBase registrar 0x107a14 vtable 0x17393fc slot 0 (instance vtable installed by create 0x107850 @ install 0x107d88)
+0x107f70	weapon-wp	A	cWeapon06BaseData registrar 0x108f68 vtable 0x17394c4 slot 0 (instance vtable installed by create 0x107dfc @ install 0x109608)
+0x109778	weapon-wp	A	cWeapon06LevelDataXML registrar 0x10dcd0 vtable 0x1739894 slot 0 (instance vtable installed by create 0x10f1a0 @ install 0x10f3ac)
+0x10f5a4	weapon-wp	A	cWeapon06MsgBase registrar 0x10f68c vtable 0x1739984 slot 0 (instance vtable installed by create 0x10f4c8 @ install 0x10fa00)
+0x10fc00	weapon-wp	A	cWeapon07BaseData registrar 0x110cac vtable 0x1739a4c slot 0 (instance vtable installed by create 0x10fa74 @ install 0x111394)
+0x11150c	weapon-wp	A	cWeapon07LevelData registrar 0x111c0c vtable 0x1739d54 slot 0 (instance vtable installed by create 0x111408 @ install 0x111f7c)
+0x1120cc	weapon-wp	A	cWeapon07MsgBase registrar 0x1121b4 vtable 0x1739f0c slot 0 (instance vtable installed by create 0x111ff0 @ install 0x112528)
+0x112720	weapon-wp	A	cWeapon08BaseData registrar 0x113884 vtable 0x1739fd4 slot 0 (instance vtable installed by create 0x11259c @ install 0x113fa8)
+0x114120	weapon-wp	A	cWeapon08LevelData registrar 0x1148b0 vtable 0x173a2dc slot 0 (instance vtable installed by create 0x11401c @ install 0x114c3c)
+0x114d8c	weapon-wp	A	cWeapon08MsgBase registrar 0x114e74 vtable 0x173a494 slot 0 (instance vtable installed by create 0x114cb0 @ install 0x1151e8)
+0x1153e0	weapon-wp	A	cWeapon09BaseData registrar 0x116544 vtable 0x173a55c slot 0 (instance vtable installed by create 0x11525c @ install 0x116c68)
+0x116dd0	weapon-wp	A	cWeapon09LevelData registrar 0x117588 vtable 0x173a864 slot 0 (instance vtable installed by create 0x116cdc @ install 0x117934)
+0x117a84	weapon-wp	A	cWeapon09MsgBase registrar 0x117b6c vtable 0x173aa1c slot 0 (instance vtable installed by create 0x1179a8 @ install 0x117ee0)
+0x1180e0	weapon-wp	A	cWeapon10BaseData registrar 0x11918c vtable 0x173aae4 slot 0 (instance vtable installed by create 0x117f54 @ install 0x119874)
+0x1199e4	weapon-wp	A	cWeapon10LevelDataXML registrar 0x11ac44 vtable 0x173aeb4 slot 0 (instance vtable installed by create 0x11b1a4 @ install 0x11b380)
+0x11b4cc	weapon-wp	A	cWeapon10MsgBase registrar 0x11b5b4 vtable 0x173afa4 slot 0 (instance vtable installed by create 0x11b3f0 @ install 0x11b928)
+0x11bb20	weapon-wp	A	cWeapon11BaseData registrar 0x11cc84 vtable 0x173b06c slot 0 (instance vtable installed by create 0x11b99c @ install 0x11d3a8)
+0x11d54c	weapon-wp	A	cWeapon11LevelData registrar 0x11dcdc vtable 0x173b374 slot 0 (instance vtable installed by create 0x11d448 @ install 0x11e058)
+0x11e1d4	weapon-wp	A	cWeapon11MsgBase registrar 0x11e2bc vtable 0x173b52c slot 0 (instance vtable installed by create 0x11e0f8 @ install 0x11e630)
+0x11e830	weapon-wp	A	cWeapon12BaseData registrar 0x11f8dc vtable 0x173b5f4 slot 0 (instance vtable installed by create 0x11e6a4 @ install 0x11ffc4)
+0x12012c	weapon-wp	A	cWeapon12LevelData registrar 0x1208e4 vtable 0x173b8fc slot 0 (instance vtable installed by create 0x120038 @ install 0x120c88)
+0x120e04	weapon-wp	A	cWeapon12MsgBase registrar 0x120eec vtable 0x173bab4 slot 0 (instance vtable installed by create 0x120d28 @ install 0x121260)
+0x121458	weapon-wp	A	cWeapon13BaseData registrar 0x1225bc vtable 0x173bb7c slot 0 (instance vtable installed by create 0x1212d4 @ install 0x122ce0)
+0x122e58	weapon-wp	A	cWeapon13LevelData registrar 0x123558 vtable 0x173be84 slot 0 (instance vtable installed by create 0x122d54 @ install 0x1238c8)
+0x123a18	weapon-wp	A	cWeapon13MsgBase registrar 0x123b00 vtable 0x173c03c slot 0 (instance vtable installed by create 0x12393c @ install 0x123e74)
+0x12406c	weapon-wp	A	cWeapon14BaseData registrar 0x1251d0 vtable 0x173c104 slot 0 (instance vtable installed by create 0x123ee8 @ install 0x1258f4)
+0x125a6c	weapon-wp	A	cWeapon14LevelData registrar 0x1261fc vtable 0x173c40c slot 0 (instance vtable installed by create 0x125968 @ install 0x126588)
+0x1266d8	weapon-wp	A	cWeapon14MsgBase registrar 0x1267c0 vtable 0x173c5c4 slot 0 (instance vtable installed by create 0x1265fc @ install 0x126b34)
+0x126c14	weapon-wp	A	cWeaponBase registrar 0x126c14 vtable 0x173c68c slot 0 (instance vtable installed by create 0x126ba8 @ install 0x1273f8)
+0x127488	weapon-wp	A	cWeaponLevel registrar 0x127488 vtable 0x173c810 slot 0 (instance vtable installed by create 0x127428 @ install 0x1276b0)
+0x127700	weapon-wp	A	cWeaponMsgBase registrar 0x127700 vtable 0x173c8ec slot 0 (instance vtable installed by create 0x1276e0 @ install 0x1277c4)
+0x154d7c	unknown	B	cGuestEffectiveAttr registrar 0x15555c vtable 0x173e66c slot 0 (instance vtable installed by create 0x154c78 @ install 0x155888)
+0x155a34	quest	A	cGuestQuestData registrar 0x1563d4 vtable 0x173e6d4 slot 0 (instance vtable installed by create 0x1558f8 @ install 0x156708)
+0x156884	unknown	B	cGuestRemData registrar 0x15893c vtable 0x173e73c slot 0 (instance vtable installed by create 0x156778 @ install 0x159304)
+0x159538	unknown	B	nGuestHunter::cGuestHunter registrar 0x15a73c vtable 0x173e7a4 slot 0 (instance vtable installed by create 0x159374 @ install 0x15a920)
+0x15b984	unknown	B	sGuestHunter registrar 0x15ea48 vtable 0x173e8ec slot 0 (instance vtable installed by create 0x15b6cc @ install 0x15eb84)
+0x15f318	unknown	B	cGuildCardPreview registrar 0x160800 vtable 0x173ea04 slot 0 (instance vtable installed by create 0x15f200 @ install 0x160c30)
+0x1688c8	unknown	B	MhHitAtk registrar 0x169d44 vtable 0x173eb2c slot 0 (instance vtable installed by create 0x16865c @ install 0x169ec8)
+0x169aa0	unknown	B	MhHitBody registrar 0x169d44 vtable 0x173eb54 slot 0 (instance vtable installed by create 0x1698ac @ install 0x169f00)
+0x169ad0	unknown	B	MhHitBody registrar 0x169d44 vtable 0x173eb54 slot 6 (instance vtable installed by create 0x1698ac @ install 0x169f00)
+0x169c24	unknown	B	MhHitBody registrar 0x169d44 vtable 0x173eb54 slot 7 (instance vtable installed by create 0x1698ac @ install 0x169f00)
+0x169fa8	unknown	B	rHitSize registrar 0x16a1d8 vtable 0x173ebb8 slot 0 (instance vtable installed by create 0x169f48 @ install 0x16a620)
+0x1841d4	unknown	B	cDecoBase registrar 0x1845c0 vtable 0x173ed18 slot 0 (instance vtable installed by create 0x1840e8 @ install 0x1847d8)
+0x1849e4	item	A	cItemBase registrar 0x185b14 vtable 0x173ed80 slot 0 (instance vtable installed by create 0x184848 @ install 0x1860c4)
+0x18622c	item	A	cItemCategoryTypeBase registrar 0x186538 vtable 0x173ede8 slot 0 (instance vtable installed by create 0x186138 @ install 0x186748)
+0x186920	item	A	cItemPouch registrar 0x188c84 vtable 0x173ee50 slot 0 (instance vtable installed by create 0x1867bc @ install 0x188f9c)
+0x1869ec	item	A	cItemPouch registrar 0x188c84 vtable 0x173ee50 slot 6 (instance vtable installed by create 0x1867bc @ install 0x188f9c)
+0x1890f0	item	A	cItemPreBase registrar 0x189618 vtable 0x173ee90 slot 0 (instance vtable installed by create 0x188fcc @ install 0x189870)
+0x1899c8	item	A	cItemPreTypeBase registrar 0x189fd4 vtable 0x173eef8 slot 0 (instance vtable installed by create 0x1898e4 @ install 0x18a2e4)
+0x18a404	item	A	cItemStack registrar 0x18acf8 vtable 0x173ef60 slot 0 (instance vtable installed by create 0x18a358 @ install 0x18ae58)
+0x18a438	item	A	cItemStack registrar 0x18acf8 vtable 0x173ef60 slot 6 (instance vtable installed by create 0x18a358 @ install 0x18ae58)
+0x18af5c	unknown	B	cMix registrar 0x18bb60 vtable 0x173efa0 slot 0 (instance vtable installed by create 0x18ae88 @ install 0x18bf70)
+0x18b850	unknown	B	cMixPanel registrar 0x65b4d4 vtable 0x177a940 slot 7 (instance vtable installed by create 0x65b4d4 @ install 0x65b7a4)
+0x18c4f0	unknown	B	cMixListBox registrar 0x18e07c vtable 0x173f140 slot 0 (instance vtable installed by create 0x18e010 @ install 0x18e4a4)
+0x18c61c	unknown	B	cMixListBox registrar 0x18e07c vtable 0x173f140 slot 6 (instance vtable installed by create 0x18e010 @ install 0x18e4a4)
+0x18eb34	otomo-ot	A	cOtodokeConditionList registrar 0x18ecb0 vtable 0x173f1c8 slot 0 (instance vtable installed by create 0x18ea48 @ install 0x18eee0)
+0x18f07c	otomo-ot	A	cOtodokeSetList registrar 0x18f998 vtable 0x173f230 slot 0 (instance vtable installed by create 0x18ef50 @ install 0x18fce0)
+0x193e38	item	A	sItem registrar 0x198824 vtable 0x173f560 slot 0 (instance vtable installed by create 0x192fdc @ install 0x198b80)
+0x19e61c	item	A	cKitchenListGrillItem registrar 0x19e794 vtable 0x173f63c slot 0 (instance vtable installed by create 0x19e538 @ install 0x19ea10)
+0x19ebb8	ui	A	cKitchenListMenu registrar 0x19fbd0 vtable 0x173f6a4 slot 0 (instance vtable installed by create 0x19ea84 @ install 0x1a016c)
+0x1a02c0	unknown	B	cKitchenListSkillAlcohol registrar 0x1a0438 vtable 0x173f70c slot 0 (instance vtable installed by create 0x1a01dc @ install 0x1a0664)
+0x1a07b8	unknown	B	cKitchenListSkillRandom registrar 0x1a0930 vtable 0x173f774 slot 0 (instance vtable installed by create 0x1a06d4 @ install 0x1a0b5c)
+0x1a0cc8	unknown	B	cKitchenListSkillSet registrar 0x1a0fec vtable 0x173f7dc slot 0 (instance vtable installed by create 0x1a0bcc @ install 0x1a1158)
+0x1a12b4	unknown	B	cKitchenListSuccessTable1 registrar 0x1a14bc vtable 0x173f844 slot 0 (instance vtable installed by create 0x1a11c8 @ install 0x1a175c)
+0x1a12e8	unknown	B	cKitchenListSuccessTable1 registrar 0x1a14bc vtable 0x173f844 slot 4 (instance vtable installed by create 0x1a11c8 @ install 0x1a175c)
+0x1a18bc	unknown	B	cKitchenListSuccessTable2 registrar 0x1a1ac4 vtable 0x173f8ac slot 0 (instance vtable installed by create 0x1a17d0 @ install 0x1a1d64)
+0x1a18f0	unknown	B	cKitchenListSuccessTable2 registrar 0x1a1ac4 vtable 0x173f8ac slot 4 (instance vtable installed by create 0x1a17d0 @ install 0x1a1d64)
+0x1a1ec4	unknown	B	cKitchenListSuccessTable3 registrar 0x1a20cc vtable 0x173f914 slot 0 (instance vtable installed by create 0x1a1dd8 @ install 0x1a236c)
+0x1a1ef8	unknown	B	cKitchenListSuccessTable3 registrar 0x1a20cc vtable 0x173f914 slot 4 (instance vtable installed by create 0x1a1dd8 @ install 0x1a236c)
+0x1aa278	unknown	B	cMonNyanDataResult registrar 0x1ab510 vtable 0x173fd04 slot 0 (instance vtable installed by create 0x1aa000 @ install 0x1ab95c)
+0x1abb8c	save-data	A	cMonNyanDataSave registrar 0x1ac4d8 vtable 0x173fd38 slot 0 (instance vtable installed by create 0x1ab98c @ install 0x1ac65c)
+0x1ac9a8	unknown	B	cMonNyanDataUserSelect registrar 0x1ad850 vtable 0x173fd6c slot 0 (instance vtable installed by create 0x1ac68c @ install 0x1ada0c)
+0x1adaa4	unknown	B	cMonNyanProcBase registrar 0x1adb24 vtable 0x173fda0 slot 0 (instance vtable installed by create 0x1ada3c @ install 0x1adce0)
+0x1aeae0	unknown	B	cMonNyanProcCannon registrar 0x1aef00 vtable 0x173fe58 slot 2 (class-record vtable written by str at 0x1afc3c)
+0x1bb204	unknown	B	nMonNyan::cMonNyanDataGameLocation registrar 0x1bb2f4 vtable 0x1740264 slot 1 (instance vtable installed by create 0x1ba7a4 @ install 0x1bb4d4)
+0x1bca24	item	A	cMonNyanAdventItemXML registrar 0x1bcf80 vtable 0x17407b8 slot 0 (instance vtable installed by create 0x1bd044 @ install 0x1bd1c0)
+0x1bd310	unknown	B	cMonNyanCirclePattern registrar 0x1bd8e4 vtable 0x1740800 slot 0 (instance vtable installed by create 0x1bd1fc @ install 0x1bdc34)
+0x1bdd94	unknown	B	cMonNyanCommonMaterial registrar 0x1bdf9c vtable 0x1740868 slot 0 (instance vtable installed by create 0x1bdca8 @ install 0x1be128)
+0x1be290	unknown	B	cMonNyanExp registrar 0x1be62c vtable 0x17408d0 slot 0 (instance vtable installed by create 0x1be19c @ install 0x1be800)
+0x1be964	unknown	B	cMonNyanLotAdvent registrar 0x1bf028 vtable 0x1740938 slot 0 (instance vtable installed by create 0x1be870 @ install 0x1bf324)
+0x1bf488	unknown	B	cMonNyanLotCommon registrar 0x1bfb4c vtable 0x17409a0 slot 0 (instance vtable installed by create 0x1bf394 @ install 0x1bfe48)
+0x1bffb4	monster-em	A	cMonNyanLotEnemyXML registrar 0x1c12dc vtable 0x1740a28 slot 0 (instance vtable installed by create 0x1c170c @ install 0x1c194c)
+0x1c1a84	unknown	B	cMonNyanRewardXML registrar 0x1c26bc vtable 0x1740a90 slot 0 (instance vtable installed by create 0x1c29fc @ install 0x1c2b78)
+0x1c2d18	monster-em	A	cMonNyanRewardEnemy registrar 0x1c3fcc vtable 0x1740ad8 slot 0 (instance vtable installed by create 0x1c2bb4 @ install 0x1c4630)
+0x1c4790	unknown	B	cMonNyanRewardSecret registrar 0x1c4998 vtable 0x1740b40 slot 0 (instance vtable installed by create 0x1c46a4 @ install 0x1c4b24)
+0x1c4c84	unknown	B	cMonNyanVillagePoint registrar 0x1c5034 vtable 0x1740ba8 slot 0 (instance vtable installed by create 0x1c4b98 @ install 0x1c51ac)
+0x1ccc74	unknown	B	cMediateManager registrar 0x1cd470 vtable 0x1741098 slot 0 (instance vtable installed by create 0x1cb3b8 @ install 0x1cd8a4)
+0x1eb1e8	monster-em	A	nFestaNetwork::netEmAction registrar 0x1f34d0 vtable 0x1741484 slot 8 (instance vtable installed by create 0x1e792c @ install 0x1f61f8)
+0x1f7164	unknown	B	nFestaNetwork::netOtAction registrar 0x1f8ef8 vtable 0x1741e68 slot 8 (instance vtable installed by create 0x1f6b80 @ install 0x1fb43c)
+0x1f7774	unknown	B	nFestaNetwork::netOtData registrar 0x1f8ef8 vtable 0x1741f70 slot 8 (instance vtable installed by create 0x1f6e30 @ install 0x1fb594)
+0x1f7af8	unknown	B	nFestaNetwork::netOtAction registrar 0x1f8ef8 vtable 0x1741e68 slot 9 (instance vtable installed by create 0x1f6b80 @ install 0x1fb43c)
+0x1f8ef8	unknown	B	nFestaNetwork::netOtAction registrar 0x1f8ef8 vtable 0x1741e68 slot 4 (instance vtable installed by create 0x1f6b80 @ install 0x1fb43c)
+0x1fed90	unknown	B	nFestaNetwork::netPlAction registrar 0x20758c vtable 0x17421a4 slot 8 (instance vtable installed by create 0x1fb764 @ install 0x211b24)
+0x1ff308	unknown	B	nFestaNetwork::netPlAction registrar 0x20758c vtable 0x17421a4 slot 9 (instance vtable installed by create 0x1fb764 @ install 0x211b24)
+0x1ffff4	quest	A	nFestaNetwork::netPlPositionQuest registrar 0x20758c vtable 0x17423e4 slot 9 (instance vtable installed by create 0x1fbcfc @ install 0x211dcc)
+0x2008ac	unknown	B	nFestaNetwork::netPlActionLobby registrar 0x20758c vtable 0x1742364 slot 8 (instance vtable installed by create 0x1fc080 @ install 0x211f90)
+0x200a7c	unknown	B	nFestaNetwork::netPlActionLobby registrar 0x20758c vtable 0x1742364 slot 9 (instance vtable installed by create 0x1fc080 @ install 0x211f90)
+0x20552c	unknown	B	nFestaNetwork::netPlAction registrar 0x20758c vtable 0x17421a4 slot 4 (instance vtable installed by create 0x1fb764 @ install 0x211b24)
+0x206928	unknown	B	nFestaNetwork::netPlActionLobby registrar 0x20758c vtable 0x1742364 slot 4 (instance vtable installed by create 0x1fc080 @ install 0x211f90)
+0x20758c	quest	A	nFestaNetwork::netPlPositionQuest registrar 0x20758c vtable 0x17423e4 slot 4 (instance vtable installed by create 0x1fbcfc @ install 0x211dcc)
+0x21fae8	unknown	B	nFestaNetwork::netUGCData registrar 0x21dc48 vtable 0x1744eb4 slot 8 (instance vtable installed by create 0x21d8c4 @ install 0x21df1c)
+0x225e58	unknown	B	sFestaNetwork registrar 0x22ed6c vtable 0x1745274 slot 0 (instance vtable installed by create 0x225930 @ install 0x22ef68)
+0x2337f0	unknown	B	cNpcActTblData registrar 0x23390c vtable 0x1745348 slot 0 (instance vtable installed by create 0x233718 @ install 0x233a0c)
+0x233b60	unknown	B	cNpcBaseData registrar 0x2346a8 vtable 0x174537c slot 0 (instance vtable installed by create 0x233a3c @ install 0x234aec)
+0x234ce8	unknown	B	cNpcBaseData_ID registrar 0x236258 vtable 0x17453e4 slot 0 (instance vtable installed by create 0x234b5c @ install 0x2369bc)
+0x234d1c	unknown	B	cNpcBaseData_ID registrar 0x236258 vtable 0x17453e4 slot 4 (instance vtable installed by create 0x234b5c @ install 0x2369bc)
+0x236b20	unknown	B	cNpcBaseData_Mdl registrar 0x236d50 vtable 0x174544c slot 0 (instance vtable installed by create 0x236a2c @ install 0x236eb4)
+0x237050	unknown	B	cNpcInitScript registrar 0x2374f0 vtable 0x17454b4 slot 0 (instance vtable installed by create 0x236f24 @ install 0x23785c)
+0x237084	unknown	B	cNpcInitScript registrar 0x2374f0 vtable 0x17454b4 slot 4 (instance vtable installed by create 0x236f24 @ install 0x23785c)
+0x2379b8	unknown	B	cNpcLocateData registrar 0x237cc4 vtable 0x174551c slot 0 (instance vtable installed by create 0x2378cc @ install 0x237e84)
+0x238000	unknown	B	cNpcMoveData registrar 0x2383b0 vtable 0x1745584 slot 0 (instance vtable installed by create 0x237ef4 @ install 0x238534)
+0x238684	unknown	B	cNpcSubData registrar 0x238a6c vtable 0x17455ec slot 0 (instance vtable installed by create 0x2385a4 @ install 0x238c7c)
+0x238e50	unknown	B	cNpcTalkData registrar 0x239ee0 vtable 0x1745654 slot 0 (instance vtable installed by create 0x238cec @ install 0x23a488)
+0x238e84	unknown	B	cNpcTalkData registrar 0x239ee0 vtable 0x1745654 slot 4 (instance vtable installed by create 0x238cec @ install 0x23a488)
+0x23a5e4	unknown	B	cSansaijijiExchange registrar 0x23a814 vtable 0x17456bc slot 0 (instance vtable installed by create 0x23a4f8 @ install 0x23a974)
+0x23aad0	unknown	B	cSansaijijiPresent registrar 0x23ac70 vtable 0x1745724 slot 0 (instance vtable installed by create 0x23a9e4 @ install 0x23aec4)
+0x23b028	unknown	B	cSpActData registrar 0x23b26c vtable 0x174578c slot 0 (instance vtable installed by create 0x23af34 @ install 0x23b3d0)
+0x244fb8	unknown	B	sNpcTalk registrar 0x2493c8 vtable 0x1745c64 slot 0 (instance vtable installed by create 0x240808 @ install 0x249754)
+0x24def0	otomo-ot	A	cOtLevel registrar 0x24e528 vtable 0x17463e0 slot 0 (instance vtable installed by create 0x24ddec @ install 0x24e79c)
+0x24e908	otomo-ot	A	cOtMessageLot registrar 0x24efd0 vtable 0x1746448 slot 0 (instance vtable installed by create 0x24e80c @ install 0x24f200)
+0x24f36c	otomo-ot	A	cOtQuestExpBiasXML registrar 0x2500e8 vtable 0x17464d0 slot 0 (instance vtable installed by create 0x2502c4 @ install 0x2503f0)
+0x25050c	otomo-ot	A	cOtQuestExpValue registrar 0x2505f4 vtable 0x1746518 slot 0 (instance vtable installed by create 0x250428 @ install 0x250784)
+0x2508f0	otomo-ot	A	cOtSkill registrar 0x250c98 vtable 0x1746580 slot 0 (instance vtable installed by create 0x2507f4 @ install 0x250ec0)
+0x251004	otomo-ot	A	cOtSpecialAction registrar 0x251334 vtable 0x17465e8 slot 0 (instance vtable installed by create 0x250f34 @ install 0x251508)
+0x251694	otomo-ot	A	cOtSupportActionBase registrar 0x251f1c vtable 0x1746650 slot 0 (instance vtable installed by create 0x251578 @ install 0x252264)
+0x2523dc	otomo-ot	A	cOtSupportActionOtUnique registrar 0x252ed4 vtable 0x17466b8 slot 0 (instance vtable installed by create 0x2522d8 @ install 0x2532e4)
+0x253440	otomo-ot	A	cOtTensionData registrar 0x25382c vtable 0x1746720 slot 0 (instance vtable installed by create 0x253354 @ install 0x253a44)
+0x253ba0	otomo-ot	A	cOtTrainParam registrar 0x253ed8 vtable 0x1746788 slot 0 (instance vtable installed by create 0x253ab4 @ install 0x25403c)
+0x269d4c	unknown	B	cAlchemyData registrar 0x26a41c vtable 0x17478c4 slot 0 (instance vtable installed by create 0x269c48 @ install 0x26a6b4)
+0x26a81c	unknown	B	cAngryParam registrar 0x26ab70 vtable 0x174792c slot 0 (instance vtable installed by create 0x26a724 @ install 0x26acfc)
+0x26ae68	player-pl	A	cPlayerGimmickType registrar 0x26b620 vtable 0x1747994 slot 0 (instance vtable installed by create 0x26ad6c @ install 0x26b928)
+0x26ba7c	player-pl	A	cPlayerManyAttacks registrar 0x26bd60 vtable 0x17479fc slot 0 (instance vtable installed by create 0x26b998 @ install 0x26bef8)
+0x26c05c	player-pl	A	cPlayerWeaponList registrar 0x26c53c vtable 0x1747a64 slot 0 (instance vtable installed by create 0x26bf68 @ install 0x26c760)
+0x26d1f8	player-pl	A	cPlCmdTbl registrar 0x26d53c vtable 0x1747b04 slot 0 (instance vtable installed by create 0x26d184 @ install 0x26d920)
+0x26da48	unknown	B	cSupportGaugeValueXML registrar 0x26dfc4 vtable 0x1747b6c slot 0 (instance vtable installed by create 0x26e088 @ install 0x26e1b4)
+0x26e50c	player-pl	A	nPlayer::cPlayerParam registrar 0x26fe54 vtable 0x1747bb4 slot 0 (instance vtable installed by create 0x26e1ec @ install 0x270080)
+0x271f70	player-pl	A	rPlayerPartsDisp registrar 0x271f70 vtable 0x1747e6c slot 0 (instance vtable installed by create 0x271e98 @ install 0x272670)
+0x2733a4	unknown	B	rPlCmdTblList registrar 0x2733a4 vtable 0x1747fd4 slot 0 (instance vtable installed by create 0x2732a4 @ install 0x2736c0)
+0x27a858	player-pl	A	uPlayerBase registrar 0x2828ec vtable 0x1748138 slot 0 (instance vtable installed by create 0x27a3ac @ install 0x282d44)
+0x27acd4	player-pl	A	uPlayerBase registrar 0x2828ec vtable 0x1748138 slot 6 (instance vtable installed by create 0x27a3ac @ install 0x282d44)
+0x27b1d0	player-pl	A	uPlayerBase registrar 0x2828ec vtable 0x1748138 slot 41 (instance vtable installed by create 0x27a3ac @ install 0x282d44)
+0x27b9c8	player-pl	A	uPlayerBase registrar 0x2828ec vtable 0x1748138 slot 9 (instance vtable installed by create 0x27a3ac @ install 0x282d44)
+0x27bce0	player-pl	A	uPlayerBase registrar 0x2828ec vtable 0x1748138 slot 10 (instance vtable installed by create 0x27a3ac @ install 0x282d44)
+0x27bf9c	player-pl	A	uPlayerBase registrar 0x2828ec vtable 0x1748138 slot 80 (instance vtable installed by create 0x27a3ac @ install 0x282d44)
+0x27c2a0	player-pl	A	uPlayerBase registrar 0x2828ec vtable 0x1748138 slot 146 (instance vtable installed by create 0x27a3ac @ install 0x282d44)
+0x27c450	player-pl	A	uPlayerBase registrar 0x2828ec vtable 0x1748138 slot 16 (instance vtable installed by create 0x27a3ac @ install 0x282d44)
+0x27e770	player-pl	A	uPlayerBase registrar 0x2828ec vtable 0x1748138 slot 139 (instance vtable installed by create 0x27a3ac @ install 0x282d44)
+0x281ee0	player-pl	A	uPlayerBase registrar 0x2828ec vtable 0x1748138 slot 166 (instance vtable installed by create 0x27a3ac @ install 0x282d44)
+0x289f34	player-pl	A	uPlayerBase registrar 0x2828ec vtable 0x1748138 slot 169 (instance vtable installed by create 0x27a3ac @ install 0x282d44)
+0x28a30c	player-pl	A	uPlayerBase registrar 0x2828ec vtable 0x1748138 slot 175 (instance vtable installed by create 0x27a3ac @ install 0x282d44)
+0x3035f4	player-pl	A	uPlParts registrar 0x3072f8 vtable 0x1751ee0 slot 0 (instance vtable installed by create 0x30334c @ install 0x307498)
+0x303754	player-pl	A	uPlParts registrar 0x3072f8 vtable 0x1751ee0 slot 9 (instance vtable installed by create 0x30334c @ install 0x307498)
+0x303790	player-pl	A	uPlParts registrar 0x3072f8 vtable 0x1751ee0 slot 10 (instance vtable installed by create 0x30334c @ install 0x307498)
+0x303c10	player-pl	A	uPlParts registrar 0x3072f8 vtable 0x1751ee0 slot 16 (instance vtable installed by create 0x30334c @ install 0x307498)
+0x3077b0	player-pl	A	uPlWeapon registrar 0x3090cc vtable 0x1752088 slot 0 (instance vtable installed by create 0x307518 @ install 0x3095d4)
+0x3187c8	unknown	B	cPop registrar 0x319588 vtable 0x17523e0 slot 0 (instance vtable installed by create 0x318488 @ install 0x3196b0)
+0x31ce28	unknown	B	cProofEffectSequence registrar 0x31d6f8 vtable 0x1752520 slot 0 (instance vtable installed by create 0x31cce4 @ install 0x31d7b8)
+0x31d140	unknown	B	cProofEffectSequence registrar 0x31d6f8 vtable 0x1752520 slot 6 (instance vtable installed by create 0x31cce4 @ install 0x31d7b8)
+0x32257c	unknown	B	rProofEffectList registrar 0x324588 vtable 0x175261c slot 0 (instance vtable installed by create 0x32230c @ install 0x3248d4)
+0x3241bc	unknown	B	cProofEffectDataObject registrar 0x324588 vtable 0x175267c slot 0 (instance vtable installed by create 0x323e64 @ install 0x324910)
+0x327948	unknown	B	uProofEffect registrar 0x327948 vtable 0x1752880 slot 10 (instance vtable installed by create 0x327304 @ install 0x3287a8)
+0x329668	unknown	B	uProofEffectBase registrar 0x32a4c4 vtable 0x17529cc slot 9 (instance vtable installed by create 0x3287d8 @ install 0x32ae10)
+0x329908	unknown	B	uProofEffectBase registrar 0x32a4c4 vtable 0x17529cc slot 36 (instance vtable installed by create 0x3287d8 @ install 0x32ae10)
+0x32a000	unknown	B	uProofEffectBase registrar 0x32a4c4 vtable 0x17529cc slot 38 (instance vtable installed by create 0x3287d8 @ install 0x32ae10)
+0x32a104	unknown	B	uMHEffectKowareObj registrar 0x43648 vtable 0x1731680 slot 40 (instance vtable installed by create 0x4376c @ install 0x4399c)
+0x32b834	unknown	B	uProofEffectModel registrar 0x32b834 vtable 0x1752a98 slot 10 (instance vtable installed by create 0x32ae40 @ install 0x32b9ec)
+0x32c358	otomo-ot	A	cAcNyanterEquip registrar 0x33392c vtable 0x1752cc0 slot 0 (instance vtable installed by create 0x32c24c @ install 0x333e58)
+0x333fd4	player-pl	A	cAcPlayerEquip registrar 0x35235c vtable 0x1752d28 slot 0 (instance vtable installed by create 0x333ec8 @ install 0x3542f0)
+0x334008	player-pl	A	cAcPlayerEquip registrar 0x35235c vtable 0x1752d28 slot 4 (instance vtable installed by create 0x333ec8 @ install 0x3542f0)
+0x36000c	monster-em	A	cEmSetListXML registrar 0x36000c vtable 0x1752e4c slot 0 (instance vtable installed by create 0x3607f4 @ install 0x36098c)
+0x360ac8	unknown	B	cFishData registrar 0x361c34 vtable 0x1752e94 slot 0 (instance vtable installed by create 0x3609c4 @ install 0x362284)
+0x362438	unknown	B	cFreeHuntData registrar 0x362cd8 vtable 0x1752efc slot 0 (instance vtable installed by create 0x3622f4 @ install 0x362fd4)
+0x367fb4	unknown	B	cHagi_PopListData registrar 0x36f49c vtable 0x1752fcc slot 0 (instance vtable installed by create 0x367ea0 @ install 0x36f630)
+0x36f77c	quest	A	cQuestDaily registrar 0x3703e8 vtable 0x1753000 slot 0 (instance vtable installed by create 0x36f660 @ install 0x370570)
+0x37094c	quest	A	cQuestData registrar 0x37a384 vtable 0x1753068 slot 0 (instance vtable installed by create 0x3705e0 @ install 0x37a4bc)
+0x370a4c	quest	A	cQuestData registrar 0x37a384 vtable 0x1753068 slot 4 (instance vtable installed by create 0x3705e0 @ install 0x37a4bc)
+0x378fc8	quest	A	cQuestDataXML registrar 0x37a384 vtable 0x1753088 slot 0 (instance vtable installed by create 0x378924 @ install 0x37a4f4)
+0x37a684	quest	A	cQuestGroup registrar 0x37a994 vtable 0x17530d0 slot 0 (instance vtable installed by create 0x37a590 @ install 0x37ab54)
+0x37acc0	quest	A	cQuestLinkXML registrar 0x37b60c vtable 0x1753158 slot 0 (instance vtable installed by create 0x37b6d0 @ install 0x37b84c)
+0x37b9dc	quest	A	cQuestPlus registrar 0x37c04c vtable 0x17531a0 slot 0 (instance vtable installed by create 0x37b888 @ install 0x37c2b8)
+0x3811f4	unknown	B	cResourceSample registrar 0x381738 vtable 0x17532a4 slot 0 (instance vtable installed by create 0x3810ac @ install 0x381954)
+0x384408	unknown	B	uUIResult registrar 0x39106c vtable 0x175332c slot 0 (instance vtable installed by create 0x383948 @ install 0x391404)
+0x391548	monster-em	A	cSetEmMain registrar 0x3918f8 vtable 0x17533a8 slot 0 (instance vtable installed by create 0x391444 @ install 0x391d6c)
+0x39157c	monster-em	A	cSetEmMain registrar 0x3918f8 vtable 0x17533a8 slot 4 (instance vtable installed by create 0x391444 @ install 0x391d6c)
+0x399ccc	monster-em	A	rEmSetList registrar 0x399ccc vtable 0x175361c slot 0 (instance vtable installed by create 0x399c58 @ install 0x39a2dc)
+0x3b5798	quest	A	cQuestDataEx registrar 0x3c47a0 vtable 0x1753eb0 slot 0 (instance vtable installed by create 0x3b56c4 @ install 0x3c49a0)
+0x3b61cc	quest	A	sQuestSelector registrar 0x3c47a0 vtable 0x1754044 slot 0 (instance vtable installed by create 0x3b5c40 @ install 0x3c49dc)
+0x3c512c	unknown	B	sResult registrar 0x3c7b7c vtable 0x17540d4 slot 0 (instance vtable installed by create 0x3c4a1c @ install 0x3c7d9c)
+0x3cb008	unknown	B	rFestaResource registrar 0x3cb008 vtable 0x17542cc slot 0 (instance vtable installed by create 0x3cafe0 @ install 0x3cb0f0)
+0x3cb8d8	unknown	B	rFreeUseParam registrar 0x3cb8d8 vtable 0x17543d8 slot 0 (instance vtable installed by create 0x3cb868 @ install 0x3cc074)
+0x3d03f4	unknown	B	cCommonScript registrar 0x3d09dc vtable 0x17546f4 slot 0 (instance vtable installed by create 0x3d02f8 @ install 0x3d0c24)
+0x3d69bc	unknown	B	sCommonScript registrar 0x3d87a4 vtable 0x1754834 slot 0 (instance vtable installed by create 0x3d6754 @ install 0x3d8958)
+0x3d8a18	unknown	B	sFestaApp registrar 0x3d8a4c vtable 0x1754878 slot 0 (instance vtable installed by create 0x3d8988 @ install 0x3d8aa8)
+0x3f978c	monster-em	A	uShellEm011_sp_11 registrar 0x4a31f0 vtable 0x17adf10 slot 0 (instance vtable installed by create 0x49bb7c @ install 0x4a4040)
+0x3f97ec	monster-em	A	uShellEm011_sp_11 registrar 0x4a31f0 vtable 0x17adf10 slot 79 (instance vtable installed by create 0x49bb7c @ install 0x4a4040)
+0x3fa3a4	monster-em	A	uShellEm011_sp_11 registrar 0x4a31f0 vtable 0x17adf10 slot 86 (instance vtable installed by create 0x49bb7c @ install 0x4a4040)
+0x3fa930	monster-em	A	uShellEm011_sp_11 registrar 0x4a31f0 vtable 0x17adf10 slot 91 (instance vtable installed by create 0x49bb7c @ install 0x4a4040)
+0x3fb0a4	monster-em	A	uShellEm001_sp_00 registrar 0x4a31f0 vtable 0x17a0134 slot 0 (instance vtable installed by create 0x49af34 @ install 0x4a39a4)
+0x3fb104	monster-em	A	uShellEm001_sp_00 registrar 0x4a31f0 vtable 0x17a0134 slot 79 (instance vtable installed by create 0x49af34 @ install 0x4a39a4)
+0x3fc628	monster-em	A	uShellEm081_04_01 registrar 0x4a31f0 vtable 0x17f4ae8 slot 79 (instance vtable installed by create 0x49ffe8 @ install 0x4a6c04)
+0x3fd3bc	monster-em	A	uShellEm065_sp_00 registrar 0x4a31f0 vtable 0x17e5f58 slot 90 (instance vtable installed by create 0x49efbc @ install 0x4a6314)
+0x3fdf44	monster-em	A	uShellEm005_sp_02 registrar 0x4a31f0 vtable 0x17a02a4 slot 86 (instance vtable installed by create 0x49b330 @ install 0x4a3c00)
+0x3fe644	monster-em	A	uShellEm071_sp_03 registrar 0x4a31f0 vtable 0x17ecc64 slot 79 (instance vtable installed by create 0x49f82c @ install 0x4a67bc)
+0x403cf8	monster-em	A	uShellEm013_02_11 registrar 0x4a31f0 vtable 0x17aef28 slot 84 (instance vtable installed by create 0x49c168 @ install 0x4a42e8)
+0x4194c0	monster-em	A	uShellEm063_sp_35 registrar 0x4a31f0 vtable 0x17e168c slot 0 (instance vtable installed by create 0x49ef34 @ install 0x4a62dc)
+0x44c770	unknown	B	uShellPlEffectLobby registrar 0x4506dc vtable 0x175cde0 slot 79 (instance vtable installed by create 0x450c10 @ install 0x451074)
+0x44c8f0	unknown	B	uShellPlEffectLobby registrar 0x4506dc vtable 0x175cde0 slot 9 (instance vtable installed by create 0x450c10 @ install 0x451074)
+0x44c8f4	unknown	B	uShellPlEffectLobby registrar 0x4506dc vtable 0x175cde0 slot 10 (instance vtable installed by create 0x450c10 @ install 0x451074)
+0x468fec	unknown	B	uShellPlcom_BallistaShell registrar 0x4693f4 vtable 0x175fe04 slot 0 (instance vtable installed by create 0x468fb4 @ install 0x46986c)
+0x469020	unknown	B	uShellPlcom_BallistaShell registrar 0x4693f4 vtable 0x175fe04 slot 79 (instance vtable installed by create 0x468fb4 @ install 0x46986c)
+0x469224	unknown	B	uShellPlcom_008 registrar 0x4628f8 vtable 0x175f450 slot 82 (instance vtable installed by create 0x46283c @ install 0x463124)
+0x47c68c	player-pl	A	uShellPlayer registrar 0x47c7e0 vtable 0x1761ba0 slot 0 (instance vtable installed by create 0x47c664 @ install 0x47c918)
+0x47c6c0	player-pl	A	uShellPlayer registrar 0x47c7e0 vtable 0x1761ba0 slot 79 (instance vtable installed by create 0x47c664 @ install 0x47c918)
+0x487308	unknown	B	uShellPlw13_101 registrar 0x487530 vtable 0x1762988 slot 1 (instance vtable installed by create 0x4872b8 @ install 0x487748)
+0x487530	unknown	B	uShellPlw13_101 registrar 0x487530 vtable 0x1762988 slot 9 (instance vtable installed by create 0x4872b8 @ install 0x487748)
+0x48a058	unknown	B	rShell registrar 0x48b164 vtable 0x17632e0 slot 15 (instance vtable installed by create 0x489e00 @ install 0x48b7f8)
+0x48bc54	unknown	B	sShell registrar 0x48d4cc vtable 0x17647a0 slot 0 (instance vtable installed by create 0x48b900 @ install 0x48d82c)
+0x4922cc	unknown	B	uShellSt002::cSetupParamSt002 registrar 0x492350 vtable 0x1764c44 slot 2 (class-record vtable written by str at 0x492838)
+0x49a3e8	unknown	B	uShellStage registrar 0x49a58c vtable 0x17657a0 slot 0 (instance vtable installed by create 0x49a3c0 @ install 0x49a750)
+0x49a41c	unknown	B	uShellStage registrar 0x49a58c vtable 0x17657a0 slot 79 (instance vtable installed by create 0x49a3c0 @ install 0x49a750)
+0x49c258	monster-em	A	uShellEm016_sp_00 registrar 0x4a31f0 vtable 0x1765f70 slot 2 (class-record vtable written by str at 0x4a4358)
+0x49ff20	monster-em	A	uShellEm081_sp_14 registrar 0x4a31f0 vtable 0x1766b00 slot 2 (class-record vtable written by str at 0x4a6b90)
+0x4a18b4	monster-em	A	uShellEms023_sp_00 registrar 0x4a31f0 vtable 0x1765a68 slot 0 (instance vtable installed by create 0x4a14d8 @ install 0x4a79b8)
+0x4a2300	unknown	B	CONFLICTING CLASSES: uShellEm001_sp_00|uShellEm001_sp_01|uShellEm001_sp_11|uShellEm003_sp_00 uShellEm001_sp_00 registrar 0x4a31f0 vtable 0x17a0134 slot 6 (instance vtable installed by create 0x49af34 @ install 0x4a39a4)
+0x4a2304	unknown	B	CONFLICTING CLASSES: uShellEms023_sp_00|uShellEms026_sp_00|uShellEms027_sp_00|uShellEms039_sp_00 uShellEms023_sp_00 registrar 0x4a31f0 vtable 0x1765a68 slot 9 (instance vtable installed by create 0x4a14d8 @ install 0x4a79b8)
+0x4a23dc	unknown	B	CONFLICTING CLASSES: uShellEm001_sp_00|uShellEm001_sp_01|uShellEm001_sp_11|uShellEm003_sp_00 uShellEm001_sp_00 registrar 0x4a31f0 vtable 0x17a0134 slot 10 (instance vtable installed by create 0x49af34 @ install 0x4a39a4)
+0x4a2478	unknown	B	CONFLICTING CLASSES: uShellEm001_sp_00|uShellEm001_sp_01|uShellEm001_sp_11|uShellEm003_sp_00 uShellEm001_sp_00 registrar 0x4a31f0 vtable 0x17a0134 slot 12 (instance vtable installed by create 0x49af34 @ install 0x4a39a4)
+0x4a247c	unknown	B	CONFLICTING CLASSES: uShellEm001_sp_00|uShellEm001_sp_01|uShellEm001_sp_11|uShellEm003_sp_00 uShellEm001_sp_00 registrar 0x4a31f0 vtable 0x17a0134 slot 16 (instance vtable installed by create 0x49af34 @ install 0x4a39a4)
+0x4a24f8	monster-em	A	uShellEms023_sp_00 registrar 0x4a31f0 vtable 0x1765a68 slot 79 (instance vtable installed by create 0x4a14d8 @ install 0x4a79b8)
+0x4a2790	unknown	B	CONFLICTING CLASSES: uShellEms023_sp_00|uShellEms026_sp_00|uShellEms027_sp_00|uShellEms039_sp_00 uShellEms023_sp_00 registrar 0x4a31f0 vtable 0x1765a68 slot 80 (instance vtable installed by create 0x4a14d8 @ install 0x4a79b8)
+0x4a7fe4	unknown	B	cArmorCreateDataXML registrar 0x4a8fac vtable 0x176706c slot 0 (instance vtable installed by create 0x4a92e0 @ install 0x4a9464)
+0x4a9590	unknown	B	cArmorProcessDataXML registrar 0x4aa280 vtable 0x1767118 slot 0 (instance vtable installed by create 0x4aa4d4 @ install 0x4aa64c)
+0x4aa780	unknown	B	cCoinTradeList registrar 0x4aaa3c vtable 0x1767180 slot 0 (instance vtable installed by create 0x4aa684 @ install 0x4aac08)
+0x4aad64	unknown	B	cDecoCreateData registrar 0x4ab40c vtable 0x17671e8 slot 0 (instance vtable installed by create 0x4aac7c @ install 0x4ab6c0)
+0x4abae0	unknown	B	cEquipPreview registrar 0x4affe8 vtable 0x17672f0 slot 0 (instance vtable installed by create 0x4ab838 @ install 0x4b0170)
+0x4b0b2c	unknown	B	cEquipShopListA00 registrar 0x4b0d30 vtable 0x17673bc slot 0 (instance vtable installed by create 0x4b0a44 @ install 0x4b0ed4)
+0x4b1030	unknown	B	cEquipShopListW00 registrar 0x4b1234 vtable 0x1767444 slot 0 (instance vtable installed by create 0x4b0f48 @ install 0x4b13d8)
+0x4b1534	unknown	B	cEquipShopListW01 registrar 0x4b1738 vtable 0x17674cc slot 0 (instance vtable installed by create 0x4b144c @ install 0x4b18dc)
+0x4b1564	unknown	B	cEquipShopListW01 registrar 0x4b1738 vtable 0x17674cc slot 4 (instance vtable installed by create 0x4b144c @ install 0x4b18dc)
+0x4b1a38	unknown	B	cEquipShopListW02 registrar 0x4b1c3c vtable 0x1767554 slot 0 (instance vtable installed by create 0x4b1950 @ install 0x4b1de0)
+0x4b1f3c	unknown	B	cEquipShopListW03 registrar 0x4b2140 vtable 0x17675dc slot 0 (instance vtable installed by create 0x4b1e54 @ install 0x4b22e4)
+0x4b2440	unknown	B	cEquipShopListW04 registrar 0x4b2644 vtable 0x1767664 slot 0 (instance vtable installed by create 0x4b2358 @ install 0x4b27e8)
+0x4b2944	unknown	B	cEquipShopListW06 registrar 0x4b2b94 vtable 0x17676ec slot 0 (instance vtable installed by create 0x4b285c @ install 0x4b2cec)
+0x4b2b94	unknown	B	cEquipShopListW06XML registrar 0x4b2b94 vtable 0x1767760 slot 2 (class-record vtable written by str at 0x4b2d24)
+0x4b2e48	unknown	B	cEquipShopListW07 registrar 0x4b304c vtable 0x1767774 slot 0 (instance vtable installed by create 0x4b2d60 @ install 0x4b31f0)
+0x4b334c	unknown	B	cEquipShopListW08 registrar 0x4b3550 vtable 0x17677fc slot 0 (instance vtable installed by create 0x4b3264 @ install 0x4b36f4)
+0x4b3850	unknown	B	cEquipShopListW09 registrar 0x4b3a54 vtable 0x1767884 slot 0 (instance vtable installed by create 0x4b3768 @ install 0x4b3bf8)
+0x4b3d54	unknown	B	cEquipShopListW10 registrar 0x4b3f58 vtable 0x176790c slot 0 (instance vtable installed by create 0x4b3c6c @ install 0x4b40fc)
+0x4b4258	unknown	B	cEquipShopListW11 registrar 0x4b445c vtable 0x1767994 slot 0 (instance vtable installed by create 0x4b4170 @ install 0x4b4600)
+0x4b475c	unknown	B	cEquipShopListW12 registrar 0x4b4960 vtable 0x1767a1c slot 0 (instance vtable installed by create 0x4b4674 @ install 0x4b4b04)
+0x4b4c60	unknown	B	cEquipShopListW13 registrar 0x4b4e64 vtable 0x1767aa4 slot 0 (instance vtable installed by create 0x4b4b78 @ install 0x4b5008)
+0x4b5164	unknown	B	cEquipShopListW14 registrar 0x4b5368 vtable 0x1767b2c slot 0 (instance vtable installed by create 0x4b507c @ install 0x4b550c)
+0x4b5674	otomo-ot	A	cOtEquipCreateXML registrar 0x4b62e4 vtable 0x1767bd4 slot 0 (instance vtable installed by create 0x4b6288 @ install 0x4b63ac)
+0x4b62e4	otomo-ot	A	cOtEquipCreateXML registrar 0x4b62e4 vtable 0x1767bd4 slot 1 (instance vtable installed by create 0x4b6288 @ install 0x4b63ac)
+0x4b64d8	otomo-ot	A	cOtIniLot registrar 0x4b68b4 vtable 0x1767c1c slot 0 (instance vtable installed by create 0x4b63e4 @ install 0x4b6aac)
+0x4b6c10	otomo-ot	A	cOtLotOwnSkill registrar 0x4b6e24 vtable 0x1767c84 slot 0 (instance vtable installed by create 0x4b6b1c @ install 0x4b6f60)
+0x4b70b4	otomo-ot	A	cOtLotOwnSupport registrar 0x4b7358 vtable 0x1767cec slot 0 (instance vtable installed by create 0x4b6fd0 @ install 0x4b74a4)
+0x4b7608	otomo-ot	A	cOtParamLot registrar 0x4b8204 vtable 0x1767d54 slot 0 (instance vtable installed by create 0x4b7514 @ install 0x4b868c)
+0x4b87f0	otomo-ot	A	cOtPointTable registrar 0x4b8f90 vtable 0x1767dbc slot 0 (instance vtable installed by create 0x4b86fc @ install 0x4b92c4)
+0x4b940c	unknown	B	cPieceCreateList registrar 0x4b961c vtable 0x1767e24 slot 0 (instance vtable installed by create 0x4b9334 @ install 0x4b9750)
+0x4b98dc	unknown	B	cResearchReinforce registrar 0x4b9df8 vtable 0x1767e8c slot 0 (instance vtable installed by create 0x4b97c0 @ install 0x4ba024)
+0x4ba18c	unknown	B	cShopList registrar 0x4ba420 vtable 0x1767ef4 slot 0 (instance vtable installed by create 0x4ba098 @ install 0x4ba5c4)
+0x4ba714	unknown	B	cShopListSale registrar 0x4ba7fc vtable 0x1767f5c slot 0 (instance vtable installed by create 0x4ba638 @ install 0x4ba9dc)
+0x4bab34	unknown	B	cTradeCoinTicketList registrar 0x4bad4c vtable 0x1767fc4 slot 0 (instance vtable installed by create 0x4baa50 @ install 0x4bae84)
+0x4baff0	unknown	B	cTradeDeliveryListXML registrar 0x4bba04 vtable 0x176804c slot 0 (instance vtable installed by create 0x4bbb68 @ install 0x4bbc94)
+0x4bbdc0	item	A	cTradeItemList registrar 0x4bc2ac vtable 0x1768094 slot 0 (instance vtable installed by create 0x4bbccc @ install 0x4bc450)
+0x4bc5a4	item	A	cTradeLimitedItemList registrar 0x4bc7bc vtable 0x17680fc slot 0 (instance vtable installed by create 0x4bc4c0 @ install 0x4bc8f4)
+0x4bca48	unknown	B	cTradeLotList registrar 0x4bd074 vtable 0x1768164 slot 0 (instance vtable installed by create 0x4bc964 @ install 0x4bd334)
+0x4bd488	item	A	cTradePointItemList registrar 0x4bd6a0 vtable 0x17681cc slot 0 (instance vtable installed by create 0x4bd3a4 @ install 0x4bd7d8)
+0x4bd93c	weapon-wp	A	cWeaponCreateDataXML registrar 0x4be7e0 vtable 0x1768278 slot 0 (instance vtable installed by create 0x4beaec @ install 0x4bec6c)
+0x4beca4	weapon-wp	A	cWeaponProcessData registrar 0x4bf8e4 vtable 0x1768364 slot 2 (class-record vtable written by str at 0x4bfc48)
+0x4bedac	weapon-wp	A	cWeaponProcessData registrar 0x4bf8e4 vtable 0x17682e4 slot 0 (instance vtable installed by create 0x4beca4 @ install 0x4bfc48)
+0x4c046c	unknown	B	rArmorProcessData registrar 0x4c050c vtable 0x17683e8 slot 4 (instance vtable installed by create 0x4c0138 @ install 0x4c0588)
+0x4c493c	unknown	B	rEquipShopListW12 registrar 0x4c4b9c vtable 0x176894c slot 12 (instance vtable installed by create 0x4c47d8 @ install 0x4c4c64)
+0x4c49bc	unknown	B	rEquipShopListW12 registrar 0x4c4b9c vtable 0x176894c slot 11 (instance vtable installed by create 0x4c47d8 @ install 0x4c4c64)
+0x4c5c7c	unknown	B	rOtIniLot registrar 0x4c5e68 vtable 0x1768abc slot 11 (instance vtable installed by create 0x4c5a90 @ install 0x4c5ee4)
+0x4c70f8	unknown	B	rPieceCreateList registrar 0x4c74d0 vtable 0x1768cd0 slot 2 (class-record vtable written by str at 0x4c754c)
+0x4c76dc	unknown	B	rResearchReinforce registrar 0x4c7944 vtable 0x1768ce4 slot 12 (instance vtable installed by create 0x4c7578 @ install 0x4c7a0c)
+0x4c80ec	unknown	B	rShopListSale registrar 0x4c82cc vtable 0x1768d9c slot 11 (instance vtable installed by create 0x4c7f10 @ install 0x4c8394)
+0x4c822c	unknown	B	rShopListSale registrar 0x4c82cc vtable 0x1768d9c slot 4 (instance vtable installed by create 0x4c7f10 @ install 0x4c8394)
+0x4c849c	unknown	B	rTradeCoinTicketList registrar 0x4c879c vtable 0x1768df8 slot 1 (instance vtable installed by create 0x4c83c4 @ install 0x4c8818)
+0x4c8530	unknown	B	rTradeCoinTicketList registrar 0x4c879c vtable 0x1768df8 slot 12 (instance vtable installed by create 0x4c83c4 @ install 0x4c8818)
+0x4ca8e0	unknown	B	cCatSkillBase registrar 0x4cb474 vtable 0x17690d8 slot 0 (instance vtable installed by create 0x4ca7d4 @ install 0x4cb930)
+0x4cbab8	unknown	B	cHunterArtsBase registrar 0x4cc09c vtable 0x1769140 slot 0 (instance vtable installed by create 0x4cb9a4 @ install 0x4cc324)
+0x4cc49c	unknown	B	cSkillBase registrar 0x4cd374 vtable 0x17691a8 slot 0 (instance vtable installed by create 0x4cc398 @ install 0x4cd3fc)
+0x4cc4a0	unknown	B	cSkillBase registrar 0x4cd374 vtable 0x17691a8 slot 1 (instance vtable installed by create 0x4cc398 @ install 0x4cd3fc)
+0x4cd58c	unknown	B	cSkillTypeBase registrar 0x4cdb14 vtable 0x1769210 slot 0 (instance vtable installed by create 0x4cd470 @ install 0x4cdd58)
+0x4cf114	unknown	B	sHunterArts registrar 0x4cf2d0 vtable 0x1769418 slot 2 (class-record vtable written by str at 0x4cf408)
+0x4cf438	unknown	B	sSkill registrar 0x4d3a64 vtable 0x1769490 slot 2 (class-record vtable written by str at 0x4d3bb0)
+0x4d3964	unknown	B	nSkill::cFoodSkill registrar 0x4d3a64 vtable 0x176945c slot 0 (instance vtable installed by create 0x4cf99c @ install 0x4d3bec)
+0x4d3e18	monster-em	A	cFestaSoundEmitter registrar 0x4d54a0 vtable 0x17694a4 slot 0 (instance vtable installed by create 0x4d3c2c @ install 0x4d5714)
+0x4d59c8	audio	A	cFestaSoundSequence registrar 0x4d67fc vtable 0x17694d8 slot 0 (instance vtable installed by create 0x4d5744 @ install 0x4d69b0)
+0x4d5e90	audio	A	cFestaSoundSequence registrar 0x4d67fc vtable 0x17694d8 slot 6 (instance vtable installed by create 0x4d5744 @ install 0x4d69b0)
+0x4d6b0c	unknown	B	cSeFsAse registrar 0x4d71dc vtable 0x1769510 slot 0 (instance vtable installed by create 0x4d69e0 @ install 0x4d7488)
+0x4d8fb0	unknown	B	rFestaPelTiedSe registrar 0x4d9320 vtable 0x1769598 slot 0 (instance vtable installed by create 0x4d8854 @ install 0x4d945c)
+0x4dd47c	audio	A	sSoundControl registrar 0x4e0ec8 vtable 0x17697a0 slot 6 (instance vtable installed by create 0x4da960 @ install 0x4e0fec)
+0x4f2880	unknown	B	nAreaConnect::AreaPosData registrar 0x4f3024 vtable 0x1769c80 slot 4 (instance vtable installed by create 0x4f27f0 @ install 0x4f3678)
+0x4f3024	unknown	B	nAreaConnect::AreaMoveData registrar 0x4f3024 vtable 0x1769ca4 slot 7 (instance vtable installed by create 0x4f2b98 @ install 0x4f36b0)
+0x4f3844	unknown	B	cAreaInfo registrar 0x4f3e08 vtable 0x1769d8c slot 0 (instance vtable installed by create 0x4f3748 @ install 0x4f4010)
+0x4f41b4	unknown	B	cFloorLvData registrar 0x4f489c vtable 0x1769df4 slot 0 (instance vtable installed by create 0x4f4080 @ install 0x4f4bb8)
+0x4f4d48	unknown	B	cGeyserPointData registrar 0x4f4e58 vtable 0x1769e5c slot 0 (instance vtable installed by create 0x4f4c28 @ install 0x4f4eec)
+0x4f5004	unknown	B	cKowareObjData registrar 0x4f53d8 vtable 0x1769e90 slot 0 (instance vtable installed by create 0x4f4f18 @ install 0x4f55cc)
+0x4f5778	unknown	B	MhSbcInfo registrar 0x4f594c vtable 0x1769ef8 slot 0 (instance vtable installed by create 0x4f563c @ install 0x4f5b80)
+0x4f6678	item	A	cSetItemData registrar 0x4f69bc vtable 0x1769fb8 slot 0 (instance vtable installed by create 0x4f659c @ install 0x4f6b98)
+0x4f7cd8	unknown	B	AreaParam registrar 0x4f7cd8 vtable 0x176a020 slot 1 (instance vtable installed by create 0x4f6d80 @ install 0x4f7e48)
+0x4f8080	unknown	B	cVillageFirstPos registrar 0x4f8220 vtable 0x176a158 slot 0 (instance vtable installed by create 0x4f7f4c @ install 0x4f84ac)
+0x4fc8e4	unknown	B	rStageInfoSet::SIPosition registrar 0x4fc8e4 vtable 0x176a564 slot 4 (instance vtable installed by create 0x4fc72c @ install 0x4fd1d0)
+0x505a08	unknown	B	sStageBase registrar 0x505f80 vtable 0x176a6f8 slot 0 (instance vtable installed by create 0x505980 @ install 0x506078)
+0x506510	unknown	B	sVillage registrar 0x5106f8 vtable 0x176a748 slot 0 (instance vtable installed by create 0x5060a8 @ install 0x5109a4)
+0x5074ec	unknown	B	sVillage registrar 0x5106f8 vtable 0x176a748 slot 10 (instance vtable installed by create 0x5060a8 @ install 0x5109a4)
+0x511784	unknown	B	uKowareObj registrar 0x516d58 vtable 0x176a848 slot 0 (instance vtable installed by create 0x511524 @ install 0x516e54)
+0x517108	unknown	B	uLensFlareCtrl registrar 0x517de4 vtable 0x176aa4c slot 0 (instance vtable installed by create 0x516f68 @ install 0x517ee8)
+0x517218	unknown	B	uLensFlareCtrl registrar 0x517de4 vtable 0x176aa4c slot 6 (instance vtable installed by create 0x516f68 @ install 0x517ee8)
+0x518b24	unknown	B	uStage registrar 0x518c40 vtable 0x176ac30 slot 2 (class-record vtable written by str at 0x518e14)
+0x51a854	unknown	B	uStageSet registrar 0x51b9a0 vtable 0x176aca8 slot 0 (instance vtable installed by create 0x51a5a4 @ install 0x51c410)
+0x5282d8	unknown	B	cTrialArts registrar 0x529048 vtable 0x176af8c slot 0 (instance vtable installed by create 0x5281d4 @ install 0x529544)
+0x529698	unknown	B	cTrialBowBottle registrar 0x5297b0 vtable 0x176aff4 slot 0 (instance vtable installed by create 0x5295b4 @ install 0x529974)
+0x52969c	unknown	B	cTrialBowBottle registrar 0x5297b0 vtable 0x176aff4 slot 1 (instance vtable installed by create 0x5295b4 @ install 0x529974)
+0x529ac8	unknown	B	cTrialBowShot registrar 0x529bdc vtable 0x176b05c slot 0 (instance vtable installed by create 0x5299e4 @ install 0x529d9c)
+0x529f10	unknown	B	cTrialDataCommon registrar 0x52a364 vtable 0x176b0c4 slot 0 (instance vtable installed by create 0x529e0c @ install 0x52a4f8)
+0x52a65c	otomo-ot	A	cTrialDataNyanter registrar 0x52b0e4 vtable 0x176b12c slot 0 (instance vtable installed by create 0x52a568 @ install 0x52b4fc)
+0x52a660	otomo-ot	A	cTrialDataNyanter registrar 0x52b0e4 vtable 0x176b12c slot 1 (instance vtable installed by create 0x52a568 @ install 0x52b4fc)
+0x52b56c	unknown	B	cTrialEquipData registrar 0x52b8a0 vtable 0x176b1d4 slot 2 (class-record vtable written by str at 0x52ba20)
+0x52b648	unknown	B	cTrialEquipData registrar 0x52b8a0 vtable 0x176b194 slot 0 (instance vtable installed by create 0x52b56c @ install 0x52ba20)
+0x52bb94	otomo-ot	A	cTrialEquipOtomo registrar 0x52c680 vtable 0x176b1fc slot 0 (instance vtable installed by create 0x52ba90 @ install 0x52ca8c)
+0x52cbf8	unknown	B	cTrialEquipParamXML registrar 0x52dce0 vtable 0x176b284 slot 0 (instance vtable installed by create 0x52df34 @ install 0x52e060)
+0x52e184	unknown	B	cTrialHeavyBowgunData registrar 0x52e63c vtable 0x176b2cc slot 0 (instance vtable installed by create 0x52e098 @ install 0x52e88c)
+0x52e9f8	item	A	cTrialItemPoachXML registrar 0x52fc60 vtable 0x176b354 slot 0 (instance vtable installed by create 0x52fef0 @ install 0x53001c)
+0x530138	unknown	B	cTrialLightBowgun registrar 0x530764 vtable 0x176b39c slot 0 (instance vtable installed by create 0x530054 @ install 0x530a24)
+0x530b70	unknown	B	cTrialLoadShellCount registrar 0x530cf0 vtable 0x176b404 slot 0 (instance vtable installed by create 0x530a94 @ install 0x530f24)
+0x531090	otomo-ot	A	cTrialOtomoParamXML registrar 0x532178 vtable 0x176b48c slot 0 (instance vtable installed by create 0x5323cc @ install 0x5324f8)
+0x533668	otomo-ot	A	rTrialDataNyanter registrar 0x533668 vtable 0x176b68c slot 2 (class-record vtable written by str at 0x533a98)
+0x535e58	unknown	B	cTutorialCylinderBase registrar 0x536298 vtable 0x176b980 slot 0 (instance vtable installed by create 0x535d4c @ install 0x536434)
+0x5365a8	unknown	B	cTutorialFlowBase registrar 0x536958 vtable 0x176b9e8 slot 0 (instance vtable installed by create 0x5364a4 @ install 0x536adc)
+0x539bd8	unknown	B	uFestaChar registrar 0x53b7e0 vtable 0x176bbe0 slot 0 (instance vtable installed by create 0x539818 @ install 0x53b96c)
+0x539d50	unknown	B	uFestaChar registrar 0x53b7e0 vtable 0x176bbe0 slot 4 (instance vtable installed by create 0x539818 @ install 0x53b96c)
+0x539d74	unknown	B	uFestaChar registrar 0x53b7e0 vtable 0x176bbe0 slot 9 (instance vtable installed by create 0x539818 @ install 0x53b96c)
+0x539d78	unknown	B	uFestaChar registrar 0x53b7e0 vtable 0x176bbe0 slot 10 (instance vtable installed by create 0x539818 @ install 0x53b96c)
+0x539da4	unknown	B	uFestaChar registrar 0x53b7e0 vtable 0x176bbe0 slot 12 (instance vtable installed by create 0x539818 @ install 0x53b96c)
+0x539de0	unknown	B	uFestaChar registrar 0x53b7e0 vtable 0x176bbe0 slot 16 (instance vtable installed by create 0x539818 @ install 0x53b96c)
+0x53a984	unknown	B	CONFLICTING CLASSES: uEmXXX|uFestaChar|uShellEm001_sp_00|uShellEm001_sp_01 uEmXXX registrar 0x6b3fc vtable 0x1733830 slot 50 (instance vtable installed by create 0x6b9f0 @ install 0x6c3b8)
+0x53aad8	unknown	B	CONFLICTING CLASSES: uEmXXX|uFestaChar|uPlParts|uPlWeapon uEmXXX registrar 0x6b3fc vtable 0x1733830 slot 52 (instance vtable installed by create 0x6b9f0 @ install 0x6c3b8)
+0x53ab30	unknown	B	CONFLICTING CLASSES: uEmXXX|uFestaChar|uPlParts|uPlWeapon uEmXXX registrar 0x6b3fc vtable 0x1733830 slot 53 (instance vtable installed by create 0x6b9f0 @ install 0x6c3b8)
+0x53b500	player-pl	A	uPlParts registrar 0x3072f8 vtable 0x1751ee0 slot 78 (instance vtable installed by create 0x30334c @ install 0x307498)
+0x53b59c	unknown	B	CONFLICTING CLASSES: uEmXXX|uFestaChar|uPlParts|uPlWeapon uEmXXX registrar 0x6b3fc vtable 0x1733830 slot 77 (instance vtable installed by create 0x6b9f0 @ install 0x6c3b8)
+0x53bb08	unknown	B	uFestActorModel::Constraint registrar 0x53bb08 vtable 0x176bdc8 slot 4 (instance vtable installed by create 0x53b99c @ install 0x53ccd4)
+0x53da68	unknown	B	cArenaEquip registrar 0x53deb8 vtable 0x176c054 slot 0 (instance vtable installed by create 0x53d974 @ install 0x53e004)
+0x53e198	item	A	cArenaItemPouch registrar 0x53e604 vtable 0x176c088 slot 0 (instance vtable installed by create 0x53e034 @ install 0x53e714)
+0x53e820	otomo-ot	A	cArenaNyanter registrar 0x53f138 vtable 0x176c0bc slot 0 (instance vtable installed by create 0x53e744 @ install 0x53f26c)
+0x53f378	unknown	B	cArenaStatus registrar 0x53f990 vtable 0x176c0f0 slot 0 (instance vtable installed by create 0x53f29c @ install 0x53fad8)
+0x541fb8	unknown	B	cGUIObjFreePolygon registrar 0x542f7c vtable 0x176c308 slot 4 (instance vtable installed by create 0x541e18 @ install 0x5431f4)
+0x54431c	unknown	B	uFestaGUI registrar 0x544450 vtable 0x176c524 slot 0 (instance vtable installed by create 0x5442b0 @ install 0x5445a0)
+0x544358	unknown	B	uFestaGUI registrar 0x544450 vtable 0x176c524 slot 10 (instance vtable installed by create 0x5442b0 @ install 0x5445a0)
+0x544450	unknown	B	uFestaGUI registrar 0x544450 vtable 0x176c524 slot 55 (instance vtable installed by create 0x5442b0 @ install 0x5445a0)
+0x548a08	unknown	B	cStyleArtsChange registrar 0x54ad6c vtable 0x176c884 slot 0 (instance vtable installed by create 0x5488d4 @ install 0x54af5c)
+0x54e0e8	unknown	B	cAdjustableBoard registrar 0x557ac4 vtable 0x176c9d0 slot 6 (instance vtable installed by create 0x54e044 @ install 0x558004)
+0x54e320	unknown	B	cBar registrar 0x557ac4 vtable 0x176c9fc slot 6 (instance vtable installed by create 0x54e1d8 @ install 0x55803c)
+0x54e344	unknown	B	cBar registrar 0x557ac4 vtable 0x176c9fc slot 7 (instance vtable installed by create 0x54e1d8 @ install 0x55803c)
+0x54e38c	unknown	B	cBar registrar 0x557ac4 vtable 0x176c9fc slot 8 (instance vtable installed by create 0x54e1d8 @ install 0x55803c)
+0x54e54c	unknown	B	cFrame registrar 0x557ac4 vtable 0x176ca28 slot 6 (instance vtable installed by create 0x54e40c @ install 0x558074)
+0x54e598	unknown	B	cFrame registrar 0x557ac4 vtable 0x176ca28 slot 7 (instance vtable installed by create 0x54e40c @ install 0x558074)
+0x54ecc0	unknown	B	cBoxCursor registrar 0x557ac4 vtable 0x176cb9c slot 6 (instance vtable installed by create 0x552f90 @ install 0x55825c)
+0x54f42c	unknown	B	cInsertCursor registrar 0x557ac4 vtable 0x176cb10 slot 0 (instance vtable installed by create 0x54f31c @ install 0x558190)
+0x54f67c	unknown	B	cMultipleGauge registrar 0x557ac4 vtable 0x176cb58 slot 0 (instance vtable installed by create 0x54f45c @ install 0x5581c8)
+0x54f798	unknown	B	cMultipleGauge registrar 0x557ac4 vtable 0x176cb58 slot 6 (instance vtable installed by create 0x54f45c @ install 0x5581c8)
+0x54f9f0	unknown	B	cMessageCase registrar 0x557ac4 vtable 0x176cb7c slot 0 (instance vtable installed by create 0x54f960 @ install 0x558200)
+0x55c4ec	unknown	B	sUI registrar 0x56200c vtable 0x176cd68 slot 0 (instance vtable installed by create 0x55c130 @ install 0x5624a4)
+0x55c6d4	unknown	B	sUI registrar 0x56200c vtable 0x176cd68 slot 7 (instance vtable installed by create 0x55c130 @ install 0x5624a4)
+0x562b1c	item	A	cUIOFormItemWindow registrar 0x562f60 vtable 0x176cfec slot 2 (class-record vtable written by str at 0x563730)
+0x56da30	quest	A	cUIOQuestWatch registrar 0x61ede4 vtable 0x1775894 slot 0 (instance vtable installed by create 0x61f5ec @ install 0x61f990)
+0x56dc28	unknown	B	CONFLICTING CLASSES: cUIOAlchemy|cUIOAlchemyBox|cUIOAlchemyLow|cUIOAlchemyMenu cUIOAlchemy registrar 0x565d74 vtable 0x176d1a4 slot 6 (instance vtable installed by create 0x5647bc @ install 0x56639c)
+0x56dc88	unknown	B	CONFLICTING CLASSES: cUIOAlchemy|cUIOAlchemyBox|cUIOAlchemyLow|cUIOAlchemyMenu cUIOAlchemy registrar 0x565d74 vtable 0x176d1a4 slot 7 (instance vtable installed by create 0x5647bc @ install 0x56639c)
+0x56e23c	unknown	B	CONFLICTING CLASSES: cUIOAlchemy|cUIOAlchemyBox|cUIOAlchemyLow|cUIOAlchemyMenu cUIOAlchemy registrar 0x565d74 vtable 0x176d1a4 slot 15 (instance vtable installed by create 0x5647bc @ install 0x56639c)
+0x56e3ac	unknown	B	CONFLICTING CLASSES: cUIOChatFixedPharase|cUIOChatWindow|cUIOComLowerButtonList|cUIOCustomizedPanel cUIOChatFixedPharase registrar 0x5769bc vtable 0x176db0c slot 17 (instance vtable installed by create 0x575cc8 @ install 0x577420)
+0x56e3b0	unknown	B	cUIOFormStatusPlate::cUIOFormStatusPlateGuests registrar 0x563e7c vtable 0x176d088 slot 18 (instance vtable installed by create 0x563d44 @ install 0x564090)
+0x56e4d8	unknown	B	CONFLICTING CLASSES: cUIOLeftRightArrows|cUIOQuestInfo|cUIOStyleMenuDown|cUIObject cUIOLeftRightArrows registrar 0x5c4a74 vtable 0x17712b4 slot 19 (instance vtable installed by create 0x5c4390 @ install 0x5c4be4)
+0x570710	unknown	B	CONFLICTING CLASSES: cUIOArrangePanel::cSetupParam|cUIOCPanelArtGauge::cSetupParam|cUIOCPanelChatBase::cSetupParam|cUIOCPanelEnemyPanel::cSetupParam cUIOArrangePanel::cSetupParam registrar 0x57c064 vtable 0x176dec0 slot 0 (instance vtable installed by create 0x5798c0 @ install 0x57c21c)
+0x570858	unknown	B	cUIObjectEventParam registrar 0x570858 vtable 0x176d920 slot 0 (instance vtable installed by create 0x5707e0 @ install 0x5709a8)
+0x5709e4	unknown	B	cUIOBranchSelect registrar 0x571794 vtable 0x176d9f0 slot 2 (class-record vtable written by str at 0x5719a4)
+0x58ae44	item	A	cUIOShopItemDetail registrar 0x58b44c vtable 0x176e738 slot 1 (instance vtable installed by create 0x58ade8 @ install 0x58b698)
+0x58ffa0	unknown	B	cUIOShopSmithPiece registrar 0x5926f0 vtable 0x176efe4 slot 18 (instance vtable installed by create 0x58ff0c @ install 0x592ca4)
+0x593e30	unknown	B	cUIOFishingGauge registrar 0x593f80 vtable 0x176f64c slot 2 (class-record vtable written by str at 0x594304)
+0x593f60	unknown	B	cUIOFishingGauge registrar 0x593f80 vtable 0x176f5e4 slot 19 (instance vtable installed by create 0x593e30 @ install 0x594304)
+0x597638	quest	A	cUIOQuestOtherGauge registrar 0x61dec0 vtable 0x17756a4 slot 18 (instance vtable installed by create 0x61de44 @ install 0x61e040)
+0x59768c	quest	A	cUIOQuestOtherGauge registrar 0x61dec0 vtable 0x17756a4 slot 19 (instance vtable installed by create 0x61de44 @ install 0x61e040)
+0x59eaa0	unknown	B	cUIOGuildCardView registrar 0x5aa228 vtable 0x176fbe4 slot 0 (instance vtable installed by create 0x59e8d4 @ install 0x5aa5b8)
+0x5b1be8	unknown	B	cUIOHunterNoteTipsLow registrar 0x5b1be8 vtable 0x17705b4 slot 7 (instance vtable installed by create 0x5b1c80 @ install 0x5b2ea0)
+0x5b58b4	unknown	B	cUIOInsectFeed registrar 0x5b5f84 vtable 0x177087c slot 1 (instance vtable installed by create 0x5b5854 @ install 0x5b6304)
+0x5ba510	item	A	cUIOItemPouch::cUIODelAndItemWindow registrar 0x5bc604 vtable 0x1770ae8 slot 6 (instance vtable installed by create 0x5ba454 @ install 0x5bc754)
+0x5bd958	unknown	B	cUIOKeyboardWindow registrar 0x5bdef4 vtable 0x1770dec slot 2 (class-record vtable written by str at 0x5be090)
+0x5beab0	unknown	B	cUIOKitchenInfo registrar 0x5beab0 vtable 0x1770fdc slot 2 (class-record vtable written by str at 0x5befe0)
+0x5bf160	unknown	B	cUIOKitchenUpBase registrar 0x5bf160 vtable 0x1770ff0 slot 18 (instance vtable installed by create 0x5bf010 @ install 0x5c195c)
+0x5c5074	unknown	B	cUIOListWindow registrar 0x5c5b80 vtable 0x1771344 slot 0 (instance vtable installed by create 0x5c4f10 @ install 0x5c5d1c)
+0x5c5484	unknown	B	cUIOListWindow registrar 0x5c5b80 vtable 0x1771344 slot 18 (instance vtable installed by create 0x5c4f10 @ install 0x5c5d1c)
+0x5c54bc	unknown	B	cUIOListWindow registrar 0x5c5b80 vtable 0x1771344 slot 19 (instance vtable installed by create 0x5c4f10 @ install 0x5c5d1c)
+0x5c5788	unknown	B	cUIOListWindowAddParts registrar 0x5c5b80 vtable 0x1771460 slot 2 (class-record vtable written by str at 0x5c5d54)
+0x5c5a54	unknown	B	cUIOListWindowAddParts registrar 0x5c5b80 vtable 0x17713bc slot 27 (instance vtable installed by create 0x5c5788 @ install 0x5c5d54)
+0x5c6470	unknown	B	cUIOLobbyEventPop registrar 0x5c6750 vtable 0x17714f0 slot 18 (instance vtable installed by create 0x5c61bc @ install 0x5c6ae8)
+0x5c7324	unknown	B	cUIOLobbyHeadUpUI registrar 0x5c88b8 vtable 0x1771650 slot 2 (class-record vtable written by str at 0x5c8ca0)
+0x5c8de8	unknown	B	cUIOLobbyHunterSearchInformation registrar 0x5c8ed8 vtable 0x1771664 slot 19 (instance vtable installed by create 0x5c8d04 @ install 0x5c93d4)
+0x5ce6d0	unknown	B	cUIOMix registrar 0x5cf7fc vtable 0x1771ad4 slot 2 (class-record vtable written by str at 0x5cfa5c)
+0x5d0f7c	unknown	B	cUIOMonNyanBase registrar 0x5d1040 vtable 0x1771bf4 slot 0 (instance vtable installed by create 0x5d0f10 @ install 0x5d1218)
+0x5d0fb4	unknown	B	cUIOMonNyanBase registrar 0x5d1040 vtable 0x1771bf4 slot 18 (instance vtable installed by create 0x5d0f10 @ install 0x5d1218)
+0x5d1248	unknown	B	cUIOMonNyanCannon registrar 0x5d19ac vtable 0x1771ce0 slot 2 (class-record vtable written by str at 0x5d1bb8)
+0x5d1390	unknown	B	cUIOMonNyanCannon::cUIOTouchCannon registrar 0x5d19ac vtable 0x1771d08 slot 2 (class-record vtable written by str at 0x5d1c50)
+0x5d59b8	unknown	B	cUIOMonNyanResultSecretCircle registrar 0x5d59b8 vtable 0x177233c slot 18 (instance vtable installed by create 0x5d53c4 @ install 0x5d5be4)
+0x5d89cc	unknown	B	cUIOMonNyanSelectMemberWindow registrar 0x5d8c34 vtable 0x1772628 slot 2 (class-record vtable written by str at 0x5d8e94)
+0x5d8a24	unknown	B	cUIOMonNyanSelectMemberWindow registrar 0x5d8c34 vtable 0x17725bc slot 1 (instance vtable installed by create 0x5d89cc @ install 0x5d8e94)
+0x5e48a8	unknown	B	cNumSelecter registrar 0x5e4bd0 vtable 0x17729c0 slot 0 (instance vtable installed by create 0x5e4808 @ install 0x5e4d8c)
+0x5e4ed8	unknown	B	cUIONyanjiro registrar 0x5e5100 vtable 0x1772a70 slot 18 (instance vtable installed by create 0x5e4e08 @ install 0x5e5534)
+0x5e5630	unknown	B	cUIOOptionWindowBase registrar 0x5e635c vtable 0x1772b0c slot 0 (instance vtable installed by create 0x5e5564 @ install 0x5e6ae8)
+0x5e5664	unknown	B	cUIOOptionWindowBase registrar 0x5e635c vtable 0x1772b0c slot 6 (instance vtable installed by create 0x5e5564 @ install 0x5e6ae8)
+0x5e635c	unknown	B	cUIOOptionWindowBase registrar 0x5e635c vtable 0x1772b0c slot 36 (instance vtable installed by create 0x5e5564 @ install 0x5e6ae8)
+0x5e6b18	unknown	B	cUIOOptionWindowForChat registrar 0x5e6b18 vtable 0x1772c74 slot 2 (class-record vtable written by str at 0x5e6ecc)
+0x5e9264	unknown	B	cUIOOptionWindowForNetwork registrar 0x5e9264 vtable 0x1772d48 slot 6 (instance vtable installed by create 0x5e91dc @ install 0x5e9778)
+0x5f2c8c	otomo-ot	A	cUIOOtomoBoardEquipList registrar 0x5f5354 vtable 0x177305c slot 24 (instance vtable installed by create 0x5f28d4 @ install 0x5f55b0)
+0x5f6ebc	monster-em	A	cUIOOtomoEmployList registrar 0x5f8400 vtable 0x1773590 slot 24 (instance vtable installed by create 0x5f6b5c @ install 0x5f86c0)
+0x5fd778	otomo-ot	A	cUIOOtomoExerciseLow registrar 0x5fe1a8 vtable 0x1773cec slot 19 (instance vtable installed by create 0x5fd540 @ install 0x5fe334)
+0x601f5c	unknown	B	cUIOPanelBase::cSetupParam registrar 0x602a54 vtable 0x17740d0 slot 0 (instance vtable installed by create 0x601ea8 @ install 0x602ba8)
+0x60217c	otomo-ot	A	cUIOOtomoMenuPanel registrar 0x5aa228 vtable 0x176fc74 slot 0 (instance vtable installed by create 0x5aa2f8 @ install 0x5aa5f4)
+0x60224c	unknown	B	CONFLICTING CLASSES: cUIOArenaDown|cUIOAutoChatPanel|cUIOCPanelItemSelector|cUIOCPanelItemSelectorL cUIOArenaDown registrar 0x56c49c vtable 0x176d6c8 slot 15 (instance vtable installed by create 0x56b038 @ install 0x56c9d4)
+0x6025b8	otomo-ot	A	cUIOOtomoMenuPanel registrar 0x5aa228 vtable 0x176fc74 slot 18 (instance vtable installed by create 0x5aa2f8 @ install 0x5aa5f4)
+0x6026b8	unknown	B	CONFLICTING CLASSES: cUIOAutoChatPanel|cUIOCPanelKeyBase|cUIOCPanelKeyL|cUIOCPanelKeyS cUIOAutoChatPanel registrar 0x5769bc vtable 0x176da6c slot 17 (instance vtable installed by create 0x575b98 @ install 0x5773e4)
+0x6026bc	unknown	B	cUIOAutoChatPanel registrar 0x5769bc vtable 0x176da6c slot 19 (instance vtable installed by create 0x575b98 @ install 0x5773e4)
+0x6027f4	unknown	B	CONFLICTING CLASSES: cUIOArenaDown|cUIOArrangePanel|cUIOAutoChatPanel|cUIOCPanelArtGauge cUIOArenaDown registrar 0x56c49c vtable 0x176d6c8 slot 6 (instance vtable installed by create 0x56b038 @ install 0x56c9d4)
+0x602828	unknown	B	CONFLICTING CLASSES: cUIOArenaDown|cUIOArrangePanel|cUIOAutoChatPanel|cUIOCPanelArtGauge cUIOArenaDown registrar 0x56c49c vtable 0x176d6c8 slot 7 (instance vtable installed by create 0x56b038 @ install 0x56c9d4)
+0x602864	unknown	B	CONFLICTING CLASSES: cUIOArenaDown|cUIOArrangePanel|cUIOAutoChatPanel|cUIOCPanelArtGauge cUIOArenaDown registrar 0x56c49c vtable 0x176d6c8 slot 25 (instance vtable installed by create 0x56b038 @ install 0x56c9d4)
+0x6028b8	unknown	B	CONFLICTING CLASSES: cUIOArenaDown|cUIOCPanelArtGauge|cUIOCPanelChatBase|cUIOCPanelChatUse cUIOArenaDown registrar 0x56c49c vtable 0x176d6c8 slot 27 (instance vtable installed by create 0x56b038 @ install 0x56c9d4)
+0x6028f0	unknown	B	CONFLICTING CLASSES: cUIOArenaDown|cUIOCPanelArtGauge|cUIOCPanelChatBase|cUIOCPanelChatUse cUIOArenaDown registrar 0x56c49c vtable 0x176d6c8 slot 28 (instance vtable installed by create 0x56b038 @ install 0x56c9d4)
+0x602910	unknown	B	CONFLICTING CLASSES: cUIOArenaDown|cUIOArrangePanel|cUIOAutoChatPanel|cUIOCPanelArtGauge cUIOArenaDown registrar 0x56c49c vtable 0x176d6c8 slot 29 (instance vtable installed by create 0x56b038 @ install 0x56c9d4)
+0x602948	unknown	B	CONFLICTING CLASSES: cUIOArenaDown|cUIOArrangePanel|cUIOAutoChatPanel|cUIOCPanelArtGauge cUIOArenaDown registrar 0x56c49c vtable 0x176d6c8 slot 31 (instance vtable installed by create 0x56b038 @ install 0x56c9d4)
+0x60294c	unknown	B	CONFLICTING CLASSES: cUIOArenaDown|cUIOCPanelChatBase|cUIOCPanelItemBase|cUIOCPanelKeyBase cUIOArenaDown registrar 0x56c49c vtable 0x176d6c8 slot 32 (instance vtable installed by create 0x56b038 @ install 0x56c9d4)
+0x60298c	unknown	B	CONFLICTING CLASSES: cUIOArenaDown|cUIOArrangePanel|cUIOAutoChatPanel|cUIOCPanelArtGauge cUIOArenaDown registrar 0x56c49c vtable 0x176d6c8 slot 34 (instance vtable installed by create 0x56b038 @ install 0x56c9d4)
+0x6029f0	unknown	B	CONFLICTING CLASSES: cUIOArenaDown|cUIOArrangePanel|cUIOAutoChatPanel|cUIOCPanelArtGauge cUIOArenaDown registrar 0x56c49c vtable 0x176d6c8 slot 37 (instance vtable installed by create 0x56b038 @ install 0x56c9d4)
+0x603b78	unknown	B	cUIOPanelCustomize registrar 0x60be74 vtable 0x1774278 slot 0 (instance vtable installed by create 0x603324 @ install 0x60c3b8)
+0x610778	unknown	B	cUIOPostLower registrar 0x61092c vtable 0x1774834 slot 1 (instance vtable installed by create 0x610704 @ install 0x6115f4)
+0x61af0c	unknown	B	cUIOMapBase registrar 0x61d220 vtable 0x1774c7c slot 19 (instance vtable installed by create 0x61ad20 @ install 0x61dca8)
+0x61dec0	quest	A	cUIOQuestOtherGauge registrar 0x61dec0 vtable 0x17756a4 slot 0 (instance vtable installed by create 0x61de44 @ install 0x61e040)
+0x6291e8	unknown	B	cUIOShellWindow registrar 0x6291e8 vtable 0x1775f98 slot 0 (instance vtable installed by create 0x627c78 @ install 0x629344)
+0x62b184	unknown	B	cUIOSkillSlot registrar 0x62b184 vtable 0x17761ac slot 18 (instance vtable installed by create 0x62b0b4 @ install 0x62b988)
+0x63b0c0	unknown	B	cUIOSupportGauge registrar 0x63b55c vtable 0x1777290 slot 0 (instance vtable installed by create 0x63af84 @ install 0x63b894)
+0x6427f8	unknown	B	cUIOKaiwaExpWindow registrar 0x643104 vtable 0x1777bc0 slot 0 (instance vtable installed by create 0x64304c @ install 0x6434b8)
+0x643104	unknown	B	cUIOKaiwaExpWindow registrar 0x643104 vtable 0x1777bc0 slot 24 (instance vtable installed by create 0x64304c @ install 0x6434b8)
+0x64cae0	unknown	B	cUIOCPanelArtGauge registrar 0x64d69c vtable 0x1778ed0 slot 18 (instance vtable installed by create 0x64c8d4 @ install 0x64e2c0)
+0x652170	unknown	B	cUIOCPanelKeyBase registrar 0x652aa0 vtable 0x1779c6c slot 2 (class-record vtable written by str at 0x652dfc)
+0x65225c	unknown	B	cUIOCPanelKeyBase registrar 0x652aa0 vtable 0x1779a80 slot 0 (instance vtable installed by create 0x652170 @ install 0x652dfc)
+0x655360	unknown	B	cUIOCPanelSupportSelector registrar 0x656604 vtable 0x177a1ac slot 0 (instance vtable installed by create 0x6552b0 @ install 0x656954)
+0x656604	unknown	B	cUIOCPanelSupportSelectorS registrar 0x656604 vtable 0x177a324 slot 42 (instance vtable installed by create 0x6561c4 @ install 0x6569c4)
+0x657860	unknown	B	cUIOMyStatusUI registrar 0x657924 vtable 0x177a594 slot 0 (instance vtable installed by create 0x6577bc @ install 0x657cb8)
+0x657894	unknown	B	cUIOMyStatusUI registrar 0x657924 vtable 0x177a594 slot 18 (instance vtable installed by create 0x6577bc @ install 0x657cb8)
+0x6578f8	unknown	B	cUIOMyStatusUI registrar 0x657924 vtable 0x177a594 slot 19 (instance vtable installed by create 0x6577bc @ install 0x657cb8)
+0x657e90	unknown	B	cUIORegistSrcPanel registrar 0x658ae8 vtable 0x177a6e0 slot 0 (instance vtable installed by create 0x658b7c @ install 0x659320)
+0x657fb4	unknown	B	cUIORegistSrcPanelBase registrar 0x658ae8 vtable 0x177a63c slot 18 (instance vtable installed by create 0x657d64 @ install 0x6592e8)
+0x65b4d4	unknown	B	cMixPanel registrar 0x65b4d4 vtable 0x177a92c slot 2 (class-record vtable written by str at 0x65b7a4)
+0x65c870	unknown	B	uUIBase registrar 0x65cc30 vtable 0x177a9f0 slot 0 (instance vtable installed by create 0x65c754 @ install 0x65cdb8)
+0x65c9d0	unknown	B	uUIBase registrar 0x65cc30 vtable 0x177a9f0 slot 6 (instance vtable installed by create 0x65c754 @ install 0x65cdb8)
+0x65ca7c	unknown	B	uUIBase registrar 0x65cc30 vtable 0x177a9f0 slot 18 (instance vtable installed by create 0x65c754 @ install 0x65cdb8)
+0x65ca80	unknown	B	uUIBase registrar 0x65cc30 vtable 0x177a9f0 slot 9 (instance vtable installed by create 0x65c754 @ install 0x65cdb8)
+0x667f58	unknown	B	uUINyanjiro registrar 0x66a91c vtable 0x177abf0 slot 0 (instance vtable installed by create 0x667d34 @ install 0x66ac3c)
+0x66ed24	quest	A	uUIQuestStartMenu registrar 0x6798d4 vtable 0x177aeb8 slot 9 (instance vtable installed by create 0x677ad4 @ install 0x679c44)
+0x66eff4	quest	A	uUIQuestStartMenu registrar 0x6798d4 vtable 0x177aeb8 slot 22 (instance vtable installed by create 0x677ad4 @ install 0x679c44)
+0x66fc30	quest	A	uUIQuestStartMenu registrar 0x6798d4 vtable 0x177aeb8 slot 34 (instance vtable installed by create 0x677ad4 @ install 0x679c44)
+0x675c00	quest	A	uUIQuestStartMenu registrar 0x6798d4 vtable 0x177aeb8 slot 54 (instance vtable installed by create 0x677ad4 @ install 0x679c44)
+0x675dc4	quest	A	uUIQuestStartMenu registrar 0x6798d4 vtable 0x177aeb8 slot 55 (instance vtable installed by create 0x677ad4 @ install 0x679c44)
+0x677844	quest	A	uUIQuestStartMenu registrar 0x6798d4 vtable 0x177aeb8 slot 57 (instance vtable installed by create 0x677ad4 @ install 0x679c44)
+0x67ac08	ui	A	uUITitleMenu registrar 0x695fc8 vtable 0x177b094 slot 0 (instance vtable installed by create 0x67a660 @ install 0x696338)
+0x6bbdf8	unknown	B	aLobbyBase registrar 0x1dbc vtable 0x172f218 slot 7 (instance vtable installed by create 0x1d34 @ install 0x1ed8)
+0x6bcae8	unknown	B	aVillage07Offline registrar 0xb450 vtable 0x1730424 slot 7 (instance vtable installed by create 0xd6ac @ install 0xd838)
+0x6bcb54	online-nex	A	aVillage07Online registrar 0xb450 vtable 0x1730480 slot 8 (instance vtable installed by create 0xd868 @ install 0xda38)
+0x7aa878	render-gfx	A	MtExHeapAllocator registrar 0x7aeaf8 vtable 0x177e7b4 slot 6 (instance vtable installed by create 0x7adc0c @ install 0x7aeda0)
+0x7aa8dc	render-gfx	A	MtDefaultAllocator registrar 0x7ac6b8 vtable 0x177e5e0 slot 4 (instance vtable installed by create 0x7aae30 @ install 0x7adac4)
+0x7adc80	render-gfx	A	MtExHeapAllocator registrar 0x7aeaf8 vtable 0x177e7b4 slot 0 (instance vtable installed by create 0x7adc0c @ install 0x7aeda0)
+0x7bb7b8	render-gfx	A	MtPropertyList registrar 0x7bb230 vtable 0x177e9a0 slot 0 (instance vtable installed by create 0x7bb284 @ install 0x7bb308)
+0x7bbb6c	render-gfx	A	MtScalableAllocator registrar 0x7bd808 vtable 0x177e9d4 slot 0 (instance vtable installed by create 0x7bbaf8 @ install 0x7bd91c)
+0x7bdd54	render-gfx	A	MtThread registrar 0x7bdf78 vtable 0x177ea9c slot 0 (instance vtable installed by create 0x7bda1c @ install 0x7bdfb8)
+0x7be958	render-gfx	A	MtGeomCapsule registrar 0x7be958 vtable 0x177eae8 slot 42 (instance vtable installed by create 0x7bdfe4 @ install 0x7bec1c)
+0x7c0b80	render-gfx	A	MtGeomLineSegment registrar 0x13b4cc8 vtable 0x177ec04 slot 4 (instance vtable installed by create 0x13b4aac @ install 0x13b5c04)
+0x7cb8c8	render-gfx	A	MtTree registrar 0x7cb8c8 vtable 0x1786f9c slot 0 (instance vtable installed by create 0x7cb850 @ install 0x7cbd58)
+0x80c214	render-gfx	A	MtNetUniqueId registrar 0x80dbbc vtable 0x1787114 slot 11 (instance vtable installed by create 0x80c5d0 @ install 0x80dc7c)
+0x80c234	render-gfx	A	MtNetUniqueId registrar 0x80dbbc vtable 0x1787114 slot 12 (instance vtable installed by create 0x80c5d0 @ install 0x80dc7c)
+0x80c254	render-gfx	A	MtNetUniqueId registrar 0x80dbbc vtable 0x1787114 slot 13 (instance vtable installed by create 0x80c5d0 @ install 0x80dc7c)
+0x80c2b4	render-gfx	A	MtNetUniqueId registrar 0x80dbbc vtable 0x1787114 slot 15 (instance vtable installed by create 0x80c5d0 @ install 0x80dc7c)
+0x80c4ac	render-gfx	A	MtNetUniqueId registrar 0x80dbbc vtable 0x1787114 slot 18 (instance vtable installed by create 0x80c5d0 @ install 0x80dc7c)
+0x80c514	render-gfx	A	MtNetUniqueId registrar 0x80dbbc vtable 0x1787114 slot 19 (instance vtable installed by create 0x80c5d0 @ install 0x80dc7c)
+0x80c580	render-gfx	A	MtNetUniqueId registrar 0x80dbbc vtable 0x1787114 slot 20 (instance vtable installed by create 0x80c5d0 @ install 0x80dc7c)
+0x80dbbc	render-gfx	A	MtNetUniqueId registrar 0x80dbbc vtable 0x1787114 slot 0 (instance vtable installed by create 0x80c5d0 @ install 0x80dc7c)
+0x820f3c	render-gfx	A	MtNetObject registrar 0x8214e4 vtable 0x1787878 slot 0 (instance vtable installed by create 0x820e08 @ install 0x821600)
+0x820fb0	render-gfx	A	MtNetObject registrar 0x8214e4 vtable 0x1787878 slot 4 (instance vtable installed by create 0x820e08 @ install 0x821600)
+0x821314	render-gfx	A	MtNetObject registrar 0x8214e4 vtable 0x1787878 slot 8 (instance vtable installed by create 0x820e08 @ install 0x821600)
+0x8213d4	render-gfx	A	MtNetObject registrar 0x8214e4 vtable 0x1787878 slot 9 (instance vtable installed by create 0x820e08 @ install 0x821600)
+0x8214e4	render-gfx	A	MtNetObject registrar 0x8214e4 vtable 0x1787878 slot 10 (instance vtable installed by create 0x820e08 @ install 0x821600)
+0x828bc4	render-gfx	A	MtFile::FileInfo registrar 0x82b674 vtable 0x1787be0 slot 0 (instance vtable installed by create 0x828aec @ install 0x82b844)
+0x82a2dc	render-gfx	A	MtFile registrar 0x82b674 vtable 0x1787c00 slot 17 (instance vtable installed by create 0x82960c @ install 0x82b87c)
+0x82a2ec	render-gfx	A	MtFile registrar 0x82b674 vtable 0x1787c00 slot 15 (instance vtable installed by create 0x82960c @ install 0x82b87c)
+0x82a358	render-gfx	A	MtFile registrar 0x82b674 vtable 0x1787c00 slot 8 (instance vtable installed by create 0x82960c @ install 0x82b87c)
+0x82a4c8	render-gfx	A	MtFile registrar 0x82b674 vtable 0x1787c00 slot 0 (instance vtable installed by create 0x82960c @ install 0x82b87c)
+0x82b1ec	render-gfx	A	MtFile registrar 0x82b674 vtable 0x1787c00 slot 6 (instance vtable installed by create 0x82960c @ install 0x82b87c)
+0x82b674	render-gfx	A	MtFile registrar 0x82b674 vtable 0x1787c00 slot 7 (instance vtable installed by create 0x82960c @ install 0x82b87c)
+0x837e30	render-gfx	A	MtStream registrar 0x8394d0 vtable 0x1787ebc slot 2 (class-record vtable written by str at 0x839d64)
+0x838024	render-gfx	A	MtFileStream registrar 0x8394d0 vtable 0x1787cbc slot 0 (instance vtable installed by create 0x837f64 @ install 0x839d9c)
+0x838054	render-gfx	A	MtFileStream registrar 0x8394d0 vtable 0x1787cbc slot 23 (instance vtable installed by create 0x837f64 @ install 0x839d9c)
+0x83805c	render-gfx	A	MtFileStream registrar 0x8394d0 vtable 0x1787cbc slot 6 (instance vtable installed by create 0x837f64 @ install 0x839d9c)
+0x8380e4	render-gfx	A	MtFileStream registrar 0x8394d0 vtable 0x1787cbc slot 7 (instance vtable installed by create 0x837f64 @ install 0x839d9c)
+0x838168	render-gfx	A	MtFileStream registrar 0x8394d0 vtable 0x1787cbc slot 11 (instance vtable installed by create 0x837f64 @ install 0x839d9c)
+0x8381f0	render-gfx	A	MtFileStream registrar 0x8394d0 vtable 0x1787cbc slot 17 (instance vtable installed by create 0x837f64 @ install 0x839d9c)
+0x83824c	render-gfx	A	MtFileStream registrar 0x8394d0 vtable 0x1787cbc slot 19 (instance vtable installed by create 0x837f64 @ install 0x839d9c)
+0x838310	render-gfx	A	MtClipboardStream registrar 0x8394d0 vtable 0x1787d24 slot 1 (instance vtable installed by create 0x8382c4 @ install 0x839dd4)
+0x838634	render-gfx	A	MtMemoryStream registrar 0x8394d0 vtable 0x1787d88 slot 0 (instance vtable installed by create 0x838494 @ install 0x839e0c)
+0x838750	render-gfx	A	MtMemoryStream registrar 0x8394d0 vtable 0x1787d88 slot 10 (instance vtable installed by create 0x838494 @ install 0x839e0c)
+0x838798	render-gfx	A	MtMemoryStream registrar 0x8394d0 vtable 0x1787d88 slot 13 (instance vtable installed by create 0x838494 @ install 0x839e0c)
+0x8387fc	render-gfx	A	MtMemoryStream registrar 0x8394d0 vtable 0x1787d88 slot 14 (instance vtable installed by create 0x838494 @ install 0x839e0c)
+0x838860	render-gfx	A	MtMemoryStream registrar 0x8394d0 vtable 0x1787d88 slot 17 (instance vtable installed by create 0x838494 @ install 0x839e0c)
+0x8389e0	render-gfx	A	MtMemoryStream registrar 0x8394d0 vtable 0x1787d88 slot 20 (instance vtable installed by create 0x838494 @ install 0x839e0c)
+0x838f94	render-gfx	A	MtMemoryCachedStream registrar 0x8394d0 vtable 0x1787df4 slot 12 (instance vtable installed by create 0x838a48 @ install 0x839e44)
+0x86fb4c	unknown	B	uColorFilter registrar 0x86fb4c vtable 0x17893c0 slot 0 (instance vtable installed by create 0x86fa80 @ install 0x8700c4)
+0x8702e8	unknown	B	uScreenShot registrar 0x87031c vtable 0x1789424 slot 0 (instance vtable installed by create 0x8700f4 @ install 0x8704d4)
+0x87031c	unknown	B	uScreenShot registrar 0x87031c vtable 0x1789424 slot 4 (instance vtable installed by create 0x8700f4 @ install 0x8704d4)
+0x8707a8	audio	A	cSoundMultiBandEQ registrar 0x872e00 vtable 0x17894c8 slot 0 (instance vtable installed by create 0x870504 @ install 0x8738e4)
+0x877378	save-data	A	sSavedata registrar 0x879310 vtable 0x17897f8 slot 0 (instance vtable installed by create 0x87717c @ install 0x879550)
+0x8795d4	unknown	B	cArea registrar 0x879718 vtable 0x1789860 slot 0 (instance vtable installed by create 0x879580 @ install 0x879d28)
+0x879718	unknown	B	cArea registrar 0x879718 vtable 0x1789860 slot 9 (instance vtable installed by create 0x879580 @ install 0x879d28)
+0x887100	unknown	B	cResource registrar 0x887680 vtable 0x17898e4 slot 0 (instance vtable installed by create 0x8870b0 @ install 0x887794)
+0x887160	unknown	B	CONFLICTING CLASSES: cResource|rAIDynamicLayout|rAIPathBase|rAIPathBaseXml cResource registrar 0x887680 vtable 0x17898e4 slot 15 (instance vtable installed by create 0x8870b0 @ install 0x887794)
+0x8871d8	unknown	B	CONFLICTING CLASSES: cResource|rCameraList|rChain|rChainCol cResource registrar 0x887680 vtable 0x17898e4 slot 4 (instance vtable installed by create 0x8870b0 @ install 0x887794)
+0x88784c	unknown	B	cSystem registrar 0x8878e4 vtable 0x1789940 slot 0 (instance vtable installed by create 0x8877dc @ install 0x887924)
+0x8878e4	unknown	B	CONFLICTING CLASSES: cSystem|sDLC|sFestaSaveData|sFestaTool cSystem registrar 0x8878e4 vtable 0x1789940 slot 4 (instance vtable installed by create 0x8877dc @ install 0x887924)
+0x8879ac	monster-em	A	uMonsterUnitConductor registrar 0xcd1d4 vtable 0x17351d8 slot 6 (instance vtable installed by create 0xcd078 @ install 0xcdc48)
+0x8879b4	unknown	B	cUnit registrar 0x887a24 vtable 0x1789984 slot 0 (instance vtable installed by create 0x887950 @ install 0x88832c)
+0x887a24	unknown	B	cUnit registrar 0x887a24 vtable 0x1789984 slot 4 (instance vtable installed by create 0x887950 @ install 0x88832c)
+0x88891c	unknown	B	sUserManager registrar 0x889478 vtable 0x17899e8 slot 0 (instance vtable installed by create 0x88835c @ install 0x889938)
+0x889af0	unknown	B	uAdhesion registrar 0x88c0c8 vtable 0x1789a60 slot 0 (instance vtable installed by create 0x8899b4 @ install 0x88c860)
+0x88eb68	unknown	B	uModelSymmetry registrar 0x94c39c vtable 0x178c220 slot 0 (instance vtable installed by create 0x94c350 @ install 0x94cd84)
+0x88edd0	unknown	B	uModelSky registrar 0x94c39c vtable 0x178c0b4 slot 22 (instance vtable installed by create 0x94b8a4 @ install 0x94cd14)
+0x88f45c	unknown	B	CONFLICTING CLASSES: nCollision::uPreviewModel|uEm087_088_RubbleBase|uEm087_Rubble|uEm088_Rubble nCollision::uPreviewModel registrar 0xb14c38 vtable 0x17917c8 slot 24 (instance vtable installed by create 0xb13fd4 @ install 0xb14e48)
+0x88f4f4	unknown	B	uModelSky registrar 0x94c39c vtable 0x178c0b4 slot 9 (instance vtable installed by create 0x94b8a4 @ install 0x94cd14)
+0x88f62c	unknown	B	nCollision::uPreviewModel registrar 0xb14c38 vtable 0x17917c8 slot 10 (instance vtable installed by create 0xb13fd4 @ install 0xb14e48)
+0x88f63c	unknown	B	uModelSymmetry registrar 0x94c39c vtable 0x178c220 slot 4 (instance vtable installed by create 0x94c350 @ install 0x94cd84)
+0x890e20	unknown	B	uModelSymmetry registrar 0x94c39c vtable 0x178c220 slot 20 (instance vtable installed by create 0x94c350 @ install 0x94cd84)
+0x894ff0	unknown	B	uModelSymmetry registrar 0x94c39c vtable 0x178c220 slot 12 (instance vtable installed by create 0x94c350 @ install 0x94cd84)
+0x8956d0	unknown	B	uModelSky registrar 0x94c39c vtable 0x178c0b4 slot 25 (instance vtable installed by create 0x94b8a4 @ install 0x94cd14)
+0x898744	unknown	B	uCamera registrar 0x898cf0 vtable 0x1789bb4 slot 4 (instance vtable installed by create 0x89862c @ install 0x898d70)
+0x898abc	unknown	B	uCamera registrar 0x898cf0 vtable 0x1789bb4 slot 9 (instance vtable installed by create 0x89862c @ install 0x898d70)
+0x8a4acc	unknown	B	uCloudControl registrar 0x8a5e20 vtable 0x1789cfc slot 0 (instance vtable installed by create 0x8a4810 @ install 0x8a6134)
+0x8a770c	unknown	B	uCoord registrar 0x8a8448 vtable 0x1789e14 slot 0 (instance vtable installed by create 0x8a7624 @ install 0x8a8ad0)
+0x8a7744	unknown	B	uBaseEffect registrar 0x9b7a30 vtable 0x178d434 slot 4 (instance vtable installed by create 0x9b4edc @ install 0x9b7cf0)
+0x8a7d40	unknown	B	uCloud registrar 0x8a5e20 vtable 0x1789c9c slot 15 (instance vtable installed by create 0x8a2990 @ install 0x8a60f8)
+0x8a8384	unknown	B	uBaseEffect registrar 0x9b7a30 vtable 0x178d434 slot 19 (instance vtable installed by create 0x9b4edc @ install 0x9b7cf0)
+0x8a8448	unknown	B	uCloud registrar 0x8a5e20 vtable 0x1789c9c slot 20 (instance vtable installed by create 0x8a2990 @ install 0x8a60f8)
+0x8a8bd0	unknown	B	uDPEnvMap registrar 0x8a9b48 vtable 0x1789e88 slot 0 (instance vtable installed by create 0x8a8afc @ install 0x8aaec4)
+0x8ab038	unknown	B	uEnvMap registrar 0x8ad868 vtable 0x1789eec slot 0 (instance vtable installed by create 0x8aaef4 @ install 0x8ae014)
+0x8ae1a8	unknown	B	uFacial registrar 0x8af46c vtable 0x1789f50 slot 0 (instance vtable installed by create 0x8ae120 @ install 0x8af630)
+0x8af6a4	unknown	B	uColorFogFilter registrar 0x8e7724 vtable 0x178a324 slot 0 (instance vtable installed by create 0x8c27b4 @ install 0x8ea6f0)
+0x8af8d0	unknown	B	uFilter registrar 0x8e7724 vtable 0x1789fb4 slot 4 (instance vtable installed by create 0x8af660 @ install 0x8ea490)
+0x8b043c	unknown	B	uDOFFilter registrar 0x8e7724 vtable 0x178a004 slot 0 (instance vtable installed by create 0x8b0330 @ install 0x8ea4cc)
+0x8b4d64	unknown	B	uImagePlaneFilter registrar 0x8e7724 vtable 0x178a0a4 slot 0 (instance vtable installed by create 0x8b4c58 @ install 0x8ea53c)
+0x8b5174	unknown	B	uImagePlaneFilter registrar 0x8e7724 vtable 0x178a0a4 slot 9 (instance vtable installed by create 0x8b4c58 @ install 0x8ea53c)
+0x8b82e8	unknown	B	uNoiseFogFilter registrar 0x8e7724 vtable 0x178a194 slot 1 (instance vtable installed by create 0x8b8114 @ install 0x8ea5dc)
+0x8ccc98	unknown	B	uToneMapControl registrar 0x8e7724 vtable 0x178a50c slot 0 (instance vtable installed by create 0x8cc66c @ install 0x8ea844)
+0x8eafe4	unknown	B	uFog registrar 0x8f149c vtable 0x178a9b8 slot 0 (instance vtable installed by create 0x8eadb0 @ install 0x8f3f58)
+0x8eb13c	unknown	B	uFog registrar 0x8f149c vtable 0x178a9b8 slot 4 (instance vtable installed by create 0x8eadb0 @ install 0x8f3f58)
+0x8f149c	unknown	B	uLightScatteringFog registrar 0x8f149c vtable 0x178aa60 slot 1 (instance vtable installed by create 0x8f13c4 @ install 0x8f3fc8)
+0x8f42d8	unknown	B	uFreeCamera registrar 0x8f42d8 vtable 0x178aaf0 slot 19 (instance vtable installed by create 0x8f4010 @ install 0x8f50ec)
+0x915aac	unknown	B	uGrassWind registrar 0x918e40 vtable 0x178aff8 slot 0 (instance vtable installed by create 0x915318 @ install 0x919090)
+0x9163d8	unknown	B	uGrassWind registrar 0x918e40 vtable 0x178aff8 slot 6 (instance vtable installed by create 0x915318 @ install 0x919090)
+0x916eec	unknown	B	uGrassWindPoint registrar 0x918e40 vtable 0x178b0fc slot 0 (instance vtable installed by create 0x915604 @ install 0x91913c)
+0x9174b8	unknown	B	uGrassWindPoint registrar 0x918e40 vtable 0x178b0fc slot 9 (instance vtable installed by create 0x915604 @ install 0x91913c)
+0x917a74	unknown	B	uGrassWindLine registrar 0x918e40 vtable 0x178b168 slot 0 (instance vtable installed by create 0x9157e4 @ install 0x919174)
+0x9181c8	unknown	B	uGrassWindLine registrar 0x918e40 vtable 0x178b168 slot 9 (instance vtable installed by create 0x9157e4 @ install 0x919174)
+0x918e40	unknown	B	uGrassWindGlobal registrar 0x918e40 vtable 0x178b1d4 slot 0 (instance vtable installed by create 0x9158dc @ install 0x9191ac)
+0x9194dc	unknown	B	uFestaGUI registrar 0x544450 vtable 0x176c524 slot 9 (instance vtable installed by create 0x5442b0 @ install 0x5445a0)
+0x91a7d0	unknown	B	uFestaGUI registrar 0x544450 vtable 0x176c524 slot 24 (instance vtable installed by create 0x5442b0 @ install 0x5445a0)
+0x91b284	unknown	B	uFestaGUI registrar 0x544450 vtable 0x176c524 slot 37 (instance vtable installed by create 0x5442b0 @ install 0x5445a0)
+0x91c580	unknown	B	uGUIScheduler registrar 0x91c79c vtable 0x178b39c slot 0 (instance vtable installed by create 0x91c514 @ install 0x91d2c8)
+0x91c654	unknown	B	uGUIScheduler registrar 0x91c79c vtable 0x178b39c slot 4 (instance vtable installed by create 0x91c514 @ install 0x91d2c8)
+0x91c79c	unknown	B	uGUIScheduler registrar 0x91c79c vtable 0x178b39c slot 24 (instance vtable installed by create 0x91c514 @ install 0x91d2c8)
+0x921010	unknown	B	uJointAnimator registrar 0x921574 vtable 0x178b6a0 slot 15 (instance vtable installed by create 0x920e28 @ install 0x921e6c)
+0x921144	unknown	B	uJointAnimator registrar 0x921574 vtable 0x178b6a0 slot 10 (instance vtable installed by create 0x920e28 @ install 0x921e6c)
+0x9214dc	unknown	B	uJointAnimator registrar 0x921574 vtable 0x178b6a0 slot 4 (instance vtable installed by create 0x920e28 @ install 0x921e6c)
+0x921ea4	unknown	B	uBackLight registrar 0x9296d8 vtable 0x178bb98 slot 0 (instance vtable installed by create 0x92bf18 @ install 0x92c714)
+0x921fcc	unknown	B	uAmbientLight registrar 0x9296d8 vtable 0x178b7d4 slot 9 (instance vtable installed by create 0x923b84 @ install 0x92c4e0)
+0x9228b0	unknown	B	uLight registrar 0x9296d8 vtable 0x178b714 slot 4 (instance vtable installed by create 0x921e9c @ install 0x92c470)
+0x922cd4	unknown	B	uBackLight registrar 0x9296d8 vtable 0x178bb98 slot 10 (instance vtable installed by create 0x92bf18 @ install 0x92c714)
+0x923d40	unknown	B	uAmbientLight registrar 0x9296d8 vtable 0x178b7d4 slot 0 (instance vtable installed by create 0x923b84 @ install 0x92c4e0)
+0x929310	unknown	B	uCapsuleCubeMapLight registrar 0x9296d8 vtable 0x178bad8 slot 0 (instance vtable installed by create 0x92a00c @ install 0x92c6a4)
+0x9293f0	unknown	B	uCubeMapLight registrar 0x9296d8 vtable 0x178ba18 slot 4 (instance vtable installed by create 0x9291ac @ install 0x92c634)
+0x9296d8	unknown	B	uCubeMapLight registrar 0x9296d8 vtable 0x178ba18 slot 18 (instance vtable installed by create 0x9291ac @ install 0x92c634)
+0x92ca24	unknown	B	uLightShaft registrar 0x92ec60 vtable 0x178bcfc slot 0 (instance vtable installed by create 0x92c7d4 @ install 0x92ee78)
+0x9312ac	unknown	B	uMirage registrar 0x9350b4 vtable 0x178be7c slot 0 (instance vtable installed by create 0x9310ac @ install 0x935c0c)
+0x93992c	unknown	B	nCollision::uPreviewModel registrar 0xb14c38 vtable 0x17917c8 slot 0 (instance vtable installed by create 0xb13fd4 @ install 0xb14e48)
+0x93af60	unknown	B	uModel registrar 0x93eff4 vtable 0x178bf48 slot 9 (instance vtable installed by create 0x939634 @ install 0x93f1d0)
+0x93b124	unknown	B	nCollision::uPreviewModel registrar 0xb14c38 vtable 0x17917c8 slot 12 (instance vtable installed by create 0xb13fd4 @ install 0xb14e48)
+0x93b1a8	monster-em	A	uEm087_088_RubbleBase registrar 0x4edec vtable 0x1801250 slot 4 (instance vtable installed by create 0x4e968 @ install 0x50740)
+0x93ca74	unknown	B	CONFLICTING CLASSES: nCollision::uPreviewModel|uEm087_088_RubbleBase|uEm087_Rubble|uEm088_Rubble nCollision::uPreviewModel registrar 0xb14c38 vtable 0x17917c8 slot 25 (instance vtable installed by create 0xb13fd4 @ install 0xb14e48)
+0x94e224	unknown	B	CONFLICTING CLASSES: nCollision::uPreviewModel|uEm087_088_RubbleBase|uEm087_Rubble|uEm088_Rubble nCollision::uPreviewModel registrar 0xb14c38 vtable 0x17917c8 slot 19 (instance vtable installed by create 0xb13fd4 @ install 0xb14e48)
+0x94e250	unknown	B	CONFLICTING CLASSES: nCollision::uPreviewModel|uEm087_088_RubbleBase|uEm087_Rubble|uEm088_Rubble nCollision::uPreviewModel registrar 0xb14c38 vtable 0x17917c8 slot 20 (instance vtable installed by create 0xb13fd4 @ install 0xb14e48)
+0x94fe8c	unknown	B	uModel::Motion registrar 0x957480 vtable 0x178c314 slot 0 (instance vtable installed by create 0x94fc38 @ install 0x9577c0)
+0x954640	monster-em	A	uEm087_088_RubbleBase registrar 0x4edec vtable 0x1801250 slot 30 (instance vtable installed by create 0x4e968 @ install 0x50740)
+0x958ffc	unknown	B	uMovie registrar 0x95ca38 vtable 0x178c3b8 slot 0 (instance vtable installed by create 0x958c00 @ install 0x95d0cc)
+0x95e150	unknown	B	uProjectionTexture registrar 0x95ff5c vtable 0x178c528 slot 0 (instance vtable installed by create 0x95dea4 @ install 0x95fffc)
+0x95e1f0	unknown	B	uProjectionTexture registrar 0x95ff5c vtable 0x178c528 slot 9 (instance vtable installed by create 0x95dea4 @ install 0x95fffc)
+0x95e3c8	unknown	B	uProjectionTexture registrar 0x95ff5c vtable 0x178c528 slot 4 (instance vtable installed by create 0x95dea4 @ install 0x95fffc)
+0x95fcdc	unknown	B	uProjectionTexture registrar 0x95ff5c vtable 0x178c528 slot 18 (instance vtable installed by create 0x95dea4 @ install 0x95fffc)
+0x966164	unknown	B	uScheduler registrar 0x968158 vtable 0x178c660 slot 9 (instance vtable installed by create 0x965e74 @ install 0x9682a8)
+0x968158	unknown	B	uKowareSdl registrar 0x516d58 vtable 0x176a94c slot 0 (instance vtable installed by create 0x51697c @ install 0x516f08)
+0x969c9c	unknown	B	uScreenSpace registrar 0x96b38c vtable 0x178c7a0 slot 12 (instance vtable installed by create 0x9686b0 @ install 0x96b77c)
+0x96cb00	unknown	B	uLightSpaceShadow registrar 0x97f1e0 vtable 0x178c8f4 slot 0 (instance vtable installed by create 0x972a4c @ install 0x97fcfc)
+0x97ffd0	unknown	B	uShadowRegion registrar 0x981498 vtable 0x178cc2c slot 4 (instance vtable installed by create 0x97ff28 @ install 0x982e14)
+0x9b0cb4	unknown	B	uWeather registrar 0x9b0ee8 vtable 0x178d2c4 slot 0 (instance vtable installed by create 0x9b0bf8 @ install 0x9b184c)
+0x9b0ee8	unknown	B	uWeather registrar 0x9b0ee8 vtable 0x178d2c4 slot 4 (instance vtable installed by create 0x9b0bf8 @ install 0x9b184c)
+0x9b3bcc	unknown	B	uShallowWind registrar 0x9b47b0 vtable 0x178d380 slot 0 (instance vtable installed by create 0x9b3b30 @ install 0x9b4e90)
+0x9b5158	unknown	B	uBaseEffect registrar 0x9b7a30 vtable 0x178d434 slot 0 (instance vtable installed by create 0x9b4edc @ install 0x9b7cf0)
+0x9b57a8	unknown	B	uBaseEffect registrar 0x9b7a30 vtable 0x178d434 slot 15 (instance vtable installed by create 0x9b4edc @ install 0x9b7cf0)
+0x9b5880	unknown	B	uBaseEffect registrar 0x9b7a30 vtable 0x178d434 slot 27 (instance vtable installed by create 0x9b4edc @ install 0x9b7cf0)
+0x9b6798	unknown	B	uBaseEffect registrar 0x9b7a30 vtable 0x178d434 slot 30 (instance vtable installed by create 0x9b4edc @ install 0x9b7cf0)
+0x9b7074	unknown	B	uBaseEffect registrar 0x9b7a30 vtable 0x178d434 slot 32 (instance vtable installed by create 0x9b4edc @ install 0x9b7cf0)
+0x9b8ef8	unknown	B	uEffect registrar 0x9bf9f8 vtable 0x178d620 slot 0 (instance vtable installed by create 0x9b8c90 @ install 0x9c0728)
+0x9b8f78	unknown	B	uEffect registrar 0x9bf9f8 vtable 0x178d620 slot 9 (instance vtable installed by create 0x9b8c90 @ install 0x9c0728)
+0x9b901c	unknown	B	uEffect registrar 0x9bf9f8 vtable 0x178d620 slot 11 (instance vtable installed by create 0x9b8c90 @ install 0x9c0728)
+0x9b90f8	unknown	B	uEffect registrar 0x9bf9f8 vtable 0x178d620 slot 10 (instance vtable installed by create 0x9b8c90 @ install 0x9c0728)
+0x9ba5b0	unknown	B	uEffect registrar 0x9bf9f8 vtable 0x178d620 slot 12 (instance vtable installed by create 0x9b8c90 @ install 0x9c0728)
+0x9ba704	unknown	B	uEffect registrar 0x9bf9f8 vtable 0x178d620 slot 4 (instance vtable installed by create 0x9b8c90 @ install 0x9c0728)
+0x9bda64	unknown	B	uEffect registrar 0x9bf9f8 vtable 0x178d620 slot 52 (instance vtable installed by create 0x9b8c90 @ install 0x9c0728)
+0x9be75c	unknown	B	uEffect registrar 0x9bf9f8 vtable 0x178d620 slot 53 (instance vtable installed by create 0x9b8c90 @ install 0x9c0728)
+0x9c0eac	unknown	B	uProjectionEffect registrar 0x9c0eac vtable 0x178d764 slot 4 (instance vtable installed by create 0x9c0758 @ install 0x9c1f00)
+0x9d7b64	unknown	B	uCnsIK::uCnsJoint registrar 0x9d7b64 vtable 0x178da60 slot 23 (instance vtable installed by create 0x9d0540 @ install 0x9db06c)
+0x9dc5d0	unknown	B	uCnsLookAt registrar 0x9dcf68 vtable 0x178dc88 slot 0 (instance vtable installed by create 0x9dc3cc @ install 0x9dd6d0)
+0x9dcd88	unknown	B	uCnsLookAt registrar 0x9dcf68 vtable 0x178dc88 slot 9 (instance vtable installed by create 0x9dc3cc @ install 0x9dd6d0)
+0x9dcf3c	unknown	B	uCnsLookAt registrar 0x9dcf68 vtable 0x178dc88 slot 24 (instance vtable installed by create 0x9dc3cc @ install 0x9dd6d0)
+0x9dcf68	unknown	B	uCnsLookAt registrar 0x9dcf68 vtable 0x178dc88 slot 25 (instance vtable installed by create 0x9dc3cc @ install 0x9dd6d0)
+0x9dd928	unknown	B	uCnsMatrix registrar 0x9ddc3c vtable 0x178dd28 slot 0 (instance vtable installed by create 0x9dd700 @ install 0x9de3f4)
+0x9dd9c8	unknown	B	uCnsMatrix registrar 0x9ddc3c vtable 0x178dd28 slot 4 (instance vtable installed by create 0x9dd700 @ install 0x9de3f4)
+0x9ddc3c	unknown	B	uCnsMatrix registrar 0x9ddc3c vtable 0x178dd28 slot 24 (instance vtable installed by create 0x9dd700 @ install 0x9de3f4)
+0x9df74c	unknown	B	uCnsParentN::cParentNode registrar 0x9df848 vtable 0x178de68 slot 4 (instance vtable installed by create 0x9df6c8 @ install 0x9e0aac)
+0x9e0c78	unknown	B	uCnsRotateLimit registrar 0x9e15f0 vtable 0x178df60 slot 0 (instance vtable installed by create 0x9e0b28 @ install 0x9e1f10)
+0x9e15c4	unknown	B	uCnsRotateLimit registrar 0x9e15f0 vtable 0x178df60 slot 25 (instance vtable installed by create 0x9e0b28 @ install 0x9e1f10)
+0x9e15f0	unknown	B	uCnsRotateLimit registrar 0x9e15f0 vtable 0x178df60 slot 24 (instance vtable installed by create 0x9e0b28 @ install 0x9e1f10)
+0x9e274c	unknown	B	uCnsSkeleton::cNode registrar 0x9e2be4 vtable 0x178e18c slot 4 (instance vtable installed by create 0x9e2700 @ install 0x9e3470)
+0x9e28e8	unknown	B	uCnsSkeleton registrar 0x9e2be4 vtable 0x178e0a4 slot 0 (instance vtable installed by create 0x9e27e4 @ install 0x9e34a4)
+0x9f4e74	unknown	B	uCnsChain::cCnsChild registrar 0x9d0160 vtable 0x178d9d4 slot 29 (instance vtable installed by create 0x9c4d88 @ install 0x9d0504)
+0x9f5358	unknown	B	uCnsChain::cCnsChild registrar 0x9d0160 vtable 0x178d9d4 slot 22 (instance vtable installed by create 0x9c4d88 @ install 0x9d0504)
+0x9f552c	unknown	B	uCnsChain::cCnsChild registrar 0x9d0160 vtable 0x178d9d4 slot 9 (instance vtable installed by create 0x9c4d88 @ install 0x9d0504)
+0x9f5600	unknown	B	uCnsChain::cCnsChild registrar 0x9d0160 vtable 0x178d9d4 slot 16 (instance vtable installed by create 0x9c4d88 @ install 0x9d0504)
+0x9fc42c	unknown	B	cRemoteProcedure registrar 0x9fc990 vtable 0x178e6ac slot 9 (instance vtable installed by create 0x9fbf44 @ install 0x9fcc3c)
+0x9fcd84	unknown	B	cSwing registrar 0x9feb88 vtable 0x178e77c slot 0 (instance vtable installed by create 0x9fccfc @ install 0x9ff120)
+0x9fcdb4	unknown	B	cSwing registrar 0x9feb88 vtable 0x178e77c slot 4 (instance vtable installed by create 0x9fccfc @ install 0x9ff120)
+0x9fd14c	unknown	B	cSwingModel registrar 0x9feb88 vtable 0x178e7a8 slot 0 (instance vtable installed by create 0x9fd088 @ install 0x9ff158)
+0x9ff43c	unknown	B	cAIFieldPathTrace registrar 0xa1709c vtable 0x178eadc slot 4 (instance vtable installed by create 0xa11a80 @ install 0xa1773c)
+0x9ff964	unknown	B	cAIWayPathTrace registrar 0xa1709c vtable 0x178e91c slot 7 (instance vtable installed by create 0xa0e168 @ install 0xa17694)
+0xa0ed0c	unknown	B	cAIWayPathTrace registrar 0xa1709c vtable 0x178e91c slot 8 (instance vtable installed by create 0xa0e168 @ install 0xa17694)
+0xa0f414	unknown	B	cAIFieldPathTrace registrar 0xa1709c vtable 0x178eadc slot 9 (instance vtable installed by create 0xa11a80 @ install 0xa1773c)
+0xa1709c	unknown	B	cAIFieldPathTrace registrar 0xa1709c vtable 0x178eadc slot 0 (instance vtable installed by create 0xa11a80 @ install 0xa1773c)
+0xa17e24	unknown	B	cAISvDynamicPathFinding::GroupManagement registrar 0xa1a5dc vtable 0x178ed2c slot 2 (class-record vtable written by str at 0xa1abd0)
+0xa17ed8	unknown	B	cAISvDynamicPathFinding::GroupManagement registrar 0xa1a5dc vtable 0x178ec68 slot 0 (instance vtable installed by create 0xa17e24 @ install 0xa1abd0)
+0xa1ae20	unknown	B	cAISvOpenField registrar 0xa1e508 vtable 0x178edb4 slot 0 (instance vtable installed by create 0xa1ad2c @ install 0xa1e87c)
+0xa1e9a0	unknown	B	cAISvPathFinding registrar 0xa2533c vtable 0x178edf8 slot 0 (instance vtable installed by create 0xa1e8ac @ install 0xa25b90)
+0xa1f2a0	unknown	B	cAISvPathFinding::Node registrar 0xa2533c vtable 0x178ee48 slot 0 (instance vtable installed by create 0xa1f180 @ install 0xa25bd4)
+0xa1f704	unknown	B	cAISvNavPathFinding registrar 0xa2533c vtable 0x178ee88 slot 0 (instance vtable installed by create 0xa1f610 @ install 0xa25c44)
+0xa22c30	unknown	B	cAISvWayPointGraph registrar 0xa2533c vtable 0x178ef48 slot 0 (instance vtable installed by create 0xa22b9c @ install 0xa25d24)
+0xa24774	unknown	B	cAISvNavWayPathFinding::PartsInfo registrar 0xa2533c vtable 0x178ef98 slot 0 (instance vtable installed by create 0xa24668 @ install 0xa25d94)
+0xa24e3c	unknown	B	cAISvNavWayPathFinding registrar 0xa2533c vtable 0x178efb8 slot 0 (instance vtable installed by create 0xa24564 @ install 0xa25d5c)
+0xa26118	unknown	B	cAISvPathManager::PartsInfo registrar 0xa285a0 vtable 0x178f120 slot 0 (instance vtable installed by create 0xa25f34 @ install 0xa28668)
+0xa276e8	unknown	B	cAISvNavPathManager registrar 0xa285a0 vtable 0x178f184 slot 0 (instance vtable installed by create 0xa26048 @ install 0xa286d8)
+0xa28a34	unknown	B	cAIQuadTree registrar 0xc8ec60 vtable 0x1798ab8 slot 4 (instance vtable installed by create 0xc8e4c4 @ install 0xc8f284)
+0xa29a7c	unknown	B	cPrimTexHandle registrar 0xa29aac vtable 0x178f324 slot 0 (instance vtable installed by create 0xa299fc @ install 0xa29c14)
+0xa2ea4c	unknown	B	cGridCollision registrar 0xa33668 vtable 0x178f3c4 slot 0 (instance vtable installed by create 0xa2e88c @ install 0xa33b24)
+0xa33bf8	unknown	B	cGUIInstAnimation registrar 0xa3bdc4 vtable 0x178f408 slot 4 (instance vtable installed by create 0xa37f58 @ install 0xa3c120)
+0xa33f48	unknown	B	cGUIInstAnimation registrar 0xa3bdc4 vtable 0x178f408 slot 7 (instance vtable installed by create 0xa37f58 @ install 0xa3c120)
+0xa36fa4	unknown	B	cGUIInstMessage registrar 0xa40b00 vtable 0x178f7ac slot 17 (instance vtable installed by create 0xa3c20c @ install 0xa412c8)
+0xa38280	unknown	B	cGUIInstAnimControl registrar 0xa3bdc4 vtable 0x178f6a4 slot 0 (instance vtable installed by create 0xa3a8b4 @ install 0xa3c194)
+0xa3bdc4	unknown	B	cGUIInstAnimation registrar 0xa3bdc4 vtable 0x178f408 slot 0 (instance vtable installed by create 0xa37f58 @ install 0xa3c120)
+0xa3c434	unknown	B	cGUIInstMessage registrar 0xa40b00 vtable 0x178f7ac slot 4 (instance vtable installed by create 0xa3c20c @ install 0xa412c8)
+0xa41798	unknown	B	cGUIMessageAnalyzer registrar 0xa46330 vtable 0x178f914 slot 0 (instance vtable installed by create 0xa4133c @ install 0xa475a8)
+0xa4764c	unknown	B	cGUIObject registrar 0xa567dc vtable 0x178f950 slot 4 (instance vtable installed by create 0xa475d8 @ install 0xa56bf8)
+0xa4a388	unknown	B	cGUIObj2D registrar 0xa567dc vtable 0x178fa98 slot 4 (instance vtable installed by create 0xa4a23c @ install 0xa56c9c)
+0xa4ad5c	unknown	B	cGUIObj2D registrar 0xa567dc vtable 0x178fa98 slot 17 (instance vtable installed by create 0xa4a23c @ install 0xa56c9c)
+0xa4bf1c	unknown	B	cGUIObjNull registrar 0xa567dc vtable 0x178ff54 slot 2 (class-record vtable written by str at 0xa56d10)
+0xa4c0a0	unknown	B	cGUIObjNull registrar 0xa567dc vtable 0x178fb70 slot 4 (instance vtable installed by create 0xa4bf1c @ install 0xa56d10)
+0xa4c2b4	unknown	B	cGUIObjNull registrar 0xa567dc vtable 0x178fb70 slot 17 (instance vtable installed by create 0xa4bf1c @ install 0xa56d10)
+0xa4d32c	unknown	B	cFestaGUIObjPolygon registrar 0x54860c vtable 0x176c744 slot 0 (instance vtable installed by create 0x545930 @ install 0x548848)
+0xa4d458	unknown	B	cFestaGUIObjPolygon registrar 0x54860c vtable 0x176c744 slot 4 (instance vtable installed by create 0x545930 @ install 0x548848)
+0xa4f6a4	unknown	B	cFestaGUIObjTexture registrar 0x54860c vtable 0x176c7c4 slot 0 (instance vtable installed by create 0x54597c @ install 0x548884)
+0xa4f844	unknown	B	cFestaGUIObjTexture registrar 0x54860c vtable 0x176c7c4 slot 4 (instance vtable installed by create 0x54597c @ install 0x548884)
+0xa522e4	unknown	B	cGUIObjMessage registrar 0xa567dc vtable 0x178fdc8 slot 0 (instance vtable installed by create 0xa5206c @ install 0xa56e30)
+0xa523f8	unknown	B	cGUIObjMessage registrar 0xa567dc vtable 0x178fdc8 slot 1 (instance vtable installed by create 0xa5206c @ install 0xa56e30)
+0xa5242c	unknown	B	cGUIObjMessage registrar 0xa567dc vtable 0x178fdc8 slot 4 (instance vtable installed by create 0xa5206c @ install 0xa56e30)
+0xa567dc	unknown	B	cGUIObj2D registrar 0xa567dc vtable 0x178fa98 slot 0 (instance vtable installed by create 0xa4a23c @ install 0xa56c9c)
+0xa58e70	unknown	B	cParticleGenerator registrar 0xa7ac70 vtable 0x17900fc slot 0 (instance vtable installed by create 0xa58d74 @ install 0xa7b008)
+0xa58fa8	unknown	B	cParticleGenerator registrar 0xa7ac70 vtable 0x17900fc slot 6 (instance vtable installed by create 0xa58d74 @ install 0xa7b008)
+0xa59268	unknown	B	cEffectUnitGenerator registrar 0xa58c5c vtable 0x179007c slot 8 (instance vtable installed by create 0xa583a0 @ install 0xa58d44)
+0xa5a0c4	unknown	B	cEffectUnitGenerator registrar 0xa58c5c vtable 0x179007c slot 16 (instance vtable installed by create 0xa583a0 @ install 0xa58d44)
+0xa5a384	unknown	B	cEffectUnitGenerator registrar 0xa58c5c vtable 0x179007c slot 17 (instance vtable installed by create 0xa583a0 @ install 0xa58d44)
+0xa5b2b8	unknown	B	cParticleGenerator registrar 0xa7ac70 vtable 0x17900fc slot 19 (instance vtable installed by create 0xa58d74 @ install 0xa7b008)
+0xa5ca24	unknown	B	cEffectUnitGenerator registrar 0xa58c5c vtable 0x179007c slot 23 (instance vtable installed by create 0xa583a0 @ install 0xa58d44)
+0xa62db8	unknown	B	cEffectUnitGenerator registrar 0xa58c5c vtable 0x179007c slot 24 (instance vtable installed by create 0xa583a0 @ install 0xa58d44)
+0xa9ff8c	unknown	B	cParticleGeneratorPolygon registrar 0xaab650 vtable 0x17908fc slot 23 (instance vtable installed by create 0xa9c444 @ install 0xaaba3c)
+0xaec63c	unknown	B	cParticleManager registrar 0xaefbb8 vtable 0x1790f04 slot 0 (instance vtable installed by create 0xaec53c @ install 0xaefdbc)
+0xaec864	unknown	B	cParticleManager registrar 0xaefbb8 vtable 0x1790f04 slot 6 (instance vtable installed by create 0xaec53c @ install 0xaefdbc)
+0xaec900	unknown	B	cParticleManager registrar 0xaefbb8 vtable 0x1790f04 slot 8 (instance vtable installed by create 0xaec53c @ install 0xaefdbc)
+0xaecad0	unknown	B	cParticleManager registrar 0xaefbb8 vtable 0x1790f04 slot 9 (instance vtable installed by create 0xaec53c @ install 0xaefdbc)
+0xaecae0	unknown	B	cParticleManager registrar 0xaefbb8 vtable 0x1790f04 slot 10 (instance vtable installed by create 0xaec53c @ install 0xaefdbc)
+0xaecb10	unknown	B	cParticleManager registrar 0xaefbb8 vtable 0x1790f04 slot 11 (instance vtable installed by create 0xaec53c @ install 0xaefdbc)
+0xaecb30	unknown	B	cParticleManager registrar 0xaefbb8 vtable 0x1790f04 slot 12 (instance vtable installed by create 0xaec53c @ install 0xaefdbc)
+0xaecb48	unknown	B	cParticleNode registrar 0xaf5ddc vtable 0x1790f8c slot 22 (instance vtable installed by create 0xaefdec @ install 0xaf5ff8)
+0xb04cf8	ui	A	nDraw::InputLayout registrar 0xb033cc vtable 0x1791300 slot 4 (instance vtable installed by create 0xb02bcc @ install 0xb03ab4)
+0xb0b9cc	unknown	B	nDraw::Animation registrar 0xb12b54 vtable 0x1791550 slot 0 (instance vtable installed by create 0xb0b4cc @ install 0xb12c60)
+0xb0c764	unknown	B	nDraw::Material registrar 0xb12b54 vtable 0x17915bc slot 0 (instance vtable installed by create 0xb0c3f4 @ install 0xb12d08)
+0xb0ffc4	unknown	B	nDraw::Material registrar 0xb12b54 vtable 0x17915bc slot 8 (instance vtable installed by create 0xb0c3f4 @ install 0xb12d08)
+0xb102f0	unknown	B	nDraw::Material registrar 0xb12b54 vtable 0x17915bc slot 15 (instance vtable installed by create 0xb0c3f4 @ install 0xb12d08)
+0xb11cbc	unknown	B	nDraw::Material registrar 0xb12b54 vtable 0x17915bc slot 4 (instance vtable installed by create 0xb0c3f4 @ install 0xb12d08)
+0xb12f38	unknown	B	nCollision::cAllocaterIntermediate registrar 0xb14c38 vtable 0x17916f8 slot 0 (instance vtable installed by create 0xb12f18 @ install 0xb14d58)
+0xb13000	unknown	B	nCollision::cScrCommonFilter registrar 0xb14c38 vtable 0x1791718 slot 0 (instance vtable installed by create 0xb12f68 @ install 0xb14d90)
+0xb134b8	unknown	B	nCollision::cScrCollisionMoveMatrix registrar 0xb14c38 vtable 0x1791738 slot 0 (instance vtable installed by create 0xb133c8 @ install 0xb14dc8)
+0xb14a74	unknown	B	nCollisionUtil::cOwnerSystem registrar 0xb14c38 vtable 0x1791758 slot 0 (instance vtable installed by create 0xb14a04 @ install 0xb14e80)
+0xb155cc	unknown	B	nCollision::cCollisionNode registrar 0xb1f720 vtable 0x1791994 slot 10 (instance vtable installed by create 0xb1addc @ install 0xb1faf4)
+0xb155e8	unknown	B	nCollision::cGeometry registrar 0xb1f720 vtable 0x1791b34 slot 2 (class-record vtable written by str at 0xb1fa48)
+0xb156f8	unknown	B	nCollision::cGeometry registrar 0xb1f720 vtable 0x17918c4 slot 0 (instance vtable installed by create 0xb155e8 @ install 0xb1fa48)
+0xb15804	unknown	B	nCollision::cGeometry registrar 0xb1f720 vtable 0x17918c4 slot 4 (instance vtable installed by create 0xb155e8 @ install 0xb1fa48)
+0xb15ad0	unknown	B	nCollision::cGeometry registrar 0xb1f720 vtable 0x17918c4 slot 6 (instance vtable installed by create 0xb155e8 @ install 0xb1fa48)
+0xb15bc8	unknown	B	nCollision::cGeometry registrar 0xb1f720 vtable 0x17918c4 slot 7 (instance vtable installed by create 0xb155e8 @ install 0xb1fa48)
+0xb15ca8	unknown	B	nCollision::cGeometry registrar 0xb1f720 vtable 0x17918c4 slot 9 (instance vtable installed by create 0xb155e8 @ install 0xb1fa48)
+0xb1b010	unknown	B	nCollision::cCollisionNode registrar 0xb1f720 vtable 0x1791994 slot 0 (instance vtable installed by create 0xb1addc @ install 0xb1faf4)
+0xb1b17c	unknown	B	nCollision::cCollisionNode registrar 0xb1f720 vtable 0x1791994 slot 4 (instance vtable installed by create 0xb1addc @ install 0xb1faf4)
+0xb1b3ac	unknown	B	nCollision::cCollisionNode registrar 0xb1f720 vtable 0x1791994 slot 6 (instance vtable installed by create 0xb1addc @ install 0xb1faf4)
+0xb1b5ec	unknown	B	nCollision::cCollisionNode registrar 0xb1f720 vtable 0x1791994 slot 7 (instance vtable installed by create 0xb1addc @ install 0xb1faf4)
+0xb1ba50	unknown	B	nCollision::cCollisionNode registrar 0xb1f720 vtable 0x1791994 slot 12 (instance vtable installed by create 0xb1addc @ install 0xb1faf4)
+0xb1be04	unknown	B	nCollision::cCollisionNode registrar 0xb1f720 vtable 0x1791994 slot 15 (instance vtable installed by create 0xb1addc @ install 0xb1faf4)
+0xb1c034	unknown	B	nCollision::cCollisionNode registrar 0xb1f720 vtable 0x1791994 slot 18 (instance vtable installed by create 0xb1addc @ install 0xb1faf4)
+0xb1c144	unknown	B	nCollision::cCollisionNode registrar 0xb1f720 vtable 0x1791994 slot 21 (instance vtable installed by create 0xb1addc @ install 0xb1faf4)
+0xb1c3c0	unknown	B	nCollision::cCollisionNodeObject registrar 0xb1f720 vtable 0x1791a04 slot 0 (instance vtable installed by create 0xb1c1fc @ install 0xb1fb2c)
+0xb1cd60	unknown	B	nCollision::cCollisionNodeObject registrar 0xb1f720 vtable 0x1791a04 slot 9 (instance vtable installed by create 0xb1c1fc @ install 0xb1fb2c)
+0xb1e750	unknown	B	nCollision::cGeometryJointGroup registrar 0xb1f720 vtable 0x1791a98 slot 0 (instance vtable installed by create 0xb1e594 @ install 0xb1fb9c)
+0xb1ef98	unknown	B	nCollision::cGeometryJointGroup registrar 0xb1f720 vtable 0x1791a98 slot 26 (instance vtable installed by create 0xb1e594 @ install 0xb1fb9c)
+0xb1f33c	unknown	B	nCollision::cGeometryJointGroup registrar 0xb1f720 vtable 0x1791a98 slot 8 (instance vtable installed by create 0xb1e594 @ install 0xb1fb9c)
+0xb1fe58	unknown	B	nNetwork::Callback registrar 0xb20c40 vtable 0x1791bc0 slot 0 (instance vtable installed by create 0xb1fc2c @ install 0xb212c8)
+0xb262c4	unknown	B	nNetwork::BlockPool registrar 0xb27630 vtable 0x1791de4 slot 0 (instance vtable installed by create 0xb261c8 @ install 0xb2777c)
+0xb27630	unknown	B	nNetwork::BlockBuffer registrar 0xb27630 vtable 0x1791e04 slot 0 (instance vtable installed by create 0xb265ec @ install 0xb277b8)
+0xb27988	unknown	B	nNetwork::RpcNetSystem_ReqDetour registrar 0xb28b40 vtable 0x1791ef8 slot 7 (instance vtable installed by create 0xb278b4 @ install 0xb29718)
+0xb29d64	unknown	B	nNetwork::Route registrar 0xb2ac6c vtable 0x1792114 slot 0 (instance vtable installed by create 0xb29a40 @ install 0xb2ad54)
+0xb2aeb8	unknown	B	nNetwork::Session registrar 0xb2cb24 vtable 0x1792148 slot 0 (instance vtable installed by create 0xb2ad84 @ install 0xb2d8c4)
+0xb2db58	unknown	B	nNetwork::TagChecker registrar 0xb2dfb4 vtable 0x1792228 slot 0 (instance vtable installed by create 0xb2dac0 @ install 0xb2e5e8)
+0xb2e8f8	unknown	B	nNetwork::Transport registrar 0xb31f7c vtable 0x17922d4 slot 0 (instance vtable installed by create 0xb2e6ac @ install 0xb32370)
+0xb3d39c	unknown	B	rConvexHull registrar 0xb3d6c0 vtable 0x1792aec slot 11 (instance vtable installed by create 0xb3d070 @ install 0xb3d8c4)
+0xb3d6c0	unknown	B	rConvexHull registrar 0xb3d6c0 vtable 0x1792aec slot 15 (instance vtable installed by create 0xb3d070 @ install 0xb3d8c4)
+0xb3dcd0	unknown	B	rDeformWeightMap registrar 0xb3dcd0 vtable 0x1792b5c slot 15 (instance vtable installed by create 0xb3d904 @ install 0xb3fd78)
+0xb40aa0	unknown	B	rGrass2 registrar 0xb444d0 vtable 0x1792c60 slot 0 (instance vtable installed by create 0xb405cc @ install 0xb445d4)
+0xb455d0	unknown	B	rMaterial registrar 0xb455d0 vtable 0x1792da4 slot 15 (instance vtable installed by create 0xb44fa8 @ install 0xb46244)
+0xb49974	unknown	B	rModel registrar 0xb49c1c vtable 0x1792f34 slot 15 (instance vtable installed by create 0xb48c28 @ install 0xb49cd8)
+0xb4b398	unknown	B	rNavigationMesh::nodeData registrar 0xb4ce54 vtable 0x1793388 slot 0 (instance vtable installed by create 0xb4b2fc @ install 0xb4dd50)
+0xb4ba9c	unknown	B	rNavigationMesh registrar 0xb4ce54 vtable 0x17933a8 slot 0 (instance vtable installed by create 0xb4ba34 @ install 0xb4ddc4)
+0xb4ef84	unknown	B	rScheduler registrar 0xb4f08c vtable 0x1793504 slot 0 (instance vtable installed by create 0xb4ef24 @ install 0xb4f4dc)
+0xb4f828	unknown	B	rShader2 registrar 0xb50214 vtable 0x17935c8 slot 15 (instance vtable installed by create 0xb4f72c @ install 0xb50738)
+0xb513b4	unknown	B	rTexture registrar 0xb51bfc vtable 0x17936dc slot 0 (instance vtable installed by create 0xb512f8 @ install 0xb51cd0)
+0xb51bfc	unknown	B	rTexture registrar 0xb51bfc vtable 0x17936dc slot 15 (instance vtable installed by create 0xb512f8 @ install 0xb51cd0)
+0xb529ec	unknown	B	rAIPathBase::HierarchyArea registrar 0xb53e80 vtable 0x17937c8 slot 0 (instance vtable installed by create 0xb52970 @ install 0xb54900)
+0xb5349c	unknown	B	rAIPathBase registrar 0xb53e80 vtable 0x1793830 slot 2 (class-record vtable written by str at 0xb54940)
+0xb535f0	unknown	B	rAIPathBase registrar 0xb53e80 vtable 0x17937e8 slot 4 (instance vtable installed by create 0xb5349c @ install 0xb54940)
+0xb54f6c	unknown	B	rAIWayPoint::Node registrar 0xb562f4 vtable 0x17938d4 slot 0 (instance vtable installed by create 0xb54ec4 @ install 0xb57f88)
+0xb562f4	unknown	B	rAIWayPoint registrar 0xb562f4 vtable 0x1793914 slot 0 (instance vtable installed by create 0xb56268 @ install 0xb57ffc)
+0xb580f0	unknown	B	rAIWayPointGraph::Node registrar 0xb5ae10 vtable 0x17939ac slot 0 (instance vtable installed by create 0xb58050 @ install 0xb5b87c)
+0xb59254	unknown	B	rAIWayPointGraph::NodeGraph registrar 0xb5ae10 vtable 0x17939cc slot 0 (instance vtable installed by create 0xb591f0 @ install 0xb5b8ec)
+0xb63254	audio	A	rSoundEQ registrar 0xb639e8 vtable 0x1793dfc slot 0 (instance vtable installed by create 0xb630b4 @ install 0xb642d8)
+0xb639bc	audio	A	rSoundEQ::cEQData registrar 0xb639e8 vtable 0x1793e44 slot 1 (instance vtable installed by create 0xb63160 @ install 0xb64314)
+0xb639e8	audio	A	rSoundEQ::cEQData registrar 0xb639e8 vtable 0x1793e44 slot 4 (instance vtable installed by create 0xb63160 @ install 0xb64314)
+0xb66300	audio	A	rSoundPhysicsRigidBody registrar 0xb6664c vtable 0x1794000 slot 15 (instance vtable installed by create 0xb65ce8 @ install 0xb66ca0)
+0xb67158	audio	A	rSoundPhysicsSoftBody registrar 0xb67534 vtable 0x1794180 slot 1 (instance vtable installed by create 0xb6706c @ install 0xb6765c)
+0xb68618	audio	A	rSoundReverb registrar 0xb68e60 vtable 0x179428c slot 0 (instance vtable installed by create 0xb683f0 @ install 0xb69724)
+0xb697cc	audio	A	rSoundSource registrar 0xb6c500 vtable 0x1794340 slot 0 (instance vtable installed by create 0xb697c0 @ install 0xb6c544)
+0xb6e6b4	unknown	B	rCollision registrar 0xb7883c vtable 0x1794790 slot 15 (instance vtable installed by create 0xb6df2c @ install 0xb78e24)
+0xb795e0	unknown	B	rCollisionHeightField registrar 0xb79e60 vtable 0x17947ec slot 15 (instance vtable installed by create 0xb78e54 @ install 0xb7a2a8)
+0xb7efd0	unknown	B	rConstraint registrar 0xb7efd0 vtable 0x1794c3c slot 4 (instance vtable installed by create 0xb7ef84 @ install 0xb7f1a4)
+0xb7f77c	unknown	B	rGUI registrar 0xb811f0 vtable 0x1794c9c slot 15 (instance vtable installed by create 0xb7f1d4 @ install 0xb81354)
+0xb81ddc	unknown	B	rGUIFont registrar 0xb82704 vtable 0x1794d10 slot 15 (instance vtable installed by create 0xb81384 @ install 0xb82db4)
+0xb85108	unknown	B	sAI registrar 0xb85ec4 vtable 0x1794eb4 slot 0 (instance vtable installed by create 0xb84d3c @ install 0xb85fa8)
+0xb85400	unknown	B	sAI registrar 0xb85ec4 vtable 0x1794eb4 slot 4 (instance vtable installed by create 0xb84d3c @ install 0xb85fa8)
+0xb88630	unknown	B	sArea::AreaInfo registrar 0xb88630 vtable 0x1794fb4 slot 1 (instance vtable installed by create 0xb87964 @ install 0xb886f0)
+0xb8a534	unknown	B	sCamera registrar 0xb8bf10 vtable 0x1795058 slot 0 (instance vtable installed by create 0xb8a108 @ install 0xb8c02c)
+0xb8c428	unknown	B	sCapture registrar 0xb8f1c0 vtable 0x17950b4 slot 0 (instance vtable installed by create 0xb8c06c @ install 0xb8f77c)
+0xba05d0	unknown	B	sGUI registrar 0xba2c7c vtable 0x1795364 slot 0 (instance vtable installed by create 0xb9ff98 @ install 0xba2e20)
+0xba09c0	unknown	B	sGUI registrar 0xba2c7c vtable 0x1795364 slot 10 (instance vtable installed by create 0xb9ff98 @ install 0xba2e20)
+0xba3488	unknown	B	sKeyboard registrar 0xba3ddc vtable 0x179545c slot 0 (instance vtable installed by create 0xba3310 @ install 0xba4020)
+0xba494c	unknown	B	sMain registrar 0xba67b4 vtable 0x17954a4 slot 11 (instance vtable installed by create 0xba4050 @ install 0xba6bec)
+0xba4be4	unknown	B	sMain registrar 0xba67b4 vtable 0x17954a4 slot 4 (instance vtable installed by create 0xba4050 @ install 0xba6bec)
+0xba5824	unknown	B	sMain registrar 0xba67b4 vtable 0x17954a4 slot 7 (instance vtable installed by create 0xba4050 @ install 0xba6bec)
+0xba5efc	unknown	B	sMain registrar 0xba67b4 vtable 0x17954a4 slot 8 (instance vtable installed by create 0xba4050 @ install 0xba6bec)
+0xba739c	unknown	B	sFestaNetwork registrar 0x22ed6c vtable 0x1745274 slot 6 (instance vtable installed by create 0x225930 @ install 0x22ef68)
+0xba74f4	unknown	B	sNetwork registrar 0xba8810 vtable 0x179554c slot 7 (instance vtable installed by create 0xba70b4 @ install 0xba8964)
+0xbb9a0c	unknown	B	sRemoteProcedure registrar 0xbbba3c vtable 0x17956cc slot 0 (instance vtable installed by create 0xbb9310 @ install 0xbbbcf0)
+0xbb9e74	unknown	B	sFestaRemoteProcedure registrar 0x23046c vtable 0x17452f0 slot 12 (instance vtable installed by create 0x230314 @ install 0x230650)
+0xbbb008	unknown	B	sRemoteProcedure::cTemporaryRemoteCall registrar 0xbbba3c vtable 0x179574c slot 2 (class-record vtable written by str at 0xbbbd2c)
+0xbc60b4	unknown	B	sResource::RemoteInfo registrar 0xbcbe00 vtable 0x17959b8 slot 2 (class-record vtable written by str at 0xbcc328)
+0xbc64ac	unknown	B	sResource::DecompressStream registrar 0xbcbe00 vtable 0x17958c4 slot 13 (instance vtable installed by create 0xbc6180 @ install 0xbcc364)
+0xbcd93c	unknown	B	sScene registrar 0xbd6d3c vtable 0x1795a3c slot 0 (instance vtable installed by create 0xbcc5a4 @ install 0xbd6f7c)
+0xbd0250	unknown	B	sFestaScene registrar 0x3e9bb8 vtable 0x1754b94 slot 6 (instance vtable installed by create 0x3e9a98 @ install 0x3e9cd8)
+0xbd7f3c	unknown	B	sShader2 registrar 0xbdc8c0 vtable 0x1795ce4 slot 0 (instance vtable installed by create 0xbd6fbc @ install 0xbdc964)
+0xbd8450	unknown	B	sShader2 registrar 0xbdc8c0 vtable 0x1795ce4 slot 1 (instance vtable installed by create 0xbd6fbc @ install 0xbdc964)
+0xbdf518	unknown	B	sShadow registrar 0xbe1c14 vtable 0x1795e50 slot 0 (instance vtable installed by create 0xbdf114 @ install 0xbe1e24)
+0xbeadfc	audio	A	sSound registrar 0xc05c90 vtable 0x17960a0 slot 0 (instance vtable installed by create 0xbe957c @ install 0xc05d84)
+0xbeb198	audio	A	sSound registrar 0xc05c90 vtable 0x17960a0 slot 10 (instance vtable installed by create 0xbe957c @ install 0xc05d84)
+0xbebcc4	audio	A	sSound registrar 0xc05c90 vtable 0x17960a0 slot 4 (instance vtable installed by create 0xbe957c @ install 0xc05d84)
+0xc05c54	audio	A	sSound::NXSystem::NXVoiceArray registrar 0xc05c90 vtable 0x1796710 slot 1 (instance vtable installed by create 0xbfdb0c @ install 0xc05e04)
+0xc06088	unknown	B	sFestaTool registrar 0x3e9d94 vtable 0x1754d08 slot 0 (instance vtable installed by create 0x3e9d08 @ install 0x3e9f4c)
+0xc08ea4	unknown	B	sVibration registrar 0xc0be80 vtable 0x1796acc slot 0 (instance vtable installed by create 0xc089a8 @ install 0xc0c41c)
+0xc0905c	unknown	B	sVibration registrar 0xc0be80 vtable 0x1796acc slot 1 (instance vtable installed by create 0xc089a8 @ install 0xc0c41c)
+0xc0940c	unknown	B	sVibration registrar 0xc0be80 vtable 0x1796acc slot 7 (instance vtable installed by create 0xc089a8 @ install 0xc0c41c)
+0xc0c62c	unknown	B	sCollision::cSbcMoveMatrix registrar 0xc11130 vtable 0x1796b70 slot 0 (instance vtable installed by create 0xc0c5c0 @ install 0xc11374)
+0xc0ef74	unknown	B	sMhCollision registrar 0x183d3c vtable 0x173ecc4 slot 9 (instance vtable installed by create 0x18121c @ install 0x1840b8)
+0xc1145c	unknown	B	sCollision::ActiveNodeInfo registrar 0xc15d18 vtable 0x1796d80 slot 2 (class-record vtable written by str at 0xc15f28)
+0xc11ac8	unknown	B	sCollision::NodeList registrar 0xc15d18 vtable 0x1796d20 slot 0 (instance vtable installed by create 0xc11620 @ install 0xc15fd0)
+0xc14ca8	unknown	B	sCollision::Collider registrar 0xc15d18 vtable 0x1796d60 slot 0 (instance vtable installed by create 0xc14bc0 @ install 0xc16044)
+0xc16470	unknown	B	sCollision::cSbcSkinMesh registrar 0xc16df4 vtable 0x1796eb8 slot 0 (instance vtable installed by create 0xc1618c @ install 0xc16ef4)
+0xc17104	unknown	B	sCollision::cSbcHeightField registrar 0xc17290 vtable 0x1796f40 slot 0 (instance vtable installed by create 0xc1704c @ install 0xc173fc)
+0xc1754c	unknown	B	sCollision::Node registrar 0xc1760c vtable 0x1796f88 slot 0 (instance vtable installed by create 0xc17438 @ install 0xc17718)
+0xc179e4	unknown	B	sCollision::Param registrar 0xc17bc4 vtable 0x1797010 slot 0 (instance vtable installed by create 0xc17748 @ install 0xc17e00)
+0xc18008	unknown	B	sCollision::cSbcMoveReserveInfoAll registrar 0xc186f8 vtable 0x1797044 slot 0 (instance vtable installed by create 0xc17f40 @ install 0xc18820)
+0xc18244	unknown	B	sCollision::cSbcMoveReserveInfo registrar 0xc186f8 vtable 0x1797064 slot 0 (instance vtable installed by create 0xc1817c @ install 0xc18858)
+0xc18470	unknown	B	sCollision::cSbcMoveResetReserveInfoAll registrar 0xc186f8 vtable 0x1797084 slot 0 (instance vtable installed by create 0xc18410 @ install 0xc18890)
+0xc18518	unknown	B	sCollision::cSbcMoveResetReserveInfo registrar 0xc186f8 vtable 0x17970a4 slot 0 (instance vtable installed by create 0xc184b8 @ install 0xc188c8)
+0xc18664	unknown	B	sCollision::cSbcRegistReserveInfo registrar 0xc186f8 vtable 0x17970c4 slot 0 (instance vtable installed by create 0xc18574 @ install 0xc18900)
+0xc19198	unknown	B	sCollision::cSbcArrayBP registrar 0xc1b084 vtable 0x1797168 slot 0 (instance vtable installed by create 0xc18ab0 @ install 0xc1b61c)
+0xc1bb28	unknown	B	sCollision::SbcInfo registrar 0xc1ef38 vtable 0x1797244 slot 0 (instance vtable installed by create 0xc1ba38 @ install 0xc1f210)
+0xc1f7dc	unknown	B	sCollision::SbcObject registrar 0xc2009c vtable 0x1797320 slot 0 (instance vtable installed by create 0xc1f370 @ install 0xc206d8)
+0xc20788	unknown	B	sCollision::ScrCollisionInfo registrar 0xc256d8 vtable 0x17973a8 slot 0 (instance vtable installed by create 0xc207fc @ install 0xc259f4)
+0xc217a4	unknown	B	sCollision::ScrCollisionInfoAdjustPosition registrar 0xc256d8 vtable 0x1797408 slot 0 (instance vtable installed by create 0xc21504 @ install 0xc25aa4)
+0xc25300	unknown	B	sCollision::ScrCollisionInfoGetAreaPoly registrar 0xc256d8 vtable 0x1797428 slot 0 (instance vtable installed by create 0xc250c8 @ install 0xc25adc)
+0xc48708	unknown	B	nScreenShot::Buffer registrar 0xc48d90 vtable 0x179755c slot 0 (instance vtable installed by create 0xc485a8 @ install 0xc49a2c)
+0xc4fb94	unknown	B	nNetwork::nSharedMemory2::Object registrar 0xc50f08 vtable 0x1797678 slot 0 (instance vtable installed by create 0xc4ed54 @ install 0xc51324)
+0xc5239c	unknown	B	sDLC registrar 0xc52a7c vtable 0x17978b4 slot 0 (instance vtable installed by create 0xc51fa0 @ install 0xc52e04)
+0xc52f00	ui	A	sLayout registrar 0xc532dc vtable 0x1797958 slot 0 (instance vtable installed by create 0xc52e30 @ install 0xc5338c)
+0xc5b990	unknown	B	uGrassEffect registrar 0xc5bbe0 vtable 0x1797a10 slot 0 (instance vtable installed by create 0xc5b940 @ install 0xc5bcd8)
+0xc5ba40	unknown	B	uGrassEffect registrar 0xc5bbe0 vtable 0x1797a10 slot 4 (instance vtable installed by create 0xc5b940 @ install 0xc5bcd8)
+0xc5bfd8	unknown	B	uEffect2D registrar 0xc60548 vtable 0x1797a74 slot 0 (instance vtable installed by create 0xc5bd08 @ install 0xc60648)
+0xc6d934	unknown	B	uDynamicSbc registrar 0xc6f01c vtable 0x17981f8 slot 1 (instance vtable installed by create 0xc6d67c @ install 0xc6f104)
+0xc6f15c	unknown	B	uScrollCollision registrar 0xc6f1a4 vtable 0x1798264 slot 0 (instance vtable installed by create 0xc6f134 @ install 0xc6f1d8)
+0xc6f160	unknown	B	uScrollCollision registrar 0xc6f1a4 vtable 0x1798264 slot 1 (instance vtable installed by create 0xc6f134 @ install 0xc6f1d8)
+0xc7245c	unknown	B	uScrollCollisionGeometryGroupModel registrar 0xc72a38 vtable 0x1798380 slot 0 (instance vtable installed by create 0xc7239c @ install 0xc72c2c)
+0xc73948	unknown	B	uCnsGroup::cNode registrar 0xc74a18 vtable 0x1798448 slot 0 (instance vtable installed by create 0xc738e0 @ install 0xc75124)
+0xc73978	unknown	B	uCnsGroup::cNode registrar 0xc74a18 vtable 0x1798448 slot 4 (instance vtable installed by create 0xc738e0 @ install 0xc75124)
+0xc73aa0	unknown	B	uCnsGroup::cGroup registrar 0xc74a18 vtable 0x1798468 slot 0 (instance vtable installed by create 0xc73a10 @ install 0xc7515c)
+0xc73bb0	unknown	B	uCnsGroup::cGroup registrar 0xc74a18 vtable 0x1798468 slot 4 (instance vtable installed by create 0xc73a10 @ install 0xc7515c)
+0xc745a4	unknown	B	uCnsGroup registrar 0xc74a18 vtable 0x17984b8 slot 0 (instance vtable installed by create 0xc744a8 @ install 0xc751cc)
+0xc746fc	unknown	B	uCnsGroup registrar 0xc74a18 vtable 0x17984b8 slot 4 (instance vtable installed by create 0xc744a8 @ install 0xc751cc)
+0xc74810	unknown	B	uCnsGroup registrar 0xc74a18 vtable 0x17984b8 slot 9 (instance vtable installed by create 0xc744a8 @ install 0xc751cc)
+0xc748d4	unknown	B	uCnsGroup registrar 0xc74a18 vtable 0x17984b8 slot 24 (instance vtable installed by create 0xc744a8 @ install 0xc751cc)
+0xc75c58	unknown	B	uGeometry2 registrar 0xc75de8 vtable 0x1798638 slot 9 (instance vtable installed by create 0xc75224 @ install 0xc75e98)
+0xc75ef0	unknown	B	uGeometry2Base registrar 0xc75ef0 vtable 0x17986a0 slot 0 (instance vtable installed by create 0xc75ec8 @ install 0xc75f6c)
+0xc77fec	unknown	B	uGeometry2Group registrar 0xc78c58 vtable 0x1798800 slot 0 (instance vtable installed by create 0xc77de0 @ install 0xc78e48)
+0xc84254	unknown	B	cMetaSetPropertyData registrar 0xc8a4b8 vtable 0x1798984 slot 0 (instance vtable installed by create 0xc7a4ac @ install 0xc8a53c)
+0xc8a858	unknown	B	cWind registrar 0xc8b3e4 vtable 0x17989b8 slot 0 (instance vtable installed by create 0xc8a624 @ install 0xc8b77c)
+0xc8be24	unknown	B	cAIGraph registrar 0xc8ec60 vtable 0x17989ec slot 0 (instance vtable installed by create 0xc8bd24 @ install 0xc8f124)
+0xc8e20c	unknown	B	cAITreeBase registrar 0xc8ec60 vtable 0x1798a74 slot 0 (instance vtable installed by create 0xc8e1a4 @ install 0xc8f214)
+0xc8f384	unknown	B	cAIObject registrar 0xc8f420 vtable 0x1798c24 slot 0 (instance vtable installed by create 0xc8f324 @ install 0xc8f4bc)
+0xc8f3bc	unknown	B	cAIObject registrar 0xc8f420 vtable 0x1798c24 slot 4 (instance vtable installed by create 0xc8f324 @ install 0xc8f4bc)
+0xc8f420	unknown	B	cAIResource registrar 0xc8f420 vtable 0x1798c44 slot 0 (instance vtable installed by create 0xc8f3c0 @ install 0xc8f4f4)
+0xc8f5f0	unknown	B	cAIService registrar 0xc8f718 vtable 0x1798c8c slot 0 (instance vtable installed by create 0xc8f52c @ install 0xc8f918)
+0xc8f718	unknown	B	cAIService registrar 0xc8f718 vtable 0x1798c8c slot 4 (instance vtable installed by create 0xc8f52c @ install 0xc8f918)
+0xc983f0	unknown	B	cDynamicBVHCollision registrar 0xca6d2c vtable 0x1798e5c slot 0 (instance vtable installed by create 0xc98288 @ install 0xca70f0)
+0xcc7af8	unknown	B	nGraphComponent::Filter registrar 0xccb284 vtable 0x1799158 slot 0 (instance vtable installed by create 0xcc6ac4 @ install 0xccb52c)
+0xcc8ecc	unknown	B	nGraphComponent::Color registrar 0xccb284 vtable 0x17991b8 slot 0 (instance vtable installed by create 0xcc6c60 @ install 0xccb564)
+0xcc9188	unknown	B	nGraphComponent::Add registrar 0xccb284 vtable 0x17991e8 slot 0 (instance vtable installed by create 0xcc6db8 @ install 0xccb5d4)
+0xcc96a4	unknown	B	nGraphComponent::Sub registrar 0xccb284 vtable 0x1799218 slot 0 (instance vtable installed by create 0xcc6fb0 @ install 0xccb60c)
+0xcc9bc0	unknown	B	nGraphComponent::Mul registrar 0xccb284 vtable 0x1799248 slot 0 (instance vtable installed by create 0xcc71a8 @ install 0xccb644)
+0xcca0dc	unknown	B	nGraphComponent::Div registrar 0xccb284 vtable 0x1799278 slot 0 (instance vtable installed by create 0xcc73a0 @ install 0xccb67c)
+0xccab54	unknown	B	nGraphComponent::BaseMap registrar 0xccb284 vtable 0x17992d8 slot 0 (instance vtable installed by create 0xcc75d0 @ install 0xccb6ec)
+0xccb898	unknown	B	nDraw::Buffer registrar 0xccb8c8 vtable 0x1799414 slot 0 (instance vtable installed by create 0xccb800 @ install 0xccba0c)
+0xccb8c8	unknown	B	nDraw::Buffer registrar 0xccb8c8 vtable 0x1799414 slot 4 (instance vtable installed by create 0xccb800 @ install 0xccba0c)
+0xcd0cec	unknown	B	nDraw::MaterialShadow registrar 0xcd0cec vtable 0x17996d8 slot 0 (instance vtable installed by create 0xcd0c7c @ install 0xcd0df0)
+0xcd3138	unknown	B	nNetwork::ProtocolStandard registrar 0xcd4cf8 vtable 0x1799e20 slot 0 (instance vtable installed by create 0xcd2c24 @ install 0xcd6bf0)
+0xcd3b10	unknown	B	nNetwork::ProtocolStandard registrar 0xcd4cf8 vtable 0x1799e20 slot 11 (instance vtable installed by create 0xcd2c24 @ install 0xcd6bf0)
+0xcd9f40	unknown	B	nNetwork::VoiceChat registrar 0xcda7c4 vtable 0x179a2d8 slot 0 (instance vtable installed by create 0xcd9c08 @ install 0xcdae7c)
+0xcdb1cc	unknown	B	rGrass::cSetting registrar 0xcdf830 vtable 0x179a354 slot 0 (instance vtable installed by create 0xcdb060 @ install 0xcdfc38)
+0xcdc01c	unknown	B	rGrass::cSetting registrar 0xcdf830 vtable 0x179a354 slot 15 (instance vtable installed by create 0xcdb060 @ install 0xcdfc38)
+0xce0ab0	unknown	B	rGrassWind::cParamSet registrar 0xce0f0c vtable 0x179a4ec slot 7 (instance vtable installed by create 0xcdfd34 @ install 0xce11dc)
+0xce18ec	unknown	B	rShaderPackage registrar 0xce1ba4 vtable 0x179a5e4 slot 2 (class-record vtable written by str at 0xce28d8)
+0xce1954	unknown	B	rShaderPackage registrar 0xce1ba4 vtable 0x179a59c slot 0 (instance vtable installed by create 0xce18ec @ install 0xce28d8)
+0xce4b04	audio	A	rSoundSpeakerSetXml registrar 0xce5974 vtable 0x179a774 slot 0 (instance vtable installed by create 0xce4a00 @ install 0xce5bfc)
+0xce6ccc	unknown	B	rCollisionObj registrar 0xce6ccc vtable 0x179a8a8 slot 0 (instance vtable installed by create 0xce6c5c @ install 0xce74c8)
+0xce796c	unknown	B	rDynamicSbc registrar 0xce7af8 vtable 0x179a920 slot 12 (instance vtable installed by create 0xce7508 @ install 0xce7d80)
+0xce7af8	unknown	B	rDynamicSbc registrar 0xce7af8 vtable 0x179a920 slot 15 (instance vtable installed by create 0xce7508 @ install 0xce7d80)
+0xceb4b0	unknown	B	rGeometry2::cGeometryArray registrar 0xcec7b0 vtable 0x179a9c0 slot 0 (instance vtable installed by create 0xceb400 @ install 0xcec8b4)
+0xcebdb8	unknown	B	rGeometry2::cGeometryArray registrar 0xcec7b0 vtable 0x179a9c0 slot 9 (instance vtable installed by create 0xceb400 @ install 0xcec8b4)
+0xcec3a8	unknown	B	rGeometry2 registrar 0xcec7b0 vtable 0x179aa30 slot 4 (instance vtable installed by create 0xcec294 @ install 0xcec8f0)
+0xcee3d8	ui	A	nLayout::ConstantBuffer registrar 0xcee3d8 vtable 0x179abf4 slot 0 (instance vtable installed by create 0xcee35c @ install 0xcee588)
+0xcefbc8	unknown	B	cStateMachineBase::StateBase registrar 0xcefbc8 vtable 0x179ac9c slot 0 (instance vtable installed by create 0xceee10 @ install 0xcefe68)
+0xfc626c	monster-em	A	uShellEm071_sp_03 registrar 0x4a31f0 vtable 0x17ecc64 slot 84 (instance vtable installed by create 0x49f82c @ install 0x4a67bc)
+0x12238c0	online-nex	A	nn::nex::NgsFacade rtti-typeinfo N2nn3nex9NgsFacadeE vtable 0x182d51c slot 0
+0x1225780	online-nex	A	nn::nex::JobSigloLogin rtti-typeinfo N2nn3nex13JobSigloLoginE vtable 0x182d618 slot 0
+0x12267a4	online-nex	A	nn::nex::JobAcquireNsaIdToken rtti-typeinfo N2nn3nex20JobAcquireNsaIdTokenE vtable 0x182d664 slot 0
+0x1226f9c	online-nex	A	nn::nex::BandwidthCounter rtti-typeinfo N2nn3nex16BandwidthCounterE vtable 0x182d81c slot 0
+0x12271f4	online-nex	A	nn::nex::BandwidthCounterMap rtti-typeinfo N2nn3nex19BandwidthCounterMapE vtable 0x182d82c slot 0
+0x122973c	online-nex	A	nn::nex::CriticalSection rtti-typeinfo N2nn3nex15CriticalSectionE vtable 0x182d83c slot 0
+0x122989c	online-nex	A	nn::nex::PacketBufferManager rtti-typeinfo N2nn3nex19PacketBufferManagerE vtable 0x182d8bc slot 0
+0x122b8bc	online-nex	A	nn::nex::ProfilingUnit rtti-typeinfo N2nn3nex13ProfilingUnitE vtable 0x182d9a0 slot 0
+0x122c99c	online-nex	A	nn::nex::SpinTest rtti-typeinfo N2nn3nex8SpinTestE vtable 0x182d9b0 slot 0
+0x122e06c	online-nex	A	nn::nex::StringStream rtti-typeinfo N2nn3nex12StringStreamE vtable 0x182d9c0 slot 0
+0x122ecc8	online-nex	A	nn::nex::ThreadVariable<unsigned int> rtti-typeinfo N2nn3nex14ThreadVariableIjEE vtable 0x182dbf8 slot 4
+0x122eed8	online-nex	A	nn::nex::ThreadVariableList rtti-typeinfo N2nn3nex18ThreadVariableListE vtable 0x182d9e4 slot 0
+0x1230550	online-nex	A	nn::nex::GlobalVariables rtti-typeinfo N2nn3nex15GlobalVariablesE vtable 0x182da2c slot 0
+0x1230740	online-nex	A	nn::nex::ThreadVariable<S0::ObjectThreadRoot*> rtti-typeinfo N2nn3nex14ThreadVariableIPNS0_16ObjectThreadRootEEE vtable 0x182dc20 slot 0
+0x1230968	online-nex	A	nn::nex::ThreadVariable<unsigned int> rtti-typeinfo N2nn3nex14ThreadVariableIjEE vtable 0x182dbf8 slot 0
+0x1231110	online-nex	A	nn::nex::ObjectThreadRoot rtti-typeinfo N2nn3nex16ObjectThreadRootE vtable 0x182d8e4 slot 0
+0x1234fe4	online-nex	A	nn::nex::MD5Checksum rtti-typeinfo N2nn3nex11MD5ChecksumE vtable 0x182dcf0 slot 0
+0x12351c0	online-nex	A	nn::nex::HMACChecksum rtti-typeinfo N2nn3nex12HMACChecksumE vtable 0x182dc60 slot 0
+0x1237658	online-nex	A	nn::nex::MD5Checksum rtti-typeinfo N2nn3nex11MD5ChecksumE vtable 0x182dcf0 slot 2
+0x1237860	online-nex	A	nn::nex::MD5Checksum rtti-typeinfo N2nn3nex11MD5ChecksumE vtable 0x182dcf0 slot 7
+0x1238120	online-nex	A	nn::nex::RC4Encryption rtti-typeinfo N2nn3nex13RC4EncryptionE vtable 0x182dd6c slot 0
+0x12383f8	online-nex	A	nn::nex::RC4Encryption rtti-typeinfo N2nn3nex13RC4EncryptionE vtable 0x182dd6c slot 2
+0x1238448	online-nex	A	nn::nex::RC4Encryption rtti-typeinfo N2nn3nex13RC4EncryptionE vtable 0x182dd6c slot 4
+0x1238644	online-nex	A	nn::nex::BitStream rtti-typeinfo N2nn3nex9BitStreamE vtable 0x182dd94 slot 0
+0x12391a8	online-nex	A	nn::nex::Buffer rtti-typeinfo N2nn3nex6BufferE vtable 0x182dda8 slot 0
+0x1239928	online-nex	A	nn::nex::ByteStream rtti-typeinfo N2nn3nex10ByteStreamE vtable 0x182ddb8 slot 0
+0x1239dd8	online-nex	A	nn::nex::CallContext rtti-typeinfo N2nn3nex11CallContextE vtable 0x182ddc8 slot 0
+0x123bd1c	online-nex	A	nn::nex::CallContextRegister rtti-typeinfo N2nn3nex19CallContextRegisterE vtable 0x182dde4 slot 0
+0x123be9c	unknown	B	CONFLICTING CLASSES: nn::nex::SystemComponent|nn::nex::ComponentState nn::nex::SystemComponent rtti-typeinfo N2nn3nex15SystemComponentE vtable 0x182dfd8 slot 0
+0x123d4e4	online-nex	A	nn::nex::StepSequenceJob rtti-typeinfo N2nn3nex15StepSequenceJobE vtable 0x182df9c slot 0
+0x123d6dc	online-nex	A	nn::nex::Chrono rtti-typeinfo N2nn3nex6ChronoE vtable 0x182de2c slot 0
+0x123e0f4	online-nex	A	nn::nex::Core rtti-typeinfo N2nn3nex4CoreE vtable 0x182de40 slot 0
+0x123f790	online-nex	A	nn::nex::InstanceControl rtti-typeinfo N2nn3nex15InstanceControlE vtable 0x182de50 slot 0
+0x12400d0	online-nex	A	nn::nex::Key rtti-typeinfo N2nn3nex3KeyE vtable 0x182deb8 slot 0
+0x1240248	online-nex	A	nn::nex::OperationManager rtti-typeinfo N2nn3nex16OperationManagerE vtable 0x182def8 slot 0
+0x1240bd4	online-nex	A	nn::nex::PseudoGlobalVariableRoot rtti-typeinfo N2nn3nex24PseudoGlobalVariableRootE vtable 0x182df30 slot 0
+0x12410fc	online-nex	A	nn::nex::qBuffer rtti-typeinfo N2nn3nex7qBufferE vtable 0x182df64 slot 0
+0x1241ac0	online-nex	A	nn::nex::Scheduler rtti-typeinfo N2nn3nex9SchedulerE vtable 0x182df7c slot 0
+0x1244134	online-nex	A	nn::nex::ThreadVariable<S0::qList<S0::SecurityContext>> rtti-typeinfo N2nn3nex14ThreadVariableINS0_5qListINS0_15SecurityContextEEEEE vtable 0x182e45c slot 0
+0x1244dc0	online-nex	A	nn::nex::JobLogin rtti-typeinfo N2nn3nex8JobLoginE vtable 0x182d564 slot 6
+0x1245134	monster-em	A	nn::nex::SystemComponent::Use rtti-typeinfo N2nn3nex15SystemComponent3UseE vtable 0x182e020 slot 0
+0x12452d0	monster-em	A	nn::nex::SystemComponentGroup rtti-typeinfo N2nn3nex20SystemComponentGroupE vtable 0x182e030 slot 0
+0x1245480	monster-em	A	nn::nex::SystemComponentGroup rtti-typeinfo N2nn3nex20SystemComponentGroupE vtable 0x182e030 slot 8
+0x1245e88	monster-em	A	nn::nex::SystemSetting rtti-typeinfo N2nn3nex13SystemSettingE vtable 0x182e0c0 slot 0
+0x12465ec	online-nex	A	nn::nex::Job rtti-typeinfo N2nn3nex3JobE vtable 0x182de80 slot 0
+0x124a118	online-nex	A	nn::nex::ConnectionOrientedStream rtti-typeinfo N2nn3nex24ConnectionOrientedStreamE vtable 0x182e518 slot 0
+0x124a348	online-nex	A	nn::nex::PRUDPStream rtti-typeinfo N2nn3nex11PRUDPStreamE vtable 0x182eb64 slot 5
+0x124a468	online-nex	A	nn::nex::SecureStream rtti-typeinfo N2nn3nex12SecureStreamE vtable 0x1830cac slot 22
+0x124a4d4	online-nex	A	nn::nex::PRUDPStream rtti-typeinfo N2nn3nex11PRUDPStreamE vtable 0x182eb64 slot 25
+0x124a57c	online-nex	A	nn::nex::ConnectivityManager rtti-typeinfo N2nn3nex19ConnectivityManagerE vtable 0x182e5a0 slot 0
+0x124b0cc	online-nex	A	nn::nex::DnsClient rtti-typeinfo N2nn3nex9DnsClientE vtable 0x182e5b0 slot 0
+0x124b50c	online-nex	A	nn::nex::EndPoint rtti-typeinfo N2nn3nex8EndPointE vtable 0x182e5c0 slot 0
+0x124b750	online-nex	A	nn::nex::PRUDPEndPoint rtti-typeinfo N2nn3nex13PRUDPEndPointE vtable 0x182eac8 slot 23
+0x124d030	online-nex	A	nn::nex::JobConnectEndPoint rtti-typeinfo N2nn3nex18JobConnectEndPointE vtable 0x182e684 slot 0
+0x1250f1c	online-nex	A	nn::nex::JobNameResolve rtti-typeinfo N2nn3nex14JobNameResolveE vtable 0x182e6c4 slot 0
+0x1251958	online-nex	A	nn::nex::Message rtti-typeinfo N2nn3nex7MessageE vtable 0x182e700 slot 0
+0x1251b10	online-nex	A	nn::nex::NATProperties rtti-typeinfo N2nn3nex13NATPropertiesE vtable 0x182e710 slot 0
+0x1251c0c	online-nex	A	nn::nex::NATRelayInterface rtti-typeinfo N2nn3nex17NATRelayInterfaceE vtable 0x182e720 slot 0
+0x12528d8	online-nex	A	nn::nex::NATTraversalEngine rtti-typeinfo N2nn3nex18NATTraversalEngineE vtable 0x182e780 slot 0
+0x125a214	online-nex	A	nn::nex::JobCheckAndRelay rtti-typeinfo N2nn3nex16JobCheckAndRelayE vtable 0x182e7a8 slot 0
+0x125c2c8	online-nex	A	nn::nex::Network rtti-typeinfo N2nn3nex7NetworkE vtable 0x182e81c slot 0
+0x125ceec	online-nex	A	nn::nex::RC4PacketEncDec rtti-typeinfo N2nn3nex15RC4PacketEncDecE vtable 0x182e82c slot 0
+0x125d66c	online-nex	A	nn::nex::RC4PacketEncDec rtti-typeinfo N2nn3nex15RC4PacketEncDecE vtable 0x182e82c slot 6
+0x125dda8	online-nex	A	nn::nex::PseudoGlobalVariable<const char*> rtti-typeinfo N2nn3nex20PseudoGlobalVariableIPKcEE vtable 0x182f604 slot 0
+0x125e200	online-nex	A	nn::nex::RootTransport rtti-typeinfo N2nn3nex13RootTransportE vtable 0x182e8a4 slot 0
+0x125f4d4	online-nex	A	nn::nex::StationURL rtti-typeinfo N2nn3nex10StationURLE vtable 0x182e914 slot 0
+0x1263b14	online-nex	A	nn::nex::TransportBufferMultiThread rtti-typeinfo N2nn3nex26TransportBufferMultiThreadE vtable 0x182e9f0 slot 0
+0x1266668	online-nex	A	nn::nex::SocketTransport rtti-typeinfo N2nn3nex15SocketTransportE vtable 0x182ea68 slot 0
+0x126a18c	online-nex	A	nn::nex::PacketQueue rtti-typeinfo N2nn3nex11PacketQueueE vtable 0x182ee00 slot 5
+0x126ebec	online-nex	A	nn::nex::PRUDPEndPoint rtti-typeinfo N2nn3nex13PRUDPEndPointE vtable 0x182eac8 slot 0
+0x1278750	online-nex	A	nn::nex::PRUDPStream rtti-typeinfo N2nn3nex11PRUDPStreamE vtable 0x182eb64 slot 0
+0x127966c	online-nex	A	nn::nex::PRUDPStream rtti-typeinfo N2nn3nex11PRUDPStreamE vtable 0x182eb64 slot 9
+0x127b194	online-nex	A	nn::nex::PRUDPStream rtti-typeinfo N2nn3nex11PRUDPStreamE vtable 0x182eb64 slot 23
+0x12814fc	monster-em	A	nn::nex::PRUDPLiteMessageV1 rtti-typeinfo N2nn3nex18PRUDPLiteMessageV1E vtable 0x182ec78 slot 8
+0x12818d4	monster-em	A	nn::nex::PRUDPStreamTemplateImp rtti-typeinfo N2nn3nex22PRUDPStreamTemplateImpE vtable 0x182ecac slot 4
+0x1281a2c	monster-em	A	nn::nex::PRUDPEndPointTemplateImp rtti-typeinfo N2nn3nex24PRUDPEndPointTemplateImpE vtable 0x182ecdc slot 1
+0x1281f4c	monster-em	A	nn::nex::MultiPRUDPStreamTemplateImp rtti-typeinfo N2nn3nex27MultiPRUDPStreamTemplateImpE vtable 0x182ed44 slot 0
+0x12843c8	monster-em	A	nn::nex::VirtualInternet<S0::NetworkEmulator::NetworkPacket> rtti-typeinfo N2nn3nex15VirtualInternetINS0_15NetworkEmulator13NetworkPacketEEE vtable 0x182f804 slot 2
+0x1285ce4	online-nex	A	nn::nex::QueuingSocket rtti-typeinfo N2nn3nex13QueuingSocketE vtable 0x182ee24 slot 0
+0x1287e00	online-nex	A	nn::nex::Packet rtti-typeinfo N2nn3nex6PacketE vtable 0x182edc0 slot 0
+0x1289b68	monster-em	A	nn::nex::TimedQueue<S0::NetworkEmulator::NetworkPacket> rtti-typeinfo N2nn3nex10TimedQueueINS0_15NetworkEmulator13NetworkPacketEEE vtable 0x182f50c slot 2
+0x128f424	online-nex	A	nn::nex::InetAddress rtti-typeinfo N2nn3nex11InetAddressE vtable 0x182f960 slot 0
+0x12903a0	online-nex	A	nn::nex::Socket rtti-typeinfo N2nn3nex6SocketE vtable 0x182f980 slot 0
+0x1295210	online-nex	A	nn::nex::Socket rtti-typeinfo N2nn3nex6SocketE vtable 0x182f980 slot 5
+0x1295654	online-nex	A	nn::nex::Socket rtti-typeinfo N2nn3nex6SocketE vtable 0x182f980 slot 4
+0x129cc60	online-nex	A	nn::nex::CurlHttpConnection rtti-typeinfo N2nn3nex18CurlHttpConnectionE vtable 0x182fd30 slot 0
+0x129db98	online-nex	A	nn::nex::CurlHttpConnection rtti-typeinfo N2nn3nex18CurlHttpConnectionE vtable 0x182fd30 slot 12
+0x129e3a0	online-nex	A	nn::nex::HttpClient rtti-typeinfo N2nn3nex10HttpClientE vtable 0x182fd98 slot 0
+0x12a532c	online-nex	A	nn::nex::ServerProtocol rtti-typeinfo N2nn3nex14ServerProtocolE vtable 0x1830270 slot 0
+0x12a5cbc	online-nex	A	nn::nex::SecureConnectionProtocolClient rtti-typeinfo N2nn3nex30SecureConnectionProtocolClientE vtable 0x1830208 slot 23
+0x12a9180	online-nex	A	nn::nex::NotificationEventManager rtti-typeinfo N2nn3nex24NotificationEventManagerE vtable 0x1830134 slot 0
+0x12aa3a4	online-nex	A	nn::nex::ProtocolCallContext rtti-typeinfo N2nn3nex19ProtocolCallContextE vtable 0x18301a4 slot 0
+0x12aa7b8	quest	A	nn::nex::ProtocolRequestBrokerInterface rtti-typeinfo N2nn3nex30ProtocolRequestBrokerInterfaceE vtable 0x18301c0 slot 0
+0x12ad810	online-nex	A	nn::nex::StreamManager rtti-typeinfo N2nn3nex13StreamManagerE vtable 0x18302f0 slot 0
+0x12af524	online-nex	A	nn::nex::UserMessage rtti-typeinfo N2nn3nex11UserMessageE vtable 0x183056c slot 8
+0x12b06dc	online-nex	A	nn::nex::Data rtti-typeinfo N2nn3nex4DataE vtable 0x1830000 slot 0
+0x12b06e0	online-nex	A	nn::nex::ClientProtocol rtti-typeinfo N2nn3nex14ClientProtocolE vtable 0x182ff94 slot 0
+0x12b07d4	online-nex	A	nn::nex::SecureConnectionProtocolClient rtti-typeinfo N2nn3nex30SecureConnectionProtocolClientE vtable 0x1830208 slot 1
+0x12b0984	online-nex	A	nn::nex::SecureConnectionServiceDDLDeclarations rtti-typeinfo N2nn3nex38SecureConnectionServiceDDLDeclarationsE vtable 0x18304f4 slot 1
+0x12b0be4	online-nex	A	nn::nex::UserMessage rtti-typeinfo N2nn3nex11UserMessageE vtable 0x183056c slot 1
+0x12b1160	online-nex	A	nn::nex::NotificationEvent rtti-typeinfo N2nn3nex17NotificationEventE vtable 0x18305ec slot 0
+0x12b3b64	online-nex	A	nn::nex::ServiceClient rtti-typeinfo N2nn3nex13ServiceClientE vtable 0x1830d54 slot 0
+0x12b3efc	online-nex	A	nn::nex::AuthenticationClient rtti-typeinfo N2nn3nex20AuthenticationClientE vtable 0x183083c slot 0
+0x12b6060	online-nex	A	nn::nex::JobTicketManagerLogin rtti-typeinfo N2nn3nex21JobTicketManagerLoginE vtable 0x18308a8 slot 0
+0x12b76ec	online-nex	A	nn::nex::BackEndServices rtti-typeinfo N2nn3nex15BackEndServicesE vtable 0x18308e4 slot 0
+0x12bb3e0	online-nex	A	nn::nex::ClientStreamManager rtti-typeinfo N2nn3nex19ClientStreamManagerE vtable 0x1830950 slot 3
+0x12bc160	online-nex	A	nn::nex::IpPortDiscoveryClient rtti-typeinfo N2nn3nex21IpPortDiscoveryClientE vtable 0x1830990 slot 0
+0x12bcdfc	online-nex	A	nn::nex::JobBackEndServicesLogin rtti-typeinfo N2nn3nex23JobBackEndServicesLoginE vtable 0x18309a0 slot 0
+0x12c2ad0	online-nex	A	nn::nex::ProtocolRegistry rtti-typeinfo N2nn3nex16ProtocolRegistryE vtable 0x1830b2c slot 0
+0x12c3fc8	online-nex	A	nn::nex::JobConnectSecureEndPoint rtti-typeinfo N2nn3nex24JobConnectSecureEndPointE vtable 0x1830bd8 slot 0
+0x12c7da8	online-nex	A	nn::nex::PseudoGlobalVariable<S0::UtilityDDLDeclarations> rtti-typeinfo N2nn3nex20PseudoGlobalVariableINS0_22UtilityDDLDeclarationsEEE vtable 0x1831168 slot 0
+0x12c86d4	online-nex	A	nn::nex::MatchmakeSession rtti-typeinfo N2nn3nex16MatchmakeSessionE vtable 0x1831254 slot 0
+0x12c87b0	online-nex	A	nn::nex::AutoMatchmakeParam rtti-typeinfo N2nn3nex18AutoMatchmakeParamE vtable 0x1831394 slot 0
+0x12c8bb0	online-nex	A	nn::nex::MatchmakeExtensionClient rtti-typeinfo N2nn3nex24MatchmakeExtensionClientE vtable 0x183119c slot 8
+0x12d1ce4	online-nex	A	nn::nex::MatchmakeExtensionDDLDeclarations rtti-typeinfo N2nn3nex33MatchmakeExtensionDDLDeclarationsE vtable 0x1831344 slot 1
+0x12d1d04	online-nex	A	nn::nex::MatchmakeSessionSearchCriteria rtti-typeinfo N2nn3nex30MatchmakeSessionSearchCriteriaE vtable 0x1831280 slot 0
+0x12d4640	monster-em	A	nn::nex::UpdateMatchmakeSessionParam rtti-typeinfo N2nn3nex27UpdateMatchmakeSessionParamE vtable 0x1831518 slot 0
+0x12d5b68	online-nex	A	nn::nex::MatchMakingClient rtti-typeinfo N2nn3nex17MatchMakingClientE vtable 0x18315bc slot 0
+0x12d5d84	online-nex	A	nn::nex::MatchMakingClient rtti-typeinfo N2nn3nex17MatchMakingClientE vtable 0x18315bc slot 8
+0x12d7c38	online-nex	A	nn::nex::GameSession rtti-typeinfo N2nn3nex11GameSessionE vtable 0x1831814 slot 5
+0x12d86a0	online-nex	A	nn::nex::Gathering rtti-typeinfo N2nn3nex9GatheringE vtable 0x1831604 slot 0
+0x12d8fd8	online-nex	A	nn::nex::_DDL_BinaryMessage rtti-typeinfo N2nn3nex18_DDL_BinaryMessageE vtable 0x1831950 slot 2
+0x12d9178	online-nex	A	nn::nex::_DDL_BinaryMessage rtti-typeinfo N2nn3nex18_DDL_BinaryMessageE vtable 0x1831950 slot 3
+0x12d9ed8	online-nex	A	nn::nex::MessageDeliveryProtocolClient rtti-typeinfo N2nn3nex29MessageDeliveryProtocolClientE vtable 0x1831880 slot 22
+0x12da500	online-nex	A	nn::nex::MessageDeliveryServer rtti-typeinfo N2nn3nex21MessageDeliveryServerE vtable 0x1831a70 slot 0
+0x12dacac	online-nex	A	nn::nex::MessagingClient rtti-typeinfo N2nn3nex15MessagingClientE vtable 0x1831adc slot 0
+0x12db2c4	online-nex	A	nn::nex::MessagingNotificationHandler rtti-typeinfo N2nn3nex28MessagingNotificationHandlerE vtable 0x1831b0c slot 0
+0x12dd834	monster-em	A	nn::nex::DataStoreClientTemplate<S0::DataStoreLogicServerClient> rtti-typeinfo N2nn3nex23DataStoreClientTemplateINS0_26DataStoreLogicServerClientEEE vtable 0x1831b54 slot 82
+0x12ddf00	monster-em	A	nn::nex::DataStoreClientTemplate<S0::DataStoreLogicServerClient> rtti-typeinfo N2nn3nex23DataStoreClientTemplateINS0_26DataStoreLogicServerClientEEE vtable 0x1831b54 slot 83
+0x12de65c	monster-em	A	nn::nex::DataStoreClientTemplate<S0::DataStoreLogicServerClient> rtti-typeinfo N2nn3nex23DataStoreClientTemplateINS0_26DataStoreLogicServerClientEEE vtable 0x1831d80 slot 17
+0x12e2958	unknown	B	CONFLICTING CLASSES: nn::nex::DataStoreClientTemplate<S0::DataStoreLogicServerClient>|nn::nex::DataStoreLogicServerClient nn::nex::DataStoreClientTemplate<S0::DataStoreLogicServerClient> rtti-typeinfo N2nn3nex23DataStoreClientTemplateINS0_26DataStoreLogicServerClientEEE vtable 0x1831b54 slot 33
+0x12e43f4	unknown	B	CONFLICTING CLASSES: nn::nex::DataStoreClientTemplate<S0::DataStoreLogicServerClient>|nn::nex::DataStoreLogicServerClient nn::nex::DataStoreClientTemplate<S0::DataStoreLogicServerClient> rtti-typeinfo N2nn3nex23DataStoreClientTemplateINS0_26DataStoreLogicServerClientEEE vtable 0x1831b54 slot 45
+0x12e7ed8	online-nex	A	nn::nex::JobDataStoreCheckNotification rtti-typeinfo N2nn3nex29JobDataStoreCheckNotificationE vtable 0x1831fdc slot 0
+0x12e95f4	online-nex	A	nn::nex::JobDataStoreGetObject<S0::DataStoreApiVersionTraits<L, S0::DATASTORE_API_VERSION, >> rtti-typeinfo N2nn3nex21JobDataStoreGetObjectINS0_25DataStoreApiVersionTraitsILNS0_21DATASTORE_API_VERSIONE0EEEEE vtable 0x1832048 slot 0
+0x12eb0ac	online-nex	A	nn::nex::JobDataStoreGetObject<S0::DataStoreApiVersionTraits<L, S0::DATASTORE_API_VERSION, E>> rtti-typeinfo N2nn3nex21JobDataStoreGetObjectINS0_25DataStoreApiVersionTraitsILNS0_21DATASTORE_API_VERSIONE1EEEEE vtable 0x18320b4 slot 0
+0x12eb230	online-nex	A	nn::nex::JobDataStoreGetObject<S0::DataStoreApiVersionTraits<L, S0::DATASTORE_API_VERSION, E>> rtti-typeinfo N2nn3nex21JobDataStoreGetObjectINS0_25DataStoreApiVersionTraitsILNS0_21DATASTORE_API_VERSIONE1EEEEE vtable 0x18320b4 slot 13
+0x12ecc80	online-nex	A	nn::nex::JobDataStoreGetRating rtti-typeinfo N2nn3nex21JobDataStoreGetRatingE vtable 0x1832120 slot 0
+0x12edf64	online-nex	A	nn::nex::DataStoreReqPostInfoV1 rtti-typeinfo N2nn3nex22DataStoreReqPostInfoV1E vtable 0x1832700 slot 0
+0x12f047c	online-nex	A	nn::nex::JobDataStoreReceiveNewArrivedObjects<S0::DataStoreApiVersionTraits<L, S0::DATASTORE_API_VERSION, >> rtti-typeinfo N2nn3nex36JobDataStoreReceiveNewArrivedObjectsINS0_25DataStoreApiVersionTraitsILNS0_21DATASTORE_API_VERSIONE0EEEEE vtable 0x18321e4 slot 0
+0x12f2b20	online-nex	A	nn::nex::JobDataStoreReceiveNewArrivedObjects<S0::DataStoreApiVersionTraits<L, S0::DATASTORE_API_VERSION, E>> rtti-typeinfo N2nn3nex36JobDataStoreReceiveNewArrivedObjectsINS0_25DataStoreApiVersionTraitsILNS0_21DATASTORE_API_VERSIONE1EEEEE vtable 0x1832228 slot 0
+0x12f52b4	online-nex	A	nn::nex::JobDataStoreUpdateObject rtti-typeinfo N2nn3nex24JobDataStoreUpdateObjectE vtable 0x183226c slot 0
+0x12f5384	online-nex	A	nn::nex::DataStoreReqUpdateInfo rtti-typeinfo N2nn3nex22DataStoreReqUpdateInfoE vtable 0x18328e0 slot 0
+0x12fe230	online-nex	A	nn::nex::DataStoreProtocolClient rtti-typeinfo N2nn3nex23DataStoreProtocolClientE vtable 0x18322ac slot 22
+0x12fe558	online-nex	A	nn::nex::_DDL_DataStoreReqGetNotificationUrlInfo rtti-typeinfo N2nn3nex39_DDL_DataStoreReqGetNotificationUrlInfoE vtable 0x1832550 slot 1
+0x12fe614	online-nex	A	nn::nex::_DDL_DataStoreGetNotificationUrlParam rtti-typeinfo N2nn3nex37_DDL_DataStoreGetNotificationUrlParamE vtable 0x1832588 slot 1
+0x12fe700	online-nex	A	nn::nex::DataStoreReqGetInfoV1 rtti-typeinfo N2nn3nex21DataStoreReqGetInfoV1E vtable 0x18325c0 slot 0
+0x12fed8c	online-nex	A	nn::nex::DataStorePreparePostParamV1 rtti-typeinfo N2nn3nex27DataStorePreparePostParamV1E vtable 0x18326c8 slot 0
+0x12fef04	online-nex	A	nn::nex::_DDL_DataStoreReqPostInfoV1 rtti-typeinfo N2nn3nex27_DDL_DataStoreReqPostInfoV1E vtable 0x1832728 slot 1
+0x12fef28	online-nex	A	nn::nex::DataStoreReqPostInfo rtti-typeinfo N2nn3nex20DataStoreReqPostInfoE vtable 0x1832760 slot 0
+0x1302f70	monster-em	A	nn::nex::DataStoreChangeMetaParamV1 rtti-typeinfo N2nn3nex26DataStoreChangeMetaParamV1E vtable 0x1832a50 slot 0
+0x130343c	monster-em	A	nn::nex::DataStoreChangeMetaParam rtti-typeinfo N2nn3nex24DataStoreChangeMetaParamE vtable 0x1832ab0 slot 0
+0x1303568	monster-em	A	nn::nex::DataStoreChangeMetaCompareParam rtti-typeinfo N2nn3nex31DataStoreChangeMetaCompareParamE vtable 0x1832ae8 slot 0
+0x1305b3c	online-nex	A	nn::nex::DataStoreCheckConsistencyEventListenerAdaptor<S0::DataStoreApiVersionTraits<L, S0::DATASTORE_API_VERSION, E>> rtti-typeinfo N2nn3nex45DataStoreCheckConsistencyEventListenerAdaptorINS0_25DataStoreApiVersionTraitsILNS0_21DATASTORE_API_VERSIONE1EEEEE vtable 0x1832b70 slot 2
+0x130a9e4	unknown	B	nn::pia::common::StationAddress rtti-typeinfo N2nn3pia6common14StationAddressE vtable 0x1832c68 slot 2
+0x130aae8	unknown	B	nn::pia::common::String rtti-typeinfo N2nn3pia6common6StringE vtable 0x1832c88 slot 5
+0x130ac14	unknown	B	nn::pia::common::String rtti-typeinfo N2nn3pia6common6StringE vtable 0x1832c88 slot 2
+0x130b0e4	unknown	B	nn::pia::common::String rtti-typeinfo N2nn3pia6common6StringE vtable 0x1832c88 slot 4
+0x130cc1c	unknown	B	nn::pia::common::Job rtti-typeinfo N2nn3pia6common3JobE vtable 0x1832ce4 slot 0
+0x130cc24	unknown	B	nn::pia::common::Job rtti-typeinfo N2nn3pia6common3JobE vtable 0x1832ce4 slot 2
+0x130d684	unknown	B	nn::pia::common::Md5Context rtti-typeinfo N2nn3pia6common10Md5ContextE vtable 0x1832d0c slot 0
+0x130d6b4	unknown	B	nn::pia::common::Md5Context rtti-typeinfo N2nn3pia6common10Md5ContextE vtable 0x1832d0c slot 1
+0x130d78c	unknown	B	nn::pia::common::Md5Context rtti-typeinfo N2nn3pia6common10Md5ContextE vtable 0x1832d0c slot 4
+0x130e254	online-nex	A	nn::pia::inet::NexCreateSessionSetting rtti-typeinfo N2nn3pia4inet23NexCreateSessionSettingE vtable 0x1832d44 slot 0
+0x130e2b8	online-nex	A	nn::pia::inet::NexCreateSessionSetting rtti-typeinfo N2nn3pia4inet23NexCreateSessionSettingE vtable 0x1832d44 slot 7
+0x130e520	online-nex	A	nn::pia::inet::NexCreateSessionSetting rtti-typeinfo N2nn3pia4inet23NexCreateSessionSettingE vtable 0x1832d44 slot 3
+0x1310560	online-nex	A	nn::pia::inet::NexJoinSessionSetting rtti-typeinfo N2nn3pia4inet21NexJoinSessionSettingE vtable 0x1832e00 slot 0
+0x1310da4	online-nex	A	nn::pia::inet::NexNatRelay rtti-typeinfo N2nn3pia4inet11NexNatRelayE vtable 0x1832e64 slot 0
+0x1312d38	online-nex	A	nn::pia::inet::NexNatTraversalProtocol rtti-typeinfo N2nn3pia4inet23NexNatTraversalProtocolE vtable 0x1832f48 slot 0
+0x1312fb8	unknown	B	nn::pia::inet::NatTraversalTimeList rtti-typeinfo N2nn3pia4inet20NatTraversalTimeListE vtable 0x1832f88 slot 0
+0x1316110	online-nex	A	nn::pia::inet::NexNetworkFactory rtti-typeinfo N2nn3pia4inet17NexNetworkFactoryE vtable 0x1832fe0 slot 26
+0x131746c	online-nex	A	nn::pia::inet::NexProcessHostMigrationJob rtti-typeinfo N2nn3pia4inet26NexProcessHostMigrationJobE vtable 0x1833258 slot 0
+0x1317614	online-nex	A	nn::pia::inet::NexProcessHostMigrationJob rtti-typeinfo N2nn3pia4inet26NexProcessHostMigrationJobE vtable 0x1833258 slot 1
+0x131956c	online-nex	A	nn::pia::inet::NexSessionInfoPrivate rtti-typeinfo N2nn3pia4inet21NexSessionInfoPrivateE vtable 0x1833174 slot 0
+0x1319578	online-nex	A	nn::pia::inet::NexSessionInfoPrivate rtti-typeinfo N2nn3pia4inet21NexSessionInfoPrivateE vtable 0x1833174 slot 10
+0x1319e40	online-nex	A	nn::pia::inet::NexSessionSearchCriteria rtti-typeinfo N2nn3pia4inet24NexSessionSearchCriteriaE vtable 0x18333ac slot 0
+0x131a0d8	online-nex	A	nn::pia::inet::NexSessionSearchCriteria rtti-typeinfo N2nn3pia4inet24NexSessionSearchCriteriaE vtable 0x18333ac slot 2
+0x131b364	online-nex	A	nn::pia::inet::NexSessionSearchCriteriaParticipant rtti-typeinfo N2nn3pia4inet35NexSessionSearchCriteriaParticipantE vtable 0x18333d4 slot 0
+0x131bae4	online-nex	A	nn::pia::inet::NexUpdateSessionSetting rtti-typeinfo N2nn3pia4inet23NexUpdateSessionSettingE vtable 0x18333fc slot 0
+0x131c1d4	online-nex	A	nn::pia::inet::NexUpdateSessionSetting rtti-typeinfo N2nn3pia4inet23NexUpdateSessionSettingE vtable 0x18333fc slot 2
+0x131c650	unknown	B	nn::pia::inet::SocketOutputStream rtti-typeinfo N2nn3pia4inet18SocketOutputStreamE vtable 0x1833488 slot 2
+0x131c7a0	unknown	B	nn::pia::inet::SocketOutputStream rtti-typeinfo N2nn3pia4inet18SocketOutputStreamE vtable 0x1833488 slot 3
+0x131d994	unknown	B	nn::pia::inet::MonitoringDataSender rtti-typeinfo N2nn3pia4inet20MonitoringDataSenderE vtable 0x18335d4 slot 0
+0x131e27c	unknown	B	nn::pia::inet::MonitoringServerAddressResolveJob rtti-typeinfo N2nn3pia4inet33MonitoringServerAddressResolveJobE vtable 0x183362c slot 0
+0x131e890	unknown	B	nn::pia::inet::NatProbe rtti-typeinfo N2nn3pia4inet8NatProbeE vtable 0x1833658 slot 2
+0x131eb70	unknown	B	nn::pia::inet::NatProbeList rtti-typeinfo N2nn3pia4inet12NatProbeListE vtable 0x18336a0 slot 0
+0x131fbec	unknown	B	nn::pia::inet::NatProbeList rtti-typeinfo N2nn3pia4inet12NatProbeListE vtable 0x18336a0 slot 2
+0x131fd48	quest	A	nn::pia::inet::NatProbeRequestList rtti-typeinfo N2nn3pia4inet19NatProbeRequestListE vtable 0x18336b4 slot 0
+0x131ff6c	quest	A	nn::pia::inet::NatProbeRequest rtti-typeinfo N2nn3pia4inet15NatProbeRequestE vtable 0x1833720 slot 2
+0x13200f8	unknown	B	nn::pia::inet::NatTraverser rtti-typeinfo N2nn3pia4inet12NatTraverserE vtable 0x1833740 slot 0
+0x1336bcc	monster-em	A	nn::pia::inet::NexMatchBrowseMatchmakeJob rtti-typeinfo N2nn3pia4inet26NexMatchBrowseMatchmakeJobE vtable 0x1833950 slot 6
+0x133a808	online-nex	A	nn::pia::inet::NexMatchJoinSessionJob rtti-typeinfo N2nn3pia4inet22NexMatchJoinSessionJobE vtable 0x1833aac slot 14
+0x133a8b0	online-nex	A	nn::pia::inet::NexMatchJoinSessionJob rtti-typeinfo N2nn3pia4inet22NexMatchJoinSessionJobE vtable 0x1833aac slot 15
+0x133d57c	online-nex	A	nn::pia::inet::NexMatchMeshLayerController rtti-typeinfo N2nn3pia4inet27NexMatchMeshLayerControllerE vtable 0x1833b5c slot 12
+0x133d978	online-nex	A	nn::pia::inet::NexMatchMeshLayerController::NexNotificationEventHandler rtti-typeinfo N2nn3pia4inet27NexMatchMeshLayerController27NexNotificationEventHandlerE vtable 0x1833bc0 slot 0
+0x133ffd0	online-nex	A	nn::pia::inet::NexMatchmakeSession rtti-typeinfo N2nn3pia4inet19NexMatchmakeSessionE vtable 0x1833c28 slot 0
+0x1345524	online-nex	A	nn::pia::inet::NexMatchmakeSession rtti-typeinfo N2nn3pia4inet19NexMatchmakeSessionE vtable 0x1833c28 slot 12
+0x1349c7c	online-nex	A	nn::pia::inet::NexMatchmakeSession rtti-typeinfo N2nn3pia4inet19NexMatchmakeSessionE vtable 0x1833c28 slot 62
+0x134c4bc	unknown	B	nn::pia::inet::MonitoringDataSendJob rtti-typeinfo N2nn3pia4inet21MonitoringDataSendJobE vtable 0x1833db0 slot 0
+0x134c7f8	unknown	B	nn::pia::inet::NatDetecter rtti-typeinfo N2nn3pia4inet11NatDetecterE vtable 0x1833ddc slot 0
+0x134c8b0	unknown	B	nn::pia::inet::NatDetecter rtti-typeinfo N2nn3pia4inet11NatDetecterE vtable 0x1833ddc slot 2
+0x134c964	unknown	B	nn::pia::inet::NatPortDetecter rtti-typeinfo N2nn3pia4inet15NatPortDetecterE vtable 0x1833e8c slot 10
+0x134c970	unknown	B	nn::pia::inet::NatPortDetecter rtti-typeinfo N2nn3pia4inet15NatPortDetecterE vtable 0x1833e8c slot 11
+0x134c984	unknown	B	nn::pia::inet::NatDetecter rtti-typeinfo N2nn3pia4inet11NatDetecterE vtable 0x1833ddc slot 3
+0x134d278	unknown	B	nn::pia::inet::NatDetectionJob rtti-typeinfo N2nn3pia4inet15NatDetectionJobE vtable 0x1833e60 slot 0
+0x134d3d8	unknown	B	nn::pia::inet::NatDetectionJob rtti-typeinfo N2nn3pia4inet15NatDetectionJobE vtable 0x1833e60 slot 4
+0x134d9e8	unknown	B	nn::pia::inet::NatPortDetecter rtti-typeinfo N2nn3pia4inet15NatPortDetecterE vtable 0x1833e8c slot 0
+0x134da98	unknown	B	nn::pia::inet::NatPortDetecter rtti-typeinfo N2nn3pia4inet15NatPortDetecterE vtable 0x1833e8c slot 12
+0x134e1ac	unknown	B	nn::pia::inet::NatProperty rtti-typeinfo N2nn3pia4inet11NatPropertyE vtable 0x1833ed4 slot 2
+0x134e210	unknown	B	nn::pia::inet::NatPropertyDetecter rtti-typeinfo N2nn3pia4inet19NatPropertyDetecterE vtable 0x1833ef4 slot 0
+0x134e2bc	unknown	B	nn::pia::inet::NatPropertyDetecter rtti-typeinfo N2nn3pia4inet19NatPropertyDetecterE vtable 0x1833ef4 slot 2
+0x134e9ac	unknown	B	nn::pia::inet::NatServerAddressResolveJob rtti-typeinfo N2nn3pia4inet26NatServerAddressResolveJobE vtable 0x1833f38 slot 0
+0x134f4c0	unknown	B	nn::pia::local::LdnCreateSessionSetting rtti-typeinfo N2nn3pia5local23LdnCreateSessionSettingE vtable 0x1833f64 slot 0
+0x134f52c	unknown	B	nn::pia::local::LdnCreateSessionSetting rtti-typeinfo N2nn3pia5local23LdnCreateSessionSettingE vtable 0x1833f64 slot 11
+0x134f57c	unknown	B	nn::pia::local::LdnCreateSessionSetting rtti-typeinfo N2nn3pia5local23LdnCreateSessionSettingE vtable 0x1833f64 slot 3
+0x134f764	unknown	B	nn::pia::local::LdnJoinSessionSetting rtti-typeinfo N2nn3pia5local21LdnJoinSessionSettingE vtable 0x1833fdc slot 10
+0x134f880	unknown	B	nn::pia::local::LdnNetworkFactory rtti-typeinfo N2nn3pia5local17LdnNetworkFactoryE vtable 0x1834020 slot 0
+0x1350194	unknown	B	nn::pia::local::LdnProtocol rtti-typeinfo N2nn3pia5local11LdnProtocolE vtable 0x1834198 slot 0
+0x1350bc4	unknown	B	nn::pia::local::LdnProtocol rtti-typeinfo N2nn3pia5local11LdnProtocolE vtable 0x1834198 slot 49
+0x1350f28	unknown	B	nn::pia::local::LdnProtocol rtti-typeinfo N2nn3pia5local11LdnProtocolE vtable 0x1834198 slot 35
+0x1352980	unknown	B	nn::pia::local::LdnSessionInfo rtti-typeinfo N2nn3pia5local14LdnSessionInfoE vtable 0x18342fc slot 0
+0x1353248	unknown	B	nn::pia::local::LdnUpdateSessionSetting rtti-typeinfo N2nn3pia5local23LdnUpdateSessionSettingE vtable 0x183439c slot 0
+0x135327c	unknown	B	nn::pia::local::LdnUpdateSessionSetting rtti-typeinfo N2nn3pia5local23LdnUpdateSessionSettingE vtable 0x183439c slot 2
+0x135362c	unknown	B	nn::pia::local::LocalConnectionStatus rtti-typeinfo N2nn3pia5local21LocalConnectionStatusE vtable 0x1834400 slot 2
+0x1353670	unknown	B	nn::pia::local::LocalConnectionStatus rtti-typeinfo N2nn3pia5local21LocalConnectionStatusE vtable 0x1834400 slot 1
+0x1353784	unknown	B	nn::pia::local::LocalCreateSessionSetting rtti-typeinfo N2nn3pia5local25LocalCreateSessionSettingE vtable 0x1834468 slot 0
+0x1354658	unknown	B	nn::pia::local::LocalInputStream rtti-typeinfo N2nn3pia5local16LocalInputStreamE vtable 0x18344c8 slot 0
+0x1354780	unknown	B	nn::pia::local::LdnJoinSessionSetting rtti-typeinfo N2nn3pia5local21LdnJoinSessionSettingE vtable 0x1833fdc slot 0
+0x13547bc	unknown	B	nn::pia::local::LocalJoinSessionSetting rtti-typeinfo N2nn3pia5local23LocalJoinSessionSettingE vtable 0x18344ec slot 8
+0x1354920	unknown	B	nn::pia::local::LocalNetworkFactory rtti-typeinfo N2nn3pia5local19LocalNetworkFactoryE vtable 0x1834530 slot 0
+0x135494c	unknown	B	nn::pia::local::LdnNetworkFactory rtti-typeinfo N2nn3pia5local17LdnNetworkFactoryE vtable 0x1834020 slot 4
+0x1354cd0	unknown	B	nn::pia::local::LocalOutputStream rtti-typeinfo N2nn3pia5local17LocalOutputStreamE vtable 0x1834610 slot 0
+0x1355be4	unknown	B	nn::pia::local::LocalProtocol rtti-typeinfo N2nn3pia5local13LocalProtocolE vtable 0x1834698 slot 0
+0x1359774	unknown	B	nn::pia::local::LocalProtocol rtti-typeinfo N2nn3pia5local13LocalProtocolE vtable 0x1834698 slot 2
+0x135a7fc	unknown	B	nn::pia::local::LocalSessionInfo rtti-typeinfo N2nn3pia5local16LocalSessionInfoE vtable 0x1834810 slot 0
+0x135a9ac	unknown	B	nn::pia::local::LocalUpdateSessionSetting rtti-typeinfo N2nn3pia5local25LocalUpdateSessionSettingE vtable 0x1834874 slot 0
+0x135de28	unknown	B	nn::pia::local::LocalBackgroundProcessJob rtti-typeinfo N2nn3pia5local25LocalBackgroundProcessJobE vtable 0x1834b5c slot 0
+0x135f920	unknown	B	nn::pia::local::LocalEjectClientListCheckJob rtti-typeinfo N2nn3pia5local28LocalEjectClientListCheckJobE vtable 0x1834c58 slot 0
+0x135fdfc	unknown	B	nn::pia::local::LocalEventCheckBackgroundJob rtti-typeinfo N2nn3pia5local28LocalEventCheckBackgroundJobE vtable 0x1834c84 slot 0
+0x1360268	unknown	B	nn::pia::local::LocalForceDisconnectNetworkJob rtti-typeinfo N2nn3pia5local30LocalForceDisconnectNetworkJobE vtable 0x1834cdc slot 0
+0x1360514	unknown	B	nn::pia::local::LocalHostMigrationJob rtti-typeinfo N2nn3pia5local21LocalHostMigrationJobE vtable 0x1834d08 slot 0
+0x13606fc	unknown	B	nn::pia::local::LocalHostMigrationJob rtti-typeinfo N2nn3pia5local21LocalHostMigrationJobE vtable 0x1834d08 slot 6
+0x1363ddc	unknown	B	nn::pia::local::LocalMatchmakeSession rtti-typeinfo N2nn3pia5local21LocalMatchmakeSessionE vtable 0x1834fc0 slot 0
+0x1364950	unknown	B	nn::pia::local::LdnMatchmakeSession rtti-typeinfo N2nn3pia5local19LdnMatchmakeSessionE vtable 0x1834a58 slot 23
+0x1364a84	unknown	B	nn::pia::local::LocalMessage rtti-typeinfo N2nn3pia5local12LocalMessageE vtable 0x1835098 slot 3
+0x1364c94	unknown	B	nn::pia::local::LocalUpdateSessionMessage rtti-typeinfo N2nn3pia5local25LocalUpdateSessionMessageE vtable 0x18350b0 slot 3
+0x1364d0c	unknown	B	nn::pia::local::LocalDestroyNetworkMessage rtti-typeinfo N2nn3pia5local26LocalDestroyNetworkMessageE vtable 0x18350c8 slot 2
+0x1364d50	unknown	B	nn::pia::local::LocalDestroyNetworkMessage rtti-typeinfo N2nn3pia5local26LocalDestroyNetworkMessageE vtable 0x18350c8 slot 3
+0x1364da8	unknown	B	nn::pia::local::LocalStartHostMigrationMessage rtti-typeinfo N2nn3pia5local30LocalStartHostMigrationMessageE vtable 0x18350e0 slot 2
+0x1364dec	unknown	B	nn::pia::local::LocalStartHostMigrationMessage rtti-typeinfo N2nn3pia5local30LocalStartHostMigrationMessageE vtable 0x18350e0 slot 3
+0x1364e48	unknown	B	nn::pia::local::LocalAckMessage rtti-typeinfo N2nn3pia5local15LocalAckMessageE vtable 0x18350f8 slot 2
+0x1364e94	unknown	B	nn::pia::local::LocalAckMessage rtti-typeinfo N2nn3pia5local15LocalAckMessageE vtable 0x18350f8 slot 3
+0x1364f50	unknown	B	nn::pia::local::LocalNode rtti-typeinfo N2nn3pia5local9LocalNodeE vtable 0x183514c slot 0
+0x1368624	unknown	B	pead::Heap rtti-typeinfo N4pead4HeapE vtable 0x183532c slot 0
+0x136a0dc	unknown	B	pead::SafeStringBase<char> rtti-typeinfo N4pead14SafeStringBaseIcEE vtable 0x1832c1c slot 2
+0x136a1b4	unknown	B	pead::FixedSafeString<L, int, EEE> rtti-typeinfo N4pead15FixedSafeStringILi128EEE vtable 0x18352c0 slot 3
+0x136fc00	unknown	B	pead::DelegateThread rtti-typeinfo N4pead14DelegateThreadE vtable 0x18354f4 slot 0
+0x136fe00	unknown	B	pead::ThreadMgr rtti-typeinfo N4pead9ThreadMgrE vtable 0x1835550 slot 0
+0x136ffa4	unknown	B	pead::CriticalSection rtti-typeinfo N4pead15CriticalSectionE vtable 0x1835568 slot 0
+0x1370054	unknown	B	pead::Event rtti-typeinfo N4pead5EventE vtable 0x1835584 slot 0
+0x1370084	unknown	B	pead::Event rtti-typeinfo N4pead5EventE vtable 0x1835584 slot 1
+0x13705b8	unknown	B	pead::Thread rtti-typeinfo N4pead6ThreadE vtable 0x18355bc slot 0
+0x137070c	unknown	B	pead::DelegateThread rtti-typeinfo N4pead14DelegateThreadE vtable 0x18354f4 slot 6
+0x137074c	unknown	B	pead::DelegateThread rtti-typeinfo N4pead14DelegateThreadE vtable 0x18354f4 slot 8
+0x13711fc	unknown	B	pead::IDisposer rtti-typeinfo N4pead9IDisposerE vtable 0x18356a4 slot 0
+0x1371558	unknown	B	nn::pia::session::AutoMatchmakeJob rtti-typeinfo N2nn3pia7session16AutoMatchmakeJobE vtable 0x18356bc slot 0
+0x1372804	monster-em	A	nn::pia::session::BrowseMatchmakeJob rtti-typeinfo N2nn3pia7session18BrowseMatchmakeJobE vtable 0x1835714 slot 0
+0x1372990	monster-em	A	nn::pia::session::ClearMatchmakeSystemPasswordJob rtti-typeinfo N2nn3pia7session31ClearMatchmakeSystemPasswordJobE vtable 0x183574c slot 0
+0x1372a64	monster-em	A	nn::pia::session::ClearMatchmakeSystemPasswordJob rtti-typeinfo N2nn3pia7session31ClearMatchmakeSystemPasswordJobE vtable 0x183574c slot 6
+0x1372ba0	unknown	B	nn::pia::session::CommonMatchmakeSession rtti-typeinfo N2nn3pia7session22CommonMatchmakeSessionE vtable 0x1835780 slot 2
+0x1372e2c	monster-em	A	nn::pia::session::CommunityManagementJob rtti-typeinfo N2nn3pia7session22CommunityManagementJobE vtable 0x183585c slot 0
+0x1372e90	monster-em	A	nn::pia::session::CommunityManagementJob rtti-typeinfo N2nn3pia7session22CommunityManagementJobE vtable 0x183585c slot 6
+0x1372f30	monster-em	A	nn::pia::inet::CreateMeshJob rtti-typeinfo N2nn3pia4inet13CreateMeshJobE vtable 0x18334f8 slot 0
+0x1373e14	unknown	B	nn::pia::session::CreateSessionJob rtti-typeinfo N2nn3pia7session16CreateSessionJobE vtable 0x1835908 slot 0
+0x1374464	unknown	B	nn::pia::session::CreateSessionJob rtti-typeinfo N2nn3pia7session16CreateSessionJobE vtable 0x1835908 slot 6
+0x13744ec	unknown	B	nn::pia::session::CreateSessionSetting rtti-typeinfo N2nn3pia7session20CreateSessionSettingE vtable 0x1835944 slot 0
+0x1374504	online-nex	A	nn::pia::inet::NexCreateSessionSetting rtti-typeinfo N2nn3pia4inet23NexCreateSessionSettingE vtable 0x1832d44 slot 2
+0x1374584	unknown	B	nn::pia::session::DestroySessionJob rtti-typeinfo N2nn3pia7session17DestroySessionJobE vtable 0x183597c slot 0
+0x1374b40	monster-em	A	nn::pia::session::GenerateMatchmakeSystemPasswordJob rtti-typeinfo N2nn3pia7session34GenerateMatchmakeSystemPasswordJobE vtable 0x18359b8 slot 0
+0x1374c14	monster-em	A	nn::pia::session::GenerateMatchmakeSystemPasswordJob rtti-typeinfo N2nn3pia7session34GenerateMatchmakeSystemPasswordJobE vtable 0x18359b8 slot 6
+0x1374ee8	unknown	B	nn::pia::inet::JoinMeshJob rtti-typeinfo N2nn3pia4inet11JoinMeshJobE vtable 0x1833568 slot 0
+0x1378160	unknown	B	nn::pia::session::JoinSessionJob rtti-typeinfo N2nn3pia7session14JoinSessionJobE vtable 0x1835a2c slot 0
+0x1379124	unknown	B	nn::pia::session::JoinSessionSetting rtti-typeinfo N2nn3pia7session18JoinSessionSettingE vtable 0x1835a88 slot 0
+0x137912c	online-nex	A	nn::pia::inet::NexJoinSessionSetting rtti-typeinfo N2nn3pia4inet21NexJoinSessionSettingE vtable 0x1832e00 slot 7
+0x137913c	online-nex	A	nn::pia::inet::NexJoinSessionSetting rtti-typeinfo N2nn3pia4inet21NexJoinSessionSettingE vtable 0x1832e00 slot 3
+0x13791a0	unknown	B	nn::pia::session::JoinSessionSetting rtti-typeinfo N2nn3pia7session18JoinSessionSettingE vtable 0x1835a88 slot 8
+0x137926c	unknown	B	nn::pia::session::JointSessionJob rtti-typeinfo N2nn3pia7session15JointSessionJobE vtable 0x1835ac0 slot 0
+0x137a4e0	unknown	B	nn::pia::session::KickoutManageJob rtti-typeinfo N2nn3pia7session16KickoutManageJobE vtable 0x1835b38 slot 0
+0x137b2f0	unknown	B	nn::pia::session::LeaveSessionJob rtti-typeinfo N2nn3pia7session15LeaveSessionJobE vtable 0x1835b98 slot 0
+0x137c24c	unknown	B	nn::pia::session::LeaveWithHostMigrationJob rtti-typeinfo N2nn3pia7session25LeaveWithHostMigrationJobE vtable 0x1835bec slot 0
+0x137d4e4	unknown	B	nn::pia::session::Mesh rtti-typeinfo N2nn3pia7session4MeshE vtable 0x1835c24 slot 1
+0x1380770	unknown	B	nn::pia::session::MeshLayerController rtti-typeinfo N2nn3pia7session19MeshLayerControllerE vtable 0x1835c44 slot 4
+0x13809c8	unknown	B	nn::pia::session::MeshLayerController rtti-typeinfo N2nn3pia7session19MeshLayerControllerE vtable 0x1835c44 slot 5
+0x1380a40	unknown	B	nn::pia::session::MeshLayerController rtti-typeinfo N2nn3pia7session19MeshLayerControllerE vtable 0x1835c44 slot 2
+0x1380b68	unknown	B	nn::pia::session::MeshLayerController rtti-typeinfo N2nn3pia7session19MeshLayerControllerE vtable 0x1835c44 slot 3
+0x1385c50	unknown	B	nn::pia::session::ProcessHostMigrationJob rtti-typeinfo N2nn3pia7session23ProcessHostMigrationJobE vtable 0x1835d20 slot 0
+0x1387aa0	quest	A	nn::pia::session::ProcessJoinRequestJob rtti-typeinfo N2nn3pia7session21ProcessJoinRequestJobE vtable 0x1835d78 slot 0
+0x1388b04	monster-em	A	nn::pia::session::ProcessUpdateMeshJob rtti-typeinfo N2nn3pia7session20ProcessUpdateMeshJobE vtable 0x1835da4 slot 0
+0x138c4a0	monster-em	A	nn::pia::session::RelayRouteManageJob rtti-typeinfo N2nn3pia7session19RelayRouteManageJobE vtable 0x1835df0 slot 0
+0x138d868	unknown	B	nn::pia::session::Session rtti-typeinfo N2nn3pia7session7SessionE vtable 0x1835e20 slot 1
+0x139306c	unknown	B	nn::pia::local::LdnSessionSearchCriteria rtti-typeinfo N2nn3pia5local24LdnSessionSearchCriteriaE vtable 0x1834360 slot 0
+0x1393090	unknown	B	nn::pia::session::SessionSearchCriteria rtti-typeinfo N2nn3pia7session21SessionSearchCriteriaE vtable 0x1835e80 slot 3
+0x13930a4	unknown	B	nn::pia::local::LdnSessionSearchCriteria rtti-typeinfo N2nn3pia5local24LdnSessionSearchCriteriaE vtable 0x1834360 slot 2
+0x13930e8	unknown	B	nn::pia::session::SessionStationInfo rtti-typeinfo N2nn3pia7session18SessionStationInfoE vtable 0x1835ea8 slot 1
+0x13930f0	unknown	B	nn::pia::session::SessionStationInfo rtti-typeinfo N2nn3pia7session18SessionStationInfoE vtable 0x1835ea8 slot 0
+0x1394fdc	unknown	B	nn::pia::session::SyncClockProtocol::Data rtti-typeinfo N2nn3pia7session17SyncClockProtocol4DataE vtable 0x1835f50 slot 3
+0x1395404	unknown	B	nn::pia::session::UpdateSessionSettingJob rtti-typeinfo N2nn3pia7session23UpdateSessionSettingJobE vtable 0x1835fb4 slot 0
+0x1395590	unknown	B	nn::pia::session::UpdateSessionSettingJob rtti-typeinfo N2nn3pia7session23UpdateSessionSettingJobE vtable 0x1835fb4 slot 6
+0x139843c	unknown	B	nn::pia::session::OpenParticipationJob rtti-typeinfo N2nn3pia7session20OpenParticipationJobE vtable 0x1836098 slot 1
+0x139a550	unknown	B	nn::pia::transport::ConnectStationJob rtti-typeinfo N2nn3pia9transport17ConnectStationJobE vtable 0x1836120 slot 0
+0x139a598	unknown	B	nn::pia::transport::ConnectStationJob rtti-typeinfo N2nn3pia9transport17ConnectStationJobE vtable 0x1836120 slot 6
+0x139b208	unknown	B	nn::pia::transport::DisconnectStationJob rtti-typeinfo N2nn3pia9transport20DisconnectStationJobE vtable 0x1836158 slot 0
+0x139d810	unknown	B	nn::pia::transport::PacketHandler rtti-typeinfo N2nn3pia9transport13PacketHandlerE vtable 0x18361ac slot 2
+0x139e1ec	unknown	B	nn::pia::transport::PacketHandler rtti-typeinfo N2nn3pia9transport13PacketHandlerE vtable 0x18361ac slot 6
+0x139e500	unknown	B	nn::pia::transport::PacketHandler rtti-typeinfo N2nn3pia9transport13PacketHandlerE vtable 0x18361ac slot 8
+0x139ea1c	unknown	B	nn::pia::transport::PacketHandler rtti-typeinfo N2nn3pia9transport13PacketHandlerE vtable 0x18361ac slot 1
+0x139f8fc	unknown	B	nn::pia::transport::Protocol rtti-typeinfo N2nn3pia9transport8ProtocolE vtable 0x183622c slot 0
+0x139f92c	online-nex	A	nn::pia::inet::NexNatTraversalProtocol rtti-typeinfo N2nn3pia4inet23NexNatTraversalProtocolE vtable 0x1832f48 slot 4
+0x139f9b8	unknown	B	nn::pia::transport::ProtocolManager rtti-typeinfo N2nn3pia9transport15ProtocolManagerE vtable 0x1836284 slot 0
+0x13a0824	unknown	B	nn::pia::transport::ProtocolMessageAccessor::Header rtti-typeinfo N2nn3pia9transport23ProtocolMessageAccessor6HeaderE vtable 0x18362a4 slot 3
+0x13a3b08	unknown	B	nn::pia::transport::ReliableSlidingWindow::MessageHeader rtti-typeinfo N2nn3pia9transport21ReliableSlidingWindow13MessageHeaderE vtable 0x18362f4 slot 2
+0x13a3bf4	unknown	B	nn::pia::transport::ReliableSlidingWindow::MessageHeader rtti-typeinfo N2nn3pia9transport21ReliableSlidingWindow13MessageHeaderE vtable 0x18362f4 slot 3
+0x13a3d64	unknown	B	nn::pia::transport::ReliableSlidingWindow rtti-typeinfo N2nn3pia9transport21ReliableSlidingWindowE vtable 0x18362d4 slot 0
+0x13a6464	unknown	B	nn::pia::transport::StationConnectionInfo rtti-typeinfo N2nn3pia9transport21StationConnectionInfoE vtable 0x183633c slot 0
+0x13a6554	unknown	B	nn::pia::transport::StationConnectionInfo rtti-typeinfo N2nn3pia9transport21StationConnectionInfoE vtable 0x183633c slot 2
+0x13a6578	unknown	B	nn::pia::transport::StationConnectionInfo rtti-typeinfo N2nn3pia9transport21StationConnectionInfoE vtable 0x183633c slot 3
+0x13a665c	unknown	B	nn::pia::transport::StationConnectionInfo rtti-typeinfo N2nn3pia9transport21StationConnectionInfoE vtable 0x183633c slot 4
+0x13a6a0c	unknown	B	nn::pia::transport::StationConnectionInfo rtti-typeinfo N2nn3pia9transport21StationConnectionInfoE vtable 0x183633c slot 8
+0x13a6b24	unknown	B	nn::pia::transport::StationConnectionInfoTable rtti-typeinfo N2nn3pia9transport26StationConnectionInfoTableE vtable 0x1836374 slot 0
+0x13a7b50	unknown	B	nn::pia::transport::StationLocation rtti-typeinfo N2nn3pia9transport15StationLocationE vtable 0x1836394 slot 0
+0x13a7d78	unknown	B	nn::pia::transport::StationLocation rtti-typeinfo N2nn3pia9transport15StationLocationE vtable 0x1836394 slot 2
+0x13a7d8c	unknown	B	nn::pia::transport::StationLocation rtti-typeinfo N2nn3pia9transport15StationLocationE vtable 0x1836394 slot 3
+0x13a7ee0	unknown	B	nn::pia::transport::StationLocation rtti-typeinfo N2nn3pia9transport15StationLocationE vtable 0x1836394 slot 4
+0x13a7fd8	unknown	B	nn::pia::transport::StationLocation rtti-typeinfo N2nn3pia9transport15StationLocationE vtable 0x1836394 slot 5
+0x13ace64	unknown	B	nn::pia::transport::StationProtocolReliable rtti-typeinfo N2nn3pia9transport23StationProtocolReliableE vtable 0x18364ac slot 1
+0x13ad80c	unknown	B	nn::pia::transport::Transport rtti-typeinfo N2nn3pia9transport9TransportE vtable 0x183650c slot 0
+0x13b2ac4	unknown	B	nn::pia::transport::RttProtocol::Data rtti-typeinfo N2nn3pia9transport11RttProtocol4DataE vtable 0x1836638 slot 3
+0x13b2ffc	unknown	B	nn::pia::transport::SequenceIdController rtti-typeinfo N2nn3pia9transport20SequenceIdControllerE vtable 0x1836684 slot 0
+0x13b3ec4	render-gfx	A	MtGeomAABB registrar 0x13b3ee8 vtable 0x18366c0 slot 41 (instance vtable installed by create 0x13b3718 @ install 0x13b40f0)
+0x13b3ee8	render-gfx	A	MtGeomAABB registrar 0x13b3ee8 vtable 0x18366c0 slot 42 (instance vtable installed by create 0x13b3718 @ install 0x13b40f0)
+0x13b8abc	render-gfx	A	MtCollisionUtil::MtDtiSelecter registrar 0x13bdadc vtable 0x1798868 slot 0 (instance vtable installed by create 0x13bc1d4 @ install 0x13bddc0)
+0x13ba730	render-gfx	A	MtCollisionUtil::MtLinerTree::cRegistReserveInfo registrar 0x13bbe00 vtable 0x1836f7c slot 0 (instance vtable installed by create 0x13ba6e0 @ install 0x13bbed4)
+0x13ba8b4	render-gfx	A	MtCollisionUtil::MtLinerTree registrar 0x13bbe00 vtable 0x1836f9c slot 0 (instance vtable installed by create 0x13ba760 @ install 0x13bbf0c)
+0x13bbfac	render-gfx	A	MtCollisionUtil::MtDtiObject registrar 0x13bdadc vtable 0x1836fe8 slot 0 (instance vtable installed by create 0x13bbf44 @ install 0x13bdd48)
+0x13bc308	render-gfx	A	MtCollisionUtil::MtArrayElement registrar 0x13bdadc vtable 0x1837254 slot 0 (instance vtable installed by create 0x13bc24c @ install 0x13bddf8)
+0x13bfbbc	player-pl	A	nNX::MoviePlayer registrar 0x13c07f8 vtable 0x183763c slot 0 (instance vtable installed by create 0x13bf9d4 @ install 0x13c084c)
+0x13c15f4	unknown	B	nNX::ShaderBinary registrar 0x13c19ec vtable 0x1837710 slot 0 (instance vtable installed by create 0x13c1280 @ install 0x13c1b54)
+0x13e90e8	online-nex	A	nn::nex::NintendoAuthenticationDDLDeclarations rtti-typeinfo N2nn3nex37NintendoAuthenticationDDLDeclarationsE vtable 0x1837a3c slot 1
+0x13ea170	unknown	B	CONFLICTING CLASSES: nn::nex::AuthenticationFoundationDDLDeclarations|nn::nex::ProtocolFoundationDDLDeclarations|nn::nex::HealthServiceDDLDeclarations|nn::nex::NintendoProtocolFoundationDDLDeclarations nn::nex::AuthenticationFoundationDDLDeclarations rtti-typeinfo N2nn3nex39AuthenticationFoundationDDLDeclarationsE vtable 0x18303b4 slot 0
+0x13ec404	online-nex	A	nn::nex::NATTraversalRelayProtocol rtti-typeinfo N2nn3nex25NATTraversalRelayProtocolE vtable 0x1837c90 slot 21
+0x13ef684	unknown	B	nn::pia::common::SocketStreamBase rtti-typeinfo N2nn3pia6common16SocketStreamBaseE vtable 0x1837ee8 slot 0
+0x13ef744	unknown	B	nn::pia::common::StepSequenceJob rtti-typeinfo N2nn3pia6common15StepSequenceJobE vtable 0x1837f04 slot 0
+0x13ef758	unknown	B	CONFLICTING CLASSES: nn::pia::inet::NexNotificationDataJob|nn::pia::inet::NexProcessHostMigrationJob|nn::pia::inet::CreateMeshJob|nn::pia::inet::InetLeaveWithHostMigrationJob nn::pia::inet::NexNotificationDataJob rtti-typeinfo N2nn3pia4inet22NexNotificationDataJobE vtable 0x1833220 slot 2

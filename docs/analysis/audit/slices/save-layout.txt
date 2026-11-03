@@ -1,0 +1,6 @@
+docs/save-layout/CURRENT-RULING.md
+docs/save-layout/contradictory-bits-verdict.md
+docs/save-layout/coverage-map.md
+docs/save-layout/member4-semantics.md
+docs/save-layout/name-tables-key.md
+docs/save-layout/pouch-verified.md
