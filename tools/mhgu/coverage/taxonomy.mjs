@@ -22,7 +22,16 @@ export const RULES = [
   ["filesystem", /(romfs|Romfs|fw_fs|filesystem|FileDevice)/],
   ["physics-math", /(MtCollision|MhCollision|rigidBody|PhysicsWorld)/],
   ["kernel-os", /(_ZN2nn2os|_ZN2nn2fs|_ZN2nn3mem|_ZN2nn4util|MtAllocator|MtArray|MtList|MtTree|MtDti|MtThread|BitIO)/],
-];
+
+  // MHGU class naming: r* are resource/param records, s* are systems, c*/u* are objects. These keywords were added
+  // after class-from-code left 223 classes (1,384 functions) unmatched; each keyword is a semantic observation, so a
+  // wrong rule here shows up as a wrong label, not as a missing one -- keep the list short and literal.
+  ["render-gfx", /(rGrass|rMovie\b|rGeometry|rMetaSet|rFestaResource|rShader|rEffect|rModel|rMotionCamera)/],
+  ["monster-em", /(rAI[A-Z]|rAIPath|rAIDynamic|rAngleLimit|rActionUse|rEnemyParam|rEmChange)/],
+  ["filesystem", /(rArchive|rFileList|rFileId)/],
+  ["item", /(sPastKitchen|rSupply|rKitchen|rItemList)/],
+  ["quest", /(rMapTime|aQuest|rQuestList)/],
+  ["ui", /(uUI[A-Z]|uGUI)/],];
 
 export const LABELS = new Set(RULES.map(([k]) => k));
 
