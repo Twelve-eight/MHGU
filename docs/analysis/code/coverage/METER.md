@@ -26,9 +26,11 @@ node tools/mhgu/coverage/report.mjs [--demote f]
 |---|---|---:|
 | `attr-xref.tsv`（277 种子） | 指令级字符串引用 | — |
 | `attr-vtable-retile.tsv`（5,197 种子，5,217 A） | 注册器/实例/RTTI → 类 → 子系统 | — |
-| **合并后** | | **50.0%（24,445 函数）** |
+| **合并后（vtable 按类名重标）** | 4,373 行因类名不匹配任何规则降为 B | **48.9%（24,132 函数）** |
 
-tier B（有标签未验证）47.1%，未归属 2.9%。
+tier B（有标签未验证）48.2%，未归属 2.9%。
+
+**vtable 一票曾被高估 5 个百分点**：第一版按 11 条粗规则（含裸 `/Mt/`）给 5,217 行 A；换成按类名的严格规则后，4,373 行没有任何规则覆盖（`MtCollisionUtil`、`MtExHeapAllocator`、`MtTreeDTI` 之类），只能降为 B，只有 620 行原样保留、224 行改标。
 
 **条件性证据**（依赖已被推翻的旧 strings 列，不计入上面的基线）：`attr-library.tsv`（505 A，来自旧列里的 `_ZN2nn`）与 `attr-strings.tsv`（830 A，人工判读旧列字符串）。把它们并入时 headline 为 54.1%——这个数字只能当"上限参考"。
 
