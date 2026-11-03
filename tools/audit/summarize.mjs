@@ -12,7 +12,10 @@ const MANIFEST = path.join(DIR, "MANIFEST.tsv");
 const OUT = path.join(DIR, "ROUND1-SUMMARY.md");
 
 const manifest = new Set(fs.readFileSync(MANIFEST, "utf8").split("\n").slice(1).filter(Boolean).map((l) => l.split("\t")[0]));
-const files = fs.readdirSync(DIR).filter((f) => f.endsWith(".tsv") && f !== "MANIFEST.tsv" && f !== "DOC-LINKS.tsv" && f !== "ROUND1-ALL.tsv");
+// slice TSVs only: *-FIXES.tsv carry a different header (doc/item/old/new/command/note) and would pollute the counts
+const files = fs.readdirSync(DIR).filter(
+  (f) => f.endsWith(".tsv") && !["MANIFEST.tsv", "DOC-LINKS.tsv", "ROUND1-ALL.tsv"].includes(f) && !/-FIXES\.tsv$/.test(f)
+);
 
 const all = [];
 for (const f of files.sort()) {
