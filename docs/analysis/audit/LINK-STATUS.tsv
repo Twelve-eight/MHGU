@@ -49,3 +49,4 @@ N5	SWEEP	632B header counted inside the member residual in PROGRESS	fixed	residu
 N6	SWEEP	header rows overlapped by 8 bytes and left 584 bytes uncovered	fixed	0x0..0x2F header / 0x30..0x277 header remainder / 632.. member layer, contiguous
 N7	SWEEP	member zero claimed 9543 = 5463 + 38 misc + 4080	fixed	5463+4080 closes exactly; the 38 byte term is gone
 N8	SWEEP	species table changed to 10/4 on the strength of one wiki page	reverted	the game classifies Giadrome as a bird wyvern; the table keeps 11/3 and records the wiki disagreement
+N9	SWEEP	editor-spec line references looked dead (32 past EOF)	rejected	my resolver only searched three directories; a recursive name index resolves all 244 references with none past EOF. Recorded so the next sweep does not repeat the false alarm
