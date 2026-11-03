@@ -281,7 +281,9 @@ for (const [, b] of best) {
   bySrc.set(b.src, v);
 }
 
-fs.writeFileSync(OUT, rows.map((r) => r.join("\t")).join("\n") + "\n");
+// The denominator goes into the file so that check-artifacts.mjs can verify the partition against it instead of trusting
+// the partition to be complete on its own.
+fs.writeFileSync(OUT, `denominator:\t${totalFn} functions,\t${totalIns} instructions\t\t\n` + rows.map((r) => r.join("\t")).join("\n") + "\n");
 console.log(`denominator: ${totalFn} functions, ${totalIns} instructions`);
 console.log(rows.map((r) => r.join("\t")).join("\n"));
 console.log("\ntier A by label (instructions desc):");

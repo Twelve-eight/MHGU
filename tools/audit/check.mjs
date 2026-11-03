@@ -46,7 +46,9 @@ ok("slice TSV headers checked");
 
 // 4. the meter runs and states a denominator
 try {
-  const out = execFileSync(process.execPath, ["tools/mhgu/coverage/report.mjs", "--demote", "docs/analysis/code/inventory/demote-otomo.tsv"], { cwd: ROOT, encoding: "utf8" });
+  // No --demote here: report.mjs loads every demote-*.tsv by default, and passing one file used to look like the gate
+  // was measuring a narrower tree than the one the meter publishes.
+  const out = execFileSync(process.execPath, ["tools/mhgu/coverage/report.mjs"], { cwd: ROOT, encoding: "utf8" });
   const m = /denominator: (\d+) functions, (\d+) instructions/.exec(out);
   if (!m) bad("coverage meter produced no denominator line");
   else ok(`coverage meter: ${m[1]} functions / ${m[2]} instructions`);
@@ -54,6 +56,16 @@ try {
   if (a) console.log(`note tier A now ${a[1]} functions / ${a[3]}% of instructions`);
 } catch (e) {
   bad(`coverage meter failed: ${String(e.message).slice(0, 120)}`);
+}
+
+// 5. the evidence tables themselves: schema, real starts, and a partition that adds up to the denominator
+try {
+  const out = execFileSync(process.execPath, ["tools/mhgu/coverage/check-artifacts.mjs"], { cwd: ROOT, encoding: "utf8" });
+  const m = /checked (\d+) evidence files, (\d+) rows, (\d+) distinct functions/.exec(out);
+  if (/^PASS/m.test(out) && m) ok(`evidence tables: ${m[1]} files, ${m[2]} rows, ${m[3]} functions`);
+  else bad(`evidence tables failed: ${out.split("\n").find((l) => l.startsWith("ERR")) || out.slice(0, 120)}`);
+} catch (e) {
+  bad(`evidence-table check failed: ${String(e.message).slice(0, 120)}`);
 }
 
 console.log(failures ? `\n${failures} check(s) failed` : "\nALL PASS");

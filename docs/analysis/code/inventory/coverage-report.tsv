@@ -1,3 +1,4 @@
+denominator:	52692 functions,	5228277 instructions		
 class	functions	insns	pct_insns	pct_functions
 A-direct (evidence row)	13060	1248128	23.9%	24.8%
 tier A (verified)	25584	3014249	57.7%	48.6%
