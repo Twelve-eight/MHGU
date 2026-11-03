@@ -46,7 +46,7 @@ that cannot be checked say so.
 | Code coverage | **58.0%** of instructions under the project's original calibre; **66.2% / 53.5%** under the stricter per-label >= 90% calibre. Target 90%, **not met** | the two commands above |
 | Function table | 52,692 functions over 5,228,277 instructions, rebuilt from a 23,885-region tiling; 3,201 classes | `docs/analysis/code/inventory/RETILE.md` |
 | Save layout | 87.8% of the 1,177,760-byte hunter block mapped structurally, ~14.9% at field level | `docs/save-layout/coverage-map.md` |
-| Monster mechanics | 53 state tables over two constants, 60 documented sections, 1,223 state rows, 119 with a motion name (9.7%); 3,429 dispatch sites in 2,546 functions; 137 authoritative slots | `docs/mechanics/` |
+| Monster mechanics | 53 state tables over two constants, 60 documented sections, 1,223 state rows, 119 with a motion name (9.7%); 6,777 `add pc, rX, rY` dispatch sites in 4,527 functions (`node tools/audit/scan-dispatch.mjs`); 137 authoritative slots | `docs/mechanics/` |
 | Data | 39 tables, 129 monsters, 21,153 items, 1,355 quests | `docs/data/README.md` |
 | Wiki pages | 42 of 47 reproduce their numbers exactly against the database and the ROM | `docs/analysis/audit/W4-WIKI.md` |
 | Reference guides | 78 of 92 claims confirmed, 12 contradictions, 2 unverified by construction | `docs/analysis/audit/W4-REFERENCE.md` |

@@ -26,7 +26,7 @@ per slice disassembled and judged. Working scripts are in `MHGU/.tmp/w6/`.
 | slices whose stated row total matches the table | **29 / 29** |
 | slices whose stated conf A/B/C counts match the table | 25 / 29 exactly; the other 4 (11c, 12a, 13a1, 15b) carry an *author* summary that disagrees with its own table and a later `审查后` line that agrees with it |
 | slices whose stated role counts match the table | 21 / 21 (8 slices state no role counts) |
-| explicit `N insns` claims that reproduce | 4 against retile, 5 against the pre-retile table, 13 against neither (11 of the 13 are explicitly sub-range/window claims) |
+| explicit `N insns` claims | 18 in total; 13 match neither table, and 11 of those 13 are explicitly window/sub-range claims, leaving 2 plain miscounts (F5) |
 | `N callee` claims that reproduce | **193 / 239** reproduce as the count of tokens visible in a 200-character display window — **not** as a property of the function |
 | `N bl` claims that reproduce against the exact function interval | 115 / 153 exactly; most of the rest are explicitly range-scoped and reproduce against their stated range (verified on 6 samples) |
 
@@ -432,8 +432,8 @@ defect; recorded so the 900-row total is not mistaken for 29×20+.
 | 15c | 0xc616bc | render-gfx | 224-byte frame, vpush d8-d11, `vldr s2,[r5,#0xc4]`, NEON op block | agree |
 | 15c | 0xcd29ac | quest | 13-bl census reproduced exactly, site for site, including `0x838750 ×4`, `0x838860 ×3`, `0xb21388/0xb215b4/0xb213cc` | agree |
 
-Tally of the 140 spot-checks in the table above: **96 agree, 32 weak, 12 disagree**. The 12 disagreements are exactly the
-findings F2, F3, F4, F5, F7, F8 above; **no spot-check refuted a label** — the failures are all in the
+Tally of the 140 spot-checks in the table above: **96 agree, 32 weak, 12 disagree**. The 12 disagreements map onto findings F1 (callee counts), F2 (address attribution), F3 (stride),
+F4 (offset / construct), F5 (instruction count), F6 (citation) and F7 (document citation); **no spot-check refuted a label** — the failures are all in the
 evidence text, not in the label itself.
 
 ---
@@ -556,7 +556,7 @@ tierb-pass3/tierB3-slice-06.md                        contradiction  22 callee-c
 tierb-pass3/tierB3-slice-07.md                        contradiction  14 callee-count mismatches; class-inventory and seeds-class citations are exact
 tierb-pass3/tierB3-slice-08.md                        contradiction  9 callee-count mismatches; instruction-level evidence reproduces
 tierb-pass3/tierB3-slice-09.md                        contradiction  0x94cf88 "mChildNum x20" is 160 B; 3 callee-count mismatches
-tierb-pass3/tierB3-slice-10.md                        contradiction  0xb0da88 "130 callee" on a 66-insn function with 1 callee site
+tierb-pass3/tierB3-slice-10.md                        contradiction  0xb0da88 "130 callee" on a 66-insn function with 0 callee sites
 tierb-pass3/tierB3-slice-11a.md                       contradiction  two rows label against their own leading vote (disclosed); 0x29d48 range endpoint 4 bytes short of the table
 tierb-pass3/tierB3-slice-11b.md                       contradiction  tiers.csv rows cited 1 too high; 0x46c724 offset 176 is 0x13e0 and its "jump table" is a bitmask; 0xce0f0c 116 insns is 114
 tierb-pass3/tierB3-slice-11c.md                       contradiction  author summary has B and C swapped (B8/C12 vs table B12/C8); a later line corrects it
@@ -572,7 +572,7 @@ tierb-pass3/tierB3-slice-14a.md                       confirmed      5/5 spot ch
 tierb-pass3/tierB3-slice-14b.md                       contradiction  0xa92d5c "354 insns" is 353 in its own source table
 tierb-pass3/tierB3-slice-14c.md                       contradiction  0x670dc0 "17 bl" is a pre-retile-region count presented without the range
 tierb-pass3/tierB3-slice-15a.md                       confirmed      bl claims are explicitly range-scoped and reproduce; 5/5 spot checks agree
-tierb-pass3/tierB3-slice-15b.md                       contradiction  author summary A1/B14/C5 vs table B13/C7 no A (later line correct); 0x11836e0 "6 callee" vs 31
+tierb-pass3/tierB3-slice-15b.md                       contradiction  author summary A1/B14/C5 vs table B13/C7 no A (later line correct); 0x11836e0 "6 callee" vs 31 sites / 20 distinct
 tierb-pass3/tierB3-slice-15c.md                       confirmed      exemplary: 0xcd29ac 13-bl census exact site-for-site; 5/5 spot checks agree
 code/tierB3p (0-byte file)                            n/a            not a directory; nothing to review
 ```

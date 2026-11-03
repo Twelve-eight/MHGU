@@ -115,7 +115,7 @@ node 用 `G:/omp works` 为 cwd。
 
 | 文档 | 内容 |
 |---|---|
-| `docs/mechanics/monster-code-map.md` | 代码侧总图：**偏移表派发点 3,429 处 / 2,546 个函数**、`movw #0x73e0` 状态表 53 张、该常数出现 638 次落在 489 个函数（332 个紧跟 ldrb）/ 166 项主表 / 137 槽 / 类注册；~~149 派发器 / 58 方法表 / 477 读取者~~ 均未复现 |
+| `docs/mechanics/monster-code-map.md` | 代码侧总图：**派发点 `add pc,rX,rY` 6,777 处（无移位 6,026）/ 4,527 个函数**（~~3,429 / 2,546~~ 已撤回）、`movw #0x73e0` 状态表 53 张、该常数出现 638 次落在 489 个函数（332 个紧跟 ldrb）/ 166 项主表 / 137 槽 / 类注册；~~149 派发器 / 58 方法表 / 477 读取者~~ 均未复现 |
 | `docs/mechanics/monster-state-machine.md` | **state→handler 部分解决**：60 节 / 1,223 行状态，119 行有 motion 名（9.7%）、8 行无 handler；二级派发 9 个（含 `0x81ca4` 11+35 等）；~~53 派发器全解 / 41-53~~ |
 | `docs/mechanics/monster-ai-params.md` | `mParam.*` 131 字段（移动/索敌/蓄积阈值/行动控制/网络）+ 44 动作名 + 225 uEm 单元名 |
 | `docs/mechanics/monster-classes.md` | 27 个类的成员 `{offset,type,name}`（110 条，offset/type 是代码立即数） |

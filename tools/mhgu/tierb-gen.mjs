@@ -34,7 +34,15 @@ for(let i=0;i<top.length;i+=NPROC){
     for(const c of r.cal.split('|')){ if(!c)continue; const t=tiers.get(parseInt(c,16)); if(t?.lab)votes.set(t.lab,(votes.get(t.lab)||0)+1); }
     const v=[...votes.entries()].sort((a,b)=>b[1]-a[1]).slice(0,4).map(([a,b])=>a+':'+b).join(' ')||'-';
     out.push('',`=== 0x${r.s.toString(16)}  insns=${r.ins}  votes=[${v}]`);
-    if(r.cal) out.push('callees: '+r.cal.slice(0,200));
+    if(r.cal){
+      // The list used to be cut at 200 characters with no marker, and adjudicators counted the
+      // visible tokens as if they were the whole set (audit W6-PASS3: "N callee" was a truncation
+      // artefact in 193 of 239 claims). Print the true count always, and mark any cut explicitly.
+      const parts=r.cal.split('|').filter(Boolean);
+      const full=parts.join('|');
+      const body=full.length>2000?full.slice(0,2000)+` …[cut at 2000 of ${parts.length}]`:full;
+      out.push(`callees (${parts.length} total): ${body}`);
+    }
     if(r.str) out.push('strings: '+r.str.split('|').slice(0,4).join(' | ').slice(0,300));
     out.push(A.disasm(r.s,24));
   }

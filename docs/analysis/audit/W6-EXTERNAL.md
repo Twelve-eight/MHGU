@@ -94,6 +94,11 @@ Two caveats on the evidence column (finding **F7**):
    from the dump; the ARMv7 `VLDR`/`VSTR` operand rule (`Sd = UInt(D:Vd)`, D = bit 22) supports
    the document. The offsets 0x30/0x34/0x38/0x3C and the constant do reproduce either way.
 
+One further formatting defect (finding **F8**): the `0x13AA668` row's evidence shows
+`… cmp r0,#5, ldr r0,[r4,#1488], pop …` as a contiguous run. In the image those are separated
+by `bne 0x13aa698` (0x13aa680), and `ldr r0,[r4,#1488]`/`pop {r4,r5,r6,r7,r11,pc}` live at
+`0x13aa698`/`0x13aa69c`. The stated meaning is right; the listing is not a straight-line window.
+
 ### 2.2 `suyu-addr-check.md` — 50 rows (21 VERIFIED / 20 PLAUSIBLE / 9 SKIP)
 
 - **Row set is exactly the chunk union.** A script parsed all 17 chunk tables and the merged
@@ -131,13 +136,9 @@ Two caveats on the evidence column (finding **F7**):
     exactly as claimed), `bl 0x7aedcc`, pool at 0x3c2c; `0x3d80` = `str r0,[r5]`, four
     `#255` args, `bl 0x13efda0`; `0x1f00` = `0154eeb5`/`01836d14`, prologue at 0x1f08;
     `0x10000` = `ldr r0,[pc,#1208]`/`ldr r0,[pc,r0]`.
-- **Two rows condense branch-joined instructions into one listing.** `0x13AA668`'s evidence
-  shows `… cmp r0,#5, ldr r0,[r4,#1488], pop …` as if contiguous; `ldr r0,[r4,#1488]` and the
-  `pop` are at `0x13AA698`/`0x13AA69C`, reached by `beq 0x13aa698` (finding **F8**). The claim
-  ("merge point … then reads the value at +1488") is true; only the backticked listing reads as
-  a straight-line window.
-- The header's `sdk+` rows carry the same ±0x100 flat-offset ambiguity as the audit; see **F1**
-  (the three verdicts themselves are correct).
+- The header's `sdk+` rows carry the same ±0x100 flat-offset ambiguity as the audit (**F1**), and
+  the `sdk+0x3f40e0` row misnames one instruction (**F3**); the three verdicts themselves are
+  correct.
 
 ### 2.3 `chunks/c01..c17.md` — 50 rows total
 
@@ -196,8 +197,8 @@ line and every one lands on the text it is said to prove (e.g. `game_settings.cp
 `" validate: seq/window check 0x13B3054 …"`, `:1595` is the `iter: [0x2145a60]` log,
 `game_settings_ini.cpp:69` is the `3840x2160` sentence).
 
-Three defects, none of which changes a VERIFIED/PLAUSIBLE verdict: **F1** (flat offset),
-**F2** (stale coverage tally), **F3** (`vmrs`), plus the file-name slip **F4**.
+Two defects, neither of which changes a VERIFIED/PLAUSIBLE verdict: **F1** (flat offset) and
+**F2** (stale coverage tally), plus the file-name slip **F4**.
 
 ### 2.6 `suyu-release-check.md`
 
@@ -315,8 +316,8 @@ verdict survives — the coverage claim does not.
 
 ### F3 — SDK helper is said to finish through `vmrs`; it finishes through `vmov` (P3)
 
-`suyu-addr-check.md:45`, row `sdk+0x3f40e0` (repeated in the byte-identical `chunks/c13.md` and
-`chunks/c14.md` rows). The block at `sdk+0x3f40e0`/file `0x3f41e0` ends
+`suyu-addr-check.md:45`, row `sdk+0x3f40e0` (repeated verbatim in the `chunks/c13.md` row).
+The block at `sdk+0x3f40e0` (flat file `0x3f41e0`) ends
 
 ```
 0x3f4200: ec410b31 (vmov d17, r0, r1)   0x3f4204: ee710ba0   0x3f4208: ec510b30 (vmov r0, r1, d16)
@@ -423,7 +424,7 @@ origin is unstated" (parked under "Unknown").
 doc	verdict	evidence
 suyu-gs-part1.md	confirmed	39 rows (20V/16P/3 n/a); all 36 code addresses and every `game_settings.cpp`/`.h` cite reproduce in the image and the SUYU source; F7 (VFP mnemonics not verbatim in the dump) and F8 (one branch-joined listing) are formatting defects only.
 suyu-addr-check.md	confirmed	50 rows; union of c01..c17 is exact (0 status conflicts, 0 missing); all 50 cite cells match dump block headers; ~45 rows byte-checked, all true; only F3 (a `vmrs` that is a `vmov`) and the shared +0x100 note remain.
-suyu-gurecomp-audit.md	contradiction	Arithmetic, status counts and citation list are right, but the central `sdk.flat.bin` offset claim is off by 0x100 (F1) and the gs-part1 coverage tally is stale (F2); F3/F4 are cosmetic.
+suyu-gurecomp-audit.md	contradiction	Arithmetic, status counts and citation list are right, but the central `sdk.flat.bin` offset claim is off by 0x100 (F1) and the gs-part1 coverage tally is stale (F2); F4 is a file-name slip.
 suyu-release-check.md	confirmed	Every fixed API value reproduces today (5 releases, sizes, digests, publish/target/immutable fields, repo metadata, tag→35015f1 lightweight commit) and every INSTALL/RELEASE/BUILDING/game_export/path_util/savedata_factory line cite lands on the claimed text; only `AI_DISCLOSURE.md:1-40` overruns a 30-line file (F5).
 forge-pc-and-porting-precedents.md	confirmed	All local-clone facts (244/333/234-line files, source tree, licence notices, version constants, ABI rules, hot-reload wording) and all API facts (created_at, homepage null, has_wiki, v0.7.0 asset 1,101,609 B / 69f53a80…) reproduce; three claims rest on pages not re-readable here (§4).
 chunks/c01.md	confirmed	3 blocks; all three rows reproduce (0x13AA698 `ldr r0,[r4,#1488]`+pop, 0x13AA6A0 data, 0x13AA6A4 next prologue, 0x13EDD58 tag 0x32AB9864 + uxtb note).
