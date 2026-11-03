@@ -157,7 +157,7 @@ let _voteStarts = null;
 const voteStarts = () => {
   if (_voteStarts) return _voteStarts;
   _voteStarts = new Set();
-  for (const f of fs.readdirSync(INV).filter((x) => /^attr-.*vote\.tsv$/.test(x))) {
+  for (const f of fs.readdirSync(INV).filter((x) => /^attr-.*vote\d*\.tsv$/.test(x))) {
     for (const l of fs.readFileSync(path.join(INV, f), "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
       const [start, label, conf] = l.split("\t");
       if (conf === "V" && label) _voteStarts.add(start);
@@ -166,7 +166,7 @@ const voteStarts = () => {
   return _voteStarts;
 };
 const CV = (() => {
-  const files = fs.readdirSync(INV).filter((f) => /^attr-.*vote\.tsv$/.test(f));
+  const files = fs.readdirSync(INV).filter((f) => /^attr-.*vote\d*\.tsv$/.test(f));
   let fn = 0, ins = 0, rows = 0;
   const seen = new Set();
   for (const f of files) {
@@ -214,7 +214,7 @@ const Sset = (() => {
 })();
 const Vset = (() => {
   const s = new Set();
-  for (const f of fs.readdirSync(INV).filter((x) => /^attr-.*vote\.tsv$/.test(x))) {
+  for (const f of fs.readdirSync(INV).filter((x) => /^attr-.*vote\d*\.tsv$/.test(x))) {
     for (const l of fs.readFileSync(path.join(INV, f), "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
       const [start, label, conf] = l.split("\t");
       if (conf === "V" && label) s.add(start);
@@ -254,7 +254,14 @@ rows.push(["partition: no label", String(pNone), String(pNoneIns), pct(pNoneIns,
 // but the pooled estimate for the three validated labels clears the bar, so those labels count.
 rows.push(["covered at >=90% precision", String(pDir + pInf + pSig + pSpV), String(pDirIns + pInfIns + pSigIns + pSpVIns),
   pct(pDirIns + pInfIns + pSigIns + pSpVIns, totalIns), pct(pDir + pInf + pSig + pSpV, totalFn)]);
-rows.push(["spread unvalidated labels (74.2% overall)", String(pSpU), String(pSpUIns),
+// Second, clearly weaker line: the same classes plus the spread labels, whose recovery was re-measured on the current
+// tiers with the same 1 MB x five-grid hold-out: 13,317/15,476 = 86.0% (CP95 lower 85.5); per label ui 81.8%, online-nex
+// 92.5%, render-gfx 90.1%, monster-em 92.8%, quest 73.9%, physics-math 76.6%. Quoting this line means "a subsystem
+// attribution exists at >=85% measured precision", never the >=90% one.
+rows.push(["covered at >=85% precision", String(pDir + pInf + pSig + pSpV + pSpU), String(pDirIns + pInfIns + pSigIns + pSpVIns + pSpUIns),
+  pct(pDirIns + pInfIns + pSigIns + pSpVIns + pSpUIns, totalIns), pct(pDir + pInf + pSig + pSpV + pSpU, totalFn)]);
+// Re-measured on the current tiers: 13,317/15,476 = 86.0% (CP95 lower 85.5), which is why the >=85% line exists above.
+rows.push(["spread labels (86.0% overall, CP95 85.5)", String(pSpU), String(pSpUIns),
   pct(pSpUIns, totalIns), pct(pSpU, totalFn)]);
 // Guard: the five buckets must account for every function and every instruction. Two earlier bugs (spread-A falling into
 // "no label", and the inferred class double-counted) would both have been caught here.
