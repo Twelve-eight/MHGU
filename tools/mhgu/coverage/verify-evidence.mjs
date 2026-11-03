@@ -25,6 +25,7 @@ const fns = new Map(zlib.gunzipSync(fs.readFileSync(ROOT + "/docs/data/functions
 
 const word = (v) => buf.readUInt32LE(v + 0x100);
 const result = new Map();
+let skipped = 0;
 const bump = (ch, ok, note) => {
   const e = result.get(ch) || { n: 0, ok: 0, bad: [] };
   e.n++;
@@ -33,7 +34,7 @@ const bump = (ch, ok, note) => {
   result.set(ch, e);
 };
 
-for (const file of ["attr-strings2.tsv", "attr-vtable-fixed.tsv", "attr-vtable-ns.tsv", "attr-vtable-rtti2.tsv", "attr-immscan.tsv", "attr-fingerprint.tsv", "attr-vtable-retile.tsv"]) {
+for (const file of ["attr-strings2.tsv", "attr-vtable-fixed.tsv", "attr-vtable-ns.tsv", "attr-vtable-rtti2.tsv", "attr-immscan.tsv", "attr-fingerprint.tsv", "attr-vtable-retile.tsv", "attr-vtable-unknown.tsv", "attr-xref.tsv", "attr-prefix.tsv", "attr-registrar.tsv", "attr-uifamily.tsv", "attr-class.tsv", "attr-class2.tsv", "attr-blocks.tsv", "attr-vtable-classconsensus.tsv"]) {
   const p = INV + file;
   if (!fs.existsSync(p)) continue;
   const rows = fs.readFileSync(p, "utf8").split(/\r?\n/).filter(Boolean).slice(1)
@@ -54,6 +55,41 @@ for (const file of ["attr-strings2.tsv", "attr-vtable-fixed.tsv", "attr-vtable-n
       const have = strs.get(k) || new Set();
       const missing = named.filter((s) => !have.has(s));
       bump(file, missing.length === 0, `${start}: strings not referenced: ${missing.slice(0, 3).join(",")}`);
+      continue;
+    }
+    // 1b. a single named string: the function must reference it (attr-xref, attr-prefix)
+    const sm = /^(?:class prefix "[^"]*" \([^)]*\) )?in string "([^"]+)"$/.exec(evidence) || /^string "([^"]+)"$/.exec(evidence);
+    if (sm) {
+      const have = strs.get(k) || new Set();
+      // the evidence writer caps long strings at 80 characters ("...cArchiveCa"), so a truncated recording is accepted
+      // when it is a prefix of something the function really references - at that length a foreign match is impossible
+      const hit = have.has(sm[1]) ||
+        (sm[1].length >= 24 && [...have].some((x) => x.startsWith(sm[1])));
+      bump(file, hit, `${start}: string not referenced by this function: ${sm[1].slice(0, 60)}`);
+      continue;
+    }
+    // 1c. registrar: the function must call the named registrar stub
+    const rm2 = /registrar bl (0x[0-9a-f]+)/.exec(evidence);
+    if (rm2) {
+      const want = parseInt(rm2[1], 16);
+      let found = false;
+      for (let j = 0; j < f.n && j < 6000; j++) {
+        const w = word(f.a + j * 4);
+        if ((w >>> 24) === 0xeb) {   // bl
+          const off = w & 0xffffff;
+          const target = f.a + j * 4 + 8 + ((off & 0x800000) ? off - 0x1000000 : off) * 4;
+          if (target === want) { found = true; break; }
+        }
+      }
+      bump(file, found, `${start}: no bl to 0x${want.toString(16)} in ${f.n} insns`);
+      continue;
+    }
+    // 1d. bracket: the function must lie between the two anchor addresses
+    const bm = /methods (0x[0-9a-f]+) \(([-+][0-9]+)\) and (0x[0-9a-f]+) \(([-+][0-9]+)\)/.exec(evidence);
+    if (bm) {
+      const lo = parseInt(bm[1], 16) + Number(bm[2]);
+      const hi = parseInt(bm[3], 16) + Number(bm[4]);
+      bump(file, f.a >= Math.min(lo, hi) && f.a <= Math.max(lo, hi), `${start}: outside the bracket [0x${lo.toString(16)},0x${hi.toString(16)}]`);
       continue;
     }
     // 2. vtable claims: the named slot must hold this function start
@@ -91,7 +127,7 @@ for (const file of ["attr-strings2.tsv", "attr-vtable-fixed.tsv", "attr-vtable-n
       bump(file, found, `${start}: movw #0x1428 not found in ${f.n} insns`);
       continue;
     }
-    bump(file, true, ""); // no machine-checkable claim in the text (e.g. derived by class name)
+    skipped++; // no machine-checkable claim in the text (e.g. derived by class name or a taxonomy decision)
   }
 }
 let total = 0, ok = 0;
@@ -99,4 +135,5 @@ for (const [ch, e] of [...result].sort()) {
   total += e.n; ok += e.ok;
   console.log(`${ch.padEnd(24)} ${e.ok}/${e.n} re-checked${e.bad.length ? "  FAIL samples: " + e.bad.join(" | ") : ""}`);
 }
-console.log(`total ${ok}/${total} = ${((100 * ok) / (total || 1)).toFixed(1)}% of sampled A rows re-verified`);
+console.log(`total ${ok}/${total} = ${((100 * ok) / (total || 1)).toFixed(1)}% of A rows with a machine-checkable claim re-verified`);
+console.log(`${skipped} further A rows carry no machine-checkable claim (class-name or taxonomy basis) and are not counted above`);
