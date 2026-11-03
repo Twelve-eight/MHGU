@@ -296,10 +296,106 @@ The sentence lists seven paths and anchors them to "name pool 0x155c9f3+". At `0
 | `re-guide-gu.md:49` "em010 = Plesioth (slot 9) … em024 = Kushala Daora (slot 23)" | the *slot* numbers are confirmed (10->9, 16->13, 23->21, 24->23 in the binary table); the *species* names were not cross-read in `resident_chS.arc` |
 | `tools/mhgu/dtbase.mjs`, `emc.mjs`, `lmt.mjs`, `mod.mjs`, `rem.mjs`, `sdl.mjs`, `tex2dds.mjs` end-to-end | only their usage/flags were checked (no sample file of the relevant type was extracted in this pass) |
 
-## 5. Difficulties
+## VERDICT
+
+doc	claim	status	evidence
+re-guide-gu.md	binary is .tmp/mhgu/extract/exefs-0eb5/main.140.flat.bin	confirmed	exists, 25,472,632 B; sha256 identical to MHGU/main.140.flat.bin
+re-guide-gu.md	vaddr = flat - 0x100	confirmed	module image 0x184ad78 + 0x100 = file size
+re-guide-gu.md	CLI: disasm|words|calls|lits|fn <vaddr> [n]	contradiction	lits needs <start> <end> <value>; 2-arg form silently prints 0 hit(s)
+re-guide-gu.md	node .tmp/re-cli.mjs ... (relative)	contradiction	fails from MHGU cwd: Cannot find module MHGU.tmpe-cli.mjs
+re-guide-gu.md	MCP v1.3.0+	confirmed	mhgu-re.mjs:201 version 1.5.0
+re-guide-gu.md	MCP loads decoder once at start	confirmed	top-level await import of tools/mhgu/arm32.mjs at mhgu-re.mjs:12
+re-guide-gu.md	E79F = ldr rX,[pc,rY]; resolve with words	confirmed	0x4be10=0x17ed8d4 delta resolves to .bss 0x1C39618; 0x58820=0x17e09f0 to .bss 0x1E38B7C
+re-guide-gu.md	0-hit lits on a type hash is not proof of use	confirmed	0x48e8ac29: 0 .text literals, 138 words in 0x15dcbfc..0x1620000
+re-guide-gu.md	offsets >0xFFF only via movw	confirmed	movw #0x5c96 x5, #0x26f0 x25, #0x2630 x33, #0x2588 x4
+re-guide-gu.md	978 static call sites (skill test)	confirmed	calls 0x2864c4 -> 978
+re-guide-gu.md	thunk 0x2864c4 -> 0xe0da0, word 988+4*(id>>5)	confirmed	movw 0x13c4; ldr [r0,#392]; ldr [r0,#988] after asr#5
+re-guide-gu.md	0x2864e0 -> 0xe1e08, 8-entry list 588..595	confirmed	ldrb 588,589,...,595
+re-guide-gu.md	skill ids 10-14 (HG Earplugs..Tremor Res)	confirmed	db skills._id 10..13 names; id 14 used as mov r1,#14 bl 0x2864c4 @0x2f02f8
+re-guide-gu.md	0x2ee508 gate 0x2f02f8; dispatcher 0x2f22e8, 79-case table 0x2f2320	confirmed	cmp r5,#78 bhi; 0x13c/0x150 table at 0x2f2320
+re-guide-gu.md	0x2f58b4 (u16 0x298c, s16 0x298e); 0x2f595c called 0x1711dc..0x171204	confirmed	ldrh [lr,#0x298c]!; callers 0x1711f0 / 0x171204
+re-guide-gu.md	em+0x26F0 = rEnemyNandoData via tag getters 0x58884/0x58C74	confirmed	0x58884 returns 0x155320d dtt; 0x58c74 returns 0x1553211 rEnemyNandoData
+re-guide-gu.md	dttune at owner+0x75EC, getter 0x71078	confirmed	0x70a38 str r4,[r5,#0x75e0+0xc]; 0x71078 movw 0x75ec; add #100
+re-guide-gu.md	dttune vtable 0x17330A4 ends before +156	confirmed	+0x98 = 0x58c24 (last own), +0x9C = 0x58c74 (next class)
+re-guide-gu.md	EMC at em+0x2588; interp 0x82f80; loop 0x83770; table 0x837ac; len 0x50ce0; 0x1732c8c; matcher 0x8e144	confirmed	0x68828 str after movw 0x2588; 0x83770 bl 0x50ce0; 167-byte table + ptr 0x1839998
+re-guide-gu.md	rage pipeline 0x1069d8c -> 0x106aef0 -> 0x1068dd8 -> 0x106b04c	contradiction	0x1069d8c calls all three (0x1069dd0/0x106a4c4/0x106a4fc); 0x106aef0 never refs 0x1068dd8
+re-guide-gu.md	HP +0x370 / max +0x374, sub at 0x98b04 in 0x97ddc	confirmed	ldr r3,[r1,#880]; ldr r2,[r1,#884]; sub; str [r1,#880]
+re-guide-gu.md	vldr 0.1 @0x106b044, 0.30 @0x106b048	confirmed	0x3dcccccd / 0x3e99999a; vldr [pc,#0x60] -> 0x106b044
+re-guide-gu.md	jump table 0x2ef994 -> 0x2efc3c	confirmed	entry 0x2b0 + base 0x2ef98c = 0x2efc3c (live code)
+re-guide-gu.md	op5f 0x84db0 reads HP via field offset	confirmed	0x84dbc beq 0x858dc -> 0x858f4 vldr s0,[r0,#0x370]
+re-guide-gu.md	thunks 0xca10c/0xca118; slot 247 of 0x179acf8 = 0x75224	confirmed	ldr r1,[r0]; ldr r1,[r1,#988]; bx r1; 0x179b0d4=0x75224
+re-guide-gu.md	attackdata HDE, count@8, 0x20 B from 0x10	confirmed	0x10+64*0x20 = 2064 = file size; 0x30 is one record late
+re-guide-gu.md	picker 0x70ffc index = row-1000	confirmed	cmp r1,#1000; sub r1,r1,#1000
+re-guide-gu.md	monster slots em001/002/010/016/023/024 = 0/3/9/13/21/23	confirmed	binary 137-pair table and monster-slot-map.json agree
+re-guide-gu.md	no wind/Wind/HDE strings	contradiction	Wind 128x, wind 8x (SDK words); HDE 0; mechanic names absent
+re-guide-gu.md	14% of .text printed as .word before fix	contradiction	commit says 157,931 of 223,669 -> 4.28% of 5,228,277; 1.26% today
+re-guide-gu.md	43,353 ldr/str words use writeback	contradiction	P=0 or W=1 count is 65,740; other filters 26,084/60,186/41,707/47,281/33,109
+re-guide-gu.md	hunter status 0x9D6F8 thresholds 200/180/150	contradiction	thresholds at 0x9da44/0x9da94/0x9dab8, fn 0x9d8b4
+re-example-dttune-consumer.md	crc32-noxor(rEnemyDtTune) = 0x48e8ac29	confirmed	recomputed; zlib variant would be 0xb71753d6
+re-example-dttune-consumer.md	registration fn 0x564bc names 5 members	contradiction	0x564bc is the dtor; name+size in 0x58894, 5 members in 0x58fd0
+re-example-dttune-consumer.md	loader 0x57740, DTT magic, version 0x0133A06C	confirmed	exact instruction words
+re-example-dttune-consumer.md	block sizes 16/12x7/14 at 0x58198/0x581E0/0x583C8	confirmed	mov r1,#16/#12/#14 + str [r11,#152/#156/#184]
+re-example-dttune-consumer.md	16+6*12+12+14 = 114 B grid match	confirmed	arithmetic and blob layout
+re-example-dttune-consumer.md	fetch 0x4a858 -> 0x4b554 -> 0x4bd24; 0x50b64; +128/+132	confirmed	call sites 0x4aba4 / 0x4b9d4; ldr [r0,#128]/[r0,#132]
+re-example-dttune-consumer.md	137 pairs at 0x1597ea4	confirmed	137 sequential slots then a new structure at 0x1597ee8
+re-example-dttune-consumer.md	row table 0x1850ed8	unverified	inside .bss 0x184b000..0x2148000; no literal
+re-example-dttune-consumer.md	ctor 0x7051c (+0x764C, 0x70790, call 0x7079c), 94 vtables	confirmed	word 0x7051c occurs exactly 94x; add r6,r4,#0x764c
+re-example-dttune-consumer.md	callback 0x70a1c stores 0x75E8/0x75EC	confirmed	str r1,[r5,#0x75e8]; str r4,[r5,#0x75ec]
+re-example-dttune-consumer.md	getter 0x71078, 160 callers, no vtable ref	confirmed	160 direct calls; 0 data words equal 0x71078
+re-example-dttune-consumer.md	fields 0x5C96/0x5C98/0x5D6A; reset/add/grow; k at +0x1C of 0xbaaac(this,2)	confirmed	0xA2754/0xA27C8/0xA29D0 bodies match the described formulas
+re-example-dttune-consumer.md	caller chain to 0x9A34C/0x97ddc/0xa5900/0xadb3c/0xad7b4 slot+36	confirmed	call sites 0x98a60/0xa59d0/0xade48/0xad988; vtable 0x17347bc=0xad7b4
+re-example-dttune-consumer.md	41 callers in 0xcf0658..0x1057fe8	contradiction	41 sites span 0xcf0a40..0x10581f0 (0x10581f0 is 0x208 past the end)
+re-example-dttune-consumer.md	Rathian poison 180/600/5/3600/100/580 @0x35c	confirmed	romfs bytes + wiki 180/100/580
+re-example-dttune-consumer.md	copy-out 0x574A0..0x57990 after magic check	contradiction	0x574a0 in fn 0x57068 (serializer); 0x57740+ is the loader; magic at 0x5776c
+re-example-dttune-consumer.md	no descriptor holds the class name	contradiction	refs_to 0x1553200 -> pc-delta@0x58914, next to mov r3,#296
+re-example-dttune-consumer.md	0x2EF000..0x2F5FFF monster status subsystem	confirmed	endpoints inside code; loose bound not refuted
+source-verification.md	mhgu.db 18MB / 39 tables	confirmed	18,333,696 B; 39 sqlite_master tables
+source-verification.md	quests 1355 / skill_trees 205 / skills 326 / monsters 129 / locations 31 / items 21153	confirmed	count(*) each
+source-verification.md	agroff 832 quest names 100% hit; 411 extra	confirmed	944 rows, 832 unique, all matched; 1355-944=411
+source-verification.md	agroff 204 skill-tree names 100% hit	confirmed	204 entries, 0 misses; db-only Torso Up
+source-verification.md	name_ja 0/1355, 0/21153, 0/326, 0/205; 129/129, 31/31	confirmed	SQL counts
+source-verification.md	wiki mirror 290 pages / 37MB	confirmed	285 html + 5 ida = 290; data/ = 37M
+source-verification.md	MHGU_item(uni).txt absent from repo	confirmed	find = 0; docs/data/README.md:99 says so
+source-verification.md	agroff JSON 11MB	unverified	local quests.json is 265,123 B
+SUBAGENT-LEDGER.md	10 cited docs/analysis paths exist	confirmed	all present
+SUBAGENT-LEDGER.md	member4-17-layout.md 508 lines	contradiction	file has 514 lines
+SUBAGENT-LEDGER.md	HANDOFF.md:201 holds the every-30 rule	contradiction	rule at HANDOFF.md:230
+SUBAGENT-LEDGER.md	0808e0d commit, 540 fns / 736,737 insns = 14.1%	confirmed	git log; 736,737/5,228,277 = 14.09%
+formats/dttune.md	entry hash 0x48e8ac29, 1594-B blob, header 6c a0 33 01	confirmed	arc list + bytes
+formats/dttune.md	base HP @0x38, durability 80 B (@0x57800 mov r2,#4; @0x5783c mov r2,#80)	confirmed	loader words
+formats/dttune.md	em001 meat @0x8E row0 90 80 70 00 0F 0F 14 23 64 64	confirmed	dttune.mjs prints _offset 142 and those values
+formats/dttune.md	registered in fn 0x564bc, no member names	contradiction	0x564bc dtor; name/size 0x58894; 5 members 0x58fd0
+formats/dtbase.md	magic/version checks incl. branch opcodes 1a00013e / 1a000139	confirmed	exact words at 0x53980..0x539a0
+formats/dtbase.md	memcpy 0x13EFE30 reached from 0x82710c (bcs 0x82712C)	confirmed	bcs 0x827150; bl 0x13efe30 veneer
+formats/dtbase.md	dtp size 0xD8, bl 0x7aedcc @0x5639c, e3a030d8 @0x5636c	confirmed	exact words
+formats/dtbase.md	property-registration 0x54028; name pool 0x15530d7	confirmed	function start; string rEnemyDtBase
+formats/emc.md	em+0x2588 stored at 0x68828; LEN table 0x1732c8c, ptr 0x1839998	confirmed	store word; table bytes equal emc.mjs LEN_TABLE
+formats/emc.md	256-way table 0x837ac, 8 sections / 167 entries	confirmed	cmp #255 in the loop; 167-byte table
+formats/gmd.md	gmd hash 242bb29a; monsterName_chS 12,605 B	confirmed	arc row for chSGUI_msgmonsterName_chS
+formats/gmd.md	list --all works	confirmed	MonsterDemo_eng.gmd: 96 strings, #0 Rathian
+formats/lmt.md	22x12 B table at 0x179110c, keyLen 0 for types 0-2	confirmed	rows 0-2 {0,0xafea70,0xafea84}; row 3 keyLen 0x10
+formats/lmt.md	39 action files in MHGU-private	confirmed	39 *.76820d81
+formats/mod.md	type hashes 58a15856/241f5deb/2749c8a8/76820d81/7cd0e77e	confirmed	225/459/225/39/8 files with those extensions
+formats/mrl.md	225 *.2749c8a8 files	confirmed	find count 225
+formats/mrl.md	490 descriptions, 471/490 matched, 19 unresolved	unverified	needs mrl.mjs modnames over the whole corpus
+formats/rem.md	mRewardTable[0]/[2], mRewardPoint[2] at 0x156146d/0x156148d/0x156144d	confirmed	strings at those vaddrs
+formats/rem.md	locquest paths in name pool 0x155c9f3+	contradiction	they are at 0x1563adf / 0x1563ab7; 0x155c9f3 holds the unprefixed form
+formats/sdl.md	class registry flat 0x1568971..0x1568b71	confirmed	vaddr 0x1568871..0x1568a71 holds AreaPosBase..rVillageFirstPos
+formats/tex.md	em001_00_BM: 11 mips, data 1,400,320, offsets 0/1048576/.../1399808	confirmed	header and mip table byte-exact
+formats/tex.md	459 *.241f5deb, 457/459 satisfy equations	unverified	corpus 459 confirmed; 457/459 not recomputed
+formats/asd.md	38.0 + 1287; 8+1287*127 = 163457; pools 0x1553ad9/0x15558bc/0x15558c1	confirmed	bytes, size equation, strings
+formats/weapon-tables.md	57/57 containers; kad 164x14	confirmed	56 weapon containers + kad; 8+164*14 = 2304
+formats/weapon-tables.md	NN 00-04, 06-14	confirmed	14 indices, no 05
+suyu/README.md	kLookupCache 4096, kChainBudget 64	confirmed	arm_recomp32.cpp:1158 / :105
+suyu/README.md	immediates baked in (forge_pc.h:229-231)	contradiction	that citation is the byte-patch warning; the fact is a32_to_c.h:183-192
+suyu/README.md	hooks only at block starts	confirmed	forge_pc.h:200-204; loader.cpp:585-588
+suyu/README.md	blockless code runs on the JIT	confirmed	CHANGELOG.md:9; arm_recomp32.cpp:1352-1359
+suyu/internals-review.md	25 downgrades incl. a32disc.h:61, mod_host_api.h:113, INSTALL.md:160-163	confirmed	six spot-checked line pins all correct
+
+## Difficulties
 
 1. **The image is dataseg-limited.** Several of the most specific claims (`0x1850ed8` row table, the `0x17ed8d4`/`0x17e09f0` globals) resolve into `.bss`, which the flat file does not contain. The NSO header (`nso-extract.log`) is the only way to prove that `0x1E38B7C` is a legitimate `.bss` address rather than a decoder error: without it, the `E79F` "ldr rX,[pc,rY]" idiom looks impossible (PC + a positive 25 MB literal) at every site I tried.
 2. **`fn` extends past function ends.** The promise "nearest preceding `push {...,lr}`" attributes `0x59080-0x592c0` (the member registration) to fn `0x564bc`, 0x2c00 bytes earlier, because the intervening code has no `push` of its own shape. Only a forward scan for prologues (`(w & 0xFFFF4000)>>>0 == 0xE92D4000`) found the real `0x58fd0` boundary — and the JS `&` signedness trap the guide warns about hit me once while writing that scan (first run reported "no prologues at all").
 3. **`lits` fails silently on wrong arity.** The tool's `Math.min(undefined, TEXT_END)` yields `NaN`, `findLiteralLoads` returns `[]`, and the CLI prints `0 hit(s)`. That is how a documentation bug (F3) turns into a false negative in an audit.
 4. **Two docs share one wrong premise.** `re-example` and `formats/dttune.md` both inherit "fn `0x564bc` is the registration fn" from `mon-class-map.md:126/195`; the doc-side cross-reference is faithful, the artefact is coarse (a "registration fn" column that points at a destructor). I did not edit either.
-5. **Corpus split.** Several format docs measure over `MHGU-private/romfs-extract` (partially present: 555 NSOs' worth of loose members, 225 mrl, 459 tex, 39 lmt) and over "all 138 arcs", which needs `nativeNX/arc/enemy/*.arc` plus `dttune-all.mjs`; the docs themselves say the full corpus is not on this machine, so only per-file spot checks were possible.
+5. **Corpus split.** Several format docs measure over `MHGU-private/romfs-extract` (loose members present: 225 mrl, 459 tex, 39 lmt, 225 mod) and over "all 138 arcs", which needs `nativeNX/arc/enemy/*.arc` plus `dttune-all.mjs`; the docs themselves say the full corpus is not on this machine, so only per-file spot checks were possible.

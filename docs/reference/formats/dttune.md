@@ -6,7 +6,7 @@
 
 Source files: `romfs/nativeNX/arc/enemy/emNNN_00.arc` → entry `enemy\dt_tune\emNNN_00_dttune`, type hash `0x48e8ac29`, zlib-compressed inside the arc. Extract with `node tools/mhgu/arc.mjs extract <arc> <outdir> "_dttune$"`; decode with `node tools/mhgu/dttune.mjs <file>`.
 
-Resource class: `rEnemyDtTune`, tag `dtt`, class size `0x128`, registered in fn `0x564bc` (docs/analysis/monsters/mon-class-map.md §5 line 126, §5bis line 195, name pool §7 line 364). Unlike `rEnemyDtBase` (26 named property readers), fn `0x564bc` registers only the tag and class name — no member names are known from the registration framework, so field names below come from byte cross-checks against `mhgu.db` unless marked otherwise.
+Resource class: `rEnemyDtTune`, tag `dtt`, class size `0x128`, registered in fn `0x58894` (**2026-11-04 correction**: `0x564bc`, cited earlier, is the class destructor; the registration is `0x58894`, which writes the member-offset table, `mov r3,#296` at `0x5890c`, the pc-delta name at `0x58914` → `0x1553200`, and `bl 0x7aedcc`). The five member records are in fn `0x58fd0`. Unlike `rEnemyDtBase` (26 named property readers), the registration names only the class; no status-member names are known from the registration framework, so field names below come from byte cross-checks against `mhgu.db` unless marked otherwise.
 
 Evidence tags: [C] = verified against bytes + db; [B] = inferred from data shape; [U] = unknown.
 

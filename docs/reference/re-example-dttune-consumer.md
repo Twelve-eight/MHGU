@@ -25,7 +25,7 @@ Report with the raw log: `.tmp/reports-mech/t1-dttune-consumer.md`. Read `re-gui
 ## 2. Step 1: class and loader [C]
 
 - Type hash 0x48e8ac29 = crc32 (poly 0xEDB88320, init 0xFFFFFFFF, NO final xor) of `rEnemyDtTune` (stealth-gu.md).
-- Registration fn `0x564bc` (docs/analysis/monsters/mon-class-map.md line 126): class size 0x128, tag `dtt`. It names only 5 members (DefTime +0x4, EscapeTime +0x6, FastTime +0x8, ExTime +0xA, Genus +0xC). It does NOT name the status block. So "find the member table" gives no status names; the layout must come from the loader.
+- Registration fn `0x564bc` (docs/analysis/monsters/mon-class-map.md line 126): class size 0x128, tag `dtt`. **2026-11-04 correction: `0x564bc` is the class destructor** (`str`/`blx [vtbl+52]` over `this+104`), not the registration. The name+size registration is `0x58894`: a member-offset table `{0,0,1,2,3,4,8,9,5,6}` at `[0x17f95c8]`, then `mov r3,#296` (`0x5890c`), the pc-delta name at `0x58914` → `0x1553200`, and `bl 0x7aedcc` (`refs_to 0x1553200` returns exactly that one site). The five member records (offsets +4/+6/+8/+10/+12) are registered in fn `0x58fd0`. It still names only 5 members (DefTime +0x4, EscapeTime +0x6, FastTime +0x8, ExTime +0xA, Genus +0xC) and does NOT name the status block, so "find the member table" still gives no status names; the layout must come from the loader.
 - Loader: `0x57740(res)` (res = r11). Command:
   `node ".tmp/re-cli.mjs" disasm 0x57740 150` and continue in 150-300 insn chunks to 0x58360.
   (Resource loaders have 0 direct callers; they are reached through the resource manager. Do not search `calls`.)
@@ -105,7 +105,7 @@ Extra finding [C]: 0x574A0..0x57990 (directly after the magic check) is the copy
 2. "em+0x2638/0x263C hold dttune": FALSE, their table ids 18/19 have typeHash 0x496f8f22. dttune is at em+0x75EC.
 3. "Owner has fields > 0x7000, so it is not the em": FALSE, the em is > 0xCC00 bytes (rage fields +0xCAC4/+0xCBF1).
 4. Hunter-side chain 0x172BF0 -> 0x9D6F8 (thresholds 200/180/150) is the hunter's own status, not the monster consumer (trap A).
-5. Raw-word search for the class name pointer (0x1553200) or 0x48e8ac29 in code: no descriptor holds the name; the hash only occurs in arc manifests.
+5. Raw-word search for the class name pointer (0x1553200) or 0x48e8ac29 in code: **the name IS reachable** — `refs_to 0x1553200` returns the pc-delta at `0x58914`, immediately followed by `mov r3,#296` and `bl 0x7aedcc` in the registration `0x58894` (2026-11-04). The hash 0x48e8ac29 occurs only in arc manifests. A literal-load scan (`lits`) can never see a pc-delta reference, which is exactly why the earlier "no descriptor holds the name" conclusion was wrong.
 
 ## 6. Traps and how to detect them early
 

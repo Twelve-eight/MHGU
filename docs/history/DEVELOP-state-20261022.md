@@ -5,8 +5,8 @@
 
 ## 部署
 - 补丁：`yuzu/load/0100770008DD8000/mhgu-box-expand/exefs/1.4.0.pchtxt`（**V6**，22 行，行地址 = flat 文件偏移 = vaddr+0x100，无 offset_shift）
-- 转换后存档：`system`、`hunterB_HR198.hnt`、`hunterA_HR5.hnt` 已重打包为 N=2992 位流；猎人A 含 8 个 marker（UI 2400-2403/2900-2903）
-- 快照：`MHGU/save-snapshots/20261022-v6-ready/`、`patch/1.4.0.pchtxt`，git 已提交
+- 转换后存档：`system`、`hunterB_HR198.hnt`、`hunterA_HR5.hnt` 已重打包为 N=2992 位流；猎人A 含 8 个 marker（~~UI 2400-2403/2900-2903~~ **2026-11-04：三种读法互不一致，此句暂不可引用**——原文说 2400-2403/2900-2903；一次审计说它们其实在 `clean-reference/hunterA_HR5_V7.hnt` 且是 2016-2019/2020-2023；主会话按"char_off 632 起 19 位"解码 `v6-ready/hunterA_HR5.hnt` 只找到 1 个 id 2023、clean-reference 那个 0 个。位流起点或宽度假设需先定，再判定 8 个 marker 在哪）
+- 快照：`MHGU/save-snapshots/20261022-v6-ready/`（**未入库**：`.gitignore:21` 忽略 `save-snapshots`，`git ls-files save-snapshots` = 0；2026-11-04 更正原文的"git 已提交"）、`patch/1.4.0.pchtxt`（已入库）
 
 ## 已验证事实
 - **坐标系**：flat[0]=`NSO0` 头（0x100B）；`.text` 自 flat+0x100；**`file_off = vaddr + 0x100`**；yuzu1734 的 pchtxt 行 = 文件偏移，applied == 行地址
