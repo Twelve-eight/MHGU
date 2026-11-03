@@ -22,7 +22,12 @@ const OLD = path.join(ROOT, "docs/analysis/code/inventory/tiers.csv");
 // (string rules only), and any run that adds --seed evidence files writes tiers-merged.csv. Overwriting the baseline with
 // a seeded run would make "what do the rules alone say" unanswerable, which is exactly how the earlier numbers drifted.
 const seeded = process.argv.includes("--seed");
-const OUT = path.join(ROOT, "docs/analysis/code/inventory", seeded ? "tiers-merged.csv" : "tiers-recomputed.csv");
+// An explicit --out keeps callers from silently overwriting the committed spine: the holdout harness needs many runs and
+// must never touch tiers-merged.csv, which report.mjs and the audit gate both read.
+const outArg = process.argv.indexOf("--out");
+const OUT = outArg > 0
+  ? path.resolve(process.argv[outArg + 1])
+  : path.join(ROOT, "docs/analysis/code/inventory", seeded ? "tiers-merged.csv" : "tiers-recomputed.csv");
 
 // rules come from taxonomy.mjs (single definition shared with the evidence generators)
 
