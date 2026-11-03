@@ -1,23 +1,24 @@
-// callvote.mjs — extend labels by validated one-hop inference, kept in its own confidence class.
+// callvote.mjs — iterated one-hop inference, with a fresh fold-wise validation for every round.
 //
-// Rule: a function that calls two or more "high-purity" callees (callees whose A-direct callers are >=85% one label,
-// over >=12 callers) and receives one unambiguous label is very likely that subsystem. This is inference, not
-// observation, so rows are written to attr-callvote.tsv as confidence "V" and are never merged into A-direct.
+// Rule: a function that calls two or more "high-purity" callees (callees whose A-direct callers are >=85% one label over
+// >=12 callers) and receives one unambiguous label is very likely that subsystem. Rows go to attr-callvote.tsv as
+// confidence "V": inference, never merged into A-direct.
 //
-// Two rounds, each validated before use, holding out one evidence file at a time:
-//   round 1  anchors = A-direct.                    1757/1831 = 96.0%
-//   round 2  anchors = A-direct + round-1 rows, with the V rows REBUILT inside every fold so the held-out file cannot
-//            leak into its own prediction.          2082/2210 = 94.2%
-// Requiring more votes does not help (>=3 votes scores 95.5%, >=4 scores 94.0%): the votes are correlated. A third round
-// is deliberately not attempted — each hop costs about two points of precision and the folds get expensive to keep clean.
+// Rounds matter, so each one is validated on its own terms: hold out one evidence file, rebuild every round inside the
+// fold (so the held-out file cannot predict itself), then ask the round's rule to recover that file's A-direct labels.
+// Measured: round1 96.0%, round2 94.2%, round3 93.9% — the drop is real but small, so the loop continues while a round
+// still scores at least 92% and still adds rows. It stops when either condition fails, and the table in METER records
+// every round's number rather than a single blended one.
 import fs from "node:fs";
 import path from "node:path";
 import zlib from "node:zlib";
 
 const ROOT = "G:/omp works/MHGU";
 const INV = path.join(ROOT, "docs/analysis/code/inventory");
-const src = JSON.parse(fs.readFileSync(path.join(INV, "sources.json"), "utf8"));
+const FLOOR = 92.0;
+const MAX_ROUNDS = 8;
 
+const src = JSON.parse(fs.readFileSync(path.join(INV, "sources.json"), "utf8"));
 const anchorsByFile = new Map();
 const direct = new Map();
 for (const f of src) {
@@ -66,74 +67,61 @@ const vote = (f, pure) => {
   return hits.length >= 2 ? { lab, hits } : null;
 };
 
-// ---- round 1 validation (A anchors, leave one file out)
-let t1 = 0, c1 = 0;
-const conf1 = new Map();
-for (const holdFile of anchorsByFile.keys()) {
-  const anchor = new Map();
-  for (const [f, m] of anchorsByFile) if (f !== holdFile) for (const [s, lab] of m) if (!anchor.has(s)) anchor.set(s, lab);
-  const pure = purity(anchor);
-  for (const [s, truth] of anchorsByFile.get(holdFile)) {
-    const f = byStart.get(s);
-    if (!f) continue;
-    const v = vote(f, pure);
-    if (!v) continue;
-    t1++; if (v.lab === truth) c1++; else conf1.set(truth + "->" + v.lab, (conf1.get(truth + "->" + v.lab) || 0) + 1);
+// ---- per-round fold validation
+const roundScore = [];
+for (let round = 1; round <= MAX_ROUNDS; round++) {
+  let tested = 0, correct = 0;
+  for (const holdFile of anchorsByFile.keys()) {
+    const anchor = new Map();
+    for (const [f, m] of anchorsByFile) if (f !== holdFile) for (const [s, lab] of m) if (!anchor.has(s)) anchor.set(s, lab);
+    const held = new Set(anchorsByFile.get(holdFile).keys());
+    let anchors = anchor;
+    for (let r = 1; r <= round; r++) {
+      const pure = purity(anchors);
+      if (r === round) {
+        for (const [s, truth] of anchorsByFile.get(holdFile)) {
+          const f = byStart.get(s);
+          if (!f) continue;
+          const got = vote(f, pure);
+          if (!got) continue;
+          tested++; if (got.lab === truth) correct++;
+        }
+      }
+      const next = new Map(anchors);
+      for (const f of fns) { if (next.has(f.s) || held.has(f.s)) continue; const got = vote(f, pure); if (got) next.set(f.s, got.lab); }
+      anchors = next;
+    }
   }
-}
-const loo1 = t1 ? (100 * c1 / t1).toFixed(1) : "n/a";
-
-// ---- round 1 rows over the whole corpus
-const pure1 = purity(direct);
-const r1 = new Map();
-for (const f of fns) {
-  if (direct.has(f.s)) continue;
-  const v = vote(f, pure1);
-  if (v) r1.set(f.s, v);
+  const pct = tested ? (100 * correct / tested) : 0;
+  roundScore.push({ round, tested, correct, pct: Number(pct.toFixed(1)) });
+  if (pct < FLOOR || !tested) break;
 }
 
-// ---- round 2 validation (A + round-1 anchors, V rebuilt inside each fold)
-let t2 = 0, c2 = 0;
-for (const holdFile of anchorsByFile.keys()) {
-  const anchor = new Map();
-  for (const [f, m] of anchorsByFile) if (f !== holdFile) for (const [s, lab] of m) if (!anchor.has(s)) anchor.set(s, lab);
-  const held = new Set(anchorsByFile.get(holdFile).keys());
-  const p1 = purity(anchor);
-  const v = new Map();
-  for (const f of fns) {
-    if (anchor.has(f.s) || held.has(f.s)) continue;
-    const got = vote(f, p1);
-    if (got) v.set(f.s, got);
-  }
-  const p2 = purity(new Map([...[...v].map(([s, g]) => [s, g.lab]), ...anchor]));
-  for (const [s, truth] of anchorsByFile.get(holdFile)) {
-    const f = byStart.get(s);
-    if (!f) continue;
-    const got = vote(f, p2);
-    if (!got) continue;
-    t2++; if (got.lab === truth) c2++;
-  }
-}
-const loo2 = t2 ? (100 * c2 / t2).toFixed(1) : "n/a";
-
-// ---- round 2 rows over the whole corpus
-const anchors2 = new Map([...[...r1].map(([s, g]) => [s, g.lab]), ...direct]);
-const pure2 = purity(anchors2);
+// ---- emit every surviving round over the whole corpus
 const out = [["start", "label", "conf", "evidence"]];
-const tally = { round1: 0, round2: 0 };
-const perLabel = new Map();
-for (const f of fns) {
-  if (direct.has(f.s)) continue;
-  const v1 = r1.get(f.s);
-  const v = v1 || vote(f, pure2);
-  if (!v) continue;
-  const round = v1 ? 1 : 2;
-  tally["round" + round]++;
-  perLabel.set(v.lab, (perLabel.get(v.lab) || 0) + 1);
-  out.push([f.s, v.lab, "V", `callee vote round ${round}: ${v.hits.length} high-purity callees agree on ${v.lab} (` +
-    v.hits.map((h) => h.n + "/" + h.tot).join(", ") + `); rule validated leave-one-file-out at ${round === 1 ? loo1 : loo2}%`]);
+const anchors = new Map(direct);
+const perRound = [];
+for (const rs of roundScore) {
+  const pure = purity(anchors);
+  let added = 0;
+  const perLabel = new Map();
+  for (const f of fns) {
+    if (anchors.has(f.s)) continue;
+    const got = vote(f, pure);
+    if (!got) continue;
+    anchors.set(f.s, got.lab);
+    added++;
+    perLabel.set(got.lab, (perLabel.get(got.lab) || 0) + 1);
+    out.push([f.s, got.lab, "V", `callee vote round ${rs.round}: ${got.hits.length} high-purity callees agree on ${got.lab} (` +
+      got.hits.map((h) => h.n + "/" + h.tot).join(", ") + `); this round validated fold-wise at ${rs.pct}%`]);
+  }
+  perRound.push({ round: rs.round, pct: rs.pct, tested: rs.tested, added });
 }
 fs.writeFileSync(path.join(INV, "attr-callvote.tsv"), out.map((x) => x.join("\t")).join("\n") + "\n");
-console.log(`round1 LOO ${c1}/${t1} = ${loo1}% (confusions: ${[...conf1].sort((a, b) => b[1] - a[1]).slice(0, 3).map((x) => x.join(":")).join(" ")})`);
-console.log(`round2 LOO ${c2}/${t2} = ${loo2}%`);
-console.log(`wrote ${out.length - 1} rows (round1 ${tally.round1}, round2 ${tally.round2}):`, [...perLabel].sort((a, b) => b[1] - a[1]).map((x) => x.join(":")).join(" "));
+fs.writeFileSync(path.join(INV, "attr-callvote-rounds.tsv"),
+  [["round", "fold_tested", "fold_correct", "precision", "rows_added"]]
+    .concat(roundScore.map((rs) => [rs.round, rs.tested, rs.correct, rs.pct + "%", (perRound.find((p) => p.round === rs.round) || {}).added ?? 0]))
+    .map((x) => x.join("\t")).join("\n") + "\n");
+console.log("round | precision | rows");
+for (const r of perRound) console.log(`  ${r.round}    | ${String(r.pct).padStart(5)}%   | ${r.added}`);
+console.log(`total rows ${out.length - 1}; unexplained functions left ${fns.length - anchors.size}`);

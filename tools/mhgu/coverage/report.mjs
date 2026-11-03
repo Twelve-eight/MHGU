@@ -157,7 +157,7 @@ const CV = (() => {
   }
   return { fn, ins, rows };
 })();
-rows.push(["A-inferred (callee vote, LOO 96.0%/94.2%)", String(CV.fn), String(CV.ins), pct(CV.ins, totalIns), pct(CV.fn, totalFn)]);
+rows.push(["A-inferred (callee vote, 8 rounds, fold 93.6-96.0%)", String(CV.fn), String(CV.ins), pct(CV.ins, totalIns), pct(CV.fn, totalFn)]);
 rows.push(["headline A only", String(A.fn), String(A.ins), pct(A.ins, totalIns), pct(A.fn, totalFn)]);
 rows.push(["unattributed", String(totalFn - A.fn - B.fn), String(totalIns - A.ins - B.ins), pct(totalIns - A.ins - B.ins, totalIns), pct(totalFn - A.fn - B.fn, totalFn)]);
 
