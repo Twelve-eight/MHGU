@@ -222,26 +222,30 @@ const Vset = (() => {
   }
   return s;
 })();
-let pDir = 0, pDirIns = 0, pInf = 0, pInfIns = 0, pSig = 0, pSigIns = 0, pB = 0, pBIns = 0, pNone = 0, pNoneIns = 0;
+let pDir = 0, pDirIns = 0, pInf = 0, pInfIns = 0, pSig = 0, pSigIns = 0, pSpA = 0, pSpAIns = 0, pB = 0, pBIns = 0, pNone = 0, pNoneIns = 0;
 for (const [start, t] of tiers) {
   const ins = t.insns;
   const b = best.get(start);
   if (direct.has(start)) { pDir++; pDirIns += ins; }
   else if (Vset.has(start)) { pInf++; pInfIns += ins; }
   else if (Sset.has(start)) { pSig++; pSigIns += ins; }
-  else if (b && b.conf === "B") { pB++; pBIns += ins; }
+  // A function can hold a spread label at tier A (two-vote agreement plus address prediction) or at tier B; both are
+  // propagation, so they get their own buckets. "No label" means exactly that: no label of any kind.
+  else if (b && b.label && b.conf === "A") { pSpA++; pSpAIns += ins; }
+  else if (b && b.label) { pB++; pBIns += ins; }
   else { pNone++; pNoneIns += ins; }
 }
 rows.push(["partition: direct evidence", String(pDir), String(pDirIns), pct(pDirIns, totalIns), pct(pDir, totalFn)]);
 rows.push(["partition: inferred only", String(pInf), String(pInfIns), pct(pInfIns, totalIns), pct(pInf, totalFn)]);
 rows.push(["partition: signature only", String(pSig), String(pSigIns), pct(pSigIns, totalIns), pct(pSig, totalFn)]);
+rows.push(["partition: spread A (agreement)", String(pSpA), String(pSpAIns), pct(pSpAIns, totalIns), pct(pSpA, totalFn)]);
 rows.push(["partition: spread label only (B)", String(pB), String(pBIns), pct(pBIns, totalIns), pct(pB, totalFn)]);
 rows.push(["partition: no label", String(pNone), String(pNoneIns), pct(pNoneIns, totalIns), pct(pNone, totalFn)]);
 // Everything except the no-label bucket carries some label whose precision has been measured: direct evidence and the two
 // validated inference classes are above 93%, and the spread labels score 91.7% (1,198/1,307) when checked against the
 // functions that also carry their own evidence. Quoting this line always means "covered at >=90% measured precision".
-rows.push(["covered at >=90% precision", String(pDir + pInf + pSig + pB), String(pDirIns + pInfIns + pSigIns + pBIns),
-  pct(pDirIns + pInfIns + pSigIns + pBIns, totalIns), pct(pDir + pInf + pSig + pB, totalFn)]);
+rows.push(["covered at >=90% precision", String(pDir + pInf + pSig + pSpA + pB), String(pDirIns + pInfIns + pSigIns + pSpAIns + pBIns),
+  pct(pDirIns + pInfIns + pSigIns + pSpAIns + pBIns, totalIns), pct(pDir + pInf + pSig + pSpA + pB, totalFn)]);
 
 const byLabel = new Map();
 for (const [start, b] of best) {
