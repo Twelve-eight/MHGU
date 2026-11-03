@@ -27,7 +27,7 @@
 | save-layout/member4-semantics.md | STALE | 行 107..134 的 file_off 比权威布局早 4 B（布局 10-24 已 +4） |
 | save-layout/name-tables-key.md | OK | 四个名字块地址与成员名序逐条命中 |
 | save-layout/pouch-verified.md | OK | 口袋 32×19bit 两档解码逐槽复现（含空槽位置） |
-| analysis/members/member-census.md | OK | GOT 6/6、19 bl + 1 b、member[0] 2292、member[3] 2000×44 |
+| analysis/members/member-census.md | OK | GOT 6/6、19 bl + 1 b、member[0] 2292（**该数错：`0x8FC` = 2,300，2026-11-04 更正，成员表已改**）、member[3] 2000×44 |
 | analysis/members/member4-header.md | STALE | 链尾 0x5E9E/0x5EA2 现为 0x5EA2/0x5EA6；其余（4 个 movw、1024B 头）复现 |
 | analysis/members/member4-17-layout.md | OK（附 3 处小错） | member[4]/[5] 读点与位流复现；跨度 72→71 B，汇总表漏 2 个 reader |
 | analysis/members/member14-17-semantics.md | OK | 6248/160/263/10371 与 `0x3783A-0x335A8` 闭合 |
@@ -167,7 +167,7 @@ dirty: 10,1|18,4|28,2|33,3|40,1|41,1|42,1|43,1|56,20|88,10|329,1|330,1|84,1|73,8
        0x1c9388,0x55d2c0,0x521398
 GOT 0x183a81c -> 0x1858438 | 0x183a828 -> 0x18584b8 | 0x1838d88 -> 0x1897f78
     0x1839394 -> 0x1856fe8 | 0x1838bd8 -> 0x1899458 | 0x1838d78 -> 0x18571e8   （6/6 与表一致）
-member[0] 0x19a4ec: movw r7,#0x8fc(2292) ; movw r1,#0xbaf(2991) ; add r6,r5,#26 ; 步长 4
+member[0] 0x19a4ec: movw r7,#0x8fc（**= 2,300；原文的 (2292) 是换算错误，2026-11-04 更正**） ; movw r1,#0xbaf(2991) ; add r6,r5,#26 ; 步长 4
                     之后 movw r0,#0x62f4 / mov r2,#4080
 member[3] 0x14b0b0: mov r7,#2000 ; add r6,r5,#44 ; 读 2/2/2/6/24（stride 44）
 ```

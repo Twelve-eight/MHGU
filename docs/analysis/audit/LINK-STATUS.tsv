@@ -45,3 +45,7 @@ N1	SWEEP	member-census and the mechanics findings read movw r7,#0x8fc as 2292	fi
 N2	SWEEP	tail-dense first run labelled 0x3783A..0x3B03A as 15360	fixed	span is 14336 (0x3800)
 N3	SWEEP	coverage-map group-name block 0x2EFF..0x3FEF stated 4080	open	span is 4336, 256 unexplained; already editor-spec G-05
 N4	SWEEP	mechanical range-vs-size check across all docs	done	15 remaining rows are inclusive-end or count columns, checked by eye
+N5	SWEEP	632B header counted inside the member residual in PROGRESS	fixed	residual now 86997 = cat 35131 + arrays 822 + 51044 unnamed; the header is a separate layer
+N6	SWEEP	header rows overlapped by 8 bytes and left 584 bytes uncovered	fixed	0x0..0x2F header / 0x30..0x277 header remainder / 632.. member layer, contiguous
+N7	SWEEP	member zero claimed 9543 = 5463 + 38 misc + 4080	fixed	5463+4080 closes exactly; the 38 byte term is gone
+N8	SWEEP	species table changed to 10/4 on the strength of one wiki page	reverted	the game classifies Giadrome as a bird wyvern; the table keeps 11/3 and records the wiki disagreement
