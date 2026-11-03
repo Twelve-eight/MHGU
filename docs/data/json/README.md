@@ -5,15 +5,16 @@
 ## 映射表（知识库核心资产）
 
 ### `monster-slot-map.json` — 存档怪物槽位 ↔ 名字 ↔ 数据库 全链
-**93 条**，字段 `{slot, cn, en, db_id}`：
-- `slot` = 存档怪物计数器下标 0..92（MonsterForm `array[]` 顺序 = `obj+0x72C/0x83E` u16 计数器槽）
-- `cn` = 中文名（MonsterForm 数组 / wiki 页名）
-- `en` = 英文名（mhgu.db `monsters.name`）
-- `db_id` = mhgu.db `monsters._id`（关联 HP/肉质/弱点/任务）
+**137 条**，字段 `{slot, emid, cn, cn_src, en, kind, ro}`（同目录另有 `monster-slot-map-137.json`，字段少 `kind/ro`）：
+- `slot` = 0..136，**不是** 93 个大型怪的老编号：文件含 43 个小怪（`kind=small`）与 94 个 `kind=big`，`emid` 是游戏内部怪物 id
+- `cn`/`en` = 名字，`cn_src` 记录来源（`chS/arc/resident_chS.arc :: monsterName_chS #N`，即名字表下标 = slot）
+- `ro` = 只读标记（多数为 null）
+- 来历：exe `0x1597ea4` 的 137 对 `{emid, slot}` + `resident_chS.arc` 名字表逐条对拍
 
-**已验证**：93/93 全部 db_id 都能取到 `base_hp` + `monster_damage` 肉质行，无孤儿。
-- **关键确认**：`slot92=阁螳螂(Ahtal-Ka)`，其计数器在 `char_off 24414`——这正是 MonsterForm「删跳槽」修复的字节判据（clean=38/dirty=317 非零即阁螳螂击杀数）。
-- 93 槽全是**大型怪物**；db 还有 4097-4144 的小怪（Aptonoth/Jaggi 等）不在此计数器组（另有小型怪计数器）。
+**已核对的锚点**：`slot92 = 飞甲虫(Bnahabra, emid 4122)`、`slot133 = 阁螳螂(机偶)`、`slot134 = 阁螳螂(Ahtal-Ka, emid 88)`。
+
+> **更正（2026-11-03）**：本节旧文写"93 条 / `slot92=阁螳螂` / 计数器在 `char_off 24414`"。那是 **93 个大型怪**的老编号空间，与当前 137 槽空间不是同一套下标：在 137 空间里 92 号是飞甲虫、阁螳螂是 134 号。若按 `0x5EA6 + 2×slot` 读计数器，阁螳螂落在 `char_off 0x5FB2`，而旧文写的 24414 (`0x5F5E`) 对应 137 空间的 92 号。
+> 两个编号空间哪一个与存档计数器数组一致，**尚未用字节证实**——`obj+0x72C/0x83E` 两块各 274 B = 137×u16，长度与 137 空间吻合，但"长度吻合"不等于"下标吻合"。MonsterForm 的写点（24230/24504/24778）只证明块首，不证明序号。下游按 slot 直址读写计数器前必须先做这一次验证。
 
 ### `monster-name-map.json` — db monsters EN→JA + HP
 129 条 `{id, ja, base_hp, sort}`——`name_ja` 在 db 中 129/129 齐全（本映射无空 JA 名）。

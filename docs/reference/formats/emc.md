@@ -4,6 +4,8 @@ MHGU 1.4.0. Class `rEnemyCmd` (class-inventory.tsv:1756, size 192). Type hash `0
 
 Some arcs ship another monster's table (em002_00.arc holds em001_00_cmdtbl) [C].
 
+> **语料注记（2026-11-03 复测）**：本机 `MHGU-private/romfs-extract` 只有 **8 个**松散 `*.3aabba02`，去重后是 4 张真表（`em001_00` 310 条 / `em024_00` 188 / `em007_00` 193 / `em011_00` 141，合计 832 条 entry、106,198 条指令；`emc.mjs --summary` 8/8 解析、21 段全符）。旧文"111 files / 13,514 entries / 143 distinct opcodes"是在完整 arc 语料上测的，**该语料不在本机**，本次无法重算——引用这三个数时注明语料来源，别把它当成当前可复算值。上句"arc 里装别人的表"在本机有直接例证：`probe-em002` 目录下的文件名就是 `em001_00_cmdtbl`。
+
 ## 1. Header (0x10 B)
 | off | type | value |
 |---|---|---|

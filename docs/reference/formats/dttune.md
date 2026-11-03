@@ -1,6 +1,8 @@
 # `*_dttune` (rEnemyDtTune) — format spec
 
 > **Per-monster offsets — read this first.** Only base HP @0x38 is a fixed offset. The meat table and the status block live at variable offsets (meat seen at 0x8C/0x8E/0x8F; status at 0x1F4/0x22F/0x351/0x35C/0x3A1/0x4E8 or absent) with variable record stride, a 12-B non-record slot before Blast, and bases that may sit on an odd byte offset. A monster's meat/status may be cited [C] only if the table was located in *that* file and its values cross-check against `mhgu.db`. Per-monster offsets are published in `docs/data/json/monster-dttune-index.json` (DtTuneAll).
+>
+> **索引已过期（2026-11-03 核对）**：该 JSON 是 137 行的旧快照——`offsets.meat` 有 **44 条为 null**（`em087_00` + 43 个 `ems*`），已定位的 93 条分布 0x8E×45 / 0x8C×29 / 0x8F×18 / 0x90×1。本文的定位规则（§"How to locate the table"）已在 138 个 arc 上做到 **138/138**，分布 0x8C×70 / 0x8E×49 / 0x8F×18 / 0x90×1，即索引里那 44 个 null 是**旧解码器的漏检**，不是"该怪没有肉表"。读索引时按本文规则重定位，别把 null 当结论。重生成需要 `nativeNX/arc/enemy/*.arc` 语料，本机当前没有（`dttune-all.mjs` 需要它），所以在拿到语料前索引不再更新。
 
 Source files: `romfs/nativeNX/arc/enemy/emNNN_00.arc` → entry `enemy\dt_tune\emNNN_00_dttune`, type hash `0x48e8ac29`, zlib-compressed inside the arc. Extract with `node tools/mhgu/arc.mjs extract <arc> <outdir> "_dttune$"`; decode with `node tools/mhgu/dttune.mjs <file>`.
 
