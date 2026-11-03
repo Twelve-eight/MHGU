@@ -17,7 +17,9 @@ export const RULES = [
   ["player-pl", /(cPl\d{2}|uPl\d{2}|PlayerState|playerClass)/],
   ["weapon-wp", /(weapon\\|cWp\d{2}|Wp\d{2}_|weaponType|pEquipData)/],
   ["otomo-ot", /(otomo|Otomo|nyanter|Nyanter|cOt\d{2}|uOt\d{2})/],
-  ["quest", /(questData|QuestData|QuestID|quest_id|rQuest)/],
+  // "Quest" as a substring fires on Request/Session-style words (a cSoundSlideRequestData string was labelled quest),
+  // so every rule below uses a token boundary rather than a bare substring
+  ["quest", /(\bquest|\bQuest|QuestData|QuestID|quest_id|rQuest)/],
   ["item", /(cItem|ItemData|_item\b|itmData)/],
   ["filesystem", /(romfs|Romfs|fw_fs|filesystem|FileDevice)/],
   ["physics-math", /(MtCollision|MhCollision|rigidBody|PhysicsWorld)/],

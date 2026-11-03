@@ -41,19 +41,24 @@ rows.sort((a, b) => a.s - b.s);
 
 // ---- seeds (built-in string rules plus any --seed TSV: start,label,conf,evidence)
 const extraSeedFiles = process.argv.reduce((a, v, i) => (v === "--seed" ? [...a, process.argv[i + 1]] : a), []);
+// conf B is a suggestion, not evidence: it must not seed propagation. Pass --accept-b to opt in for an experiment; the
+// per-file counters make the difference visible.
+const acceptB = process.argv.includes("--accept-b");
+const rank = { A: 2, B: 1 };
+const startSet = new Set(rows.map((r) => r.s));
 const external = new Map(); // start -> {label, conf, src}
 for (const f of extraSeedFiles) {
-  let acc = 0, rejStart = 0, rejLabel = 0;
+  let acc = 0, rejStart = 0, rejLabel = 0, rejConf = 0;
   for (const l of fs.readFileSync(f, "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
     const [start, label, conf, evidence] = l.split("\t");
     const v = parseInt(start, 16);
-    if (!rows.some((r) => r.s === v)) { rejStart++; continue; } // attribution for a non-function start is a source bug
+    if (!startSet.has(v)) { rejStart++; continue; } // attribution for a non-function start is a source bug
     if (!LABELS.has(label)) { rejLabel++; continue; }
-    const rank = { A: 2, B: 1 };
+    if (conf !== "A" && !acceptB) { rejConf = (rejConf || 0) + 1; continue; }
     const prev = external.get(v);
     if (!prev || (rank[conf] || 0) > (rank[prev.conf] || 0)) { external.set(v, { label, conf, src: path.basename(f), evidence: evidence || "" }); acc++; }
   }
-  console.log(`  seed file ${path.basename(f)}: accepted ${acc}, rejected non-start ${rejStart}, rejected bad label ${rejLabel}`);
+  console.log(`  seed file ${path.basename(f)}: accepted ${acc}, rejected non-start ${rejStart}, rejected bad label ${rejLabel}, rejected conf-B ${rejConf}`);
 }
 const seeds = [];
 for (const r of rows) {
