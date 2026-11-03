@@ -244,7 +244,7 @@ Source: coverage-map.md:303.
 12. **Never write palico `+0x058..+0x05E`** (pointer-like residue) and never treat the record as padded
     there. Never use decimal `+88..+91` (record bytes `+0x058..+0x05B`) `== 0` as a DLC test.
     Source: coverage-map.md:391.
-13. **Never write the cat equipment box** `0x17C2E..0x208AD` (1000 x 36 B capacity); the old
+13. **Never write the cat equipment box** `0x17C2E..0x208CE` (1000 x 36 B = 36,000 B; the old end `0x208AD` was 33 B short — that tail belongs to slot 1000); the old
     `chkBoxCatArmsUnlock` range `17479..17816` (decimal) is disabled and must stay disabled.
     Sources: DEVELOP.md:290,496-500; coverage-map.md:118.
 14. **Never move, insert, or delete records** in any fixed-size array in this spec (quest bits,
