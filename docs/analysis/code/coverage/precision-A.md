@@ -69,13 +69,13 @@ For every row: full-body disassembly (head + tail), every `bl` target identified
    `[this+72]`, panels obtained with `0x65cb3c` (`this->panel[]` at `[this+0x34]`), state queries
    `0x62c078`, and the tail `b 0x65e794` is a screen transition; the "quest" calls (`0x678598`,
    `0x6798d4`) are data requests issued *by the screen*.
-5. **`0x23d0a4` (quest) vs `0x4c106c` (weapon-wp) — both `no-evidence`.** These two are the same
-   template: 808-byte stack frame, `0x82772c` buffer init with (524288, 4096), `0x827bbc` writing the
-   float at `[this+0x68]`, `0x827998` writing the count at `[this+100]`, a stride-12 loop over
-   `[this+108]` with one per-entry callback (`0x238a6c` vs `0x4b0d30`), then `0x8277c4`. Two
-   byte-identical serializers cannot both be owned by different subsystems, and neither function
-   contains anything subsystem-specific — a compact demonstration that the two labels came from
-   address ranges, not from evidence.
+5. **`0x23d0a4` (quest) vs `0x4c106c` (weapon-wp) — both `no-evidence`.** Same 808-byte frame and the
+   same helper sequence: `0x82772c(524288, 4096)` buffer init, `0x827bbc` writing the float at
+   `[this+0x68]`, `0x827998` writing the count at `[this+100]`, a stride-12 loop over `[this+108]`,
+   then `0x8277c4`. Only the per-entry writer differs (`0x238a6c` appends a byte; `0x4b0d30` writes
+   `u16[+4]` and `u32[+8]` through the same writer vtable), and neither callback names a subsystem.
+   The identical shape carries no owner information, so the two different labels can only have come
+   from the two address ranges.
 
 ## What would overturn the `wrong` verdict
 
