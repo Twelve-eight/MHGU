@@ -19,7 +19,8 @@ node tools/mhgu/coverage/immscan.mjs         # 32 位常量签名 → attr-immsc
 # 推断通道（锚点只取 A 级证据；每条都在脚本内先做留一/折叠验证）
 node tools/mhgu/coverage/classvote.mjs       # 类内共识（LOO 99.4%）→ attr-classvote.tsv
 node tools/mhgu/coverage/callervote.mjs      # 调用者票（LOO 96.4%）→ attr-callervote.tsv
-node tools/mhgu/coverage/callvote.mjs        # 调用票 8 轮（折叠 93.6–97.2%）→ attr-callvote.tsv
+node tools/mhgu/coverage/callvote.mjs        # 双票：≥2 个高纯度被调者（折叠 93.6–97.2%）→ attr-callvote.tsv
+node tools/mhgu/coverage/callvote1.mjs       # 单票级联：≥1 个 ≥85% 纯度被调者，6 轮整级联回放（93.2–95.2%）→ attr-callvote1.tsv
 
 # 分层与报告（种子清单固定在 docs/analysis/code/inventory/sources.json）
 node tools/mhgu/coverage/recompute.mjs --functions docs/data/functions-retile.csv.gz \
@@ -39,8 +40,8 @@ node tools/mhgu/coverage/report.mjs [--demote f]
 
 | 线 | 指令 | 函数 | 计入的类 | 最低类的实测精度 |
 |---|---:|---:|---|---|
-| **≥90% 精度** | **76.4%** | 59.7% | 直接证据 + 推断通道 + 签名 + 三个已验摊开标签（online-nex/weapon-wp/render-gfx） | 95.7%（推断）/ 94.7%（摊开已验合并） |
-| **≥85% 精度** | **90.2%** | 75.3% | 上面这些 **+ 全部摊开标签** | **85.5%**（摊开类实测 CP95 下界） |
+| **≥90% 精度** | **81.6%** | 64.2% | 直接证据 + 推断通道 + 签名 + 三个已验摊开标签（online-nex/weapon-wp/render-gfx） | 93.2%（单票级联最弱轮）/ 94.7%（摊开已验合并） |
+| **≥85% 精度** | **90.8%** | 76.6% | 上面这些 **+ 全部摊开标签** | **85.5%**（摊开类实测 CP95 下界） |
 
 摊开类的最新实测（当前 tiers，非旧文档里的 74.2%）：**13,317/15,476 = 86.0%，CP95 下界 85.5%**；逐标签 ui 81.8%、online-nex 92.5%、render-gfx 90.1%、monster-em 92.8%、quest 73.9%、physics-math 76.6%、audio 83.3%、weapon-wp 86.2%。旧的 74.2% 是在降级前、通道未扩充时的同一构造，数变了不是尺子变了。
 
