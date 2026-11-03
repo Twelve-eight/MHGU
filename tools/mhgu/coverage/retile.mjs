@@ -102,11 +102,15 @@ for (const r of rows) {
 }
 fs.writeFileSync(OUT_CSV, zlib.gzipSync(lines.join("\n") + "\n"));
 
+// How many prologues are NOT region starts. This used to be `prologues.size - keptOld`, but keptOld counts old starts
+// that survived the merge (23,885 of them), not prologues that happened to be region starts (17,280), so the subtraction
+// mixed two populations and printed 22,202 instead of 28,807. Count the intersection explicitly.
+const prologueAlsoOld = [...prologues].filter((p) => oldStarts.has(p)).length;
 const md = [
   "# 函数清单重切（2026-11-03）",
   "",
   "`docs/data/functions.csv.gz` 是**区域平铺**（23,885 段），不是函数表：镜像里有 **46,087** 个 `push {...,lr}` 前导，",
-  `其中 **${(prologues.size - keptOld).toLocaleString()}** 个不是区域起点。后果：函数级分母偏小一半；68,626 个 vtable 槽里 62,787 个因目标不是区域起点而无法归属。`,
+  `其中 **${(prologues.size - prologueAlsoOld).toLocaleString()}** 个（46,087 − 17,280）不是区域起点。后果：函数级分母偏小一半；68,626 个 vtable 槽里 62,787 个因目标不是区域起点而无法归属。`,
   "",
   "重切起点 = 前导 ∪ BL/BLX 立即数目标（断言：BL 目标数 ≈ 23,336、旧起点全部保留、指令总和 = 5,228,277、带字符串函数 ≈ 1,937）。",
   "字符串列**不重新提取**，按「新起点落在哪个旧区域」继承——旧字符串列本身已知含约 754 条假阳性（见 `attr-library.md` §findings）。",

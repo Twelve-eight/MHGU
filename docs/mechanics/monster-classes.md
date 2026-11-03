@@ -1,5 +1,7 @@
 # 怪物相关类的成员布局（代码侧取证，2026-10-23）
 
+> **2026-11-04 关联审计警示（`LINK-MECHANICS-CODE.md`）**：下面"注册函数"这一列**不可当作函数起点**。`member-offsets.tsv` 的 `fn` 列早于函数表重切，27 组里有 **25 组**的成员写入点全部落在**另一个**函数里（`0x48698` 其实是 4 字节 `bx lr` 桩，它的 7 条记录在 `0x4869c`；`0x53ea0 → 0x54028`、`0x479a0 → 0x47bb0`、`0x4201c → 0x4210c`）。**成员数据本身是好的**：110/110 行与 `member-offsets.tsv` 完全一致；错的只是"哪个函数写了它们"。详见 `docs/analysis/code/coverage/attr-members.md:131-136`。
+
 > 方法：`main.140.flat.bin` 中「类注册函数」的成员注册链：
 > `bl 0x7bb638`(new 属性记录) → `ldr r1,[pc]; add r1,pc,r1`(取成员名串) → `str r1,[r0]`(记录名) → `mov r1,#type` → `stm r0,{r1,r10}` → `add r1,r10,#off` → `str r1,[r0,#12]`(实例+偏移)。
 > 因此 **offset 与 type 都是代码立即数**，非推断。工具：`.tmp/mhgu/mon/mon-offsets.py`。
