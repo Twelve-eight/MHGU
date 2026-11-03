@@ -12,15 +12,15 @@ S2	METER-CHAIN	"seven gates" vs 12	fixed	HANDOFF step 3 says 12 gates
 S3	METER-CHAIN	code-metrics keeps 94.7% inside the acceptance definition	open	the definition block is dated 2026-10-23 and the retest is stated next to it; changing the archival definition would rewrite history
 S4	METER-CHAIN	gate-9 "5 site(s)" quote stale	fixed	the gate prints 7 sites; the old sentence refers to the pre-edit state and now says so
 S5	METER-CHAIN	pre-correction tables still labelled current	open	Listed individually below where verified
-TA	SAVE	PROGRESS:25 decomposition sums to 174,231, not 224,643	open	arithmetic confirmed (sum 174,231); the 24-row decomposition with residual 86,997 is the one that closes; needs the member table to say which is canonical
+TA	SAVE	PROGRESS:25 decomposition sums to 174,231, not 224,643	fixed	PROGRESS:25 now states the residual 86997 and the 50412 bytes still unaccounted
 TB	SAVE	hunter header 0x0..0x27 (40B) cannot hold HR at 0x28 / gender at 0x2A	fixed	coverage-map row now 0x0..0x2F (48B), CURRENT-RULING:58 was already right
-TC	SAVE	member layer start 0x28 vs member[0] at 0x278	open	coverage-map has both; resolving needs the reader order to be re-read
+TC	SAVE	member layer start 0x28 vs member[0] at 0x278	fixed	coverage-map coarse row now names 0x28..0x278 as a 592B unknown header instead of members 1-3
 TD	SAVE	165KB ledger sums to 159,327 (13.5%)	open	intervals must be re-measured before the row is rewritten
 TE	SAVE	cat equip box end 0x208CE vs text	open	1000x36 = 36,000 needs the start offset to confirm
 TF	SAVE	member[4..12] gap 41,542 vs 42,566	open	arithmetic only; the 1,024 difference needs the boundary list
 TG	SAVE	2300 slots = 5451B	fixed	5,463B (19x2300/8, 0x17CF-0x278)
 TH	SAVE	r7=0x8FC=2292	fixed	0x8FC is 2,300; 2,292 would be 0x8F4
-TI	SAVE	vol_only 0 in PROGRESS:46 vs 1 in coverage-map:263	open	needs the dirty save to recheck the volume-only case
+TI	SAVE	vol_only 0 in PROGRESS:46 vs 1 in coverage-map:263	fixed	PROGRESS:46 now says vol_only=1 under the code alignment (15 under the old one), matching coverage-map:263
 TJ	SAVE	pouch-verified lists 34 items for 32 slots	open	needs the decoder output re-read
 TK	SAVE	71.97% cross-save figure has no pairing/interval	open	the 67.3% pair is the documented one; 71.97 needs its own pairing
 DL1	DATA	equipment.md cites armor/*.json for 5,637; files hold 5,609	fixed	citation changed to the armor table, 28 missing ids stated
@@ -29,8 +29,8 @@ DL3	DATA	species table 11/3 vs source 10/4	fixed	bird 10 / fish 4 with the page-
 DL4	DATA	deviant HP +500 lower bound	fixed	+400 (Dreadqueen 4900-4500)
 DL5	DATA	damage/duration "exactly equal to wiki"	open	two counterexamples in the report; needs the wiki rows re-read
 DL6	DATA	armor points -6..15 vs -8..15	open	points live outside the armor table; needs the skills join to recompute
-DL7	DATA	README says 21 exports, lists 24	open	docs/data/json holds 27 files; the count sentence needs a definition of table vs file
-DL8	DATA	README calls the item file 日文名 and 中文名 in two places	open	one of the two is wrong; the original file is not in the repo to settle it
+DL7	DATA	README says 21 exports, lists 24	rejected	21 table exports plus 6 hand-mapped files is 27, which is what docs/data/json holds; the row count in the prose table is a different unit
+DL8	DATA	README calls the item file 日文名 and 中文名 in two places	fixed	README line 155 said the original item file had Chinese names; it is the Japanese 2930 line table per json/README:28
 DL9	DATA	quests.md id range 1xxxx-11xxxxx	fixed	101..1,120,012 measured
 MC1	MECHANICS	"149 action dispatchers" unreproducible	open	marked unreproducible in monster-code-map
 MC2	MECHANICS	"53 dispatchers / 41 named" vs 51 sections / 26 named	fixed	both numbers corrected and explained

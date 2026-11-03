@@ -152,7 +152,7 @@ bun -e "import {Database} from 'bun:sqlite'; const d=new Database('docs/data/mhg
 **信源验证记录**：`docs/reference/source-verification.md`
 ## 缺口（待补，mhgu.db 已覆盖大部分）
 - 怪物数据：**已由 mhgu.db 覆盖**（monsters/monster_damage/monster_weakness/monster_status）
-- 道具（item）全表：**已由 mhgu.db 覆盖**（items 21153 条）；编辑器用的 `MHGU_item(uni).txt` 仓库里没有，需先用 `tools/mhgu/export-item-table.mjs` 从库生成（英文名）或从发布版编辑器包取回（中文名），再对拍；见上文「编辑器运行时数据文件」
+- 道具（item）全表：**已由 mhgu.db 覆盖**（items 21153 条）；编辑器用的 `MHGU_item(uni).txt` 仓库里没有，需先用 `tools/mhgu/export-item-table.mjs` 从库生成（英文名）或从发布版编辑器包取回（**日文名**，2,930 行；原写"中文名"与 `docs/data/json/README.md:28` 的"编辑器日文表"不符），再对拍；见上文「编辑器运行时数据文件」
 - 猫/Palico：palico_weapons/palico_armor/meow_locations/meow_rewards 已有；**charms/felyne_skills/food_combos 为空表待补**
 - 委托（Daily/委托任务）：wiki 有页，mhgu.db 无专表
 - 狩技（Hunter Arts）效果数值：wiki `1847` 狩技一览，mhgu.db 无专表
