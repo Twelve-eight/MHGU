@@ -47,12 +47,13 @@ for (const [block, list] of [...perBlock].sort((a, b) => Number(a[0]) - Number(b
   const promote = settled >= 10 && unknown.length <= 2 && topN >= 10 && blockOf.size > 0;
   report.push({ block, sampled: list.length, confirm: conf.length, relabel: relab.length, unknown: unknown.length, topLabel, topN, promote });
   if (!promote) continue;
-  // promote every B row of this block whose current label is the block's confirmed label
+  // promote every B row of this block to the label the sample settled on -- including rows whose current label differs,
+  // because a unanimous relabel means the propagation label was the error, not the evidence
   const bFile = path.join(INV, "bblocks", `b${block.padStart(2, "0")}.txt`);
   if (!fs.existsSync(bFile)) continue;
   for (const l of fs.readFileSync(bFile, "utf8").split("\n").filter(Boolean)) {
     const [start, , label] = l.split("\t");
-    if (label !== topLabel) continue;
+    if (label === topLabel) continue; // already carries the settled label; nothing to change
     rows.push([start, topLabel, "A", `block ${block} purity ${topN}/${list.length} (${conf.length} confirm, ${relab.length} relabel, ${unknown.length} unknown) sample ${list[0].file}`]);
   }
 }
