@@ -92,5 +92,18 @@ try {
   bad(`inferred re-derivation failed: ${String(e.message).slice(0, 120)}`);
 }
 
+// 8. the headline itself: recompute the partition from the raw inputs with a second implementation. Gates 1-7 all
+// compare artefacts to each other; if report.mjs merged its five sources wrongly, every one of them would still pass.
+try {
+  const out = execFileSync(process.execPath, ["tools/mhgu/coverage/independent-coverage.mjs"], { cwd: ROOT, encoding: "utf8" });
+  const m = /covered at >=90% independently: (\d+) = ([\d.]+)%/.exec(out);
+  if (/^PASS /m.test(out)) ok(`independent recomputation reproduces the report partition (${m?.[2]}% of instructions)`);
+  else bad("independent recomputation: " + out.split("\n").filter((l) => l.startsWith("DIFF")).slice(0, 3).join("; "));
+} catch (e) {
+  const out = String(e.stdout || "");
+  const diffs = out.split("\n").filter((l) => l.startsWith("DIFF")).slice(0, 3).join("; ");
+  bad(`independent recomputation disagrees with the report: ${diffs || String(e.message).slice(0, 120)}`);
+}
+
 console.log(failures ? `\n${failures} check(s) failed` : "\nALL PASS");
 process.exit(failures ? 1 : 0);
