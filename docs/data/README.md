@@ -59,9 +59,9 @@
 
 **与 agroff JSON 的关系**：agroff 944 任务/204 技能是 Kiranico 网页爬取（英文为主）；mhgu.db 是更全的官方数据（1355 任务、多语言、含肉质/掉落/采集）。**mhgu.db 为权威**，agroff 作交叉验证。
 
-**两份数据源对拍（2026-11-04）**：`docs/data/json/` 的 agroff JSON 与 `mhgu.db` 逐表比行数，**凡是有同名表的，行数完全相同**——quest_rewards 37,370、items 21,153、gathering 15,414、weapons 10,877、armor 5,637、monster_to_quest 2,305、quests 1,355、palico_armor 1,001、monster_damage 893、monster_status 728、palico_weapons 495、skills 326、horn_melodies 278、decorations 242、skill_trees 205、combining 183、monsters 129、monster_weakness 108、locations 31。说明两者出自同一次抽取，没有任何一边单独被改过。
+**导出完整性（2026-11-04，不是交叉验证）**：`docs/data/json/` 是**本库自己的导出**（见本节开头"已导出 21 表为 json/<table>.json"），所以拿它跟 `mhgu.db` 比行数**必然相等**——逐表比过：quest_rewards 37,370、items 21,153、gathering 15,414、weapons 10,877、armor 5,637、quests 1,355、monsters 129 等 21 张表全部一致，另有 6 个手工映射 JSON 本就不在导出内。这只能证明**导出没坏**，不能当作两个独立来源互相印证（这正是 §4d 说的自证）。
 
-另有 **6 个 JSON 没有对应表**，属于只以 JSON 形式存在的辅助映射：`monster-dttune-index`(137)、`monster-names-chs`(137)、`monster-slot-map-137`(137)、`monster-slot-map`(137)、`monster-name-map`(129)、`motion-values`(14)。`felyne_skills`/food_combos/charms 两边都是 0，**空表不是抽取漏了，是源本身没有**。
+**真正的交叉验证（agroff，独立来源）**：`docs/data/quests.json` 是 `agroff/mhgu-quest-list` 从 **Kiranico 网页爬取**的 944 条任务，与 Capcom 数据包的抽取完全不同源。按标题归一化（小写、去标点）后比对：**944 / 944 = 100% 都能在 `mhgu.db` 的 quests 表里找到**，没有一条 agroff 独有；反过来 db 有 411 个名字在 agroff 里没有——与"db 是超集（1,355 vs 944）"的预期一致。**这才是两份源互相印证。**
 
 **信源验证记录**：`docs/reference/source-verification.md`
 ## 缺口（待补，mhgu.db 已覆盖大部分）
