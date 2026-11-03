@@ -25,7 +25,10 @@ const LABELS = new Set([
 
 // ---- spine
 const tiers = new Map(); // start -> {insns, tier, label}
-const spine = fs.existsSync(path.join(INV, "tiers-recomputed.csv")) ? "tiers-recomputed.csv" : "tiers.csv"; // recomputable wins
+// Preference: the seeded merge wins because it is the current best answer; the no-seed recompute is the reproducible
+// baseline behind it; tiers.csv is the legacy spine and only a fallback.
+const spine = ["tiers-merged.csv", "tiers-recomputed.csv", "tiers.csv"].find((f) => fs.existsSync(path.join(INV, f)));
+console.log(`spine: ${spine}`);
 const lines = fs.readFileSync(path.join(INV, spine), "utf8").split(/\r?\n/).filter(Boolean).slice(1);
 for (const l of lines) {
   const [s, ins, t, lab] = l.split(",");
@@ -67,7 +70,14 @@ for (const f of extraArgs) {
 }
 
 // ---- demotions: rows that a recorded review refuted keep their label but stop counting as verified
-const demoteArg = process.argv.reduce((a, v, i) => (v === "--demote" ? [...a, process.argv[i + 1]] : a), []);
+// Demotions are part of the meter, not an optional flag: every docs/analysis/code/inventory/demote-*.tsv is loaded by
+// default, and --demote only adds a file from elsewhere. A challenge that must be remembered at every invocation is a
+// challenge that will be forgotten, and the report would quietly drift back up.
+const demoteArg = [
+  ...fs.readdirSync(INV).filter((f) => /^demote-.*\.tsv$/.test(f)).map((f) => path.join(INV, f)),
+  ...process.argv.reduce((a, v, i) => (v === "--demote" ? [...a, process.argv[i + 1]] : a), []),
+];
+console.log(`demotions: ${demoteArg.length} file(s)`);
 const demoted = new Set();
 for (const f of demoteArg) {
   for (const l of fs.readFileSync(f, "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {

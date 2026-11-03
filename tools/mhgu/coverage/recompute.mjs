@@ -18,7 +18,11 @@ const ROOT = "G:/omp works/MHGU";
 const fnArg = process.argv.reduce((a, v, i) => (v === "--functions" ? process.argv[i + 1] : a), []);
 const SRC = fnArg || path.join(ROOT, "docs/data/functions.csv.gz"); // use docs/data/functions-retile.csv.gz for real functions
 const OLD = path.join(ROOT, "docs/analysis/code/inventory/tiers.csv");
-const OUT = path.join(ROOT, "docs/analysis/code/inventory/tiers-recomputed.csv");
+// Two spines, never one file doing both jobs: the no-seed run keeps tiers-recomputed.csv as the reproducible baseline
+// (string rules only), and any run that adds --seed evidence files writes tiers-merged.csv. Overwriting the baseline with
+// a seeded run would make "what do the rules alone say" unanswerable, which is exactly how the earlier numbers drifted.
+const seeded = process.argv.includes("--seed");
+const OUT = path.join(ROOT, "docs/analysis/code/inventory", seeded ? "tiers-merged.csv" : "tiers-recomputed.csv");
 
 // rules come from taxonomy.mjs (single definition shared with the evidence generators)
 
@@ -60,12 +64,24 @@ for (const f of extraSeedFiles) {
   }
   console.log(`  seed file ${path.basename(f)}: accepted ${acc}, rejected non-start ${rejStart}, rejected bad label ${rejLabel}, rejected conf-B ${rejConf}`);
 }
+// Demotions (docs/analysis/code/inventory/demote-*.tsv) are part of the calculation, not a display filter: a demoted
+// function may not seed, may not vote and may not carry a label, otherwise its label keeps spreading even though the
+// report would hide it.
+const demoted = new Set();
+for (const f of fs.readdirSync(path.join(ROOT, "docs/analysis/code/inventory")).filter((x) => /^demote-.*\.tsv$/.test(x))) {
+  for (const l of fs.readFileSync(path.join(ROOT, "docs/analysis/code/inventory", f), "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
+    const v = parseInt(l.split("\t")[0], 16);
+    if (Number.isFinite(v)) demoted.add(v);
+  }
+}
+console.log(`demoted starts: ${demoted.size}`);
 const seeds = [];
 for (const r of rows) {
+  if (demoted.has(r.s)) continue;
   const lab = labelOf(r.strings);
   if (lab) seeds.push({ r, lab });
 }
-for (const [start, e] of external) seeds.push({ r: rows.find((r) => r.s === start), lab: e.label, ext: e });
+for (const [start, e] of external) if (!demoted.has(start)) seeds.push({ r: rows.find((r) => r.s === start), lab: e.label, ext: e });
 console.log(`functions ${rows.length}, seeded ${seeds.length} (${((100 * seeds.length) / rows.length).toFixed(1)}%) [${extraSeedFiles.length} external file(s)]`);
 
 // ---- spread
@@ -79,13 +95,15 @@ for (const s of seeds) L.set(s.r.s, s.lab);
 for (let it = 0; it < 8; it++) {
   let changed = 0;
   for (const r of rows) {
-    if (L.has(r.s)) continue;
+    if (L.has(r.s) || demoted.has(r.s)) continue;
     const vote = new Map();
-    for (const c of r.callees) { const l = L.get(c); if (l) vote.set(l, (vote.get(l) || 0) + 1); }
-    for (const p of rev.get(r.s) || []) { const l = L.get(p); if (l) vote.set(l, (vote.get(l) || 0) + 1); }
+    for (const c of r.callees) { if (demoted.has(c)) continue; const l = L.get(c); if (l) vote.set(l, (vote.get(l) || 0) + 1); }
+    for (const p of rev.get(r.s) || []) { if (demoted.has(p)) continue; const l = L.get(p); if (l) vote.set(l, (vote.get(l) || 0) + 1); }
     if (!vote.size) continue;
     const best = [...vote.entries()].sort((a, b) => b[1] - a[1] || String(a[0]).localeCompare(String(b[0])))[0];
-    if (best[1] >= 1) { L.set(r.s, best[0]); changed++; }
+    // one agreeing neighbour is a coincidence, two is a signal: a single vote used to be enough, which let any seed
+    // bleed across the whole call graph in eight iterations
+    if (best[1] >= 2) { L.set(r.s, best[0]); changed++; }
   }
   if (!changed) break;
 }
