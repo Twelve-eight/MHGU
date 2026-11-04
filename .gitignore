@@ -70,3 +70,6 @@ docs/data/MHGU_item(uni).txt
 docs/data/MHGU_DLC.txt
 .tmp-*/
 .tmp-*
+
+# release artefacts are built by tools/release/package-release.mjs
+dist/
