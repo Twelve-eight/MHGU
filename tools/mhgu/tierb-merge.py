@@ -31,10 +31,15 @@ dirs = [d for d in opt('--dirs', '.tmp/reports-mhgu').split(',') if d]
 patterns = [p for p in opt('--patterns', 'tierB-slice-*.md').split(',') if p]
 out = opt('--out', '.tmp/mhgu/inventory/tierb-labels.csv')
 conflicts_out = opt('--conflicts', None)
+labels_arg = [x for x in opt('--labels', '').split(',') if x]
 last_wins = '--last-wins' in sys.argv
 policy = opt('--policy', 'last' if last_wins else 'weakest')
 if policy not in ('first', 'last', 'weakest'):
     sys.exit('--policy must be first, last or weakest')
+
+if labels_arg and len(labels_arg) != len(dirs):
+    sys.exit('--labels needs one name per --dirs entry')
+LABEL = {d: (labels_arg[i] if labels_arg else os.path.basename(d)) for i, d in enumerate(dirs)}
 
 paths = []
 for d in dirs:
@@ -67,7 +72,7 @@ for p in paths:
             continue
         # src carries the directory basename: tierB-slice-03/05/08.md exist in BOTH input dirs with
         # different content, so a bare basename cannot identify the origin of a row (2026-11-06).
-        src = '%s/%s' % (os.path.basename(os.path.dirname(p)), os.path.basename(p))
+        src = '%s/%s' % (next(LABEL[d] for d in dirs if p.startswith(d)), os.path.basename(p))
         rows.append((int(m.group(1), 16), lab, m.group(3), m.group(4), m.group(5), src))
 
 # group by vaddr so a disagreement is visible instead of being resolved by file order

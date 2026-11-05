@@ -44,10 +44,16 @@ Reproduce:
 cd "G:/omp works"
 py -3 MHGU/tools/mhgu/tierb-merge.py \
   --dirs "MHGU/docs/analysis/code/inventory/slices/reports-mhgu,MHGU/docs/analysis/code/inventory/slices/w6-pass12" \
+  --labels "reports-mhgu,w6-pass12" \
   --patterns "tierB-slice-*.md,tierB2-slice-*.md,tierB3-slice-*.md" \
   --out MHGU/docs/data/tierb-labels.csv \
   --conflicts MHGU/docs/data/tierb-labels.CONFLICTS.tsv
 ```
+
+`--labels` pins the `src` prefix per input directory. Without it the prefix is the physical directory
+name, so running from the working tree (`.tmp/…` and `…/new`) vs the vendored copies would produce
+different `src` values for the same rows — 1,496 rows differed that way on 2026-11-06 before the flag
+existed. With it, both trees produce byte-identical output.
 
 ## Duplicate policy (changed 2026-11-06)
 

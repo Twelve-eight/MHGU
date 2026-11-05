@@ -25,6 +25,8 @@
 
 **role 计数**：orchestrator 81 / worker 39 / leaf 0 / thunk 0
 
+<!-- [NEEDS-SOURCE] W6-P122: 汇总按 120 条写（label/conf/role 均合计 120），但本表只有 60 行；最不确定名单中的 0xcb3014、0xa6d3b4、0x872e00、0xafd42c、0x9b309c 不在表内。文件在 slice-06 continued 注释处截断，缺 60 行。汇总数字未改，见 G:/tmp/w6p122/REPORT.md -->
+
 **最不确定的 5 个**
 
 1. `0x130b6b4` — 只有 votes otomo-ot:1，反汇编是超长立即数比较链 + 跳表，看不出子系统。
