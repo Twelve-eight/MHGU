@@ -269,6 +269,8 @@ const Vset = (() => {
   }
   return s;
 })();
+const dumpNone = (() => { const i = process.argv.indexOf("--dump-none"); return i >= 0 ? process.argv[i + 1] : null; })();
+const noneStarts = [];
 let pDir = 0, pDirIns = 0, pInf = 0, pInfIns = 0, pSig = 0, pSigIns = 0, pSpV = 0, pSpVIns = 0, pSpVote = 0, pSpVoteIns = 0, pSpU = 0, pSpUIns = 0, pNone = 0, pNoneIns = 0;
 // Re-measured on the current tiers by spread-precision.mjs (five shifted 1 MB grids, evidence from outside the window only).
 // Individual CP95: online-nex 91.5, monster-em 91.6, render-gfx 89.0, weapon-wp 80.3. render-gfx and weapon-wp miss on their
@@ -314,7 +316,7 @@ for (const [start, t] of tiers) {
     else { pSpU++; pSpUIns += ins; }
   }
   else if (b && b.label) { pSpU++; pSpUIns += ins; }
-  else { pNone++; pNoneIns += ins; }
+  else { pNone++; pNoneIns += ins; if (dumpNone) noneStarts.push(start); }
 }
 rows.push(["partition: direct evidence", String(pDir), String(pDirIns), pct(pDirIns, totalIns), pct(pDir, totalFn)]);
 rows.push(["partition: inferred only", String(pInf), String(pInfIns), pct(pInfIns, totalIns), pct(pInf, totalFn)]);
@@ -322,6 +324,7 @@ rows.push(["partition: signature only", String(pSig), String(pSigIns), pct(pSigI
 rows.push(["partition: spread validated labels", String(pSpV), String(pSpVIns), pct(pSpVIns, totalIns), pct(pSpV, totalFn)]);
 rows.push(["partition: spread validated by vote count", String(pSpVote), String(pSpVoteIns), pct(pSpVoteIns, totalIns), pct(pSpVote, totalFn)]);
 rows.push(["partition: spread unvalidated", String(pSpU), String(pSpUIns), pct(pSpUIns, totalIns), pct(pSpU, totalFn)]);
+if (dumpNone) { fs.writeFileSync(dumpNone, ["start", ...noneStarts].join("\n") + "\n"); console.log(`--dump-none: ${noneStarts.length} unlabelled starts -> ${dumpNone}`); }
 rows.push(["partition: no label", String(pNone), String(pNoneIns), pct(pNoneIns, totalIns), pct(pNone, totalFn)]);
 // Everything except the no-label bucket carries some label whose precision has been measured: direct evidence and the two
 // validated inference classes are above 93%, and the spread labels score 91.7% (1,198/1,307) when checked against the
