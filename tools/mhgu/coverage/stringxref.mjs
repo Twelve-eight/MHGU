@@ -109,7 +109,12 @@ for (const f of fns) {
   }
   if (set.size) {
     withRefs++;
-    for (const s of set) rows.push([`0x${f.s.toString(16)}`, s.replace(/[\t"]/g, " "), viaOf.get(s) ?? "code", sites.has(s) ? `0x${sites.get(s).toString(16)}` : ""]);
+    for (const s of set) {
+      const via = viaOf.get(s) ?? "code";
+      // A gap reference has no owning function: emitting the enclosing row's start would let a consumer that
+      // ignores `via` read it as attribution - the very failure this pass exists to stop.
+      rows.push([via === "code" ? `0x${f.s.toString(16)}` : "", s.replace(/[\t"]/g, " "), via, sites.has(s) ? `0x${sites.get(s).toString(16)}` : ""]);
+    }
   }
 }
 const WRITE = process.argv.includes("--write");

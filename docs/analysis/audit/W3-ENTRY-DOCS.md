@@ -324,7 +324,7 @@ and inside the block, one marker comment plus `[IMG]` on the five lines:
 ```
 # [IMG] = 需要 main.140.flat.bin（本机 25 MB、不入库）；无标记者只读仓库内已跟踪的表
 node tools/mhgu/coverage/retile.mjs          # [IMG] 用 46,087 个前导 + BL 目标重建函数表（52,692 个真函数）
-node tools/mhgu/coverage/stringxref.mjs      # [IMG] 从指令里重建字符串引用（不信任旧 strings 列）
+node tools/mhgu/coverage/stringxref.mjs --write # [IMG] 从指令里重建字符串引用（不信任旧 strings 列）
 node tools/mhgu/coverage/fingerprints.mjs    # [IMG] 结构指纹 + 动作签名 → attr-fingerprint.tsv
 node tools/mhgu/coverage/vtable-scan.mjs     # [IMG] rodata 全量 vtable → vtables-slots.tsv
 node tools/mhgu/coverage/immscan.mjs         # [IMG] 32 位常量签名 → attr-immscan.tsv

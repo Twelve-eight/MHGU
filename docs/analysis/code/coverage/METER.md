@@ -20,7 +20,7 @@ node tools/mhgu/coverage/independent-coverage.mjs  # 分区逐行 + covered at >
 ```
 # [IMG] = 需要 main.140.flat.bin（本机 25 MB、不入库）；无标记者只读仓库内已跟踪的表
 node tools/mhgu/coverage/retile.mjs          # [IMG] 用 46,087 个前导 + BL 目标重建函数表（52,692 个真函数）
-node tools/mhgu/coverage/stringxref.mjs      # [IMG] 从指令里重建字符串引用（不信任旧 strings 列）
+node tools/mhgu/coverage/stringxref.mjs --write # [IMG] 从指令里重建字符串引用（不信任旧 strings 列）
 node tools/mhgu/coverage/seeds-from-xref.mjs # 引用 → 种子（attr-xref.tsv）
 # 证据通道（每次全量重跑，顺序无关，但都要在 recompute 之前）
 node tools/mhgu/coverage/fingerprints.mjs    # [IMG] 结构指纹 + 动作签名 → attr-fingerprint.tsv

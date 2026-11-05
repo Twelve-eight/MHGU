@@ -200,7 +200,7 @@ lists; that is stated once here and not repeated per row.
 | `class-from-code.mjs` | image, fns, `attr-vtable*` | stdout; `--tsv` emits seed rows | NEEDS-IMAGE | yes — three idioms spot-verified in the header | 233 lines; `--start/--end/--channels`. |
 | `seeds-from-registrar.mjs` | image, `stringxref.tsv`, `classprefix-map.tsv` | `INV/attr-registrar.tsv` | NEEDS-IMAGE | partial (unknown-class count) | 62 lines. |
 | `fix-member-fn.mjs` | `docs/data/member-offsets.tsv`, fns | `INV/member-offsets-refn.tsv` | NEEDS-ARTEFACT | partial (re-anchored count) | 41 lines; writes a new file, never replaces the source. |
-| `stringxref.mjs` | image, fns | `INV/stringxref.tsv` | NEEDS-IMAGE | partial (abs/pc-delta/table counts) | 103 lines; two reference forms. |
+| `stringxref.mjs` | image, fns | `INV/stringxref.tsv` + `INV/stringxref.gap.tsv` (needs `--write`; dry by default, W6-P126) | NEEDS-IMAGE | partial (abs/pc-delta/table counts) | 103 lines; two reference forms. |
 | `member-seeds.mjs` | image, fns, `member-offsets.tsv`, `mustfail-members.json`, `--existing` list | `INV/attr-members.tsv` | NEEDS-IMAGE | yes — must-fail gate (10 cases) + xref cross-check | 293 lines; the most defensive script in the tree. |
 | `promote-blocks.mjs` | `INV/bsamples/verdict-*.tsv` | `INV/attr-blocks.tsv` | NEEDS-ARTEFACT | yes — promotion rule (≥10/12, ≤2 unknown) printed per block | 63 lines; exits 0 with a message when no verdicts exist. |
 | `relabel-vtable.mjs` | `attr-vtable*` + `classprefix-map.tsv` | `INV/attr-vtable-fixed.tsv` (OUT) | NEEDS-ARTEFACT | partial (kept/relabelled/demoted counts) | 61 lines; the `/Mt/` over-match fix. |

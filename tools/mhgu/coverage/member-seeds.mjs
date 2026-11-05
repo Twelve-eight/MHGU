@@ -87,7 +87,10 @@ function enclosing(addr) {
   return funcs[best].s;
 }
 
-// ---- string references, register-aware (this is the part stringxref.mjs gets wrong)
+// ---- string references, register-aware. NOTE (2026-11-06): stringxref.mjs no longer gets the attribution
+// wrong - it now walks the CFG-reachable body via fn-body.mjs and marks unattributable refs as code-gap.
+// This scan still uses the table's [f.s, f.e) range, so it inherits the over-wide end; it is kept because
+// member-seeds only needs the string set per seed family, not per-function ownership (W6-P126/P129).
 const refs = new Map(); // start -> Set(string)
 for (const f of funcs) {
   const set = new Set();
