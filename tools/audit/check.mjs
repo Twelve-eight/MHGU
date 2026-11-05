@@ -236,5 +236,18 @@ try {
   bad(`database foreign-key check failed: ${String(e.message).slice(0, 120)}`);
 }
 
+// 9. function boundaries (W6-P126). The `strings` column of functions-retile.csv.gz and
+//    stringxref.tsv attribute a reference to the nearest preceding function start, so a push-less leaf
+//    getter adopted its predecessor's identity. fn-body.mjs walks the CFG and must keep proving that the
+//    five leaves the W6-P123 adjudication located are outside the bodies that were crediting them.
+try {
+  const out = execFileSync(process.execPath, [path.join(ROOT, "tools/mhgu/fn-body.mjs"), "--check"], { encoding: "utf8" });
+  const n = (out.match(/^ok {2}/gm) ?? []).length;
+  if (/all pass/.test(out)) ok(`function bodies (W6-P126): ${n} control(s), the leaf getters stay outside their predecessors`);
+  else bad(`function bodies (W6-P126): ${out.split("\n").filter((l) => l.startsWith("FAIL")).join("; ").slice(0, 200)}`);
+} catch (e) {
+  bad(`function bodies (W6-P126): fn-body --check failed: ${String(e.message).slice(0, 160)}`);
+}
+
 console.log(failures ? `\n${failures} check(s) failed` : "\nALL PASS");
 process.exit(failures ? 1 : 0);
