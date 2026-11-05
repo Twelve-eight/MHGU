@@ -138,11 +138,24 @@ rows, so treat the coverage figure as "at least 21.3%".
 
 ## Related items and their state after this regeneration
 
-- `W6-P122`: 14 slice summaries contradict their own tables — being repaired separately; this file does
-  not depend on the prose, only on the tables.
+- `W6-P122`: 14 slice summaries contradicted their own tables — **closed 2026-11-06**: 97 contradictions,
+  61 repaired, 32 marked `[NEEDS-SOURCE]` (the table itself is truncated), 4 deferred. Acceptance was
+  re-running the merge: the CSV came out byte-identical, so no table row moved. The repaired slices are
+  vendored under `docs/analysis/code/inventory/slices/` (29 files, verified identical to the working copies).
+- `W6-P123`: 29 label-involving conflicts — **adjudicated 2026-11-06**, see
+  `tierb-labels.ADJUDICATION.tsv`: **1 KEEP, 2 VOCAB, 26 `[U]`**. The CSV is deliberately not overridden.
 - `W6-P124`: 5 A-level rows cited strings their function body never references — **closed for this table**:
   under the weakest policy all five are B, and the slice files themselves are unchanged (historical record).
+  The upstream cause turned out to be a tool defect, filed as `W6-P126`.
+- `W6-P126`: `functions-retile.csv.gz`'s `strings` column (and the A-screen `nstr`/`hit`) attributes a
+  push-less leaf getter's string to the *preceding* function — 6 of the 7 string-citing conflict rows are
+  contaminated. Do not re-use `nstr`/`hit` as a gate until this is fixed.
+- `W6-P127`: `class-inventory.tsv`'s `registrar_fn` is wrong for 7/7 sampled classes (`registrar_site` is right).
+- `W6-P128`: slice callee/vote counts are not reproducible from the bytes (18-instruction functions credited
+  with 8-23 callees; a 45-vote distribution for a function with one caller).
 - `W6-INV5`: `verdict-14_20`-style tables showed `none` where the count should be `36,113` — **closed**:
   the file already reads 36,113 and `class-from-code.mjs` prints `none=36113`.
-- `W4-PH3`: the `hunterA` 8 markers need a bitstream origin/width decision before any label is defensible —
-  still open, and it is a disassembly question, not a merge question.
+- `W4-PH3`: the `hunterA` 8 markers — **measured 2026-11-06, left `[U]`**: the two snapshots differ in
+  exactly 5 runs / 32 bytes (`2057..2059`, `2270..2275`, `2292..2294`, `6332..6341`, `7519..7528`); the
+  three contested readings (`2400-2403`, `2900-2903`, `2016-2023`) all point at bytes that are identical in
+  both files, so none of them can be the edit. Evidence: `docs/analysis/audit/W4-PH3-hnt-diff.md`.
