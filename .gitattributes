@@ -1,0 +1,8 @@
+# Artifacts whose byte identity is part of a documented claim (tierb-merge.py writes LF).
+# Without this, core.autocrlf=true turns them into CRLF on checkout and the "reproduces byte for
+# byte" command in docs/data/tierb-labels.PROVENANCE.md stops holding on a fresh clone.
+docs/data/tierb-labels.csv            text eol=lf
+docs/data/tierb-labels.CONFLICTS.tsv  text eol=lf
+docs/data/tierb-labels.PROVENANCE.md  text eol=lf
+docs/analysis/code/inventory/slices/**/*.md text eol=lf
+tools/mhgu/tierb-merge.py             text eol=lf

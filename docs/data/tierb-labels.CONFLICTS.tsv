@@ -1,86 +1,86 @@
 vaddr	kept	other_labels	sources	confs	kind
-0x10680	ui		tierB2-slice-02.md	A,B	conf
-0x2dab0	debug-dev		tierB2-slice-06.md	A,B	conf
-0x52874	monster-em		tierB2-slice-02.md	A,B	conf
-0x18ecb0	quest		tierB-slice-03.md|tierB2-slice-11.md	A,B	conf
-0x18f07c	quest		tierB-slice-03.md|tierB2-slice-01.md	B,C	conf
-0x18f998	quest		tierB-slice-03.md	A,B	conf
-0x191bd4	quest	item	tierB-slice-03.md|tierB2-slice-08.md	B	label
-0x1979b0	save-io	save-data	tierB-slice-03.md|tierB2-slice-10.md	A,B	both
-0x198120	save-io	save-data	tierB-slice-03.md|tierB2-slice-01.md	A,B	both
-0x1990dc	quest		tierB-slice-03.md|tierB2-slice-12.md	B,C	conf
-0x1bbe04	monster-em		tierB2-slice-06.md	A,B	conf
-0x2aeea0	online-nex		tierB2-slice-08.md	A,B	conf
-0x2ba82c	render-gfx		tierB2-slice-08.md	A,B	conf
-0x324300	quest	unknown	tierB-slice-05.md|tierB2-slice-13.md	C	label
-0x325b48	monster-em	quest	tierB-slice-05.md|tierB2-slice-11.md	B,C	both
-0x329668	monster-em	quest	tierB-slice-05.md|tierB2-slice-13.md	B,C	both
-0x32a104	monster-em	quest	tierB-slice-05.md|tierB2-slice-11.md	C	label
-0x32b834	quest	ui	tierB-slice-05.md|tierB2-slice-07.md	B	label
-0x3559c0	otomo-ot	unknown	tierB-slice-05.md|tierB2-slice-08.md	C	label
-0x360ac8	quest		tierB-slice-05.md|tierB2-slice-06.md	B,C	conf
-0x361c34	quest		tierB-slice-05.md	A,B	conf
-0x362438	quest		tierB-slice-05.md|tierB2-slice-10.md	A,B	conf
-0x362cd8	quest		tierB-slice-05.md	A,B	conf
-0x3811f4	quest		tierB-slice-05.md	A,B	conf
-0x381738	quest	filesystem	tierB-slice-05.md|tierB2-slice-11.md	A,B	both
-0x38e214	quest		tierB-slice-05.md|tierB2-slice-05.md	B,C	conf
-0x38eae4	monster-em		tierB-slice-05.md|tierB2-slice-10.md	B,C	conf
-0x3918f8	quest	monster-em	tierB-slice-05.md|tierB2-slice-05.md	B	label
-0x395850	otomo-ot	save-io	tierB-slice-05.md|tierB2-slice-02.md	C	label
-0x396e40	quest		tierB-slice-05.md|tierB2-slice-02.md	A,B	conf
-0x39d8d8	otomo-ot	quest	tierB-slice-05.md|tierB2-slice-11.md	C	label
-0x3a400c	otomo-ot	quest	tierB-slice-05.md|tierB2-slice-11.md	C	label
-0x3aa530	monster-em	unknown	tierB-slice-05.md|tierB2-slice-13.md	C	label
-0x3b0ad8	otomo-ot	unknown	tierB-slice-05.md|tierB2-slice-01.md	C	label
-0x3b3db0	otomo-ot	quest	tierB-slice-05.md|tierB2-slice-11.md	C	label
-0x3bff10	otomo-ot	unknown	tierB-slice-05.md|tierB2-slice-11.md	C	label
-0x3c07a4	quest		tierB-slice-05.md|tierB2-slice-14.md	B,C	conf
-0x3c09ec	otomo-ot	quest	tierB-slice-05.md|tierB2-slice-13.md	C	label
-0x3c5568	monster-em	quest	tierB-slice-05.md|tierB2-slice-03.md	B,C	both
-0x3cf6d4	otomo-ot	save-data	tierB-slice-05.md|tierB2-slice-14.md	A,C	both
-0x3d09dc	quest		tierB-slice-05.md|tierB2-slice-12.md	A,B	conf
-0x3d0fd4	quest		tierB-slice-05.md|tierB2-slice-03.md	A,B	conf
-0x3d15a4	quest	kernel-os	tierB-slice-05.md|tierB2-slice-14.md	A	label
-0x3d17f8	quest		tierB-slice-05.md	A,B	conf
-0x3d9724	otomo-ot	unknown	tierB-slice-05.md|tierB2-slice-14.md	C	label
-0x3dee74	otomo-ot	filesystem	tierB-slice-05.md|tierB2-slice-13.md	B	label
-0x4f8220	quest		tierB2-slice-08.md	A,B	conf
-0x5b1be8	ui		tierB2-slice-02.md	A,B	conf
-0x5bdef4	ui		tierB2-slice-06.md	A,B	conf
-0x61e5d4	quest	unknown	tierB-slice-08.md|tierB2-slice-14.md	C	label
-0x623748	quest		tierB-slice-08.md|tierB2-slice-12.md	B,C	conf
-0x623d50	otomo-ot		tierB-slice-08.md|tierB2-slice-08.md	B,C	conf
-0x654828	ui		tierB2-slice-06.md	A,B	conf
-0x658ae8	ui		tierB-slice-08.md|tierB2-slice-02.md	A,B	conf
-0x697478	unknown	render-gfx	tierB-slice-08.md|tierB2-slice-02.md	C	label
-0x698eb4	unknown	quest	tierB-slice-08.md|tierB2-slice-02.md	C	label
-0x69c258	quest	unknown	tierB-slice-08.md|tierB2-slice-02.md	A,B	both
-0x69eb18	unknown	save-data	tierB-slice-08.md|tierB2-slice-02.md	A	label
-0x8a2a1c	filesystem		tierB2-slice-06.md	A,B	conf
-0x8f83c8	filesystem		tierB2-slice-02.md	A,B	conf
-0x90c508	render-gfx		tierB2-slice-02.md	A,B	conf
-0x94b3dc	render-gfx		tierB2-slice-04.md	A,B	conf
-0x9c20f4	filesystem		tierB2-slice-02.md	A,B	conf
-0x9ef288	filesystem		tierB2-slice-02.md	A,B	conf
-0xa1709c	monster-em		tierB2-slice-08.md	A,B	conf
-0xa40b00	ui		tierB2-slice-09.md	A,B	conf
-0xb40aa0	filesystem		tierB2-slice-06.md	A,B	conf
-0xb4814c	filesystem		tierB2-slice-07.md	A,B	conf
-0xc61bb4	render-gfx		tierB2-slice-02.md	A,B	conf
-0xc88328	filesystem		tierB2-slice-06.md	A,B	conf
-0xce1ba4	filesystem		tierB2-slice-02.md	A,B	conf
-0x139d0d8	online-nex		tierB-slice-14.md|tierB2-slice-12.md	A,B	conf
-0x139dce4	online-nex		tierB-slice-14.md|tierB2-slice-11.md	A,B	conf
-0x139e584	online-nex		tierB-slice-14.md|tierB2-slice-12.md	A,B	conf
-0x13a0a84	online-nex		tierB-slice-14.md|tierB2-slice-13.md	B,C	conf
-0x13a2874	online-nex		tierB-slice-14.md|tierB2-slice-01.md	A,B	conf
-0x13a31e8	online-nex		tierB-slice-14.md|tierB2-slice-14.md	B,C	conf
-0x13a5104	online-nex		tierB-slice-14.md|tierB2-slice-05.md	A,B	conf
-0x13a909c	online-nex		tierB-slice-14.md|tierB2-slice-11.md	A,B	conf
-0x13a93d4	online-nex		tierB-slice-14.md|tierB2-slice-05.md	A,B	conf
-0x13a9c98	online-nex		tierB-slice-14.md|tierB2-slice-13.md	A,B	conf
-0x13aaff4	online-nex		tierB-slice-14.md|tierB2-slice-08.md	A,B	conf
-0x13abaec	online-nex		tierB-slice-14.md|tierB2-slice-08.md	A,B	conf
-0x13acfc4	online-nex		tierB-slice-14.md|tierB2-slice-12.md	A,B	conf
-0x13e72fc	online-nex		tierB2-slice-08.md	A,B	conf
+0x10680	ui		reports-mhgu/tierB2-slice-02.md|w6-pass12/tierB2-slice-02.md	A,B	conf
+0x2dab0	debug-dev		reports-mhgu/tierB2-slice-06.md|w6-pass12/tierB2-slice-06.md	A,B	conf
+0x52874	monster-em		reports-mhgu/tierB2-slice-02.md|w6-pass12/tierB2-slice-02.md	A,B	conf
+0x18ecb0	quest		reports-mhgu/tierB-slice-03.md|w6-pass12/tierB-slice-03.md|w6-pass12/tierB2-slice-11.md	A,B	conf
+0x18f07c	quest		reports-mhgu/tierB-slice-03.md|w6-pass12/tierB-slice-03.md|w6-pass12/tierB2-slice-01.md	B,C	conf
+0x18f998	quest		reports-mhgu/tierB-slice-03.md|w6-pass12/tierB-slice-03.md	A,B	conf
+0x191bd4	quest	item	reports-mhgu/tierB-slice-03.md|reports-mhgu/tierB2-slice-08.md|w6-pass12/tierB-slice-03.md|w6-pass12/tierB2-slice-08.md	B	label
+0x1979b0	save-io	save-data	reports-mhgu/tierB-slice-03.md|reports-mhgu/tierB2-slice-10.md|w6-pass12/tierB-slice-03.md	A,B	both
+0x198120	save-io	save-data	reports-mhgu/tierB-slice-03.md|w6-pass12/tierB-slice-03.md|w6-pass12/tierB2-slice-01.md	A,B	both
+0x1990dc	quest		reports-mhgu/tierB-slice-03.md|w6-pass12/tierB-slice-03.md|w6-pass12/tierB2-slice-12.md	B,C	conf
+0x1bbe04	monster-em		reports-mhgu/tierB2-slice-06.md|w6-pass12/tierB2-slice-06.md	A,B	conf
+0x2aeea0	online-nex		reports-mhgu/tierB2-slice-08.md|w6-pass12/tierB2-slice-08.md	A,B	conf
+0x2ba82c	render-gfx		reports-mhgu/tierB2-slice-08.md|w6-pass12/tierB2-slice-08.md	A,B	conf
+0x324300	quest	unknown	reports-mhgu/tierB-slice-05.md|w6-pass12/tierB-slice-05.md|w6-pass12/tierB2-slice-13.md	C	label
+0x325b48	monster-em	quest	reports-mhgu/tierB-slice-05.md|w6-pass12/tierB-slice-05.md|w6-pass12/tierB2-slice-11.md	B,C	both
+0x329668	monster-em	quest	reports-mhgu/tierB-slice-05.md|w6-pass12/tierB-slice-05.md|w6-pass12/tierB2-slice-13.md	B,C	both
+0x32a104	monster-em	quest	reports-mhgu/tierB-slice-05.md|w6-pass12/tierB-slice-05.md|w6-pass12/tierB2-slice-11.md	C	label
+0x32b834	quest	ui	reports-mhgu/tierB-slice-05.md|reports-mhgu/tierB2-slice-07.md|w6-pass12/tierB-slice-05.md|w6-pass12/tierB2-slice-07.md	B	label
+0x3559c0	otomo-ot	unknown	reports-mhgu/tierB-slice-05.md|reports-mhgu/tierB2-slice-08.md|w6-pass12/tierB-slice-05.md|w6-pass12/tierB2-slice-08.md	C	label
+0x360ac8	quest		reports-mhgu/tierB-slice-05.md|reports-mhgu/tierB2-slice-06.md|w6-pass12/tierB-slice-05.md|w6-pass12/tierB2-slice-06.md	B,C	conf
+0x361c34	quest		reports-mhgu/tierB-slice-05.md|w6-pass12/tierB-slice-05.md	A,B	conf
+0x362438	quest		reports-mhgu/tierB-slice-05.md|reports-mhgu/tierB2-slice-10.md|w6-pass12/tierB-slice-05.md	A,B	conf
+0x362cd8	quest		reports-mhgu/tierB-slice-05.md|w6-pass12/tierB-slice-05.md	A,B	conf
+0x3811f4	quest		reports-mhgu/tierB-slice-05.md|w6-pass12/tierB-slice-05.md	A,B	conf
+0x381738	quest	filesystem	reports-mhgu/tierB-slice-05.md|w6-pass12/tierB-slice-05.md|w6-pass12/tierB2-slice-11.md	A,B	both
+0x38e214	quest		reports-mhgu/tierB-slice-05.md|w6-pass12/tierB-slice-05.md|w6-pass12/tierB2-slice-05.md	B,C	conf
+0x38eae4	monster-em		reports-mhgu/tierB-slice-05.md|reports-mhgu/tierB2-slice-10.md|w6-pass12/tierB-slice-05.md	B,C	conf
+0x3918f8	quest	monster-em	reports-mhgu/tierB-slice-05.md|w6-pass12/tierB-slice-05.md|w6-pass12/tierB2-slice-05.md	B	label
+0x395850	otomo-ot	save-io	reports-mhgu/tierB-slice-05.md|reports-mhgu/tierB2-slice-02.md|w6-pass12/tierB-slice-05.md|w6-pass12/tierB2-slice-02.md	C	label
+0x396e40	quest		reports-mhgu/tierB-slice-05.md|reports-mhgu/tierB2-slice-02.md|w6-pass12/tierB-slice-05.md|w6-pass12/tierB2-slice-02.md	A,B	conf
+0x39d8d8	otomo-ot	quest	reports-mhgu/tierB-slice-05.md|w6-pass12/tierB-slice-05.md|w6-pass12/tierB2-slice-11.md	C	label
+0x3a400c	otomo-ot	quest	reports-mhgu/tierB-slice-05.md|w6-pass12/tierB-slice-05.md|w6-pass12/tierB2-slice-11.md	C	label
+0x3aa530	monster-em	unknown	reports-mhgu/tierB-slice-05.md|w6-pass12/tierB-slice-05.md|w6-pass12/tierB2-slice-13.md	C	label
+0x3b0ad8	otomo-ot	unknown	reports-mhgu/tierB-slice-05.md|w6-pass12/tierB-slice-05.md|w6-pass12/tierB2-slice-01.md	C	label
+0x3b3db0	otomo-ot	quest	reports-mhgu/tierB-slice-05.md|w6-pass12/tierB-slice-05.md|w6-pass12/tierB2-slice-11.md	C	label
+0x3bff10	otomo-ot	unknown	reports-mhgu/tierB-slice-05.md|w6-pass12/tierB-slice-05.md|w6-pass12/tierB2-slice-11.md	C	label
+0x3c07a4	quest		reports-mhgu/tierB-slice-05.md|w6-pass12/tierB-slice-05.md|w6-pass12/tierB2-slice-14.md	B,C	conf
+0x3c09ec	otomo-ot	quest	reports-mhgu/tierB-slice-05.md|w6-pass12/tierB-slice-05.md|w6-pass12/tierB2-slice-13.md	C	label
+0x3c5568	monster-em	quest	reports-mhgu/tierB-slice-05.md|w6-pass12/tierB-slice-05.md|w6-pass12/tierB2-slice-03.md	B,C	both
+0x3cf6d4	otomo-ot	save-data	reports-mhgu/tierB-slice-05.md|w6-pass12/tierB-slice-05.md|w6-pass12/tierB2-slice-14.md	A,C	both
+0x3d09dc	quest		reports-mhgu/tierB-slice-05.md|w6-pass12/tierB-slice-05.md|w6-pass12/tierB2-slice-12.md	A,B	conf
+0x3d0fd4	quest		reports-mhgu/tierB-slice-05.md|w6-pass12/tierB-slice-05.md|w6-pass12/tierB2-slice-03.md	A,B	conf
+0x3d15a4	quest	kernel-os	reports-mhgu/tierB-slice-05.md|w6-pass12/tierB-slice-05.md|w6-pass12/tierB2-slice-14.md	A	label
+0x3d17f8	quest		reports-mhgu/tierB-slice-05.md|w6-pass12/tierB-slice-05.md	A,B	conf
+0x3d9724	otomo-ot	unknown	reports-mhgu/tierB-slice-05.md|w6-pass12/tierB-slice-05.md|w6-pass12/tierB2-slice-14.md	C	label
+0x3dee74	otomo-ot	filesystem	reports-mhgu/tierB-slice-05.md|w6-pass12/tierB-slice-05.md|w6-pass12/tierB2-slice-13.md	B	label
+0x4f8220	quest		reports-mhgu/tierB2-slice-08.md|w6-pass12/tierB2-slice-08.md	A,B	conf
+0x5b1be8	ui		reports-mhgu/tierB2-slice-02.md|w6-pass12/tierB2-slice-02.md	A,B	conf
+0x5bdef4	ui		reports-mhgu/tierB2-slice-06.md|w6-pass12/tierB2-slice-06.md	A,B	conf
+0x61e5d4	quest	unknown	reports-mhgu/tierB-slice-08.md|w6-pass12/tierB-slice-08.md|w6-pass12/tierB2-slice-14.md	C	label
+0x623748	quest		reports-mhgu/tierB-slice-08.md|w6-pass12/tierB-slice-08.md|w6-pass12/tierB2-slice-12.md	B,C	conf
+0x623d50	otomo-ot		reports-mhgu/tierB-slice-08.md|reports-mhgu/tierB2-slice-08.md|w6-pass12/tierB-slice-08.md|w6-pass12/tierB2-slice-08.md	B,C	conf
+0x654828	ui		reports-mhgu/tierB2-slice-06.md|w6-pass12/tierB2-slice-06.md	A,B	conf
+0x658ae8	ui		reports-mhgu/tierB-slice-08.md|reports-mhgu/tierB2-slice-02.md|w6-pass12/tierB-slice-08.md|w6-pass12/tierB2-slice-02.md	A,B	conf
+0x697478	unknown	render-gfx	reports-mhgu/tierB-slice-08.md|reports-mhgu/tierB2-slice-02.md|w6-pass12/tierB-slice-08.md|w6-pass12/tierB2-slice-02.md	C	label
+0x698eb4	unknown	quest	reports-mhgu/tierB-slice-08.md|reports-mhgu/tierB2-slice-02.md|w6-pass12/tierB-slice-08.md|w6-pass12/tierB2-slice-02.md	C	label
+0x69c258	quest	unknown	reports-mhgu/tierB-slice-08.md|reports-mhgu/tierB2-slice-02.md|w6-pass12/tierB-slice-08.md|w6-pass12/tierB2-slice-02.md	A,B	both
+0x69eb18	unknown	save-data	reports-mhgu/tierB-slice-08.md|reports-mhgu/tierB2-slice-02.md|w6-pass12/tierB-slice-08.md|w6-pass12/tierB2-slice-02.md	A	label
+0x8a2a1c	filesystem		reports-mhgu/tierB2-slice-06.md|w6-pass12/tierB2-slice-06.md	A,B	conf
+0x8f83c8	filesystem		reports-mhgu/tierB2-slice-02.md|w6-pass12/tierB2-slice-02.md	A,B	conf
+0x90c508	render-gfx		reports-mhgu/tierB2-slice-02.md|w6-pass12/tierB2-slice-02.md	A,B	conf
+0x94b3dc	render-gfx		reports-mhgu/tierB2-slice-04.md|w6-pass12/tierB2-slice-04.md	A,B	conf
+0x9c20f4	filesystem		reports-mhgu/tierB2-slice-02.md|w6-pass12/tierB2-slice-02.md	A,B	conf
+0x9ef288	filesystem		reports-mhgu/tierB2-slice-02.md|w6-pass12/tierB2-slice-02.md	A,B	conf
+0xa1709c	monster-em		reports-mhgu/tierB2-slice-08.md|w6-pass12/tierB2-slice-08.md	A,B	conf
+0xa40b00	ui		reports-mhgu/tierB2-slice-09.md|w6-pass12/tierB2-slice-09.md	A,B	conf
+0xb40aa0	filesystem		reports-mhgu/tierB2-slice-06.md|w6-pass12/tierB2-slice-06.md	A,B	conf
+0xb4814c	filesystem		reports-mhgu/tierB2-slice-07.md|w6-pass12/tierB2-slice-07.md	A,B	conf
+0xc61bb4	render-gfx		reports-mhgu/tierB2-slice-02.md|w6-pass12/tierB2-slice-02.md	A,B	conf
+0xc88328	filesystem		reports-mhgu/tierB2-slice-06.md|w6-pass12/tierB2-slice-06.md	A,B	conf
+0xce1ba4	filesystem		reports-mhgu/tierB2-slice-02.md|w6-pass12/tierB2-slice-02.md	A,B	conf
+0x139d0d8	online-nex		reports-mhgu/tierB-slice-14.md|w6-pass12/tierB2-slice-12.md	A,B	conf
+0x139dce4	online-nex		reports-mhgu/tierB-slice-14.md|w6-pass12/tierB2-slice-11.md	A,B	conf
+0x139e584	online-nex		reports-mhgu/tierB-slice-14.md|w6-pass12/tierB2-slice-12.md	A,B	conf
+0x13a0a84	online-nex		reports-mhgu/tierB-slice-14.md|w6-pass12/tierB2-slice-13.md	B,C	conf
+0x13a2874	online-nex		reports-mhgu/tierB-slice-14.md|w6-pass12/tierB2-slice-01.md	A,B	conf
+0x13a31e8	online-nex		reports-mhgu/tierB-slice-14.md|w6-pass12/tierB2-slice-14.md	B,C	conf
+0x13a5104	online-nex		reports-mhgu/tierB-slice-14.md|w6-pass12/tierB2-slice-05.md	A,B	conf
+0x13a909c	online-nex		reports-mhgu/tierB-slice-14.md|w6-pass12/tierB2-slice-11.md	A,B	conf
+0x13a93d4	online-nex		reports-mhgu/tierB-slice-14.md|w6-pass12/tierB2-slice-05.md	A,B	conf
+0x13a9c98	online-nex		reports-mhgu/tierB-slice-14.md|w6-pass12/tierB2-slice-13.md	A,B	conf
+0x13aaff4	online-nex		reports-mhgu/tierB-slice-14.md|reports-mhgu/tierB2-slice-08.md|w6-pass12/tierB2-slice-08.md	A,B	conf
+0x13abaec	online-nex		reports-mhgu/tierB-slice-14.md|reports-mhgu/tierB2-slice-08.md|w6-pass12/tierB2-slice-08.md	A,B	conf
+0x13acfc4	online-nex		reports-mhgu/tierB-slice-14.md|w6-pass12/tierB2-slice-12.md	A,B	conf
+0x13e72fc	online-nex		reports-mhgu/tierB2-slice-08.md|w6-pass12/tierB2-slice-08.md	A,B	conf

@@ -65,7 +65,10 @@ for p in paths:
         lab = m.group(2)
         if lab not in LABELS:
             continue
-        rows.append((int(m.group(1), 16), lab, m.group(3), m.group(4), m.group(5), os.path.basename(p)))
+        # src carries the directory basename: tierB-slice-03/05/08.md exist in BOTH input dirs with
+        # different content, so a bare basename cannot identify the origin of a row (2026-11-06).
+        src = '%s/%s' % (os.path.basename(os.path.dirname(p)), os.path.basename(p))
+        rows.append((int(m.group(1), 16), lab, m.group(3), m.group(4), m.group(5), src))
 
 # group by vaddr so a disagreement is visible instead of being resolved by file order
 by = collections.defaultdict(list)

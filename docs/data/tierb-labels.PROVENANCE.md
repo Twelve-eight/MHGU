@@ -80,15 +80,20 @@ Effect of the change (measured against the `--policy first` output of the same i
 - **Not a complete inventory.** 3,162 of 14,863 Tier B functions (21.3%). Absence of a vaddr here means
   "no slice labelled it", never "not Tier B".
 - **Not a resolution of disagreements.** 29 vaddrs carry two different labels across slices; the table
-  keeps the **first** occurrence and every duplicate is listed in `tierb-labels.CONFLICTS.tsv`
-  (`vaddr, kept, other_labels, sources`). The merge never silently picks a winner.
+  keeps the **weakest** claim (see "Duplicate policy" above) and every disagreement is listed in
+  `tierb-labels.CONFLICTS.tsv`
+  (`vaddr, kept, other_labels, sources, confs, kind`). The merge never silently picks a winner.
   These 29 are exactly the W6-P123 judgement items; `0x3d15a4` and `0x69eb18` are the A-vs-A pairs.
 - **Not verified semantics.** Labels come from the slice reports (call-graph votes, string references),
   not from reading each function. A/B/C is the slice author's confidence, not a measurement here.
 
-## Related open items (unchanged by this regeneration)
+## Related items and their state after this regeneration
 
-- `W6-P122`: 14 slice summaries contradict their own tables — not touched here.
-- `W6-P124`: 5 A-level rows cite evidence strings that are not referenced inside the function body.
-- `W6-INV5`: `verdict-14_20`-style tables show `none` where the count should be `36,113`.
-- `W4-PH3`: the `hunterA` 8 markers need a bitstream origin/width decision before any label is defensible.
+- `W6-P122`: 14 slice summaries contradict their own tables — being repaired separately; this file does
+  not depend on the prose, only on the tables.
+- `W6-P124`: 5 A-level rows cited strings their function body never references — **closed for this table**:
+  under the weakest policy all five are B, and the slice files themselves are unchanged (historical record).
+- `W6-INV5`: `verdict-14_20`-style tables showed `none` where the count should be `36,113` — **closed**:
+  the file already reads 36,113 and `class-from-code.mjs` prints `none=36113`.
+- `W4-PH3`: the `hunterA` 8 markers need a bitstream origin/width decision before any label is defensible —
+  still open, and it is a disassembly question, not a merge question.
