@@ -90,6 +90,24 @@ CSV reader. Rows are emitted sorted by vaddr.
 - Label disagreements are still **29** (21 label-only + 8 that also differ in confidence), which matches
   the count W6-P123 was opened with.
 
+## Known gaps in the inputs (measured 2026-11-06)
+
+Several slice tables are **truncated relative to their own stated scope**, so 3,162 rows is a **floor**,
+not the number of adjudications that exist:
+
+| slice (each present in both input dirs unless noted) | rows in the table | stated scope |
+|---|---:|---:|
+| `tierB2-slice-04` | 30 | 120 |
+| `tierB2-slice-06` | 60 | 120 |
+| `tierB2-slice-09` | 30 | 120 |
+| `tierB2-slice-10` | 90 | 120 (`reports-mhgu` only) |
+| `tierB-slice-09` | 0 (table never started) | — |
+| `tierB3-slice-06` | 60 | — |
+
+If those tables were completed the table could grow by roughly 240 rows before any new adjudication is
+done. The repair pass (W6-P122) marked every such case `[NEEDS-SOURCE]` and did not invent the missing
+rows, so treat the coverage figure as "at least 21.3%".
+
 ## What this file is NOT
 
 - **Not a complete inventory.** 3,162 of 14,863 Tier B functions (21.3%). Absence of a vaddr here means
