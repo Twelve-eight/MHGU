@@ -72,7 +72,16 @@ Effect of the change (measured against the `--policy first` output of the same i
 |---|---:|---:|
 | rows | 3,162 | 3,162 |
 | conf A / B / C | 90 / 1,763 / 1,309 | **53 / 1,797 / 1,312** |
-| conflicts listed | 29 | **85** (21 label-only, 56 conf-only, 8 both) |
+| disagreements listed | 85 | 85 |
+
+Both policies list the same 85 disagreements (21 label-only, 56 conf-only, 8 both); only `0x69c258`
+flips its kept label between them. **29** is the label-involving subset (21 + 8), not a total — an
+earlier version of this table printed 29 in the `first` column, conflating the two.
+
+Column caveat: the `evidence` column is CSV-quoted and the writer replaces `"` with `'` (`119` rows are
+affected), so it is a readable copy of the slice prose, not a byte-preserving one. And because evidence
+text contains commas, **1,828 of the 3,163 lines do not split into 6 fields on `,`** — parse with a real
+CSV reader. Rows are emitted sorted by vaddr.
 
 - 40 rows changed confidence, 1 changed label: `0x69c258` unknown/A -> **quest/B**. Its A row cited the
   `areaacttbl` string; a later B row records that the string is not referenced in the body, so the A was
