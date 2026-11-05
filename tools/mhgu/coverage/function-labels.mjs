@@ -47,6 +47,17 @@ for (const dir of ["tierb-pass1", "tierb-pass2", "tierb-pass3"]) {
   }
 }
 
+// ---- demotions: report.mjs has always dropped a demoted start's spine label (report.mjs:96) while this file read
+// no demote-*.tsv at all, so the two disagreed by exactly the number of demoted rows carrying a spread label
+// (2026-11-06: 0x268d10, demoted by demote-otomo.tsv after a 1/20 sample review). Same rule applied here.
+const demoted = new Set();
+for (const f of fs.readdirSync(INV).filter((x) => /^(demote-.*|pins)\.tsv$/.test(x))) {
+  for (const l of fs.readFileSync(INV + f, "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
+    const start = parseInt(l.split("\t")[0], 16);
+    if (Number.isFinite(start)) demoted.add("0x" + start.toString(16));
+  }
+}
+
 const fns = zlib.gunzipSync(fs.readFileSync(ROOT + "/docs/data/functions-retile.csv.gz")).toString("utf8")
   .split(/\r?\n/).filter(Boolean).slice(1).map((l) => { const c = l.split(","); return { s: c[0].toLowerCase(), insns: +c[2] }; });
 
@@ -59,9 +70,9 @@ for (const f of fns) {
   if (ev && ev.conf === "A") { label = ev.label; provenance = "evidence:" + ev.file; reason = ev.reason; }
   else if (ev && ev.conf === "V") { label = ev.label; provenance = "inferred:" + ev.file; reason = ev.reason; }
   else if (ev && ev.conf === "S") { label = ev.label; provenance = "signature:" + ev.file; reason = ev.reason; }
-  else if (label) { provenance = "spread:" + (t.src || "spread"); reason = `tier ${t.tier}, ${t.src || "spread"}`; }
+  else if (label && !demoted.has(f.s)) { provenance = "spread:" + (t.src || "spread"); reason = `tier ${t.tier}, ${t.src || "spread"}`; }
   else if (adjud.has(f.s)) { const a = adjud.get(f.s); label = a.label; provenance = "adjudication:" + a.src; reason = `manual ruling, conf ${a.conf}`; }
-  else { provenance = "none"; reason = ""; }
+  else { if (demoted.has(f.s)) label = ""; provenance = "none"; reason = ""; }
   if (!label) continue;
   counts.set(provenance.split(":")[0], (counts.get(provenance.split(":")[0]) || 0) + 1);
   rows.push([f.s, String(f.insns), label, provenance, reason.replace(/\t/g, " ")]);
