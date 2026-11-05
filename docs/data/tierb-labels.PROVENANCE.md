@@ -90,6 +90,22 @@ CSV reader. Rows are emitted sorted by vaddr.
 - Label disagreements are still **29** (21 label-only + 8 that also differ in confidence), which matches
   the count W6-P123 was opened with.
 
+## Adjudication (2026-11-06)
+
+`tierb-labels.ADJUDICATION.tsv` holds a byte-level verdict for all 29 label-involving conflicts
+(`vaddr, kept, other, verdict, reason`), produced by disassembling each function and resolving the
+cited strings and call sites. Tally: **1 KEEP, 2 VOCAB, 26 `[U]`**.
+
+- `KEEP` = the bytes support the kept label (`0x3d15a4` stays `quest`; the `kernel-os` reading is refuted -
+  the body is nine `strcmp` sites over `[WORK0]..[WORK7]`, with no thread or scheduler construct).
+- `VOCAB` = the two labels are the same subsystem under two vocabularies (`save-io` vs `save-data`).
+- `[U]` = not decidable from the bytes; 3 of those also have a refuted alternative, and 2 cite evidence
+  that is impossible for the function quoted.
+
+**This table does not apply the verdicts.** The CSV above remains a faithful merge of the slice tables;
+a row the adjudication marks `[U]` keeps whatever its slices said. Applying a verdict means editing the
+slice table (or adding an override mechanism), which is deliberately not done here.
+
 ## Known gaps in the inputs (measured 2026-11-06)
 
 Several slice tables are **truncated relative to their own stated scope**, so 3,162 rows is a **floor**,
