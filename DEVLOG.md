@@ -54,7 +54,7 @@
 - 2026-11-06 06:1x — W6-P125 完成：tier B 标签表 378 → 3,162 行  →  L1399
 - 2026-11-06 — W6-P122 关闭 / W6-P123 裁决 / 三个工具缺陷（W6-P126..P128）  →  L1417
 - 2026-11-06 — W6-P126 追到生产者；新增 `fn-body.mjs`（CFG 可达体）并进门禁  →  L1443
-- 2026-11-06 — W6-P127 修复：`class-inventory.tsv` 的 `registrar_fn` 按"谁真正持有 site"重算  →  L1457
+- 2026-11-06 — W6-P127 修复：`class-inventory.tsv` 的 `registrar_fn` 按"谁真正持有 site"重算  →  L1459
 <!-- DEVLOG-INDEX:END -->
 
 
@@ -1442,7 +1442,9 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 
 ## 2026-11-06 — W6-P126 追到生产者；新增 `fn-body.mjs`（CFG 可达体）并进门禁
 
-**缺陷链**：`docs/data/functions-retile.csv.gz` 的 `strings` 列与 `docs/analysis/code/inventory/stringxref.tsv` 的归属都来自同一处——`tools/mhgu/coverage/stringxref.mjs` 按表的 `[start,end)` 扫引用，而表的 `end` 取的是**下一个已知起点**。于是"经 vtable 调用、没有 `bl` 站点、因此自己不成行"的叶子 getter 被前一个函数吞掉，它的字符串记到前一个函数头上。W6-P123 的 7 条字符串冲突里 6 条就是这么错的。
+**缺陷链（生产者已核实，2026-11-06 更正）**：`docs/data/functions-retile.csv.gz` 由 `tools/mhgu/coverage/retile.mjs` 写出——起点取 prologue + BL 目标，`end` 取**下一个起点**，`strings` 按**包含关系**从 `functions.csv.gz` 继承（仅当新起点恰好等于旧区域起点才继承，代码注释写明否则会从 1,937 虚增到 12,103）；那份旧列本身由 `func-inventory5.mjs` 在 `[区域起点, 下一个区域)` 上抽取，已知约 **754 个假阳性**。`retile.mjs` 还有一条硬断言：字符串行数偏离 1,937 超过 5 就直接 abort；`audit-new-docs.mjs` 同时断言 52,692 函数 / 5,228,277 指令 / 1,937 带字符串。`tools/mhgu/coverage/stringxref.mjs` 只是**消费者**（读 retile 的范围重建引用），改它不会让列变化——改错对象是上一版记录的错。
+
+机制上仍是同一个边界问题：经 vtable 调用、没有 `bl` 站点、因此自己不成行的叶子 getter，被前一个函数吞进 `[start, end)`，它的字符串于是记到前一个函数头上。W6-P123 的 7 条字符串冲突里 6 条就是这么错的。
 
 **新原语 `tools/mhgu/fn-body.mjs`**：从入口做**可达性**（B/BL 分流：`bl` 只回填 fallthrough，条件分支两路都走，`pop{..pc}`/`bx`/`ldr pc` 终止），得到真实体。线性截断是错的——`0x3d15a4` 在 `0x3d16f0` 就有一个 `pop {r4-r8,pc}` 的早退，按第一个终止符切只剩 84 字节。
 
