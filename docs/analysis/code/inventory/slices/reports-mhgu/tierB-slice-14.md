@@ -356,3 +356,5 @@ conf: A=直接字符串证据，B=callee 票数或强结构模式，C=地址邻�
 | 0x13ae8b4 | online-nex | leaf | C | 8 指令零 callee，3 caller，? |
 <!-- tally 块1-3: online-nex 300 / B 183 / C 117 / worker 170 / leaf 86 / thunk 22 / orchestrator 22 / 小计 300; 累计 300/1057 -->
 <!-- END -->
+
+<!-- [NEEDS-SOURCE] W6-P122: 第 14 行引用的「最不确定的 10 个」小节不存在，未补写（补写等于编造 10 条）。tally 行已按本表重算（B 183 / C 117 / worker 170 / leaf 86 / thunk 22 / orchestrator 22，合计 300）。汇总中的「待回填」行（总计 1057、各 label 计数、A/B/C 计数）仍是占位，表内无法复核。见 G:/tmp/w6p122/REPORT.md -->
