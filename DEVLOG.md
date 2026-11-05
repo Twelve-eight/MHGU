@@ -1404,7 +1404,7 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 
 **合并策略**：重复 vaddr 取**最弱置信度**（`--policy weakest`，可选 `first`/`last`）。用 `first` 会把 `0x18ecb0` 再提升为 A，而 pass1 已把它降为 B——这正是 W6-P124 的"再提升"缺陷。改成 weakest 后 40 行置信度变化、1 行标签变化（`0x69c258` unknown/A → quest/B，其 A 级依据的 `areaacttbl` 在函数体内无引用），W6-P124 点名的五行全部落到 B。分歧共 85 条（label-only 21 / conf-only 56 / both 8），**涉及标签的仍是 29 条**。
 
-**替换门禁**：旧表 378 行 **0 丢失、0 标签漂移**（`onlyCommitted=0`、`labelChanged=0`）。
+**替换门禁**（2026-11-06 从 git 重算，纠正原记录）：旧表 378 行（`e3b1ccf`）**0 行丢失**，**1 行标签变化** `0x69c258` unknown/A → **quest/B**（最弱合并的结果，其 A 级依据的 `areaacttbl` 不在该函数体内），**7 行置信度变化**。原文写的 `onlyCommitted=0, labelChanged=0` 是错的：`tierb-merge.py` 里没有这个门禁，那两个数来自一次性检查。
 
 **意外的一致**：合并时报出同地址标签冲突 **29 处**，与 W6-P123 早先记录的"29 处跨文档标签冲突"数字完全吻合——现在它是一条可复跑的命令，而不是一个手抄的数字。冲突全表落在 `docs/data/tierb-labels.CONFLICTS.tsv`（`vaddr, kept, other_labels, sources`）；合并策略固定为"取第一条 + 全部列出"，绝不静默择一。
 

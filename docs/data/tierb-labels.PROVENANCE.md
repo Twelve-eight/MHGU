@@ -1,8 +1,29 @@
 # tierb-labels.csv — provenance and limits
 
-Regenerated 2026-11-06 by `MHGU/tools/mhgu/tierb-merge.py`. This file replaces the `pre-66e12a5`
-snapshot that held **378** rows; the old rows are all still present and none of their labels changed
-(the check that gated the replacement: `onlyCommitted=0`, `labelChanged=0`).
+Regenerated 2026-11-06 by `MHGU/tools/mhgu/tierb-merge.py`. This file replaces the 378-row snapshot
+committed in `e3b1ccf`; **0 old rows were lost**, and exactly **1** changed label:
+`0x69c258` `unknown`/A -> **`quest`/B** (the weakest-merge outcome; its A row's `areaacttbl` string is
+not in that function body - see `tierb-labels.ADJUDICATION.tsv`). **7** rows changed confidence
+(`0x18ecb0`, `0x18f07c`, `0x18f998`, `0x1990dc`, `0x623748`, ...). Every other row is bit-identical
+in `label`/`role`/`conf`.
+
+Re-derive with the tool's own gate (added 2026-11-06 after this claim was found to be untrue):
+
+```
+git show e3b1ccf:docs/data/tierb-labels.csv > G:/tmp/base.csv
+py -3 MHGU/tools/mhgu/tierb-merge.py \
+  --dirs "docs/analysis/code/inventory/slices/reports-mhgu,docs/analysis/code/inventory/slices/w6-pass12" \
+  --labels "reports-mhgu,w6-pass12" \
+  --patterns "tierB-slice-*.md,tierB2-slice-*.md,tierB3-slice-*.md" \
+  --out G:/tmp/tb-new.csv --base G:/tmp/base.csv
+```
+-> `base 378 rows -> lost 0, label changed 1, conf changed 7`, and the output is byte-identical to
+the committed CSV (`sha256 02207d5a…`).
+
+> A previous revision of this paragraph cited `onlyCommitted=0, labelChanged=0` and a snapshot named
+> `pre-66e12a5`. Both were wrong: `tierb-merge.py` had no such gate (the numbers came from an ad-hoc
+> check that read the wrong baseline), the ref does not exist in this repo's history, and the real Δ is
+> the 1 label change above.
 
 ## Inputs (29 slice reports, 2 directories)
 

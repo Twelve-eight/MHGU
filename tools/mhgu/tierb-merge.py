@@ -12,6 +12,8 @@ passes name their files tierB2-/tierB3-, which the old glob could not see. Optio
   --out         output CSV path                          (default .tmp/mhgu/inventory/tierb-labels.csv)
   --conflicts   optional TSV: vaddr, kept label, other label(s), sources
   --last-wins   on a duplicate vaddr take the LAST row instead of the first (default: first)
+  --base        optional CSV to diff against: reports lost rows, label changes and conf changes
+                (this is the replacement gate; it used to be quoted from an ad-hoc check)
 
 Conflict policy is explicit on purpose: a duplicate vaddr with two different labels is a
 cross-document disagreement (the W6-P123 judgement item), so it is reported, never silently hidden.
@@ -32,6 +34,7 @@ patterns = [p for p in opt('--patterns', 'tierB-slice-*.md').split(',') if p]
 out = opt('--out', '.tmp/mhgu/inventory/tierb-labels.csv')
 conflicts_out = opt('--conflicts', None)
 labels_arg = [x for x in opt('--labels', '').split(',') if x]
+base_csv = opt('--base', None)
 last_wins = '--last-wins' in sys.argv
 policy = opt('--policy', 'last' if last_wins else 'weakest')
 if policy not in ('first', 'last', 'weakest'):
@@ -120,6 +123,24 @@ if rows:
         for r in sorted(rows):
             f.write('0x%x,%s,%s,%s,"%s",%s\n' % (r[0], r[1], r[2], r[3], r[4].replace('"', "'"), r[5]))
     print('wrote ' + out)
+    if base_csv:
+        import csv as _csv
+        old = {}
+        with open(base_csv, newline='', encoding='utf-8') as f:
+            for row in _csv.DictReader(f):
+                v = (row.get('vaddr') or '').strip().lower()
+                if v:
+                    old[v] = row
+        cur = {'0x%x' % r[0]: (r[1], r[3]) for r in rows}
+        lost = [v for v in old if v not in cur]
+        labch = [(v, old[v]['label'], cur[v][0]) for v in old if v in cur and old[v]['label'] != cur[v][0]]
+        confch = [(v, old[v]['conf'], cur[v][1]) for v in old if v in cur and old[v]['conf'] != cur[v][1]]
+        print('base %s: %d rows -> lost %d, label changed %d, conf changed %d'
+              % (base_csv, len(old), len(lost), len(labch), len(confch)))
+        for v, a, b in labch[:10]:
+            print('   label %s: %s -> %s' % (v, a, b))
+        for v, a, b in confch[:10]:
+            print('   conf  %s: %s -> %s' % (v, a, b))
     if conflicts_out:
         with open(conflicts_out, 'w', encoding='utf-8', newline='\n') as f:
             f.write('vaddr\tkept\tother_labels\tsources\tconfs\tkind\n')
