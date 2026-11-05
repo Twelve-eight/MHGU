@@ -9,7 +9,7 @@
 import fs from "node:fs";
 import zlib from "node:zlib";
 import path from "node:path";
-import { bodyOf, capFor, starts } from "../fn-body.mjs";
+import { bodyOf, starts } from "../fn-body.mjs";
 
 const ROOT = "G:/omp works/MHGU";
 const OUT = path.join(ROOT, "docs/analysis/code/inventory/stringxref.tsv");
@@ -38,6 +38,9 @@ for (const l of zlib.gunzipSync(fs.readFileSync(path.join(ROOT, "docs/data/funct
   const m = /^(0x[0-9a-f]+),(0x[0-9a-f]+),/.exec(l);
   if (m) fns.push({ s: parseInt(m[1], 16), e: parseInt(m[2], 16) });
 }
+
+const allStarts = [...new Set([...starts, ...fns.map((f) => f.s)])].sort((a, b) => a - b);
+const capFor = (s) => { let lo = 0, hi = allStarts.length - 1, cap = 0x13f1dec; while (lo <= hi) { const m = (lo + hi) >> 1; if (allStarts[m] > s) { cap = allStarts[m]; hi = m - 1; } else lo = m + 1; } return cap; };
 
 const rows = [["start", "string", "via", "site"]];
 let withRefs = 0, viaAbs = 0, viaDelta = 0, viaTable = 0;
@@ -117,6 +120,21 @@ for (const f of fns) {
     }
   }
 }
+// Overlapping caps made the same reference show up in two rows: measured 2026-11-06, 92,519 gap rows held only
+// 13,501 distinct ones. Dedupe before anything reports or writes a count (W6-P132).
+{
+  const seen = new Set();
+  const keep = [rows[0]];
+  for (const r of rows.slice(1)) {
+    const k = r.join("\t");
+    if (seen.has(k)) continue;
+    seen.add(k);
+    keep.push(r);
+  }
+  rows.length = 0;
+  rows.push(...keep);
+}
+
 const WRITE = process.argv.includes("--write");
 const GAP_OUT = OUT.replace(/\.tsv$/, ".gap.tsv");
 const codeRows = rows.filter((r, i) => i === 0 || r[2] === "code");
