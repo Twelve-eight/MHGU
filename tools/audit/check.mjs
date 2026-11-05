@@ -15,7 +15,7 @@ const ok = (m) => console.log(`PASS ${m}`);
 const bad = (m) => { console.log(`FAIL ${m}`); failures++; };
 
 // 1. manifest vs disk
-const manifest = fs.readFileSync(path.join(ROOT, "docs/analysis/audit/MANIFEST.tsv"), "utf8").split("\n").slice(1).filter(Boolean).map((l) => l.split("\t")[0]);
+const manifest = fs.readFileSync(path.join(ROOT, "docs/analysis/audit/MANIFEST.tsv"), "utf8").split("\n").slice(1).filter(Boolean).map((l) => l.replace(/\r$/, "").split("\t")[0]);
 const onDisk = [];
 (function walk(d) {
   for (const e of fs.readdirSync(d, { withFileTypes: true })) {
@@ -42,7 +42,9 @@ else {
 // 3. slice TSVs keep their contract header. LINK-STATUS.tsv is a disposition tracker for the linkage review, not a
 // slice table, so it carries its own header and is exempt by name rather than by shape.
 for (const f of fs.readdirSync(path.join(ROOT, "docs/analysis/audit")).filter((x) => x.endsWith(".tsv") && !/^(MANIFEST|DOC-LINKS|ROUND1-ALL|TIERB-CONF-RECOUNT|LINK-STATUS)/.test(x) && !/-FIXES\.tsv$/.test(x))) {
-  const head = fs.readFileSync(path.join(ROOT, "docs/analysis/audit", f), "utf8").split("\n")[0];
+  // Tolerate a CRLF checkout: core.autocrlf=true re-materialises these TSVs with \r\n and the header
+  // would otherwise compare unequal on byte-identical data (2026-11-06, W6-P130).
+  const head = fs.readFileSync(path.join(ROOT, "docs/analysis/audit", f), "utf8").split("\n")[0].replace(/\r$/, "");
   if (head !== "doc\titem\tverdict\tevidence\tnote") bad(`${f}: unexpected header "${head.slice(0, 60)}"`);
 }
 ok("slice TSV headers checked");
