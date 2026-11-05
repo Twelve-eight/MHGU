@@ -9,6 +9,7 @@
 import fs from "node:fs";
 import zlib from "node:zlib";
 import path from "node:path";
+import { bodyOf, capFor, starts } from "../fn-body.mjs";
 
 const ROOT = "G:/omp works/MHGU";
 const OUT = path.join(ROOT, "docs/analysis/code/inventory/stringxref.tsv");
@@ -43,7 +44,20 @@ let withRefs = 0, viaAbs = 0, viaDelta = 0, viaTable = 0;
 for (const f of fns) {
   const set = new Set();
   const delta = new Map(); // reg -> literal value (possible pc bias)
-  for (let v = f.s; v + 4 <= f.e; v += 4) {
+  const sites = new Map(); // string -> first referencing instruction
+  const viaOf = new Map(); // string -> "code" wins over "code-gap"
+  // The body is the CFG-reachable set, not [f.s, f.e): f.e was "the next known start", so a push-less
+  // leaf getter had its references charged to the function before it (W6-P126).
+  const cap = capFor(f.s, starts);
+  const body = bodyOf(f.s, cap);
+  // Everything between this row's own exit and the next known start is code that belongs to NEITHER this
+  // row nor any other entry (a vtable-reached leaf, typically). Its references are real but cannot be
+  // attributed to a function, so they are kept and marked `code-gap` instead of being charged to the
+  // function above (W6-P126) or dropped.
+  const inBody = new Set(body);
+  const gap = [];
+  for (let a = f.s; a + 4 <= cap; a += 4) if (!inBody.has(a)) gap.push(a);
+  for (const [v, via] of [...body.map((x) => [x, "code"]), ...gap.map((x) => [x, "code-gap"])]) {
     const w = rd(v);
     // branch or bl: basic block ends, register state is gone
     if (((w >>> 25) & 7) === 5 || (w >>> 24) === 0xea || (w >>> 24) === 0xeb) { delta.clear(); continue; }
@@ -89,15 +103,44 @@ for (const f of fns) {
       if (!delta.has(rm)) continue;
       const t = (v + 8 + delta.get(rm)) >>> 0;
       const s = readStr(t);
-      if (s) { set.add(s); viaDelta++; }
+      if (s) { set.add(s); if (!viaOf.has(s) || via === "code") { viaOf.set(s, via); sites.set(s, v); } if (via === "code") viaDelta++; }
       delta.delete(rm);
     }
   }
   if (set.size) {
     withRefs++;
-    for (const s of set) rows.push([`0x${f.s.toString(16)}`, s.replace(/[\t"]/g, " "), "code", ""]);
+    for (const s of set) rows.push([`0x${f.s.toString(16)}`, s.replace(/[\t"]/g, " "), viaOf.get(s) ?? "code", sites.has(s) ? `0x${sites.get(s).toString(16)}` : ""]);
   }
 }
-fs.writeFileSync(OUT, rows.map((r) => r.join("\t")).join("\n") + "\n");
-console.log(`functions with refs: ${withRefs}/${fns.length} (${((100 * withRefs) / fns.length).toFixed(1)}%); rows ${rows.length - 1}`);
+const WRITE = process.argv.includes("--write");
+const GAP_OUT = OUT.replace(/\.tsv$/, ".gap.tsv");
+const codeRows = rows.filter((r, i) => i === 0 || r[2] === "code");
+const gapRows = [rows[0], ...rows.filter((r, i) => i > 0 && r[2] === "code-gap")];
+if (WRITE) {
+  fs.writeFileSync(OUT, codeRows.map((r) => r.join("\t")).join("\n") + "\n");
+  fs.writeFileSync(GAP_OUT, gapRows.map((r) => r.join("\t")).join("\n") + "\n");
+}
+console.log(`functions with refs: ${withRefs}/${fns.length} (${((100 * withRefs) / fns.length).toFixed(1)}%)`);
+console.log(`attributed rows (via=code): ${codeRows.length - 1}; unattributable gap rows: ${gapRows.length - 1} -> ${path.basename(GAP_OUT)}`);
+// Controls from the W6-P123 adjudication. A reference whose site sits past the credited function's own exit
+// must NOT be listed under that function as `code`.
+const ctl = [
+  ["0x3818cc", "cResourceSample", "0x38194c"],
+  ["0x15004c", "cResourceSample", "0x150dc8"],
+];
+let bad = 0;
+for (const [fn, str, site] of ctl) {
+  const hit = codeRows.find((r) => r[0] === fn && r[1] === str && r[2] === "code");
+  const ok = hit && hit[3] === site;
+  if (!ok) bad++;
+  console.log(`${ok ? "ok  " : "FAIL"} ${fn} owns "${str}" at ${hit ? hit[3] : "no row"} (want ${site})`);
+}
+for (const [fn, str] of [["0x69eb18", "areaseldat"], ["0x191bd4", "deco"], ["0x381738", "cResourceSample"]]) {
+  const ok = !codeRows.some((r) => r[0] === fn && r[1] === str);
+  if (!ok) bad++;
+  console.log(`${ok ? "ok  " : "FAIL"} ${fn} no longer claims "${str}"`);
+}
+console.log(bad ? `STRINGXREF CHECK: ${bad} mismatch(es)` : "STRINGXREF CHECK: all pass");
+if (!WRITE) console.log("(dry: pass --write to regenerate stringxref.tsv and stringxref.gap.tsv)");
+if (bad) process.exit(1);
 console.log(`via absolute ${viaAbs}, via pc-delta ${viaDelta}, via table ${viaTable}`);

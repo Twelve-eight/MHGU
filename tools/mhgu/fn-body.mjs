@@ -17,6 +17,7 @@
 //
 // Exit codes: 0 = as asked, 1 = --check found a mismatch.
 import fs from "node:fs";
+import { pathToFileURL } from "node:url";
 
 const FLAT = "G:/omp works/.tmp/mhgu/extract/exefs-0eb5/main.140.flat.bin";
 const buf = fs.readFileSync(FLAT);
@@ -88,10 +89,14 @@ const OUTSIDE = [
 // And a control the other way: a load that really is inside the body it is credited to.
 const INSIDE = [["0x3d15a4", "0x3d16d0", "strcmp over [WORK0..7]: a middle instruction of its own body"]];
 
-const at = (name) => { const i = process.argv.indexOf(name); return i >= 0 ? process.argv[i + 1] : null; };
 const starts = entryPoints();
+export { bodyOf, capFor, starts, inText, rd };
 
-if (process.argv.includes("--check")) {
+const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
+const at = (name) => { const i = process.argv.indexOf(name); return i >= 0 ? process.argv[i + 1] : null; };
+
+if (!isMain) { /* imported: expose the primitive only */ }
+else if (process.argv.includes("--check")) {
   let bad = 0;
   for (const [f, site, why] of OUTSIDE) {
     const s = parseInt(f, 16), body = bodyOf(s, capFor(s, starts)), set = new Set(body);
@@ -110,7 +115,8 @@ if (process.argv.includes("--check")) {
 }
 
 const atArg = at("--at"), ownsArg = process.argv.indexOf("--owns");
-if (ownsArg >= 0) {
+if (!isMain) { /* imported: bodyOf/capFor/starts are the API */ }
+else if (ownsArg >= 0) {
   const s = parseInt(process.argv[ownsArg + 1], 16), site = parseInt(process.argv[ownsArg + 2], 16);
   const body = bodyOf(s, capFor(s, starts));
   console.log(`body ${hex(s)}..${hex(body[body.length - 1] + 4)} (${body.length} insns); ${hex(site)} is ${body.includes(site) ? "inside" : "outside"}`);
