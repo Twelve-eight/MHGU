@@ -6,3 +6,9 @@ docs/data/tierb-labels.CONFLICTS.tsv  text eol=lf
 docs/data/tierb-labels.PROVENANCE.md  text eol=lf
 docs/analysis/code/inventory/slices/**/*.md text eol=lf
 tools/mhgu/tierb-merge.py             text eol=lf
+
+# Same trap as the tierb files above: check.mjs compares slice-table headers byte for byte and
+# check-artifacts.mjs reads the attr tables, so core.autocrlf=true would make a plain `git checkout`
+# turn them into CRLF and fail the gate (hit on 2026-11-06 while reverting an experiment).
+docs/analysis/audit/*.tsv              text eol=lf
+docs/analysis/code/inventory/*.tsv     text eol=lf
