@@ -55,13 +55,14 @@ slice files: 30
 parsed rows (deduped): 4003
 coverage of Tier B: 4003 / 14863 = 26.9%
 conf A/B/C: 55/2034/1914           (policy weakest; 90/1763/1309 under policy first, measured on the 3,162-row table)
-unknown: 277 = 6.9%
+unknown: 508 = 12.7%
 disagreements listed: 85          (label-only 21, conf-only 56, both 8 -> 29 involve a label)
 ```
 
 The step from 3,162 to 4,003 is `tierB-slice-09` (841 rows, written 2026-11-06); the 85 disagreements did
 not change, because the assembler drops a row whose vaddr another slice already adjudicates rather than
-letting the merge report an intentional repeat as a conflict.
+letting the merge report an intentional repeat as a conflict. The `unknown` count rose from 277 to 508
+because 231 of the new rows were relabelled `unknown` — see the next section.
 
 Reproduce:
 
@@ -202,11 +203,17 @@ How the rows were produced, so a later reader can judge them:
   Three pack-rendering defects were found by the reviewers on the way and fixed before the final packs:
   a media-instruction mask that printed `uxtb` as a struct field, a `movt` immediate that dropped its low
   12 bits, and a rotated immediate printed raw (`cmp r6,#65536` as `#34817`).
-- **What these rows are not.** 272 of the 928 (29.3%) are conf C *and* carry exactly the `pool_label` the
-  pack supplied; their evidence says so rather than inventing support. They extend coverage, but they must
-  not be counted as independent confirmation of the propagation — the vote labels themselves come from
-  `function-labels.tsv`, which is largely propagation. Only 2 rows are conf A (both cite a real string:
-  `"Manager-%d"` at 0x7bbce0 and `"Memory Pool Initialization Error"` at 0x7bd638).
+- **What these rows are not.** 231 of the 841 rows were **relabelled `unknown` by the assembler**
+  (`--prior-only-to-unknown`): their label was exactly the pack's `pool_label`, with no non-generic callee
+  vote and no string, so the row's only content was the propagation prior the table exists to test. The
+  relabel is mechanical and marked in each row's evidence. It was triggered by an independent second
+  reading: a `dsv-remote` session re-adjudicated one such part from its pack alone and returned `unknown`
+  for **47 of 47** rows, refusing to launder the prior into a conf-C label as circular. Another **38** rows
+  keep a conf-C label equal to the prior but do have at least one non-generic vote, and they say so;
+  measured on the written table: 231 relabelled, 38 kept.
+- Only 2 rows are conf A (both cite a real string: `"Manager-%d"` at 0x7bbce0 and
+  `"Memory Pool Initialization Error"` at 0x7bd638). Of the 841, **280 are `unknown`** — the largest single
+  outcome after `ui` (344) — which is the honest reading of a pool whose prior the bytes often do not support.
 
 **Scope of that loss — the four `tierB2` tables only.** `tierB-slice-09` (the `1,062`) is *not* affected:
 `tiers.csv`, the 23,885-function table the pass actually ran on, holds exactly **1,062 tier-B functions** in

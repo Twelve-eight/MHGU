@@ -104,6 +104,35 @@ if (errors.length) {
   process.exit(1);
 }
 
+// ---- prior-only rows: a label that only repeats the propagation prior is not an adjudication ------------
+// Measured 2026-11-06 on the first 928 rows: 233 of them had conf C, a label identical to the pack's
+// `pool_label`, no non-generic callee vote and no string - i.e. the row's only content was the prior the
+// table is supposed to test. A second reader re-adjudicating one such part independently returned `unknown`
+// for 47 of 47 rows rather than restate the prior. This step implements that reading mechanically and
+// marks what it did, so the published label counts cannot claim support the bytes do not have.
+if (process.argv.includes("--prior-only-to-unknown")) {
+  const meta = new Map();
+  for (const f of fs.readdirSync(ROWS_DIR).filter((x) => /^part-\d+\.md$/.test(x))) {
+    for (const b of fs.readFileSync(path.join(ROWS_DIR, f), "utf8").split(/^=== (?=0x)/m).slice(1)) {
+      const h = /^0x([0-9a-f]+).*?pool_label=(\S+)/.exec(b);
+      if (!h) continue;
+      const vn = /votes_nogen: (.+)/.exec(b), st = /strings \(attributed to this start, via=code\): (.+)/.exec(b);
+      meta.set("0x" + h[1], { pool: h[2], votesNG: vn ? vn[1].trim() : "-", strings: st ? st[1].trim() : "-" });
+    }
+  }
+  let moved = 0;
+  for (const r of rows) {
+    const m = meta.get(r.v);
+    if (!m) continue;
+    if (r.conf !== "C" || r.label !== m.pool) continue;
+    if (m.votesNG !== "-" || m.strings !== "-") continue;
+    r.label = "unknown";
+    r.evidence = `${r.evidence} [prior-only: label repeated pool_label "${m.pool}" with no callee vote and no string; relabelled unknown by slice-assemble --prior-only-to-unknown]`;
+    moved++;
+  }
+  console.log(`\n--prior-only-to-unknown: ${moved} row(s) relabelled unknown (label was the pool prior alone)`);
+}
+
 // ---- summary computed from the rows --------------------------------------------------------------
 rows.sort((a, b) => parseInt(a.v, 16) - parseInt(b.v, 16));
 const hist = {}, confs = { A: 0, B: 0, C: 0 }, roles = {};
@@ -129,8 +158,15 @@ for (const t of TARGETS) {
   const base = fs.existsSync(t)
     ? fs.readFileSync(t, "utf8")
     : fs.readFileSync(path.join(SLICES, "reports-mhgu", `${SLICE}.md`), "utf8");
-  if (!/<!-- TABLE -->/.test(base)) { console.log(`ERROR: ${t} has no <!-- TABLE --> marker`); process.exit(1); }
-  const out = base.replace(/<!-- TABLE -->/, `${summary}\n\n${table}`);
+  if (!/<!-- TABLE -->/.test(base) && !/<!-- SUMMARY-START -->/.test(base)) {
+    console.log(`ERROR: ${t} has neither a <!-- TABLE --> marker nor a previous <!-- SUMMARY-START --> block`);
+    process.exit(1);
+  }
+  // Idempotent: the first run consumes <!-- TABLE -->, so later runs (a relabel pass, a re-cut) must be able
+  // to replace the block they wrote. Everything above the marker is prose and is preserved byte for byte.
+  const out = /<!-- TABLE -->/.test(base)
+    ? base.replace(/<!-- TABLE -->/, `${summary}\n\n${table}`)
+    : base.replace(/<!-- SUMMARY-START -->[\s\S]*$/, `${summary}\n\n${table}`);
   if (DRY) { console.log(`DRY would write ${t} (${out.length} B)`); continue; }
   fs.writeFileSync(t, out, "utf8");
   console.log(`wrote ${t} (${rows.length} row(s))`);
