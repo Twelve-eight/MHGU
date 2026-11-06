@@ -35,11 +35,12 @@ const LABELS = new Set([
   "quest", "monster-em", "render-gfx", "online-nex", "weapon-wp", "player-pl", "otomo-ot",
   "ui", "item", "save-data", "audio", "kernel-os", "physics-math", "unknown",
 ]);
-const ROW_RE = /^\|\s*`?(0x[0-9a-fA-F]+)`?\s*\|\s*([a-z-]+)\s*\|\s*([a-z]+)\s*\|\s*([ABC])\s*\|(.*)\|\s*$/;
+const ROW_RE = /^\|\s*`?(0x[0-9a-fA-F]+)`?\s*\|\s*([a-z-]+)\s*\|\s*([a-z]+)\s*\|\s*(A|B|C|unknown)\s*\|(.*)\|\s*$/;
 
 // ---- collect ------------------------------------------------------------------------------------
 const errors = [];
 const rows = [];
+let normalised = 0;
 for (let i = 1; i <= PARTS; i++) {
   const n = String(i).padStart(2, "0");
   const p = path.join(ROWS_DIR, `rows-${n}.md`);
@@ -49,12 +50,18 @@ for (let i = 1; i <= PARTS; i++) {
     ? (fs.readFileSync(packPath, "utf8").match(/^=== 0x[0-9a-f]+/gm) || []).length
     : null;
   let got = 0;
+  // (counting below)
   for (const line of fs.readFileSync(p, "utf8").split(/\r?\n/)) {
     const t = line.trim();
     if (!t || t.startsWith("<!--") || t.startsWith("| vaddr") || /^\|[-| ]+\|$/.test(t)) continue;
     const m = ROW_RE.exec(t);
     if (!m) { errors.push(`part-${n}: unparsable row: ${t.slice(0, 100)}`); continue; }
-    const [, v, label, role, conf, evidence] = m;
+    let [, v, label, role, conf, evidence] = m;
+    // conf carries only A/B/C in every published table (157 A + 2,751 B + 2,778 C across the corpus); "we cannot
+    // name a subsystem" is expressed in the LABEL column, not by a fourth confidence level. Accept the part files
+    // as authored, but normalise here so a consumer filtering conf !== "A" does not silently drop these rows, and
+    // say how many were moved.
+    if (conf === "unknown") { conf = "C"; normalised++; }
     if (!LABELS.has(label)) errors.push(`part-${n}: label "${label}" outside the vocabulary (${v})`);
     got++;
     rows.push({ part: n, v: v.toLowerCase(), label, role, conf, evidence: evidence.trim() });
@@ -135,8 +142,12 @@ if (process.argv.includes("--prior-only-to-unknown")) {
 
 // ---- summary computed from the rows --------------------------------------------------------------
 rows.sort((a, b) => parseInt(a.v, 16) - parseInt(b.v, 16));
-const hist = {}, confs = { A: 0, B: 0, C: 0 }, roles = {};
+const hist = {}, confs = { A: 0, B: 0, C: 0, unknown: 0 }, roles = {};
 for (const r of rows) { hist[r.label] = (hist[r.label] || 0) + 1; confs[r.conf]++; roles[r.role] = (roles[r.role] || 0) + 1; }
+// never publish a table whose confidence line cannot reconcile with its own row count
+const confSum = confs.A + confs.B + confs.C + confs.unknown;
+if (confSum !== rows.length) { console.log(`\nERROR: confidence counts (${confSum}) do not reconcile with ${rows.length} rows`); process.exit(1); }
+if (normalised) console.log(`\nnormalised ${normalised} row(s): conf "unknown" -> "C" (label stays unknown; the conf column holds only A/B/C in the published corpus)`);
 const kv = (o) => Object.entries(o).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${k} ${v}`).join(", ");
 const first = rows[0].v, last = rows[rows.length - 1].v;
 const summary = [
@@ -145,7 +156,7 @@ const summary = [
   "the rows in this file by `tools/mhgu/slice-assemble.mjs`, never hand-maintained.",
   "",
   `- labels: ${kv(hist)}`,
-  `- confidence: A ${confs.A}, B ${confs.B}, C ${confs.C}`,
+  `- confidence: A ${confs.A}, B ${confs.B}, C ${confs.C}, unknown ${confs.unknown}`,
   `- roles: ${kv(roles)}`,
   "<!-- SUMMARY-END -->",
 ].join("\n");
@@ -172,4 +183,4 @@ for (const t of TARGETS) {
   console.log(`wrote ${t} (${rows.length} row(s))`);
 }
 console.log(`\nrows: ${rows.length}  labels: ${kv(hist)}`);
-console.log(`confidence: A ${confs.A}, B ${confs.B}, C ${confs.C}`);
+console.log(`confidence: A ${confs.A}, B ${confs.B}, C ${confs.C}, unknown ${confs.unknown}`);
