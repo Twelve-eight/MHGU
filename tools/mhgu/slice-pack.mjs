@@ -23,6 +23,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { bodyOf, capFor, starts } from "./fn-body.mjs";
 import * as A from "./arm32.mjs";
+import { stringShape } from "./string-shape.mjs";
 
 const ROOT = "G:/omp works/MHGU";
 const INV = path.join(ROOT, "docs/analysis/code/inventory");
@@ -198,25 +199,7 @@ const hex = (n) => "0x" + n.toString(16);
 // identifies a subsystem ENTITY (a class or a resource), and these pools are full of member names ("mJntNo")
 // and format templates ("%s\\%s.%s") that identify nothing. Classify mechanically so a reader can see at a
 // glance which strings are candidates, and let the adjudicator still make the call.
-export function stringShape(s) {
-  if (/%[sd]/i.test(s)) return "format";
-  if (/^m[A-Z]/.test(s)) return "member";
-  // Resource files. The explicit list missed `.cro` and `.bin`, which are exactly what the UI/quest tables
-  // reference (roResult.cro, roVillage.cro, eventQuestList.bin), so those strings came out `other` and the A
-  // rule rejected them - reported by the part-01 reviewer. The generic tail rule catches any remaining
-  // alphabetic extension while still refusing version literals such as "1.2.8.f-NINTENDO-SDK-v1" (numeric tail).
-  if (/[\\/]/.test(s) || /\.(xml|tex|arc|scn|mot|rcol|user|msg|bnk|pck|json|cro|bin|cap|efx|mdf2|pfb|lmt|gu2?)$/i.test(s)) return "path";
-  if (/^[\w .\\/-]*\.[a-z]{2,5}$/i.test(s)) return "path";
-  if (/^[caursu][A-Z][A-Za-z0-9_]*$/.test(s) || /^[A-Z][a-z0-9]+[A-Z]/.test(s)) return "class";
-  // Two type-name forms the first two tests missed, added 2026-11-06 after the part-06 reviewer showed they
-  // cover whole families: namespace-qualified (`nAreaConnect::AreaPosBase`) and Itanium-mangled
-  // (`N2nn3nex19ConnectivityManagerE`). Both ARE class names - the repo's own attr-strings.tsv scores the
-  // nAreaConnect family as A - so classifying them "other" made the A rule reject the strongest evidence.
-  if (/^[A-Za-z_]\w*::[A-Za-z]/.test(s)) return "class";
-  if (/^(_Z|N\d)/.test(s)) return "class";
-  if (/^[a-z][a-z0-9_]*$/.test(s)) return "lower";      // xml/json key or keyword
-  return "other";
-}
+export { stringShape } from "./string-shape.mjs";
 
 // ---- per function -------------------------------------------------------------------------------
 function digest(f) {

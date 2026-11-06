@@ -18,7 +18,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { bodyOf, capFor, starts, inText } from "./fn-body.mjs";
 import * as A from "./arm32.mjs";
-import { stringShape } from "./slice-pack.mjs";
+import { stringShape } from "./string-shape.mjs";
 
 const arg = (k, d = null) => { const i = process.argv.indexOf(`--${k}`); return i >= 0 ? process.argv[i + 1] : d; };
 const DIR = arg("dir", "G:/tmp/tierb-s09-new");

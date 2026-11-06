@@ -22,4 +22,15 @@ node MHGU/tools/mhgu/slice-pack.mjs --slice retileString-slice-01 \
 
 证据字段全部由字节重算（`fn-body.mjs` + `stringxref.mjs --dump-json` + `function-labels.tsv` 的票），不继承任何已发布列。
 
+## 与既有表的桶选择冲突（一处，已裁定）
+
+`cRapidshotBase` 在本表 `0xf4420` 判 **weapon-wp**（弩用速射数据），而 `slices/w6-pass12/tierB2-slice-12.md:36`
+把同一类的另一个注册点 `0xf427c` 判 **item**。**这是有意修订，不是笔误**：那条旧行自己的证据栏就写着
+"字符串 cRapidshotBase（弩用速射数据类名）"，即已认出是弩数据却按 `item` 归类——那是 `weapon-wp` 尚未用于
+装备数据时的桶选择。本表与 `tierB-slice-09` 一致按 `weapon-wp` 处理装备类数据，因此按类聚合的消费者会看到
+同一个类两个标签；差异与理由记录在此，供合并/复核时定位。
+
+（注意 `weapon-wp` 在本批承担的是**装备数据**语义——护甲与武器商店列表、试用装备都在内——因为词汇表没有
+单独的 equipment 桶。所以本批 107 条 `weapon-wp` 是"装备桶"计数，不是 107 个武器专属函数。）
+
 <!-- TABLE -->
