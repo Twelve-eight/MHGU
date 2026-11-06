@@ -147,6 +147,12 @@ any new adjudication is done (earlier drafts miscounted the four `tierB2` slices
 `tierB-slice-09`'s `1,062`). The repair pass (W6-P122) marked every such case `[NEEDS-SOURCE]` and did not
 invent the missing rows, so treat the coverage figure as "at least 21.3%".
 
+**That `1,332` is not reachable as written — corrected 2026-11-06 by measurement.** Two independent facts
+cut it down: the pools overlap (221 of `tierB-slice-09`'s `1,062` functions already carry a row in another
+`tierB*` table, so only **841** are genuinely new, and a repeat would surface as a label disagreement rather
+than new coverage), and the four `tierB2` pools no longer exist (below). So the reachable target from the
+derivable part alone is `3,162 + 841 = 4,003`, i.e. **`4,003 / 14,863 = 26.9%`**, not `4,494 / 30.2%`.
+
 ### The missing rows cannot be recovered, only decided (W6-P135, measured 2026-11-06)
 
 The `1,332` above is the *size of the gap*, not a set of known addresses. The 120-function pools the four

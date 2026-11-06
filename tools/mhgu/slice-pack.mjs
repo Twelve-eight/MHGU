@@ -53,6 +53,31 @@ for (const l of srcLines.slice(1)) {
 }
 pool.sort((a, b) => a.start - b.start);
 
+// Exclusion: a vaddr that an existing slice table already adjudicates must not be adjudicated again here.
+// Measured 2026-11-06: the raw tier-B pool of 0x72aa48..0x80c93c is 1,062 but 221 of those already carry a
+// row in another tierB* table, so only 841 are genuinely new. The merge would report the repeats as label
+// disagreements and `--policy weakest` would take whichever claim is weaker, which is not new information.
+const adjudicated = new Set();
+{
+  const SL = path.join(INV, "slices");
+  for (const dir of fs.existsSync(SL) ? fs.readdirSync(SL) : []) {
+    const d = path.join(SL, dir);
+    if (!fs.statSync(d).isDirectory()) continue;
+    for (const f of fs.readdirSync(d).filter((x) => /^tierB.*\.md$/.test(x) && x !== `${SLICE}.md`)) {
+      for (const m of fs.readFileSync(path.join(d, f), "utf8").matchAll(/^\|\s*`?(0x[0-9a-fA-F]+)`?\s*\|/gm)) {
+        adjudicated.add(m[1].toLowerCase());
+      }
+    }
+  }
+}
+const rawPool = pool.length;
+const kept = process.argv.includes("--keep-adjudicated")
+  ? pool
+  : pool.filter((f) => !adjudicated.has("0x" + f.start.toString(16)));
+pool.length = 0;
+pool.push(...kept);
+console.log(`pool: ${rawPool} raw -> ${pool.length} to adjudicate (${rawPool - pool.length} already adjudicated elsewhere)`);
+
 // ---- indices: published callee labels, string attribution --------------------------------------
 const labelOf = new Map();
 for (const l of fs.readFileSync(path.join(INV, "function-labels.tsv"), "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
@@ -159,8 +184,8 @@ const per = Math.ceil(pool.length / PARTS);
 const chunks = [];
 for (let i = 0; i < pool.length; i += per) chunks.push(pool.slice(i, i + per));
 
-if (EXPECT && pool.length !== EXPECT) {
-  console.log(`POOL MISMATCH: ${SOURCE} tier ${TIER} in ${RANGE} has ${pool.length} row(s), expected ${EXPECT}`);
+if (EXPECT && rawPool !== EXPECT) {
+  console.log(`POOL MISMATCH: ${SOURCE} tier ${TIER} in ${RANGE} has ${rawPool} raw row(s), expected ${EXPECT}`);
   process.exit(1);
 }
 
