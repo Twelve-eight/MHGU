@@ -51,13 +51,17 @@ stuck at 378 rows.
 ## Numbers (as produced, re-runnable)
 
 ```
-slice files: 29
-parsed rows (deduped): 3162
-coverage of Tier B: 3162 / 14863 = 21.3%
-conf A/B/C: 53/1797/1312          (policy weakest; 90/1763/1309 under policy first)
-unknown: 228 = 7.2%
+slice files: 30
+parsed rows (deduped): 4003
+coverage of Tier B: 4003 / 14863 = 26.9%
+conf A/B/C: 55/2034/1914           (policy weakest; 90/1763/1309 under policy first, measured on the 3,162-row table)
+unknown: 277 = 6.9%
 disagreements listed: 85          (label-only 21, conf-only 56, both 8 -> 29 involve a label)
 ```
+
+The step from 3,162 to 4,003 is `tierB-slice-09` (841 rows, written 2026-11-06); the 85 disagreements did
+not change, because the assembler drops a row whose vaddr another slice already adjudicates rather than
+letting the merge report an intentional repeat as a conflict.
 
 Reproduce:
 
@@ -176,6 +180,33 @@ So a completion pass is **additive by a stated rule**, not a recovery. Before it
 written into the table header *and* here, and the rows it adds must not be described as the original sample.
 The `21.3%` stays a coverage fraction ("no slice labelled it"), never a precision estimate — see
 "What this file is NOT".
+
+### tierB-slice-09: 841 rows, and what they are worth (written 2026-11-06)
+
+`docs/analysis/code/inventory/slices/reports-mhgu/tierB-slice-09.md` now holds 841 adjudications. The pool
+rule is in its header and is reproducible: tier-B rows of `tiers.csv` in `0x72aa48..0x80c93c` (1,062),
+minus every vaddr another slice already adjudicates (221), = **841**. Two independent facts pin the 1,062:
+`tiers.csv` itself, and `.tmp/mhgu/tierB/slice-09.txt` whose line 1 reads "Tier B slice 09 — 1062 functions,
+addr `0x72aa48..0x80c93c`".
+
+How the rows were produced, so a later reader can judge them:
+
+- Evidence was recomputed per function, never inherited: CFG body from `tools/mhgu/fn-body.mjs`, callees
+  from that body only (not from `functions-retile.csv.gz` col 5, which W6-P128 showed includes calls after
+  the function's own exit), strings from `stringxref.mjs --dump-json` (`via=code`, this exact start only),
+  and callee labels from `function-labels.tsv` with the generic accessor family flagged.
+- `tools/mhgu/slice-pack.mjs` built the packs; `tools/mhgu/slice-rows-audit.mjs` re-checked **every cited
+  field offset and constant against the function's own bytes**: 928 rows audited, 873 fully resolved,
+  **0 fabricated**; the 55 that the resolver cannot model cite a *composed* effective offset (base + index)
+  or a constant assembled across more than one `movw`/`movt` pair, and each is listed by `--verbose`.
+  Three pack-rendering defects were found by the reviewers on the way and fixed before the final packs:
+  a media-instruction mask that printed `uxtb` as a struct field, a `movt` immediate that dropped its low
+  12 bits, and a rotated immediate printed raw (`cmp r6,#65536` as `#34817`).
+- **What these rows are not.** 272 of the 928 (29.3%) are conf C *and* carry exactly the `pool_label` the
+  pack supplied; their evidence says so rather than inventing support. They extend coverage, but they must
+  not be counted as independent confirmation of the propagation — the vote labels themselves come from
+  `function-labels.tsv`, which is largely propagation. Only 2 rows are conf A (both cite a real string:
+  `"Manager-%d"` at 0x7bbce0 and `"Memory Pool Initialization Error"` at 0x7bd638).
 
 **Scope of that loss — the four `tierB2` tables only.** `tierB-slice-09` (the `1,062`) is *not* affected:
 `tiers.csv`, the 23,885-function table the pass actually ran on, holds exactly **1,062 tier-B functions** in

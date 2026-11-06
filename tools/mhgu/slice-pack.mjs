@@ -78,6 +78,17 @@ const kept = [...(process.argv.includes("--keep-adjudicated")
   : pool.filter((f) => !adjudicated.has("0x" + f.start.toString(16))))];
 pool.length = 0;
 pool.push(...kept);
+
+// A caller may hand in an explicit vaddr list (a leftover set that no part covered). This is the only way
+// to pack a set that is not a contiguous slice of the sorted pool.
+const INCLUDE = arg("include-from", null);
+if (INCLUDE && fs.existsSync(INCLUDE)) {
+  const want = new Set(fs.readFileSync(INCLUDE, "utf8").split(/\r?\n/).map((s) => s.trim().toLowerCase()).filter(Boolean));
+  const only = pool.filter((f) => want.has("0x" + f.start.toString(16)));
+  console.log(`--include-from: ${want.size} requested, ${only.length} present in the pool`);
+  pool.length = 0;
+  pool.push(...only);
+}
 console.log(`pool: ${rawPool} raw -> ${pool.length} to adjudicate (${rawPool - pool.length} already adjudicated elsewhere)`);
 
 // ---- indices: published callee labels, string attribution --------------------------------------
@@ -164,7 +175,10 @@ function digest(f) {
     } else if ((w & 0x0ff00000) === 0x03000000) {
       sig.push(`${h}: movw r${(w >>> 12) & 0xf},#${hex((w & 0xfff) | (((w >>> 16) & 0xf) << 12))}`);
     } else if ((w & 0x0ff00000) === 0x03400000) {
-      sig.push(`${h}: movt r${(w >>> 12) & 0xf},#${hex(((w >>> 16) & 0xf) << 12)}`);
+      // MOVT: imm16 = imm4(bits 19:16) : imm12(bits 11:0). Printing only imm4 << 12 turned e34c1ccc
+      // (movt r1,#0xcccc) into "movt r1,#0xc000" - reported by the part-01 reviewer 2026-11-06.
+      const imm16 = (((w >>> 16) & 0xf) << 12) | (w & 0xfff);
+      sig.push(`${h}: movt r${(w >>> 12) & 0xf},#${hex(imm16)}`);
     } else if (((w >>> 25) & 7) === 2 && (w & 0xfff) >= 0x40) { // load/store single data transfer, imm offset
       // The old mask (w & 0x0c100000) === 0x04000000 also matched media instructions (bits 27:25 = 011),
       // so `uxtb r0, r0` was printed as "(struct field +112)". Gate on bits 27:25 == 010 first.
@@ -177,7 +191,11 @@ function digest(f) {
         sig.push(`${h}: ${A.disasm(a, 1).split("  ").pop()}   (struct field +${off})`);
       }
     } else if ((w & 0x0ff00000) === 0x03500000) {
-      sig.push(`${h}: cmp r${(w >>> 16) & 0xf},#${(w & 0xfff) | (((w >>> 8) & 0xf) << 12)}`);
+      // Data-processing immediate: imm12 = rot[11:8] : imm8, value = ROR(imm8, 2*rot). Printing imm12 raw
+      // turned e3560801 (cmp r6,#65536) into "cmp r6,#34817" - reported by the part-15 reviewer.
+      const imm12 = w & 0xfff, rot = (imm12 >>> 8) << 1, imm8 = imm12 & 0xff;
+      const val = rot ? (((imm8 >>> rot) | (imm8 << (32 - rot))) >>> 0) : imm8;
+      sig.push(`${h}: cmp r${(w >>> 16) & 0xf},#${val}`);
     }
     if (sig.length >= 40) { sig.push(`... (capped at 40 of ${body.length} reachable instructions)`); break; }
   }
