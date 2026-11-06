@@ -236,9 +236,14 @@ adjudications while slice-09 produced 2 in 841 - selecting on a fixed-extractor 
 14,863; the two partitions intersect in only **239** addresses. All 239 are now used: 93 were already in older
 tables and 146 were drawn by this batch (its other 34 rows carried no string). There is therefore no 2,506-row conf-A backlog. Say it precisely: at tiers granularity, **by exact address match**,
 the remaining string-backed candidates are **0** - and that zero is a LOWER bound, because a pool function whose
-string is attributed to a retile sub-function start looks string-less here. The untried alternative is a
-**containment join** (attribute each retile string start to the tiers row whose `[start, next_start)` interval
-contains it); that would find more, and a later session should try it before repeating this diagnosis. Further coverage has to
+string is attributed to a retile sub-function start looks string-less here. The alternative was a **containment join**; it was tried the same day and **rejected**. Joining by interval -
+attributing every retile string start to the tiers row whose `[start, next_start)` contains it - finds 1,683 pool
+rows holding a string, 1,037 of them unadjudicated. That number is an artefact: it counts strings that live in the
+address gap between two pool functions, i.e. inside a retile sub-function that is not in the pool row own CFG
+body, which is exactly the over-attribution W6-P126 removed. The correct test is a **body join** - does a string
+SITE fall inside the pool row reachable body - and it returns **239, of them 0 unadjudicated**, identical to the
+exact-address join. So the well really is dry at this granularity, and the interval join must not be used as
+shortcut to reopen it. Further coverage has to
 come from C-grade adjudication of the 10,679 remaining pool rows, or from a table built on the retile
 partition, which is a different artifact and a product decision. The draw command still works; it simply no
 longer selects on a string that exists. Wrong earlier figure kept for the record: 2,506. Measured with
