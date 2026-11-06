@@ -23,7 +23,21 @@ import fs from "node:fs";
 
 const ROOT = "G:/omp works/MHGU";
 const CI = `${ROOT}/docs/data/class-inventory.tsv`;
-const SRC = `${ROOT}/docs/analysis/code/inventory/attr-vtable-retile.tsv`;
+// Every published table that quotes a `registrar 0x...` in its evidence prose. attr-vtable-retile.tsv is
+// the upstream one; attr-vtable-fixed.tsv (sources.json item 4) and attr-vtable-unknown.tsv are generated
+// from it by later passes and carried the same stale addresses (measured 2026-11-06: 3,807/3,852 and
+// 3,201/3,244), so fixing only the upstream file would leave three tables disagreeing with
+// class-inventory.tsv. None of these consumers parses the address (see the note above), so all three are
+// token-only edits under the same column-1-3 invariant.
+const FILES = (() => {
+  const out = [];
+  for (let i = 0; i < process.argv.length; i++) if (process.argv[i] === "--file" && process.argv[i + 1]) out.push(process.argv[i + 1]);
+  return out.length ? out : [
+    `${ROOT}/docs/analysis/code/inventory/attr-vtable-retile.tsv`,
+    `${ROOT}/docs/analysis/code/inventory/attr-vtable-fixed.tsv`,
+    `${ROOT}/docs/analysis/code/inventory/attr-vtable-unknown.tsv`,
+  ];
+})();
 
 const hex = (v) => "0x" + parseInt(v, 16).toString(16);
 const WRITE = process.argv.includes("--write");
@@ -119,25 +133,29 @@ function selftest() {
 if (SELFTEST) process.exit(selftest() ? 0 : 1);
 
 const inventory = loadInventory();
-const raw = fs.readFileSync(SRC, "utf8");
-const eol = raw.includes("\r\n") ? "\r\n" : "\n";
-const lines = raw.split(/\r?\n/);
-const { stats, mismatches, out } = plan(inventory, lines);
-
-console.log(`attr-vtable-retile.tsv: ${stats.rows} data row(s)`);
-console.log(`  citing a registrar : ${stats.citing}`);
-console.log(`  STALE (would change): ${stats.stale}`);
-console.log(`  already correct    : ${stats.already}`);
-console.log(`  class not in inventory: ${stats.noClass}   registrar_fn empty: ${stats.emptyFn}`);
-console.log(`  site token checked : ${stats.siteChecked}  disagreement: ${stats.siteMismatch}`);
-for (const m of mismatches) console.log(`    ${m}`);
-
-const ok = stats.siteMismatch === 0 && stats.noClass === 0 && stats.emptyFn === 0;
-if (!ok) { console.log("GUARD FAILED: refusing to write"); process.exit(1); }
-
-if (WRITE) {
-  fs.writeFileSync(SRC, out.join(eol), "utf8");
-  console.log(`WROTE ${stats.stale} registrar address(es)`);
-} else {
-  console.log("report only; pass --write to apply");
+let anyFail = false;
+for (const src of FILES) {
+  if (!fs.existsSync(src)) { console.log(`${src}: missing, skipped`); continue; }
+  const raw = fs.readFileSync(src, "utf8");
+  const eol = raw.includes("\r\n") ? "\r\n" : "\n";
+  const { stats, mismatches, out } = plan(inventory, raw.split(/\r?\n/));
+  const name = src.split(/[\\/]/).pop();
+  console.log(`${name}: ${stats.rows} data row(s)`);
+  console.log(`  citing a registrar : ${stats.citing}`);
+  console.log(`  STALE (would change): ${stats.stale}`);
+  console.log(`  already correct    : ${stats.already}`);
+  console.log(`  class not in inventory: ${stats.noClass}   registrar_fn empty: ${stats.emptyFn}`);
+  console.log(`  site token checked : ${stats.siteChecked}  disagreement: ${stats.siteMismatch}`);
+  for (const m of mismatches) console.log(`    ${m}`);
+  if (stats.siteMismatch !== 0 || stats.noClass !== 0 || stats.emptyFn !== 0) {
+    console.log("  GUARD FAILED for this file: not writing it");
+    anyFail = true;
+    continue;
+  }
+  if (WRITE) {
+    fs.writeFileSync(src, out.join(eol), "utf8");
+    console.log(`  WROTE ${stats.stale} registrar address(es)`);
+  }
 }
+if (anyFail) process.exit(1);
+if (!WRITE) console.log("report only; pass --write to apply");

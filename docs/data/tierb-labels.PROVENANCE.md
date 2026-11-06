@@ -155,17 +155,22 @@ derivable part alone is `3,162 + 841 = 4,003`, i.e. **`4,003 / 14,863 = 26.9%`**
 
 ### The missing rows cannot be recovered, only decided (W6-P135, measured 2026-11-06)
 
-The `1,332` above is the *size of the gap*, not a set of known addresses. The 120-function pools the four
-`tierB2` tables were drawn from no longer exist anywhere in the tree:
+The `1,332` above is the *size of the gap*, not a set of known addresses. The per-table 120-member samples
+the four `tierB2` tables were drawn from no longer exist: every published vaddr is absent from all 14
+`.tmp/mhgu/tierB2/slice-*.txt` (best overlap `0/30`, `0/60`, `0/30`, `0/90`), those lists were themselves
+regenerated over unrelated ranges (`tierB2/slice-04.txt` now self-describes as "pass2 slice 14 —
+120 functions, `0x134d3d8..0x49406c`" while the table states `0x6b3460..0x13b8d1c`), no rule reproduces them
+(top-N by insns: `0/30`, `6/30`, `0/30` and `1/60`, `0/60`, `0/60`), and
+`docs/analysis/code/tierb-pass2/tierB2-slice-06.md:3` already recorded it.
 
-- Every published vaddr of `tierB2-slice-04/06/09/10` is absent from all 14 current
-  `.tmp/mhgu/tierB2/slice-*.txt` — best overlap `0/30`, `0/60`, `0/30`, `0/90`.
-- Those lists were themselves regenerated: `tierB2/slice-04.txt` now self-describes as
-  "pass2 slice 14 — 120 functions, `0x134d3d8..0x49406c`" while this table states `0x6b3460..0x13b8d1c`.
-- No rule reproduces them: top-N by insns over each stated range gives `0/30`, `6/30`, `0/30` for
-  slice-04 and `1/60`, `0/60`, `0/60` for slice-06 — whose stated range `0xb6f3c4..0xb811f0` contains only
-  131 functions in total, while its published 60 rows span `0x16f2c..0x130b6b4`.
-- `docs/analysis/code/tierb-pass2/tierB2-slice-06.md:3` had already recorded the loss for slice-06.
+**But the pool survives — corrected 2026-11-06 by re-running the gate over the right directory.**
+`.tmp/mhgu/tierB/slice-01..14.txt` (TSV: `vaddr | insns | callers | callees | callee_label_votes |
+strings(<=5)`) contains **210 of 210** published vaddrs (30/30, 60/60, 30/30, 90/90). They are spread across
+all 14 lists, so no single list is "the" table and the list numbering does not map to the table numbering —
+but the candidate pool, with its votes and strings, is on disk. Reuse caveats: the `insns` column predates
+the W6-P133b cap fix and the `callees` column predates W6-P128, so take both from `fn-body.mjs`.
+`tierB/slice-09.txt` line 1 is verbatim the `tierB-slice-09` scope ("Tier B slice 09 — 1062 functions,
+addr `0x72aa48..0x80c93c`") and holds exactly 1,062 data rows, independently corroborating tiers.csv.
 
 So a completion pass is **additive by a stated rule**, not a recovery. Before it runs, the pool rule must be
 written into the table header *and* here, and the rows it adds must not be described as the original sample.
