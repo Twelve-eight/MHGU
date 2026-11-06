@@ -6,9 +6,9 @@
 //
 // Rounds matter, so each one is validated on its own terms: hold out one evidence file, rebuild every round inside the
 // fold (so the held-out file cannot predict itself), then ask the round's rule to recover that file's A-direct labels.
-// Measured: round1 96.0%, round2 94.2%, round3 93.9% — the drop is real but small, so the loop continues while a round
-// still scores at least 92% and still adds rows. It stops when either condition fails, and the table in METER records
-// every round's number rather than a single blended one.
+// Measured: round1 96.0%, round2 94.2%, round3 93.9%. Since commit 96b0bed the published attr-callvote.tsv
+// keeps round 1 only (VOTE_ROUNDS defaults to 1) so single-pass verify-inferred.mjs can re-derive every row
+// from A-direct anchors; pass VOTE_ROUNDS=8 to run the multi-round exploration.
 import fs from "node:fs";
 import path from "node:path";
 import zlib from "node:zlib";
@@ -126,8 +126,8 @@ for (const rs of roundScore) {
   }
   perRound.push({ round: rs.round, pct: rs.pct, tested: rs.tested, added });
 }
-fs.writeFileSync(path.join(INV, OUTPATH || "attr-callvote.tsv"), out.map((x) => x.join("\t")).join("\n") + "\n");
-fs.writeFileSync(path.join(INV, "attr-callvote-rounds.tsv"),
+fs.writeFileSync(path.resolve(INV, OUTPATH || "attr-callvote.tsv"), out.map((x) => x.join("\t")).join("\n") + "\n");
+if (!OUTPATH) fs.writeFileSync(path.join(INV, "attr-callvote-rounds.tsv"),
   [["round", "fold_tested", "fold_correct", "precision", "rows_added"]]
     .concat(roundScore.map((rs) => [rs.round, rs.tested, rs.correct, rs.pct + "%", (perRound.find((p) => p.round === rs.round) || {}).added ?? 0]))
     .map((x) => x.join("\t")).join("\n") + "\n");

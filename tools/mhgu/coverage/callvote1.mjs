@@ -9,8 +9,8 @@
 //    with three callers it is 91.1% but the CP95 lower bound drops to 87.5, so three is not enough.
 //
 // Validation replays the whole cascade: for each held-out evidence file the file is stripped, every round is rebuilt from
-// the stripped anchors, and only then is the round scored on that file's own rows. Scoring round N against a purity table
-// that round N-1 built from the held-out rows would flatter every round after the first.
+// the stripped anchors, and only then is the round scored on that file's own rows. Since commit 96b0bed the published
+// attr-callvote1.tsv keeps round 1 only (CASCADE_ROUNDS defaults to 1) to match single-pass verify-inferred.mjs.
 import fs from "node:fs";
 import path from "node:path";
 import zlib from "node:zlib";

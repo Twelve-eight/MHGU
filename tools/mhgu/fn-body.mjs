@@ -19,7 +19,7 @@
 import fs from "node:fs";
 import { pathToFileURL } from "node:url";
 
-const FLAT = "G:/omp works/.tmp/mhgu/extract/exefs-0eb5/main.140.flat.bin";
+const FLAT = "G:/omp works/MHGU/main.140.flat.bin"; // sha256 a8cfb11465470184 (shared with stringxref.mjs)
 const buf = fs.readFileSync(FLAT);
 const rd = (v) => buf.readUInt32LE(v + 0x100) >>> 0;
 const TEXT_END = 0x13f1dec;
@@ -27,8 +27,10 @@ const inText = (v) => v >= 0x100 && v < TEXT_END;
 
 // Only UNCONDITIONAL returns (cond === 0xe) end fallthrough; a conditional `bxeq lr` (`0x012fff1e`,
 // e.g. 0x16364 in 0x1635c) falls through to `next` when the condition is false (W6-P133b).
+// Single-register `pop {pc}` (`0xe49df004`) has 0 hits in .text (verified 2026-11-06) and is included for completeness.
 const isExit = (w) =>
   ((w & 0xffff8000) >>> 0) === 0xe8bd8000 ||     // pop {..., pc} (unconditional)
+  (w >>> 0) === 0xe49df004 ||                    // pop {pc} = ldr pc, [sp], #4 (unconditional; 0 hits in .text)
   ((w & 0xfffffff0) >>> 0) === 0xe12fff10 ||     // bx rN (incl. bx lr, unconditional; excludes blx rN 0xe12fff30
                                                  // and conditional bx<cond> rN, which truncated 1,150 functions)
   (w >>> 0) === 0xe1a0f00e ||                    // mov pc, lr (unconditional)
