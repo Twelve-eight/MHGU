@@ -198,7 +198,7 @@ const hex = (n) => "0x" + n.toString(16);
 // identifies a subsystem ENTITY (a class or a resource), and these pools are full of member names ("mJntNo")
 // and format templates ("%s\\%s.%s") that identify nothing. Classify mechanically so a reader can see at a
 // glance which strings are candidates, and let the adjudicator still make the call.
-function stringShape(s) {
+export function stringShape(s) {
   if (/%[sd]/i.test(s)) return "format";
   if (/^m[A-Z]/.test(s)) return "member";
   // Resource files. The explicit list missed `.cro` and `.bin`, which are exactly what the UI/quest tables
@@ -212,7 +212,7 @@ function stringShape(s) {
   // cover whole families: namespace-qualified (`nAreaConnect::AreaPosBase`) and Itanium-mangled
   // (`N2nn3nex19ConnectivityManagerE`). Both ARE class names - the repo's own attr-strings.tsv scores the
   // nAreaConnect family as A - so classifying them "other" made the A rule reject the strongest evidence.
-  if (/^[A-Za-z_]\w*::[A-Z]/.test(s)) return "class";
+  if (/^[A-Za-z_]\w*::[A-Za-z]/.test(s)) return "class";
   if (/^(_Z|N\d)/.test(s)) return "class";
   if (/^[a-z][a-z0-9_]*$/.test(s)) return "lower";      // xml/json key or keyword
   return "other";

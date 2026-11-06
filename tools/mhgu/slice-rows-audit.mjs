@@ -18,6 +18,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { bodyOf, capFor, starts, inText } from "./fn-body.mjs";
 import * as A from "./arm32.mjs";
+import { stringShape } from "./slice-pack.mjs";
 
 const arg = (k, d = null) => { const i = process.argv.indexOf(`--${k}`); return i >= 0 ? process.argv[i + 1] : d; };
 const DIR = arg("dir", "G:/tmp/tierb-s09-new");
@@ -99,12 +100,13 @@ for (let i = 1; i <= PARTS; i++) {
   if (!fs.existsSync(rowsP)) continue;
   let partRows = 0, partBad = 0;
   for (const line of fs.readFileSync(rowsP, "utf8").split(/\r?\n/)) {
-    const m = /^\|\s*(0x[0-9a-f]+)\s*\|[^|]*\|[^|]*\|[^|]*\|(.*)\|\s*$/.exec(line);
+    const m = /^\|\s*(0x[0-9a-f]+)\s*\|[^|]*\|[^|]*\|\s*([ABC]|unknown)\s*\|(.*)\|\s*$/.exec(line);
     if (!m) continue;
     const v = parseInt(m[1], 16);
+    const conf = m[2];
     // `sp+0x50` is a frame slot, not a struct field: drop those before reading offsets, or every stack
     // frame initialiser looks like a fabricated field.
-    const ev = m[2].replace(/sp\s*\+\s*0x[0-9a-f]+/gi, "sp+SLOT").replace(/sp\s*\+\s*\d+/gi, "sp+SLOT");
+    const ev = m[3].replace(/sp\s*\+\s*0x[0-9a-f]+/gi, "sp+SLOT").replace(/sp\s*\+\s*\d+/gi, "sp+SLOT");
     const body = bodyOf(v, capFor(v, starts));
     const { offs, vals, addrs } = factsOf(body);
     rows++; partRows++;
@@ -138,7 +140,9 @@ for (let i = 1; i <= PARTS; i++) {
     // names the owning function - a row may legitimately cite another function's strings when it says so
     // (e.g. "its own member schema 0x4b943c carries mItem/mPiece/mNum"). Only an unattributed cross-function
     // citation is an error.
-    for (const q of ev.matchAll(/"([^"]{3,})"/g)) {
+    for (const q of ev.matchAll(/"([^"]{3,})"|\x60([^\x60]{3,})\x60/g)) {
+      if (q[2] && !sitesOf.has(q[2])) continue;    // a backticked token that is not an attributed string
+      if (q[2]) { q[1] = q[2]; }
       const owners = sitesOf.get(q[1]);
       if (!owners) continue;                       // not an attributed string we know: the hex/offset tests judge it
       if (owners.some((x) => body.includes(x))) continue;
@@ -146,6 +150,11 @@ for (let i = 1; i <= PARTS; i++) {
       const named = [...ow].some((x) => Number.isFinite(x) && ev.toLowerCase().includes(hex(x)));
       if (named) { dataref++; continue; }          // attributed cross-reference: counted, not an error
       missing.push("span-string:" + q[1].slice(0, 24));
+    }
+    if (conf === "A") {
+      const quoted = [...ev.matchAll(/"([^"]{3,})"|\x60([^\x60]{3,})\x60/g)].map((q) => q[1] || q[2]);
+      const okShape = quoted.some((q) => { const sh = stringShape(q); return sh === "class" || sh === "path"; });
+      if (!okShape) missing.push("A-without-class/path-string");
     }
     if (missing.length) {
       partBad++;
