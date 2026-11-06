@@ -319,7 +319,9 @@ they own a string under the fixed extractor, have no entry in `function-labels.t
 appear in no slice table. 353 of the 822 carry a class- or path-shaped string, i.e. they can reach conf A. They are
 the propagation channel’s blind spot on its strongest evidence type, and they are being adjudicated as
 `slices/reports-mhgu/retileString-slice-01.md` - a **separate artifact** whose filename does not match
-`tierb-merge.py`’s patterns, so it does not move the numbers in this file until someone decides it should.
+`tierb-merge.py`'s patterns. It has since been adjudicated (822 rows, A 328) and the merge decision was made with a
+measurement: the retile partition and the Tier B pool are disjoint, so it is **not** merged and this file's numbers
+stay unchanged. See "Result of the second route" below.
 
 Two routes were sized before choosing:
 
@@ -331,6 +333,30 @@ Two routes were sized before choosing:
 The second route is ~13x cheaper and produces the only label class that is genuinely new information (A), which is
 why it was taken first. The first route remains available and unchanged; it adds coverage and tests the propagation
 where the propagation was least sure, but it cannot produce an A row.
+
+### Result of the second route (2026-11-07): 822 rows adjudicated, A 328 / B 10 / C 484, **not merged**
+
+`slices/reports-mhgu/retileString-slice-01.md` is published with **822 rows**: `conf A 328, B 10, C 484`, label
+`unknown` on 113 rows (conf carries only A/B/C, as in every other table). Every row was byte-audited (`slice-rows-audit.mjs`:
+822 checked, **0 unresolvable claims**) and five of the nine parts run an independent negative-control verifier.
+
+It is **not** merged into `tierb-labels.csv`, and that is a measurement, not caution. The CSV's coverage line is
+`N / 14,863` (the `tiers.csv` Tier B pool). A join of the 822 against that pool, with the published 4,183 rows as
+the must-pass control:
+
+| set | in the Tier B pool | in `tiers.csv` at any tier |
+|---|---|---|
+| published 4,183 rows (control) | **4,183** (all) | 4,183 |
+| retile 822 rows | **0** | 28 |
+
+The retile partition and the Tier B pool are disjoint at address granularity, so appending all 822 would have
+reported `5,005 / 14,863 = 33.7%` while 822 of those rows have no membership in the denominator — a 5.6-point
+overstatement. Merge reverted (`git checkout docs/data/tierb-labels.csv`); published Tier B coverage stays **28.1%**.
+
+What this table is, then: the project's first large A-grade adjudication on functions **no tierB table covers**, in a
+partition (52,692 starts) that is currently not metered at all. Its value shows up only if the retile partition gets
+its own denominator; until then it must be quoted as an artifact, never as coverage. The 28 addresses that do appear
+in `tiers.csv` belong to other tiers, so even a pool-restricted merge adds nothing.
 
 ## What this file is NOT
 
