@@ -46,13 +46,21 @@ for (const f of JSON.parse(fs.readFileSync(SRC, "utf8"))) {
   }
 }
 
-// 2. the propagation spine
+// 2. the propagation spine (excluding starts demoted by demote-*.tsv / pins.tsv, matching report.mjs:96 and function-labels.mjs:53)
+const demoted = new Set();
+for (const f of fs.readdirSync(INV).filter((x) => /^(demote-.*|pins)\.tsv$/.test(x))) {
+  for (const l of fs.readFileSync(INV + f, "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
+    const start = parseInt(l.split("\t")[0], 16);
+    if (Number.isFinite(start)) demoted.add("0x" + start.toString(16));
+  }
+}
 const SPINE = process.env.SPINE ? INV + process.env.SPINE : INV + "tiers-merged.csv";
 for (const l of fs.readFileSync(SPINE, "utf8").split(/\r?\n/).filter(Boolean).slice(1)) {
   const [s, , , label] = l.split(",");
   if (!label || !LABELS.has(label)) continue;
+  const k = "0x" + parseInt(s, 16).toString(16);
+  if (demoted.has(k)) continue;
   const tier = l.split(",")[2];
-  const k = s.toLowerCase();
   const prev = best.get(k);
   const rank = tier === "A" ? 3 : 2;          // report.mjs treats a tier-A spine label as conf A
   if (!prev || rank > prev.rank) best.set(k, { label, rank, kind: "spread" });
