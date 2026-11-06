@@ -142,7 +142,7 @@ not the number of adjudications that exist:
 | `tierB2-slice-06` | 60 | 120 |
 | `tierB2-slice-09` | 30 | 120 |
 | `tierB2-slice-10` | 90 | 120 (`reports-mhgu` only) |
-| `tierB-slice-09` | 0 (table never started) | 1,062 (`0x72aa48..0x80c93c`, header line 1) |
+| `tierB-slice-09` | **841** (written 2026-11-06; `reports-mhgu` only) | 1,062 (`0x72aa48..0x80c93c`, header line 1) — 221 of those already carried a row in another slice, so 841 was the new ground |
 | `tierB3-slice-06` | 60 | — |
 
 If those tables were completed the table could grow by **1,332 rows** (`90 + 60 + 90 + 30 = 270` across
