@@ -133,6 +133,16 @@ for (const f of fns) {
 }
 
 const WRITE = process.argv.includes("--write");
+// Diagnostic, same shape as `report.mjs --dump-none`: dump the deduped attribution rows so a consumer
+// (slice input packs) can ask "which strings does function X own, and at which site" without writing a
+// second scanner. Never affects the default output or the controls below.
+{
+  const i = process.argv.indexOf("--dump-json");
+  if (i >= 0 && process.argv[i + 1]) {
+    fs.writeFileSync(process.argv[i + 1], JSON.stringify(rows));
+    console.log(`--dump-json: ${rows.length - 1} row(s) -> ${process.argv[i + 1]}`);
+  }
+}
 const GAP_OUT = OUT.replace(/\.tsv$/, ".gap.tsv");
 const codeRows = rows.filter((r, i) => i === 0 || r[2] === "code");
 const gapRows = [rows[0], ...rows.filter((r, i) => i > 0 && r[2] === "code-gap")];

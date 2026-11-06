@@ -147,6 +147,33 @@ any new adjudication is done (earlier drafts miscounted the four `tierB2` slices
 `tierB-slice-09`'s `1,062`). The repair pass (W6-P122) marked every such case `[NEEDS-SOURCE]` and did not
 invent the missing rows, so treat the coverage figure as "at least 21.3%".
 
+### The missing rows cannot be recovered, only decided (W6-P135, measured 2026-11-06)
+
+The `1,332` above is the *size of the gap*, not a set of known addresses. The 120-function pools the four
+`tierB2` tables were drawn from no longer exist anywhere in the tree:
+
+- Every published vaddr of `tierB2-slice-04/06/09/10` is absent from all 14 current
+  `.tmp/mhgu/tierB2/slice-*.txt` — best overlap `0/30`, `0/60`, `0/30`, `0/90`.
+- Those lists were themselves regenerated: `tierB2/slice-04.txt` now self-describes as
+  "pass2 slice 14 — 120 functions, `0x134d3d8..0x49406c`" while this table states `0x6b3460..0x13b8d1c`.
+- No rule reproduces them: top-N by insns over each stated range gives `0/30`, `6/30`, `0/30` for
+  slice-04 and `1/60`, `0/60`, `0/60` for slice-06 — whose stated range `0xb6f3c4..0xb811f0` contains only
+  131 functions in total, while its published 60 rows span `0x16f2c..0x130b6b4`.
+- `docs/analysis/code/tierb-pass2/tierB2-slice-06.md:3` had already recorded the loss for slice-06.
+
+So a completion pass is **additive by a stated rule**, not a recovery. Before it runs, the pool rule must be
+written into the table header *and* here, and the rows it adds must not be described as the original sample.
+The `21.3%` stays a coverage fraction ("no slice labelled it"), never a precision estimate — see
+"What this file is NOT".
+
+**Scope of that loss — the four `tierB2` tables only.** `tierB-slice-09` (the `1,062`) is *not* affected:
+`tiers.csv`, the 23,885-function table the pass actually ran on, holds exactly **1,062 tier-B functions** in
+`0x72aa48..0x80c93c`, so its pool is re-derivable verbatim. (`tiers-merged.csv` holds 1,176 B + 238 C + 141 A
+= 1,555 in that range, which is why testing the modern table appears to contradict the stated scope.)
+Corroboration already in the repo: `docs/analysis/audit/ROUND1-ALL.tsv:376` — "tiers.csv tier-B in
+`0x72aa48..0x80c93c` = 1062 (规模声明准确)"; `docs/analysis/audit/W6-PASS12.md:455` — 1,554 retile
+functions there.
+
 ## What this file is NOT
 
 - **Not a complete inventory.** 3,162 of 14,863 Tier B functions (21.3%). Absence of a vaddr here means
