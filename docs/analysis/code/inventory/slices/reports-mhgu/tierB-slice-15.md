@@ -1,35 +1,40 @@
-# Tier B 裁定报告 — slice-15（新抽样：2,686 个 conf-A 候选存量）
+# Tier B 裁定报告 — slice-15（新抽样：池内可见的字符串持有函数，共 180 行）
 
 **这不是被截断的那四张表的续写。** `tierB2-slice-04/06/09/10` 各自的 120 成员样本已丢失，且它们的表头范围
 框不住自己的行（`W6-P135`），所以"补到 120 行"没有可定义的成员集合。本表是**一次新的、规则可复现的抽样**，
 不与那四张表合并语义。
 
-## 池规则（可复现）
+## 池规则（可复现，2026-11-06 复测后订正）
 
 1. 候选池：`.tmp/mhgu/tierB/slice-01..14.txt`（TSV：`vaddr | insns | callers | callees | callee_label_votes | strings`），
    共 14,863 行 = Tier B 总数。
-2. 去掉已被任何 `tierB*.md` 切片表裁定的 vaddr → 10,859 未裁定。
-3. 只留"在**修好的**提取器（`coverage/stringxref.mjs --dump-json`，`via=code`）下至少拥有一个字符串"的函数 → 4,660。
-4. 再只留其中至少拥有一条**类名或资源路径形状**字符串的函数 → **2,686**（成员名 `mJntNo`、格式串 `%s\\%s.%s`、
-   小写键名 `type/name` 都不够 `conf A`，见每块的 `string shapes:` 行）。
-5. 排序：有 class/path 字符串者优先 → callee 票数降序 → 地址升序；按 90 个一片切分后由主会话并表。
+2. 本表 180 行 = 该池中**拥有字符串**且未被旧表裁定的函数里，按「class/path 形状优先 → 票数 → 地址」抽的前 180 个。
 
-复现命令：
+**这个池的真实规模（先前的 2,686 是错的，别再引用）**：字符串归属来自 `stringxref.tsv`，它是 **retile 粒度**
+（52,692 个函数）的划分；本池是 **tiers.csv 粒度**（14,863 个）。两个划分按**精确地址**只有 **239** 个交集，
+其中 93 个本来就在旧表里、**146 个由本表抽走**，其余 0。本表另外 34 行来自池子自带 `strings` 列（W6-P126 的过宽列），
+在修好的提取器下没有字符串 —— 也就是说本表**不是**"第一批 28 批"，而是**这条通道上几乎全部的可得样本**。
 
-```bash
-node MHGU/tools/mhgu/slice-pack.mjs --slice tierB-slice-15 \
-  --pool-from .tmp/mhgu/tierB --order evidence --limit 180 --parts 2 --exclude-target --out G:/tmp/tb15
-node MHGU/tools/mhgu/slice-assemble.mjs --slice tierB-slice-15 \
-  --rows-dir G:/tmp/tb15 --parts 2 --prior-only-to-unknown
-```
+**未试的替代口径（留给后来者，不必重跑本次诊断）**：按地址**包含关系**归并（把 retile 的字符串起点落到包含它的
+tiers 区间里）而不是按精确相等匹配；那样会发现更多"表面上无字符串"的池内函数。
+
+**必须随行阅读的样本偏差**：本表是按字符串优先抽的**有偏样本**，不是旧 29 张表那种随机样本。若有人拿
+`tierb-labels.csv` 去量传播准确率，本表会**高估**准确率。
 
 ## 判定规则
 
 与其它 Tier B 切片一致：`A` = 该函数体（CFG 可达，`tools/mhgu/fn-body.mjs`）内部直接引用的字符串点名子系统实体
 （类名 `cResourceSample`/`aGameBase`、资源名 `arc.xml`/`rMovie`/`.mp4` 等）；`B` = 非通用 callee 票有明确优势
 （≥3 且 ≥2 倍次高票）或票数与结构同向；`C` = 票数接近、只有通用访问器族票、或只靠地址邻域；
-`unknown` = 无字符串、非通用票 <2、且无结构特征。`role`：无 callee 且 `insns_body`≤16 → leaf；≤4 → thunk；
-去重 callee ≥8 → orchestrator；其余 worker。
+`unknown` = 无字符串、非通用票 <2、且无结构特征。
+
+**`A` 的两条硬条件（两个分片据此判定，事后复核 26 行全部满足）**：
+1. 该串必须是**类名标识符**（`cResourceSample`、`uCamera`）或**资源文件/目录路径**（`movie\movie`、
+   `../capdev200/NXEnv/AudioCodec/`）；堆/分配器标记（`pia inet heap`）、格式模板（`%s\%s.%s`）、小写键名不算。
+2. 该串所属的族必须**与本行标签一致**。串与票指向不同族时，串不能用来抬置信度：该行按票停在 B/C，并把张力写进证据栏
+   （例：`arc.xml` 属资源档案而票是 save-data → B；`nativeNX\arc\fixed\` 属资源根而票是 online-nex → C）。
+
+`role`：无 callee 且 `insns_body`≤16 → leaf；≤4 → thunk；去重 callee ≥8 → orchestrator；其余 worker。
 
 **证据字段全部由字节重算**，不继承任何已发布列：`insns_body` 与 callees 来自 `fn-body.mjs`（不用
 `functions-retile.csv.gz` 第 5 列，见 `W6-P128`）；字符串来自修好的提取器（见 `W6-P126`）；callee 标签取自

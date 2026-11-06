@@ -34,7 +34,7 @@ characters and 3,075 rows with non-ASCII (Chinese) evidence.
 
 | directory | patterns | files |
 |---|---|---:|
-| `MHGU/docs/analysis/code/inventory/slices/reports-mhgu` | `tierB-slice-*.md`, `tierB2-slice-*.md` | 12 |
+| `MHGU/docs/analysis/code/inventory/slices/reports-mhgu` | `tierB-slice-*.md`, `tierB2-slice-*.md` | 13 |
 | `MHGU/docs/analysis/code/inventory/slices/w6-pass12` | `tierB-slice-*.md`, `tierB2-slice-*.md`, `tierB3-slice-*.md` | 17 |
 
 These are vendored copies of the working reports that used to live only in gitignored directories
@@ -234,8 +234,11 @@ adjudications while slice-09 produced 2 in 841 - selecting on a fixed-extractor 
 **Correction, same day: the string-backed well is dry.** The 4,753 string-owning starts come from
 `stringxref.tsv` at RETILE granularity (52,692 functions), while the adjudicable pool is `tiers.csv` at
 14,863; the two partitions intersect in only **239** addresses. All 239 are now used: 93 were already in older
-tables and 146 were drawn by this batch (its other 34 rows carried no string). There is therefore no 2,506-row
-conf-A backlog - at tiers granularity the remaining string-backed candidates are **0**. Further coverage has to
+tables and 146 were drawn by this batch (its other 34 rows carried no string). There is therefore no 2,506-row conf-A backlog. Say it precisely: at tiers granularity, **by exact address match**,
+the remaining string-backed candidates are **0** - and that zero is a LOWER bound, because a pool function whose
+string is attributed to a retile sub-function start looks string-less here. The untried alternative is a
+**containment join** (attribute each retile string start to the tiers row whose `[start, next_start)` interval
+contains it); that would find more, and a later session should try it before repeating this diagnosis. Further coverage has to
 come from C-grade adjudication of the 10,679 remaining pool rows, or from a table built on the retile
 partition, which is a different artifact and a product decision. The draw command still works; it simply no
 longer selects on a string that exists. Wrong earlier figure kept for the record: 2,506. Measured with
@@ -291,6 +294,14 @@ How the rows were produced, so a later reader can judge them:
   part the vote column is often single-valued (part-17: 31 blocks all vote `render-gfx`, 16 vote nothing),
   so "clear winner" is satisfied trivially and only the count gate separates B from C.
 
+
+## Label vocabulary drift (measured 2026-11-06)
+
+`weapon-wp` is part of the 13-label vocabulary and appears in `tierB-slice-09` and `tierB2-slice-06`, so its
+5 rows are in-vocabulary. `debug-dev` (2 rows) is **not**: both rows come from `tierB2-slice-06`, written before
+the vocabulary list was fixed, and no other table uses it. They are left as-is rather than silently renamed -
+a consumer that filters on the 13 known labels should treat `debug-dev` as an outlier from one pre-vocabulary
+table, not as a label introduced later.
 
 ## What this file is NOT
 
