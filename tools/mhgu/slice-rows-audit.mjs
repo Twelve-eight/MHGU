@@ -159,6 +159,9 @@ for (let i = 1; i <= PARTS; i++) {
       // of an A row must be a string ATTRIBUTED to that block, not a name copied out of class-inventory.tsv or
       // function-labels.tsv, and not a truncated fragment of one. Unknown tokens of class shape are therefore
       // flagged too - a truncated name is exactly how the 0xb1f948 defect looked.
+      // Provenance, so the record is not read backwards: this rule was written after that defect, not because a
+      // per-part gate found one. The two flags part-07 raised against its own rows were its tokenizer splitting
+      // "=class" and "::Suffix", not data errors - per-part gates can invent defects that look like ours.
       for (const q of shaped) {
         if (!sitesOf.has(q)) { missing.push("unattributed-class-token:" + q.slice(0, 28)); continue; }
       }
