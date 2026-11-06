@@ -225,6 +225,13 @@ How the rows were produced, so a later reader can judge them:
   part the vote column is often single-valued (part-17: 31 blocks all vote `render-gfx`, 16 vote nothing),
   so "clear winner" is satisfied trivially and only the count gate separates B from C.
 
+**The four truncated tables cannot even be bounded (measured 2026-11-06).** Their stated scopes do
+not contain their own rows: `tierB2-slice-04` states `0x6b3460..0x13b8d1c` but its 30 rows span
+`0xae42c..0x13b4cc8` (lowest address below the stated start); `-06` and `-10` state no range, and `-06` 60 rows
+span `0x16f2c..0x130b6b4`; `-09` only address interval (`0x13efd70..0x13efdf4`) is the generic-accessor
+family from its method prose. Consequently "fill to 120 rows" has no defined membership: any completion is a
+*new* sample and changes what those tables mean. The surviving pool for such a decision holds 14,863 rows
+(= the Tier B total): 4,004 already adjudicated, 10,859 free, 7,510 with callee votes, 346 with strings.
 **Scope of that loss — the four `tierB2` tables only.** `tierB-slice-09` (the `1,062`) is *not* affected:
 `tiers.csv`, the 23,885-function table the pass actually ran on, holds exactly **1,062 tier-B functions** in
 `0x72aa48..0x80c93c`, so its pool is re-derivable verbatim. (`tiers-merged.csv` holds 1,176 B + 238 C + 141 A

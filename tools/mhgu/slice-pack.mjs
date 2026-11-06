@@ -63,13 +63,38 @@ const adjudicated = new Set();
   for (const dir of fs.existsSync(SL) ? fs.readdirSync(SL) : []) {
     const d = path.join(SL, dir);
     if (!fs.statSync(d).isDirectory()) continue;
-    for (const f of fs.readdirSync(d).filter((x) => /^tierB.*\.md$/.test(x) && x !== `${SLICE}.md`)) {
+    // --exclude-target also excludes the table being filled (needed when appending to a truncated table:
+    // its existing rows must not be drawn again into the new slots).
+    const skipSelf = !process.argv.includes("--exclude-target");
+    for (const f of fs.readdirSync(d).filter((x) => /^tierB.*\.md$/.test(x) && (!skipSelf || x !== `${SLICE}.md`))) {
       for (const m of fs.readFileSync(path.join(d, f), "utf8").matchAll(/^\|\s*`?(0x[0-9a-fA-F]+)`?\s*\|/gm)) {
         adjudicated.add(m[1].toLowerCase());
       }
     }
   }
 }
+// ---- optional: draw the pool from the surviving .tmp/mhgu/tierB/ TSV lists (W6-P135) -------------------
+// Those lists are the candidate pool the pass-2 samples were taken from (14,863 rows = the Tier B total), with
+// `vaddr | insns | callers | callees | callee_label_votes | strings`. They are the only pool that still covers
+// the four truncated tierB2 tables, whose own 120-member samples are gone.
+const POOL_DIR = arg("pool-from", null);
+if (POOL_DIR) {
+  const poolRows = [];
+  for (const f of fs.readdirSync(POOL_DIR).filter((x) => /^slice-\d+\.txt$/.test(x))) {
+    for (const l of fs.readFileSync(path.join(POOL_DIR, f), "utf8").split(/\r?\n/)) {
+      if (!/^0x/.test(l)) continue;
+      const c = l.split("\t");
+      const s = parseInt(c[0], 16);
+      if (!Number.isFinite(s)) continue;
+      const votes = (c[4] || "-").trim(), strings = (c[5] || "").trim();
+      poolRows.push({ start: s, insns: +c[1] || 0, label: "", votes, strings, list: f });
+    }
+  }
+  pool.length = 0;
+  pool.push(...poolRows);
+  console.log(`--pool-from ${POOL_DIR}: ${poolRows.length} pool row(s)`);
+}
+
 const rawPool = pool.length;
 // NOTE: `kept` must be a COPY. Taking the array itself and then emptying `pool` (below) made
 // `--keep-adjudicated` silently produce an empty pool: kept aliased pool, pool.length = 0 cleared both.
@@ -90,6 +115,20 @@ if (INCLUDE && fs.existsSync(INCLUDE)) {
   pool.push(...only);
 }
 console.log(`pool: ${rawPool} raw -> ${pool.length} to adjudicate (${rawPool - pool.length} already adjudicated elsewhere)`);
+
+// Order matters when the caller is filling a fixed number of slots: `--order evidence` prefers the pool members
+// that already carry a string or a callee vote, so each added row can say something the propagation did not.
+const ORDER = arg("order", "addr");
+if (ORDER === "evidence") {
+  const voteCount = (p) => (p.votes === "-" ? 0 : p.votes.split(/\s+/).filter(Boolean).length);
+  pool.sort((a, b) => (b.strings !== "") - (a.strings !== "") || voteCount(b) - voteCount(a) || a.start - b.start);
+  console.log(`--order evidence: strings-first, then vote count, then address`);
+}
+const LIMIT = +arg("limit", "0");
+if (LIMIT > 0 && pool.length > LIMIT) {
+  console.log(`--limit ${LIMIT}: ${pool.length} -> ${LIMIT}`);
+  pool.length = LIMIT;
+}
 
 // ---- indices: published callee labels, string attribution --------------------------------------
 const labelOf = new Map();
