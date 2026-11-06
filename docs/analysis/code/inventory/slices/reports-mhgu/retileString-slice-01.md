@@ -2,7 +2,13 @@
 
 **为什么有这张表。** Tier B 池（`tiers.csv` 粒度，14,863 行）里"拥有字符串"的函数只有 239 个，且已全部被裁定（`W6-P135`/`W6-P137`；区间包含 join 在 site-in-body 与 owner-in-body 两级都被否决）。但字符串归属本身是 **retile 粒度**（52,692 个函数）的划分：在这个粒度上，**有 822 个函数拥有字符串、却既没有标签也没被任何切片表裁定过**，而且它们在 `tiers-merged.csv` 里只有 tier C 这条弱先验。它们是传播通道在最强证据类型上的盲区 —— 逐个人工读一遍就能拿到 A/B，而不是又一批 C。
 
-**这不是 Tier B 表。** 它是 retile 划分上的独立产物，文件名不匹配 `tierb-merge.py` 的 `tierB-slice-*/*2/*3` 模式，因此**不会**进入 `tierb-labels.csv`，已发布的 4,183 行 / 28.1% 不受影响。是否并表由用户决定。
+**这不是 Tier B 表。** 它是 retile 划分上的独立产物，文件名不匹配 `tierb-merge.py` 的 `tierB-slice-*/*2/*3` 模式，因此**不会**进入 `tierb-labels.csv`，已发布的 4,183 行 / 28.1% 不受影响。
+
+**并表决定已做，依据是测量而非谨慎**：822 行取自 `tiers-merged.csv`（52,692 行，在那一文件里均为 `,C,`），而 `tierb-labels.csv` 的分母来自另一个文件 `tiers.csv`（23,885 行，其中 14,863 为 Tier B）。两者在地址粒度上不相交 —— 822 行里 **0** 行属于 Tier B 池、28 行出现在 `tiers.csv`（属别的 tier）；必须通过的对照是已发布的 4,183 行 **4,183/4,183** 全在池内。并入会印出 `5,005 / 14,863 = 33.7%`，而其中 822 行不在分母里，虚增 5.6 个点。完整测量见 `docs/data/tierb-labels.PROVENANCE.md` 的 "Result of the second route"。
+
+**这张表不在覆盖率 meter 里。** `tools/mhgu/coverage/report.mjs` 只读 `tierb-pass1..3/slice-*.md` 且丢弃 `label === "unknown"` 的行；`tierb-merge.py` 的默认 pattern 也看不到本文件。因此发布本表后 `check.mjs` 的口径数字**不变**（规范覆盖率 58.0%、tier A 25,584 个函数）。引用 "A 328" 时必须说明它是本产物的属性，不是 `METER.md` 的覆盖率。
+
+**`conf` 只有 A/B/C。** 原始分片里有 64 行作者标了 `conf unknown`（label 也是 `unknown`，无 class/path 串、无票），组装时 `slice-assemble.mjs` 把它们归一为 `C` 并打印条数。所有消费者本来就把 `unknown` 当 C 处理（`coverage-report.mjs:151,153` 只按 `conf === "A"` / `"B"` 分类，余下即未验证部分；`independent-coverage.mjs:14` 的 `CONF_RANK` 只有 `{A,V,S}`，`C` 与 `unknown` 同样取 0；`coverage-final.py:26-27` 只建 `confA`/`confB` 两个集合），所以归一不丢信息，只是把 C 的统计合到一处。反过来的情形不成立：label 为 `unknown` 但确实引用了 class/path 串的行仍可判 A —— 本批 113 条 `unknown` 全是 C，328 条 A 全部带实体标签。
 
 ## 池规则（可复现）
 

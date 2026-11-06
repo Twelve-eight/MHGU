@@ -337,26 +337,35 @@ where the propagation was least sure, but it cannot produce an A row.
 ### Result of the second route (2026-11-07): 822 rows adjudicated, A 328 / B 10 / C 484, **not merged**
 
 `slices/reports-mhgu/retileString-slice-01.md` is published with **822 rows**: `conf A 328, B 10, C 484`, label
-`unknown` on 113 rows (conf carries only A/B/C, as in every other table). Every row was byte-audited (`slice-rows-audit.mjs`:
-822 checked, **0 unresolvable claims**) and five of the nine parts run an independent negative-control verifier.
+`unknown` on 113 rows (all of them conf C). Every row was byte-audited (`slice-rows-audit.mjs`: 822 checked,
+**0 unresolvable claims**), and **seven of the nine parts** ship an independent verifier with working negative
+controls (`verify-03` … `verify-09`, all exit 0; part-08 alone runs 7 in-memory must-fail controls). **Parts 01 and
+02 have no verifier** — their rows rest on the central audit alone.
 
-It is **not** merged into `tierb-labels.csv`, and that is a measurement, not caution. The CSV's coverage line is
-`N / 14,863` (the `tiers.csv` Tier B pool). A join of the 822 against that pool, with the published 4,183 rows as
-the must-pass control:
+Against the pre-registered ceiling, 353 of the 822 rows own a class- or path-shaped string, and **328 of those 353
+reached A (92.9%)** — that is the number to compare with the routing table above, not 328/822.
 
-| set | in the Tier B pool | in `tiers.csv` at any tier |
-|---|---|---|
-| published 4,183 rows (control) | **4,183** (all) | 4,183 |
-| retile 822 rows | **0** | 28 |
+**Why it cannot be merged, and why that is a two-file fact and not a caution.** The 822 rows were drawn from
+`tiers-merged.csv` (retile granularity, 52,692 rows; each of them reads `,C,` there — e.g. `0x1f0b44,642,C,,`).
+The denominator of this file comes from a different file, `tiers.csv` (23,885 rows, of which 14,863 are Tier B).
+Both statements below are true and count different universes:
 
-The retile partition and the Tier B pool are disjoint at address granularity, so appending all 822 would have
-reported `5,005 / 14,863 = 33.7%` while 822 of those rows have no membership in the denominator — a 5.6-point
-overstatement. Merge reverted (`git checkout docs/data/tierb-labels.csv`); published Tier B coverage stays **28.1%**.
+| set | file it lives in | ∩ `tiers.csv` (any tier) | ∩ Tier B pool |
+|---|---|---|---|
+| whole string-owning retile set, 4,753 starts | `tiers-merged.csv` | **239** (the "all 239 are now used" line above) | (239 total; 93 older + 146 this batch) |
+| this batch's 822 rows | `tiers-merged.csv` | **28** | **0** |
+| published 4,183 rows — must-pass control | `tierb-labels.csv` | 4,183 | **4,183** (all) |
 
-What this table is, then: the project's first large A-grade adjudication on functions **no tierB table covers**, in a
-partition (52,692 starts) that is currently not metered at all. Its value shows up only if the retile partition gets
-its own denominator; until then it must be quoted as an artifact, never as coverage. The 28 addresses that do appear
-in `tiers.csv` belong to other tiers, so even a pool-restricted merge adds nothing.
+So the 239 is the retile string set as a whole, and the 28 is this batch as a subset of it; they are consistent, and
+the 0 is the one that decides the merge. Appending the 822 would have printed `5,005 / 14,863 = 33.7%` while 822 of
+those rows have no membership in the denominator — a 5.6-point overstatement of a published figure. Merge reverted
+(`git checkout docs/data/tierb-labels.csv`); published Tier B coverage stays **28.1%**.
+
+**Nothing published moves, and the reason is structural.** The coverage meter (`tools/mhgu/coverage/report.mjs`)
+reads only `tierb-pass1..3/slice-*.md` and drops `label === "unknown"`, and `tierb-merge.py`'s default patterns are
+`tierB-slice-*`, so neither sees this file. `check.mjs` still reports the same calibre (58.0%) and tier A
+(25,584 functions) after this table was published. "A 328" is therefore a property of this artifact, not a claim
+about `METER.md`.
 
 ## What this file is NOT
 

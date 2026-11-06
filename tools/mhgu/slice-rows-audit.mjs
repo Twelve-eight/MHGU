@@ -162,6 +162,14 @@ for (let i = 1; i <= PARTS; i++) {
       for (const q of shaped) {
         if (!sitesOf.has(q)) { missing.push("unattributed-class-token:" + q.slice(0, 28)); continue; }
       }
+      // stringShape() only calls a name "class" when something precedes the "::", so a citation abbreviated to
+      // "::Suffix" never reached the test above. Test every scoped token separately: exact attribution, or a
+      // "::Suffix" of a string this block really owns.
+      for (const q of quoted) {
+        if (!q.includes("::") || sitesOf.has(q)) continue;
+        if (q.startsWith("::") && [...sitesOf.keys()].some((x) => x.endsWith(q))) continue;
+        missing.push("unattributed-scoped-token:" + q.slice(0, 28));
+      }
     }
     if (missing.length) {
       partBad++;
