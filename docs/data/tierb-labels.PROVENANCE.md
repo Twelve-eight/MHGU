@@ -311,6 +311,27 @@ the vocabulary list was fixed, and no other table uses it. They are left as-is r
 a consumer that filters on the 13 known labels should treat `debug-dev` as an outlier from one pre-vocabulary
 table, not as a label introduced later.
 
+## Where the remaining coverage is, and what it costs (measured 2026-11-06)
+
+The "string well is dry" conclusion above is scoped to the **Tier B pool** (`tiers.csv` granularity). It does not
+say the image has no unadjudicated string-owning functions - at **retile granularity** there are **822** of them:
+they own a string under the fixed extractor, have no entry in `function-labels.tsv`, carry only a tier-C prior, and
+appear in no slice table. 353 of the 822 carry a class- or path-shaped string, i.e. they can reach conf A. They are
+the propagation channel’s blind spot on its strongest evidence type, and they are being adjudicated as
+`slices/reports-mhgu/retileString-slice-01.md` - a **separate artifact** whose filename does not match
+`tierb-merge.py`’s patterns, so it does not move the numbers in this file until someone decides it should.
+
+Two routes were sized before choosing:
+
+| route | rows | evidence available | best attainable | parts at 90/part |
+|---|---|---|---|---|
+| C-grade sweep of the Tier B pool | 10,679 | `votes_nogen`: 3,342 rows have none, 6,508 have 1-2, **829 have >=3** | **no A possible** (no strings); ~829 B, ~6,508 C, ~3,342 unknown | ~119 |
+| retile-partition table | **822** | a string on every row; 353 class/path-shaped | A/B for most, C where only member names | **9** |
+
+The second route is ~13x cheaper and produces the only label class that is genuinely new information (A), which is
+why it was taken first. The first route remains available and unchanged; it adds coverage and tests the propagation
+where the propagation was least sure, but it cannot produce an A row.
+
 ## What this file is NOT
 
 - **Not a complete inventory.** 3,162 of 14,863 Tier B functions (21.3%). Absence of a vaddr here means

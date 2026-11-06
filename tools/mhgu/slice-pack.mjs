@@ -95,6 +95,18 @@ if (POOL_DIR) {
   console.log(`--pool-from ${POOL_DIR}: ${poolRows.length} pool row(s)`);
 }
 
+// --start-list <file>: build the pool straight from an explicit vaddr list, no source table at all. Needed when
+// the candidate set comes from a measurement (e.g. the 822 tier-C unlabelled string owners) rather than from a
+// column filter, so the tool cannot silently re-derive a different set.
+const START_LIST = arg("start-list", null);
+if (START_LIST) {
+  const rows = fs.readFileSync(START_LIST, "utf8").split(/\r?\n/).map((x) => x.trim()).filter(Boolean)
+    .map((x) => parseInt(x, 16)).filter((n) => Number.isFinite(n)).map((n) => ({ start: n, insns: 0, label: "", votes: "-", strings: "" }));
+  pool.length = 0;
+  pool.push(...rows);
+  console.log(`--start-list: ${rows.length} start(s)`);
+}
+
 const rawPool = pool.length;
 // NOTE: `kept` must be a COPY. Taking the array itself and then emptying `pool` (below) made
 // `--keep-adjudicated` silently produce an empty pool: kept aliased pool, pool.length = 0 cleared both.
