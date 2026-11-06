@@ -196,7 +196,12 @@ not contain their own rows: `tierB2-slice-04` states `0x6b3460..0x13b8d1c` but i
 span `0x16f2c..0x130b6b4`; `-09` only address interval (`0x13efd70..0x13efdf4`) is the generic-accessor
 family from its method prose. Consequently "fill to 120 rows" has no defined membership: any completion is a
 *new* sample and changes what those tables mean. The surviving pool for such a decision holds 14,863 rows
-(= the Tier B total): 4,004 already adjudicated, 10,859 free, 7,510 with callee votes, 346 with strings.
+(= the Tier B total): 4,004 already adjudicated, 10,859 free, 7,510 with callee votes.
+**The conf-A-eligible backlog, measured with the fixed extractor rather than the over-wide strings column of
+the pool itself:** 4,753 function starts own a string under `stringxref.mjs`, and only **93** of them appear in
+any slice table, so **4,660 are unadjudicated** (139 of those also carry a callee vote). That is where new
+`conf A` rows can come from; the pool column would have pointed at 346 starts, most of them the wrong function
+(W6-P126). A new table drawn from this backlog is additive and does not redefine the four truncated ones.
 
 ### tierB-slice-09: 841 rows, and what they are worth (written 2026-11-06)
 

@@ -120,9 +120,21 @@ console.log(`pool: ${rawPool} raw -> ${pool.length} to adjudicate (${rawPool - p
 // that already carry a string or a callee vote, so each added row can say something the propagation did not.
 const ORDER = arg("order", "addr");
 if (ORDER === "evidence") {
+  // The pool's own `strings` column is pre-W6-P126: it credits a push-less leaf getter's string to the
+  // function BEFORE it, so selecting on it would pick rows by exactly the channel the slice is meant to
+  // replace. Select on the fixed extractor's attribution instead (`stringxref.mjs --dump-json`).
+  const fixed = new Set();
+  {
+    const dumpPath = arg("strings", "G:/tmp/sx.json");
+    for (const r of JSON.parse(fs.readFileSync(dumpPath, "utf8")).slice(1)) {
+      if (r[2] === "code" && r[0]) fixed.add(r[0].toLowerCase());
+    }
+    console.log(`--order evidence: ${fixed.size} start(s) carry a string under the fixed extractor`);
+  }
   const voteCount = (p) => (p.votes === "-" ? 0 : p.votes.split(/\s+/).filter(Boolean).length);
-  pool.sort((a, b) => (b.strings !== "") - (a.strings !== "") || voteCount(b) - voteCount(a) || a.start - b.start);
-  console.log(`--order evidence: strings-first, then vote count, then address`);
+  const hasStr = (p) => fixed.has("0x" + p.start.toString(16));
+  pool.sort((a, b) => hasStr(b) - hasStr(a) || voteCount(b) - voteCount(a) || a.start - b.start);
+  console.log(`--order evidence: fixed-extractor strings first, then vote count, then address`);
 }
 const LIMIT = +arg("limit", "0");
 if (LIMIT > 0 && pool.length > LIMIT) {
