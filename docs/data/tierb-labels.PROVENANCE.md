@@ -231,7 +231,12 @@ How the rows were produced, so a later reader can judge them:
   reading: a `dsv-remote` session re-adjudicated one such part from its pack alone and returned `unknown`
   for **47 of 47** rows, refusing to launder the prior into a conf-C label as circular. Another **38** rows
   keep a conf-C label equal to the prior but do have at least one non-generic vote, and they say so;
-  measured on the written table: 231 relabelled, 38 kept.
+  measured on the written table: 231 relabelled, 38 kept. **Both readings are recorded here on purpose:**
+  the table convention (rule 4: structure or neighbourhood may carry a conf-C label, and the evidence cell says
+  pool_label only) is the older one and still governs the 38 rows that carry a vote; the second reader standard
+  (a label that only repeats the prior is `unknown`) is the stricter one and now governs the 231. Neither is
+  presented as the definition of the artifact - a consumer that wants the looser reading can filter conf C and
+  read the marker in the evidence column.
 - Only 2 rows are conf A (both cite a real string: `"Manager-%d"` at 0x7bbce0 and
   `"Memory Pool Initialization Error"` at 0x7bd638). Of the 841, **280 are `unknown`** — the largest single
   outcome after `ui` (344) — which is the honest reading of a pool whose prior the bytes often do not support.
