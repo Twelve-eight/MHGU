@@ -16,7 +16,7 @@ import zlib from "node:zlib";
 const ROOT = "G:/omp works/MHGU";
 const INV = path.join(ROOT, "docs/analysis/code/inventory");
 const FLOOR = 92.0;
-const MAX_ROUNDS = Number(process.env.VOTE_ROUNDS || 8);
+const MAX_ROUNDS = Number(process.env.VOTE_ROUNDS || 1);
 const OUTPATH = process.env.VOTE_OUT || null;
 
 const src = JSON.parse(fs.readFileSync(path.join(INV, "sources.json"), "utf8"));

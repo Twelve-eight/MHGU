@@ -138,12 +138,14 @@ not the number of adjudications that exist:
 | `tierB2-slice-06` | 60 | 120 |
 | `tierB2-slice-09` | 30 | 120 |
 | `tierB2-slice-10` | 90 | 120 (`reports-mhgu` only) |
-| `tierB-slice-09` | 0 (table never started) | — |
+| `tierB-slice-09` | 0 (table never started) | 1,062 (`0x72aa48..0x80c93c`, header line 1) |
 | `tierB3-slice-06` | 60 | — |
 
-If those tables were completed the table could grow by roughly 240 rows before any new adjudication is
-done. The repair pass (W6-P122) marked every such case `[NEEDS-SOURCE]` and did not invent the missing
-rows, so treat the coverage figure as "at least 21.3%".
+If those tables were completed the table could grow by **1,332 rows** (`90 + 60 + 90 + 30 = 270` across
+`tierB2-slice-04/06/09/10` plus `1,062` in `tierB-slice-09`, bringing Tier B coverage to ~`30.2%`) before
+any new adjudication is done (earlier drafts miscounted the four `tierB2` slices as `240` and omitted
+`tierB-slice-09`'s `1,062`). The repair pass (W6-P122) marked every such case `[NEEDS-SOURCE]` and did not
+invent the missing rows, so treat the coverage figure as "at least 21.3%".
 
 ## What this file is NOT
 
@@ -171,9 +173,8 @@ rows, so treat the coverage figure as "at least 21.3%".
 - `W6-P126`: `functions-retile.csv.gz`'s `strings` column (and the A-screen `nstr`/`hit`) attributes a
   push-less leaf getter's string to the *preceding* function — 6 of the 7 string-citing conflict rows are
   contaminated. Do not re-use `nstr`/`hit` as a gate until this is fixed.
-- `W6-P127`: `class-inventory.tsv`'s `registrar_fn` is wrong for 7/7 sampled classes (`registrar_site` is right).
-- `W6-P128`: slice callee/vote counts are not reproducible from the bytes (18-instruction functions credited
-  with 8-23 callees; a 45-vote distribution for a function with one caller).
+- `W6-P127`: `class-inventory.tsv`'s `registrar_fn` pointed at an ancestor for `3,143 / 3,200` classes (`registrar_site` was right) — **closed 2026-11-06** by `tools/mhgu/class-inventory-fix.mjs` (anchored on `sFestaResource -> 0x3def5c`, `cResourceSample -> 0x3818cc`).
+- `W6-P128`: slice callee/vote counts include calls after the function's own return (`3,012 / 52,692` functions differ; side-by-side table published at `docs/data/functions-callees-body.tsv.gz` by `tools/mhgu/callees-body.mjs` without altering `functions-retile.csv.gz` column 5).
 - `W6-INV5`: `verdict-14_20`-style tables showed `none` where the count should be `36,113` — **closed**:
   the file already reads 36,113 and `class-from-code.mjs` prints `none=36113`.
 - `W4-PH3`: the `hunterA` 8 markers — **measured 2026-11-06, left `[U]`**: the two snapshots differ in

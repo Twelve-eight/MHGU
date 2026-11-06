@@ -25,15 +25,14 @@ const rd = (v) => buf.readUInt32LE(v + 0x100) >>> 0;
 const TEXT_END = 0x13f1dec;
 const inText = (v) => v >= 0x100 && v < TEXT_END;
 
+// Only UNCONDITIONAL returns (cond === 0xe) end fallthrough; a conditional `bxeq lr` (`0x012fff1e`,
+// e.g. 0x16364 in 0x1635c) falls through to `next` when the condition is false (W6-P133b).
 const isExit = (w) =>
-  ((w & 0xffff8000) >>> 0) === 0xe8bd8000 ||     // pop {..., pc}
-  ((w & 0x0ffffff0) >>> 0) === 0x012fff10 ||     // bx rN (incl. bx lr). The mask MUST keep bit 5: with
-                                                 // 0x0fffffd0 the BLX rN form (0x012fff30) collided and an
-                                                 // indirect call was treated as a return (found 2026-11-06 on
-                                                 // 0xcb0, whose body stops at `blx r4` and lost the next call)
-  ((w & 0x0fffffff) >>> 0) === 0x01a0f00e ||     // mov pc, lr
-  ((w & 0x0ffff000) >>> 0) === 0x059ff000;       // ldr pc, [pc, #imm]  (Rd must be pc, not any register)
-
+  ((w & 0xffff8000) >>> 0) === 0xe8bd8000 ||     // pop {..., pc} (unconditional)
+  ((w & 0xfffffff0) >>> 0) === 0xe12fff10 ||     // bx rN (incl. bx lr, unconditional; excludes blx rN 0xe12fff30
+                                                 // and conditional bx<cond> rN, which truncated 1,150 functions)
+  (w >>> 0) === 0xe1a0f00e ||                    // mov pc, lr (unconditional)
+  ((w & 0xfffff000) >>> 0) === 0xe59ff000;       // ldr pc, [pc, #imm] (unconditional jump stub, Rd = pc)
 const isPrologue = (v) => inText(v) && (((rd(v) & 0xffff4000) >>> 0) === 0xe92d4000);
 
 // Every place the image can enter code: bl targets, plus literal words that point into .text.
@@ -95,7 +94,10 @@ const OUTSIDE = [
   ["0x191bd4", "0x191c10", "deco load lives in 0x191bfc"],
 ];
 // And a control the other way: a load that really is inside the body it is credited to.
-const INSIDE = [["0x3d15a4", "0x3d16d0", "strcmp over [WORK0..7]: a middle instruction of its own body"]];
+const INSIDE = [
+  ["0x3d15a4", "0x3d16d0", "strcmp over [WORK0..7]: a middle instruction of its own body"],
+  ["0x1635c", "0x16368", "instruction after conditional bxeq lr (0x012fff1e at 0x16364): must fall through"],
+];
 
 const starts = entryPoints();
 export { bodyOf, capFor, starts, inText, rd };

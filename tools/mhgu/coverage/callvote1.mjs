@@ -17,11 +17,11 @@ import zlib from "node:zlib";
 
 const ROOT = "G:/omp works/MHGU";
 const INV = path.join(ROOT, "docs/analysis/code/inventory");
-const OUT = path.join(INV, process.env.CASCADE_OUT || "attr-callvote1.tsv");
+const OUT = path.resolve(INV, process.env.CASCADE_OUT || "attr-callvote1.tsv");
 const MIN_CALLERS = 8;
 const MIN_PURITY = 0.70; // measured floor: 90.6% (CP95 90.2) on the five-grid hold-out; 0.65 drops to 87.8
 const MIN_CALLER_VOTES = 4;
-const ROUNDS = Number(process.env.CASCADE_ROUNDS || 6);
+const ROUNDS = Number(process.env.CASCADE_ROUNDS || 1);
 const ROUND_FLOOR = 90.0;
 
 const src = JSON.parse(fs.readFileSync(path.join(INV, "sources.json"), "utf8"));
@@ -230,11 +230,11 @@ function supportOk(f, st, lab) {
 const STRICT = process.env.CASCADE_STRICT === "1";
 for (let pass = 0; pass < 4; pass++) {
   const dropped = [];
+  const a2 = STRICT ? null : new Map(direct);
+  if (!STRICT) for (const [k2, v2] of adopted) a2.set(k2, v2.lab);
+  const pu2 = STRICT ? null : purity(a2);
   for (const [st, v] of adopted) {
     if (STRICT) { if (!supportOk(byStart.get(st), st, v.lab)) dropped.push(st); continue; }
-    const a2 = new Map(direct);
-    for (const [k2, v2] of adopted) a2.set(k2, v2.lab);
-    const pu2 = purity(a2);
     const f = byStart.get(st);
     const ok = f && f.callees.some((c) => pu2.get("0x" + c.toString(16))?.lab === v.lab);
     if (!ok) dropped.push(st);

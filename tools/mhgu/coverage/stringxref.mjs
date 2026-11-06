@@ -49,6 +49,14 @@ for (const f of fns) {
   const delta = new Map(); // reg -> literal value (possible pc bias)
   const sites = new Map(); // string -> first referencing instruction
   const viaOf = new Map(); // string -> "code" wins over "code-gap"
+  const addHit = (s, via, v, isDelta) => {
+    set.add(s);
+    if (!viaOf.has(s) || (via === "code" && viaOf.get(s) !== "code")) {
+      viaOf.set(s, via);
+      sites.set(s, v);
+    }
+    if (via === "code") { if (isDelta) viaDelta++; else viaAbs++; }
+  };
   // The body is the CFG-reachable set, not [f.s, f.e): f.e was "the next known start", so a push-less
   // leaf getter had its references charged to the function before it (W6-P126).
   const cap = capFor(f.s, starts);
@@ -60,7 +68,10 @@ for (const f of fns) {
   const inBody = new Set(body);
   const gap = [];
   for (let a = f.s; a + 4 <= cap; a += 4) if (!inBody.has(a)) gap.push(a);
+  let prevV = -10, prevVia = "";
   for (const [v, via] of [...body.map((x) => [x, "code"]), ...gap.map((x) => [x, "code-gap"])]) {
+    if (via !== prevVia || v !== prevV + 4) delta.clear();
+    prevV = v; prevVia = via;
     const w = rd(v);
     // branch or bl: basic block ends, register state is gone
     if (((w >>> 25) & 7) === 5 || (w >>> 24) === 0xea || (w >>> 24) === 0xeb) { delta.clear(); continue; }
@@ -70,24 +81,10 @@ for (const f of fns) {
       if (L + 4 > IMG_END) continue;
       const V = rd(L);
       const s = readStr(V);
-      if (s) { set.add(s); viaAbs++; }
-      else if (false) {
-        // data table: entries that point at ASCII strings
-        for (let k = 0; k < 256; k++) {
-          const E = rd(V + k * 4);
-          if (!(E > TEXT_END && E < IMG_END)) break;
-          const s2 = readStr(E);
-          if (s2) { set.add(s2); viaTable++; }
-        }
-      } else {
-        // a pc bias can be any 32-bit value (often negative, stored two's complement); keep it signed and let the
-        // add resolve it. Rejecting large values silently dropped 29% of member-name references.
-        const signed = V | 0;
-        if (Math.abs(signed) < 0x4000000) delta.set(rdN, signed);
-        // a pc bias can itself land inside rodata, which used to send it down the table-hop branch and lose it, so the
-        // value is always kept as a candidate delta as well
-        if (Math.abs(V | 0) < 0x10000000) delta.set(rdN, V | 0);
-      }
+      if (s) addHit(s, via, v, false);
+      // a pc bias can be any 32-bit value (often negative, stored two's complement), and can itself land
+      // inside rodata; always keep it as a candidate delta so `add rD, pc, rM` resolves it.
+      if (Math.abs(V | 0) < 0x10000000) delta.set(rdN, V | 0);
       continue;
     }
     // add rD, rM, pc  (Rn is the operand register, Rm = 15) -- the mirror of add rD, pc, rM and just as common
@@ -96,7 +93,7 @@ for (const f of fns) {
       if (delta.has(rnN)) {
         const t = (v + 8 + delta.get(rnN)) >>> 0;
         const s2 = readStr(t);
-        if (s2) { set.add(s2); viaDelta++; }
+        if (s2) addHit(s2, via, v, true);
         delta.delete(rnN);
       }
       continue;
@@ -106,7 +103,7 @@ for (const f of fns) {
       if (!delta.has(rm)) continue;
       const t = (v + 8 + delta.get(rm)) >>> 0;
       const s = readStr(t);
-      if (s) { set.add(s); if (!viaOf.has(s) || via === "code") { viaOf.set(s, via); sites.set(s, v); } if (via === "code") viaDelta++; }
+      if (s) addHit(s, via, v, true);
       delta.delete(rm);
     }
   }
