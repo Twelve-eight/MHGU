@@ -65,6 +65,23 @@ function factsOf(body) {
   return { offs, vals, addrs };
 }
 
+// string-site index: every attributed string and the instruction sites that reference it. A row that cites a
+// string must have one of that string sites inside its own CFG body - otherwise the citation is a span artefact
+// (a string belonging to a neighbouring function that merely sits in the same address range, W6-P126).
+const sitesOf = new Map();
+const ownerOf = new Map();
+try {
+  const dump = JSON.parse(fs.readFileSync(arg("strings", "G:/tmp/sx.json"), "utf8")).slice(1);
+  for (const [start, str, via, site] of dump) {
+    if (via !== "code") continue;
+    const k = parseInt(site, 16); if (!Number.isFinite(k)) continue;
+    if (!sitesOf.has(str)) sitesOf.set(str, []);
+    sitesOf.get(str).push(k);
+    if (!ownerOf.has(str)) ownerOf.set(str, new Set());
+    ownerOf.get(str).add(parseInt(start, 16));
+  }
+} catch { console.log("string-site control SKIPPED: no dump at " + arg("strings", "G:/tmp/sx.json")); }
+
 // pool-wide start set, for legitimate cross-references
 const poolStarts = new Set(starts.map((v) => "0x" + v.toString(16)));
 {
@@ -74,7 +91,7 @@ const poolStarts = new Set(starts.map((v) => "0x" + v.toString(16)));
   }
 }
 
-let rows = 0, bad = 0, crossref = 0;
+let rows = 0, bad = 0, crossref = 0, dataref = 0;
 const problems = [];
 for (let i = 1; i <= PARTS; i++) {
   const n = String(i).padStart(2, "0");
@@ -105,7 +122,30 @@ for (let i = 1; i <= PARTS; i++) {
       if (asAddr) continue;
       if ((val & 3) === 0 && val >= 0x100 && val < 0x13f1dec) { crossref++; continue; } // a code address outside this body
       if (poolStarts.has(t) || poolStarts.has(hex(val))) { crossref++; continue; }
+      // An address ABOVE .text is a data reference (string pool, vtable, rodata). Its meaning cannot be judged
+      // here, but garbage can be ruled out: 4-aligned and inside the image counts as a data-ref and is reported
+      // separately, so the reader knows it was shape-checked but not semantically checked.
+      if (val >= 0x13f1dec && val < 0x2000000) {
+        // data reference: accept a 4-aligned address anywhere in the data range, or any address whose byte is
+        // printable ASCII - the string pool is byte-aligned, so "cElementBase"@0x1551b02 is a legitimate citation
+        // that a 4-alignment test would reject (part-01 cites exactly that).
+        const byteAt = A.buf ? A.buf[val + 0x100] : 0;
+        if ((val & 3) === 0 || (byteAt >= 0x20 && byteAt <= 0x7e)) { dataref++; continue; }
+      }
       missing.push(t);
+    }
+    // string-site control: each quoted string must have a site inside this body, UNLESS the cell explicitly
+    // names the owning function - a row may legitimately cite another function's strings when it says so
+    // (e.g. "its own member schema 0x4b943c carries mItem/mPiece/mNum"). Only an unattributed cross-function
+    // citation is an error.
+    for (const q of ev.matchAll(/"([^"]{3,})"/g)) {
+      const owners = sitesOf.get(q[1]);
+      if (!owners) continue;                       // not an attributed string we know: the hex/offset tests judge it
+      if (owners.some((x) => body.includes(x))) continue;
+      const ow = ownerOf.get(q[1]) || new Set();
+      const named = [...ow].some((x) => Number.isFinite(x) && ev.toLowerCase().includes(hex(x)));
+      if (named) { dataref++; continue; }          // attributed cross-reference: counted, not an error
+      missing.push("span-string:" + q[1].slice(0, 24));
     }
     if (missing.length) {
       partBad++;
@@ -116,7 +156,7 @@ for (let i = 1; i <= PARTS; i++) {
   bad += partBad;
 }
 
-console.log(`\nrows checked: ${rows}  with an unresolvable claim: ${bad}  cross-references accepted: ${crossref}`);
+console.log(`\nrows checked: ${rows}  with an unresolvable claim: ${bad}  cross-references accepted: ${crossref}  data references accepted: ${dataref}`);
 if (problems.length) {
   console.log("--- problems ---");
   const lim = VERBOSE ? 300 : 40;
