@@ -39,6 +39,8 @@ node MHGU/tools/mhgu/slice-pack.mjs --slice retileString-slice-01 \
 （注意 `weapon-wp` 在本批承担的是**装备数据**语义——护甲与武器商店列表、试用装备都在内——因为词汇表没有
 单独的 equipment 桶。所以本批 107 条 `weapon-wp` 是"装备桶"计数，不是 107 个武器专属函数。）
 
+**两处判断（不是事实，未经第二人复核）**：①把装备类数据归到 `weapon-wp` 而不是 `item`（上一节记录的 `cRapidshotBase` 分歧就源于此）；②`0xf4420` 判 `weapon-wp` 而非沿用旧表的 `item`。两处都写了理由与后果，但 822 行的语义标签本身也没有独立复算（本批只有结构审计；上一批 `tierB-slice-09` 有 3 次独立复核）。样本复算正在进行，结论落 `G:/tmp/retile-sample/REPORT.md`。
+
 <!-- SUMMARY-START -->
 **822 functions adjudicated**, `0x88a4..0x13d7ca0`, one row each. Counts below are computed from
 the rows in this file by `tools/mhgu/slice-assemble.mjs`, never hand-maintained.
