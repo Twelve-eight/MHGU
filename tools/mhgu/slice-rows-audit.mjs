@@ -153,8 +153,15 @@ for (let i = 1; i <= PARTS; i++) {
     }
     if (conf === "A") {
       const quoted = [...ev.matchAll(/"([^"]{3,})"|\x60([^\x60]{3,})\x60/g)].map((q) => q[1] || q[2]);
-      const okShape = quoted.some((q) => { const sh = stringShape(q); return sh === "class" || sh === "path"; });
-      if (!okShape) missing.push("A-without-class/path-string");
+      const shaped = quoted.filter((q) => { const sh = stringShape(q); return sh === "class" || sh === "path"; });
+      if (!shaped.length) missing.push("A-without-class/path-string");
+      // Stricter, and it is the rule that actually protects the table: a class-shaped name cited as the basis
+      // of an A row must be a string ATTRIBUTED to that block, not a name copied out of class-inventory.tsv or
+      // function-labels.tsv, and not a truncated fragment of one. Unknown tokens of class shape are therefore
+      // flagged too - a truncated name is exactly how the 0xb1f948 defect looked.
+      for (const q of shaped) {
+        if (!sitesOf.has(q)) { missing.push("unattributed-class-token:" + q.slice(0, 28)); continue; }
+      }
     }
     if (missing.length) {
       partBad++;
