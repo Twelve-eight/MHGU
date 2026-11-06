@@ -199,7 +199,10 @@ family from its method prose. Consequently "fill to 120 rows" has no defined mem
 (= the Tier B total): 4,004 already adjudicated, 10,859 free, 7,510 with callee votes.
 **The conf-A-eligible backlog, measured with the fixed extractor rather than the over-wide strings column of
 the pool itself:** 4,753 function starts own a string under `stringxref.mjs`, and only **93** of them appear in
-any slice table, so **4,660 are unadjudicated** (139 of those also carry a callee vote). That is where new
+any slice table, so **4,660 are unadjudicated** (139 of those also carry a callee vote). Of those 4,660, only **2,686** carry at least
+one class- or path-shaped string - the rest carry member names (`mJntNo`), format templates (`%s\%s.%s`) or
+lowercase keys (`type`, `name`), which the slice rule does not accept as conf A. String-shape histogram over the
+unadjudicated set: member 6,541, class 4,190, other 3,359, lower 542, path 626, format 149. That is where new
 `conf A` rows can come from; the pool column would have pointed at 346 starts, most of them the wrong function
 (W6-P126). A new table drawn from this backlog is additive and does not redefine the four truncated ones.
 

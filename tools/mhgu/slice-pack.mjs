@@ -169,6 +169,19 @@ const isGeneric = (v) => GENERIC.some(([a, b]) => v >= a && v <= b);
 
 const hex = (n) => "0x" + n.toString(16);
 
+// A string in the `strings` field is not automatically a conf-A ancestor: the slice rule wants a name that
+// identifies a subsystem ENTITY (a class or a resource), and these pools are full of member names ("mJntNo")
+// and format templates ("%s\\%s.%s") that identify nothing. Classify mechanically so a reader can see at a
+// glance which strings are candidates, and let the adjudicator still make the call.
+function stringShape(s) {
+  if (/%[sd]/i.test(s)) return "format";
+  if (/^m[A-Z]/.test(s)) return "member";
+  if (/[\\/]/.test(s) || /\.(xml|tex|arc|scn|mot|rcol|user|msg|bnk|pck|json)$/i.test(s)) return "path";
+  if (/^[caursu][A-Z][A-Za-z0-9_]*$/.test(s) || /^[A-Z][a-z0-9]+[A-Z]/.test(s)) return "class";
+  if (/^[a-z][a-z0-9_]*$/.test(s)) return "lower";      // xml/json key or keyword
+  return "other";
+}
+
 // ---- per function -------------------------------------------------------------------------------
 function digest(f) {
   const cap = capFor(f.start, starts);
@@ -259,6 +272,7 @@ function digest(f) {
       `callees (inside body only, ${callees.length}): ${calls.join(" | ") || "-"}`,
       `add-pc dispatch sites: ${dispatch}${dispatch ? "  (over-inclusion risk: the walk falls through)" : ""}`,
       `strings (attributed to this start, via=code): ${(stringsOf.get(hex(f.start)) || []).map((x) => `"${x.str}"@${x.site}`).join(" | ") || "-"}`,
+      `string shapes: ${(stringsOf.get(hex(f.start)) || []).map((x) => `"${x.str}"=${stringShape(x.str)}`).join(" ") || "-"}` + (` (class/path can support conf A; member/format/lower on their own cannot)`),
       `signals:${sig.length ? "\n  " + sig.join("\n  ") : " -"}`,
       `----- first ${Math.min(24, body.length)} of ${body.length} reachable insns -----`,
       insns,
