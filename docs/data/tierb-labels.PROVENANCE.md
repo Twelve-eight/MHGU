@@ -214,6 +214,16 @@ How the rows were produced, so a later reader can judge them:
 - Only 2 rows are conf A (both cite a real string: `"Manager-%d"` at 0x7bbce0 and
   `"Memory Pool Initialization Error"` at 0x7bd638). Of the 841, **280 are `unknown`** — the largest single
   outcome after `ui` (344) — which is the honest reading of a pool whose prior the bytes often do not support.
+- **Independent second reading, measured.** Three `dsv-remote` sessions were given one pack each and nothing
+  else (no rows file, no `tierb-labels.csv`, no `function-labels.tsv`) and asked to adjudicate from scratch.
+  Against the written table: **136 of 141 rows agree on the label (96.5%)** — part-17 47/47 with identical
+  confidence, part-12 47/47 on the label, part-08 42/47 (the five misses are one `save-data`-vs-`quest`,
+  one `physics-math`-vs-`unknown`, and three masked-table twins the first reader called `unknown` and the
+  second called `ui`). Part-12's *pre-relabel* score was 0/47, which is what prompted the relabel; the
+  second reader's conf column for that part reads `unknown` rather than A/B/C, so it is not comparable.
+  The second readers also independently reported the structural fact that makes this pool weak: within a
+  part the vote column is often single-valued (part-17: 31 blocks all vote `render-gfx`, 16 vote nothing),
+  so "clear winner" is satisfied trivially and only the count gate separates B from C.
 
 **Scope of that loss — the four `tierB2` tables only.** `tierB-slice-09` (the `1,062`) is *not* affected:
 `tiers.csv`, the 23,885-function table the pass actually ran on, holds exactly **1,062 tier-B functions** in
