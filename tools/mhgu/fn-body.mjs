@@ -27,7 +27,10 @@ const inText = (v) => v >= 0x100 && v < TEXT_END;
 
 const isExit = (w) =>
   ((w & 0xffff8000) >>> 0) === 0xe8bd8000 ||     // pop {..., pc}
-  ((w & 0x0fffffd0) >>> 0) === 0x012fff10 ||     // bx rN (incl. bx lr)
+  ((w & 0x0ffffff0) >>> 0) === 0x012fff10 ||     // bx rN (incl. bx lr). The mask MUST keep bit 5: with
+                                                 // 0x0fffffd0 the BLX rN form (0x012fff30) collided and an
+                                                 // indirect call was treated as a return (found 2026-11-06 on
+                                                 // 0xcb0, whose body stops at `blx r4` and lost the next call)
   ((w & 0x0fffffff) >>> 0) === 0x01a0f00e ||     // mov pc, lr
   ((w & 0x0ffff000) >>> 0) === 0x059ff000;       // ldr pc, [pc, #imm]  (Rd must be pc, not any register)
 
@@ -43,6 +46,11 @@ function entryPoints() {
       const t = (a + 8 + (o << 2)) >>> 0;
       if (inText(t)) starts.add(t);
     }
+    // Two prologue rules: a word that POINTS at a prologue, and a prologue AT this address. The second one
+    // was missing until 2026-11-06 - a push {...lr} reached only through a vtable or an indirect call is a
+    // function start whether or not anything points at it, and without it `owner()` skipped past such a
+    // function to an ancestor (measured on 0x1e77b4, which the publisher's table lists as a start).
+    if (isPrologue(a)) starts.add(a);
     if (inText(w) && (w & 3) === 0 && isPrologue(w)) starts.add(w);
   }
   return [...starts].sort((x, y) => x - y);

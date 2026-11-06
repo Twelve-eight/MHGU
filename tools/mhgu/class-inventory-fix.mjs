@@ -20,49 +20,10 @@ const CHECK = process.argv.includes("--check");
 const ri = process.argv.indexOf("--report");
 const REPORT = ri >= 0 ? process.argv[ri + 1] : null;
 
-const buf = fs.readFileSync(FLAT);
-const rd = (v) => buf.readUInt32LE(v + 0x100) >>> 0;
-const TEXT_END = 0x13f1dec;
-const inText = (v) => v >= 0x100 && v < TEXT_END;
-const isExit = (w) =>
-  ((w & 0xffff8000) >>> 0) === 0xe8bd8000 || ((w & 0x0fffffd0) >>> 0) === 0x012fff10 ||
-  ((w & 0x0fffffff) >>> 0) === 0x01a0f00e || ((w & 0x0ffff000) >>> 0) === 0x059ff000;
-
-const starts = [];
-{
-  const pro = new Set(), bl = new Set();
-  for (let a = 0x100; a < TEXT_END; a += 4) {
-    const w = rd(a);
-    if (((w & 0xffff4000) >>> 0) === 0xe92d4000) pro.add(a);
-    if (((w >>> 25) & 7) === 5 && ((w >>> 24) & 1) === 1 && ((w >>> 28) & 0xf) !== 0xf) {
-      let o = w & 0xffffff; if (o & 0x800000) o -= 0x1000000;
-      const t = (a + 8 + (o << 2)) >>> 0;
-      if (inText(t)) bl.add(t);
-    }
-  }
-  starts.push(...[...new Set([...pro, ...bl])].sort((x, y) => x - y));
-}
-const capFor = (s) => { let lo = 0, hi = starts.length - 1, cap = TEXT_END; while (lo <= hi) { const m = (lo + hi) >> 1; if (starts[m] > s) { cap = starts[m]; hi = m - 1; } else lo = m + 1; } return cap; };
-const cache = new Map();
-function body(s) {
-  if (cache.has(s)) return cache.get(s);
-  const hard = capFor(s), seen = new Set([s]), st = [s];
-  const add = (v) => { if (v >= s && v < hard && inText(v) && !seen.has(v)) { seen.add(v); st.push(v); } };
-  while (st.length) {
-    const a = st.pop(), w = rd(a), nx = a + 4;
-    if (((w >>> 25) & 7) === 5) {
-      let o = w & 0xffffff; if (o & 0x800000) o -= 0x1000000;
-      const t = (a + 8 + (o << 2)) >>> 0, link = (w >>> 24) & 1, cond = w >>> 28;
-      if (link || cond === 0xf) { add(nx); continue; }
-      add(t); if (cond !== 0xe) add(nx);
-      continue;
-    }
-    if (isExit(w)) continue;
-    add(nx);
-  }
-  cache.set(s, seen);
-  return seen;
-}
+// One implementation, imported from fn-body.mjs: a duplicated decoder here carried the same `blx` mask bug
+// (an indirect call read as a return) and would have drifted again (AGENTS 1b).
+const { bodyOf, capFor, starts, inText } = await import("./fn-body.mjs");
+const body = (s) => new Set(bodyOf(s, capFor(s, starts)));
 function owner(site) {
   let lo = 0, hi = starts.length - 1, idx = -1;
   while (lo <= hi) { const m = (lo + hi) >> 1; if (starts[m] <= site) { idx = m; lo = m + 1; } else hi = m - 1; }
