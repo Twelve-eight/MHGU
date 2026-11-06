@@ -337,10 +337,11 @@ where the propagation was least sure, but it cannot produce an A row.
 ### Result of the second route (2026-11-07): 822 rows adjudicated, A 326 / B 10 / C 486 after review, **not merged**
 
 `slices/reports-mhgu/retileString-slice-01.md` is published with **822 rows**: `conf A 326, B 10, C 486` after the review correction (A 328 / C 484 as first published), label
-`unknown` on 113 rows (all of them conf C). Every row was byte-audited (`slice-rows-audit.mjs`: 822 checked,
+`unknown` on 95 rows (all of them conf C). Every row was byte-audited (`slice-rows-audit.mjs`: 822 checked,
 **0 unresolvable claims**), and **seven of the nine parts** ship an independent verifier with working negative
 controls (`verify-03` … `verify-09`, all exit 0; part-08 alone runs 7 in-memory must-fail controls). **Parts 01 and
-02 have no verifier** — their rows rest on the central audit alone.
+02 have no verifier** — their rows rest on the central audit alone, which is why both were later
+re-adjudicated in full by `Check0102` (see the review correction below).
 
 Against the pre-registered ceiling, 353 of the 822 rows own a class- or path-shaped string, and **328 of those 353
 reached A (92.9%)** — that is the number to compare with the routing table above, not 328/822.
@@ -375,9 +376,13 @@ took a **40-row sample drawn by position before it looked at the published label
 not stand — 16 label corrections (mostly the part-02 `mVersion` skeletons published `unknown` while the identical
 vtable evidence was bucketed elsewhere in the same table), 2 confidence downgrades (`0x2b94c` quest A->C and
 `0xb3374c` online-nex A->C: neither block's body names a class or resource of its subsystem), and 4 rows left
-UNDECIDABLE pending named artefacts. One probe row, `0xcee79c`, was deliberately **reverted to its published
-render-gfx**: it belongs to the reviewers' single-vote pattern, which is a policy question, so retracting just that
-row ahead of the decision would have been arbitrary. Result: **A 326 / B 10 / C 486**.
+UNDECIDABLE. Those four were **not changed** — they are still published as `A`, and their evidence cells now
+carry a `[contested ...]` marker naming what would settle each, because a reader must not see a disputed row as
+settled. Two rows were deliberately left at their published value: `0xcee79c` (it belongs to the single-vote pattern,
+a policy question — and three sibling rows keep `render-gfx C` on the very same generic vote, so retracting one would
+have split 1/3) and `0x4b5194` (one of the 14 `cEquipShopListW*` twins; applying it alone makes the family 8/6 and
+opens a cross-table divergence with `tierB-slice-15.md:121`). Net: **16 label changes + 2 confidence downgrades**,
+result **A 326 / B 10 / C 486**.
 
 Process notes, because they are the point: the change was applied by `MHGU/tools/mhgu/slice-revise.mjs`, which refuses
 a change whose old cells do not match the row, and every changed row carries a `[revised ...]` marker in its evidence

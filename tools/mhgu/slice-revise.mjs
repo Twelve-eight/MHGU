@@ -65,13 +65,24 @@ const today = new Date().toISOString().slice(0, 10);
 for (const c of changes) {
   const a = c.addr.toLowerCase();
   if (!/^0x[0-9a-f]+$/.test(a)) { fails.push(`${c.addr}: not an address`); continue; }
-  if (c.verdict && c.verdict !== "APPLY") { skipped.push(`${a} (${c.verdict || "no verdict"})`); continue; }
+  // MARK appends a note to the evidence cell without touching label/conf: for rows a review disputes but which
+  // stay published until the disputed rule is decided (they must not look settled).
+  const MARK = c.verdict === "MARK";
+  if (c.verdict && c.verdict !== "APPLY" && !MARK) { skipped.push(`${a} (${c.verdict || "no verdict"})`); continue; }
   const w = where.get(a);
   if (!w) { fails.push(`${a}: no such row`); continue; }
   if (w.file === "DUP") { fails.push(`${a}: appears in more than one part file`); continue; }
   if (!LABELS.has(c.newLabel)) { fails.push(`${a}: new label "${c.newLabel}" is outside the vocabulary`); continue; }
   if (!CONFS.has(c.newConf)) { fails.push(`${a}: new conf "${c.newConf}" is not A/B/C`); continue; }
   const L = lines.get(w.file);
+  if (MARK) {
+    const cm = L[w.i].split("|").map((s) => s.trim());
+    cm[5] = `${cm[5]} [contested ${today} ${BY}: ${c.evidence}]`;
+    L[w.i] = `| ${cm[1]} | ${cm[2]} | ${cm[3]} | ${cm[4]} | ${cm[5]} |`;
+    applied.push({ addr: a, file: w.file, from: `${cm[2]}/${cm[4]}`, to: "marked contested", evidence: c.evidence });
+    log.push([new Date().toISOString(), w.file, a, `${cm[2]}/${cm[4]}`, "contested-marker", c.evidence].join("\t"));
+    continue;
+  }
   const cells = L[w.i].split("|").map((s) => s.trim());
   // cells: ["", addr, label, role, conf, evidence, ""]
   if (cells[2] === c.newLabel && cells[4] === c.newConf) { skipped.push(`${a} (already ${c.newLabel}/${c.newConf})`); continue; }

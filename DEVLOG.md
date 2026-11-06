@@ -1514,3 +1514,5 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 **仍未定的三件（是决策不是修）**：① `cEquipShopListW*` 14 条孪生行 7 `weapon-wp` / 7 `item` 各半，还与 `tierB-slice-15.md:121` 跨表冲突，需要给这一族定一个桶；② 27 行的标签只靠单票（`0x8871d8`/`0x8878e4`/`0x20552c`），而书面 C 规则允许单票，改它就是改策略；③ `0x4d9128` 靠单票被判 B，与 B 规则原文（≥3 个非泛型 callee 票）冲突，现仍是 B。
 
 **机制层面**：审阅覆盖改成可执行（`AGENTS.md` §8g + `docs/reference/REVIEW-LEDGER.tsv` + `.tooling/review-coverage.mjs`，`frontier-sweep` 每轮打印 REVIEWED/PARTIAL/STALE/UNREVIEWED 四数，基准默认取 `.tooling/frontier-anchor.json` 的 per-repo head）。
+
+**同日追加：审阅覆盖的机械化与三处计数漂移**。`tools/mhgu/slice-header-check.mjs` 把"手写散文里的计数"和表自己算出的直方图对齐：按具名 claim（显式正则 + 应等于的值）逐条比，正则不再匹配就报 MISSING（改措辞不会静默丢掉检查），数字不符就 FAIL。第一次跑就抓到两处真漂移（`weapon-wp` 107 vs 118、`unknown` 113 vs 95），修完后因重排 0x4b5194 又漂成 118 vs 117 —— **这正是它存在的理由**：两天里已经三次逐个人肉对齐。另给 `slice-revise.mjs` 加了 `MARK` 判决（只追加 `[contested ...]` 标记、不改 label/conf），四条无法判定的 A 行（0xc824、0x2dcb0、0x2e24c、0x2e310）因此仍在表里以 A 出现但被标为有争议，而不是被悄悄改掉或看起来已定案。
