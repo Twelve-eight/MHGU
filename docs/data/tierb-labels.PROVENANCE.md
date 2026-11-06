@@ -51,15 +51,16 @@ stuck at 378 rows.
 ## Numbers (as produced, re-runnable)
 
 ```
-slice files: 30
-parsed rows (deduped): 4003
-coverage of Tier B: 4003 / 14863 = 26.9%
-conf A/B/C: 55/2034/1914           (policy weakest; 90/1763/1309 under policy first, measured on the 3,162-row table)
-unknown: 508 = 12.7%
+slice files: 31
+parsed rows (deduped): 4183
+coverage of Tier B: 4183 / 14863 = 28.1%
+conf A/B/C: 81/2063/2039           (policy weakest; 90/1763/1309 under policy first, measured on the 3,162-row table)
+unknown: 530 = 12.7%
 disagreements listed: 85          (label-only 21, conf-only 56, both 8 -> 29 involve a label)
 ```
 
-The step from 3,162 to 4,003 is `tierB-slice-09` (841 rows, written 2026-11-06); the 85 disagreements did
+The step from 3,162 to 4,003 is `tierB-slice-09` (841 rows, written 2026-11-06), and 4,003 to 4,183 is
+`tierB-slice-15` (180 rows, a new string-backed sample - see the next section but one); the 85 disagreements did
 not change, because the assembler drops a row whose vaddr another slice already adjudicates rather than
 letting the merge report an intentional repeat as a conflict. The `unknown` count rose from 277 to 508
 because 231 of the new rows were relabelled `unknown` — see the next section.
@@ -205,6 +206,35 @@ lowercase keys (`type`, `name`), which the slice rule does not accept as conf A.
 unadjudicated set: member 6,541, class 4,190, other 3,359, lower 542, path 626, format 149. That is where new
 `conf A` rows can come from; the pool column would have pointed at 346 starts, most of them the wrong function
 (W6-P126). A new table drawn from this backlog is additive and does not redefine the four truncated ones.
+
+### tierB-slice-15: 180 rows from the string-backed backlog, 26 of them conf A (written 2026-11-06)
+
+The four truncated `tierB2` tables cannot be completed (above), so this is a NEW sample with its own rule
+rather than a rewrite of theirs - the header of `slices/reports-mhgu/tierB-slice-15.md` states it and the
+merge pattern picks the file up unchanged.
+
+Rule: of the 4,660 unadjudicated functions that own a string under the FIXED extractor, keep the **2,686**
+that own at least one class- or path-shaped string (member names, format templates and lowercase keys cannot
+support conf A), order class/path-strings first, then vote count, then address, and draw 90 per part.
+
+First batch (180 rows, 2 parts, 2 `dsv-dev`): **A 26 / B 29 / C 125**, and 0 rows needed the prior-only
+relabel - i.e. every row had something to stand on. Each conf-A row cites a class or path literal from its own
+block (`EffectVolume`, `cUIOArenaUp`, `rSetItemData`, `uImagePlaneFilterRange`, `SamplerState`,
+`DepthStencil`, `ScrollCollisionSbc`, `cRemoteCall`, `DynamicPathFinding`, the audio mixer keys, the
+`meteor.capcom.co.jp` login URLs, `StageDataSet`, `uCamera`, `GeometryArray`/`BoundingAABB`, ...). Both
+parts shipped their own gate (`verify-01.mjs`, `check-rows-02.mjs`); the main session ran them
+(`RESULT: PASS`, `ALL OK (1 pass + 4 rejected controls)`) and one caught a real defect - a row flagged
+`BODY UNDER-APPROXIMATES` that did not say so, since fixed. The byte-level audit resolves 174 of the 180 rows
+fully and lists the other 6 (composed effective offsets, truncated hex citations).
+
+Merge: 4,003 -> **4,183** rows, conf **A 81 / B 2,063 / C 2,039**, unknown 530, coverage **28.1%**, conflicts
+unchanged at 85, gate ALL PASS. Note the yield difference: this batch produced 26 conf-A rows in 180
+adjudications while slice-09 produced 2 in 841 - selecting on a fixed-extractor string is what buys A rows.
+
+**Remaining backlog: 2,506** conf-A candidates (2,686 - 180). Repeat with
+`slice-pack --pool-from .tmp/mhgu/tierB --order evidence --limit <n> --parts <k> --exclude-target` and
+`slice-assemble --slice tierB-slice-15 --rows-dir ... --parts ... --prior-only-to-unknown`; the same two
+commands scale to the rest.
 
 ### tierB-slice-09: 841 rows, and what they are worth (written 2026-11-06)
 
