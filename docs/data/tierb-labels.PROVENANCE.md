@@ -242,7 +242,10 @@ rows holding a string, 1,037 of them unadjudicated. That number is an artefact: 
 address gap between two pool functions, i.e. inside a retile sub-function that is not in the pool row own CFG
 body, which is exactly the over-attribution W6-P126 removed. The correct test is a **body join** - does a string
 SITE fall inside the pool row reachable body - and it returns **239, of them 0 unadjudicated**, identical to the
-exact-address join. So the well really is dry at this granularity, and the interval join must not be used as
+exact-address join. A second, stronger filter agrees: of the 1,037 rows that only the interval join finds, **0** have a foreign
+retile string owner whose start lies inside their own CFG body (a pool row may only host an owner that starts
+before it). Two independent tests - the string site is in the body, and the owner start is in the body - therefore
+both say the same thing. So the well really is dry at this granularity, and the interval join must not be used as a
 shortcut to reopen it. Further coverage has to
 come from C-grade adjudication of the 10,679 remaining pool rows, or from a table built on the retile
 partition, which is a different artifact and a product decision. The draw command still works; it simply no
