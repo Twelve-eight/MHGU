@@ -146,7 +146,6 @@ if (ORDER === "evidence") {
   const anyStr = (p) => (strsOf(p).length ? 1 : 0);
   pool.sort((a, b) => entity(b) - entity(a) || anyStr(b) - anyStr(a) || voteCount(b) - voteCount(a) || a.start - b.start);
   console.log(`--order evidence: class/path strings first, then any string, then vote count, then address`);
-  console.log(`DEBUG2 mapSize=${stringStarts.size} has53bb08=${stringStarts.has("0x53bb08")} poolHas53=${pool.some(q=>q.start===0x53bb08)} sampleStart=${pool[0]&&pool[0].start} key=${pool[0]&&("0x"+pool[0].start.toString(16))} strs0=${JSON.stringify(strsOf(pool[0]||{start:0}))}`);
 }
 
 const LIMIT = +arg("limit", "0");
