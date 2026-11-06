@@ -1496,3 +1496,20 @@ CONTEXT.md 已含成员#4 完整字段表 + 污染地图 + 位域分界（11 条
 **量到的差异**：可归属行 **15,712**（已发布 16,998），无法归属的 gap 行 **92,519**。
 
 **为什么还没写产物（2026-11-06 更正）**：① 本镜像是 A32，`tbb`/`tbh` **不存在**（全 `.text` 0 命中），原记录的「未建模会截断」**方向说反了**——未建模意味着走查会**穿过** dispatch 继续线性下溢，是在 cap 内**多算**而不是少算。真正存在的是 `add pc, rX, rY` 这一族：`tools/audit/scan-dispatch.mjs` 数出 **6,777 处 / 4,527 个函数**（其中 `Rn=pc` 仅 64 处），这些函数体仍可能偏宽，是 `--write` 前要单独标记的残余面。② 写就意味着 `stringxref.tsv`、`stringxref.gap.tsv` 与 10 个消费者要在同一次切换里一起重跑；③ 顺带更正上一版的因果：`tierb-labels.csv` **不受影响**——`tierb-merge.py` 只读 29 个切片的 `.md` 表格，从不读 `stringxref`/`attr-*`。
+
+## 2026-11-07 retileString 批次交付 + 两轮独立复核后更正（A 328 → 326）
+
+**交付**：`docs/analysis/code/inventory/slices/reports-mhgu/retileString-slice-01.md`，822 行（9 个分片，每片由一个 dsv 子代理按 pack 证据裁定），首次发布 A 328 / B 10 / C 484。产物**不并入** `tierb-labels.csv`：822 行取自 `tiers-merged.csv`（52,692），而该 CSV 的分母来自 `tiers.csv`（14,863 Tier B），两者不相交（0 行在池内；对照：已发布 4,183 行全在池内）。详见 `docs/data/tierb-labels.PROVENANCE.md`。
+
+**复核（这是本轮的重点）**：首次发布时只有结构审计——每条引用确实属于该函数（`slice-rows-audit.mjs`，822 行 0 条不可解析、762 条代码交叉引用），但**标签本身没人独立判过**，且 part-01/02 两片（184 行）连分片校验器都没有。随后两轮独立复核：
+
+- `Check0102`：part-01 + part-02 **全部 184 行**逐行重判（先读 pack 再对表）；
+- `RetileSample`：从 822 行**按位置**抽 40 条（先判后看已发布列）。
+
+结论：**22 行不成立** —— 16 条标签更正（多为 part-02 的 `mVersion` 骨架：同一份 vtable 证据在本表别处已归桶，这 14 行却停在 `unknown`）、2 条置信度下调（`0x2b94c` quest A→C、`0xb3374c` online-nex A→C：两者体内都没有点名本子系统的类/资源串）、4 行标 `UNDECIDABLE` 并写明还需要什么证据。发布后 **A 326 / B 10 / C 486**。`0xcee79c` 一条**故意不改回**：它属于复核列出的"单票标签"模式，那是策略问题，单独摘一条是随意的。
+
+**应用与留痕**：新增 `tools/mhgu/slice-revise.mjs`（按地址改 `rows-NN.md`，旧单元不匹配就拒绝；`--dry` 不写盘；每条改动在 evidence 单元格留 `[revised ...]` 标记，另记 `revisions.tsv`）。**它自己的第一版 `--dry` 真的写了盘**（写盘循环没被 `!DRY` 包住），是"行里出现新标签"暴露的；已修，并从标记重建了改动记录。
+
+**仍未定的三件（是决策不是修）**：① `cEquipShopListW*` 14 条孪生行 7 `weapon-wp` / 7 `item` 各半，还与 `tierB-slice-15.md:121` 跨表冲突，需要给这一族定一个桶；② 27 行的标签只靠单票（`0x8871d8`/`0x8878e4`/`0x20552c`），而书面 C 规则允许单票，改它就是改策略；③ `0x4d9128` 靠单票被判 B，与 B 规则原文（≥3 个非泛型 callee 票）冲突，现仍是 B。
+
+**机制层面**：审阅覆盖改成可执行（`AGENTS.md` §8g + `docs/reference/REVIEW-LEDGER.tsv` + `.tooling/review-coverage.mjs`，`frontier-sweep` 每轮打印 REVIEWED/PARTIAL/STALE/UNREVIEWED 四数，基准默认取 `.tooling/frontier-anchor.json` 的 per-repo head）。

@@ -319,7 +319,7 @@ they own a string under the fixed extractor, have no entry in `function-labels.t
 appear in no slice table. 353 of the 822 carry a class- or path-shaped string, i.e. they can reach conf A. They are
 the propagation channel’s blind spot on its strongest evidence type, and they are being adjudicated as
 `slices/reports-mhgu/retileString-slice-01.md` - a **separate artifact** whose filename does not match
-`tierb-merge.py`'s patterns. It has since been adjudicated (822 rows, A 328) and the merge decision was made with a
+`tierb-merge.py`'s patterns. It has since been adjudicated (822 rows; A 326 after the 2026-11-07 review correction, 328 as first published) and the merge decision was made with a
 measurement: the retile partition and the Tier B pool are disjoint, so it is **not** merged and this file's numbers
 stay unchanged. See "Result of the second route" below.
 
@@ -334,9 +334,9 @@ The second route is ~13x cheaper and produces the only label class that is genui
 why it was taken first. The first route remains available and unchanged; it adds coverage and tests the propagation
 where the propagation was least sure, but it cannot produce an A row.
 
-### Result of the second route (2026-11-07): 822 rows adjudicated, A 328 / B 10 / C 484, **not merged**
+### Result of the second route (2026-11-07): 822 rows adjudicated, A 326 / B 10 / C 486 after review, **not merged**
 
-`slices/reports-mhgu/retileString-slice-01.md` is published with **822 rows**: `conf A 328, B 10, C 484`, label
+`slices/reports-mhgu/retileString-slice-01.md` is published with **822 rows**: `conf A 326, B 10, C 486` after the review correction (A 328 / C 484 as first published), label
 `unknown` on 113 rows (all of them conf C). Every row was byte-audited (`slice-rows-audit.mjs`: 822 checked,
 **0 unresolvable claims**), and **seven of the nine parts** ship an independent verifier with working negative
 controls (`verify-03` … `verify-09`, all exit 0; part-08 alone runs 7 in-memory must-fail controls). **Parts 01 and
@@ -364,8 +364,34 @@ those rows have no membership in the denominator — a 5.6-point overstatement o
 **Nothing published moves, and the reason is structural.** The coverage meter (`tools/mhgu/coverage/report.mjs`)
 reads only `tierb-pass1..3/slice-*.md` and drops `label === "unknown"`, and `tierb-merge.py`'s default patterns are
 `tierB-slice-*`, so neither sees this file. `check.mjs` still reports the same calibre (58.0%) and tier A
-(25,584 functions) after this table was published. "A 328" is therefore a property of this artifact, not a claim
+(25,584 functions) after this table was published. "A 326" is therefore a property of this artifact, not a claim
 about `METER.md`.
+
+### Review correction (2026-11-07): A 328 -> 326, and what is still a decision
+
+The batch was first published at A 328 / B 10 / C 484. Two independent reviews then re-adjudicated part of it:
+`Check0102` took **all 184 rows** of parts 01 and 02 (the two parts that had no per-part verifier) and `RetileSample`
+took a **40-row sample drawn by position before it looked at the published labels**. Between them: 22 rows that did
+not stand — 16 label corrections (mostly the part-02 `mVersion` skeletons published `unknown` while the identical
+vtable evidence was bucketed elsewhere in the same table), 2 confidence downgrades (`0x2b94c` quest A->C and
+`0xb3374c` online-nex A->C: neither block's body names a class or resource of its subsystem), and 4 rows left
+UNDECIDABLE pending named artefacts. One probe row, `0xcee79c`, was deliberately **reverted to its published
+render-gfx**: it belongs to the reviewers' single-vote pattern, which is a policy question, so retracting just that
+row ahead of the decision would have been arbitrary. Result: **A 326 / B 10 / C 486**.
+
+Process notes, because they are the point: the change was applied by `MHGU/tools/mhgu/slice-revise.mjs`, which refuses
+a change whose old cells do not match the row, and every changed row carries a `[revised ...]` marker in its evidence
+cell; the per-row record is `G:/tmp/rs01/revisions.tsv`. That tool's own first `--dry` run **wrote** (the write guard
+was missing) — it was caught by the resulting rows showing the new labels, fixed, and the log reconstructed from the
+markers.
+
+**Still open, and they are decisions rather than fixes:**
+(a) `cEquipShopListW*` — 14 twin rows split 7 `weapon-wp` / 7 `item`, plus a cross-table conflict with
+`tierB-slice-15.md:121`; one bucket has to be chosen for the family.
+(b) 27 rows whose label rests on a single vote (`0x8871d8`/`0x8878e4`/`0x20552c`) — the written C rule permits a
+single vote, so changing them is a policy change, not a bug fix.
+(c) `0x4d9128` is graded B from one vote, which contradicts the B rule as written ("at least three non-generic callee
+votes"); it is still B in the published table.
 
 ## What this file is NOT
 
