@@ -71,9 +71,11 @@ const adjudicated = new Set();
   }
 }
 const rawPool = pool.length;
-const kept = process.argv.includes("--keep-adjudicated")
+// NOTE: `kept` must be a COPY. Taking the array itself and then emptying `pool` (below) made
+// `--keep-adjudicated` silently produce an empty pool: kept aliased pool, pool.length = 0 cleared both.
+const kept = [...(process.argv.includes("--keep-adjudicated")
   ? pool
-  : pool.filter((f) => !adjudicated.has("0x" + f.start.toString(16)));
+  : pool.filter((f) => !adjudicated.has("0x" + f.start.toString(16))))];
 pool.length = 0;
 pool.push(...kept);
 console.log(`pool: ${rawPool} raw -> ${pool.length} to adjudicate (${rawPool - pool.length} already adjudicated elsewhere)`);
@@ -111,7 +113,7 @@ function digest(f) {
   const body = bodyOf(f.start, cap);
   const inBody = new Set(body);
   const callees = [], seen = new Set();
-  let dispatch = 0;
+  let dispatch = 0, inlineTbl = 0;
   for (const a of body) {
     const w = A.rd32(a) >>> 0;
     if (((w >>> 25) & 7) === 5 && ((w >>> 24) & 1) === 1 && (w >>> 28) !== 0xf) {
@@ -119,7 +121,15 @@ function digest(f) {
       const t = (a + 8 + (o << 2)) >>> 0;
       if (!seen.has(t)) { seen.add(t); callees.push(t); }
     }
-    if (((w & 0x0fe00000) === 0x00800000 && (w & 0xf) === 0xf) || (w >>> 16) === 0xe08f) dispatch++;
+    // Dispatch idioms, same definition as tools/audit/scan-dispatch.mjs (the canonical scanner): a
+    // data-processing register ADD (bits 27:25 = 000, bits 24:21 = 0100) with Rd = pc. The earlier counter
+    // here required Rm = pc / Rn = pc, i.e. it counted pc-relative ADDRESS materialisation and missed
+    // `add pc, r1, r2` entirely (reported 0 for 0x75bce8, whose own dump contains one at 0x75bd20).
+    const isAddReg = ((w >>> 25) & 7) === 0 && ((w >>> 21) & 0xf) === 4;
+    if (isAddReg && ((w >>> 12) & 0xf) === 15) {
+      dispatch++;
+      if (((w >>> 16) & 0xf) === 15 && ((w >>> 7) & 0x1f) === 2 && ((w >>> 5) & 3) === 0 && ((w >>> 4) & 1) === 0) inlineTbl++;
+    }
   }
   const votes = new Map(), votesNG = new Map();
   for (const t of callees) {
@@ -155,9 +165,17 @@ function digest(f) {
       sig.push(`${h}: movw r${(w >>> 12) & 0xf},#${hex((w & 0xfff) | (((w >>> 16) & 0xf) << 12))}`);
     } else if ((w & 0x0ff00000) === 0x03400000) {
       sig.push(`${h}: movt r${(w >>> 12) & 0xf},#${hex(((w >>> 16) & 0xf) << 12)}`);
-    } else if ((w & 0x0c100000) === 0x04000000 || (w & 0x0c100000) === 0x05000000) { // ldr/str with offset
-      const off = w & 0xfff;
-      if (off >= 0x40) sig.push(`${h}: ${A.disasm(a, 1).split("  ").pop()}   (struct field +${off})`);
+    } else if (((w >>> 25) & 7) === 2 && (w & 0xfff) >= 0x40) { // load/store single data transfer, imm offset
+      // The old mask (w & 0x0c100000) === 0x04000000 also matched media instructions (bits 27:25 = 011),
+      // so `uxtb r0, r0` was printed as "(struct field +112)". Gate on bits 27:25 == 010 first.
+      // Two further exclusions, both found by the part-03/part-04 reviewers: an sp-based offset is a frame
+      // slot, not an object field, and with the U bit clear the offset is negative (`[r4,#-24]`), so never
+      // print it as `+N`. Only annotate: positive offset, base not sp(13)/pc(15).
+      const rnN = (w >>> 16) & 0xf, up = (w >>> 23) & 1;
+      if (up && rnN !== 13 && rnN !== 15) {
+        const off = w & 0xfff;
+        sig.push(`${h}: ${A.disasm(a, 1).split("  ").pop()}   (struct field +${off})`);
+      }
     } else if ((w & 0x0ff00000) === 0x03500000) {
       sig.push(`${h}: cmp r${(w >>> 16) & 0xf},#${(w & 0xfff) | (((w >>> 8) & 0xf) << 12)}`);
     }
