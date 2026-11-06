@@ -231,7 +231,14 @@ Merge: 4,003 -> **4,183** rows, conf **A 81 / B 2,063 / C 2,039**, unknown 530, 
 unchanged at 85, gate ALL PASS. Note the yield difference: this batch produced 26 conf-A rows in 180
 adjudications while slice-09 produced 2 in 841 - selecting on a fixed-extractor string is what buys A rows.
 
-**Remaining backlog: 2,506** conf-A candidates (2,686 - 180). Repeat with
+**Correction, same day: the string-backed well is dry.** The 4,753 string-owning starts come from
+`stringxref.tsv` at RETILE granularity (52,692 functions), while the adjudicable pool is `tiers.csv` at
+14,863; the two partitions intersect in only **239** addresses. All 239 are now used: 93 were already in older
+tables and 146 were drawn by this batch (its other 34 rows carried no string). There is therefore no 2,506-row
+conf-A backlog - at tiers granularity the remaining string-backed candidates are **0**. Further coverage has to
+come from C-grade adjudication of the 10,679 remaining pool rows, or from a table built on the retile
+partition, which is a different artifact and a product decision. The draw command still works; it simply no
+longer selects on a string that exists. Wrong earlier figure kept for the record: 2,506. Measured with
 `slice-pack --pool-from .tmp/mhgu/tierB --order evidence --limit <n> --parts <k> --exclude-target` and
 `slice-assemble --slice tierB-slice-15 --rows-dir ... --parts ... --prior-only-to-unknown`; the same two
 commands scale to the rest.

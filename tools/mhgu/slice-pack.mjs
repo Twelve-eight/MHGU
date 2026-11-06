@@ -124,23 +124,37 @@ if (ORDER === "evidence") {
   // function BEFORE it, so selecting on it would pick rows by exactly the channel the slice is meant to
   // replace. Select on the fixed extractor's attribution instead (`stringxref.mjs --dump-json`).
   const fixed = new Set();
+  const stringStarts = new Map();
   {
     const dumpPath = arg("strings", "G:/tmp/sx.json");
     for (const r of JSON.parse(fs.readFileSync(dumpPath, "utf8")).slice(1)) {
-      if (r[2] === "code" && r[0]) fixed.add(r[0].toLowerCase());
+      if (r[2] === "code" && r[0]) {
+        const k = r[0].toLowerCase();
+        fixed.add(k);
+        if (!stringStarts.has(k)) stringStarts.set(k, []);
+        stringStarts.get(k).push(r[1]);
+      }
     }
     console.log(`--order evidence: ${fixed.size} start(s) carry a string under the fixed extractor`);
   }
   const voteCount = (p) => (p.votes === "-" ? 0 : p.votes.split(/\s+/).filter(Boolean).length);
-  const hasStr = (p) => fixed.has("0x" + p.start.toString(16));
-  pool.sort((a, b) => hasStr(b) - hasStr(a) || voteCount(b) - voteCount(a) || a.start - b.start);
-  console.log(`--order evidence: fixed-extractor strings first, then vote count, then address`);
+  const strsOf = (p) => stringStarts.get("0x" + p.start.toString(16)) || [];
+  // Rank on the SHAPE, not just on "owns some string": the rule in the table header says class-or-path first.
+  // Ordering by "owns any string" let a batch through whose strings were all member names / format templates,
+  // i.e. zero conf-A candidates - caught 2026-11-06 by checking the drawn pack against its own rule.
+  const entity = (p) => (strsOf(p).some((x) => { const sh = stringShape(x); return sh === "class" || sh === "path"; }) ? 1 : 0);
+  const anyStr = (p) => (strsOf(p).length ? 1 : 0);
+  pool.sort((a, b) => entity(b) - entity(a) || anyStr(b) - anyStr(a) || voteCount(b) - voteCount(a) || a.start - b.start);
+  console.log(`--order evidence: class/path strings first, then any string, then vote count, then address`);
+  console.log(`DEBUG2 mapSize=${stringStarts.size} has53bb08=${stringStarts.has("0x53bb08")} poolHas53=${pool.some(q=>q.start===0x53bb08)} sampleStart=${pool[0]&&pool[0].start} key=${pool[0]&&("0x"+pool[0].start.toString(16))} strs0=${JSON.stringify(strsOf(pool[0]||{start:0}))}`);
 }
+
 const LIMIT = +arg("limit", "0");
 if (LIMIT > 0 && pool.length > LIMIT) {
   console.log(`--limit ${LIMIT}: ${pool.length} -> ${LIMIT}`);
   pool.length = LIMIT;
 }
+
 
 // ---- indices: published callee labels, string attribution --------------------------------------
 const labelOf = new Map();
