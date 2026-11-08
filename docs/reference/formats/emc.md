@@ -20,6 +20,14 @@ Some arcs ship another monster's table (em002_00.arc holds em001_00_cmdtbl) [C].
 Runtime: the enemy keeps its rEnemyCmd at `em+0x2588` (stored at 0x68828 after the resource request at 0x6881c, DTI 0x18399bc) [C]. Accessor `0x51d70(cmd, i)` returns `[cmd+0x78][i]` if `i < [cmd+0x6c]` [C].
 
 > **Correction (2026-11-09, FOR-SE-REPLY §202).** The accessor body is exactly as stated (count at `+0x6c`, array at `+0x78`), but **its only call site does not use rEnemyCmd**: fn `0x684b4` calls it on the table returned by `0x3a8ef4(global@0x17d0848, *(u16*)(sub+0x1b6))`. Also, the section arrays the dispatcher indexes are reached through `em[0x75f4]+0x68` (a different field, fed by factory `0x152960` with resource id `0x8391`), while `em[0x2588]` is fed by the same factory with id `0xde1f`; the EMC loader `0x520a0` has no `bl` caller at all, only the vtable slot `0x1732f00`. Which of the two fields holds the loaded rEnemyCmd therefore needs one runtime read; treat "rEnemyCmd at em+0x2588" as `[B]`, not `[C]`.
+>
+> **Further (2026-11-09, FOR-SE-REPLY §220): statically resolved the other way.** `em[0x2588]` is consumed as
+> **count @ +0x6c** (`ldr r2,[obj,108]; cmps r1,r2; bcs` at 0x68518/0x685e4) feeding the generic
+> `0x51d70(cmd,i) = [cmd+0x78][i]` — an integer count at 0x6c is impossible in the loader layout, where
+> `obj+0x68+4*s` are the 21 section pointers and 0x6c is therefore section 1's *pointer*. The dispatcher
+> indexes `[cmd+4*s]` with `cmd = em[0x72f4] = em[0x75f4]+0x68`, so **the EMC/rEnemyCmd object is the one
+> behind `em[0x75f4]`**, and this line's "at em+0x2588" should be read as `em[0x75f4]`. `[B]` — a single
+> runtime read would raise it to `[A]`, but nothing depends on it any more.
 
 ## 3. Script grammar
 Each entry is a byte script of `length` bytes, run by interpreter `0x82f80` (called from 0x82f54). The loop at 0x83770 calls `0x50ce0(ip)` for the instruction length; 255 means end (branch 0x83d80); otherwise `op = *ip++` and a 256-way jump table at 0x837ac selects the handler; after the handler `ip += length` (0x855ac) [C].
