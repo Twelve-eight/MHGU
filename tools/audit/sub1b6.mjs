@@ -102,10 +102,23 @@ for (let v = TEXT_START; v < TEXT_END; v += 4) {
     }
     // a pop/ldm that includes `pc` ENDS the block: the next instruction is reached by a branch,
     // not by fall-through, so the linear scan's register state still describes the path that
-    // continues past this point. Invalidating here cost a real site (0xb816c, where the pop at
-    // 0xb80b4 is an early-return epilogue and r5=&em+0x1428 is reloaded at 0xb8164).
+    // continues past this point. Invalidating there cost a real site (0xb816c: the early-return
+    // epilogue is 0xb80b4-0xb80c4, ending `pop {r4, r5, r6, r7, r8, r9, r10, r11, pc}` at 0xb80c4,
+    // and r5 = &em+0x1428 is reloaded at 0xb8164).
+    // The list is expanded first so an `rA-rB` range behaves like its members: the invalidation
+    // must not depend on whether the printer chose the range or the explicit form.
     const pm = /^(pop|push|ldm\/stm)\S*\s*(?:r\d+!?\s*)?\{([^}]*)\}/.exec(mn0);
-    if (pm && !/\bpc\b/.test(pm[2])) for (const t of pm[2].split(',')) { const m2 = /^r(\d+)$/.exec(t.trim()); if (m2) { const r = Number(m2[1]); off1b6.delete(r); addr1b6.delete(r); subAt.delete(r); subAddr.delete(r); } }
+    if (pm) {
+      const regs = [];
+      for (const tok of pm[2].split(',')) {
+        const t = tok.trim();
+        const one = /^r(\d+)$/.exec(t), range = /^r(\d+)\s*-\s*r?(\d+)$/.exec(t);
+        if (one) regs.push(Number(one[1]));
+        else if (range) { const a = Number(range[1]), b = Number(range[2]); for (let r = Math.min(a, b); r <= Math.max(a, b); r++) regs.push(r); }
+      }
+      const endsBlock = /\bpc\b/.test(pm[2]);
+      if (!endsBlock) for (const r of regs) { off1b6.delete(r); addr1b6.delete(r); subAt.delete(r); subAddr.delete(r); }
+    }
     if (base === 'bl' || base === 'blx') for (let r = 0; r < 4; r++) { subAt.delete(r); subAddr.delete(r); } // caller-clobbered
   }
 
