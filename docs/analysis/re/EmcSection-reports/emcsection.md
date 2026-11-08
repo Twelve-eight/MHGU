@@ -362,14 +362,14 @@ Consequences read off the same window:
 - **What the predicates mean.** Only location and type are decoded; the gameplay state behind each
   is not:
   - `em[0x758c]` (f32, compared with 0.0) — no MHGU document names it, but its **lifecycle is now
-    partly decoded** (2026-11-09, main-session disasm): it is **set to `1200.0f`** at `0xb1af4`
+    partly decoded** (2026-11-09, main-session disasm): it is **set to `1200.0f`** (constant formed by `0xb1af4 movt r2,#0x4496`, **stored at `0xb1af8 str r2,[r0,r1]`** with `r1 = 0x758c`)
     (`movt r2,#0x4496` — 0x44960000 = 1200.0 — then `str r2,[r0+0x758c]`), **cleared to 0** by every
     reset site checked so far (`0x99040`, `0x758b8`, `0xa067c`, `0x99128`), and its reader at
     `0xb1b04-0xb1b20` does `vldr s0; vcmpe #0.0; ble` — i.e. a float state with an "active window" shape: section 13
-    is selected while it is still positive. Of its 28 address sites, one writes `1200.0f` (0xb1af0),
+    is selected while it is still positive. Of its 28 address sites, one writes `1200.0f` (store at 0xb1af8; the `movt` forming it is at 0xb1af4),
     most write `0`, and the three register stores are now traced: `0x99160` stores r4 = 0
     (`0x99148 mov r4,#0`), `0xa5480` stores r6 = 0 (entry of fn 0xa5198), and `0xb9944` stores
-    `sxth(r0)` — a signed 16-bit value, not a float bit pattern — so the field is written as f32 in two
+    **0** — §270 refuted the earlier `sxth(r0)` reading (r7 is redefined to 0 at `0xb979c`), so all three register stores write zero and the field is f32 throughout
     places and as a small integer in one (FOR-SE-REPLY §259); **none of the 28 has a `vstr`**, so an
     in-place decrement is not among these sites — and **per FOR-SE-REPLY §209 these 28 sites carry
     every access at all** (0x758c has no direct-offset encoding, no literal word in the image —
