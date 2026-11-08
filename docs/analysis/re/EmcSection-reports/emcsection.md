@@ -35,7 +35,7 @@ Table 0x82650 (18 words, index = byte-1, base 0x82650): byte 1 → 0x82698 (pop:
 00051d84: e5920078  ldr r0, [r2, #120]     ; [cmd+0x78]
 00051d88: e7900101  ldr r0, [r0, r1, lsl #2]
 ```
-So 0x51d70(cmd,i) = [cmd+0x78][i] bounded by [cmd+0x6c]. Under the loader layout decoded below this cannot be the rEnemyCmd EMC object: `cmd+0x78` would be section 4's array pointer and `cmd+0x6c` a pointer used as a count, so either the accessor keys a different object or the emc.md line is stale (see the loader section and Unknown).
+So 0x51d70(cmd,i) = [cmd+0x78][i] bounded by [cmd+0x6c]. Under the loader layout decoded below this cannot be the rEnemyCmd EMC object: `cmd+0x78` would be section 4's array pointer and `cmd+0x6c` a pointer used as a count, **resolved**: the accessor keys a different object — both of its call sites load `em[0x2588]`, so `0x51d70` is that container's array getter and the emc.md line described the wrong object (FOR-SE-REPLY §258).
 
 ### dispatch head 0x8282c — first observations [A]
 - Args (em=arg0, arg1∈{0,1,2}); re-decoded 2026-11-09 over the whole body 0x8282c..0x82c3c. Prologue: `mov r4,r0`; `movw r0,#0x1408`; `cmp r5,#2`; `ldr r0,[r6,r0]!` (0x82844) latches **r6 = em+0x1408** and loads the **word** em[0x1408]; `bfc r0,#8,#1` (0x82848, printed as `.word 0xe7c8041f`) clears **bit 8**; `str r0,[r6]` (0x8284c) writes it back; `popeq` at 0x82850 returns when arg1==2. There is **no** store to em[arg1] anywhere in the function — r5 is used only by `cmp r5,#2` (0x82840) and `cmp r5,#1` (0x82ba0) — so the earlier "copies em[0x1408] halfword into em[arg1]" was a misdecode of the two `bfc`/`bfi` words and is withdrawn.
