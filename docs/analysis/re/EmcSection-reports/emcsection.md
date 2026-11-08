@@ -300,7 +300,12 @@ Consequences read off the same window:
     makes either positive is [U]. **Update (FOR-SE-REPLY §200/§201):** both are cleared by the same
     fn `0xa5198` block that resets `em[0x758c]` and `em[0x73dc]`; the VFP lanes do reach them —
     writers at `0x9fc20` (`vstr s0,[r0]`, +0x5a4) and `0xa1c00` (`vstr s16,[r0]`, +0x59c), readers
-    in the dispatcher (0x828a8/0x828c0) and in the interpreter (0x85b20/0x85b38).
+    in the dispatcher (0x828a8/0x828c0) and in the interpreter (0x85b20/0x85b38). **Lifecycle now
+    closed (FOR-SE-REPLY §211/§213):** `+0x59c` is a countdown seeded at `1800.0f` (literal
+    `0xa1cac`), decremented each tick by `(f32)u8(sub+0x5a1) × 300.0f` (vmls at `0xa1c1c`, store at
+    `0xa1c20`) and clamped up to `300.0f` when it falls below (`0xa1c30-0xa1c44`), so its value set is
+    `{0} ∪ [300, ∞)` — the `> 0` predicate therefore means "armed", not "time left";
+    `+0x5a4` is a copy of `+0x5a8` taken only when the source is positive (`0x9fc08-0x9fc20`).
   - `em[0x73e0] == 16` — this one *is* documented: `+0x73E0` is the monster's action number byte and
     `+0x73E1` its variant (`MHGU/docs/mechanics/monster-code-map.md:26`,
     `MHGU/docs/analysis/monsters/mon-ai-entry.md:96`). So section 14 is selected while **action 16**
