@@ -130,7 +130,9 @@ Interpreter loop: `ldr r0,[r4,#0]` (ip), length 0x50ce0, op dispatch (0x83788-0x
 
 `0x8282c(em, arg1)` is the main section selector. Other statically visible selector sites exist and
 are **not** decoded here: the per-tick runner at 0x82ddc/0x82e30 (section 12, extra row below) and
-sibling dispatcher copies in `0x7f4xx-0x7fbxx`, which select 3/5/6/7/10/11/17 (`0x87a94` is **not**
+the `0x7f4xx-0x7fbxx` family, which **saves and restores** the selection frame instead of selecting
+(FOR-SE-REPLY §223-§227); the writes of 3/5/6/7/10/11/17 come from the `strh`-immediate sites below
+(`0x87a94` is **not**
 one of them: it loads the section and entry bytes and stores them into `em+0x73c0/+0x73c4`, i.e. a
 save, corrected 2026-11-09 after hand-decoding)
 (CensusReview's finding; listed in the enumeration below). The body `0x8282c..0x82c3c` was read
@@ -284,7 +286,7 @@ Consequences read off the same window:
   1-3 above, 1 is row 7) and **12, which §163 omits, is the fifth** (runner at 0x82ddc/0x82e30). The
   two dispatchers decoded here select 0/1/8/9/12/13/14/19; the field as a whole is written with
   0/1/2/3/5/6/7/8/9/10/11/12/13/14/17/18/19 by all statically visible writers, including the
-  sibling dispatchers §163 likewise omits. [B]
+  `strh`-immediate write sites §163 likewise omits. [B]
 
 ## Unknown
 
@@ -474,7 +476,8 @@ Consequences read off the same window:
    in the decode log). (ii) "The code selects no section 12" — refuted by 0x82f24, which the census
    prints as `rare-value store 0x82f24 = 0xc`; the section-12 row and the runner are the fix.
    (iii) "The low ids 3/5/7/10 are unattributed alias values and the value set is unsettled" — they
-   are sections selected by sibling dispatcher copies in `0x7f4xx-0x7fbxx` (`0x87a94` is a save, not a
+   are written by the `strh`-immediate sites (0x7f7ec/0x7f95c/0x7fa80 and siblings), while the
+   0x7f4xx-0x7fbxx family only saves/restores (`0x87a94` is a save, not a
    selector), so the written set is 0/1/2/3/5/6/7/8/9/10/11/12/13/14/17/18/19 and the question is
    closed, not open. One caveat on reachability, not on the set: with the loader skipping empty
    sections (`0x521d8 cmp r8,#0 -> ble 0x52344`, no array allocated) and 98/98 corpus files having no
@@ -525,7 +528,7 @@ Consequences read off the same window:
   leaves 16 of 153 sites unresolved (12 restores, 4 register-sourced) and roughly 16 more never
   reach a store inside its slice; the reviewer's lane resolves 84 of 124 and calls 40 dynamic. They
   agree **value for value except the 0 bucket**, and the low ids that looked unattributed are
-  sections selected by sibling dispatcher copies — so the value set is settled and only the 0 bucket
+  values written by the `strh`-immediate sites — so the value set is settled and only the 0 bucket
   differs by resolution class.
 - **`0x7420` is not a distinguishable constant** (742 `literal_loads` sites for the three fields
   scanned, most of them `0x7420` in unrelated classes), so the field's owner could not be established
