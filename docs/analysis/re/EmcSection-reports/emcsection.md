@@ -477,15 +477,18 @@ Consequences read off the same window:
   which is impossible under the loader layout where `+0x6c` is section 1's array pointer. So
   `[G+0x2588]` (G = the startup singleton `*[0x1851fe0]`, the `rEmSizeYureTbl` resource) is the count/record container and `em[0x75f4]` is the EMC object; `emc.md` has been
   annotated accordingly. `[A: layout and call site / U: the classes' names — none recoverable here]`
-  **The key `*(u16*)(sub+0x1b6)` is a per-instance generation counter with an explicit `0xFFFF`
+  **The key `*(u16*)(sub+0x1b6)` is a per-em runtime ticket id (bounded 0..9999) with an explicit `0xFFFF`
   = "unset" sentinel (2026-11-09, FOR-SE-REPLY §232/§292/§299/§300/§301).** Three runtime writers,
   each verified instruction by instruction: the em init/reset routine sets `0xFFFF` at `0xace54`;
   a per-em spawn/config call sets it from its fifth argument at `0x6fb90` and immediately uses the
   value as an id (`0x49904(id)` yields a byte stored into `sub+0x924`, and
   `0x493cc(0|1|2, sub[0x1b6], handle)` derives the three consecutive bytes `sub+0x924/925/926`);
   and a shared tail at `0x1080114` is called twice with `r3 = (u16)(src_sub[0x1b6] + 1)` and
-  `(u16)(src_sub[0x1b6] + 2)` (`0x1067ff8 add r0,r9,#1` / `0x1068088 add r0,r9,#2`), so a derived
-  instance's counter is its parent's + 1 (or + 2) -- it *is* a counter, and §240's
+  `(u16)(src_sub[0x1b6] + 2)` (`0x1067ff8 add r0,r9,#1` / `0x1068088 add r0,r9,#2`) -- an
+  allocator issuing the next ticket, which is why `0xFFFF + 1` wraps to 0 as the first issue after
+  init. The legal domain is bounded: `0x3a4c20 movw r2,#0x270f; 0x3a4c24 cmps r1,r2; 0x3a4c28 bhi`
+  rejects any id above 9999 in the manager lookup, so `0xFFFF` is simply the one out-of-domain
+  value, and §240's
   `src_sub[0x1b6]+1` was right all along. A reader skips the whole update when the sentinel is
   present: `0xcb018 movw r1,#0xffff; 0xcb01c cmps r0,r1; 0xcb020 beq 0xcb08c`, where `0xcb08c` is
   `add sp,sp,#8; pop {r4,r5,r6,pc}` -- the function epilogue, not a consumer of the value.
