@@ -290,8 +290,14 @@ Consequences read off the same window:
     `r10 = em+0x1408` (`0xc46e4/e8`); `refs_to 0xc4b40` gives its two conditional entries
     (`0xc4b1c`, `0xc4b2c`). The predicate is `bl 0xb4e58` (pool pick) versus the running state:
     **if the current section is not 1, or the picked entry differs from `em[0x72fd]`, bit 7 is set.**
-    So bit 7 means "the pool has a different entry to run than the one running now". What
-    `em[0x7420]` gates is still [U]. [A: instructions / U: the 0x7420 half]
+    So bit 7 means "the pool has a different entry to run than the one running now". **The other
+    conjunct `em[0x7420]` also has writers** (2026-11-09, GuardGateWriters + main-session disasm; 701
+    `movw #0x7420` sites, 8 writers): two write `1` (`0xb1654`, `0xb16b8` — `mov r1,#1` then
+    `strb r1,[r4,r0]`), one writes `0` (`0xaf388`, the clear), and five store a caller value
+    (`0x6dae8` whole-word from `r6`; `0xb1784` from `r8`; `0xb1674`/`0xb16d8`/`0xb17a4` are the
+    offset-folded arms `movw r1,#0x7420; add r1,r4,r1; strb r0,[r1,#0]`). So the conjunction is
+    satisfiable **and resettable**, and the byte is a shared flag, not a single-event bit. Which game
+    states drive the five non-static writers is [U]. [A: writers / U: their triggers]
 - **Why the pool path (section 1) is the effective default — now explained by the setter, not by a
   default.** Section 1 is *not* a format default: it is the last test in 0x8282c, a guarded override
   that fires after 13/8/14/9/19/0 have already been chosen, and only when bit 7 of `em[0x1408]` is
