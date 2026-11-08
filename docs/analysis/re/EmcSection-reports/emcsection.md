@@ -304,8 +304,10 @@ Consequences read off the same window:
     reset site checked so far (`0x99040`, `0x758b8`, `0xa067c`, `0x99128`), and its reader at
     `0xb1b04-0xb1b20` does `vldr s0; vcmpe #0.0; ble` — i.e. a float state with an "active window" shape: section 13
     is selected while it is still positive. Of its 28 address sites, one writes `1200.0f` (0xb1af0),
-    most write `0`, and three store a register value (`0x99160 str r4,[r9,r0]`,
-    `0xa5480 str r6,[r4,r0]`, `0xb9944 str r7,[r10,r0]`) whose sources are untraced; **none of the 28 has a `vstr`**, so an
+    most write `0`, and the three register stores are now traced: `0x99160` stores r4 = 0
+    (`0x99148 mov r4,#0`), `0xa5480` stores r6 = 0 (entry of fn 0xa5198), and `0xb9944` stores
+    `sxth(r0)` — a signed 16-bit value, not a float bit pattern — so the field is written as f32 in two
+    places and as a small integer in one (FOR-SE-REPLY §259); **none of the 28 has a `vstr`**, so an
     in-place decrement is not among these sites — and **per FOR-SE-REPLY §209 these 28 sites carry
     every access at all** (0x758c has no direct-offset encoding, no literal word in the image —
     `refs_to` returns 0 — and no movw+add-immediate split constant in 155,495 sites), so the field is
