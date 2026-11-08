@@ -108,6 +108,13 @@ export function decode(w, addr) {
           return rm === 15 ? `bfc${cc} ${rd}, #${lsb}, #${width}` : `bfi${cc} ${rd}, ${R[rm]}, #${lsb}, #${width}`;
         }
       }
+      // Divide (ARM ARM A6.6 UDIV/SDIV A1): cond 0111 0011/0001 Rd 1111 Rn 0001 Rm —
+      // bit21 = 1 UDIV (unsigned) / 0 SDIV. Control word 0xE733F211 -> udiv r3, r1, r2.
+      const divMask = w & 0x0FF0F0F0; // keeps bits 27..20, 15..12, 7..4
+      if (divMask === 0x0730F010 || divMask === 0x0710F010) {
+        const rd = R[(w >>> 16) & 0xF], rn = R[w & 0xF], rm = R[(w >>> 8) & 0xF];
+        return `${divMask === 0x0730F010 ? 'udiv' : 'sdiv'}${cc} ${rd}, ${rn}, ${rm}`;
+      }
       return `.word 0x${(w>>>0).toString(16).padStart(8,'0')} ; media`;
     }
     // Addressing (ARM ARM A5.3): P=1 pre-indexed ([rn, off], '!' when W=1); P=0 post-indexed ([rn], off;
