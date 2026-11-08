@@ -274,9 +274,11 @@ Consequences read off the same window:
     (`movt r2,#0x4496` — 0x44960000 = 1200.0 — then `str r2,[r0+0x758c]`), **cleared to 0** by every
     reset site checked so far (`0x99040`, `0x758b8`, `0xa067c`, `0x99128`), and its reader at
     `0xb1b04-0xb1b20` does `vldr s0; vcmpe #0.0; ble` — i.e. a float state with an "active window" shape: section 13
-    is selected while it is still positive. The countdown itself (who subtracts) is not among the
-    sites checked (`literal_loads 0x758c` gives ~19 sites, all clears or the 1200.0f set), so naming
-    its game meaning stays [U]. [A: 1200.0f set + clears + `<= 0` reader / U: what it times]
+    is selected while it is still positive. Of its 28 address sites, one writes `1200.0f` (0xb1af0),
+    most write `0`, and at least two store a register value (`0x99160 str r4,[r9,r0]`,
+    `0xa5480 str r6,[r4,r0]`) whose sources are untraced; **none of the 28 has a `vstr`**, so an
+    in-place decrement is not among these sites; naming its game meaning stays [U].
+    [A: 1200.0f set + clears + `<= 0` reader / U: what it times]
   - `[em+0x1428]+0x59c` and `+0x5a4` (both f32, `> 0`) — both are `sub` fields. The documented `sub`
     fields near that area are different ones (HP at +0x370/+0x374, the status-threshold triple at
     +0x5c96/+0x5c98/+0x5d6a, the phase byte +0x1a1), so this is an unnamed float pair. What condition
