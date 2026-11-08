@@ -197,7 +197,7 @@ writes the two bytes separately (`strb` at 0x82998 and 0x829b0). [A]
 **Nested calls save the whole selection frame.** Before a nested script call (`bl 0x8dee0`) the
 0x7e5xx-0x7fbxx family snapshots `em[0x73b4]` = section, `em[0x73b5]` = entry and `em[0x73b8]` =
 script pointer, then gates the call on `0x82538(em,0)` (a `[em]->0x3F4` virtual call plus an action
-byte test `em[0x73e0] == 13`); the restore side is `0x8dc74-0x8dc90` plus the common tail `0x8debc`
+byte test `em[0x73e0] == 13`); the restore side is `0x8dc74-0x8dc90` plus the common tail `0x8debc` (a **third** entrance feeds the same tail: the pending-stack pop at `0x8de64-0x8de98`; re-audit B)
 (`em[0x73b8] -> em[0x72f8]` through an `add`-folded address). So those siblings **consume** the
 section byte, they never select one (FOR-SE-REPLY §223-§227). [A]
 
@@ -435,7 +435,7 @@ Consequences read off the same window:
   force key 19. Both open ends are now closed: the table pointer is
   `em[0x7628] = 0x69c258(em[0x7610], em[0xb5f6])`, i.e. the **variant byte `0xb5f6` selects which
   table** (container `em[0x7610]` = a global singleton's `+0x2590`, FOR-SE-REPLY §197/§218), and
-  `0xb4ca8(em)` is a **tri-state selector returning −1/0/1** from a vtable-slot-0x9C call plus
+  `0xb4ca8(em)` is a selector built from a vtable-slot-0x9C call plus `em[0x1054]`/`em[0x1065]` — its output set is **not** `{−1,0,1}`: three of its four arms return a **32-bit table entry** (`ldr r0,[r1,r0,lsl #2]` at `0xb4d74/0xb4dc0/0xb4e0c`, tables outside the image; re-audit B, FOR-SE-REPLY §291) — plus
   `em[0x1054]` / `em[0x1065]` (§217). `[A: the table read, the key lattice, the table provenance and
   the tri-state selector / U: the identity of the global singleton and of the 0x9C implementation]`
 - **Sections 18 and 20** (20 decoded 2026-11-09, FOR-SE-REPLY §198): **20 is entered** — the
