@@ -140,8 +140,9 @@ is dynamic and is listed under Unknown.)
 `cmd` below means `em[0x72f4]`, a pointer to `rEnemyCmd+0x68` (0x7109c:
 `ldr r0,[em+0x75f4]; addne r0,r0,#104`), so `[cmd+4*s]` is section s's array pointer and `[cmd+0x34]`
 is `obj+0x9c`: the decode-log bullets above write the same slots relative to the object base. `ctx`
-means `[em+0x1428]` = the interpreter's `sub`, the enemy AI runtime context
-(`MHGU/docs/reference/formats/emc.md:51`).
+means `[em+0x1428]` = the interpreter's `sub`, the actor state-machine base — for a monster that is
+the enemy AI runtime context, but the layout is shared by player/otomo/NPC actors
+(`MHGU/docs/reference/formats/emc.md:51`; `MHGU/docs/analysis/code/coverage/precision-A.md:111`).
 
 **The section byte is 0-based.** The loader 0x520a0 fills `obj+0x68+4*s` for `s = 0..20`
 (`cmp r10,#21` at 0x52348), and the dispatcher indexes that pointer with the byte directly:
