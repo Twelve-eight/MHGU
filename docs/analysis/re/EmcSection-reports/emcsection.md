@@ -477,9 +477,21 @@ Consequences read off the same window:
   which is impossible under the loader layout where `+0x6c` is section 1's array pointer. So
   `[G+0x2588]` (G = the startup singleton `*[0x1851fe0]`, the `rEmSizeYureTbl` resource) is the count/record container and `em[0x75f4]` is the EMC object; `emc.md` has been
   annotated accordingly. `[A: layout and call site / U: the classes' names — none recoverable here]`
-  **The key `*(u16*)(sub+0x1b6)` is an entity id with an explicit `0xFFFF` = "none" sentinel
-  (2026-11-09, FOR-SE-REPLY §232/§292 + main-session disasm).** It is not a counter: the value is
-  written by a per-em spawn/config call (`0x6fb90 strh r1,[r0,r2]`, `r1 = [sp+40]` = the fifth
+  **The key `*(u16*)(sub+0x1b6)` is a per-instance generation counter with an explicit `0xFFFF`
+  = "unset" sentinel (2026-11-09, FOR-SE-REPLY §232/§292/§299/§300/§301).** Three runtime writers,
+  each verified instruction by instruction: the em init/reset routine sets `0xFFFF` at `0xace54`;
+  a per-em spawn/config call sets it from its fifth argument at `0x6fb90` and immediately uses the
+  value as an id (`0x49904(id)` yields a byte stored into `sub+0x924`, and
+  `0x493cc(0|1|2, sub[0x1b6], handle)` derives the three consecutive bytes `sub+0x924/925/926`);
+  and a shared tail at `0x1080114` is called twice with `r3 = (u16)(src_sub[0x1b6] + 1)` and
+  `(u16)(src_sub[0x1b6] + 2)` (`0x1067ff8 add r0,r9,#1` / `0x1068088 add r0,r9,#2`), so a derived
+  instance's counter is its parent's + 1 (or + 2) -- it *is* a counter, and §240's
+  `src_sub[0x1b6]+1` was right all along. A reader skips the whole update when the sentinel is
+  present: `0xcb018 movw r1,#0xffff; 0xcb01c cmps r0,r1; 0xcb020 beq 0xcb08c`, where `0xcb08c` is
+  `add sp,sp,#8; pop {r4,r5,r6,pc}` -- the function epilogue, not a consumer of the value.
+  The imm12 `0x1b6` bulk fill clears it to 0 at `0x4fdb4c`.
+  `[A: all three writers, the sentinel compare, the epilogue / U: why the two callers differ by +1 vs +2]`
+
   **The 66-way jump table at `0x224d8` dispatches on `sub[0xb5f4] - 14`, and only two of its 66
   entries point anywhere else (2026-11-09, verified word by word).** The chain is:
 
@@ -509,14 +521,6 @@ Consequences read off the same window:
 
   Both `0x225e0` and `0x225f8` are instruction boundaries; the previously cited `0x225dc` / `0x225f4`
   are not (the first is table data `0x00000120`-adjacent, the second lands inside the `movt`/`str` pair).
-  argument) and is used *immediately afterwards as an id* — `0x49904(id)` yields a byte stored into
-  `sub+0x924`, and `0x493cc(0|1|2, sub[0x1b6], handle)` derives three consecutive bytes `sub+0x924/925/926`
-  from that same id. A reader compares it against the sentinel explicitly:
-  `0xcb018 movw r1,#0xffff; 0xcb01c cmps r0,r1; 0xcb020 beq 0xcb08c`. The `0xFFFF` value itself is
-  written at `0xace54` (`strh r11` with `r11 = movw #0xffff`, region verified to contain no `bl` and
-  no later rewrite), and the imm12 `0x1b6` bulk fill clears it to 0 at `0x4fdb4c`. The third runtime
-  writer (`0x1080130`, `src_sub[0x1b6]+1`) is still `[U]` pending the SentinelSem slice.
-  `[A: id use, sentinel compare, the two known writers / U: the third writer's intent]`
 
 ## SelfFalsificationCheck
 
