@@ -157,6 +157,13 @@ so the halfword store sets `em[0x72fc]` = section **and** `em[0x72fd]` = 0 (litt
 at the lower address). That is why the fixed paths always start at entry 0, while the pool path
 writes the two bytes separately (`strb` at 0x82998 and 0x829b0). [A]
 
+**Nested calls save the whole selection frame.** Before a nested script call (`bl 0x8dee0`) the
+0x7e5xx-0x7fbxx family snapshots `em[0x73b4]` = section, `em[0x73b5]` = entry and `em[0x73b8]` =
+script pointer, then gates the call on `0x82538(em,0)` (a `[em]->0x3F4` virtual call plus an action
+byte test `em[0x73e0] == 13`); the restore side is `0x8dc74-0x8dc90` plus the common tail `0x8debc`
+(`em[0x73b8] -> em[0x72f8]` through an `add`-folded address). So those siblings **consume** the
+section byte, they never select one (FOR-SE-REPLY §223-§227). [A]
+
 | # | predicate, in code order (first match wins) | section | evidence |
 |---|---|---|---|
 | 1 | `*(f32*)(em+0x758c) > 0`, `cmd` non-null and `[cmd+0x34]` non-null | **13** | 0x82854-0x82894 |
