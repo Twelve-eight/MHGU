@@ -380,10 +380,13 @@ Consequences read off the same window:
   (= section 20's array) non-null, then writes 20/0. **18 remains `[U]`**: no dynamic write in the
   spill lane, and the only static writes are 0x8da90/0x8dd7c outside the dispatcher; 43 files carry
   section-18 entries.
-- **`0x51d70`**: its layout still contradicts the loader (`cmd+0x78` is section 4's array under the
-  0x520a0 layout, and `cmd+0x6c` is a pointer used as a count). Its call site 0x6852c passes
-  `em[0x2588]` and reads structured data, so it is not part of section selection; the emc.md line
-  needs its own correction pass. [A: contradiction stands / U: which object it belongs to]
+- **`0x51d70`** — **resolved 2026-11-09 (FOR-SE-REPLY §202/§220).** The accessor itself is a plain
+  count/array reader (`[obj+0x6c]` count, `[obj+0x78]` array). Its only call site (fn `0x684b4`, via
+  `0x3a8ef4(global, *(u16*)(sub+0x1b6))`) operates on a **different object class** than the EMC blob:
+  at `0x68518`/`0x685e4` that object's `+0x6c` is compared as an *integer count* (`cmps r1,r2; bcs`),
+  which is impossible under the loader layout where `+0x6c` is section 1's array pointer. So
+  `em[0x2588]` is the count/record container and `em[0x75f4]` is the EMC object; `emc.md` has been
+  annotated accordingly. `[A: layout and call site / U: the classes' names — none recoverable here]`
 
 ## SelfFalsificationCheck
 
