@@ -329,12 +329,15 @@ Consequences read off the same window:
   pre-indexed store at 0x82998), including the pending-stack "pool resume" sequence at 0x8b7c0
   (`bl 0xb4e58`, push frame, then `strb #1,[em+0x72fc]`), so handlers enter section 1 deliberately
   as well. [A for the setter, its predicate and the 0x7420 handshake (B for the handshake reading) / U for how often the pick differs in a hunt]
-- **`em[0x73dc]`** (the consumed section-19 flag): type and use are decoded, what sets it is [U].
-- **The pointer-spill lane.** At 0x83618 the interpreter computes `&em[0x72fc]` and spills it to
-  `[sp,#356]`; a store through that spilled pointer (or through `r8` in the second dispatcher) is a
-  write to the section byte that no `movw #0x72fc` census can see, mine, the tool's or the
-  reviewer's included. The interpreter body 0x83664-0x855ac was not walked for such stores, so a
-  dynamic section write remains possible. [U]
+- **`em[0x73dc]`** (section-19 enable flag; decoded 2026-11-09, FOR-SE-REPLY §195): set by fn
+  `0xc9818` when the id handshake is in sync (`em[0x7420] != 0`) and `em[0xb5f4] != 27` (that arm also
+  sets bit 14 of `em[0x1408]`), or when the action number is not 7; the dispatcher consumes it at
+  `0x82a9c` by switching to the section-19 array `[cmd+0x4c]`. `[U]`: what `em[0xb5f4] == 27` is, and
+  the semantics of `0x72128(em, sub+0x514, 1.0f)`.
+- **The pointer-spill lane — walked 2026-11-09 (FOR-SE-REPLY §198).** `[sp,#356] = &em[0x72fc]`
+  (0x83618-0x83620), and the region 0x83618..0x855ac holds **four** stores through it: `0x83704`
+  (value 20), `0x83d64` (restore of a saved byte), `0x83f70` (value 1) and `0x85518` (register
+  value). Dynamic section writes are therefore not hypothetical — they are exactly these four.
 - **The pool picker `0xb4e58(em, k)`** (decoded 2026-11-09, FOR-SE-REPLY §196): it returns
   `*(u8*)(em[0x7628] + 20 + key)` via the 3-instruction helper `0x69c1c8`, i.e. the "pool" is a fixed
   byte table and the pick is an index read. `key` comes from `em[0xb5f4]` (20 / 3 / other),
@@ -342,10 +345,12 @@ Consequences read off the same window:
   `0xb50e4 = c42f0000`, `0xb50e8 = 442f0000`, `0xb50ec = 44bb8000`), with `em[0xba44]`'s bit 3 able to
   force key 19. `[A: the table read and the key lattice / U: who fills the table at em[0x7628], and
   what 0xb4ca8(em) means]`
-- **Sections 18 and 20**: the dispatcher never selects them (no predicate yields 18 or 20, and the
-  only static writes of 18 are 0x8da90/0x8dd7c outside the dispatcher; 20 is written nowhere), yet
-  43 files carry section-18 entries and 62 carry section 20. How they are entered — or whether they
-  are data reached only through `resolveState`'s nested saves — is [U].
+- **Sections 18 and 20** (20 decoded 2026-11-09, FOR-SE-REPLY §198): **20 is entered** — the
+  interpreter's periodic check at `0x836a8` (sole entry `0x86278 b`) requires
+  `[[[em[0x72f4]]]]` to match, bit 3 of `em[0xb7c0][1]`, `0x82020(em,16) == 1`, and `[cmd+0x50]`
+  (= section 20's array) non-null, then writes 20/0. **18 remains `[U]`**: no dynamic write in the
+  spill lane, and the only static writes are 0x8da90/0x8dd7c outside the dispatcher; 43 files carry
+  section-18 entries.
 - **`0x51d70`**: its layout still contradicts the loader (`cmd+0x78` is section 4's array under the
   0x520a0 layout, and `cmd+0x6c` is a pointer used as a count). Its call site 0x6852c passes
   `em[0x2588]` and reads structured data, so it is not part of section selection; the emc.md line
