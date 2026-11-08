@@ -293,11 +293,13 @@ Consequences read off the same window:
     So bit 7 means "the pool has a different entry to run than the one running now". **The other
     conjunct `em[0x7420]` also has writers** (2026-11-09, GuardGateWriters + main-session disasm; 701
     `movw #0x7420` sites, 8 writers): two write `1` (`0xb1654`, `0xb16b8` — `mov r1,#1` then
-    `strb r1,[r4,r0]`), one writes `0` (`0xaf388`, the clear), and five store a caller value
-    (`0x6dae8` whole-word from `r6`; `0xb1784` from `r8`; `0xb1674`/`0xb16d8`/`0xb17a4` are the
-    offset-folded arms `movw r1,#0x7420; add r1,r4,r1; strb r0,[r1,#0]`). So the conjunction is
-    satisfiable **and resettable**, and the byte is a shared flag, not a single-event bit. Which game
-    states drive the five non-static writers is [U]. [A: writers / U: their triggers]
+    `strb r1,[r4,r0]`), one writes `0` (`0xaf388`, the clear), and five are the offset-folded/computed
+    arms (`0x6dae8` whole-word from `r6` = 0; `0xb1674`/`0xb16d8`/`0xb17a4` are
+    `movw r1,#0x7420; add r1,r4,r1; strb r0,[r1,#0]` carrying `(a==b)?1:0`; `0xb1784` carries
+    `mov r8,#1`). **All eight resolve statically** (three write 1, two write 0, three write
+    `(a==b)?1:0`), so the byte is a boolean state flag recomputed on the em-update path and reset by
+    `0xaf368`/`0x6d8c4` — shared, not a single-event bit. Which values feed the three comparisons is
+    [U]. [A: writers and values / U: what is compared]
 - **Why the pool path (section 1) is the effective default — now explained by the setter, not by a
   default.** Section 1 is *not* a format default: it is the last test in 0x8282c, a guarded override
   that fires after 13/8/14/9/19/0 have already been chosen, and only when bit 7 of `em[0x1408]` is
