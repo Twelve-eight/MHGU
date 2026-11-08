@@ -59,6 +59,7 @@ console.log('   so it is NOT expected in lane A; lane B below covers it.');
 
 // lane B: movw rX,#0x59c|0x5a4 then a register-offset VFP access using rX
 let laneB = 0;
+const seen = new Set();   // lane B addresses, used for the hard control assertion
 const pending = new Map();      // reg -> {imm, age} from movw, expires after 4 instructions
 const addrReg = new Map();      // reg -> offset, for `add rD, rB, rX` where rX is pending
 for (let v = TEXT_START; v < TEXT_END; v += 4) {
@@ -81,7 +82,7 @@ for (let v = TEXT_START; v < TEXT_END; v += 4) {
     if (m1 && addrReg.has(Number(m1[1]))) off = addrReg.get(Number(m1[1]));
     const m2 = /\[r(\d+), r(\d+)\]/.exec(mn);
     if (m2 && pending.has(Number(m2[2]))) off = pending.get(Number(m2[2])).imm;
-    if (off !== null) { console.log('   B', hex(v), mn, ' offset', hex(off), ' fn', hex(fnStart(v))); laneB++; }
+    if (off !== null) { console.log('   B', hex(v), mn, ' offset', hex(off), ' fn', hex(fnStart(v))); laneB++; seen.add(v); }
     // cleanup must not delete the register the add just defined, and must not touch vldr/vstr
     const wr = (w >>> 12) & 15;
     const isAddForming = (((w & 0x0FE00000) >>> 0) === 0x00800000) && ((w >>> 4) & 3) === 0 && pending.has(w & 15);
@@ -89,7 +90,14 @@ for (let v = TEXT_START; v < TEXT_END; v += 4) {
   }
 }
 console.log('\nB: VFP sites reaching these offsets via movw (+add) or register offset:', laneB);
-console.log('   must-pass control: 0x828a8 (vldr s0,[r1] after movw r1,#0x59c; add r1,r0,r1) and 0x828c0 (the 0x5a4 twin) appear above.');
+// HARD CONTROL: the dispatcher pair must be in lane B, else the matcher is dead and every zero below is meaningless.
+const CONTROL = [0x828a8, 0x828c0];
+const missing = CONTROL.filter((a) => !seen.has(a));
+if (missing.length) {
+  console.log('   CONTROL-FAIL missing ' + missing.map(hex).join(', '));
+  process.exit(1);
+}
+console.log('   CONTROL-PASS both 0x828a8 and 0x828c0 found in lane B');
 
 // lane C: classify each store by the last def of its data register within 12 insns
 function lastDef(v, reg) {
