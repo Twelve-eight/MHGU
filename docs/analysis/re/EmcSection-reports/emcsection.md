@@ -285,7 +285,11 @@ Consequences read off the same window:
     is selected while it is still positive. Of its 28 address sites, one writes `1200.0f` (0xb1af0),
     most write `0`, and three store a register value (`0x99160 str r4,[r9,r0]`,
     `0xa5480 str r6,[r4,r0]`, `0xb9944 str r7,[r10,r0]`) whose sources are untraced; **none of the 28 has a `vstr`**, so an
-    in-place decrement is not among these sites. **Refined (FOR-SE-REPLY §200):** `0xa5480` is not an
+    in-place decrement is not among these sites — and **per FOR-SE-REPLY §209 these 28 sites carry
+    every access at all** (0x758c has no direct-offset encoding, no literal word in the image —
+    `refs_to` returns 0 — and no movw+add-immediate split constant in 155,495 sites), so the field is
+    never decremented in place anywhere; a decrement could only live in a callee that received a
+    computed pointer, which is the one lane left open. **Refined (FOR-SE-REPLY §200):** `0xa5480` is not an
     unknown value — it sits in fn `0xa5198` whose `r6` is `mov r6,#0` at entry, and that same function
     clears `em[0x73dc]`, `sub+0x59c`, `sub+0x5a4` and `em[0x758c]` in one block, i.e. the section
     13/8/19 latches are reset together. Naming its game meaning stays [U].
