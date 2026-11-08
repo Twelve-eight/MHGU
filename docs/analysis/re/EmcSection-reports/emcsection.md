@@ -306,7 +306,7 @@ Consequences read off the same window:
   plus the two alternate dispatch slots `em+0x7340`/`em+0x73c0` (§263), whose writers are all copies or
   zero-inits; **but "unreachable at runtime" is NOT established**: the state redirector `fn 0x825fc`
   re-dispatches states 2/18 and 10 from those slots, and a static writer of **19** exists while every
-  dispatcher bounds the state at 18, so writer coverage and dispatcher coverage do not coincide; **15** has neither content nor a writer, while **17** is the mirror image —
+  dispatcher bounds the state at 18, so writer coverage and dispatcher coverage do not coincide. **The consumer side is now fully cleared** (FOR-SE-REPLY §281): the redirector passes states 4 and 16 straight through, `em[0x72fd]` is a lane companion rather than an entry selector (and the hypothetical `[cmd+0x78]` entry table does not exist), and none of the twelve `bl 0x825fc` consumers rejects them — so the only thing missing for 4/16 is a writer whose offset arrives as a computed value; **15** has neither content nor a writer, while **17** is the mirror image —
   `0x7f7ec` does store 17 but section 17 is empty in all 98 corpus files, so selecting it runs an empty
   section (FOR-SE-REPLY §250). No decoder ever writes 15. [C:
   main-session/CensusReview runs for the sibling sites; A for section 12 and the park family]
