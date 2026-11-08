@@ -252,17 +252,20 @@ Consequences read off the same window:
   register-offset-only matcher plus a 24-instruction slice both missed it). 17, 6 and 11 arrived with
   the `strh` **immediate** form (0x7f7ec, 0x7f95c, 0x7fa80), which the build before this one did not
   decode. [C: main-session runs; A for the sites read by hand in this report]
-- The low ids are **not** decoder artefacts. The `0x7f4xx-0x7fbxx` family is **not** a dispatcher
-  set: it snapshots (section, entry, script pointer) into `0x73b4/0x73b5/0x73b8` and restores them
-  (FOR-SE-REPLY §223-§227), and `0x87a94` is likewise a save. The values 17/6/11 arrive through the
+- The low ids are **not** decoder artefacts. The `0x7f4xx-0x7fbxx` sites **only save**: the frame A slots `0x73b4/0x73b5/0x73b8` are written at
+  0x7e5d8, 0x7e694, 0x7e930, 0x7e9e8, 0x7eda0, 0x7f030, 0x7f4f8, 0x7f684, 0x7f7ac, 0x7f91c, 0x7fa40,
+  0x7fb44 and read at exactly two sites, 0x8dc78 (fn 0x8d854) and 0x95d84 (fn 0x95ca0) — i.e. every
+  restore lives in those two functions, and the six 0x7f4xx-0x7fbxx sites are six mirror blocks of the
+  single function 0x7f0cc, not a family (FOR-SE-REPLY §223-§227, §247). `0x87a94` is likewise a save. The values 17/6/11 arrive through the
   `strh` immediate sites (0x7f7ec, 0x7f95c, 0x7fa80) and 12 through 0x82ddc/0x82e30, so the set of
   values written into `em[0x72fc]` is **0/1/2/3/5/6/7/8/9/10/11/12/13/14/17/18/19/20**; the two
   dispatchers this report decoded (`0x8282c` plus the 0x82e30 runner) select **0/1/8/9/12/13/14/19**;
   **18** is entered by fn 0x8d854's distance-gated arms and **20** by the interpreter's periodic check
   at 0x836a8 (FOR-SE-REPLY §199/§198), i.e. both outside those two tables; **2** remains a handler
   park/stop label (the 0x8f690 family below); **4 and 16** are a different kind of inactive: the corpus carries real content for both (81 and 22
-  files, 700 and 111 instructions) yet no static site stores 4 or 16 into `em[0x72fc]`, so they are
-  shipped but unreachable; **15** has neither content nor a writer, while **17** is the mirror image —
+  files, 700 and 111 instructions) yet no static site stores 4 or 16 into `em[0x72fc]` — checked on five
+  lanes (direct constants, movw index, add-fold, literal pool, stack/frame relay; FOR-SE-REPLY §256),
+  so they are shipped but unreachable from every modelled lane; **15** has neither content nor a writer, while **17** is the mirror image —
   `0x7f7ec` does store 17 but section 17 is empty in all 98 corpus files, so selecting it runs an empty
   section (FOR-SE-REPLY §250). No decoder ever writes 15. [C:
   main-session/CensusReview runs for the sibling sites; A for section 12 and the park family]
