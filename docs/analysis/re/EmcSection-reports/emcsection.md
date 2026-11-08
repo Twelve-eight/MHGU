@@ -263,7 +263,10 @@ Consequences read off the same window:
   **18** is entered by fn 0x8d854's distance-gated arms and **20** by the interpreter's periodic check
   at 0x836a8 (FOR-SE-REPLY §199/§198), i.e. both outside those two tables; **2** remains a handler
   park/stop label (the 0x8f690 family below); **4 and 16** are a different kind of inactive: the corpus carries real content for both (81 and 22
-  files, 700 and 111 instructions) yet no static site stores 4 or 16 into `em[0x72fc]` — checked on five
+  files, 700 and 111 instructions — of which the pure-end entries are 8 and 9, so 73 and 13 content
+  entries), and that content is a **second script set for the same state numbers** (79/81 files overlap
+  their own sections 0/1 in state ids, while only 1 of 73 s4 entries and 0 of 13 s16 entries are
+  byte-identical), i.e. conditional alternates rather than drafts (FOR-SE-REPLY §266) yet no static site stores 4 or 16 into `em[0x72fc]` — checked on five
   lanes (direct constants, movw index, add-fold, literal pool, stack/frame relay; FOR-SE-REPLY §256)
   plus the two alternate dispatch slots `em+0x7340`/`em+0x73c0` (§263), whose writers are all copies or
   zero-inits; **but "unreachable at runtime" is NOT established**: the state redirector `fn 0x825fc`
