@@ -400,6 +400,15 @@ Consequences read off the same window:
    a null array — that path is either unreachable on this content or would crash; the other low ids
    (3/5/6/7/10/11) do have entries in the corpus (80/90/67/33/32/19 files) and their writes are live.
 
+   Evidence grade per low id (2026-11-09): **17, 6 and 11 are hand-decoded** — 0x7f7e4 `mov r0,#17` →
+   0x7f7ec `strh r0,[r4,#0]` with `ldr r0,[cmd+0xac]` (4×17 = 0x44) after it; 0x7f954 `mov r0,#6` →
+   0x7f95c `strh r0,[r4,#0]` with `ldr r0,[cmd+0x18]` (4×6 = 24); 0x7fa78 `mov r0,#11` → 0x7fa80
+   `strh r0,[r4,#0]` with `ldr r0,[cmd+0x2c]` (4×11 = 44). In all three, `r4` is `em+0x72fc`, produced
+   earlier in the same function by `ldrb r0,[r4,r0]!` with `r0 = 0x72fc`. **3 / 5 / 7 / 10 are
+   tool-only**: their stores come from the same `0x7f4xx-0x7fbxx` family, but no site of that value was
+   decoded by hand, so their grade is `[B]` (the value set as a whole rests on the two implementations'
+   agreement, not on a per-site check for those four).
+
 ## Difficulties
 
 - **No execution surface in this session.** `write xd://run` answers "No such tool" and the mounted
