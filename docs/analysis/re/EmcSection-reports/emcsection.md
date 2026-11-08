@@ -405,8 +405,8 @@ Consequences read off the same window:
 - **No execution surface in this session.** `write xd://run` answers "No such tool" and the mounted
   `xd://` devices are the seven read-only `mcp__mhgu_re_*` MCP tools, so the census could not be
   re-run here; the numbers are quoted from the main session's recorded runs
-  (`G:/tmp/EMC/cur-tool3.txt`, `G:/tmp/EMC/tool-data.txt`, and the stdout of `node
-  MHGU/tools/audit/ai-reach-misses.mjs`). Cost:
+  (`G:/tmp/EMC/cur-tool3.txt`, `G:/tmp/EMC/tool-data.txt`) plus the stdout of the repo tool
+  `node MHGU/tools/audit/ai-reach-misses.mjs`. Cost:
   one round trip with the main session, plus this rework round after the tool changed under the
   report. Cause: agent tool set, not the tool.
 - **The census build I first quoted was incomplete, and that cost a whole appendix.** It associated a
