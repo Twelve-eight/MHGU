@@ -285,25 +285,25 @@ Consequences read off the same window:
   - `[em+0x1428]+0x505 == 3` (u8) — an unnamed `sub` byte; only the equality test is decoded. [U]
   - `em[0x1408]` bit 7 / bit 8 and `em[0x7420]` (u8) — the guard's three flag bits. The code shows
     bit 8 cleared at every dispatch entry and set again inside the guard, and bit 7 cleared by the
-    same `bfi`; who raises bit 7, and what `em[0x7420]` gates, are [U]. `literal_loads` over
-    `{0x758c, 0x7420, 0x73dc}` returns 742 sites, most of them `0x7420` in unrelated class code, so
-    the constant does not identify its owner. Reading bit 7 as "pool dispatch requested" and bit 8 as
-    "pool dispatch busy" fits the instruction order but is [B], not [A].
-- **Why the pool path (section 1) is the effective default. Unproven, and the guard's own setter is
-  the weak link.** Section 1 is *not* a format default: it is the last test in 0x8282c, a guarded
-  override that fires after 13/8/14/9/19/0 have already been chosen, and only when bit 7 of
-  `em[0x1408]` is set and `em[0x7420] != 0` at that moment. **No code found so far raises that bit
-  7**: of the 103 immediate bit-ops on `em[0x1408]` enumerated by the main-session scan, none sets
-  bit 7 and four clear it (`bic`), so the setter must be a register-mask OR, a `bfi`, or a byte
-  store of 0x80 — [C: main-session run for the 103/0/4; U for the setter itself]. If no setter
-  exists, the guard fires at most once and the pool path is an event rather than the default; if the
-  setter runs on every AI state entry, the pool path is the normal path. Three readings fit the
-  decoded instructions equally well (one-shot request; primary vs fallback; phase toggle), and the
-  experiment that would decide — counting how often 0x82968 is taken at runtime — needs a probe
-  harness this repo does not have. Section 1 also has 11 direct store sites of its own (census
-  `direct-only values: 0x1:11`, on top of the guard's own pre-indexed store at 0x82998), including
-  the pending-stack "pool resume" sequence at 0x8b7c0 (`bl 0xb4e58`, push frame, then
-  `strb #1,[em+0x72fc]`), so handlers enter section 1 deliberately as well. [B / U]
+    same `bfi`. **The bit-7 setter is now found** (2026-11-09, GuardWriters + main-session disasm):
+    `0xc4b44 orr r0,r0,#128` in the function at 0xc46d8, stored back by `0xc477c str r0,[r10]` where
+    `r10 = em+0x1408` (`0xc46e4/e8`); `refs_to 0xc4b40` gives its two conditional entries
+    (`0xc4b1c`, `0xc4b2c`). The predicate is `bl 0xb4e58` (pool pick) versus the running state:
+    **if the current section is not 1, or the picked entry differs from `em[0x72fd]`, bit 7 is set.**
+    So bit 7 means "the pool has a different entry to run than the one running now". What
+    `em[0x7420]` gates is still [U]. [A: instructions / U: the 0x7420 half]
+- **Why the pool path (section 1) is the effective default — now explained by the setter, not by a
+  default.** Section 1 is *not* a format default: it is the last test in 0x8282c, a guarded override
+  that fires after 13/8/14/9/19/0 have already been chosen, and only when bit 7 of `em[0x1408]` is
+  set and `em[0x7420] != 0`. With the setter decoded (previous bullet) the reading is: the pool
+  re-dispatches **when the pick differs from the running section-1 entry** (or the engine is not
+  currently in section 1), which is exactly a "different lot available" latch rather than a per-tick
+  default — the earlier statement that no setter exists is withdrawn. What remains [U] is the
+  frequency (how often the pick differs in a hunt) and the `em[0x7420]` gate. Section 1 also has 11
+  direct store sites of its own (census `direct-only values: 0x1:11`, on top of the guard's own
+  pre-indexed store at 0x82998), including the pending-stack "pool resume" sequence at 0x8b7c0
+  (`bl 0xb4e58`, push frame, then `strb #1,[em+0x72fc]`), so handlers enter section 1 deliberately
+  as well. [A for the setter and its predicate / U for the frequency and 0x7420]
 - **`em[0x73dc]`** (the consumed section-19 flag): type and use are decoded, what sets it is [U].
 - **The pointer-spill lane.** At 0x83618 the interpreter computes `&em[0x72fc]` and spills it to
   `[sp,#356]`; a store through that spilled pointer (or through `r8` in the second dispatcher) is a
