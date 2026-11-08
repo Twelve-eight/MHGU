@@ -111,3 +111,12 @@
 - **代理 2 / SelfRtParse**: glm-re（同 route，有 bash）。**产出**：`G:/tmp/EMC/self-rt-parse.md` + 三个 scratch 脚本。**结论**：12 个失败文件（8 硬抛 + 4 crc）与 **base pak** 字节全等，游戏实际读的 **patch_001** 版本用同一 `rsz.mjs` 解析 clean；`self-stage.mjs` 吞非零退出、`pak.mjs` 只在 `errored>0` 才非零（`pak.mjs:1173`，不是子代理报的 1150-1156），所以补丁没覆盖也没有提示。
 - **监督**: 主会话逐条复核：`0xc46d8..0xc4b48` 置位链与 `refs_to 0xc4b40`（两条条件入口）亲自反汇编；四个 `bic` 亲自核（`0xc3d44/#0xa0`、`0xc46b4/#0xb0` 两条也确认清 bit7，子代理第一版把它们误判为 same）；`rsz.mjs check` 对 staged/vanilla 两个版本亲自复现（`cursor_ok=false` / `cursor_ok=true`），并 sha256 抽查 `em001_02_use_think_data` 与 base pak 全等、与 patch_001 不同。子代理引的 `pak.mjs` 行号已更正为 1173。
 - **能力评估**: dsv-remote 在无 run 设备时仍能用自写 ARM 解码器做全量写普查（但第一版分类器有自己的 bug，**零结果必须先过正控**这条再次成立）；glm-re 的 pak 级取证（extract + sha 比对 + 有效版本抽取）质量高，直接给出可执行的修法方向。Difficulties 见两份报告。
+
+## 2026-11-09 03:1x — 守卫第二半 `em[0x7420]`（1 个子代理，两轮脚本，产出经主会话复核）
+
+- **目标**: 检验 `if (bit7 && em[0x7420] != 0)` 的另一半——该字节有没有写者，从而判断守卫能否在一次狩猎里反复触发。
+- **代理 / GuardGateWriters**: dsv-remote（`wb2api-t5-remote/deepseek-v4.1-flash:max`，effort hi）。无 `run` 设备，两轮脚本由主会话代跑（v1 输出 `want-7420.out`，v2 输出 `want-7420b.out`）。
+- **产出**: `G:/tmp/EMC/guard-7420.md`（已入库 `MHGU/docs/analysis/re/GuardGateWriters-reports/guard-7420.md`）+ 脚本入库 `MHGU/tools/audit/guard-gate-7420.mjs`。
+- **结论**: 701 个 `movw #0x7420` 站点 → **8 个写者**，取值全部可静态定：三个写 1（`0xb1654/0xb16b8/0xb1784`）、两个写 0（`0xaf388`、整字 `0x6dae8`）、三个写 `(a==b)?1:0`（`0xb1674/0xb16d8/0xb17a4`，折叠偏移形）；读取点 1421、escapes 0。⇒ 守卫两半都有写者且可复位，**可重复触发**（`[A]` 写者与取值 / `[U]` 三个比较的两侧语义）。
+- **监督**: 主会话手核四个写点（`0xb164c/0xb1650/0xb1654`、`0xb16b0/…/0xb16b8`、`0xaf384/0xaf388`、`0xb1780/0xb1784` 的 r8 来源由子代理的最近定义链给出）以及 W2 的 `cmps/moveq/movne`；并发现 v1（5 写者 / 11 NOFIELD）与 v2（8 / 2）的差异来自折叠偏移 lane，已按 v2 更正（`FOR-SE-REPLY` §177→§178）。
+- **能力评估**: 两轮之间能自己定位"折叠偏移写者被漏"的机理并补 lane，属高质量自纠；遗留 `[U]`：`literal_loads` 报 699 站点 vs 它 701（差异未定位）、480 个 cap 标记站点给否定结论设了边界。Difficulties 见其报告。
