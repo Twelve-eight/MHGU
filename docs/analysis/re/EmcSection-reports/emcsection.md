@@ -380,7 +380,9 @@ Consequences read off the same window:
    (b) That the census's section numbers are file section indices: `parseEmc` exposes `s.index`, the
    tool aggregates by it, and the table prints exactly 21 rows, matching the loader's `cmp r10,#21`.
 2. **If the dispatch table is wrong at runtime, the #1 cause is the two `.word` opcodes.** The
-   disassembler prints 0x82848 and 0x82984 as `.word ; media`. Hand-decode from the bit fields:
+   disassembler used to print 0x82848 and 0x82984 as `.word ; media`; **fixed 2026-11-09** —
+   `MHGU/tools/mhgu/arm32.mjs` now decodes the BFI/BFC family (bits 27:21 = 0111110, bits 6:4 = 001)
+   and these two sites print as `bfc r0, #8, #1` and `bfi r0, r1, #7, #2`, matching the hand decode:
    0xe7c8041f = `bfc r0,#8,#1` (msb = bits 20-16 = 8, lsb = bits 11-7 = 8, Rd = bits 15-12 = 0);
    0xe7c80391 = `bfi r0,r1,#7,#2` (msb = 8, lsb = 7, Rd = r0, Rm = bits 3-0 = r1). Independent
    cross-checks that would fail on a misdecode: r1 is `mov r1,#2` two instructions earlier (0x82980);

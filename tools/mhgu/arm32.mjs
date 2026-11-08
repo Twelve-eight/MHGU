@@ -97,6 +97,17 @@ export function decode(w, addr) {
           return rn === 15 ? `${name[0]}${cc} ${rd}, ${rm}${r}` : `${name[1]}${cc} ${rd}, ${R[rn]}, ${rm}${r}`;
         }
       }
+      // BFI/BFC: bits 27:21 = 0111110, bits 6:4 = 001. msb = 20:16, Rd = 15:12, lsb = 11:7, Rm = 3:0
+      // (Rm = 1111 => BFC, which clears width bits). Known-good samples: 0xe7c8041f = bfc r0,#8,#1,
+      // 0xe7c80391 = bfi r0,r1,#7,#2 (hand-decoded from the ARM ARM, cross-checked against the
+      // bfi result being stored back to em[0x1408] in the EMC guard).
+      if (((w >>> 21) & 0x7F) === 0x3E && ((w >>> 4) & 7) === 1) {
+        const msb = (w >>> 16) & 0x1F, rd = R[(w >>> 12) & 0xF], lsb = (w >>> 7) & 0x1F, rm = w & 0xF;
+        const width = msb - lsb + 1;
+        if (width > 0) {
+          return rm === 15 ? `bfc${cc} ${rd}, #${lsb}, #${width}` : `bfi${cc} ${rd}, ${R[rm]}, #${lsb}, #${width}`;
+        }
+      }
       return `.word 0x${(w>>>0).toString(16).padStart(8,'0')} ; media`;
     }
     // Addressing (ARM ARM A5.3): P=1 pre-indexed ([rn, off], '!' when W=1); P=0 post-indexed ([rn], off;
