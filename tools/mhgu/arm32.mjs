@@ -210,6 +210,13 @@ export function decode(w, addr) {
     if (A) return `mla${S?'s':''}${cc} ${rd}, ${rm}, ${rs}, ${rn}`;
     return `mul${S?'s':''}${cc} ${rd}, ${rm}, ${rs}`;
   }
+  // MLS (ARM ARM A5.2.5): cond 0000 0110 Rd Rn Rm 1001 Ra -> Rd = Ra - (Rn x Rm).
+  // Distinct from the 0000 1xx long-multiply block (bit23 = 0 here). Control word 0xE0611293 ->
+  // mls r1, r1, r2, r3.
+  if (((w >>> 20) & 0xFF) === 0x06 && ((w >>> 4) & 0xF) === 9) {
+    const rd = R[(w >>> 16) & 0xF], rn = R[(w >>> 12) & 0xF], rm = R[(w >>> 8) & 0xF], ra = R[w & 0xF];
+    return `mls${cc} ${rd}, ${rn}, ${rm}, ${ra}`;
+  }
   // long multiply: bits 27:23 = 00001, bits 7:4 = 1001 (UMULL/UMLAL/SMULL/SMLAL)
   if (((w >>> 23) & 0x1F) === 1 && ((w >>> 4) & 0xF) === 9) {
     const op = ['umull', 'umlal', 'smull', 'smlal'][(w >>> 21) & 3], S = (w >>> 20) & 1;

@@ -6,8 +6,11 @@
 // Exit 0 = all pass; exit 1 = any failure.
 import fs from 'node:fs';
 const arm32 = await import('file:///G:/omp%20works/MHGU/tools/mhgu/arm32.mjs');
+const decode = arm32.decode;
+const rd32 = (v) => buf0.readUInt32LE(v + 0x100) >>> 0;
 
 const buf = fs.readFileSync(arm32.FLAT);
+const buf0 = buf;
 const W = (v) => buf.readUInt32LE(v + 0x100) >>> 0;
 const TEXT_START = 0x100, TEXT_END = 0x13F1DEC;
 
@@ -26,6 +29,19 @@ for (let v = TEXT_START; v < TEXT_END; v += 4) {
   }
 }
 
+// MLS (ARM ARM A5.2.5, cond 0000 0110 Rd Rn Rm 1001 Ra): exact-string assertions.
+// 0xE0611293 -> Rd=r1 Rn=r1 Rm=r2 Ra=r3 ; 0xE0600792 -> Rd=r0 Rn=r0 Rm=r7 Ra=r2
+for (const [w, want] of [[0xE0611293, 'mls r1, r1, r2, r3'], [0xE0600792, 'mls r0, r0, r7, r2']]) {
+  const got = decode(w, 0);
+  console.log('MLS control 0x' + w.toString(16) + ': ' + got + (got === want ? '  PASS' : '  FAIL want ' + want));
+  if (got !== want) fails.push('MLS control 0x' + w.toString(16) + ' decoded "' + got + '"');
+}
+let mls = 0;
+for (let v = 0x100; v < 0x13F1DEC; v += 4) {
+  if (((rd32(v) >>> 20) & 0xFF) === 0x06 && ((rd32(v) >>> 4) & 0xF) === 9) mls++;
+}
+console.log('MLS-class words in .text: ' + mls);
+if (mls < 100) fails.push('MLS count ' + mls + ' < 100');
 console.log('UDIV words in .text: ' + udiv + ' (expected 1215)');
 console.log('SDIV words in .text: ' + sdiv + ' (expected 213)');
 console.log('control 0xE733F211 sites: ' + ctrlSites + ', decoded udiv: ' + ctrlDecoded + ', wrong: ' + ctrlBad);
