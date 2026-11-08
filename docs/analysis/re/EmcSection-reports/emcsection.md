@@ -35,7 +35,28 @@ Table 0x82650 (18 words, index = byte-1, base 0x82650): byte 1 → 0x82698 (pop:
 00051d84: e5920078  ldr r0, [r2, #120]     ; [cmd+0x78]
 00051d88: e7900101  ldr r0, [r0, r1, lsl #2]
 ```
-So 0x51d70(cmd,i) = [cmd+0x78][i] bounded by [cmd+0x6c]. Under the loader layout decoded below this cannot be the rEnemyCmd EMC object: `cmd+0x78` would be section 4's array pointer and `cmd+0x6c` a pointer used as a count, **resolved**: the accessor keys a different object — both of its call sites load `em[0x2588]`, so `0x51d70` is that container's array getter and the emc.md line described the wrong object (FOR-SE-REPLY §258).
+So 0x51d70(cmd,i) = [cmd+0x78][i] bounded by [cmd+0x6c]. Under the loader layout decoded below this cannot be the rEnemyCmd EMC object: `cmd+0x78` would be section 4's array pointer and `cmd+0x6c` a pointer used as a count, **resolved, then corrected**: the accessor keys a different object, but not `em[0x2588]` — its only entrance is the thunk `0x495e8`, whose `arg0` is the **startup singleton** `*[0x1851fe0]` and whose `arg1` is `em`; `+0x2588` has exactly one writer in the whole image (`0x68828`), so no `em` object is ever given that field. The container is the resource `rEmSizeYureTbl` (`emyure`, id `0xde1f`, typeHash `0x1800eb37`, nameHash `0x081b9089`), i.e. a per-monster size/yure table, not the EMC command object (FOR-SE-REPLY §270/§273).
+
+### em[0xba47] bit6 — the armed record/path gate [A, semantics B]
+The byte `em[0xba47]` has **exactly four access sites in the whole image, all readers**: `0x97648`, `0xb4b3c`
+and `0xb50fc` test bit 6 (`tst r0,#64`), and `0xc3c4c` tests bits 1/2/5 (`tst #38`). There is no byte-lane
+writer; the bit is written through the **word at `em+0xba44`**, where bit 30 is byte 0xba47's bit 6:
+
+```
+0xb4a90 ldr r1,[r5,r0]!        ; r5 pre-indexed to em+0xba44
+0xb4a94 mov r0,#4
+0xb4a98 bfc r1,#30,#1          ; clear word bit 30 == byte 0xba47 bit 6
+0xb4a9c strd r0,[r5,#-4]       ; em+0xba40 = 4 (r0); em+0xba44 = r1
+```
+
+Callers of that clearer: `0xad5c8`, `0xba828`. A separate `orr #0x26000000` at `0x951d0` sets bits 1/2/5 of
+the same byte, matching the `tst #38` consumer.
+
+What bit 6 gates [B]: when it is set, the dispatcher `0xb50f0` walks the per-monster record table at
+`em+0xb800` (entry base `[em+0xb880]`, count `[em+0xb884]`, index from `em+0xba48`, count from
+`em+0xba4c`) and returns a record pointer instead of the default triple `em+0xb9e0`; guard `0x97624`
+runs its 300.0/200.0 distance test only with bit 6 set; and guard `0xb4b10` fills `sub+0x1d0..0x1d8`
+from `em[0xb9e0..0xb9e8]` and zeroes `sub+0x1dc` on the bit-6-clear path. (FOR-SE-REPLY §253/§272)
 
 ### dispatch head 0x8282c — first observations [A]
 - Args (em=arg0, arg1∈{0,1,2}); re-decoded 2026-11-09 over the whole body 0x8282c..0x82c3c. Prologue: `mov r4,r0`; `movw r0,#0x1408`; `cmp r5,#2`; `ldr r0,[r6,r0]!` (0x82844) latches **r6 = em+0x1408** and loads the **word** em[0x1408]; `bfc r0,#8,#1` (0x82848, printed as `.word 0xe7c8041f`) clears **bit 8**; `str r0,[r6]` (0x8284c) writes it back; `popeq` at 0x82850 returns when arg1==2. There is **no** store to em[arg1] anywhere in the function — r5 is used only by `cmp r5,#2` (0x82840) and `cmp r5,#1` (0x82ba0) — so the earlier "copies em[0x1408] halfword into em[arg1]" was a misdecode of the two `bfc`/`bfi` words and is withdrawn.
@@ -264,9 +285,9 @@ Consequences read off the same window:
   at 0x836a8 (FOR-SE-REPLY §199/§198), i.e. both outside those two tables; **2** remains a handler
   park/stop label (the 0x8f690 family below); **4 and 16** are a different kind of inactive: the corpus carries real content for both (81 and 22
   files, 700 and 111 instructions — of which the pure-end entries are 8 and 9, so 73 and 13 content
-  entries), and that content is a **second script set for the same state numbers** (79/81 files overlap
-  their own sections 0/1 in state ids, while only 1 of 73 s4 entries and 0 of 13 s16 entries are
-  byte-identical), i.e. conditional alternates rather than drafts (FOR-SE-REPLY §266) yet no static site stores 4 or 16 into `em[0x72fc]` — checked on five
+  entries), and that content is a **second script set for the same state numbers** (70 files name states at all and 68 of those overlap their own sections 0/1, while only 1 of 73 s4
+  entries and 0 of 13 s16 entries are byte-identical — 18/73 and 3/13 are identical at the opcode-sequence
+  level once operands are ignored), i.e. conditional alternates rather than drafts (FOR-SE-REPLY §266) yet no static site stores 4 or 16 into `em[0x72fc]` — checked on five
   lanes (direct constants, movw index, add-fold, literal pool, stack/frame relay; FOR-SE-REPLY §256)
   plus the two alternate dispatch slots `em+0x7340`/`em+0x73c0` (§263), whose writers are all copies or
   zero-inits; **but "unreachable at runtime" is NOT established**: the state redirector `fn 0x825fc`
