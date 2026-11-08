@@ -269,10 +269,14 @@ Consequences read off the same window:
 
 - **What the predicates mean.** Only location and type are decoded; the gameplay state behind each
   is not:
-  - `em[0x758c]` (f32, compared with 0.0) — no MHGU document names it. It is read at 0x8285c as
-    `vldr s0,[em+0x758c]`, 0x68 bytes below `em[0x75f4]` (the resource-object pointer 0x7109c
-    dereferences). Which timer/flag it is, and who sets it positive, is [U]. Section 13 therefore
-    still reads as "some float on `em` is positive". [A: code / U: meaning]
+  - `em[0x758c]` (f32, compared with 0.0) — no MHGU document names it, but its **lifecycle is now
+    partly decoded** (2026-11-09, main-session disasm): it is **set to `1200.0f`** at `0xb1af4`
+    (`movt r2,#0x4496` — 0x44960000 = 1200.0 — then `str r2,[r0+0x758c]`), **cleared to 0** by every
+    reset site checked so far (`0x99040`, `0x758b8`, `0xa067c`, `0x99128`), and its reader at
+    `0xb1b04-0xb1b20` does `vldr s0; vcmpe #0.0; ble` — i.e. a **countdown-style timer**: section 13
+    is selected while it is still positive. The countdown itself (who subtracts) is not among the
+    sites checked (`literal_loads 0x758c` gives ~19 sites, all clears or the 1200.0f set), so naming
+    its game meaning stays [U]. [A: 1200.0f set + clears + `<= 0` reader / U: what it times]
   - `[em+0x1428]+0x59c` and `+0x5a4` (both f32, `> 0`) — both are `sub` fields. The documented `sub`
     fields near that area are different ones (HP at +0x370/+0x374, the status-threshold triple at
     +0x5c96/+0x5c98/+0x5d6a, the phase byte +0x1a1), so this is an unnamed float pair. What condition
