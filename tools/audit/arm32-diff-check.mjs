@@ -29,9 +29,12 @@ for (let v = TEXT_START; v < TEXT_END; v += 4) {
   }
 }
 
-// MLS (ARM ARM A5.2.5, cond 0000 0110 Rd Rn Rm 1001 Ra): exact-string assertions.
-// 0xE0611293 -> Rd=r1 Rn=r1 Rm=r2 Ra=r3 ; 0xE0600792 -> Rd=r0 Rn=r0 Rm=r7 Ra=r2
-for (const [w, want] of [[0xE0611293, 'mls r1, r1, r2, r3'], [0xE0600792, 'mls r0, r0, r7, r2']]) {
+// MLS (ARM ARM A8.4.5 / A5.2.6, cond 0000 0110 Rd Ra Rm 1001 Rn): exact-string assertions in
+// UAL print order mls Rd, Rn, Rm, Ra (accumulator LAST; Rd = Ra - Rn*Rm).
+// 0xE0611293 -> Rd=r1 Ra=r1 Rm=r2 Rn=r3 -> mls r1, r3, r2, r1 (= r1 - r3*r2; semantic anchor:
+// the paired udiv r3, r1, r2 at 0x5534c8 + this mls at 0x5534cc is the remainder idiom).
+// 0xE0600792 -> Rd=r0 Ra=r0 Rm=r7 Rn=r2 -> mls r0, r2, r7, r0.
+for (const [w, want] of [[0xE0611293, 'mls r1, r3, r2, r1'], [0xE0600792, 'mls r0, r2, r7, r0']]) {
   const got = decode(w, 0);
   console.log('MLS control 0x' + w.toString(16) + ': ' + got + (got === want ? '  PASS' : '  FAIL want ' + want));
   if (got !== want) fails.push('MLS control 0x' + w.toString(16) + ' decoded "' + got + '"');
