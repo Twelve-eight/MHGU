@@ -477,6 +477,17 @@ Consequences read off the same window:
   which is impossible under the loader layout where `+0x6c` is section 1's array pointer. So
   `[G+0x2588]` (G = the startup singleton `*[0x1851fe0]`, the `rEmSizeYureTbl` resource) is the count/record container and `em[0x75f4]` is the EMC object; `emc.md` has been
   annotated accordingly. `[A: layout and call site / U: the classes' names — none recoverable here]`
+  **The key `*(u16*)(sub+0x1b6)` is an entity id with an explicit `0xFFFF` = "none" sentinel
+  (2026-11-09, FOR-SE-REPLY §232/§292 + main-session disasm).** It is not a counter: the value is
+  written by a per-em spawn/config call (`0x6fb90 strh r1,[r0,r2]`, `r1 = [sp+40]` = the fifth
+  argument) and is used *immediately afterwards as an id* — `0x49904(id)` yields a byte stored into
+  `sub+0x924`, and `0x493cc(0|1|2, sub[0x1b6], handle)` derives `sub+0x924/925/926` (18 bytes apart)
+  from that same id. A reader compares it against the sentinel explicitly:
+  `0xcb018 movw r1,#0xffff; 0xcb01c cmps r0,r1; 0xcb020 beq 0xcb08c`. The `0xFFFF` value itself is
+  written at `0xace54` (`strh r11` with `r11 = movw #0xffff`, region verified to contain no `bl` and
+  no later rewrite), and the imm12 `0x1b6` bulk fill clears it to 0 at `0x4fdb4c`. The third runtime
+  writer (`0x1080130`, `src_sub[0x1b6]+1`) is still `[U]` pending the SentinelSem slice.
+  `[A: id use, sentinel compare, the two known writers / U: the third writer's intent]`
 
 ## SelfFalsificationCheck
 
