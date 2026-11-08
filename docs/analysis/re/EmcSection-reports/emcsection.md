@@ -492,12 +492,12 @@ Consequences read off the same window:
   The imm12 `0x1b6` bulk fill clears it to 0 at `0x4fdb4c`.
   `[A: all three writers, the sentinel compare, the epilogue / U: why the two callers differ by +1 vs +2]`
 
-  **The 66-way jump table at `0x224d8` dispatches on `sub[0xb5f4] - 14`, and only two of its 66
+  **The 66-way jump table at `0x224d8` dispatches on `em[0xb5f4] - 14`, and only two of its 66
   entries point anywhere else (2026-11-09, verified word by word).** The chain is:
 
   ```
   0x224b4 movw r1,#0xb5f4
-  0x224b8 ldrb r0,[r0,r1]     ; the big enum, values 3..80 (see the 0xb5f4 entry above)
+  0x224b8 ldrb r0,[r0,r1]     ; em[0xb5f4], the big enum (values 3..80)
   0x224bc sub  r0,r0,#14      ; ★ index = value - 14
   0x224c0 cmp  r0,#65         ; 66 legal indices
   0x224c4 bhi  0x225f8         ; out of range -> the default tail
@@ -506,6 +506,11 @@ Consequences read off the same window:
   0x224d0 ldr  r0,[r0,r1]
   0x224d4 add  pc,r0,r1       ; target = entry + 0x224d8
   ```
+
+  The object is the **em, not the sub** (checked 2026-11-09): `0x224a8 bl 0x5cf90` returns
+  `*(arg+0x1c)`, and `0x5cf90` itself dereferences `[that+0x1428]` to reach the sub, which is the
+  definition of `em` — it uses the sub only as a match key (`0x5cfac ldrh r2,[r3,r2]` compares
+  `sub[0x1b6]` against the id passed in). So the enum read at `0x224b8` is `em[0xb5f4]`.
 
   Every entry is either `0x108` or `0x120`, so the whole table has exactly two destinations:
 
