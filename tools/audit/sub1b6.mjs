@@ -86,7 +86,7 @@ for (let v = TEXT_START; v < TEXT_END; v += 4) {
     continue;
   }
   if (((w >>> 16) & 0xFFF0) === 0xE340) { // movt rewrites the high half: tracked values are dead
-    const rd = (w >>> 12) & 15; off1b6.delete(rd); addr1b6.delete(rd); subAt.delete(rd);
+    const rd = (w >>> 12) & 15; off1b6.delete(rd); addr1b6.delete(rd); subAt.delete(rd); subAddr.delete(rd);
     continue;
   }
 
@@ -96,13 +96,13 @@ for (let v = TEXT_START; v < TEXT_END; v += 4) {
     if (WRITE_MN.has(base)) {
       const rd = firstReg(mn0);
       if (rd >= 0) {
-        if (base === 'ldrd') { off1b6.delete(rd); off1b6.delete(rd + 1); subAt.delete(rd); subAt.delete(rd + 1); }
-        else { off1b6.delete(rd); addr1b6.delete(rd); if (base !== 'mov') subAt.delete(rd); }
+        if (base === 'ldrd') { off1b6.delete(rd); off1b6.delete(rd + 1); subAt.delete(rd); subAt.delete(rd + 1); subAddr.delete(rd); subAddr.delete(rd + 1); }
+        else { off1b6.delete(rd); addr1b6.delete(rd); subAddr.delete(rd); if (base !== 'mov') subAt.delete(rd); }
       }
     }
     const pm = /^(pop|push|ldm\/stm)\S*\s*(?:r\d+!?\s*)?\{([^}]*)\}/.exec(mn0);
-    if (pm) for (const t of pm[2].split(',')) { const m2 = /^r(\d+)$/.exec(t.trim()); if (m2) { const r = Number(m2[1]); off1b6.delete(r); addr1b6.delete(r); subAt.delete(r); } }
-    if (base === 'bl' || base === 'blx') for (let r = 0; r < 4; r++) subAt.delete(r); // caller-clobbered
+    if (pm) for (const t of pm[2].split(',')) { const m2 = /^r(\d+)$/.exec(t.trim()); if (m2) { const r = Number(m2[1]); off1b6.delete(r); addr1b6.delete(r); subAt.delete(r); subAddr.delete(r); } }
+    if (base === 'bl' || base === 'blx') for (let r = 0; r < 4; r++) { subAt.delete(r); subAddr.delete(r); } // caller-clobbered
   }
 
   // ---- 2) lane A: load/store immediate form, imm12 == 0x1b6 ----
@@ -161,7 +161,7 @@ for (let v = TEXT_START; v < TEXT_END; v += 4) {
     if (ra && snapSubAddr.has(Number(ra[2]))) subAt.set(Number(ra[1]), { age: 0, how: 'ldr[via-addr]' });
     // mov-copy
     const cp = /^mov\S*\s+r(\d+),\s*r(\d+)\s*$/.exec(mn0);
-    if (cp) { const rd = Number(cp[1]), rs = Number(cp[2]); if (snapSub.has(rs)) subAt.set(rd, { age: 0, how: 'mov-copy' }); else subAt.delete(rd); }
+    if (cp) { const rd = Number(cp[1]), rs = Number(cp[2]); if (snapSub.has(rs)) subAt.set(rd, { age: 0, how: 'mov-copy' }); else subAt.delete(rd); if (snapSubAddr.has(rs)) subAddr.set(rd, { age: 0 }); }
   }
 }
 
@@ -210,3 +210,12 @@ const found = new Set(sites.map(s => s.v));
 const missing = CONTROL.filter((a) => !found.has(a));
 if (missing.length) { console.log('CONTROL-FAIL missing ' + missing.map(hex).join(', ')); process.exit(1); }
 console.log('\nCONTROL-PASS all four known sites found: ' + CONTROL.map(hex).join(', '));
+
+// ---- BASE CONTROL ----
+// The four sites above are only asserted to EXIST; a regression in the writeback/reload rules
+// would leave them present but reclassify their base to OTHER. These three are writes to
+// sub+0x1b6 (hand-verified, FOR-SE-REPLY 292/299/300/301), so assert the classification too.
+const BASE_CONTROL = [0xace54, 0x6fb90, 0x1080130];
+const badBase = BASE_CONTROL.filter((a) => { const s = sites.find((x) => x.v === a); return !s || s.base !== 'SUB'; });
+if (badBase.length) { console.log('BASE-CONTROL-FAIL not classified SUB: ' + badBase.map(hex).join(', ')); process.exit(1); }
+console.log('BASE-CONTROL-PASS writers ' + BASE_CONTROL.map(hex).join(' / ') + ' all classified base SUB');
