@@ -335,8 +335,13 @@ Consequences read off the same window:
   write to the section byte that no `movw #0x72fc` census can see, mine, the tool's or the
   reviewer's included. The interpreter body 0x83664-0x855ac was not walked for such stores, so a
   dynamic section write remains possible. [U]
-- **The pool picker `0xb4e58(em, k)`**: it returns the entry index stored into `em[0x72fd]`; the
-  selection rule inside it is not decoded here. [U]
+- **The pool picker `0xb4e58(em, k)`** (decoded 2026-11-09, FOR-SE-REPLY §196): it returns
+  `*(u8*)(em[0x7628] + 20 + key)` via the 3-instruction helper `0x69c1c8`, i.e. the "pool" is a fixed
+  byte table and the pick is an index read. `key` comes from `em[0xb5f4]` (20 / 3 / other),
+  `sub[442]`, and the distance `sub[0x1d4] - sub[0x44]` bucketed at −175 / 700 / 1500 (pool words
+  `0xb50e4 = c42f0000`, `0xb50e8 = 442f0000`, `0xb50ec = 44bb8000`), with `em[0xba44]`'s bit 3 able to
+  force key 19. `[A: the table read and the key lattice / U: who fills the table at em[0x7628], and
+  what 0xb4ca8(em) means]`
 - **Sections 18 and 20**: the dispatcher never selects them (no predicate yields 18 or 20, and the
   only static writes of 18 are 0x8da90/0x8dd7c outside the dispatcher; 20 is written nowhere), yet
   43 files carry section-18 entries and 62 carry section 20. How they are entered — or whether they
