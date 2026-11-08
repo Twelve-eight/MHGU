@@ -59,18 +59,21 @@ const firstReg = (mn0) => { const t = mn0.split(/[\s,\[\]!]+/).filter(Boolean); 
 const subAt = new Map();   // reg -> {age, how}  (how: 'ldr[+0x1428]' | 'movw1428' | 'ldrvia-idx' | 'mov-copy')
 const off1b6 = new Map();  // reg -> {age, at}  (movw #0x1b6 still live in that reg)
 const addr1b6 = new Map(); // reg -> {at, baseReg} (add-formed address = baseReg+0x1b6)
+const subAddr = new Map(); // reg -> {age}  (reg holds the ADDRESS em+0x1428, from a writeback ldr)
 
 const sites = [];
 const record = (v, kind, extra) => sites.push({ v, kind, ...extra });
 
 for (let v = TEXT_START; v < TEXT_END; v += 4) {
-  if (pushSet.has(v)) { subAt.clear(); off1b6.clear(); addr1b6.clear(); } // function boundary
+  if (pushSet.has(v)) { subAt.clear(); off1b6.clear(); addr1b6.clear(); subAddr.clear(); } // function boundary
   for (const m of subAt.values()) m.age++;
   for (const m of off1b6.values()) m.age++;
+  for (const m of subAddr.values()) m.age++;
   for (const m of off1b6) if (m[1].age > 32) off1b6.delete(m[0]);
   for (const m of subAt) if (m[1].age > 96) subAt.delete(m[0]);
+  for (const m of subAddr) if (m[1].age > 96) subAddr.delete(m[0]);
   // snapshots: access checks see the state as of BEFORE this instruction's own defs
-  const snapSub = new Map(subAt), snapOff = new Map(off1b6), snapAddr = new Map(addr1b6);
+  const snapSub = new Map(subAt), snapOff = new Map(off1b6), snapAddr = new Map(addr1b6), snapSubAddr = new Map(subAddr);
   const w = W(v);
   const mn = D(w, v);
   const mn0 = stripCond(mn);
@@ -150,15 +153,23 @@ for (let v = TEXT_START; v < TEXT_END; v += 4) {
     // load via an index register holding 0x1428 (register-form ldr [rB, rX])
     const li = /^(ldr|ldrb|ldrh|ldrsb|ldrsh)\S*\s+r(\d+),\s*\[r(\d+),\s*r(\d+)\]/.exec(mn0);
     if (li && snapSub.has(Number(li[4]))) subAt.set(Number(li[2]), { age: 0, how: 'ldrvia-idx' });
+    // writeback form `ldr rD,[rN,rM]!` with rM holding 0x1428: rN becomes the ADDRESS em+0x1428
+    const wb = /^ldr\S*\s+r(\d+),\s*\[r(\d+),\s*r(\d+)\]!/.exec(mn0);
+    if (wb && snapSub.has(Number(wb[3]))) subAddr.set(Number(wb[2]), { age: 0 });
+    // reload of sub through that address register: `ldr rD,[rB,#imm]` / `ldr rD,[rB]`
+    const ra = /^ldr\S*\s+r(\d+),\s*\[r(\d+)(?:,\s*#\d+)?\]$/.exec(mn0);
+    if (ra && snapSubAddr.has(Number(ra[2]))) subAt.set(Number(ra[1]), { age: 0, how: 'ldr[via-addr]' });
     // mov-copy
     const cp = /^mov\S*\s+r(\d+),\s*r(\d+)\s*$/.exec(mn0);
     if (cp) { const rd = Number(cp[1]), rs = Number(cp[2]); if (snapSub.has(rs)) subAt.set(rd, { age: 0, how: 'mov-copy' }); else subAt.delete(rd); }
   }
 }
 
-console.log('\nBASE FILTER: SUB = base register provably reloaded from [x+0x1428] (or mov-copied /');
-console.log('movw-0x1428) within the same push-lr function, window 96 insns; OTHER(rN) = filter cannot');
-console.log('identify the object (may be em, a UI struct, or sub passed as an argument).');
+console.log('\nBASE FILTER: SUB = base register provably holding sub -- established by one of: ldr [x+0x1428],');
+console.log('ldr [rB,rX] with rX = movw #0x1428, a writeback `ldr rD,[rN,rM]!` that turns rN into the ADDRESS');
+console.log('em+0x1428 (added 2026-11-09: without it the very common `ldr rD,[rN,#0]` reload left the base');
+console.log('OTHER, and 0xace54/0x6fb90/0x1080130 were all mis-attributed to other objects), or a mov copy.');
+console.log('Window 96 insns, per push-lr function. OTHER(rN) = filter cannot identify the object.');
 
 console.log('\nSITES total:', sites.length);
 const byKind = {}; for (const s of sites) { const k = s.kind + ':' + (s.L ? 'ldr' : 'str') + (s.B ? 'b' : ''); byKind[k] = (byKind[k] || 0) + 1; }
