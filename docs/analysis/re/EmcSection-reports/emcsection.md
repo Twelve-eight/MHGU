@@ -368,8 +368,12 @@ Consequences read off the same window:
   byte table and the pick is an index read. `key` comes from `em[0xb5f4]` (20 / 3 / other),
   `sub[442]`, and the distance `sub[0x1d4] - sub[0x44]` bucketed at −175 / 700 / 1500 (pool words
   `0xb50e4 = c42f0000`, `0xb50e8 = 442f0000`, `0xb50ec = 44bb8000`), with `em[0xba44]`'s bit 3 able to
-  force key 19. `[A: the table read and the key lattice / U: who fills the table at em[0x7628], and
-  what 0xb4ca8(em) means]`
+  force key 19. Both open ends are now closed: the table pointer is
+  `em[0x7628] = 0x69c258(em[0x7610], em[0xb5f6])`, i.e. the **variant byte `0xb5f6` selects which
+  table** (container `em[0x7610]` = a global singleton's `+0x2590`, FOR-SE-REPLY §197/§218), and
+  `0xb4ca8(em)` is a **tri-state selector returning −1/0/1** from a vtable-slot-0x9C call plus
+  `em[0x1054]` / `em[0x1065]` (§217). `[A: the table read, the key lattice, the table provenance and
+  the tri-state selector / U: the identity of the global singleton and of the 0x9C implementation]`
 - **Sections 18 and 20** (20 decoded 2026-11-09, FOR-SE-REPLY §198): **20 is entered** — the
   interpreter's periodic check at `0x836a8` (sole entry `0x86278 b`) requires
   `[[[em[0x72f4]]]]` to match, bit 3 of `em[0xb7c0][1]`, `0x82020(em,16) == 1`, and `[cmd+0x50]`
