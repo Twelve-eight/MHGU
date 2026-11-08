@@ -204,7 +204,11 @@ Reading of the second dispatcher (all [A], windows 0x82df0-0x82f60):
 - No `em[0x1408]` test exists in this path, so the guard (row 7) does **not** apply to section 12.
 - This also explains the devlog's "节 12 tick 级覆盖" (devlog-digest-C.md:159): section 12 is the
   per-tick override, not a script-level selection. [B for the devlog match, A for the code]
-- With it, the set of sections the code can actually select is **0/1/8/9/12/13/14/19**.
+- With it, the set of sections the code can actually select is **0/1/8/9/12/13/14/19**, plus the two
+  entries decoded later: **20** (interpreter periodic check 0x836a8, gated by `[cmd+0x50]` non-null,
+  FOR-SE-REPLY §198) and **18** (fn 0x8d854's distance-gated arms that also swap the script pointer to
+  the embedded block `em+0xba34`, §199) — so the complete set is **0/1/8/9/12/13/14/18/19/20**, with
+  18/20 living outside the two dispatcher tables above.
 
 Consequences read off the same window:
 
