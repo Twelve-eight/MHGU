@@ -405,7 +405,8 @@ Consequences read off the same window:
 - **No execution surface in this session.** `write xd://run` answers "No such tool" and the mounted
   `xd://` devices are the seven read-only `mcp__mhgu_re_*` MCP tools, so the census could not be
   re-run here; the numbers are quoted from the main session's recorded runs
-  (`G:/tmp/EMC/cur-tool3.txt`, `G:/tmp/EMC/tool-data.txt`, `G:/tmp/EMC/verify-ai-reach.out`). Cost:
+  (`G:/tmp/EMC/cur-tool3.txt`, `G:/tmp/EMC/tool-data.txt`, and the stdout of `node
+  MHGU/tools/audit/ai-reach-misses.mjs`). Cost:
   one round trip with the main session, plus this rework round after the tool changed under the
   report. Cause: agent tool set, not the tool.
 - **The census build I first quoted was incomplete, and that cost a whole appendix.** It associated a
@@ -598,6 +599,6 @@ Reader impact is larger than that list suggests, because `MHRS/tools/port/ai.mjs
 of section 1" either: its `resetsOf` starts from section-0 `op 0x14` leaves and follows `op 0x14`
 only inside section 1, depth <= 6. On the same 98 files that model misses **104 (file,state) pairs
 over 70 files — 52 pairs named only by sections other than 0/1, plus 52 lying in section-1 entries
-the walk never reaches** (`node G:/tmp/EMC/verify-ai-reach.mjs`, run by the main session; output
-`G:/tmp/EMC/verify-ai-reach.out`, 98 files). The 18-pair figure above is the narrower "outside
+the walk never reaches** (reproduce with `node MHGU/tools/audit/ai-reach-misses.mjs`; its own control
+prints PASS and it reports 98 files). The 18-pair figure above is the narrower "outside
 sections 0/1" definition; 104 is the number that matters for `ai.mjs`. [C: main-session run]
