@@ -250,13 +250,15 @@ Consequences read off the same window:
   register-offset-only matcher plus a 24-instruction slice both missed it). 17, 6 and 11 arrived with
   the `strh` **immediate** form (0x7f7ec, 0x7f95c, 0x7fa80), which the build before this one did not
   decode. [C: main-session runs; A for the sites read by hand in this report]
-- The low ids are **not** decoder artefacts. Sibling dispatcher copies in `0x7f4xx-0x7fbxx` select
-  sections 3, 5, 6, 7, 10, 11 and 17 (`0x87a94` is a save, not a selector — see the dispatch-table
-  intro), and section 12 is selected at 0x82ddc/0x82e30
-  (the runner decoded above). So the set of values written into `em[0x72fc]` is
-  **0/1/2/3/5/6/7/8/9/10/11/12/13/14/17/18/19**; the two dispatchers this report decoded (`0x8282c`
-  plus the 0x82e30 runner) select **0/1/8/9/12/13/14/19**; sections 2 and 18 are handler park/stop
-  labels (the 0x8f690 family below); sections 4, 16 and 20 have corpus content but no writer was
+- The low ids are **not** decoder artefacts. The `0x7f4xx-0x7fbxx` family is **not** a dispatcher
+  set: it snapshots (section, entry, script pointer) into `0x73b4/0x73b5/0x73b8` and restores them
+  (FOR-SE-REPLY §223-§227), and `0x87a94` is likewise a save. The values 17/6/11 arrive through the
+  `strh` immediate sites (0x7f7ec, 0x7f95c, 0x7fa80) and 12 through 0x82ddc/0x82e30, so the set of
+  values written into `em[0x72fc]` is **0/1/2/3/5/6/7/8/9/10/11/12/13/14/17/18/19/20**; the two
+  dispatchers this report decoded (`0x8282c` plus the 0x82e30 runner) select **0/1/8/9/12/13/14/19**;
+  **18** is entered by fn 0x8d854's distance-gated arms and **20** by the interpreter's periodic check
+  at 0x836a8 (FOR-SE-REPLY §199/§198), i.e. both outside those two tables; **2** remains a handler
+  park/stop label (the 0x8f690 family below); **4 and 16** have corpus content but no writer was
   found — an open lead, not a claim that they are dead; and **no decoder ever writes 15**. [C:
   main-session/CensusReview runs for the sibling sites; A for section 12 and the park family]
 - The current build and the reviewer's independent W-aware decoder now agree **value for value except
