@@ -58,7 +58,7 @@ What bit 6 gates [B]: when it is set, the dispatcher `0xb50f0` walks the per-mon
 is `0xc8d128(container, idx, flag)` [A]: `ldr r12,[r3,#132]` (count), `bxls` when `idx >= count`,
 `ldr r3,[r3,#128]` (base), **`add r1,r3,r1,lsl #4`** (16-byte stride), `ldr r1,[r1,#8]` (null = miss),
 then `cmp r2,#1` → `ldreq r0,[r1,#8]` when the flag is 1, else `mov r0,r1`; the caller adds **48** to a
-non-zero result. `em[0xba4c]` is the current active index + 1 (`0xb510c ldrh`, `0xb5110 sub r2,r0,#1`); guard `0x97624`
+non-zero result. `em[0xba4c]` **compares** as the active index + 1 on the `0xb510c` path (`0xb5110 sub r2,r0,#1`), but that is a path property, not a global equality: it is written as `count+1` at `0xb4c34` (`ldrh r0,[r4,0xb884]; add r0,#1; strh r0,[r4,0xba4c]`) and as the **raw idx** at `0xb4c6c` (`strh r10`); guard `0x97624`
 runs its 300.0/200.0 distance test only with bit 6 set; and guard `0xb4b10` fills `sub+0x1d0..0x1d8`
 from `em[0xb9e0..0xb9e8]` and zeroes `sub+0x1dc` on the bit-6-clear path. (FOR-SE-REPLY §253/§272)
 
@@ -481,7 +481,7 @@ Consequences read off the same window:
   (2026-11-09, FOR-SE-REPLY §232/§292 + main-session disasm).** It is not a counter: the value is
   written by a per-em spawn/config call (`0x6fb90 strh r1,[r0,r2]`, `r1 = [sp+40]` = the fifth
   argument) and is used *immediately afterwards as an id* — `0x49904(id)` yields a byte stored into
-  `sub+0x924`, and `0x493cc(0|1|2, sub[0x1b6], handle)` derives `sub+0x924/925/926` (18 bytes apart)
+  `sub+0x924`, and `0x493cc(0|1|2, sub[0x1b6], handle)` derives three consecutive bytes `sub+0x924/925/926`
   from that same id. A reader compares it against the sentinel explicitly:
   `0xcb018 movw r1,#0xffff; 0xcb01c cmps r0,r1; 0xcb020 beq 0xcb08c`. The `0xFFFF` value itself is
   written at `0xace54` (`strh r11` with `r11 = movw #0xffff`, region verified to contain no `bl` and
