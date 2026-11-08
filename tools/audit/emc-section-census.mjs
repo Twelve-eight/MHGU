@@ -132,7 +132,7 @@ function codeCensus() {
     console.log(`  direct-only values: ${[...directHist.entries()].sort((a, b) => a[0] - b[0]).map(([k, n]) => `0x${k.toString(16)}:${n}`).join(' ') || '(none)'}`);
     console.log(`  values: ${sorted.map(([k, n]) => `0x${k.toString(16)}:${n}`).join(' ') || '(none)'}`);
     for (const u of unresolved) console.log(`    unresolved site 0x${u.site.toString(16)} store 0x${u.storeAt.toString(16)}: ${u.how}`);
-    for (const r of [...byStore.values()].filter((x) => x.value >= 0x0c).sort((a, b) => a.value - b.value)) {
+    for (const r of [...byStore.values()].filter((x) => x.value >= 0x03).sort((a, b) => a.value - b.value)) {
       console.log(`    rare-value store 0x${r.storeAt.toString(16)} = 0x${r.value.toString(16)} from site 0x${r.site.toString(16)} [${label}] conf=${r.conf} (${r.how})`);
       if (SHOW_ALL) for (const r of [...byStore.values()].sort((a, b) => a.value - b.value)) console.log(`    store 0x${r.storeAt.toString(16)} = 0x${r.value.toString(16)} from site 0x${r.site.toString(16)} [${label}] conf=${r.conf} (${r.how})`);
     }

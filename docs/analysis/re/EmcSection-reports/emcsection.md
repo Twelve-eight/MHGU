@@ -396,12 +396,12 @@ Consequences read off the same window:
    selector), so the written set is 0/1/2/3/5/6/7/8/9/10/11/12/13/14/17/18/19 and the question is
    closed, not open. One caveat on reachability, not on the set: with the loader skipping empty
    sections (`0x521d8 cmp r8,#0 -> ble 0x52344`, no array allocated) and 98/98 corpus files having no
-   section 15 or 17, the value-17 write at 0x7f7ec is followed by `ldr r0,[cmd+0xac]; ldr r0,[r0]` on
+   section 15 or 17, the value-17 write at 0x7f7ec is followed by `ldr r0,[cmd+0x44]; ldr r0,[r0]` on
    a null array — that path is either unreachable on this content or would crash; the other low ids
    (3/5/6/7/10/11) do have entries in the corpus (80/90/67/33/32/19 files) and their writes are live.
 
    Evidence grade per low id (2026-11-09): **all seven are hand-decoded**. 17: 0x7f7e4 `mov r0,#17` →
-   0x7f7ec `strh r0,[r4,#0]`, then `ldr r0,[cmd+0xac]` (4×17 = 0x44); 6: 0x7f954 `mov r0,#6` →
+   0x7f7ec `strh r0,[r4,#0]`, then `ldr r0,[cmd+0x44]` (4×17 = 0x44; `cmd` = `em[0x72f4]` = obj+0x68, i.e. obj+0xac); 6: 0x7f954 `mov r0,#6` →
    0x7f95c `strh r0,[r4,#0]`, then `ldr r0,[cmd+0x18]` (4×6 = 24); 11: 0x7fa78 `mov r0,#11` → 0x7fa80
    `strh r0,[r4,#0]`, then `ldr r0,[cmd+0x2c]` (4×11 = 44); 3: 0x7f530 `mov r0,#3` → 0x7f538
    `strb r0,[r4,#0]`, then `ldr r0,[cmd+0x0c]` (12); 5: 0x7e96c `mov r0,#5` → 0x7e970 `strb r0,[r9,#0]`,
