@@ -54,7 +54,11 @@ the same byte, matching the `tst #38` consumer.
 
 What bit 6 gates [B]: when it is set, the dispatcher `0xb50f0` walks the per-monster record table at
 `em+0xb800` (entry base `[em+0xb880]`, count `[em+0xb884]`, index from `em+0xba48`, count from
-`em+0xba4c`) and returns a record pointer instead of the default triple `em+0xb9e0`; guard `0x97624`
+`em+0xba4c`) and returns a record pointer instead of the default triple `em+0xb9e0`. The lookup itself
+is `0xc8d128(container, idx, flag)` [A]: `ldr r12,[r3,#132]` (count), `bxls` when `idx >= count`,
+`ldr r3,[r3,#128]` (base), **`add r1,r3,r1,lsl #4`** (16-byte stride), `ldr r1,[r1,#8]` (null = miss),
+then `cmp r2,#1` → `ldreq r0,[r1,#8]` when the flag is 1, else `mov r0,r1`; the caller adds **48** to a
+non-zero result. `em[0xba4c]` is the current active index + 1 (`0xb510c ldrh`, `0xb5110 sub r2,r0,#1`); guard `0x97624`
 runs its 300.0/200.0 distance test only with bit 6 set; and guard `0xb4b10` fills `sub+0x1d0..0x1d8`
 from `em[0xb9e0..0xb9e8]` and zeroes `sub+0x1dc` on the bit-6-clear path. (FOR-SE-REPLY §253/§272)
 
