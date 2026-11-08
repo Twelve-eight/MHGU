@@ -73,3 +73,33 @@
 - 前一批 GlmFillOrder、GlmYure3 已停：两者的结论都被审查方用 MCP 独立推导取代（R2 已入库；yure 待独立复核）。
 - 01:42 **并发超限**：pass3 重派（01a/b/c、04b）加上补派 10/11 之后，同时运行的 GLM 达到 11 个，超过用户给的上限 9。原因：只按"已停 2 个 + 新派"计数，没有扣除仍在运行的 9 个。处理：在跑的 GLM 降回 ≤9 之前不再派新的 GLM。
 - pass3 前 9 片（10 分钟时）：02/05/06/08/09 有产出（06、08 已审查入库：06 的 A 6/6 PASS；08 的 5 个 A 都因区段级证据降为 B）；01、03、04、07 读完整片后长时间不写行（01、04 已终止并重派：01 切成 3×20，04 改派 04b 并带边界规则）。**GLM 的模式**：先整片读入（1600+ 行）再写，就会卡住；先读一个块、立即写一行，就能完成。
+
+## 2026-11-07 V6BridgeReview（MHGU 原生版联机断言复核）
+- **目标**: 独立复核主会话关于 SUYU-GURecomp 联机的 7 条断言（C1–C7），供 `docs/reference/suyu/` 的两份报告定稿。
+- **代理**: dsv-remote（`wb2api-t5-remote/deepseek-v4.1-flash:max`，effort hi）。
+- **范围**: 只读 `G:/omp works/.tmp/ext/SUYU-GURecomp` 与只读导出 `I:/suyu/export/MONSTER HUNTER GENERATIONS ULTIMATE`；只写 `.tmp/review-v6bridge/REVIEW.md`。
+- **写集**: `REVIEW.md`（独占）→ 定稿后复制为 `docs/reference/suyu/multiplayer-v6-bridge-review.md`（198 行）。
+- **产出**: C1/C2/C4/C5/C6 CONFIRMED；**C3 部分 REFUTED**（RyuLdn 出货默认 `ryuldn_host = ldn.ryujinx.app`，本机不开 30456 监听）；C7 CONFIRMED except "72 B 常数不可推导"，并补 `nifm` 写死 1500 一条。
+- **监督**: 主会话自验了三条载荷更正（`nifm.cpp:703`、`StartOwnServer`/`OwnServerIsMain` 条件、`ldn_backend` 8 纯虚 + 1 可选），并按复核改写两份报告。
+- **关键裁决**: `RYULDN.md` 与 ini 模板默认值矛盾（`auto` vs `room`、`self` vs `ldn.ryujinx.app`）；`ryuldn_public` 运行时读取但不在模板里。
+- **能力评估**: 该会话无 `run` 工具，全部靠 read/grep + 拉上游源码；自行发现二进制 grep 不可用后改用日志 `file:line` 与 GitHub tag API 交叉验证版本。Difficulties 记录 5 条（无 run 工具、二进制不可读、ENet 子模块为空、文档与代码漂移、72 B 不可溯源）。
+
+## 2026-11-07 YuzuRoomAudit（yuzu 房间 → 本源出 的可迁移性与跨实现同房）
+- **目标**: 复核主会话在用户出示 yuzu 1734「创建房间」截图后给出的 5 条结论（N1–N5）。
+- **代理**: dsv-remote（`wb2api-t5-remote/deepseek-v4.1-flash:max`，effort hi）。
+- **范围**: 只读 `G:/omp works/.tmp/ext/SUYU-GURecomp` 与 `I:/suyu/export/...`；可拉上游 yuzu 镜像源码比对；只写 `.tmp/review-yuzu-room/REVIEW.md`。
+- **写集**: `REVIEW.md`（独占，548 行）→ 定稿后复制为 `docs/reference/suyu/yuzu-room-compat-review.md`。
+- **产出**: N1 CONFIRMED（房间=ENet/UDP，默认 24872，导出即 suyu-cmd，房主 `ENET_HOST_ANY`）；N2 CONFIRMED（双方 `network_version = 1`，消息枚举与各负载包逐字段相同；"1734 精确"仍 `[B]`）；N3 CONFIRMED 但纠正三处（LDN 控制包不压缩、非 LAN 目标 socket 不进 room、1392 是 UDP 载荷预算→IP 层约 1420）；N4 CONFIRMED 且结论更硬（房间/服务端都不校验游戏版本，1.3.0 与 1.4.0 会静默连上）；N5 UNCLEAR（帧率/模组是否不同步属游戏内部，离线不可判）。
+- **监督**: 主会话自验了镜像侧 `room.h`（`network_version = 1`）、`RoomMessageTypes` 枚举 diff、`SendJoinRequest`/`SendProxyPacket` 字段序、yuzu `socket_proxy.cpp:192-194` 的 zstd，与复核一致。
+- **关键裁决**: 跨实现同房在协议层成立；真正的坑是**版本无门禁**，排查顺序应为"先核版本、再看网络"。
+- **能力评估**: 能自行找到 GitLab/Gitee 镜像绕开 GitHub 限流与 yuzu 下架；逐字段比对而非只看版本号；Difficulties 见报告。
+
+## 2026-11-09 01:0x–01:3x — EMC section 普查（4 个并发子代理，全部产出经主会话复核）
+
+- **目标**: 独立重算/证伪主会话关于 MHGU EMC section 选择、`ai.mjs` 漏检量、`op 0x14` 目标空间的结论；并把半成品报告 `EmcSection-reports/emcsection.md` 收尾。
+- **代理 1 / EmcSectionFalsify**: dsv-remote（`wb2api-t5-remote/deepseek-v4.1-flash:max`，effort hi）。只读代码/镜像；写 `G:/tmp/EMC/review-A-emcsection.md` + `arm32-census.mjs`、`c4-recompute.mjs`（主会话代跑）。产出：C2/C4 CONFIRMED（C4 由自写实现复算 `op00 flat=40996 nested=40996`、17 文件/18 对）；C1/C3 PARTIAL；**新增**：`ai.mjs` 的 reset 模型只覆盖"从 s0 `op14` 可达"的 section 1 条目 ⇒ 漏 **104 对 / 70 文件**（主会话自写 `verify-ai-reach.mjs` 复现）；`em[0x1408]` 的 103 处立即数位操作无一置 bit7 ⇒ 守卫是否成立 `[U]`。
+- **代理 2 / EmcSectionReport**: dsv-dev（同 route）。唯一写集 `MHGU/docs/analysis/re/EmcSection-reports/emcsection.md`。产出：补齐 `## Unknown`/`## SelfFalsificationCheck`，撤回两处与反汇编矛盾的旧句（`bfc/bfi` 语义、`resolveState` 返回值），新增 dispatch 表与附录；收尾后按主会话两次更正再改（section 12、121/16、低 id 由兄弟派发器选）。
+- **代理 3 / CensusReview**: dsv-remote。审查**主会话自己的**工具与 §164 草稿；写 `G:/tmp/EMC/review-C.md` + 3 个 want 脚本（主会话代跑）。产出：10/10 正控确认；v1/v2 误报 3 处（0x8a71c/0x8c960/0x103bc4c 实写 `em+0xba50`/`em+0xcb46`）；v1 漏 `0x82f24=12`、`0x8b49c=18`；v3 仍有 1 处误报（0x7f030 实写 `em+0x73b4`）且**完全不认 `strh` 立即数**（漏 17/6/11）；草稿的 "9 restores/2 register" 应为 10/7。
+- **代理 4 / Op14Targets**: dsv-remote。只读；写 `G:/tmp/EMC/op14-targets.md`。产出：**`op 0x14` 的参数恒为 section 1 的条目号**（handler `0x83ed8`：`strb 1→em[0x72fc]`、`strb arg→em[0x72fd]`、`[P+4]` 取脚本、压 `{section,entry,resume}` 帧），`ai.mjs` 的 s0→s1 模型正确；数据侧 91 322 叶子 `arg < s1 条目数` 0 违例。
+- **监督**: 主会话逐条复核了上述全部断言：`0x82f1c/0x82f24`（section 12）、`0x8b49c`、`0x7f030`、`0x8b4d0` 四站点亲自反汇编；`verify-ai-reach.mjs` 独立实现给出同一 104；工具的两个缺陷按审查方判定修复并三版对比。
+- **能力评估**: dsv-remote 在无 `run` 设备时能用 7 个 MHGU MCP 设备完成指令级重算（值得写进派单模板）；两个 dsv 代理都**没有**发现"派单 brief 里的 `(section,entry)` 表述与实际不符"以外的越权行为。Difficulties 见各自报告。
