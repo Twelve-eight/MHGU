@@ -13,6 +13,14 @@ const rd32 = (v) => buf.readUInt32LE(v + 0x100);
 const isMovw = (w) => (w & 0x0FF00000) === 0x03000000 && ((w >>> 20) & 1) === 0 && (w & 0xF) < 15;
 const movwVal = (w) => (((w >>> 4) & 0xf000) | (w & 0xfff)) >>> 0;
 
+// Unconditional self-test: the movw decode must reproduce a hand-verified word on EVERY run,
+// so a census whose argv does not include 0x72f4 still has an active control (re-audit F finding).
+{
+  const probe = 0xe30702f4 >>> 0;                       // movw r0,#0x72f4 (hand-disassembled at 0x8286c)
+  const got = isMovw(probe) ? movwVal(probe) : null;
+  console.log('SELFTEST movw decode: ' + (got === 0x72f4 ? 'PASS' : 'FAIL got ' + got));
+  if (got !== 0x72f4) process.exit(1);
+}
 const targets = process.argv.slice(2).map(Number);
 const results = new Map();
 for (const off of targets) {

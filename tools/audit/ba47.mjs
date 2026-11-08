@@ -16,7 +16,7 @@
 //   C1 lane A sees known reader 0xb50fc (ldrb r0,[r4,r0] after movw#0xba47 @0xb50f8) and word at
 //      0xb5100 is e3100040 (tst r0,#64).
 //   C2 lane B sees known reader 0xb5124 (ldr r0,[r4,r0] after movw#0xba30 @0xb511c).
-//   C3 lane C sees known writer 0xb4bec (str r1,[r0,#0] after movw#0xba44 @0xb4bc0 — the orr #0x1000
+//   C3 lane C sees known writer 0xb4bd0 (str r1,[r0,#0] after movw#0xba44 @0xb4bc0 — the orr #0x1000
 //      word write at em+0xba44), proving the write lane is live.
 //   C4 lane C sees known reader/writer pair 0xb4c44 (strh r0,[r4,r1] after movw#0xba4c @0xb4c38 —
 //      the count increment) and 0xb4c3c ldrh r0,[r4,r0] on the same movw.

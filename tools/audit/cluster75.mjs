@@ -158,7 +158,7 @@ else console.log('  vtable ok: slots 9/10/11 = 0x70a1c (75e8+75ec pair) / 0x70a4
 // EMC loader verification
 console.log('\nEMC LOADER 0x520a0:');
 expectWords('emc loader key stores', [
-  [0x5213c, 0xe3041d45], [0x52140, 0xe3401043],      // magic "EMCE" = 0x43454D45
+  [0x5213c, 0xe3041d45], [0x52140, 0xe3401043],      // magic 0x00434D45 = "EMC"+NUL (NOT "EMCE" = 0x43454D45 — that reading was refuted in FOR-SE-REPLY 238)
   [0x52154, 0xe3001804], [0x52158, 0xe3421012],      // version 0x20120804
   [0x52190, 0xe5810064],                              // str r0,[r1,#100]  -> obj+0x64
   [0x5220c, 0xe5a10068],                              // str r0,[r1,#104]! -> obj+0x68+4i

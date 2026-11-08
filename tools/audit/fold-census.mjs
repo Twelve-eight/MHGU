@@ -4,12 +4,11 @@
 // and reports every load/store [rN,#imm12] whose folded total offset is a target.
 // This closes the lane that a pure `movw #0x72fc` census cannot see:
 //   add rX, base, #0x7000  +  [rX, #0x2fc].
-// Controls (must be found):
-//   C1 0x8286c movw r0,#0x72f4 -> 0x829e4 ldr r2,[r4,r0]      (register-indexed, reported separately)
-//   C2 0x6d964 movw r0,#0x72fc -> 0x6d968 strh r6,[r4,r0]
-//   C3 0x8f690 movw r1,#0x72fc -> store via [rX,r1]
-// Fold control:
-//   C4 a hand-built add+imm12 pair injected at run time (self-test below).
+// Controls: ONE unconditional self-test of the rotated-immediate decoder (below). The earlier header
+// advertised C1-C3 site controls that were never implemented (re-audit F finding); site-level evidence
+// for a specific offset comes from the printed hit list, not from a built-in control.
+// KNOWN LIMIT: only bit25 = 0 (immediate-form) add/sub is folded; the register-add form is NOT
+// modelled (the mask forces bit25 = 0 below).
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
