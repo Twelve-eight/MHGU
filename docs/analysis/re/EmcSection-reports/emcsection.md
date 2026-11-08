@@ -260,8 +260,11 @@ Consequences read off the same window:
   dispatchers this report decoded (`0x8282c` plus the 0x82e30 runner) select **0/1/8/9/12/13/14/19**;
   **18** is entered by fn 0x8d854's distance-gated arms and **20** by the interpreter's periodic check
   at 0x836a8 (FOR-SE-REPLY §199/§198), i.e. both outside those two tables; **2** remains a handler
-  park/stop label (the 0x8f690 family below); **4 and 16** have corpus content but no writer was
-  found — an open lead, not a claim that they are dead; and **no decoder ever writes 15**. [C:
+  park/stop label (the 0x8f690 family below); **4 and 16** are a different kind of inactive: the corpus carries real content for both (81 and 22
+  files, 700 and 111 instructions) yet no static site stores 4 or 16 into `em[0x72fc]`, so they are
+  shipped but unreachable; **15** has neither content nor a writer, while **17** is the mirror image —
+  `0x7f7ec` does store 17 but section 17 is empty in all 98 corpus files, so selecting it runs an empty
+  section (FOR-SE-REPLY §250). No decoder ever writes 15. [C:
   main-session/CensusReview runs for the sibling sites; A for section 12 and the park family]
 - The current build and the reviewer's independent W-aware decoder now agree **value for value except
   the 0 bucket** (121 store values here against 124 there, of which 84 resolved and 40 dynamic). That
