@@ -57,7 +57,8 @@ What bit 6 gates [B]: when it is set, the dispatcher `0xb50f0` walks the per-mon
 `em+0xba4c`) and returns a record pointer instead of the default triple `em+0xb9e0`. The lookup itself
 is `0xc8d128(container, idx, flag)` [A]: `ldr r12,[r3,#132]` (count), `bxls` when `idx >= count`,
 `ldr r3,[r3,#128]` (base), **`add r1,r3,r1,lsl #4`** (16-byte stride), `ldr r1,[r1,#8]` (null = miss),
-then `cmp r2,#1` → `ldreq r0,[r1,#8]` when the flag is 1, else `mov r0,r1`; the caller adds **48** to a
+then `cmp r2,#1` → `ldreq r0,[r1,#8]` when the flag is 1, else `mov r0,r1`; the dispatcher reaches it
+through the wrapper `0xa0f414`, which pins that flag to 1, and the caller adds **48** to a
 non-zero result. `em[0xba4c]` **compares** as the active index + 1 on the `0xb510c` path (`0xb5110 sub r2,r0,#1`), but that is a path property, not a global equality: it is written as `count+1` at `0xb4c34` (`ldrh r0,[r4,0xb884]; add r0,#1; strh r0,[r4,0xba4c]`) and as the **raw idx** at `0xb4c6c` (`strh r10`); guard `0x97624`
 runs its 300.0/200.0 distance test only with bit 6 set; and guard `0xb4b10` fills `sub+0x1d0..0x1d8`
 from `em[0xb9e0..0xb9e8]` and zeroes `sub+0x1dc` on the bit-6-clear path. (FOR-SE-REPLY §253/§272)
@@ -80,7 +81,7 @@ pointer and a float:
 1000.0f): `>= 590 -> 1000.0f`, `290..590 -> 600.0f`, below that unchanged, at five sites whose base is a
 precomputed `r2 = em+0xba2c` (`0x8bcec`, `0x8c0d8`, `0x8d99c`, `0x904e8`, `0x97424`) — which is why a
 `movw`-only census sees three writers and misses those five. `em[0xba30]` has **no `vldr` reader**
-anywhere in the image (29 sites: 26 writes, 1 word copy, 2 address-takes), so it is the default-value
+anywhere in the image (29 materialisations; the independent hand pass resolves them as **24 stores, 2 integer loads, 3 address-takes** -- 2 more stores and one fewer copy than my first count, which does not change the conclusion), so it is the default-value
 slot that `0xb5128` copies into `0xba2c` on the dispatcher's equal path; the label stays [B] because the
 AI interpreter receives `&em[0xba30]` in its pointer table (FOR-SE-REPLY §271/§279).
 
@@ -481,7 +482,8 @@ Consequences read off the same window:
   = "unset" sentinel (2026-11-09, FOR-SE-REPLY §232/§292/§299/§300/§301).** Three runtime writers,
   each verified instruction by instruction: the em init/reset routine sets `0xFFFF` at `0xace54`;
   a per-em spawn/config call sets it from its fifth argument at `0x6fb90` and immediately uses the
-  value as an id (`0x49904(id)` yields a byte stored into `sub+0x924`, and
+  value as an id (`0x49904(id)` yields a byte stored at **`sub+0x927`** -- `0x6fc74 strb r1,[r0,#927]`, the only call site
+  being `0x6fc60` -- and
   `0x493cc(0|1|2, sub[0x1b6], handle)` derives the three consecutive bytes `sub+0x924/925/926`);
   and a shared tail at `0x1080114` is called twice with `r3 = (u16)(src_sub[0x1b6] + 1)` and
   `(u16)(src_sub[0x1b6] + 2)` (`0x1067ff8 add r0,r9,#1` / `0x1068088 add r0,r9,#2`) -- an
@@ -528,7 +530,7 @@ Consequences read off the same window:
   pop {r4,r5,r6,r7,r11,pc}` — "the float at `[r7]` is positive" is recorded as a byte flag.
 
   Both `0x225e0` and `0x225f8` are instruction boundaries; the previously cited `0x225dc` / `0x225f4`
-  are not (the first is table data `0x00000120`-adjacent, the second lands inside the `movt`/`str` pair).
+  are not targets (the first is table data, the second is the `str r0,[r6,#0]` itself -- an instruction boundary, but not a block start).
 
 ## SelfFalsificationCheck
 
