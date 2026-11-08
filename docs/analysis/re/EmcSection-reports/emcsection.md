@@ -273,7 +273,7 @@ Consequences read off the same window:
     partly decoded** (2026-11-09, main-session disasm): it is **set to `1200.0f`** at `0xb1af4`
     (`movt r2,#0x4496` — 0x44960000 = 1200.0 — then `str r2,[r0+0x758c]`), **cleared to 0** by every
     reset site checked so far (`0x99040`, `0x758b8`, `0xa067c`, `0x99128`), and its reader at
-    `0xb1b04-0xb1b20` does `vldr s0; vcmpe #0.0; ble` — i.e. a **countdown-style timer**: section 13
+    `0xb1b04-0xb1b20` does `vldr s0; vcmpe #0.0; ble` — i.e. a float state with an "active window" shape: section 13
     is selected while it is still positive. The countdown itself (who subtracts) is not among the
     sites checked (`literal_loads 0x758c` gives ~19 sites, all clears or the 1200.0f set), so naming
     its game meaning stays [U]. [A: 1200.0f set + clears + `<= 0` reader / U: what it times]
@@ -301,9 +301,16 @@ Consequences read off the same window:
     arms (`0x6dae8` whole-word from `r6` = 0; `0xb1674`/`0xb16d8`/`0xb17a4` are
     `movw r1,#0x7420; add r1,r4,r1; strb r0,[r1,#0]` carrying `(a==b)?1:0`; `0xb1784` carries
     `mov r8,#1`). **All eight resolve statically** (three write 1, two write 0, three write
-    `(a==b)?1:0`), so the byte is a boolean state flag recomputed on the em-update path and reset by
-    `0xaf368`/`0x6d8c4` — shared, not a single-event bit. Which values feed the three comparisons is
-    [U]. [A: writers and values / U: what is compared]
+    `(a==b)?1:0`), and the comparison is now named (2026-11-09, Guard7420Semantics + main-session
+    disasm): `0x49694` takes **no arguments** (GOT loads at `0x49698`/`0x496a8` overwrite r0/r1), so
+    the call-site register values are dead; the three arms compare the site's own argument
+    (`0xb161c`), `0x49638()` (`0xb167c`) and `0x49694()` (`0xb16e0`). Interpretation [B]:
+    `em[0x7420] = (manager id == applied id)` with the applied id in `em[0x7424]`, i.e. an
+    **id-application handshake**, seeded to 1 when bit 3 of `em[0x1428]->byte[424]` is clear
+    (`0xb1648/0xb1654`); `0xc9e80` is a method-table forwarding entry (`0x1734d48`), not the writer
+    driver. So the guard means "a different pool entry is available **and** the id handshake has
+    completed". [A: writers/values/instructions; B: the handshake reading; U: the mode enum behind
+    `0x49694` and the class vtable that calls `0xc9e80`]
 - **Why the pool path (section 1) is the effective default — now explained by the setter, not by a
   default.** Section 1 is *not* a format default: it is the last test in 0x8282c, a guarded override
   that fires after 13/8/14/9/19/0 have already been chosen, and only when bit 7 of `em[0x1408]` is
@@ -315,7 +322,7 @@ Consequences read off the same window:
   direct store sites of its own (census `direct-only values: 0x1:11`, on top of the guard's own
   pre-indexed store at 0x82998), including the pending-stack "pool resume" sequence at 0x8b7c0
   (`bl 0xb4e58`, push frame, then `strb #1,[em+0x72fc]`), so handlers enter section 1 deliberately
-  as well. [A for the setter and its predicate / U for the frequency and 0x7420]
+  as well. [A for the setter, its predicate and the 0x7420 handshake (B for the handshake reading) / U for how often the pick differs in a hunt]
 - **`em[0x73dc]`** (the consumed section-19 flag): type and use are decoded, what sets it is [U].
 - **The pointer-spill lane.** At 0x83618 the interpreter computes `&em[0x72fc]` and spills it to
   `[sp,#356]`; a store through that spilled pointer (or through `r8` in the second dispatcher) is a
