@@ -100,8 +100,12 @@ for (let v = TEXT_START; v < TEXT_END; v += 4) {
         else { off1b6.delete(rd); addr1b6.delete(rd); subAddr.delete(rd); if (base !== 'mov') subAt.delete(rd); }
       }
     }
+    // a pop/ldm that includes `pc` ENDS the block: the next instruction is reached by a branch,
+    // not by fall-through, so the linear scan's register state still describes the path that
+    // continues past this point. Invalidating here cost a real site (0xb816c, where the pop at
+    // 0xb80b4 is an early-return epilogue and r5=&em+0x1428 is reloaded at 0xb8164).
     const pm = /^(pop|push|ldm\/stm)\S*\s*(?:r\d+!?\s*)?\{([^}]*)\}/.exec(mn0);
-    if (pm) for (const t of pm[2].split(',')) { const m2 = /^r(\d+)$/.exec(t.trim()); if (m2) { const r = Number(m2[1]); off1b6.delete(r); addr1b6.delete(r); subAt.delete(r); subAddr.delete(r); } }
+    if (pm && !/\bpc\b/.test(pm[2])) for (const t of pm[2].split(',')) { const m2 = /^r(\d+)$/.exec(t.trim()); if (m2) { const r = Number(m2[1]); off1b6.delete(r); addr1b6.delete(r); subAt.delete(r); subAddr.delete(r); } }
     if (base === 'bl' || base === 'blx') for (let r = 0; r < 4; r++) { subAt.delete(r); subAddr.delete(r); } // caller-clobbered
   }
 
