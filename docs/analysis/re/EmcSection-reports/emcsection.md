@@ -275,8 +275,8 @@ Consequences read off the same window:
     reset site checked so far (`0x99040`, `0x758b8`, `0xa067c`, `0x99128`), and its reader at
     `0xb1b04-0xb1b20` does `vldr s0; vcmpe #0.0; ble` — i.e. a float state with an "active window" shape: section 13
     is selected while it is still positive. Of its 28 address sites, one writes `1200.0f` (0xb1af0),
-    most write `0`, and at least two store a register value (`0x99160 str r4,[r9,r0]`,
-    `0xa5480 str r6,[r4,r0]`) whose sources are untraced; **none of the 28 has a `vstr`**, so an
+    most write `0`, and three store a register value (`0x99160 str r4,[r9,r0]`,
+    `0xa5480 str r6,[r4,r0]`, `0xb9944 str r7,[r10,r0]`) whose sources are untraced; **none of the 28 has a `vstr`**, so an
     in-place decrement is not among these sites; naming its game meaning stays [U].
     [A: 1200.0f set + clears + `<= 0` reader / U: what it times]
   - `[em+0x1428]+0x59c` and `+0x5a4` (both f32, `> 0`) — both are `sub` fields. The documented `sub`
@@ -311,7 +311,10 @@ Consequences read off the same window:
     **id-application handshake**, seeded to 1 when bit 3 of `em[0x1428]->byte[424]` is clear
     (`0xb1648/0xb1654`); `0xc9e80` is a method-table forwarding entry (`0x1734d48`), not the writer
     driver. So the guard means "a different pool entry is available **and** the id handshake has
-    completed". [A: writers/values/instructions; B: the handshake reading; U: the mode enum behind
+    completed". **Open point, not glossed:** the conjunct needs `[0x7420] != 0`, and `[0x7420]=1` is
+    precisely the "new id equals the applied id" case, so the override fires while the handshake says
+    *nothing to apply*. Code fact [A]; why the engine wants that is `[U]`. [A: writers/values/instructions,
+    including `0x7420 = (0x49694 id == 0x49638 id)`; B: the manager/applied naming of the two ids; U: the mode enum behind
     `0x49694` and the class vtable that calls `0xc9e80`]
 - **Why the pool path (section 1) is the effective default — now explained by the setter, not by a
   default.** Section 1 is *not* a format default: it is the last test in 0x8282c, a guarded override
