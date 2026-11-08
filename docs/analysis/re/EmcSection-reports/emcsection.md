@@ -400,14 +400,17 @@ Consequences read off the same window:
    a null array — that path is either unreachable on this content or would crash; the other low ids
    (3/5/6/7/10/11) do have entries in the corpus (80/90/67/33/32/19 files) and their writes are live.
 
-   Evidence grade per low id (2026-11-09): **17, 6 and 11 are hand-decoded** — 0x7f7e4 `mov r0,#17` →
-   0x7f7ec `strh r0,[r4,#0]` with `ldr r0,[cmd+0xac]` (4×17 = 0x44) after it; 0x7f954 `mov r0,#6` →
-   0x7f95c `strh r0,[r4,#0]` with `ldr r0,[cmd+0x18]` (4×6 = 24); 0x7fa78 `mov r0,#11` → 0x7fa80
-   `strh r0,[r4,#0]` with `ldr r0,[cmd+0x2c]` (4×11 = 44). In all three, `r4` is `em+0x72fc`, produced
-   earlier in the same function by `ldrb r0,[r4,r0]!` with `r0 = 0x72fc`. **3 / 5 / 7 / 10 are
-   tool-only**: their stores come from the same `0x7f4xx-0x7fbxx` family, but no site of that value was
-   decoded by hand, so their grade is `[B]` (the value set as a whole rests on the two implementations'
-   agreement, not on a per-site check for those four).
+   Evidence grade per low id (2026-11-09): **all seven are hand-decoded**. 17: 0x7f7e4 `mov r0,#17` →
+   0x7f7ec `strh r0,[r4,#0]`, then `ldr r0,[cmd+0xac]` (4×17 = 0x44); 6: 0x7f954 `mov r0,#6` →
+   0x7f95c `strh r0,[r4,#0]`, then `ldr r0,[cmd+0x18]` (4×6 = 24); 11: 0x7fa78 `mov r0,#11` → 0x7fa80
+   `strh r0,[r4,#0]`, then `ldr r0,[cmd+0x2c]` (4×11 = 44); 3: 0x7f530 `mov r0,#3` → 0x7f538
+   `strb r0,[r4,#0]`, then `ldr r0,[cmd+0x0c]` (12); 5: 0x7e96c `mov r0,#5` → 0x7e970 `strb r0,[r9,#0]`,
+   then `ldr r0,[cmd+0x14]` (20); 7: 0x7fb7c `mov r0,#7` → 0x7fb84 `strb r0,[r5,#0]`, then
+   `ldr r0,[cmd+0x1c]` (28) and `ldr r0,[r0,r8,lsl#2]` for the entry; 10: 0x87acc `mov r3,#10` → 0x87ad0
+   `strb r3,[r1,#0]` (r1 advanced to `em+0x72fc` by 0x87aa0 `ldrb r2,[r1,r2]!`), then `ldr r0,[cmd+0x28]`
+   (40). The in-function `0x87a94` store is still a *save* of the previous (section, entry) — the same
+   function saves first and then sets section 10, so `0x87a94` is a save site inside a selector, not a
+   counter-example to the family.
 
 ## Difficulties
 

@@ -8,7 +8,7 @@
 //       and the states that only sections other than 0/1 name (what a section-1-only reader misses).
 //
 // Usage:
-//   node tools/audit/emc-section-census.mjs --code
+//   node tools/audit/emc-section-census.mjs --code            [--rows]   per-store rows when --rows
 //   node tools/audit/emc-section-census.mjs --data <root> [root...]
 //   node tools/audit/emc-section-census.mjs --all <root> [root...]
 //
@@ -52,6 +52,8 @@ const isLdrbPre = (w) => (w & 0x0f700f90) === 0x07700000;
 const isStrSp = (w) => ((w >>> 25) & 7) === 2 && ((w >>> 24) & 1) === 1 && ((w >>> 20) & 1) === 0 && rn(w) === 13;
 // post-indexed load/store (P=0, W=0): the base register is rewritten by the access
 const isPostIndexed = (w) => ((w >>> 25) & 7) === 3 && ((w >>> 24) & 1) === 0 && ((w >>> 21) & 1) === 0;
+
+const SHOW_ALL = process.argv.includes("--rows");
 
 function codeCensus() {
   const img = fs.readFileSync(IMAGE);
@@ -132,6 +134,7 @@ function codeCensus() {
     for (const u of unresolved) console.log(`    unresolved site 0x${u.site.toString(16)} store 0x${u.storeAt.toString(16)}: ${u.how}`);
     for (const r of [...byStore.values()].filter((x) => x.value >= 0x0c).sort((a, b) => a.value - b.value)) {
       console.log(`    rare-value store 0x${r.storeAt.toString(16)} = 0x${r.value.toString(16)} from site 0x${r.site.toString(16)} [${label}] conf=${r.conf} (${r.how})`);
+      if (SHOW_ALL) for (const r of [...byStore.values()].sort((a, b) => a.value - b.value)) console.log(`    store 0x${r.storeAt.toString(16)} = 0x${r.value.toString(16)} from site 0x${r.site.toString(16)} [${label}] conf=${r.conf} (${r.how})`);
     }
     return byStore;
   };
