@@ -264,8 +264,11 @@ Consequences read off the same window:
   at 0x836a8 (FOR-SE-REPLY §199/§198), i.e. both outside those two tables; **2** remains a handler
   park/stop label (the 0x8f690 family below); **4 and 16** are a different kind of inactive: the corpus carries real content for both (81 and 22
   files, 700 and 111 instructions) yet no static site stores 4 or 16 into `em[0x72fc]` — checked on five
-  lanes (direct constants, movw index, add-fold, literal pool, stack/frame relay; FOR-SE-REPLY §256),
-  so they are shipped but unreachable from every modelled lane; **15** has neither content nor a writer, while **17** is the mirror image —
+  lanes (direct constants, movw index, add-fold, literal pool, stack/frame relay; FOR-SE-REPLY §256)
+  plus the two alternate dispatch slots `em+0x7340`/`em+0x73c0` (§263), whose writers are all copies or
+  zero-inits; **but "unreachable at runtime" is NOT established**: the state redirector `fn 0x825fc`
+  re-dispatches states 2/18 and 10 from those slots, and a static writer of **19** exists while every
+  dispatcher bounds the state at 18, so writer coverage and dispatcher coverage do not coincide; **15** has neither content nor a writer, while **17** is the mirror image —
   `0x7f7ec` does store 17 but section 17 is empty in all 98 corpus files, so selecting it runs an empty
   section (FOR-SE-REPLY §250). No decoder ever writes 15. [C:
   main-session/CensusReview runs for the sibling sites; A for section 12 and the park family]
