@@ -365,7 +365,7 @@ Consequences read off the same window:
     fn `0xa5198` block that resets `em[0x758c]` and `em[0x73dc]`; the VFP lanes do reach them —
     writers at `0x9fc20` (`vstr s0,[r0]`, +0x5a4) and `0xa1c00` (`vstr s16,[r0]`, +0x59c), readers
     in the dispatcher (0x828a8/0x828c0) and in the interpreter (0x85b20/0x85b38). **Lifecycle now
-    closed (FOR-SE-REPLY §211/§213):** `+0x59c` is a countdown seeded at `1800.0f` (literal
+    closed (FOR-SE-REPLY §211/§213):** `+0x59c` is **recomputed on every call** as `max(300, seed − 300·rate)` rather than an accumulating countdown (re-audit B, FOR-SE-REPLY §291 — `0xa1c00 vstr s16` re-seeds it each call, and zero does occur at `0xcc5f4`); it is seeded at `1800.0f` (literal
     `0xa1cac`), decremented each tick by `(f32)u8(sub+0x5a1) × 300.0f` (vmls at `0xa1c1c`, store at
     `0xa1c20`) and clamped up to `300.0f` when it falls below (`0xa1c30-0xa1c44`), so its value set is
     `{0} ∪ [300, ∞)` — the `> 0` predicate therefore means "armed", not "time left";
