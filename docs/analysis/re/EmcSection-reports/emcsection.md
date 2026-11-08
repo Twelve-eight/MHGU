@@ -302,7 +302,7 @@ Consequences read off the same window:
     `movw r1,#0x7420; add r1,r4,r1; strb r0,[r1,#0]` carrying `(a==b)?1:0`; `0xb1784` carries
     `mov r8,#1`). **All eight resolve statically** (three write 1, two write 0, three write
     `(a==b)?1:0`), and the comparison is now named (2026-11-09, Guard7420Semantics + main-session
-    disasm): `0x49694` takes **no arguments** (GOT loads at `0x49698`/`0x496a8` overwrite r0/r1), so
+    disasm): in `0xb167c` the sequence is `bl 0x49638` → r5, `bl 0x49694` → r0, then `cmps r0,r5` (and `em[0x7424]` gets `0x49694()` on the seed path, `0x49638()` on the compare path); `0x49694` takes **no arguments** (GOT loads at `0x49698`/`0x496a8` overwrite r0/r1), so
     the call-site register values are dead; the three arms compare the site's own argument
     (`0xb161c`), `0x49638()` (`0xb167c`) and `0x49694()` (`0xb16e0`). Interpretation [B]:
     `em[0x7420] = (manager id == applied id)` with the applied id in `em[0x7424]`, i.e. an
