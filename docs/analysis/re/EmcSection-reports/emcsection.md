@@ -145,7 +145,7 @@ Interpreter loop: `ldr r0,[r4,#0]` (ip), length 0x50ce0, op dispatch (0x83788-0x
 0005220c: e5a10068  str r0, [r1, #104]!       ; obj[0x68+4*s] = section-s entry-ptr array
 ```
 - Fill: each slot i = `file_base + entry[i].offset` (script ptr), last slot null. r6 walks section descriptors with `ldr r8, [r6, r10, lsl #4]!` (0x521d4, 16 B stride).
-- ⇒ rEnemyCmd (0xC0 B) = {+0x64 file copy, +0x68..0xBC = 21 section-array ptrs}. Note cmd+0x6c = section **1**'s array ptr and cmd+0x78 = section **4**'s array ptr under this layout — so emc.md's accessor line "0x51d70(cmd,i) = [cmd+0x78][i] bounded by [cmd+0x6c]" cannot describe the rEnemyCmd EMC object as loaded here (pointer-as-bound is nonsense); 0x51d70 must belong to a different object or emc.md's line is stale. Its call site 0x6852c passes em[0x2588] and reads result as {+8 count, +20 ptr} — structured data, not script bytes. Not central to the section question; flagged for emc.md correction.
+- ⇒ rEnemyCmd (0xC0 B) = {+0x64 file copy, +0x68..0xBC = 21 section-array ptrs}. Note cmd+0x6c = section **1**'s array ptr and cmd+0x78 = section **4**'s array ptr under this layout — so emc.md's accessor line "0x51d70(cmd,i) = [cmd+0x78][i] bounded by [cmd+0x6c]" cannot describe the rEnemyCmd EMC object as loaded here (pointer-as-bound is nonsense); 0x51d70 must belong to a different object or emc.md's line is stale. Its call site 0x6852c passes `[G+0x2588]` where G is the startup singleton `*[0x1851fe0]` (not `em`; FOR-SE-REPLY §270/§273) and reads the result as {+8 count, +20 ptr} — structured data, not script bytes. Not central to the section question; flagged for emc.md correction.
 
 ## Dispatch table (decoded 2026-11-09)
 
@@ -435,7 +435,7 @@ Consequences read off the same window:
   `0x3a8ef4(global, *(u16*)(sub+0x1b6))`) operates on a **different object class** than the EMC blob:
   at `0x68518`/`0x685e4` that object's `+0x6c` is compared as an *integer count* (`cmps r1,r2; bcs`),
   which is impossible under the loader layout where `+0x6c` is section 1's array pointer. So
-  `em[0x2588]` is the count/record container and `em[0x75f4]` is the EMC object; `emc.md` has been
+  `[G+0x2588]` (G = the startup singleton `*[0x1851fe0]`, the `rEmSizeYureTbl` resource) is the count/record container and `em[0x75f4]` is the EMC object; `emc.md` has been
   annotated accordingly. `[A: layout and call site / U: the classes' names — none recoverable here]`
 
 ## SelfFalsificationCheck
