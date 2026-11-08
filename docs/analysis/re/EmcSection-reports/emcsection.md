@@ -480,6 +480,35 @@ Consequences read off the same window:
   **The key `*(u16*)(sub+0x1b6)` is an entity id with an explicit `0xFFFF` = "none" sentinel
   (2026-11-09, FOR-SE-REPLY §232/§292 + main-session disasm).** It is not a counter: the value is
   written by a per-em spawn/config call (`0x6fb90 strh r1,[r0,r2]`, `r1 = [sp+40]` = the fifth
+  **The 66-way jump table at `0x224d8` dispatches on `sub[0xb5f4] - 14`, and only two of its 66
+  entries point anywhere else (2026-11-09, verified word by word).** The chain is:
+
+  ```
+  0x224b4 movw r1,#0xb5f4
+  0x224b8 ldrb r0,[r0,r1]     ; the big enum, values 3..80 (see the 0xb5f4 entry above)
+  0x224bc sub  r0,r0,#14      ; ★ index = value - 14
+  0x224c0 cmp  r0,#65         ; 66 legal indices
+  0x224c4 bhi  0x225f8         ; out of range -> the default tail
+  0x224c8 mov  r0,r0,lsl #2
+  0x224cc add  r1,pc,#4       ; PC = 0x224d4, so r1 = ★ 0x224d8 (NOT 0x224d4 -- that is 8 short)
+  0x224d0 ldr  r0,[r0,r1]
+  0x224d4 add  pc,r0,r1       ; target = entry + 0x224d8
+  ```
+
+  Every entry is either `0x108` or `0x120`, so the whole table has exactly two destinations:
+
+  | entry | target | entries | what it does |
+  |---|---|---|---|
+  | `0x108` | `0x225e0` | 9  | `movt r0,#0x4270` ⇒ **60.0f** stored to `[r7]`, `movt r0,#0x41a0` ⇒ **20.0f** stored to `[r6]`, then falls through |
+  | `0x120` | `0x225f8` | 57 | straight to the shared tail, no constant initialisation |
+
+  Table indices holding `0x108`: **0, 1, 2, 20, 46, 47, 48, 54, 65** (read from `0x224d8..0x225dc`),
+  i.e. **enum values 14, 15, 16, 34, 60, 61, 62, 68, 79** after the `- 14` bias. The shared tail is
+  `vldr s0,[r7]; vcmpe.f32 s0,#0.0; vmrs APSR_nzcv,fpscr; movwgt r5,#1; strb r5,[r4,#0x454];
+  pop {r4,r5,r6,r7,r11,pc}` — "the float at `[r7]` is positive" is recorded as a byte flag.
+
+  Both `0x225e0` and `0x225f8` are instruction boundaries; the previously cited `0x225dc` / `0x225f4`
+  are not (the first is table data `0x00000120`-adjacent, the second lands inside the `movt`/`str` pair).
   argument) and is used *immediately afterwards as an id* — `0x49904(id)` yields a byte stored into
   `sub+0x924`, and `0x493cc(0|1|2, sub[0x1b6], handle)` derives three consecutive bytes `sub+0x924/925/926`
   from that same id. A reader compares it against the sentinel explicitly:
