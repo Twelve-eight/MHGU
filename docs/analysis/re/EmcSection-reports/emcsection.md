@@ -174,6 +174,13 @@ Section 12 is selected in a **different function** and is the one target the tab
 |---|---|---|---|
 | **second** — the per-tick runner whose body starts 0x82e30 (the same block appears at 0x82ddc) and which calls the interpreter at 0x82f54 | `[em+0x72f4]` non-null, `[cmd+0x30]` (= 4*12, i.e. obj+0x98) non-null, and `bl 0xb6f0c(em,0) == 1` | **12**, entry 0 | 0x82ed8-0x82f40 |
 
+Sections **18** and **20** are not in either table (both decoded 2026-11-09, FOR-SE-REPLY §198/§199):
+
+| where | predicate | section | evidence |
+|---|---|---|---|
+| interpreter periodic check 0x836a8 (sole entry `0x86278 b`) | `[[[em[0x72f4]]]]` matches, bit 3 of `em[0xb7c0][1]`, `0x82020(em,16) == 1`, `[cmd+0x50]` (= 4*20) non-null | **20**, entry 0 (dynamic `strb` at 0x83704) | §198 |
+| fn 0x8d854, two arms (gate verified on the first, 0x8da20-0x8da40: `sqrt(d) > s18`) | after the gate: action 19 is set (`bl 0xc6e14(em,5,19,0,0)`), `bl 0xc46c8`, `bl 0xb4e58(em,1,·)`, then `em[0x72f8]` is replaced by the embedded block `em+0xba34` | **18**, entry 0 (first arm) / r7 (second) — static `strb` at 0x8da90 / 0x8dd7c | §199 |
+
 Reading of the second dispatcher (all [A], windows 0x82df0-0x82f60):
 
 - Preconditions: `em[0x72f8]` (script) must be non-null (0x82df8; if null it jumps straight to the
