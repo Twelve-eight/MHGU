@@ -64,7 +64,7 @@ const pending = new Map();      // reg -> {imm, age} from movw, expires after 4 
 const addrReg = new Map();      // reg -> offset, for `add rD, rB, rX` where rX is pending
 for (let v = TEXT_START; v < TEXT_END; v += 4) {
   const w = W(v);
-  for (const [r, o] of pending) { o.age++; if (o.age > 4) pending.delete(r); }
+  for (const [r, o] of pending) { o.age++; if (o.age > 12) pending.delete(r); }   // 4 was too tight: 0xa1c20's producer sits 5 instructions back
   if (((w >>> 16) & 0xFFF0) === 0xE300) {          // movw: imm16 = imm4:imm12 (do NOT pin imm4)
     const imm = (((w >>> 16) & 0xF) << 12) | (w & 0xFFF), rd = (w >>> 12) & 15;
     if (OFFS.includes(imm)) { pending.set(rd, { imm, age: 0 }); addrReg.delete(rd); }
