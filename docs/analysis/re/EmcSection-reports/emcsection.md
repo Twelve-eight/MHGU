@@ -109,6 +109,20 @@ Each checks `*(cmd+0x68+4*sec)` non-null (i.e. the section's array exists), then
 ### The interpreter runs em[0x72f8]; it reads the section byte only for a preamble call [A]
 Interpreter loop: `ldr r0,[r4,#0]` (ip), length 0x50ce0, op dispatch (0x83788-0x837a8); end branch 0x83d80 checks `*ip==0xff` twice then `bl 0x8282c` (0x83dac) with r1=1 — i.e. **on script end the dispatcher 0x8282c picks the next (section, entry)**. Wrapper 0x82f54 stores result and optionally zeroes em[0x72f0]. The interpreter *does* read the byte once, at 0x8316c (`movw r1,#0x72fc; ldrb r1,[r8,r1]` with r8 = em), but never to select a section: `sub r2,r1,#3; cmp r2,#3; bcs 0x831b0` sends bytes 3-5 down one arm that calls `bl 0xc6e14(em, 1, 2, [em+0x250])` when `[em+0x368] != 0xff` and `(4,0,0)` otherwise, and 0x831b0 (`cmp r1,#6; cmpne r1,#17`) sends bytes 6 and 17 down the `(4,0,0)` arm; every other byte falls through to 0x831d8. So the byte is an enum for a preamble call, not a selector. Apart from that read, the fields are only read/written by (a) dispatcher 0x8282c and the second dispatcher in the 0x82e30 function, (b) opcode handlers / AI helpers that write the triple (scan below), (c) resolveState 0x825fc which walks the section byte to find where to save/restore it.
 
+### Section 19's only static writer, and why no layer rejects 4/16 [A]
+
+The single store that puts **19** into the section byte is `0x82adc movw r1,#0x72fc` / `0x82ae0 mov r3,#19` /
+`0x82ae4 strh r3,[r4,r1]` — a half-word store that also zeroes `em[0x72fd]`. (A nearby `mov r2,#19` at
+`0x8ba60` is *not* a section writer: it targets `r10+0xb9f0`.) So a writer above the dispatchers' bound of
+18 exists, which is why writer coverage and dispatcher coverage must not be conflated.
+
+`em[0x72fd]` is not an independent entry selector: it is the second byte of an 8-byte lane slot that is
+pushed and popped together with the section (`[state, entry, dword]`), and the pop path applies **no
+section constraint** at all. The redirector `fn 0x825fc` likewise passes states 4 and 16 straight through,
+and all twelve `bl 0x825fc` consumers only compare the returned value against small integers (≤18).
+⇒ Nothing rejects 4/16; the only reason they are never selected is the absence of a static writer
+(FOR-SE-REPLY §280).
+
 ### (section, entry) writer patterns outside 0x8282c [A]
 - 0x8b7c0 area — pending-stack save then section 1 (pool resume):
 ```
