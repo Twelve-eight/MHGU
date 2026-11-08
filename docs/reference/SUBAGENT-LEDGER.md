@@ -103,3 +103,11 @@
 - **代理 4 / Op14Targets**: dsv-remote。只读；写 `G:/tmp/EMC/op14-targets.md`。产出：**`op 0x14` 的参数恒为 section 1 的条目号**（handler `0x83ed8`：`strb 1→em[0x72fc]`、`strb arg→em[0x72fd]`、`[P+4]` 取脚本、压 `{section,entry,resume}` 帧），`ai.mjs` 的 s0→s1 模型正确；数据侧 91 322 叶子 `arg < s1 条目数` 0 违例。
 - **监督**: 主会话逐条复核了上述全部断言：`0x82f1c/0x82f24`（section 12）、`0x8b49c`、`0x7f030`、`0x8b4d0` 四站点亲自反汇编；`verify-ai-reach.mjs` 独立实现给出同一 104；工具的两个缺陷按审查方判定修复并三版对比。
 - **能力评估**: dsv-remote 在无 `run` 设备时能用 7 个 MHGU MCP 设备完成指令级重算（值得写进派单模板）；两个 dsv 代理都**没有**发现"派单 brief 里的 `(section,entry)` 表述与实际不符"以外的越权行为。Difficulties 见各自报告。
+
+## 2026-11-09 02:5x–03:0x — 守卫置位器与 `self/rt` 根因（2 个子代理，产出经主会话复核）
+
+- **目标**: 两件互不依赖的收尾——(1) 检验已发布的「没有代码置 `em[0x1408]` bit7」；(2) 交接清单第 5 项 `self/rt` 8 个 `.user` 解析不了的根因。
+- **代理 1 / GuardWriters**: dsv-remote（`wb2api-t5-remote/deepseek-v4.1-flash:max`，effort hi）。无 `run` 设备，自写 32 KB 分类脚本，由主会话代跑两轮（第一轮暴露它自己的 `Rn==0` vs `r0` 解码 bug）。**产出**：`G:/tmp/EMC/guard-writers.md` + 脚本已入库为 `MHGU/tools/audit/guard-word-ops.mjs`。**结论**：置位器 = `0xc4b44 orr r0,r0,#128`（`0xc477c` 写回，`r10=em+0x1408`），谓词「当前 section≠1 或池抽到的 entry≠`em[0x72fd]`」；已发布的「103/0/4」被否证（`movw` 在 0x468 字节之前、值寄存器与指针寄存器不同，原规则两轴都够不着）；修正后 `SETTERS=1 / UNK=18 / B7OPS=12`（11 个 bic 清 + 1 个 orr 置）。
+- **代理 2 / SelfRtParse**: glm-re（同 route，有 bash）。**产出**：`G:/tmp/EMC/self-rt-parse.md` + 三个 scratch 脚本。**结论**：12 个失败文件（8 硬抛 + 4 crc）与 **base pak** 字节全等，游戏实际读的 **patch_001** 版本用同一 `rsz.mjs` 解析 clean；`self-stage.mjs` 吞非零退出、`pak.mjs` 只在 `errored>0` 才非零（`pak.mjs:1173`，不是子代理报的 1150-1156），所以补丁没覆盖也没有提示。
+- **监督**: 主会话逐条复核：`0xc46d8..0xc4b48` 置位链与 `refs_to 0xc4b40`（两条条件入口）亲自反汇编；四个 `bic` 亲自核（`0xc3d44/#0xa0`、`0xc46b4/#0xb0` 两条也确认清 bit7，子代理第一版把它们误判为 same）；`rsz.mjs check` 对 staged/vanilla 两个版本亲自复现（`cursor_ok=false` / `cursor_ok=true`），并 sha256 抽查 `em001_02_use_think_data` 与 base pak 全等、与 patch_001 不同。子代理引的 `pak.mjs` 行号已更正为 1173。
+- **能力评估**: dsv-remote 在无 run 设备时仍能用自写 ARM 解码器做全量写普查（但第一版分类器有自己的 bug，**零结果必须先过正控**这条再次成立）；glm-re 的 pak 级取证（extract + sha 比对 + 有效版本抽取）质量高，直接给出可执行的修法方向。Difficulties 见两份报告。
