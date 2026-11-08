@@ -285,18 +285,27 @@ Consequences read off the same window:
     is selected while it is still positive. Of its 28 address sites, one writes `1200.0f` (0xb1af0),
     most write `0`, and three store a register value (`0x99160 str r4,[r9,r0]`,
     `0xa5480 str r6,[r4,r0]`, `0xb9944 str r7,[r10,r0]`) whose sources are untraced; **none of the 28 has a `vstr`**, so an
-    in-place decrement is not among these sites; naming its game meaning stays [U].
+    in-place decrement is not among these sites. **Refined (FOR-SE-REPLY §200):** `0xa5480` is not an
+    unknown value — it sits in fn `0xa5198` whose `r6` is `mov r6,#0` at entry, and that same function
+    clears `em[0x73dc]`, `sub+0x59c`, `sub+0x5a4` and `em[0x758c]` in one block, i.e. the section
+    13/8/19 latches are reset together. Naming its game meaning stays [U].
     [A: 1200.0f set + clears + `<= 0` reader / U: what it times]
   - `[em+0x1428]+0x59c` and `+0x5a4` (both f32, `> 0`) — both are `sub` fields. The documented `sub`
     fields near that area are different ones (HP at +0x370/+0x374, the status-threshold triple at
     +0x5c96/+0x5c98/+0x5d6a, the phase byte +0x1a1), so this is an unnamed float pair. What condition
-    makes either positive is [U].
+    makes either positive is [U]. **Update (FOR-SE-REPLY §200/§201):** both are cleared by the same
+    fn `0xa5198` block that resets `em[0x758c]` and `em[0x73dc]`; the VFP lanes do reach them —
+    writers at `0x9fc20` (`vstr s0,[r0]`, +0x5a4) and `0xa1c00` (`vstr s16,[r0]`, +0x59c), readers
+    in the dispatcher (0x828a8/0x828c0) and in the interpreter (0x85b20/0x85b38).
   - `em[0x73e0] == 16` — this one *is* documented: `+0x73E0` is the monster's action number byte and
     `+0x73E1` its variant (`MHGU/docs/mechanics/monster-code-map.md:26`,
     `MHGU/docs/analysis/monsters/mon-ai-entry.md:96`). So section 14 is selected while **action 16**
     is the current action; which motion/behaviour action 16 is depends on the per-monster L1 table,
     so the gameplay meaning is per-monster [U].
-  - `[em+0x1428]+0x505 == 3` (u8) — an unnamed `sub` byte; only the equality test is decoded. [U]
+  - `[em+0x1428]+0x505 == 3` (u8) — **decoded (FOR-SE-REPLY §188):** a 0..3 state enum; the writers
+    derive it from `(sub[424] & 0x80001) == 1` (`0xbd1b0` keeps a caller value or 0), `0xbd30c`
+    stores 3, `0xba9cc` stores 0; the dispatcher additionally needs `[cmd+0x24]` non-null. What the
+    value means stays [U].
   - `em[0x1408]` bit 7 / bit 8 and `em[0x7420]` (u8) — the guard's three flag bits. The code shows
     bit 8 cleared at every dispatch entry and set again inside the guard, and bit 7 cleared by the
     same `bfi`. **The bit-7 setter is now found** (2026-11-09, GuardWriters + main-session disasm):
