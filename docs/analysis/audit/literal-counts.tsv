@@ -11,7 +11,7 @@
 # caught because no step compared two readers before the number reached a document.
 const	pinned	note
 0x1404	301	published as 298 in FOR-SE-REPLY section 350, corrected in 370
-0x73e0	634	movw materialisations only (cond=AL required since 370); NOT the writer count (4 writers, see 368). Was 638 while isMovw accepted cond!=E
+0x73e0	638	movw materialisations, CONDITIONAL ones included (movweq at 0xe90998, movwne at 0xe05050); cond 0xF excluded. NOT the writer count (4, see 368)
 0x734c	39	depth field of the 0x7350 frame stack
 0x7307	5	depth field of the continuation stack; section 367
 0xba44	127	flag word; literal_loads reported 126, missing 0xb4a88
