@@ -15,3 +15,7 @@ const	pinned	note
 0x734c	39	depth field of the 0x7350 frame stack
 0x7307	5	depth field of the continuation stack; section 367
 0xba44	127	flag word; literal_loads reported 126, missing 0xb4a88
+0x1405	39	byte alias of em[0x1404]; invisible to a 0x1404 census. Section 381
+0x1406	16	byte alias, read as a halfword at 0x95a5c. Section 380/381
+0x1407	15	byte alias. Section 381
+0x73fb	9	movw materialisations only; the real access count is 10 because 0xcb42c reaches it via movw 0xb9b7 + movt 0xffff. Section 384
