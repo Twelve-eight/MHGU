@@ -296,8 +296,10 @@ Consequences read off the same window:
 - Section 9 has a split body: when the gate `0xa1fc8(em,0x20)` returns **1** the dispatcher does
   *not* select section 9. It calls `0x82cd4(em)` and then either jumps into the guard test (when
   `em[0xba44] & 2` is set) or re-enters itself with `bl 0x8282c(em,1)` (0x82a74-0x82a98). [A]
-- Epilogue 0x82b0c-0x82c3c: calls `[[em+0x7307]+768]` with em as `this` (0x82b0c-0x82b20; the
-  section-0 and pool paths instead call `[em[0]+776]` at 0x82a24/0x82c78), then zeroes
+- Epilogue 0x82b0c-0x82c3c: calls `[[em]+768]` (**vtable slot 0x300**) with em as `this`
+  (0x82b0c-0x82b20). **Corrected 2026-11-09 (§350):** `0x82b14 ldr r0,[r6],r0` is **post-index**
+  — it loads `[em]` (r6 was `mov r6,r4` at 0x82b10) and then leaves `r6 = em+0x7307`, so the
+  call target is `[[em]+768]`, **not** `[[em+0x7307]+768]`; the section-0 and pool paths instead call `[em[0]+776]` at 0x82a24/0x82c78, then zeroes
   `em[0x7307]`, `em[0x734c]` (pending depth), `[ctx+0x2c1]`, `[ctx+0x2c2]`, `em[0x5f15..0x5f17]`,
   `em[0x7300]` (the same word the second dispatcher tests as f32 before dispatching), `em[0x73c8]`,
   and, when arg1 == 1, `em[0x73d0..0x73d8]`. No store in the function
