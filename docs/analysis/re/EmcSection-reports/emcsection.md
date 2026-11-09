@@ -89,7 +89,7 @@ slot that `0xb5128` copies into `0xba2c` on the dispatcher's equal path; the lab
 AI interpreter receives `&em[0xba30]` in its pointer table (FOR-SE-REPLY §271/§279).
 
 ### dispatch head 0x8282c — first observations [A]
-- Args (em=arg0, arg1∈{0,1,2}); re-decoded 2026-11-09 over the whole body 0x8282c..0x82c3c. Prologue: `mov r4,r0`; `movw r0,#0x1408`; `cmp r5,#2`; `ldr r0,[r6,r0]!` (0x82844) latches **r6 = em+0x1408** and loads the **word** em[0x1408]; `bfc r0,#8,#1` (0x82848, printed as `.word 0xe7c8041f`) clears **bit 8**; `str r0,[r6]` (0x8284c) writes it back; `popeq` at 0x82850 returns when arg1==2. There is **no** store to em[arg1] anywhere in the function — r5 is used only by `cmp r5,#2` (0x82840) and `cmp r5,#1` (0x82ba0) — so the earlier "copies em[0x1408] halfword into em[arg1]" was a misdecode of the two `bfc`/`bfi` words and is withdrawn.
+- Args (em=arg0, arg1∈{0,1,2}); re-decoded 2026-11-09 over the whole body **0x8282c..0x82cd0** (the earlier `0x82c3c` end was 37 instructions short: branches reach 0x82c40/0x82c48/0x82c8c/0x82cac and the code rejoins at 0x82cd0 `b 0x82934`; five conditional `b`s from inside the function, no external entry -- FOR-SE-REPLY §311). Prologue: `mov r4,r0`; `movw r0,#0x1408`; `cmp r5,#2`; `ldr r0,[r6,r0]!` (0x82844) latches **r6 = em+0x1408** and loads the **word** em[0x1408]; `bfc r0,#8,#1` (0x82848, printed as `.word 0xe7c8041f`) clears **bit 8**; `str r0,[r6]` (0x8284c) writes it back; `popeq` at 0x82850 returns when arg1==2. There is **no** store to em[arg1] anywhere in the function — r5 is used only by `cmp r5,#2` (0x82840) and `cmp r5,#1` (0x82ba0) — so the earlier "copies em[0x1408] halfword into em[arg1]" was a misdecode of the two `bfc`/`bfi` words and is withdrawn.
 - Three fixed-slot paths write `strh r2, [em+0x72fc]` with r2 = 13 (0x8288c, entry ptr [res+0x34]), 8 (0x828f0, [res+0x20]), 14 (0x8292c, [res+0x38]); each then `ldr r0, [r0,#0]` (0x82934) and `str r0, [em+0x72f8]` (0x8293c), `strb #0,[em+0x7304]` (0x82948). res = em[0x72f4].
 - Guarded path (0x8294c-0x829b0): `ldr r0,[r6,#0]` (r6 = em+0x1408) then `tst r0,#128` (0x82950) gates it, so the tested bit is **bit 7 (0x80)**, and `em[0x7420]` (byte) must be non-zero (0x82958-0x82964). Body: `em[0x1418]=0`, `em[0x1414]=0`; `bfi r0,r1,#7,#2` with r1=2 (0x82984, printed as `.word 0xe7c80391`) writes bits 8:7 = `0b10` (clears bit 7, sets bit 8) and `str r0,[r6]` (0x8298c) stores it; then em[0x72fc]=1 (`strb r1,[r6,r0]!`, 0x82998), em[0x72fd]=`bl 0xb4e58(em,1)` (0x829a4, stored 0x829b0), then the double-indexed load at 0x829f4/0x82a08 (see below).
 - Double-indexed load [A]:
@@ -200,7 +200,7 @@ the `0x7f4xx-0x7fbxx` family, which **saves and restores** the selection frame i
 (`0x87a94` is **not**
 one of them: it loads the section and entry bytes and stores them into `em+0x73c0/+0x73c4`, i.e. a
 save, corrected 2026-11-09 after hand-decoding)
-(CensusReview's finding; listed in the enumeration below). The body `0x8282c..0x82c3c` was read
+(CensusReview's finding; listed in the enumeration below). The body `0x8282c..0x82cd0` was read
 instruction by instruction for this pass, so every store in that function is accounted for. (A value
 could still be written through the `&em[0x72fc]` pointer cached at `[sp,#356]` by 0x83618; that lane
 is dynamic and is listed under Unknown.)
