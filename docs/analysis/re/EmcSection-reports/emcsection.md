@@ -62,7 +62,7 @@ is `0xc8d128(container, idx, flag)` [A]: `ldr r12,[r3,#132]` (count), `bxls` whe
 `ldr r3,[r3,#128]` (base), **`add r1,r3,r1,lsl #4`** (16-byte stride), `ldr r1,[r1,#8]` (null = miss),
 then `cmp r2,#1` → `ldreq r0,[r1,#8]` when the flag is 1, else `mov r0,r1`; the dispatcher reaches it
 through the wrapper `0xa0f414`, which pins that flag to 1, and the caller adds **48** to a
-non-zero result. `em[0xba4c]` **compares** as the active index + 1 on the `0xb510c` path (`0xb5110 sub r2,r0,#1`), but that is a path property, not a global equality: it is written as `count+1` at `0xb4c34` (`ldrh r0,[r4,0xb884]; add r0,#1; strh r0,[r4,0xba4c]`) and as the **raw idx** at `0xb4c6c` (`strh r10`); guard `0x97624`
+non-zero result. `em[0xba4c]` **compares** as the active index + 1 on the `0xb510c` path (`0xb5110 sub r2,r0,#1`), but that is a path property, not a global equality: it is written as `count+1` at `0xb4c34` (`ldrh r0,[r4,0xb884]; add r0,#1; strh r0,[r4,0xba4c]`) and as the **literal 1** at `0xb4c6c` (`0xb4be8 mov r10,#1`, the only write to r10 before the store -- so `em[0xba4c] = 1 + em[0xb884]` = **record count**, not the raw idx; corrected by an independent re-derivation, FOR-SE-REPLY §330); guard `0x97624`
 runs its 300.0/200.0 distance test only with bit 6 set; and guard `0xb4b10` fills `sub+0x1d0..0x1d8`
 from `em[0xb9e0..0xb9e8]` and zeroes `sub+0x1dc` on the bit-6-clear path. (FOR-SE-REPLY §253/§272)
 
