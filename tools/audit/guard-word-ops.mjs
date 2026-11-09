@@ -89,7 +89,8 @@ const COND = (w) => (w >>> 28) & 0xf;
 // ---------- tags ----------
 // c = constant; i = identity(pointer to unknown object); p = pointer = base+off; w = the field word value
 const isW = (t) => t && t.t === 'w';
-const isPtrField = (t) => t && t.t === 'p' && t.off === 0x1408;
+const FIELD_OFF = (() => { const a = process.argv.find((x) => /^--offset=/.test(x)); return a ? Number(a.split('=')[1]) : 0x1408; })();
+const isPtrField = (t) => t && t.t === 'p' && t.off === FIELD_OFF;
 function initState() { return { regs: new Array(16).fill(null), stack: new Map(), gens: new Array(16).fill(0) }; }
 function cloneState(s) { return { regs: s.regs.slice(), stack: new Map(s.stack), gens: s.gens.slice() }; }
 function setReg(s, r, tag) { s.regs[r] = tag; s.gens[r] = (s.gens[r] + 1) >>> 0; }
@@ -138,13 +139,13 @@ function effAddr(s, baseReg, offConst) {
   if (t && t.t === 'c') return { base: 'abs:' + hex(t.v), off: offConst >>> 0, reg: baseReg };
   return { base: identOf(s, baseReg), off: offConst >>> 0, reg: baseReg };
 }
-const isFieldAddr = (a) => a && a.off === 0x1408;
+const isFieldAddr = (a) => a && a.off === FIELD_OFF;
 
 // ---------- per-site DFS ----------
 function analyzeSite(site, out) {
   const run = newSiteRun(site.v, site.reg, site.kind);
   const start = initState();
-  setReg(start, site.reg, { t: 'c', v: 0x1408 });
+  setReg(start, site.reg, { t: 'c', v: FIELD_OFF });
   const queue = [{ pc: (site.v + 4) >>> 0, s: start, chain: [{ pc: site.v, txt: `${site.kind} r${site.reg}, #0x1408` }] }];
   const visits = new Map();
   let dropped = false;
@@ -479,13 +480,13 @@ const sites = [];
 for (let v = TEXT_START; v < TEXT_END; v += 4) {
   const w = W(v);
   const mw = movw(w);
-  if (mw && mw.v === 0x1408) { sites.push({ v, reg: mw.d, kind: 'movw' }); continue; }
+  if (mw && mw.v === FIELD_OFF) { sites.push({ v, reg: mw.d, kind: 'movw' }); continue; }
   const d = dpImm(w);
-  if (d && d.op === 13 && d.n === 0 && d.imm === 0x1408) { sites.push({ v, reg: d.d, kind: 'movimm' }); continue; }
+  if (d && d.op === 13 && d.n === 0 && d.imm === FIELD_OFF) { sites.push({ v, reg: d.d, kind: 'movimm' }); continue; }
   const ld = sdt(w);
   if (ld && ld.k === 'sdt' && ld.L && ld.n === 15) {
     const tgt = (v + 8 + (ld.U ? ld.imm : -ld.imm)) >>> 0;
-    if (W(tgt) === 0x1408) sites.push({ v, reg: ld.t, kind: 'ldrlit' });
+    if (W(tgt) === FIELD_OFF) sites.push({ v, reg: ld.t, kind: 'ldrlit' });
   }
 }
 console.log(`SITES total=${sites.length} movw=${sites.filter(s => s.kind === 'movw').length} movimm=${sites.filter(s => s.kind === 'movimm').length} ldrlit=${sites.filter(s => s.kind === 'ldrlit').length}`);
