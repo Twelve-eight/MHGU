@@ -123,5 +123,7 @@ for (const h of hits) { if (!byTotal.has(h.total)) byTotal.set(h.total, []); byT
 for (const [t, arr] of [...byTotal].sort((a, b) => a[0] - b[0])) {
   const folded = arr.filter((x) => x.how === 'folded').length;
   console.log(`  0x${t.toString(16)}: ${arr.length} site(s), ${folded} via add-fold`);
+  const loads = arr.filter((x) => x.load).length;
+  console.log(`    L=${loads} S=${arr.length - loads}  (listing below is only the first ${Math.min(20, arr.length)} of ${arr.length}; never count from it)`);
   console.log('    ' + arr.slice(0, 20).map((x) => `0x${x.v.toString(16)}(${x.how},${x.load ? 'L' : 'S'})`).join(' '));
 }
