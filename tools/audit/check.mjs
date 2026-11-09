@@ -41,7 +41,7 @@ else {
 
 // 3. slice TSVs keep their contract header. LINK-STATUS.tsv is a disposition tracker for the linkage review, not a
 // slice table, so it carries its own header and is exempt by name rather than by shape.
-for (const f of fs.readdirSync(path.join(ROOT, "docs/analysis/audit")).filter((x) => x.endsWith(".tsv") && !/^(MANIFEST|DOC-LINKS|ROUND1-ALL|TIERB-CONF-RECOUNT|LINK-STATUS)/.test(x) && !/-FIXES\.tsv$/.test(x))) {
+for (const f of fs.readdirSync(path.join(ROOT, "docs/analysis/audit")).filter((x) => x.endsWith(".tsv") && !/^(MANIFEST|DOC-LINKS|ROUND1-ALL|TIERB-CONF-RECOUNT|LINK-STATUS|literal-counts)/.test(x) && !/-FIXES\.tsv$/.test(x))) {
   // Tolerate a CRLF checkout: core.autocrlf=true re-materialises these TSVs with \r\n and the header
   // would otherwise compare unequal on byte-identical data (2026-11-06, W6-P130).
   const head = fs.readFileSync(path.join(ROOT, "docs/analysis/audit", f), "utf8").split("\n")[0].replace(/\r$/, "");
@@ -249,6 +249,21 @@ try {
   else bad(`function bodies (W6-P126): ${out.split("\n").filter((l) => l.startsWith("FAIL")).join("; ").slice(0, 200)}`);
 } catch (e) {
   bad(`function bodies (W6-P126): fn-body --check failed: ${String(e.message).slice(0, 160)}`);
+}
+
+// 8. literal-counts: every constant whose site count is quoted in a document must reproduce, and must
+//    reproduce through TWO independent readers (instruction decode vs raw byte search over the file).
+//    Origin (2026-11-09): the MCP literal_loads tool under-reports even over the whole text (0x1404 read
+//    as 298 instead of 301, 0xba44 as 126 instead of 127) and a writer census missed the strh lane, so
+//    three published numbers were wrong. Comparing two readers BEFORE publishing is the step that was
+//    missing; this section makes it mechanical and blocks the tree when a count drifts.
+try {
+  const out = execFileSync(process.execPath, [path.join(ROOT, "tools/audit/literal-counts-check.mjs")], { encoding: "utf8" });
+  const n = (out.match(/^PASS 0x/gm) ?? []).length;
+  if (/all pinned counts reproduce/.test(out)) ok(`literal counts (2 readers): ${n} constant(s) reproduce and both readers agree`);
+  else bad(`literal counts: ${out.split("\n").filter((l) => l.startsWith("FAIL")).join("; ").slice(0, 240)}`);
+} catch (e) {
+  bad(`literal counts: literal-counts-check failed: ${String(e.message).slice(0, 200)}`);
 }
 
 console.log(failures ? `\n${failures} check(s) failed` : "\nALL PASS");
