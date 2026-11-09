@@ -105,6 +105,20 @@ let failures = 0;
 const rows = fs.readFileSync(TSV, "utf8").split("\n").map((l) => l.replace(/\r$/, "")).filter((l) => l && !l.startsWith("#"));
 const header = rows.shift();
 if (!/const\tpinned\tnote/.test(header)) { console.log(`FAIL unexpected header: ${header}`); process.exit(1); }
+
+// Duplicate pinned rows must fail: with two rows for one constant, editing only one of them leaves the
+// other to PASS, so the gate prints a contradictory verdict instead of a failure. (Caught 2026-11-09 when
+// 0xba44 was appended twice while pinning new counts.)
+{
+  const seen = new Map();
+  const dup = [];
+  for (const line of rows) {
+    const k = line.split("\t")[0];
+    if (seen.has(k)) dup.push(k); else seen.set(k, 1);
+  }
+  if (dup.length) { console.log(`FAIL duplicate pinned row(s): ${[...new Set(dup)].join(", ")} -- one constant, one row`); process.exit(1); }
+  console.log(`SELFTEST pinned table has ${seen.size} distinct constant(s), no duplicates`);
+}
 for (const line of rows) {
   const [cs, ps, ...rest] = line.split("\t");
   const c = Number(cs), pinned = Number(ps);
