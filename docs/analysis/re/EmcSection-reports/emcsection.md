@@ -494,7 +494,9 @@ Consequences read off the same window:
   `src_sub[0x1b6]+1` was right all along. A reader skips the whole update when the sentinel is
   present: `0xcb018 movw r1,#0xffff; 0xcb01c cmps r0,r1; 0xcb020 beq 0xcb08c`, where `0xcb08c` is
   `add sp,sp,#8; pop {r4,r5,r6,pc}` -- the function epilogue, not a consumer of the value.
-  The imm12 `0x1b6` bulk fill clears it to 0 at `0x4fdb4c`.
+  The imm12 `0x1b6` store at `0x4fdb4c` is **not** a clear to zero: it is `str r6,[r4,#438]` with
+  `r6` holding the object pointer (`0x4fd978 mov r6,r4`), inside a 4-byte-stride run at `0x1aa+4k`,
+  so it looks like a pointer array rather than the u16 field (`[U]`, see FOR-SE-REPLY §309).
   `[A: all three writers, the sentinel compare, the epilogue / U: why the two callers differ by +1 vs +2]`
 
   **The 66-way jump table at `0x224d8` dispatches on `em[0xb5f4] - 14`, and only two of its 66
