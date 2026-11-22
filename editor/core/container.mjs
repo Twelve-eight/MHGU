@@ -9,6 +9,9 @@ export const SLOT_COUNT = 3;
 
 const SLOT_TABLE_OFF = 0x0034; // 3 x u32 LE, one per slot, payload relative
 const SLOT_RECORD_PREFIX = 0x24; // bytes before char_off 0 inside a slot record
+// Spec 01 pre-slot region is read-only; spec 02 resolves the record prefix coordinate.
+// This is a lower bound, not a fixed origin for each slot.
+const FIRST_BLOCK_MIN = 0x18CC9C;
 
 function readU32LE(u8, off) {
   return (u8[off] | (u8[off + 1] << 8) | (u8[off + 2] << 16) | (u8[off + 3] << 24)) >>> 0;
@@ -26,10 +29,10 @@ function assertBytes(u8, what) {
 function blockOffFromRecord(u8, index, headerOff) {
   const recordOff = readU32LE(u8, headerOff);
   const blockOff = recordOff + SLOT_RECORD_PREFIX;
-  if (recordOff === 0 || blockOff + BLOCK_SIZE > u8.length) {
+  if (blockOff < FIRST_BLOCK_MIN || blockOff + BLOCK_SIZE > u8.length) {
     throw new RangeError(
       `system: slot ${index} header 0x${headerOff.toString(16)} holds ${recordOff}, ` +
-        `which does not address a ${BLOCK_SIZE} B hunter block inside the ${u8.length} B file`,
+        `which does not address a separate ${BLOCK_SIZE} B hunter block after the protected pre-slot region inside the ${u8.length} B file`,
     );
   }
   return blockOff;
@@ -45,7 +48,14 @@ export function openSystem(u8) {
   const slots = [];
   for (let i = 0; i < SLOT_COUNT; i += 1) {
     const headerOff = SLOT_TABLE_OFF + 4 * i;
-    slots.push({ index: i, headerOff, blockOff: blockOffFromRecord(u8, i, headerOff) });
+    const blockOff = blockOffFromRecord(u8, i, headerOff);
+    const recordOff = blockOff - SLOT_RECORD_PREFIX;
+    for (const prior of slots) {
+      if (recordOff < prior.blockOff + BLOCK_SIZE && prior.blockOff - SLOT_RECORD_PREFIX < blockOff + BLOCK_SIZE) {
+        throw new RangeError(`system: slot ${i} record overlaps slot ${prior.index}`);
+      }
+    }
+    slots.push({ index: i, headerOff, blockOff });
   }
   return { kind: 'system', bytes: u8, slots };
 }
@@ -88,9 +98,9 @@ export function hunterView(file, slotIndex) {
 //   "Still open"). The only permitted flag change is setting 1 together with a complete
 //   block, and writing it is left to a later feature that must also verify the state
 //   word and the readable block. This module never writes any container byte.
-// - The 36 B file prefix, the format stamp (0x0014) and the payload length (0x001C) are
-//   not verified: spec 01 says the stamp must be neither verified nor recomputed, and
-//   the only structural check the editor may make is the exact total file size.
+// - The format stamp (0x0014) and payload length (0x001C) are not verified or
+//   recomputed. Size, pointer bounds and disjoint record ranges are safety checks,
+//   not a claim that every unknown container field or slot-used flag is valid.
 // - The representation of an empty slot record is unconfirmed (spec 01 Gaps 3): a table
 //   entry of 0 is rejected as corrupt instead of being replaced by a guessed origin,
 //   because the fixed origins must not be hard-coded (spec 02 "Resolved by main

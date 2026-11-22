@@ -4,7 +4,7 @@ MHGU 1.4.0. Class `rEnemyCmd` (class-inventory.tsv:1756, size 192). Type hash `0
 
 Some arcs ship another monster's table (em002_00.arc holds em001_00_cmdtbl) [C].
 
-> **语料注记（2026-11-03 复测）**：本机 `MHGU-private/romfs-extract` 只有 **8 个**松散 `*.3aabba02`，去重后是 4 张真表（`em001_00` 310 条 / `em024_00` 188 / `em007_00` 193 / `em011_00` 141，合计 832 条 entry、106,198 条指令；`emc.mjs --summary` 8/8 解析、21 段全符）。旧文"111 files / 13,514 entries / 143 distinct opcodes"是在完整 arc 语料上测的，**该语料不在本机**，本次无法重算——引用这三个数时注明语料来源，别把它当成当前可复算值。上句"arc 里装别人的表"在本机有直接例证：`probe-em002` 目录下的文件名就是 `em001_00_cmdtbl`。
+> **语料注记（2026-11-03 复测）**：本机 `MHGU-private/romfs-extract` 只有 **8 个**松散 `*.3aabba02`，去重后是4张真表（`em001_00` 310条 / `em024_00` 188 / `em007_00` 193 / `em011_00` 141，合计832条entry、106,198条指令；`emc.mjs --summary` 8/8解析、21段全符）。旧文“111 files / 13,514 entries / 143 distinct opcodes”是在完整arc语料上测的，该语料不在本机，当前无法重算。可复算范围还报告 `13514/13514` 末标记、`46467/46467` block平衡、以及 op 0x31 的41次 sub=3；引用时必须带语料来源，不能把旧全集数字当当前本机事实。上句“arc里装别人的表”在本机有直接例证：`probe-em002`目录下文件名就是`em001_00_cmdtbl`。
 
 ## 1. Header (0x10 B)
 | off | type | value |
@@ -30,20 +30,20 @@ Runtime: the enemy keeps its rEnemyCmd at `em+0x2588` (stored at 0x68828 after t
 > runtime read would raise it to `[A]`, but nothing depends on it any more.
 
 ## 3. Script grammar
-Each entry is a byte script of `length` bytes, run by interpreter `0x82f80` (called from 0x82f54). The loop at 0x83770 calls `0x50ce0(ip)` for the instruction length; 255 means end (branch 0x83d80); otherwise `op = *ip++` and a 256-way jump table at 0x837ac selects the handler; after the handler `ip += length` (0x855ac) [C].
+Each entry is a byte script of `length` bytes, run by interpreter `0x82f80` (called from 0x82f54). The loop at 0x83770 calls `0x50ce0(ip)` for the instruction length; a result of 255 means the length reader identified an opcode byte above `0xa6`; `0xff` is then specially re-dispatched by `0x83d80` to the section dispatcher at `0x83bac`. Otherwise `op = *ip++` and a 256-way jump table at 0x837ac selects the handler; after the handler `ip += length` (0x855ac) [C].
 
 Instruction length (`0x50ce0`, same rule with explicit sub in `0x50c64`), table `LEN[167]` at 0x1732c8c (pointer 0x1839998) [C]:
-- `op > 0xa6`: end of script. Every script ends with exactly one `0xff` [C: 13514/13514 entries].
+- `op > 0xa6`: length reader returns 255; in the observed interpreter path `0xff` is not a dead opcode but a section-return/re-dispatch marker. The previous wording “every script ends with exactly one `0xff`” is a corpus fact only, not the complete dispatch semantics.
 - `LEN[op]` bit 7 clear: leaf command, `LEN[op]` operand bytes follow.
 - bit 7 set: block op, next byte is `sub`:
   - `sub 0` begin: `(LEN+1)&15` bytes including sub (operands of the block).
-  - `sub 1` case: 2 bytes (`sub`, 1 operand), 3/4/5 bytes when `LEN&0xf0` is 0x90/0xa0/0xb0.
+  - `sub 1` case: 2 bytes (`sub`, 1 operand); **in the available corpus only the 0x90 length family is observed on a reachable case path**. The 0xa0/0xb0 forms remain codec branches in the decoder, not current corpus observations.
   - any other sub: 1 byte. Seen: 2 = default, 0xff = end of block, and 3 for op 0x31 only (41 times) [C].
 
 Block semantics: the handler of a block op computes a value and calls matcher `0x8e144(ctx, ip, op, mode, value)`; the matcher walks `op.case` items of the same op (recursive skip of nested blocks via `0x8e044`) and returns the byte distance to the selected branch [C]. Nesting is balanced in all files (begin/endblock 46467/46467, 0 nesting errors) [C].
 
 ## 4. Opcodes
-`LEN` shows the raw table byte. 101 opcodes share the no-op handler 0x8470c (`mov r0,#0; b 0x85a1c`); 143 distinct opcodes occur in the 111 files [C].
+`LEN` shows the raw table byte. **完整 arc 语料的历史统计**曾记录111个文件中的143种distinct opcode；该语料不在当前本机，当前可复算范围只有上方语料注记中的4张表、832个entry。**这两个数字不能作为当前本机事实**。[C for the named historical corpus]
 
 | op | LEN | evidence | meaning |
 |---|---|---|---|

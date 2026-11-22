@@ -11,7 +11,7 @@ export const GOLD_OFF = 0x0024;
 export const HR_OFF = 0x0028;
 export const GENDER_OFF = 0x002A;
 
-const utf8Decoder = new TextDecoder('utf-8');
+const utf8Decoder = new TextDecoder('utf-8', { ignoreBOM: true });
 const utf8Encoder = new TextEncoder();
 
 // The plain maxima are the spec 01 valid ranges and are what the writers enforce.

@@ -1,8 +1,6 @@
-// package-release.mjs — build the two shippable zips and print their checksums.
-//
-// Why: the item-box patch and the save editor are the two pieces that are finished enough to hand to another person, and
-// a release that is assembled by hand is a release whose contents nobody can reproduce. This script copies exactly the
-// tracked files a user needs, writes the zip, and prints a sha256 next to each so the download page can carry it.
+// package-release.mjs — build the experimental patch/editor zips and print their checksums.
+// Packaging is not gameplay or save-safety validation; retain each package's warnings.
+// Explicit member lists keep the archives reproducible and exclude private game/save data.
 //
 // Usage: node tools/release/package-release.mjs [--out dist]
 
@@ -66,9 +64,12 @@ const read = (rel) => fs.readFileSync(path.join(ROOT, rel));
 // --- package 1: the save editor -------------------------------------------------------------------------------
 const editorFiles = [
   "editor/README.md",
+  "editor/serve.mjs",
   "editor/ui/index.html", "editor/ui/app.mjs", "editor/ui/style.css",
   "editor/core/container.mjs", "editor/core/header.mjs", "editor/core/items.mjs", "editor/core/progress.mjs",
-  "editor/test/roundtrip.mjs",
+  "editor/help/header.json", "editor/help/items.json", "editor/help/equipment.json",
+  "editor/help/monster.json", "editor/help/palico.json", "editor/help/progress.json",
+  "editor/test/roundtrip.mjs", "editor/test/serve.mjs", "editor/test/core-safety.mjs", "editor/test/file-selection.mjs", "editor/test/name-input.mjs",
   "LICENSE",
 ];
 for (const f of editorFiles) if (!fs.existsSync(path.join(ROOT, f))) { console.error("missing", f); process.exit(2); }

@@ -15,6 +15,8 @@ import {
 } from '../core/container.mjs';
 import {
   LIMITS,
+  NAME_OFF,
+  NAME_FIELD_BYTES,
   readGender,
   readGold,
   readHr,
@@ -72,8 +74,10 @@ const INVALID_KIND_LABELS = Object.freeze({
 });
 
 const utf8Encoder = new TextEncoder();
+const strictUtf8Decoder = new TextDecoder('utf-8', { fatal: true, ignoreBOM: true });
 
 const state = {
+  loadGeneration: 0,
   fileName: '',
   file: null,
   slotIndex: 0,
@@ -284,7 +288,7 @@ async function loadHelp() {
   const notes = [];
   if (failures.length > 0) {
     notes.push(
-      `部分帮助数据加载失败：${failures.join('；')}。请确认页面由仓库根目录的静态服务器打开（例如在 G:/omp works/MHGU 运行 python -m http.server）。`,
+      `部分帮助数据加载失败：${failures.join('；')}。请完整解压便携包，在解压目录运行 node serve.mjs，并打开终端显示的本机网址；不要直接双击 HTML。`,
     );
   }
   if (duplicates.size > 0) {
@@ -331,7 +335,7 @@ function renderSlotSelect() {
 function updateLayoutHint() {
   if (!state.file) {
     dom.layoutHint.textContent =
-      '两种布局没有可判定的字节标志，必须由你按存档来源明确选择。未选择前不显示道具箱，也不会写入任何槽位；选错布局会写到错误的区域。';
+      '两种布局没有可判定的字节标志，必须由你按存档来源明确选择。未选择前不显示道具箱，也不会写入道具箱/口袋槽；头部摘要另有独立控件。选错布局会写到错误的区域。';
     return;
   }
   if (!state.layout) {
@@ -375,6 +379,7 @@ function renderDownload() {
 }
 
 async function handleFile(file) {
+  const generation = ++state.loadGeneration;
   state.file = null;
   state.view = null;
   state.slotError = '';
@@ -397,9 +402,11 @@ async function handleFile(file) {
   try {
     bytes = new Uint8Array(await file.arrayBuffer());
   } catch (error) {
+    if (generation !== state.loadGeneration) return;
     setStatus(`读取文件失败：${error.message}`);
     return;
   }
+  if (generation !== state.loadGeneration) return;
 
   let opened;
   try {
@@ -538,6 +545,8 @@ function syncHeaderInputs() {
   clearHeaderErrors();
   const view = state.view;
   dom.headerFields.disabled = !view;
+  dom.nameInput.disabled = false;
+  dom.applyName.disabled = false;
   if (!view) {
     dom.nameInput.value = '';
     dom.playtimeInput.value = '';
@@ -547,10 +556,21 @@ function syncHeaderInputs() {
     return;
   }
   try {
-    dom.nameInput.value = readName(view);
+    const name = readName(view);
+    const field = view.u8.subarray(view.base + NAME_OFF, view.base + NAME_OFF + NAME_FIELD_BYTES);
+    const nul = field.indexOf(0);
+    strictUtf8Decoder.decode(nul < 0 ? field : field.subarray(0, nul));
+    dom.nameInput.value = name;
+    if (dom.nameInput.value !== name) {
+      dom.nameInput.disabled = true;
+      dom.applyName.disabled = true;
+      setError(dom.nameError, '原名字含单行输入框无法无损显示的字符；保留原字节，不允许在此写入名字。其它字段仍可编辑。');
+    }
   } catch (error) {
     dom.nameInput.value = '';
-    setError(dom.nameError, error.message);
+    dom.nameInput.disabled = true;
+    dom.applyName.disabled = true;
+    setError(dom.nameError, `原名字无法无损解码，保留原字节且禁用名字写入：${error.message}`);
   }
   try {
     dom.playtimeInput.value = String(readPlaytime(view));
@@ -582,6 +602,10 @@ function applyName() {
   setError(dom.nameError, '');
   if (!state.view) {
     setError(dom.nameError, '请先载入存档并选择槽位');
+    return;
+  }
+  if (dom.nameInput.disabled) {
+    setError(dom.nameError, '原名字无法在单行输入框中无损显示，未写入。');
     return;
   }
   try {
@@ -912,7 +936,7 @@ function renderItems() {
     dom.itemsBody.append(
       el('p', {
         class: 'empty',
-        text: '请先在上方选择存档布局（旧布局或 V7）。未选择前不会显示道具箱，也不会写入任何槽位。',
+        text: '请先在上方选择存档布局（旧布局或 V7）。未选择前不会显示道具箱，也不会写入道具箱/口袋槽；头部摘要另有独立控件。',
       }),
     );
     return;
@@ -1032,7 +1056,7 @@ function handleDownload() {
 // ---------------------------------------------------------------------------
 
 function initHints() {
-  dom.nameInput.maxLength = LIMITS.nameMaxChars;
+  dom.nameInput.maxLength = LIMITS.nameMaxChars * 2;
   dom.playtimeInput.max = String(LIMITS.playtime);
   dom.goldInput.max = String(LIMITS.gold);
   dom.hrInput.max = String(LIMITS.hr);

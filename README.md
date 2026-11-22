@@ -125,7 +125,7 @@ gate that cannot run from a clone, while gate 12 reads `docs/data/mhgu.db` and p
 | `tools/audit/check.mjs` | The 12-gate check over the tree. |
 | `HANDOFF.md` | Long-form hand-off: method, evidence, open questions. |
 | `DEVLOG.md` | Dated work log: what changed, what was withdrawn and why. Read the last section, not the file. |
-| `patch/1.4.0.pchtxt` | Item-box expansion patch (emulator / console; not applicable to the recompiled build). |
+| `patch/1.4.0.pchtxt` | yuzu/suyu 系模拟器的实验性道具箱补丁；不适用于原生PC导出版。未提供或验证Switch主机安装步骤；使用前先读[安装与风险说明](patch/INSTALL.md)。 |
 | `forge/` | Item-box forge experiments (debug port, box probe, v7 build). |
 | `editor/` | Save editor sources (`editor/core`, `editor/ui`, `editor/test`). |
 

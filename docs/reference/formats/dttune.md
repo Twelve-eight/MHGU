@@ -119,3 +119,11 @@ Motion/part tuning: u8 runs (the 12-B S slot itself reads as one — `150 0 20 2
 | rage/tuning floats | 0xE6+ | — | no db counterpart found [U] |
 
 `mhgu.db` values are reproduced by the romfs file byte-for-byte wherever a table exists and was located — but because offsets and record sets are per-monster variables, only base HP is [C] without per-monster verification. Index of per-monster offsets: `docs/data/json/monster-dttune-index.json`. Decoder confidence model: without `--db`, located meat/status are positional candidates (`poison?` naming, no db claims); with `--db --emid N`, records get `dbMatch` flags, status names are only assigned on value match, and a candidate block with 0 matching records is reported as rejected.
+
+## 批量生成器发布合同（2026-11-14）
+
+`tools/mhgu/dttune-all.mjs --expected-stems <manifest.json>` 必须先通过独立期望集合与分析完整性门；该门不认证清单本身的完整性或表字段语义。所有明细、索引与报告文本先构造完成，再写到各目标同目录的独占临时目录，最后替换目标。可捕获的同步写入/rename异常会按逆序恢复旧目标；恢复失败会非零抛出并列出保留的恢复目录，不能声称旧代已经完整恢复。清理诊断不会中断其余回滚；提交后的备份清理失败警告并保留目录，如果诊断本身也失败，则抛出的异常明确标记`publication committed`，不能当成旧代已恢复。
+
+这是单写者、无并发修改前提下的同步故障恢复，不是断电/崩溃事务，也不是多个消费者看见同代数据的原子快照；不覆盖自定义适配器在rename实际完成后再抛错的模型。目录或符号链接目标拒绝替换，但已有报告在准备阶段的读取可能跟随符号链接，未承诺跨reparse安全。已有普通文件用新文件替换，硬链接别名不会同步更新。未列入本次清单的旧明细不自动删除。本轮未向真实索引或报告发布数据。
+
+离线回归：`node --test tools/mhgu/publish-artifacts.test.mjs`。真实主函数在隔离文件系统内运行，涵盖部分暂存写、各旧/新rename、原缺失文件、报告读取、回滚失败保留、清理失败及目录目标拒绝。测试临时目录取系统TEMP；本工作区执行时显式设置到G盘。该回归不读取游戏数据或真实DB，不重认证本格式页的历史数字。

@@ -12,15 +12,24 @@ import { cmdtblFromArc } from './trees.mjs';
 
 export const ENEMY_ARC_DIR = 'G:/mhgu-romfs/romfs/nativeNX/arc/enemy';
 
+// Two families ship arcs under this directory: `emNNN` (large) and `emsNNN` (small monsters).
+// A fixed slice(0,5) turns `ems001_00` into `ems00` and then the filename regex matches nothing,
+// so the whole small-monster family used to abort with "no arc". Split on the last `_NN` instead.
+export function splitEmSub(guEmSub) {
+  const m = /^(.*)_(\d\d)$/.exec(String(guEmSub));
+  if (!m) throw new Error(`bad <em>_<sub> name: ${String(guEmSub)}`);
+  return { em: m[1], sub: m[2] };
+}
+
 export function monsterArcs(guEmSub) {
-  const em = guEmSub.slice(0, 5);
+  const { em } = splitEmSub(guEmSub);
   const dir = ENEMY_ARC_DIR;
   const names = fs.readdirSync(dir)
-    .filter(n => new RegExp(`^${em}_\\d\\d\\.arc$`).test(n))
+    .filter(n => new RegExp(`^${em}_(\\d\\d)\\.arc$`).test(n))
     .sort((a, b) => (a.endsWith('_00.arc') ? -1 : b.endsWith('_00.arc') ? 1 : a.localeCompare(b)));
   const out = [];
   for (const n of names) {
-    const sub = n.slice(6, 8);
+    const sub = /_(\d\d)\.arc$/.exec(n)[1];
     const p = path.join(dir, n);
     out.push({ sub, path: p, name: n, buf: fs.readFileSync(p) });
   }
@@ -51,7 +60,7 @@ export function loadCmdtbl(arcs, guEmSub) {
 
 // motion id -> { frames, bank, index, entry, arc }
 export function loadLmts(arcs, guEmSub) {
-  const em = guEmSub.slice(0, 5);
+  const { em, sub: baseSub } = splitEmSub(guEmSub);
   const map = new Map();
   const arcOf = new Map(); // bank -> provenance per sub preference
   for (const a of arcs) {
@@ -76,7 +85,7 @@ export function loadLmts(arcs, guEmSub) {
         const id = bank * 256 + mo.index;
         // prefer the arc whose sub matches the base monster's own sub, then the lowest sub
         const prev = map.get(id);
-        const rank = (s) => (s === guEmSub.slice(6) ? 0 : 1 + +s);
+        const rank = (s) => (s === baseSub ? 0 : 1 + +s);
         if (prev && rank(prev.sub) <= rank(sub)) continue;
         map.set(id, { id, frames: mo.frameCount, bank, index: mo.index, entry: base, arc: a.name, sub });
       }
@@ -119,7 +128,6 @@ export function parseAttackdata(buf, label) {
 }
 
 export function loadAttackdata(arcs, guEmSub) {
-  const em = guEmSub.slice(0, 5);
   const want = `enemy\\hit_data\\${guEmSub}_attackdata`;
   let base = null;
   let variant = null;
@@ -128,7 +136,7 @@ export function loadAttackdata(arcs, guEmSub) {
     try { arc = readArc(a.buf, a.name); } catch { continue; }
     for (const e of arc.entries) {
       if (!/hit_data/i.test(e.name) || !/attackdata$/i.test(e.name)) continue;
-      const m = /(em\d{3}_(\d\d))_attackdata$/i.exec(e.name);
+      const m = /(ems?\d{3}_(\d\d))_attackdata$/i.exec(e.name);
       if (!m) continue;
       const label = `${m[1]}_attackdata`;
       let data;

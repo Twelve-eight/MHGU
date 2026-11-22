@@ -1,0 +1,224 @@
+{
+  "schema": "mhgu-rows-provenance/1",
+  "em": "em007",
+  "variants": [
+    "00",
+    "04"
+  ],
+  "generator": {
+    "role": "generator",
+    "path": "G:/tmp/MhguRows/rows-build.mjs",
+    "bytes": 23084,
+    "sha256": "03eb3ee3f2e8acbceede09b3c0e76cc85ea79b285ade8e0bcace86bbaf280676"
+  },
+  "inputs": [
+    {
+      "role": "generator",
+      "path": "G:/tmp/MhguRows/rows-build.mjs",
+      "bytes": 23084,
+      "sha256": "03eb3ee3f2e8acbceede09b3c0e76cc85ea79b285ade8e0bcace86bbaf280676"
+    },
+    {
+      "role": "arms-class-evidence",
+      "path": "G:/omp works/MHRS-private/kb/gu-l1-class-names.tsv",
+      "bytes": 11268,
+      "sha256": "9d5a9074391cd36a7ebbbf7fa7a46492ab8fec5e0e9a7df5e451592b9592c188"
+    },
+    {
+      "role": "sa-json:em007_00",
+      "path": "G:/tmp/SA/hit/all/em007_00.json",
+      "bytes": 13952,
+      "sha256": "fb7ab4740e6d5ab246c64cc7034193b832dace26ba6ee71b739c591969f68b87"
+    },
+    {
+      "role": "sa-json:em007_04",
+      "path": "G:/tmp/SA/hit/all/em007_04.json",
+      "bytes": 27807,
+      "sha256": "3c25ad24e95bdd1b08d2a1ca36e73ad544a0a0b70cd632fbbba47844359eee0b"
+    },
+    {
+      "role": "bones",
+      "path": "G:/omp works/MHRS-private/kb/gu-mod-bones-all.tsv",
+      "bytes": 200822,
+      "sha256": "06681ebbcb7aea60ccbf7b2a097a180dfcae376b4cd1585daaaaa2fa5bcc25a2"
+    },
+    {
+      "role": "bonemap",
+      "path": "G:/omp works/MHRS-private/port-em007/bonemap-em007.json",
+      "bytes": 1779,
+      "sha256": "e6e8f412c8b61d22aa3dac32404deb35f7aff3d83c14983b7f9ef5caec705327"
+    },
+    {
+      "role": "motion-lengths",
+      "path": "G:/omp works/MHRS-private/kb/gu-motions-all.tsv",
+      "bytes": 675121,
+      "sha256": "6de8792f8fd2690c954530d47b996751fa87a1aff615c2eeeae1e4bf9b703e8b"
+    },
+    {
+      "role": "arms",
+      "path": "G:/tmp/MhguRows/em007-arms.tsv",
+      "bytes": 7361,
+      "sha256": "1f97d2e03f0004e674263d3eb7d647385ab33548734701b252eb6a742172e10d"
+    },
+    {
+      "role": "bodydata",
+      "path": "G:/omp works/MHRS-private/kb/bodydata-all.tsv",
+      "bytes": 466565,
+      "sha256": "354082690d163f69460c8e5141d4e42e7339e5f350d1abcc2b982d62c82efe11"
+    }
+  ],
+  "outputs": [
+    {
+      "schema": "gu-attack-rows/1",
+      "columns": [
+        "em",
+        "variant",
+        "table",
+        "row_id",
+        "table_index",
+        "action_no",
+        "window_a",
+        "window_b",
+        "damage",
+        "reaction",
+        "flags",
+        "elem_bits",
+        "state_bits_1",
+        "state_val_1",
+        "state_bits_2",
+        "state_val_2",
+        "shape_group",
+        "source_func",
+        "confidence",
+        "kb0a",
+        "u0b",
+        "u1a",
+        "sep",
+        "u1d",
+        "u1e",
+        "u1f",
+        "live",
+        "window_ok",
+        "shapes",
+        "row_source"
+      ],
+      "rows": 152,
+      "path": "G:/tmp/offline-20261114/SolAttackRows/after-em007/gu-attack-rows-em007.tsv",
+      "bytes": 59472,
+      "sha256": "1947d33490e8702ed7ad65e05902be51e99d17df9b681450982f9cc5596e9be4"
+    },
+    {
+      "schema": "gu-hit-shapes/1",
+      "columns": [
+        "em",
+        "variant",
+        "group",
+        "item",
+        "joint_a",
+        "joint_b",
+        "shape_type",
+        "radius_cm",
+        "p0x_cm",
+        "p0y_cm",
+        "p0z_cm",
+        "p1x_cm",
+        "p1y_cm",
+        "p1z_cm",
+        "cond_u08",
+        "u06",
+        "u0a",
+        "p0w",
+        "p1w",
+        "referenced_by_row_ids",
+        "source"
+      ],
+      "rows": 125,
+      "path": "G:/tmp/offline-20261114/SolAttackRows/after-em007/gu-hit-shapes-em007.tsv",
+      "bytes": 14163,
+      "sha256": "8a4b78c35687e14340e49ea41aa64e0267a6efb552dd4e9af13439f48a6947c2"
+    },
+    {
+      "schema": "gu-bodydata/1",
+      "columns": [
+        "rec",
+        "jointA",
+        "jointB",
+        "kind",
+        "group_u16",
+        "region",
+        "flags",
+        "sub",
+        "r_cm",
+        "p0",
+        "p1"
+      ],
+      "rows": 31,
+      "path": "G:/tmp/offline-20261114/SolAttackRows/after-em007/em007-bodydata.tsv",
+      "bytes": 1907,
+      "sha256": "ea1ce8cf364ecfec5839fa089925e76b65a88e4a1417b538af59b68e4d6836ae"
+    }
+  ],
+  "tables": {
+    "00": [
+      {
+        "path": "G:/tmp/SA/hit/all/em007_00.json",
+        "kind": "sa-json"
+      }
+    ],
+    "04": [
+      {
+        "path": "G:/tmp/SA/hit/all/em007_04.json",
+        "kind": "sa-json"
+      }
+    ]
+  },
+  "arms": {
+    "mode": "frozen-no-spawn",
+    "path": "G:/tmp/MhguRows/em007-arms.tsv",
+    "requestedRange": {
+      "start": "0xd35e74",
+      "endExclusive": "0xd49ee0"
+    },
+    "classEvidence": {
+      "path": "G:/omp works/MHRS-private/kb/gu-l1-class-names.tsv",
+      "selected": {
+        "line": 80,
+        "class_name": "uEm007_00",
+        "em": "em007",
+        "ctor": "0xd34c50",
+        "l1_disp": "0xd35e74",
+        "tag": "C"
+      },
+      "next": {
+        "line": 4,
+        "class_name": "uEm008_00",
+        "em": "em008",
+        "ctor": "0xd49ee0",
+        "l1_disp": "0xd52f58",
+        "tag": "C"
+      }
+    },
+    "sites": 207,
+    "armSites": 97,
+    "validation": "Every fn/site lies in requested range within named-class ctor..next-ctor; not filename inference or a disassembly recheck."
+  },
+  "controlsBoundary": {
+    "checked": [
+      "supported em",
+      "named-class range and frozen arm fields",
+      "SA JSON arc identity when used"
+    ],
+    "notChecked": [
+      "raw archive/binary equivalence of SA JSON",
+      "arm completeness or instruction semantics",
+      "motion attribution rule-v2 correctness",
+      "regression diff / positive and negative controls",
+      "live gameplay"
+    ],
+    "armScanRun": false,
+    "upstreamDisassembly": "Not read: frozen arms are the hashed source input.",
+    "legacySaDefaults": "SA-derived b0b/b1a/b1d/b1e/b1f/u6/u10/p0w/p1w remain the existing generator's zero defaults, not newly recovered binary fields.",
+    "motionLengths": "Existing mtree/missing-ID handling and labels unchanged; no missing frames inferred.",
+    "bonemap": "used"
+  }
+}

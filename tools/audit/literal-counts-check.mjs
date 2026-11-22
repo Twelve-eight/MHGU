@@ -26,9 +26,10 @@ const TEXT_END = 0x13F1DEC;
 // ---- reader A: instruction decode -------------------------------------------------------------
 const rd32 = (v) => buf.readUInt32LE(v + 0x100);
 const condOf = (w) => (w >>> 28) & 0xF;
+const rdOf = (w) => (w >>> 12) & 0xF;
 // A32 MOVW: cond 0011 0000 imm4 Rd imm12. Any cond except 0xF, Rd < 15 (Rd=15 is not a register).
-const isMovw = (w) => condOf(w) !== 0xF && (w & 0x0FF00000) === 0x03000000 && ((w >>> 20) & 1) === 0 && (w & 0xF) < 15;
-const movwVal = (w) => (((w >>> 4) & 0xf000) | (w & 0xfff)) >>> 0;
+const isMovw = (w) => condOf(w) !== 0xF && (w & 0x0FF00000) === 0x03000000 && ((w >>> 20) & 1) === 0 && rdOf(w) !== 0xF;
+const movwVal = (w) => ((((w >>> 16) & 0xF) << 12) | (w & 0xFFF)) >>> 0;
 function readerA(c) {
   const out = [];
   for (let v = TEXT_START; v < TEXT_END; v += 4) {
@@ -64,6 +65,21 @@ function readerB(c) {
 }
 
 const same = (a, b) => a.length === b.length && a.every((v, i) => v === b[i]);
+// ---- encoding boundaries: low imm12 nibble F is legal; Rd15 and condF are not -------------
+{
+  const controls = [
+    [0xe301040f, true, 0x140f, "imm12 low nibble 0xf"],
+    [0xe301f404, false, null, "Rd15"],
+    [0xf3010404, false, null, "condF"],
+  ];
+  for (const [word, expected, value, label] of controls) {
+    const actual = isMovw(word), decoded = actual ? movwVal(word) : null;
+    const pass = actual === expected && (!expected || decoded === value);
+    const shown = decoded === null ? "none" : "0x" + decoded.toString(16);
+    console.log(`SELFTEST ${label}: ${pass ? "PASS" : "FAIL"} isMovw=${actual} value=${shown}`);
+    if (!pass) process.exit(1);
+  }
+}
 
 // ---- control: a constant with a known conditional materialisation must be found by both ----------
 // 0x73e0 has movweq at 0xe90998 and movwne at 0xe05050. If either reader stops honouring the cond field

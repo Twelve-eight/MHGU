@@ -289,7 +289,11 @@ function main() {
   const idx = new ClassIndex();
   const klass = idx.classFor(emSub);
   const l1 = findL1(klass);
-  if (!l1) throw new Error(`${klass.name}: no L1 dispatcher found near 0x${hex(klass.l1disp)}`);
+  if (!l1) {
+    const near = Number.isFinite(klass.l1disp) ? klass.l1disp : klass.l1fn;
+    throw new Error(`${klass.name}: no L1 dispatcher found near 0x${hex(near)} `
+      + `(KB l1_disp=${Number.isFinite(klass.l1disp) ? '0x' + hex(klass.l1disp) : '<empty>'}, l1_fn=0x${hex(klass.l1fn)})`);
+  }
   const states = new Map();
   for (let st = 0; st < 18; st++) {
     const target = (l1.tableBase + rd32(l1.tableBase + st * 4)) >>> 0;
@@ -305,7 +309,11 @@ function main() {
   if (opt.allVariants) {
     for (const [st, e] of states) {
       if (e.kind !== 'table') continue;
-      for (let v = e.l2.indexBase; v <= e.l2.max; v++) {
+      // `l2.max` is the raw compare constant (`cmp+1` = slot count), i.e. the max TABLE INDEX, not the max
+      // variant. The table is indexed by (variant - indexBase), so the covered variant range is
+      // indexBase .. indexBase + max. Using `max` as the max variant silently dropped the top `indexBase`
+      // slots of every state whose table does not start at variant 0 (em001 state 10: 7 lost, 204..210).
+      for (let v = e.l2.indexBase; v <= e.l2.indexBase + e.l2.max; v++) {
         const k = `${st}:${v}`;
         if (!byPair.has(k)) byPair.set(k, { state: st, variant: v, entries: [], reachable: false, secs: new Set() });
       }

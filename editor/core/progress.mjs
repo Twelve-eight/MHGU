@@ -150,7 +150,7 @@ function requireFlag(value, field) {
   throw new TypeError(`${field}: expected true/false or 1/0, got ${value}`);
 }
 
-const utf8Decoder = new TextDecoder('utf-8');
+const utf8Decoder = new TextDecoder('utf-8', { ignoreBOM: true });
 const utf8Encoder = new TextEncoder();
 
 // An unpaired surrogate would be replaced by U+FFFD by TextEncoder, silently changing

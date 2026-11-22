@@ -1,0 +1,36 @@
+{
+  "schema": "gu-reach-inputs/1",
+  "subject": "em001_00",
+  "inputs": {
+    "moves": {
+      "path": "G:/tmp/GuMoves/out/em001_00/moves.tsv",
+      "sha256": "bbe621155eaf4dfb1d91cb73662206216067bf59aafab474f55a3a305aeed1b5"
+    },
+    "cells": {
+      "path": "G:/tmp/slices/sr-q29/pairs.json",
+      "sha256": "7c7e7fe5cc5fbdd3762b3426dbd6459aa8d3bcc5b725cc478cbd859b32b54016"
+    },
+    "forced": {
+      "path": "gu-forced-cells.tsv",
+      "sha256": "6b481d3eaa261abb7645a1f2a7b690bb9786fcaa9025babe1deb70b3e668bbcf"
+    }
+  },
+  "evidence": [
+    {
+      "path": "G:/tmp/GuMoves/out/em001_00/facts.json",
+      "field": "em",
+      "value": "em001_00"
+    },
+    {
+      "path": "G:/tmp/slices/sr-q29/emc-walk.mjs",
+      "lines": "8,12,47-50",
+      "claim": "producer explicitly selects em001_00 cmdtbl and writes these cell pairs"
+    },
+    {
+      "path": "MHGU/docs/analysis/re/GU-DIGEST.md",
+      "lines": "187-193,392-395",
+      "claim": "existing forced-cell scope; original semantics not re-adjudicated"
+    }
+  ],
+  "scope": "Frozen table identities and species join only; not binary reachability or runtime proof."
+}

@@ -348,6 +348,7 @@ export function writeItemPresetName(view, layout, index, name) {
   if (name.indexOf("\u0000") !== -1) {
     throw new RangeError("name must not contain U+0000: the field is NUL padded and would read back truncated");
   }
+  if (!isWellFormed(name)) throw new RangeError("name contains an unpaired UTF-16 surrogate");
   checkField(u8, view.base, charOff, ITEM_PRESET_NAME_SIZE);
   const bytes = utf8Encoder.encode(fitUtf8(name, ITEM_PRESET_NAME_SIZE));
   if (bytes.length > ITEM_PRESET_NAME_SIZE) {
@@ -947,10 +948,25 @@ function decodeName(u8, at, width) {
   return utf8Decoder.decode(u8.subarray(at, at + n));
 }
 
+// Validate the entire input before truncating: even an invalid discarded suffix is an error.
+function isWellFormed(s) {
+  for (let i = 0; i < s.length; i += 1) {
+    const c = s.charCodeAt(i);
+    if (c >= 0xD800 && c <= 0xDBFF) {
+      const next = s.charCodeAt(i + 1);
+      if (!(next >= 0xDC00 && next <= 0xDFFF)) return false;
+      i += 1;
+    } else if (c >= 0xDC00 && c <= 0xDFFF) {
+      return false;
+    }
+  }
+  return true;
+}
+
 /**
  * Longest prefix of `name` whose UTF-8 encoding fits `max` bytes, cut on a code-point
- * boundary only (INV-07). Surrogate pairs are kept whole; a lone surrogate is encoded as
- * U+FFFD by TextEncoder and counted as 3 B, so the size estimate stays exact.
+ * boundary only (INV-07). The caller has already rejected unpaired surrogates;
+ * valid surrogate pairs are kept whole.
  */
 function fitUtf8(name, max) {
   let used = 0;

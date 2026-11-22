@@ -162,3 +162,13 @@ bun -e "import {Database} from 'bun:sqlite'; const d=new Database('docs/data/mhg
 1. ~~`gatheringhallstudios/MHGenDatabase`~~ **已完成**（mhgu.db + 21 表 JSON 入库）
 2. `mhwiki.axibug.com/mhxx-wiki/` **已整站镜像**（290 页/37MB + text/ 转换版）——狩技/委托/装备解放等 mhgu.db 缺的字段
 3. Kiranico 网页数据——仅补前两源都缺的零碎字段
+## 2026-11-14 身份与机械字段修复
+
+`gu-attack-rows-em007.tsv`、`gu-attack-rows-em011.tsv` 已按现存生成器输入隔离再生，仅修正重复地址前缀、armed/live谓词及dead行shape引用；行身份、顺序、伤害等其它列保持不变。两份 `.provenance.json` 绑定实际SA JSON、arms、骨名/动作长度/bodydata表及生成器SHA，输出hash与当前正式表相同；sidecar里的输出路径记录当时隔离生成位置，不表示又一次生成。
+
+主会话执行 `G:/tmp/offline-20261114/SolRowsReview/rows-independent-control.mjs`，PASS，逐行身份152/15。包含重复row-ID交换、输入遗漏、SHA一字节变异、dead谓词边界反例。只认可这些机械字段与输入绑定；SA零默认、frames/窗口、arm解码完整性和真实战斗未重新证明，整体语义仍PARTIAL。旧row_source中“A==0xffff”是简略表述，准确谓词是A与B都等于65535，或sep等于254。
+
+`gu-forced-cells.tsv` 末尾增加 `monster`，旧7列逐字节保留；现 `annotate-reach.mjs` 必须消费 `gu-reach-inputs-em001_00.json` 的subject与三份输入SHA。默认binding锚定模块目录；同字节副本可用，异物种/改SHA/缺绑定拒绝且不写输出。主会话59项隔离控制与716行新旧逐字段比较通过，分类仍tree236/forced25/outside455。身份来源见binding.evidence；不是重新裁定旧强制转移语义。
+
+命令（工作区根）：`node MHGU/tools/gu-moves/annotate-reach.mjs G:/tmp/GuMoves/out/em001_00/moves.tsv --binding MHGU/docs/data/gu-reach-inputs-em001_00.json --out G:/tmp/annotated-reach.tsv`。不覆盖输入；缺来源时非零，不猜物种。
+

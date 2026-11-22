@@ -56,7 +56,9 @@ export class ClassIndex {
   }
 
   classFor(guEmSub) {
-    const name = this.emMap.get(guEmSub);
+    // The KB key is normally `<em>_<sub>` (em001_00), but the small-monster rows store the family
+    // only (ems001, no sub) because one class serves the whole family. Try the exact key first.
+    const name = this.emMap.get(guEmSub) ?? this.emMap.get(String(guEmSub).replace(/_\d\d$/, ''));
     if (!name) throw new Error(`no class binding for ${guEmSub} in gu-em-shared-class.tsv`);
     const c = this.classes.get(name);
     if (!c) throw new Error(`class ${name} not in gu-l1-class-names.tsv`);
@@ -146,13 +148,168 @@ export function parseDispatch(headAddr, varOff = 0x73e0) {
   };
 }
 
+// --- relaxed L1 parse ---------------------------------------------------------------------------
+// `parseDispatch` assumes the dispatcher opens with the literal idiom `movw rX,#0x73E0`. Two classes
+// in the KB break that assumption while still being ordinary 18-state table dispatchers (both read
+// instruction by instruction from the image; vaddr = flat - 0x100):
+//
+//   uEm049_00 0xec3b98  no instruction ever holds 0x73E0 - the state byte is read through
+//                       base+counter arithmetic and a writeback:
+//                         0xec3ba0  movw r0, #0xcaf0
+//                         0xec3bac  strb r1, [r5, r0]!   ; r5 = em + 0xcaf0
+//                         0xec3bb0  movw r0, #0xa8f0
+//                         0xec3bb4  movt r0, #0xffff    ; r0 = 0xffffa8f0
+//                         0xec3bb8  ldrb r0, [r5, r0]    ; [em + 0xcaf0 + 0xffffa8f0] = [em + 0x73e0]
+//                         0xec3bbc  cmp  r0, #17
+//                         0xec3bc0  bhi  0xec3c4c       ; default
+//                         0xec3bc8  add  r1, pc, #4     ; table 0xec3bd4, 18 entries
+//   uEm058_00 0xf0a6fc  a special-case preamble runs first (0xf0a710 cmp [em+0x73e0],#7,
+//                       0xf0a718 movw #0x73e1, ...), so the first `cmp` on the state register is #7
+//                       and the real bound + table sit 0x7c bytes further down:
+//                         0xf0a774  ldrb r0, [r5]        ; r5 = em + 0x73e0 from 0xf0a70c
+//                         0xf0a778  cmp  r0, #17
+//                         0xf0a77c  bhi  0xf0a874
+//                         0xf0a784  add  r1, pc, #4     ; table 0xf0a790, 18 entries
+//
+// Both still end in `cmp rS,#max ; bhi <default> ; ... ; add rD,pc,#imm ; ldr rW,[..,rD] ;
+// add pc,rW,rD`. This pass tracks base+offset symbolically (so a computed byte address can be
+// compared against varOff) and then demands the bound branch and the complete table idiom. It runs
+// only after the strict parse failed at every candidate, so a class that parsed before cannot change.
+const L1_WINDOW = 96;
+const L1_TABLE_WINDOW = 12;
+
+function symAdd(a, b) {
+  if (!a || !b) return null;
+  if (a.sym === null || b.sym === null) return { sym: a.sym ?? b.sym, off: ((a.off + b.off) >>> 0) };
+  if (a.sym === b.sym) return { sym: a.sym, off: ((a.off + b.off) >>> 0) };
+  return null;
+}
+
+function memAddr(env, mm) {
+  if (!mm) return null;
+  if (mm.idx !== null) return symAdd(env[mm.base], env[mm.idx]);
+  return symAdd(env[mm.base], { sym: null, off: (mm.off ?? 0) >>> 0 });
+}
+
+function tableIdiom(ins, from) {
+  const end = Math.min(ins.length, from + L1_TABLE_WINDOW);
+  let tableBase = null, baseReg = -1, wordReg = -1;
+  for (let j = from; j < end; j++) {
+    const x = ins[j];
+    if (tableBase === null) {
+      if (x.mn === 'add' && x.ops.length === 3 && regNum(x.ops[0]) !== 15 && regNum(x.ops[1]) === 15) {
+        const off = immVal(x.ops[2]);
+        if (off !== null) { tableBase = (x.addr + 8 + off) >>> 0; baseReg = regNum(x.ops[0]); }
+      }
+      continue;
+    }
+    if (wordReg < 0 && x.mn === 'ldr' && x.ops.length === 2) {
+      const mm = parseMem(x.ops[1]);
+      if (mm && mm.off === null && (mm.base === baseReg || mm.idx === baseReg)) wordReg = regNum(x.ops[0]);
+      continue;
+    }
+    if (x.mn === 'add' && regNum(x.ops[0]) === 15 && wordReg >= 0 && regNum(x.ops[2]) === baseReg) {
+      return { tableBase, baseReg, wordReg };
+    }
+  }
+  return null;
+}
+
+export function parseDispatchL1(headAddr, varOff = 0x73e0) {
+  const ins = insRange(headAddr, L1_WINDOW);
+  if (ins.length < 8) return null;
+  // register env: {sym, off}. Every register starts as its own symbol; r0 is the monster (`this`),
+  // so a byte address whose symbol chain roots at r0 and whose offset equals varOff is the state byte.
+  const env = Array.from({ length: 16 }, (_, r) => ({ sym: r === 0 ? 'r0' : 'r' + r, off: 0 }));
+  let stateReg = -1;
+  for (let i = 0; i < ins.length; i++) {
+    const x = ins[i];
+    const ops = x.ops;
+    const rd = ops.length ? regNum(ops[0]) : -1;
+    if ((x.mn === 'str' || x.mn === 'strb' || x.mn === 'strh') && ops.length >= 2) {
+      const mm = parseMem(ops[1]);
+      if (mm && mm.writeback) env[mm.base] = memAddr(env, mm);
+      continue;
+    }
+    if ((x.mn === 'ldr' || x.mn === 'ldrb' || x.mn === 'ldrh' || x.mn === 'ldrsh' || x.mn === 'ldrsb')
+      && rd >= 0 && rd < 15 && ops.length >= 2) {
+      const mm = parseMem(ops[1]);
+      const addr = memAddr(env, mm);
+      if (mm && mm.writeback) env[mm.base] = addr;
+      const hit = x.mn === 'ldrb' && addr !== null && addr.sym === 'r0' && addr.off === (varOff >>> 0);
+      env[rd] = null;
+      if (hit) stateReg = rd;
+      continue;
+    }
+    if (x.mn === 'mov' && rd >= 0 && rd < 13) {
+      env[rd] = ops.length === 2 && regNum(ops[1]) >= 0 ? (env[regNum(ops[1])] ?? null) : null;
+      continue;
+    }
+    if (x.mn === 'movw' && rd >= 0 && rd < 13) {
+      const v = immVal(ops[1] ?? '');
+      env[rd] = v === null ? null : { sym: null, off: v, mk: true };
+      continue;
+    }
+    if (x.mn === 'movt' && rd >= 0 && rd < 13) {
+      const v = immVal(ops[1] ?? '');
+      const cur = env[rd];
+      env[rd] = v === null || !cur || cur.sym !== null ? null
+        : { sym: null, off: (((v << 16) | (cur.off & 0xffff)) >>> 0) };
+      continue;
+    }
+    if (x.mn === 'add' && rd >= 0 && rd < 13 && ops.length >= 3) {
+      const imm = immVal(ops[2]);
+      env[rd] = regNum(ops[1]) >= 0 && regNum(ops[1]) !== 15 && imm !== null
+        ? symAdd(env[regNum(ops[1])], { sym: null, off: imm }) : null;
+      continue;
+    }
+    if (x.mn === 'sub' && rd >= 0 && rd < 13 && ops.length >= 3) {
+      const imm = immVal(ops[2]);
+      const a = regNum(ops[1]) >= 0 ? env[regNum(ops[1])] : null;
+      env[rd] = a && a.sym !== null && imm !== null ? { sym: a.sym, off: ((a.off - imm) >>> 0) } : null;
+      continue;
+    }
+    if (x.mn === 'bl' || x.mn === 'blx') { for (const r of [0, 1, 2, 3, 12]) env[r] = null; continue; }
+    if (x.mn === 'cmp' && stateReg >= 0 && regNum(ops[0]) === stateReg && ops.length === 2) {
+      const max = immVal(ops[1]);
+      const br = ins[i + 1];
+      if (max !== null && br && br.mn === 'b' && br.cond === 'hi') {
+        const found = tableIdiom(ins, i + 1);
+        if (found) {
+          return {
+            head: headAddr, varOff, indexBase: 0, max, count: max + 1, tableBase: found.tableBase,
+            defaultAddr: parseInt(br.ops[0], 16), cmpAddr: x.addr, baseReg: found.baseReg,
+            wordReg: found.wordReg, addPcSeen: true,
+          };
+        }
+      }
+    }
+  }
+  return null;
+}
+
 // Locate the class's L1 dispatcher: KB points at (or just before) the head; scan a small window.
+// The KB leaves `l1_disp` empty for classes whose dispatcher it could not attribute
+// (`verdict: no_l1_dispatcher_at_1f4`, e.g. em049_00, em058_00); parseInt('') is NaN and every
+// NaN comparison is false, so the window filter used to pass NaN straight into rd32 and throw
+// `RangeError: offset ... Received NaN` from inside the disassembler. Drop non-finite candidates
+// and report "no dispatcher" instead.
+// The two `no_l1_dispatcher_at_1f4` classes do have a dispatcher at their vtable slot +0x1F4 (read
+// back from the class vtables: uEm049_00 0x17cd178 = 0xec3b98, uEm058_00 0x17d3288 = 0xf0a6fc,
+// uEm001_00 0x179aeec = 0xcf1550 = its l1_disp, which is what pins the slot); the KB simply could
+// not parse their shape. They are recovered by the second pass below.
 export function findL1(klass) {
-  const starts = [klass.l1disp, klass.l1fn, klass.l1disp - 8, klass.l1fn - 8, klass.l1disp - 16, klass.l1fn - 16];
+  const starts = [klass.l1disp, klass.l1fn, klass.l1disp - 8, klass.l1fn - 8, klass.l1disp - 16, klass.l1fn - 16]
+    .filter(Number.isFinite);
   for (const s of starts) {
     if (s < klass.ctor || s >= klass.nextCtor) continue;
     const d = parseDispatch(s, 0x73e0);
     if (d && d.count === 18) return { ...d, targets: tableTargets(d) };
+  }
+  for (const s of starts) {
+    if (s < klass.ctor || s >= klass.nextCtor) continue;
+    const d = parseDispatchL1(s, 0x73e0);
+    if (d && d.count === 18) return { ...d, targets: tableTargets(d), relaxed: true };
   }
   return null;
 }

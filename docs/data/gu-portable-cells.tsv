@@ -1,0 +1,226 @@
+# em001_00 cells that can be BUILT with existing GU content (status NEW-missing) and are reachable.
+#
+# Why this file: GU-DIGEST section 8.7 counts them (166 tree + 22 forced) but until now there was no
+# row-level list, so a content batch had to re-derive which cells qualify and which carry damage.
+#
+# Built 2026-11-08 from G:/tmp/GuMoves/out/em001_00/moves.tsv (716 rows) with
+#   node MHGU/tools/gu-moves/annotate-reach.mjs <moves.tsv> --binding MHGU/docs/data/gu-reach-inputs-em001_00.json --out <out>
+# then keeping rows where reach in {tree, forced} and status == NEW-missing.
+#
+# status semantics, from MHGU/tools/gu-moves/gu-moves.mjs:178-184 (read the code, not the prose):
+#   NEW-missing         every motion this cell requests IS in the GU lmt table, and rise_state is "-";
+#                       building here ADDS content from an existing GU animation
+#   partial-GU-absent   some of the requested motions are not in GU
+#   GU-absent           none of them are in GU
+# The count is 188 rows: 166 tree-reachable + 22 engine-forced. Of those, 71 carry GU damage rows
+# (column gu_damage_rows != "-"), i.e. they would deal damage in game without authoring new attack data.
+#
+# Arithmetic, closed explicitly so nobody has to re-derive it (the numbers differ by one and it is not an error):
+#   gu-forced-cells.tsv     26 rows, 25 unique cells  -- cell 1:8 is forced from TWO sites
+#                           (0xcf1d9c inside case 7's body, and 0xcf61c4 inside 0xcf60f8 <- 0xcf1968);
+#                           the file is a list of forcing SITES, not of cells.
+#   moves.tsv cross-tab     25 forced rows = 22 NEW-missing + 2 no-motion(stub) + 1 no-motion(unresolved);
+#                           it is one row per CELL, so 1:8 appears once.
+#   this file               188 rows = 166 tree + 22 forced, 188 unique cells, no duplicates.
+#                           Every row is a distinct cell; the 22 forced are the NEW-missing subset of the 25 forced cells.
+#   Note gu_handler here is the handler that IMPLEMENTS the cell (0xcf1898 for 1:8), not the site that forces it.
+
+# VERIFIED 2026-11-08: the gu_motions strings were re-resolved against the GU lmt tables themselves
+# (monsterArcs + loadLmts from MHGU/tools/gu-moves/lib/guarc.mjs, key = bank*256 + motionIndex):
+#   361 motion specs across the 188 rows, 361 frame counts match, 0 ids absent from the lmt.
+# Re-run: node MHRS/tools/scratch/gucellverify.mjs
+#
+# Columns: cell (state:variant), reach, status, gu_handler, gu_motions, gu_damage_rows, rise_state, note.
+# cells are listed sorted by reach then cell; the tree rows are the safe pool, the forced rows need the
+# engine to force the transition (see GU-DIGEST 8.8/8.9).
+# 2026-11-14: all original data fields matched the bound current moves projection; see .provenance.json.
+# This checks table identity/projection only. Historical binary/runtime claims above are not re-certified.
+cell	reach	status	gu_handler	gu_motions	gu_damage_rows	rise_state	note
+0:0	forced	NEW-missing	0x00cf1688	1(em001_00_0#1:213f)	-	-	L1 st0; L2 table; 1 indirect
+0:1	forced	NEW-missing	0x00cf1688	2(em001_00_0#2:347f)	-	-	L1 st0; L2 table; 1 indirect
+0:2	tree	NEW-missing	0x00cf1688	14(em001_00_0#14:343f)	-	-	L1 st0; L2 table; 1 indirect
+0:3	forced	NEW-missing	0x00cf1688	257(em001_00_1#1:133f)	-	-	L1 st0; L2 table; 1 indirect
+0:6	forced	NEW-missing	0x00cf1688	258(em001_00_1#2:55f)	-	-	L1 st0; L2 table; 1 indirect; 1 escaped
+1:0	tree	NEW-missing	0x00cf1898	4(em001_00_0#4:293f)	first#19=10/1/0x1 first#8=0/38/0x1 first#50=0/43/0x1 first#50=0/43/0x1	-	L1 st1; L2 table; 1 indirect
+1:1	tree	NEW-missing	0x00cf1898	15(em001_00_0#15:461f)	-	-	L1 st1; L2 table; 1 indirect
+1:2	tree	NEW-missing	0x00cf1898	784(em001_00_3#16:219f)	-	-	L1 st1; L2 table; 1 indirect
+1:4	tree	NEW-missing	0x00cf1898	16(em001_00_0#16:489f)	-	-	L1 st1; L2 table; 52 indirect; 4 escaped
+1:5	forced	NEW-missing	0x00cf1898	17(em001_00_0#17:169f)	-	-	L1 st1; L2 table; 1 indirect
+1:6	tree	NEW-missing	0x00cf1898	18(em001_00_0#18:261f) 19(em001_00_0#19:243f) 20(em001_00_0#20:83f) 784(em001_00_3#16:219f)	-	-	L1 st1; L2 table; 1 indirect; 3 escaped
+1:7	tree	NEW-missing	0x00cf1898	16(em001_00_0#16:489f)	-	-	L1 st1; L2 table; 52 indirect; 4 escaped
+1:8	forced	NEW-missing	0x00cf1898	17(em001_00_0#17:169f)	-	-	L1 st1; L2 table; 1 indirect
+1:9	tree	NEW-missing	0x00cf1898	4(em001_00_0#4:293f)	first#19=10/1/0x1 first#8=0/38/0x1 first#50=0/43/0x1 first#50=0/43/0x1	-	L1 st1; L2 table; 1 indirect
+1:10	tree	NEW-missing	0x00cf1898	14(em001_00_0#14:343f)	-	-	L1 st1; L2 table; 1 indirect
+1:11	tree	NEW-missing	0x00cf1898	1(em001_00_0#1:213f)	-	-	L1 st1; L2 table; 1 indirect
+1:12	tree	NEW-missing	0x00cf1898	14(em001_00_0#14:343f)	-	-	L1 st1; L2 table; 1 indirect
+1:13	tree	NEW-missing	0x00cf1898	16(em001_00_0#16:489f)	-	-	L1 st1; L2 table; 52 indirect; 4 escaped
+1:14	forced	NEW-missing	0x00cf1898	17(em001_00_0#17:169f)	-	-	L1 st1; L2 table; 1 indirect
+1:15	tree	NEW-missing	0x00cf1898	4(em001_00_0#4:293f)	first#19=10/1/0x1 first#8=0/38/0x1 first#50=0/43/0x1 first#50=0/43/0x1	-	L1 st1; L2 table; 2 indirect
+1:21	tree	NEW-missing	0x00cf1898	794(em001_00_3#26:401f)	first#49=30/31/0x1	-	L1 st1; L2 table; 2 indirect; 2 escaped
+1:23	tree	NEW-missing	0x00cf1898	516(em001_00_2#4:121f)	first#35=5/1/0x1 second#1008=25/31/0x1	-	L1 st1; L2 table; 8 unresolved(other); 2 indirect; 1 escaped
+1:24	tree	NEW-missing	0x00cf1898	515(em001_00_2#3:121f)	first#33=5/1/0x1 second#1006=30/13/0x1	-	L1 st1; L2 table; 8 unresolved(other); 2 indirect; 1 escaped
+1:31	tree	NEW-missing	0x00cf1898	18(em001_00_0#18:261f)	-	-	L1 st1; L2 table; 52 indirect; 4 escaped
+1:32	forced	NEW-missing	0x00cf1898	20(em001_00_0#20:83f)	-	-	L1 st1; L2 table; 52 indirect; 4 escaped
+1:34	tree	NEW-missing	0x00cf1898	4(em001_00_0#4:293f)	first#19=10/1/0x1 first#8=0/38/0x1 first#50=0/43/0x1 first#50=0/43/0x1	-	L1 st1; L2 table; 1 indirect
+2:0	tree	NEW-missing	0x00cf1e10	1(em001_00_0#1:213f) 5(em001_00_0#5:153f)	-	-	L1 st2; L2 table; 1 indirect
+2:1	tree	NEW-missing	0x00cf1e10	9(em001_00_0#9:101f) 10(em001_00_0#10:101f)	-	-	L1 st2; L2 table; unresolved-motion@0x00077470,0x00077454,0x00077470; 20 indirect; 13 escaped
+2:2	tree	NEW-missing	0x00cf1e10	11(em001_00_0#11:49f) 12(em001_00_0#12:49f) 13(em001_00_0#13:59f)	-	-	L1 st2; L2 table; unresolved-motion@0x00077470,0x00077454,0x00077470; 20 indirect; 13 escaped
+2:3	tree	NEW-missing	0x00cf1e10	1(em001_00_0#1:213f) 6(em001_00_0#6:93f)	-	-	L1 st2; L2 table; 1 indirect
+2:7	tree	NEW-missing	0x00cf1e10	1(em001_00_0#1:213f) 5(em001_00_0#5:153f)	-	-	L1 st2; L2 table; 25 indirect
+2:8	tree	NEW-missing	0x00cf1e10	1(em001_00_0#1:213f) 6(em001_00_0#6:93f)	-	-	L1 st2; L2 table; 25 indirect
+2:9	tree	NEW-missing	0x00cf1e10	1(em001_00_0#1:213f) 5(em001_00_0#5:153f)	-	-	L1 st2; L2 table; 1 indirect
+2:11	tree	NEW-missing	0x00cf1e10	1(em001_00_0#1:213f) 5(em001_00_0#5:153f)	-	-	L1 st2; L2 table; 25 indirect
+2:12	tree	NEW-missing	0x00cf1e10	9(em001_00_0#9:101f) 10(em001_00_0#10:101f)	-	-	L1 st2; L2 table; unresolved-motion@0x00077470,0x00077454,0x00077470; 13 indirect; 11 escaped
+2:13	tree	NEW-missing	0x00cf1e10	11(em001_00_0#11:49f) 12(em001_00_0#12:49f) 13(em001_00_0#13:59f)	-	-	L1 st2; L2 table; unresolved-motion@0x00077470,0x00077454,0x00077470; 13 indirect; 11 escaped
+2:14	tree	NEW-missing	0x00cf1e10	7(em001_00_0#7:91f)	first#5=50/2/0x1	-	L1 st2; L2 table; 1 indirect; 1 escaped
+2:15	tree	NEW-missing	0x00cf1e10	7(em001_00_0#7:91f)	first#5=50/2/0x1	-	L1 st2; L2 table; 53 indirect; 5 escaped
+2:16	tree	NEW-missing	0x00cf1e10	7(em001_00_0#7:91f)	first#5=50/2/0x1	-	L1 st2; L2 table; 1 indirect; 1 escaped
+2:18	tree	NEW-missing	0x00cf1e10	1(em001_00_0#1:213f) 5(em001_00_0#5:153f)	-	-	L1 st2; L2 table; 1 indirect
+2:20	tree	NEW-missing	0x00cf1e10	7(em001_00_0#7:91f)	first#5=50/2/0x1	-	L1 st2; L2 table; 25 indirect; 1 escaped
+2:21	tree	NEW-missing	0x00cf1e10	7(em001_00_0#7:91f)	first#5=50/2/0x1	-	L1 st2; L2 table; 17 indirect; 1 escaped
+2:22	tree	NEW-missing	0x00cf1e10	7(em001_00_0#7:91f)	first#5=50/2/0x1	-	L1 st2; L2 table; 17 indirect; 1 escaped
+2:23	tree	NEW-missing	0x00cf1e10	1(em001_00_0#1:213f) 6(em001_00_0#6:93f)	-	-	L1 st2; L2 table; 25 indirect
+2:24	tree	NEW-missing	0x00cf1e10	1(em001_00_0#1:213f) 5(em001_00_0#5:153f)	-	-	L1 st2; L2 table; 25 indirect
+2:25	tree	NEW-missing	0x00cf1e10	9(em001_00_0#9:101f) 10(em001_00_0#10:101f)	-	-	L1 st2; L2 table; unresolved-motion@0x00077470,0x00077454,0x00077470; 20 indirect; 13 escaped
+2:26	tree	NEW-missing	0x00cf1e10	1(em001_00_0#1:213f) 5(em001_00_0#5:153f)	-	-	L1 st2; L2 table; 25 indirect
+2:27	tree	NEW-missing	0x00cf1e10	1(em001_00_0#1:213f) 6(em001_00_0#6:93f)	-	-	L1 st2; L2 table; 25 indirect
+2:28	tree	NEW-missing	0x00cf1e10	1(em001_00_0#1:213f) 5(em001_00_0#5:153f)	-	-	L1 st2; L2 table; 25 indirect
+2:29	tree	NEW-missing	0x00cf1e10	1(em001_00_0#1:213f) 6(em001_00_0#6:93f)	-	-	L1 st2; L2 table; 25 indirect
+3:1	tree	NEW-missing	0x00cf2220	269(em001_00_1#13:115f) 275(em001_00_1#19:49f)	-	-	L1 st3; L2 table; 1 indirect
+3:2	tree	NEW-missing	0x00cf2220	257(em001_00_1#1:133f) 260(em001_00_1#4:39f) 272(em001_00_1#16:51f) 273(em001_00_1#17:107f)	-	-	L1 st3; L2 table; 1 indirect
+3:5	tree	NEW-missing	0x00cf2220	260(em001_00_1#4:39f) 262(em001_00_1#6:123f) 263(em001_00_1#7:155f)	-	-	L1 st3; L2 table; 107 indirect; 9 escaped
+3:6	tree	NEW-missing	0x00cf2220	257(em001_00_1#1:133f)	-	-	L1 st3; L2 table; 1 indirect
+3:7	tree	NEW-missing	0x00cf2220	257(em001_00_1#1:133f)	-	-	L1 st3; L2 table; 1 indirect
+3:9	tree	NEW-missing	0x00cf2220	260(em001_00_1#4:39f) 262(em001_00_1#6:123f) 263(em001_00_1#7:155f)	-	-	L1 st3; L2 table; 420 indirect; 33 escaped
+3:10	tree	NEW-missing	0x00cf2220	271(em001_00_1#15:81f)	-	-	L1 st3; L2 table; 1 indirect
+3:11	forced	NEW-missing	0x00cf2220	262(em001_00_1#6:123f)	-	-	L1 st3; L2 table; 52 indirect; 5 escaped
+3:12	tree	NEW-missing	0x00cf2220	521(em001_00_2#9:91f)	-	-	L1 st3; L2 table; 52 indirect; 5 escaped
+3:13	tree	NEW-missing	0x00cf2220	257(em001_00_1#1:133f)	-	-	L1 st3; L2 table; 3 indirect
+3:15	tree	NEW-missing	0x00cf2220	271(em001_00_1#15:81f)	-	-	L1 st3; L2 table; 1 indirect
+3:16	tree	NEW-missing	0x00cf2220	257(em001_00_1#1:133f)	-	-	L1 st3; L2 table; 1 indirect
+3:17	tree	NEW-missing	0x00cf2220	257(em001_00_1#1:133f)	-	-	L1 st3; L2 table; 1 indirect
+3:18	tree	NEW-missing	0x00cf2220	257(em001_00_1#1:133f)	-	-	L1 st3; L2 table; 52 indirect; 4 escaped
+3:19	tree	NEW-missing	0x00cf2220	257(em001_00_1#1:133f)	-	-	L1 st3; L2 table; 52 indirect; 4 escaped
+3:20	forced	NEW-missing	0x00cf2220	521(em001_00_2#9:91f)	-	-	L1 st3; L2 table; 52 indirect; 4 escaped
+3:21	forced	NEW-missing	0x00cf2220	521(em001_00_2#9:91f)	-	-	L1 st3; L2 table; 52 indirect; 4 escaped
+3:24	tree	NEW-missing	0x00cf2220	257(em001_00_1#1:133f)	-	-	L1 st3; L2 table; 52 indirect; 4 escaped
+3:25	forced	NEW-missing	0x00cf2220	521(em001_00_2#9:91f)	-	-	L1 st3; L2 table; 52 indirect; 4 escaped
+3:27	tree	NEW-missing	0x00cf2220	257(em001_00_1#1:133f) 260(em001_00_1#4:39f) 1031(em001_00_4#7:139f)	first#22=10/2/0x1	-	L1 st3; L2 table; 1 indirect; 2 escaped
+3:28	tree	NEW-missing	0x00cf2220	257(em001_00_1#1:133f)	-	-	L1 st3; L2 table; 52 indirect; 4 escaped
+3:29	forced	NEW-missing	0x00cf2220	521(em001_00_2#9:91f)	-	-	L1 st3; L2 table; 52 indirect; 4 escaped
+3:30	forced	NEW-missing	0x00cf2220	260(em001_00_1#4:39f) 262(em001_00_1#6:123f) 263(em001_00_1#7:155f) 271(em001_00_1#15:81f)	-	-	L1 st3; L2 table; 4 indirect; 3 escaped
+3:44	tree	NEW-missing	0x00cf2220	260(em001_00_1#4:39f) 262(em001_00_1#6:123f) 263(em001_00_1#7:155f)	-	-	L1 st3; L2 table; 160 indirect; 13 escaped
+3:45	tree	NEW-missing	0x00cf2220	271(em001_00_1#15:81f)	-	-	L1 st3; L2 table; 1 indirect
+3:46	tree	NEW-missing	0x00cf2220	257(em001_00_1#1:133f)	-	-	L1 st3; L2 table; 4 indirect; 3 escaped
+3:47	forced	NEW-missing	0x00cf2220	273(em001_00_1#17:107f) 280(em001_00_1#24:31f) 281(em001_00_1#25:105f) 282(em001_00_1#26:29f) 287(em001_00_1#31:23f)	first#38=65/2/0x1	-	L1 st3; L2 table; 29 indirect; 2 escaped
+3:51	tree	NEW-missing	0x00cf2220	258(em001_00_1#2:55f) 285(em001_00_1#29:9f) 286(em001_00_1#30:91f) 288(em001_00_1#32:127f)	first#40=50/2/0x1	-	L1 st3; L2 table; 1 indirect
+3:52	tree	NEW-missing	0x00cf2220	257(em001_00_1#1:133f)	-	-	L1 st3; L2 table; 4 indirect; 3 escaped
+3:53	tree	NEW-missing	0x00cf2220	289(em001_00_1#33:161f) 290(em001_00_1#34:131f) 291(em001_00_1#35:131f) 292(em001_00_1#36:131f)	-	-	L1 st3; L2 table; 1 indirect
+3:57	tree	NEW-missing	0x00cf2220	270(em001_00_1#14:55f) 293(em001_00_1#37:151f)	-	-	L1 st3; L2 table; 1 indirect; 1 escaped
+3:58	tree	NEW-missing	0x00cf2220	260(em001_00_1#4:39f) 262(em001_00_1#6:123f) 263(em001_00_1#7:155f)	first#52=70/2/0x1	-	L1 st3; L2 table; 108 indirect; 9 escaped
+3:59	forced	NEW-missing	0x00cf2220	22(em001_00_0#22:13f) 23(em001_00_0#23:51f) 24(em001_00_0#24:27f)	first#41=10/2/0x1	-	L1 st3; L2 table; 1 indirect
+3:62	tree	NEW-missing	0x00cf2220	294(em001_00_1#38:113f)	-	-	L1 st3; L2 table; 52 indirect; 5 escaped
+3:63	tree	NEW-missing	0x00cf2220	257(em001_00_1#1:133f)	-	-	L1 st3; L2 table; 3 indirect
+3:64	tree	NEW-missing	0x00cf2220	270(em001_00_1#14:55f) 294(em001_00_1#38:113f) 295(em001_00_1#39:71f)	-	-	L1 st3; L2 table; 1 indirect
+3:65	tree	NEW-missing	0x00cf2220	270(em001_00_1#14:55f) 294(em001_00_1#38:113f) 295(em001_00_1#39:71f)	-	-	L1 st3; L2 table; 1 indirect
+3:66	tree	NEW-missing	0x00cf2220	270(em001_00_1#14:55f) 294(em001_00_1#38:113f) 295(em001_00_1#39:71f)	-	-	L1 st3; L2 table; 1 indirect
+3:67	tree	NEW-missing	0x00cf2220	257(em001_00_1#1:133f)	-	-	L1 st3; L2 table; 1 indirect
+3:68	tree	NEW-missing	0x00cf2220	273(em001_00_1#17:107f) 280(em001_00_1#24:31f) 281(em001_00_1#25:105f) 282(em001_00_1#26:29f) 287(em001_00_1#31:23f)	first#38=65/2/0x1	-	L1 st3; L2 table; 29 indirect; 2 escaped
+3:70	tree	NEW-missing	0x00cf2220	257(em001_00_1#1:133f)	-	-	L1 st3; L2 table; 3 indirect
+3:71	tree	NEW-missing	0x00cf2220	257(em001_00_1#1:133f)	-	-	L1 st3; L2 table; 3 indirect
+3:72	tree	NEW-missing	0x00cf2220	257(em001_00_1#1:133f)	-	-	L1 st3; L2 table; 3 indirect
+3:73	tree	NEW-missing	0x00cf2220	257(em001_00_1#1:133f)	-	-	L1 st3; L2 table; 3 indirect
+3:74	tree	NEW-missing	0x00cf2220	257(em001_00_1#1:133f)	-	-	L1 st3; L2 table; 52 indirect; 4 escaped
+3:79	forced	NEW-missing	0x00cf2220	28(em001_00_0#28:23f) 298(em001_00_1#42:49f) 299(em001_00_1#43:53f)	-	-	L1 st3; L2 table; 1 indirect
+3:81	tree	NEW-missing	0x00cf2220	257(em001_00_1#1:133f)	-	-	L1 st3; L2 table; 4 indirect; 3 escaped
+3:83	tree	NEW-missing	0x00cf2220	257(em001_00_1#1:133f) 260(em001_00_1#4:39f) 272(em001_00_1#16:51f) 273(em001_00_1#17:107f)	-	-	L1 st3; L2 table; 1 indirect
+3:84	tree	NEW-missing	0x00cf2220	257(em001_00_1#1:133f)	-	-	L1 st3; L2 table; 1 indirect
+3:85	tree	NEW-missing	0x00cf2220	257(em001_00_1#1:133f)	-	-	L1 st3; L2 table; 52 indirect; 4 escaped
+3:89	tree	NEW-missing	0x00cf2220	271(em001_00_1#15:81f)	first#53=70/2/0x1	-	L1 st3; L2 table; 1 indirect
+3:92	tree	NEW-missing	0x00cf2220	257(em001_00_1#1:133f)	-	-	L1 st3; L2 table; 1 indirect
+3:93	tree	NEW-missing	0x00cf2220	521(em001_00_2#9:91f)	-	-	L1 st3; L2 table; 52 indirect; 5 escaped
+3:96	tree	NEW-missing	0x00cf2220	521(em001_00_2#9:91f)	-	-	L1 st3; L2 table; 52 indirect; 4 escaped
+3:97	forced	NEW-missing	0x00cf2220	260(em001_00_1#4:39f) 262(em001_00_1#6:123f) 263(em001_00_1#7:155f)	-	-	L1 st3; L2 table; 108 indirect; 9 escaped
+3:98	tree	NEW-missing	0x00cf2220	257(em001_00_1#1:133f) 260(em001_00_1#4:39f)	-	-	L1 st3; L2 table; 1 indirect; 1 escaped
+4:0	tree	NEW-missing	0x00cf2aa4	270(em001_00_1#14:55f) 276(em001_00_1#20:37f)	-	-	L1 st4; L2 table; 1 indirect
+4:1	tree	NEW-missing	0x00cf2aa4	272(em001_00_1#16:51f) 273(em001_00_1#17:107f)	-	-	L1 st4; L2 table; 1 indirect
+4:2	tree	NEW-missing	0x00cf2aa4	261(em001_00_1#5:75f)	-	-	L1 st4; L2 table; 1 indirect
+4:3	tree	NEW-missing	0x00cf2aa4	257(em001_00_1#1:133f) 260(em001_00_1#4:39f)	-	-	L1 st4; L2 table; 1 indirect; 1 escaped
+4:5	tree	NEW-missing	0x00cf2aa4	258(em001_00_1#2:55f)	-	-	L1 st4; L2 table; 1 indirect
+4:7	tree	NEW-missing	0x00cf2aa4	264(em001_00_1#8:41f) 274(em001_00_1#18:43f)	-	-	L1 st4; L2 table; 1 indirect; 1 escaped
+4:10	tree	NEW-missing	0x00cf2aa4	259(em001_00_1#3:285f)	first#8=0/38/0x1 first#50=0/43/0x1 first#50=0/43/0x1	-	L1 st4; L2 table; 1 indirect
+4:11	tree	NEW-missing	0x00cf2aa4	259(em001_00_1#3:285f)	first#8=0/38/0x1 first#50=0/43/0x1 first#50=0/43/0x1	-	L1 st4; L2 table; 1 indirect
+4:12	tree	NEW-missing	0x00cf2aa4	258(em001_00_1#2:55f)	-	-	L1 st4; L2 table; 1 indirect
+4:13	tree	NEW-missing	0x00cf2aa4	258(em001_00_1#2:55f)	-	-	L1 st4; L2 table; 1 indirect
+4:14	tree	NEW-missing	0x00cf2aa4	1044(em001_00_4#20:121f)	-	-	L1 st4; L2 table; 1 indirect
+4:15	tree	NEW-missing	0x00cf2aa4	1045(em001_00_4#21:121f)	-	-	L1 st4; L2 table; 1 indirect
+4:20	tree	NEW-missing	0x00cf2aa4	277(em001_00_1#21:123f)	-	-	L1 st4; L2 table; 1 indirect
+4:22	tree	NEW-missing	0x00cf2aa4	1031(em001_00_4#7:139f)	first#22=10/2/0x1	-	L1 st4; L2 table; 1 indirect; 1 escaped
+4:24	tree	NEW-missing	0x00cf2aa4	296(em001_00_1#40:67f) 297(em001_00_1#41:29f)	first#44=20/1/0x1	-	L1 st4; L2 table; 1 indirect
+4:26	tree	NEW-missing	0x00cf2aa4	1030(em001_00_4#6:173f) 1031(em001_00_4#7:139f) 1084(em001_00_4#60:91f)	first#22=10/2/0x1 second#1002=60/2/0x1 second#1003=60/2/0x1 first#7=75/2/0x1 first#55=75/2/0x4021	-	L1 st4; L2 table; 1 indirect; 1 escaped
+7:0	tree	NEW-missing	0x00cf2d4c	513(em001_00_2#1:181f)	first#1=25/1/0x1 first#9=20/1/0x1	-	L1 st7; L2 table; 1 indirect; 1 escaped
+7:2	tree	NEW-missing	0x00cf2d4c	517(em001_00_2#5:295f)	-	-	L1 st7; L2 table; 2 indirect; 1 escaped
+7:4	tree	NEW-missing	0x00cf2d4c	516(em001_00_2#4:121f)	first#35=5/1/0x1 second#1008=25/31/0x1	-	L1 st7; L2 table; 12 unresolved(other); 2 indirect; 1 escaped
+7:5	tree	NEW-missing	0x00cf2d4c	1030(em001_00_4#6:173f) 1031(em001_00_4#7:139f)	second#1004=60/2/0x1 second#1005=60/2/0x1 first#27=75/2/0x1 first#56=75/2/0x4021 first#22=10/2/0x1	-	L1 st7; L2 table; 6 indirect; 1 escaped
+7:6	tree	NEW-missing	0x00cf2d4c	7(em001_00_0#7:91f) 8(em001_00_0#8:47f)	first#5=50/2/0x1	-	L1 st7; L2 table; 1 indirect
+7:7	tree	NEW-missing	0x00cf2d4c	7(em001_00_0#7:91f) 8(em001_00_0#8:47f)	first#5=50/2/0x1	-	L1 st7; L2 table; 1 indirect
+7:8	tree	NEW-missing	0x00cf2d4c	1032(em001_00_4#8:377f)	-	-	L1 st7; L2 table; 1 indirect
+7:9	tree	NEW-missing	0x00cf2d4c	1029(em001_00_4#5:109f) 1030(em001_00_4#6:173f) 1031(em001_00_4#7:139f)	first#22=10/2/0x1 second#1002=60/2/0x1 second#1003=60/2/0x1 first#7=75/2/0x1 first#55=75/2/0x4021	-	L1 st7; L2 table; 11 indirect
+7:10	tree	NEW-missing	0x00cf2d4c	530(em001_00_2#18:309f)	-	-	L1 st7; L2 table; 2 indirect; 1 escaped
+7:11	tree	NEW-missing	0x00cf2d4c	530(em001_00_2#18:309f)	-	-	L1 st7; L2 table; 2 indirect; 1 escaped
+7:12	tree	NEW-missing	0x00cf2d4c	515(em001_00_2#3:121f)	first#33=5/1/0x1 second#1006=30/13/0x1	-	L1 st7; L2 table; 12 unresolved(other); 2 indirect; 1 escaped
+7:13	tree	NEW-missing	0x00cf2d4c	7(em001_00_0#7:91f) 513(em001_00_2#1:181f)	first#5=50/2/0x1 first#1=25/1/0x1 first#9=20/1/0x1	-	L1 st7; L2 table; 1 indirect; 1 escaped
+7:14	tree	NEW-missing	0x00cf2d4c	258(em001_00_1#2:55f) 1029(em001_00_4#5:109f) 1030(em001_00_4#6:173f) 1031(em001_00_4#7:139f)	first#22=10/2/0x1 second#1002=60/2/0x1 second#1003=60/2/0x1 first#7=75/2/0x1 first#55=75/2/0x4021	-	L1 st7; L2 table; 11 indirect
+7:15	tree	NEW-missing	0x00cf2d4c	517(em001_00_2#5:295f)	-	-	L1 st7; L2 table; 2 indirect; 1 escaped
+7:16	tree	NEW-missing	0x00cf2d4c	7(em001_00_0#7:91f) 21(em001_00_0#21:307f)	first#5=50/2/0x1	-	L1 st7; L2 table; 1 indirect
+7:17	tree	NEW-missing	0x00cf2d4c	525(em001_00_2#13:147f)	first#12=25/1/0x1	-	L1 st7; L2 table; 1 indirect
+7:18	tree	NEW-missing	0x00cf2d4c	526(em001_00_2#14:109f)	first#2=35/31/0x1	-	L1 st7; L2 table; 1 indirect
+7:19	tree	NEW-missing	0x00cf2d4c	7(em001_00_0#7:91f) 514(em001_00_2#2:183f)	first#5=50/2/0x1 first#13=45/2/0x1	-	L1 st7; L2 table; 1 indirect; 1 escaped
+7:21	tree	NEW-missing	0x00cf2d4c	526(em001_00_2#14:109f)	first#2=35/31/0x1	-	L1 st7; L2 table; 1 indirect
+7:30	tree	NEW-missing	0x00cf2d4c	1029(em001_00_4#5:109f) 1030(em001_00_4#6:173f) 1031(em001_00_4#7:139f) 1034(em001_00_4#10:77f)	first#22=10/2/0x1 second#1002=60/2/0x1 second#1003=60/2/0x1 first#7=75/2/0x1 first#55=75/2/0x4021	-	L1 st7; L2 table; 11 indirect
+7:31	tree	NEW-missing	0x00cf2d4c	1025(em001_00_4#1:101f) 1041(em001_00_4#17:141f)	first#23=20/11/0x1	-	L1 st7; L2 table; 104 indirect; 8 escaped
+7:32	tree	NEW-missing	0x00cf2d4c	7(em001_00_0#7:91f)	first#5=50/2/0x1	-	L1 st7; L2 table; 29 indirect; 3 escaped
+7:33	tree	NEW-missing	0x00cf2d4c	1033(em001_00_4#9:175f) 1035(em001_00_4#11:119f)	first#6=70/2/0x1 first#3=70/2/0x1	-	L1 st7; L2 table; 1 indirect
+7:34	tree	NEW-missing	0x00cf2d4c	1032(em001_00_4#8:377f)	-	-	L1 st7; L2 table; 1 indirect
+7:45	tree	NEW-missing	0x00cf2d4c	519(em001_00_2#7:145f)	first#30=25/1/0x1	-	L1 st7; L2 table; 1 indirect
+7:58	tree	NEW-missing	0x00cf2d4c	1040(em001_00_4#16:243f)	-	-	L1 st7; L2 table; 1 indirect
+7:61	tree	NEW-missing	0x00cf2d4c	1030(em001_00_4#6:173f)	second#1004=60/2/0x1 second#1005=60/2/0x1 first#27=75/2/0x1 first#56=75/2/0x4021	-	L1 st7; L2 table; 6 indirect; 1 escaped
+7:66	tree	NEW-missing	0x00cf2d4c	1042(em001_02_4#18:447f)	-	-	L1 st7; L2 table; 1 indirect
+7:68	tree	NEW-missing	0x00cf2d4c	1041(em001_00_4#17:141f) 1063(em001_02_4#39:163f)	first#36=20/11/0x1	-	L1 st7; L2 table; 104 indirect; 8 escaped
+7:71	tree	NEW-missing	0x00cf2d4c	1040(em001_00_4#16:243f)	-	-	L1 st7; L2 table; 1 indirect
+7:74	tree	NEW-missing	0x00cf2d4c	1029(em001_00_4#5:109f) 1030(em001_00_4#6:173f) 1031(em001_00_4#7:139f) 1042(em001_02_4#18:447f) 1043(em001_02_4#19:49f)	first#22=10/2/0x1 second#1002=60/2/0x1 second#1003=60/2/0x1 first#7=75/2/0x1 first#55=75/2/0x4021	-	L1 st7; L2 table; 6 indirect
+7:80	tree	NEW-missing	0x00cf2d4c	1030(em001_00_4#6:173f) 1031(em001_00_4#7:139f) 1075(em001_02_4#51:121f) 1076(em001_02_4#52:229f)	first#22=10/2/0x1 second#1002=60/2/0x1 second#1003=60/2/0x1 first#7=75/2/0x1 first#55=75/2/0x4021 second#1012=60/2/0x1 second#1013=60/2/0x1 first#45=75/2/0x1 first#57=75/2/0x4021	-	L1 st7; L2 table; 11 indirect
+7:83	tree	NEW-missing	0x00cf2d4c	1030(em001_00_4#6:173f) 1031(em001_00_4#7:139f) 1073(em001_02_4#49:121f) 1074(em001_02_4#50:229f)	first#22=10/2/0x1 second#1002=60/2/0x1 second#1003=60/2/0x1 first#7=75/2/0x1 first#55=75/2/0x4021 second#1012=60/2/0x1 second#1013=60/2/0x1 first#45=75/2/0x1 first#57=75/2/0x4021	-	L1 st7; L2 table; 11 indirect
+7:88	tree	NEW-missing	0x00cf2d4c	1030(em001_00_4#6:173f) 1031(em001_00_4#7:139f) 1075(em001_02_4#51:121f) 1076(em001_02_4#52:229f)	first#22=10/2/0x1 second#1002=60/2/0x1 second#1003=60/2/0x1 first#7=75/2/0x1 first#55=75/2/0x4021 second#1012=60/2/0x1 second#1013=60/2/0x1 first#45=75/2/0x1 first#57=75/2/0x4021	-	L1 st7; L2 table; 11 indirect
+7:89	tree	NEW-missing	0x00cf2d4c	1030(em001_00_4#6:173f) 1031(em001_00_4#7:139f) 1073(em001_02_4#49:121f) 1074(em001_02_4#50:229f)	first#22=10/2/0x1 second#1002=60/2/0x1 second#1003=60/2/0x1 first#7=75/2/0x1 first#55=75/2/0x4021 second#1012=60/2/0x1 second#1013=60/2/0x1 first#45=75/2/0x1 first#57=75/2/0x4021	-	L1 st7; L2 table; 11 indirect
+7:90	tree	NEW-missing	0x00cf2d4c	1030(em001_00_4#6:173f) 1031(em001_00_4#7:139f) 1042(em001_02_4#18:447f) 1075(em001_02_4#51:121f) 1076(em001_02_4#52:229f)	first#22=10/2/0x1 second#1002=60/2/0x1 second#1003=60/2/0x1 first#7=75/2/0x1 first#55=75/2/0x4021 second#1012=60/2/0x1 second#1013=60/2/0x1 first#45=75/2/0x1 first#57=75/2/0x4021	-	L1 st7; L2 table; 6 indirect
+7:91	tree	NEW-missing	0x00cf2d4c	1030(em001_00_4#6:173f) 1031(em001_00_4#7:139f) 1042(em001_02_4#18:447f) 1073(em001_02_4#49:121f) 1074(em001_02_4#50:229f)	first#22=10/2/0x1 second#1002=60/2/0x1 second#1003=60/2/0x1 first#7=75/2/0x1 first#55=75/2/0x4021 second#1012=60/2/0x1 second#1013=60/2/0x1 first#45=75/2/0x1 first#57=75/2/0x4021	-	L1 st7; L2 table; 6 indirect
+7:106	tree	NEW-missing	0x00cf2d4c	1079(em001_00_4#55:219f)	second#1014=60/2/0x1 second#1015=60/2/0x1 first#48=75/2/0x1 first#58=75/2/0x4021	-	L1 st7; L2 table; 1 indirect
+7:107	tree	NEW-missing	0x00cf2d4c	1032(em001_00_4#8:377f)	-	-	L1 st7; L2 table; 2 indirect; 1 escaped
+7:108	tree	NEW-missing	0x00cf2d4c	1032(em001_00_4#8:377f)	-	-	L1 st7; L2 table; 2 indirect; 1 escaped
+7:109	tree	NEW-missing	0x00cf2d4c	258(em001_00_1#2:55f) 1029(em001_00_4#5:109f) 1030(em001_00_4#6:173f) 1031(em001_00_4#7:139f)	first#22=10/2/0x1 second#1002=60/2/0x1 second#1003=60/2/0x1 first#7=75/2/0x1 first#55=75/2/0x4021	-	L1 st7; L2 table; 11 indirect
+7:113	tree	NEW-missing	0x00cf2d4c	1031(em001_00_4#7:139f) 1076(em001_02_4#52:229f) 1084(em001_00_4#60:91f) 1087(em001_02_4#63:17f)	first#22=10/2/0x1 second#1012=60/2/0x1 second#1013=60/2/0x1 first#45=75/2/0x1 first#57=75/2/0x4021	-	L1 st7; L2 table; 1 indirect
+7:114	tree	NEW-missing	0x00cf2d4c	1031(em001_00_4#7:139f) 1074(em001_02_4#50:229f) 1084(em001_00_4#60:91f) 1086(em001_02_4#62:17f)	first#22=10/2/0x1 second#1012=60/2/0x1 second#1013=60/2/0x1 first#45=75/2/0x1 first#57=75/2/0x4021	-	L1 st7; L2 table; 1 indirect
+7:118	tree	NEW-missing	0x00cf2d4c	1089(em001_00_4#65:225f)	first#13=45/2/0x1 second#1036=35/31/0x1 second#1037=35/31/0x1 second#1037=35/31/0x1 first#51=35/31/0x1	-	L1 st7; L2 table; 6 indirect
+7:119	tree	NEW-missing	0x00cf2d4c	1089(em001_00_4#65:225f)	second#1036=35/31/0x1 second#1037=35/31/0x1 first#51=35/31/0x1	-	L1 st7; L2 table; 6 indirect
+7:121	tree	NEW-missing	0x00cf2d4c	7(em001_00_0#7:91f) 1090(em001_00_4#66:45f)	first#5=50/2/0x1	-	L1 st7; L2 table; 52 indirect; 5 escaped
+7:236	tree	NEW-missing	0x00cf2d4c	264(em001_00_1#8:41f) 274(em001_00_1#18:43f) 1042(em001_02_4#18:447f)	-	-	L1 st7; L2 table; 1 indirect; 1 escaped
+7:237	tree	NEW-missing	0x00cf2d4c	7(em001_00_0#7:91f) 8(em001_00_0#8:47f) 2307(em001_04_9#3:67f)[ne(cmp r0, #0)] 2308(em001_04_9#4:129f) 2309(em001_04_9#5:39f) 2310(em001_04_9#6:217f) 2311(em001_04_9#7:83f) 2312(em001_04_9#8:61f)	second#1013=60/2/0x1 second#1012=60/2/0x1 second#1014=60/2/0x1 second#1010=30/2/0x1 second#1009=25/31/0x1 second#1011=30/2/0x1	-	L1 st7; L2 table; 2 unresolved(other); 1 indirect; 1 escaped
+7:238	tree	NEW-missing	0x00cf2d4c	7(em001_00_0#7:91f) 8(em001_00_0#8:47f) 2307(em001_04_9#3:67f)[ne(cmp r0, #0)] 2308(em001_04_9#4:129f) 2309(em001_04_9#5:39f) 2310(em001_04_9#6:217f) 2311(em001_04_9#7:83f) 2312(em001_04_9#8:61f)	second#1013=60/2/0x1 second#1012=60/2/0x1 second#1014=60/2/0x1 second#1010=30/2/0x1 second#1009=25/31/0x1 second#1011=30/2/0x1	-	L1 st7; L2 table; 2 unresolved(other); 1 indirect; 1 escaped
+7:239	tree	NEW-missing	0x00cf2d4c	1042(em001_02_4#18:447f) 1043(em001_02_4#19:49f) 2311(em001_04_9#7:83f) 2312(em001_04_9#8:61f)	-	-	L1 st7; L2 table; 1 indirect
+7:240	tree	NEW-missing	0x00cf2d4c	7(em001_00_0#7:91f) 8(em001_00_0#8:47f) 2311(em001_04_9#7:83f) 2312(em001_04_9#8:61f)	first#5=50/2/0x1	-	L1 st7; L2 table; 1 indirect; 1 escaped
+7:241	tree	NEW-missing	0x00cf2d4c	2311(em001_04_9#7:83f) 2312(em001_04_9#8:61f)	-	-	L1 st7; L2 table; 1 indirect
+7:243	tree	NEW-missing	0x00cf2d4c	516(em001_00_2#4:121f)	first#35=5/1/0x1 second#1008=25/31/0x1	-	L1 st7; L2 table; 8 unresolved(other); 2 indirect; 1 escaped
+7:244	tree	NEW-missing	0x00cf2d4c	515(em001_00_2#3:121f)	first#33=5/1/0x1 second#1006=30/13/0x1	-	L1 st7; L2 table; 8 unresolved(other); 2 indirect; 1 escaped
+7:248	tree	NEW-missing	0x00cf2d4c	2307(em001_04_9#3:67f)[ne(cmp r0, #0)] 2308(em001_04_9#4:129f) 2309(em001_04_9#5:39f) 2310(em001_04_9#6:217f) 2311(em001_04_9#7:83f) 2312(em001_04_9#8:61f)	second#1013=60/2/0x1 second#1012=60/2/0x1 second#1014=60/2/0x1 second#1010=30/2/0x1 second#1009=25/31/0x1 second#1011=30/2/0x1	-	L1 st7; L2 table; 2 unresolved(other); 1 indirect; 1 escaped
+7:249	tree	NEW-missing	0x00cf2d4c	274(em001_00_1#18:43f) 1042(em001_02_4#18:447f)	-	-	L1 st7; L2 table; 1 indirect; 1 escaped
+7:250	tree	NEW-missing	0x00cf2d4c	258(em001_00_1#2:55f) 2305(em001_04_9#1:347f) 2306(em001_04_9#2:329f)	-	-	L1 st7; L2 table; 1 indirect
+7:252	tree	NEW-missing	0x00cf2d4c	522(em001_00_2#10:123f) 2308(em001_04_9#4:129f) 2309(em001_04_9#5:39f) 2310(em001_04_9#6:217f)	second#1030=30/31/0x1 second#1031=40/2/0x1 second#1032=65/2/0x1 second#1033=65/2/0x1 second#1033=65/2/0x1	-	L1 st7; L2 table; 1 indirect; 1 escaped
+7:253	tree	NEW-missing	0x00cf2d4c	7(em001_00_0#7:91f) 1076(em001_02_4#52:229f) 2307(em001_04_9#3:67f)	second#1023=50/2/0x1 second#1028=60/2/0x1 second#1029=60/2/0x1	-	L1 st7; L2 table; 1 indirect; 1 escaped
+7:254	tree	NEW-missing	0x00cf2d4c	7(em001_00_0#7:91f) 516(em001_00_2#4:121f)	second#1023=50/2/0x1 second#1027=5/1/0x1 second#1024=25/31/0x1 second#1025=25/31/0x1 second#1026=5/1/0x1 second#1025=25/31/0x1	-	L1 st7; L2 table; 2 indirect; 1 escaped
+7:255	tree	NEW-missing	0x00cf2d4c	2306(em001_04_9#2:329f)	second#1019=35/2/0x1 second#1020=35/2/0x1 second#1034=15/1/0x1 second#1020=35/2/0x1 second#1021=40/2/0x1 second#1022=40/2/0x1 second#1035=15/1/0x1	-	L1 st7; L2 table; 6 indirect
+12:0	forced	NEW-missing	0x00cf4534	257(em001_00_1#1:133f) 260(em001_00_1#4:39f) 272(em001_00_1#16:51f) 273(em001_00_1#17:107f)	-	-	L1 st12; L2 table; 1 indirect
+12:1	forced	NEW-missing	0x00cf4534	257(em001_00_1#1:133f) 260(em001_00_1#4:39f)	-	-	L1 st12; L2 table; 53 indirect; 5 escaped
+13:0	tree	NEW-missing	0x00cf46ac	257(em001_00_1#1:133f)	-	-	L1 st13; L2 table; 52 indirect; 4 escaped
+13:1	forced	NEW-missing	0x00cf46ac	271(em001_00_1#15:81f) 521(em001_00_2#9:91f) 522(em001_00_2#10:123f)	-	-	L1 st13; L2 table; 53 indirect; 5 escaped
+13:2	forced	NEW-missing	0x00cf46ac	1025(em001_00_4#1:101f) 1041(em001_00_4#17:141f)	first#10=40/10/0x1	-	L1 st13; L2 table; 104 indirect; 9 escaped

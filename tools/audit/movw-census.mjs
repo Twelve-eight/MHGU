@@ -10,8 +10,9 @@ const buf = fs.readFileSync(FLAT);
 const TEXT_START = 0x100;
 const TEXT_END = 0x13F1DEC;
 const rd32 = (v) => buf.readUInt32LE(v + 0x100);
-const isMovw = (w) => ((w >>> 28) & 0xF) !== 0xF && (w & 0x0FF00000) === 0x03000000 && ((w >>> 20) & 1) === 0 && (w & 0xF) < 15;
-const movwVal = (w) => (((w >>> 4) & 0xf000) | (w & 0xfff)) >>> 0;
+const rdOf = (w) => (w >>> 12) & 0xF;
+const isMovw = (w) => ((w >>> 28) & 0xF) !== 0xF && (w & 0x0FF00000) === 0x03000000 && ((w >>> 20) & 1) === 0 && rdOf(w) !== 0xF;
+const movwVal = (w) => ((((w >>> 16) & 0xF) << 12) | (w & 0xFFF)) >>> 0;
 
 // Unconditional self-test: the movw decode must reproduce a hand-verified word on EVERY run,
 // so a census whose argv does not include 0x72f4 still has an active control (re-audit F finding).
@@ -20,6 +21,21 @@ const movwVal = (w) => (((w >>> 4) & 0xf000) | (w & 0xfff)) >>> 0;
   const got = isMovw(probe) ? movwVal(probe) : null;
   console.log('SELFTEST movw decode: ' + (got === 0x72f4 ? 'PASS' : 'FAIL got ' + got));
   if (got !== 0x72f4) process.exit(1);
+}
+// Encoding boundaries: a low imm12 nibble of 0xf is legal, while Rd15 and condF are not.
+{
+  const controls = [
+    [0xe301040f, true, 0x140f, "imm12 low nibble 0xf"],
+    [0xe301f404, false, null, "Rd15"],
+    [0xf3010404, false, null, "condF"],
+  ];
+  for (const [word, expected, value, label] of controls) {
+    const actual = isMovw(word), decoded = actual ? movwVal(word) : null;
+    const pass = actual === expected && (!expected || decoded === value);
+    const shown = decoded === null ? "none" : "0x" + decoded.toString(16);
+    console.log(`SELFTEST ${label}: ${pass ? "PASS" : "FAIL"} isMovw=${actual} value=${shown}`);
+    if (!pass) process.exit(1);
+  }
 }
 const targets = process.argv.slice(2).map(Number);
 const results = new Map();

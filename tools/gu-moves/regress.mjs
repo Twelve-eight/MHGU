@@ -291,6 +291,9 @@ check('tableload', 'em060 0x16a6504+0x54/0x5c/0x58', 'em060_00',
 check('tableload', 'em060 0x16a6508 / 0x16a650c', 'em060_00',
   '7:4 -> 515/517 @0xf18024 (ldrh +4) and 516/518 @0xf180f4 (ldrh +8)',
   expectAt({ '7:4': [[515, '0x00f18024'], [517, '0x00f18024'], [516, '0x00f180f4'], [518, '0x00f180f4']] }));
+check('tableload', 'Q37-report.md sec.3 (em060 0x16a6504+0x00)', 'em060_00',
+  '1:10 -> 18 and 23 at the play 0xf150c0 (ldrh @0xf150b8, table offset +0x00)',
+  expectAt({ '1:10': [[18, '0x00f150c0'], [23, '0x00f150c0']] }));
 check('tableload', 'em022 0x16a3ffc (word 6) / 0x16a400c (word 5)', 'em022_00',
   '6:4 -> 5 and 6 at the descriptor play 0x77470 (previously no-motion)',
   expectAt({ '6:4': [[5, '0x00077470'], [6, '0x00077470']] }));
@@ -406,6 +409,54 @@ check('frames', 'MovesXA sec.2 em022 515/516', 'em022_00', '515=79f, 516=179f', 
   if (+m.get(516)?.frames !== 179) bad.push('516:' + m.get(516)?.frames);
   return bad.length ? bad.join(',') : true;
 });
+
+// ---------------------------------------------------------------------------------------------
+// l1shape (Q37): the two classes the strict dispatcher parser could not read
+//
+// uEm049_00 and uEm058_00 are the only two monster classes carrying `no_l1_dispatcher_at_1f4` in
+// gu-l1-class-names.tsv (rows 28/33); the tool used to abort on them ("no L1 dispatcher found near
+// 0x00ec3b98" / "0x00f0a6fc") and write nothing at all. Both do have an 18-entry table dispatcher in
+// class-vtable slot +0x1F4; the table base and the `bhi` default below were read out of the
+// disassembly (Q37-report.md sec.2.3/2.4):
+//   0xec3b98  state = [em+0xcaf0+0xffffa8f0], 0xec3bbc cmp #17, 0xec3bc0 bhi 0xec3c4c, table 0xec3bd4
+//   0xf0a6fc  special-case preamble first, 0xf0a778 cmp #17, 0xf0a77c bhi 0xf0a874, table 0xf0a790
+// Anything that puts the strict-only parser back turns the two row-count checks red instead of
+// quietly producing an empty file again.
+// ---------------------------------------------------------------------------------------------
+check('l1shape', 'Q37-report.md sec.2.3', 'em049_00', 'L1 table 0x00ec3bd4, default 0x00ec3c4c', (v, m, f) =>
+  (f?.l1?.table === '0x00ec3bd4' && f?.l1?.default === '0x00ec3c4c'
+    ? true : `l1 table ${f?.l1?.table} default ${f?.l1?.default}`));
+check('l1shape', 'Q37-report.md sec.2.4', 'em058_00', 'L1 table 0x00f0a790, default 0x00f0a874', (v, m, f) =>
+  (f?.l1?.table === '0x00f0a790' && f?.l1?.default === '0x00f0a874'
+    ? true : `l1 table ${f?.l1?.table} default ${f?.l1?.default}`));
+check('l1shape', 'Q37-report.md sec.5', 'em049_00', '339 (state,variant) rows', (v) =>
+  (v.size === 339 ? true : `${v.size} rows`));
+check('l1shape', 'Q37-report.md sec.5', 'em058_00', '274 (state,variant) rows', (v) =>
+  (v.size === 274 ? true : `${v.size} rows`));
+check('l1shape', 'Q37-report.md sec.5', 'em049_00', '57 motion ids, all shipped', (v, m) => {
+  if (m.size !== 57) return `${m.size} ids`;
+  const bad = [...new Set([...m.values()].filter(x => x.gu !== 'shipped').map(x => x.gu))];
+  return bad.length ? `not shipped: ${bad.join(',')}` : true;
+});
+check('l1shape', 'Q37-report.md sec.5', 'em058_00', '55 motion ids, all shipped', (v, m) => {
+  if (m.size !== 55) return `${m.size} ids`;
+  const bad = [...new Set([...m.values()].filter(x => x.gu !== 'shipped').map(x => x.gu))];
+  return bad.length ? `not shipped: ${bad.join(',')}` : true;
+});
+check('l1shape', 'Q37-report.md sec.4', 'em049_00',
+  'state 0 requests exactly 1/2/19, all at the tail play 0x00eb87ec', (v) => {
+    const got = (idsOf(v, '0:1') ?? []).slice().sort((a, b) => a - b);
+    if (got.join(',') !== '1,2,19') return `0:1 ids ${got.join(',') || '-'}`;
+    const mot = v.get('0:1')?.mot ?? [];
+    const miss = [[1, '0x00eb87ec'], [2, '0x00eb87ec'], [19, '0x00eb87ec']]
+      .filter(([id, site]) => !mot.some(x => x.id === id && x.site === site));
+    return miss.length ? `missing ${miss.map(x => x.join('@')).join(',')}` : true;
+  });
+check('l1shape', 'Q37-report.md sec.2.4', 'em058_00',
+  'L1 stub hop: 0:0 case body 0x00f0a91c, 0:3 0x00f0a9ac', (v) => {
+    const a = v.get('0:0')?.caseBody, b = v.get('0:3')?.caseBody;
+    return (a === '0x00f0a91c' && b === '0x00f0a9ac' ? true : `0:0 ${a} 0:3 ${b}`);
+  });
 
 // ---------------------------------------------------------------------------------------------
 const byVerdict = { PASS: 0, FAIL: 0, SKIP: 0 };
