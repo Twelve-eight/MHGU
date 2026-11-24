@@ -134,4 +134,17 @@
 0019a94c 0D0051E3   // preset guard r1<14
 0019b21c 0D0054E3   // preset guard r4<14
 0019b460 0D0051E3   // preset guard r1<14
+00199cb8 000050E3   // sort guard: cmp r0, #0 (skip id==0 ghost entries)
+00199cbc 0700000A   // sort guard: beq 0x199ce0
+00199cc0 AF1B00E3   // sort guard: movw r1, #0xbaf (2991)
+00199cc4 010050E1   // sort guard: cmp r0, r1 (skip id>=2991 stack OOB)
+00199cc8 0400002A   // sort guard: bcs 0x199ce0
+00199ccc 000052E3   // sort guard: cmp r2, #0 (skip count<=0)
+00199cd0 020000DA   // sort guard: ble 0x199ce0
+00199cd4 001198E7   // sort guard: ldr r1, [r8, r0, lsl #2]
+00199cd8 021081E0   // sort guard: add r1, r1, r2
+00199cdc 001188E7   // sort guard: str r1, [r8, r0, lsl #2]
+00199ce0 016086E2   // sort guard: add r6, r6, #1
+00199ce4 044084E2   // sort guard: add r4, r4, #4
+00199ce8 0000A0E1   // sort guard: nop
 @stop
