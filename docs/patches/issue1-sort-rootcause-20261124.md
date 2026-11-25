@@ -32,3 +32,19 @@
 ## 2. GitHub Reply Posted to `Twelve-eight/MHGU#1`
 
 See comment posted via `gh issue comment 1 -R Twelve-eight/MHGU`.
+
+---
+
+## 3. Follow-Up Diagnosis (`2026-11-25`, `[C]` from `0x5B8040` + `0x199AE4` disassembly)
+
+Reporter (`jessvin58-png`, `2026-11-24T15:41:24Z`) reported two critical follow-up symptoms after reloading on Eden:
+
+1. **Last 8 slots on Page 30 always reappear after Sort (NEW CONFIRMED BUG `[C]`)**:
+   - Disassembly of `0x5B8040` (Item Box UI page render, flat `0x5B8140`) confirms the `10x10` grid (`0x553A74`) renders all `100` slots of Page 30 (`page=29`, `A[2900..2999]` = `obj + 0x2D6A .. 0x2EF9`) **without checking `slot < capacity (2992)`** (vanilla capacities `1000..2300` were always exact multiples of `100`).
+   - Because `V7`/`V8` sets `N = 2992` (`0xBB0`), `A[2991]` ends at `obj + 0x2ED9`, and Sort buffer `B[0..7]` begins immediately at `obj + 0x2EDA .. 0x2EF9` — **the exact last 8 slots of Page 30 (`A[2992..2999]`) physically alias `B[0..7]`**.
+   - Moving those 8 items only edits `B[0..7]`; pressing Sort runs `0x199AE4`, which refills `B[0..7]` with the first 8 sorted items, making them reappear in the last 8 boxes of Page 30 every time.
+   - Clean fix options: use a multiple-of-100 capacity (`N = 3000` = 30 full pages, `7125 B` bitstream + `14 * 170 = 2380 B` presets fits with `38 B` spare before Item Pouch `charOff+10175`; or `N = 2900` = 29 full pages), or clamp Page 30 UI rendering to `92` slots.
+2. **Why manually selling Pages 24–30 still left random items on Sort preview (before pressing Yes)**:
+   - Our `2026-11-24T13:44:58Z` GitHub comment was truncated by shell escaping before mentioning `tools/migrate-save-v7.mjs`, so the reporter tested without migrating their save.
+   - In `0x5B81F0..0x5B8214`, any slot with `getItemData(id) == NULL` or `itemData->field_0x08 == 0` is rendered **empty/invisible** in the normal UI (cannot be seen or sold), and dummy/"Program Data" items are unsellable; yet pressing Sort immediately calls `0x199AE4` to build the live preview in `B[]` (before clicking Yes), sorting any surviving phantom slots with `1 <= id < 2991` onto Page 1.
+   - Verified on `system_CLEAN`: `93` of `242` phantom preset slots in `2300..2991` have `1 <= id < 2991` and pass the runtime OOB guard; `node tools/migrate-save-v7.mjs` is required to zero all `2300..2991` bits cleanly.
