@@ -9,7 +9,10 @@
 //   node tools/mhgu/arc.mjs list <file.arc>
 //   node tools/mhgu/arc.mjs extract <file.arc> <outdir> [nameRegex]
 //   node tools/mhgu/arc.mjs find <romfsDir> <nameRegex>
-// Library: readArc(buf) -> {version,count,entries[]} ; inflateEntry(buf, entry) -> Buffer.
+//   node tools/mhgu/arc.mjs pack <indir> <out.arc>
+//   node tools/mhgu/arc.mjs roundtrip-check <file.arc>
+// Library: readArc(buf), inflateEntry(buf, entry), packArc(entries, opts).
+import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import zlib from 'node:zlib';
@@ -19,8 +22,15 @@ export const MAGIC = 'ARC\0';
 export const VERSION = 0x11;
 export const HEADER_SIZE = 0x0c;
 export const ENTRY_SIZE = 80;
+export const DEFAULT_FLAGS = 0x40000000;
+export const ORDER_MANIFEST = '_arc_order.json';
 const SIZE_MASK = 0x1fffffff; // low 29 bits = uncompressed size
 const FLAG_MASK = 0xe0000000; // high 3 bits = flags
+const STAGE_RANK = new Map([
+  [0x241f5deb, 0], // rTexture (TEX)
+  [0x2749c8a8, 1], // rMaterial (MRL)
+  [0x58a15856, 2], // rModel (MOD)
+]);
 
 const hex32 = v => '0x' + (v >>> 0).toString(16).padStart(8, '0');
 
@@ -80,6 +90,94 @@ export function inflateEntry(buf, entry, label = '<buffer>') {
   return data;
 }
 
+function alignUp(value, align) {
+  if (align <= 1) return value;
+  const rem = value % align;
+  return rem === 0 ? value : value + (align - rem);
+}
+
+/**
+ * Pack entries into an MHGU `ARC\0` v0x11 container buffer.
+ * Each entry requires `{ name, typeHash, data }` and optional `flags` (default `0x40000000`).
+ */
+export function packArc(entries, opts = {}) {
+  if (!Array.isArray(entries)) throw new TypeError('packArc: entries must be an array');
+  if (entries.length > 0xffff) throw new Error(`packArc: ${entries.length} entries exceeds u16 limit (65535)`);
+  const version = opts.version ?? VERSION;
+  if (version !== VERSION) throw new Error(`packArc: unsupported version 0x${version.toString(16)} (expected 0x11)`);
+  const level = opts.level ?? zlib.constants.Z_DEFAULT_COMPRESSION;
+  const defaultFlags = (opts.defaultFlags ?? DEFAULT_FLAGS) >>> 0;
+  const align = opts.align ?? 1;
+  if (!Number.isInteger(align) || align < 1) throw new RangeError(`packArc: invalid align ${align}`);
+  const tableEnd = HEADER_SIZE + entries.length * ENTRY_SIZE;
+  const firstOffset = opts.firstOffset ?? alignUp(tableEnd, 32);
+  if (!Number.isInteger(firstOffset) || firstOffset < 0) throw new RangeError(`packArc: invalid firstOffset ${firstOffset}`);
+  const pad = (opts.pad ?? 0) >>> 0;
+
+  let cursor = Math.max(tableEnd, firstOffset);
+  const prepared = [];
+
+  for (let i = 0; i < entries.length; i++) {
+    const entry = entries[i];
+    if (!entry || typeof entry.name !== 'string' || entry.name.length === 0) {
+      throw new Error(`packArc: entry[${i}] must have a non-empty string name`);
+    }
+    for (let k = 0; k < entry.name.length; k++) {
+      const code = entry.name.charCodeAt(k);
+      if (code === 0 || code > 0xff) {
+        throw new Error(`packArc: entry[${i}] name ${JSON.stringify(entry.name)} contains invalid char (must be Latin-1/ASCII without NUL)`);
+      }
+    }
+    if (entry.name.length > 63) {
+      throw new Error(`packArc: entry[${i}] name "${entry.name}" exceeds 63 bytes (${entry.name.length} B; need >= 1 NUL byte)`);
+    }
+    if (!Number.isInteger(entry.typeHash)) {
+      throw new Error(`packArc: entry[${i}] "${entry.name}" missing integer typeHash`);
+    }
+    const raw = Buffer.isBuffer(entry.data) ? entry.data : Buffer.from(entry.data ?? []);
+    if (raw.length > SIZE_MASK) {
+      throw new Error(`packArc: entry[${i}] "${entry.name}" size ${raw.length} exceeds 29-bit limit`);
+    }
+    const flags = (entry.flags === undefined ? defaultFlags : (entry.flags >>> 0));
+    if ((flags & SIZE_MASK) !== 0) {
+      throw new Error(`packArc: entry[${i}] "${entry.name}" flags 0x${flags.toString(16)} overlaps 29-bit size field`);
+    }
+    const compressed = (raw.length === 0 && !opts.compressEmpty)
+      ? Buffer.alloc(0)
+      : zlib.deflateSync(raw, { level });
+    cursor = alignUp(cursor, align);
+    const offset = cursor;
+    cursor += compressed.length;
+    prepared.push({
+      name: entry.name,
+      typeHash: entry.typeHash >>> 0,
+      size: raw.length,
+      flags: flags & FLAG_MASK,
+      compressed,
+      offset,
+    });
+  }
+
+  if (cursor > 0xffffffff) throw new Error(`packArc: total archive size ${cursor} B exceeds u32 offset range`);
+  const out = Buffer.alloc(cursor);
+  out.write(MAGIC, 0, 'latin1');
+  out.writeUInt16LE(version, 4);
+  out.writeUInt16LE(prepared.length, 6);
+  out.writeUInt32LE(pad, 8);
+
+  for (let i = 0; i < prepared.length; i++) {
+    const p = prepared[i];
+    const base = HEADER_SIZE + i * ENTRY_SIZE;
+    out.write(p.name, base, 64, 'latin1');
+    out.writeUInt32LE(p.typeHash, base + 64);
+    out.writeUInt32LE(p.compressed.length, base + 68);
+    out.writeUInt32LE((p.flags | p.size) >>> 0, base + 72);
+    out.writeUInt32LE(p.offset >>> 0, base + 76);
+    if (p.compressed.length > 0) p.compressed.copy(out, p.offset);
+  }
+  return out;
+}
+
 // `<outdir>`-relative target: backslashes become directories, `.` + 8-digit type hash is appended.
 function entryRelPath(entry) {
   const parts = entry.name.split(/[\\/]+/).filter(p => p.length > 0);
@@ -122,6 +220,7 @@ function cmdExtract(file, outdir, pattern) {
   const re = pattern === undefined ? null : compileRe(pattern);
   fs.mkdirSync(outdir, { recursive: true });
   let ok = 0, bad = 0, skipped = 0;
+  const manifestEntries = [];
   for (const e of arc.entries) {
     if (re && !re.test(e.name)) { skipped++; continue; }
     let rel;
@@ -133,9 +232,19 @@ function cmdExtract(file, outdir, pattern) {
       fs.mkdirSync(path.dirname(target), { recursive: true });
       fs.writeFileSync(target, data);
     } catch (err) { console.error(`ERROR ${file}: write ${rel} failed - ${err.message}`); bad++; continue; }
+    manifestEntries.push({
+      file: rel.split(path.sep).join('/'),
+      name: e.name,
+      typeHash: hex32(e.typeHash),
+      flags: hex32(e.flags),
+    });
     console.log(`${rel} ${data.length}`);
     ok++;
   }
+  fs.writeFileSync(
+    path.join(outdir, ORDER_MANIFEST),
+    JSON.stringify({ version: arc.version, pad: buf.readUInt32LE(8), entries: manifestEntries }, null, 2) + '\n',
+  );
   const notes = [`${ok} extracted`, `${bad} failed`];
   if (re) notes.push(`${skipped} not matching`);
   console.error(`# ${notes.join(', ')}`);
@@ -175,9 +284,124 @@ function cmdFind(root, pattern) {
   if (failed) process.exitCode = 1;
 }
 
+function* walkFiles(dir) {
+  const stack = [dir];
+  while (stack.length) {
+    const cur = stack.pop();
+    const items = fs.readdirSync(cur, { withFileTypes: true });
+    for (const it of items) {
+      const full = path.join(cur, it.name);
+      if (it.isDirectory()) stack.push(full);
+      else if (it.isFile()) yield full;
+    }
+  }
+}
+
+function parsePackedEntryPath(indir, fullPath) {
+  const rel = path.relative(indir, fullPath);
+  const parts = rel.split(path.sep).filter(Boolean);
+  if (parts.length === 0) throw new Error(`empty relative path for ${fullPath}`);
+  const last = parts[parts.length - 1];
+  const m = /^(.*)\.([0-9a-fA-F]{8})$/.exec(last);
+  if (!m || m[1].length === 0) {
+    throw new Error(`${rel}: expected ".<8-hex-typeHash>" suffix (as written by arc extract)`);
+  }
+  parts[parts.length - 1] = m[1];
+  return {
+    relPosix: rel.split(path.sep).join('/'),
+    name: parts.join('\\'),
+    typeHash: parseInt(m[2], 16) >>> 0,
+    data: fs.readFileSync(fullPath),
+  };
+}
+
+function compareStageFallback(a, b) {
+  const ra = STAGE_RANK.get(a.typeHash) ?? 3;
+  const rb = STAGE_RANK.get(b.typeHash) ?? 3;
+  if (ra !== rb) return ra - rb;
+  if (a.name < b.name) return -1;
+  if (a.name > b.name) return 1;
+  return a.typeHash - b.typeHash;
+}
+
+function cmdPack(indir, outFile) {
+  if (!fs.existsSync(indir) || !fs.statSync(indir).isDirectory()) {
+    throw new Error(`pack: input directory does not exist: ${indir}`);
+  }
+  const manifestPath = path.join(indir, ORDER_MANIFEST);
+  const scanned = [];
+  for (const full of walkFiles(indir)) {
+    if (path.relative(indir, full) === ORDER_MANIFEST) continue;
+    scanned.push(parsePackedEntryPath(indir, full));
+  }
+
+  let ordered;
+  let packOpts = {};
+  if (fs.existsSync(manifestPath)) {
+    const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+    if (!manifest || !Array.isArray(manifest.entries)) {
+      throw new Error(`pack: invalid ${ORDER_MANIFEST} in ${indir}`);
+    }
+    const byRel = new Map(scanned.map(item => [item.relPosix, item]));
+    const byNameHash = new Map(scanned.map(item => [`${item.name}.${item.typeHash.toString(16).padStart(8, '0')}`, item]));
+    const used = new Set();
+    ordered = [];
+    for (const m of manifest.entries) {
+      const typeHash = typeof m.typeHash === 'number' ? (m.typeHash >>> 0) : (parseInt(String(m.typeHash), 16) >>> 0);
+      const item = (m.file && byRel.get(m.file)) ?? byNameHash.get(`${m.name}.${typeHash.toString(16).padStart(8, '0')}`);
+      if (!item) throw new Error(`pack: manifest entry "${m.name}" (${hex32(typeHash)}) not found in ${indir}`);
+      used.add(item);
+      const flags = m.flags === undefined ? undefined : (typeof m.flags === 'number' ? m.flags : parseInt(String(m.flags), 16)) >>> 0;
+      ordered.push({ name: item.name, typeHash: item.typeHash, flags, data: item.data });
+    }
+    const extras = scanned.filter(item => !used.has(item)).sort(compareStageFallback);
+    for (const item of extras) ordered.push({ name: item.name, typeHash: item.typeHash, data: item.data });
+    if (Number.isInteger(manifest.pad)) packOpts.pad = manifest.pad;
+  } else {
+    ordered = scanned.slice().sort(compareStageFallback).map(({ name, typeHash, data }) => ({ name, typeHash, data }));
+  }
+
+  const packed = packArc(ordered, packOpts);
+  fs.mkdirSync(path.dirname(path.resolve(outFile)), { recursive: true });
+  fs.writeFileSync(outFile, packed);
+  console.log(`# packed ${ordered.length} entries -> ${outFile} (${packed.length} B)`);
+}
+
+function sha256(buf) {
+  return crypto.createHash('sha256').update(buf).digest('hex');
+}
+
+function cmdRoundtripCheck(file) {
+  const origBuf = fs.readFileSync(file);
+  const origArc = readArc(origBuf, file);
+  const unpacked = origArc.entries.map(e => {
+    const data = inflateEntry(origBuf, e, file);
+    return { name: e.name, typeHash: e.typeHash, flags: e.flags, size: e.size, data, sha256: sha256(data) };
+  });
+  const packedBuf = packArc(unpacked.map(({ name, typeHash, flags, data }) => ({ name, typeHash, flags, data })));
+  const newArc = readArc(packedBuf, `${file} (repacked)`);
+  if (newArc.count !== origArc.count) {
+    throw new Error(`roundtrip-check ${file}: entry count mismatch (${newArc.count} != ${origArc.count})`);
+  }
+  let totalRaw = 0;
+  for (let i = 0; i < origArc.count; i++) {
+    const a = unpacked[i];
+    const b = newArc.entries[i];
+    if (b.name !== a.name || b.typeHash !== a.typeHash || b.flags !== a.flags || b.size !== a.size) {
+      throw new Error(`roundtrip-check ${file}: header mismatch at entry[${i}] "${a.name}"`);
+    }
+    const reData = inflateEntry(packedBuf, b, `${file} (repacked)`);
+    if (Buffer.compare(a.data, reData) !== 0) {
+      throw new Error(`roundtrip-check ${file}: byte mismatch at entry[${i}] "${a.name}" (${a.sha256} != ${sha256(reData)})`);
+    }
+    totalRaw += a.data.length;
+  }
+  console.log(`# roundtrip-check PASS: ${file} (${origArc.count} entries, ${totalRaw} B raw, ${origBuf.length} B -> ${packedBuf.length} B)`);
+}
+
 function usage(msg) {
   if (msg) console.error(msg);
-  console.error('usage:\n  node tools/mhgu/arc.mjs list <file.arc>\n  node tools/mhgu/arc.mjs extract <file.arc> <outdir> [nameRegex]\n  node tools/mhgu/arc.mjs find <romfsDir> <nameRegex>');
+  console.error('usage:\n  node tools/mhgu/arc.mjs list <file.arc>\n  node tools/mhgu/arc.mjs extract <file.arc> <outdir> [nameRegex]\n  node tools/mhgu/arc.mjs find <romfsDir> <nameRegex>\n  node tools/mhgu/arc.mjs pack <indir> <out.arc>\n  node tools/mhgu/arc.mjs roundtrip-check <file.arc>');
   process.exit(2);
 }
 
@@ -194,6 +418,14 @@ function main(argv) {
   if (cmd === 'find') {
     if (args.length !== 2) usage('find takes exactly 2 arguments');
     return cmdFind(args[0], args[1]);
+  }
+  if (cmd === 'pack') {
+    if (args.length !== 2) usage('pack takes exactly 2 arguments');
+    return cmdPack(args[0], args[1]);
+  }
+  if (cmd === 'roundtrip-check') {
+    if (args.length !== 1) usage('roundtrip-check takes exactly 1 argument');
+    return cmdRoundtripCheck(args[0]);
   }
   usage(cmd === undefined ? null : `unknown command ${JSON.stringify(cmd)}`);
 }
