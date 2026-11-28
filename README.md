@@ -57,7 +57,7 @@
 | **怪物状态机与分发** | 53 张状态表（跨 2 个常量）、60 节文档、1,223 行状态表（119 行带动作名，9.7%）；**`6,777`** 处 `add pc, rX, rY` 分发站点（分布于 `4,527` 函数）；137 权威槽位 | **持续补全**：`scan-dispatch.mjs` 可扫描验证；`gu-moves/` 已覆盖 cmdtbl + L1/L2 + LMT 自动化追踪 | [docs/mechanics/monster-state-machine.md](docs/mechanics/monster-state-machine.md) |
 | **二名战斗机制解码** | 三阶毒精确跳伤周期（`1/3/5 HP/s` + 毒无效降级）与七大二名攻击行、弹壳、裂伤及显隐切换实证完成 | **已完成离线实证**：为后续跨代内容模组设计提供完整原版基线 | [docs/reference/DEVIANTS-MECHANICS-RESEARCH-20261127.md](docs/reference/DEVIANTS-MECHANICS-RESEARCH-20261127.md) |
 | **数据表、百科与审计** | 39 张数据表（129 怪物、21,153 道具、1,355 任务）；Wiki 42/47 页精确复算；参考指南 72 确认 / 16 矛盾 / 4 按构造未验证；138 个脚本依赖已分类 | **清理推进中**：`LINK-STATUS.tsv` 持续记录差异处置（`fixed`/`open`/`rejected`） | [docs/data/README.md](docs/data/README.md)、[docs/analysis/audit/LINK-STATUS.tsv](docs/analysis/audit/LINK-STATUS.tsv) |
-| **`.arc`/`.lmt`/`.mod` 管线** | 已实现 `.arc` 解包与保序重打包（`TEX->MRL->MOD`）、`.lmt` v0x43 关键帧与 4 通道帧事件解码、`mod-diff.mjs` 补丁/容器语义对比、`.mod`/`.mrl`/`.emc`/`.hitdata`/`.dttune`/`.gmd` 解析 | **已完成洁净室闭环**：`arc-lmt-moddiff.selftest.mjs`（10/10）与 `mod-diff --selftest`（18/18）全绿 | [tools/README.md](tools/README.md)、[docs/reference/PLAYER-WEAPONS-AND-LMT-EVENTS-20261128.md](docs/reference/PLAYER-WEAPONS-AND-LMT-EVENTS-20261128.md) |
+| **`.arc`/`.lmt`/`.mod` 管线** | 已实现 `.arc` 解包与保序重打包（`TEX->MRL->MOD`）、`.lmt` v0x43 关键帧与 4 通道帧事件解码、`player-combat.mjs`（`HTS`/`PMA`/`FUP`/`PSL` 100% 字节往返）、`mod-diff.mjs` 补丁/容器语义对比、`.mod`/`.mrl`/`.emc`/`.hitdata`/`.dttune`/`.gmd` 解析 | **已完成洁净室闭环**：`arc-lmt-moddiff.selftest`（10/10）、`player-combat.selftest`（10/10，RomFS 460 条全过）与 `mod-diff --selftest`（27/27）全绿 | [tools/README.md](tools/README.md)、[docs/reference/PLAYER-WEAPONS-AND-LMT-EVENTS-20261128.md](docs/reference/PLAYER-WEAPONS-AND-LMT-EVENTS-20261128.md) |
 
 ---
 

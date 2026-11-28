@@ -40,7 +40,8 @@
 |---|---|---|
 | [arc.mjs](mhgu/arc.mjs) | `.arc` 容器（`ARC\0` v0x11）解包与保序重打包 | `list <file.arc>`、`extract <file.arc> <outdir> [regex]`（写出 `_arc_order.json`）、`pack <indir> <out.arc>`（保序或 `TEX->MRL->MOD` 阶段序）、`roundtrip-check <file.arc>`、`find <romfsDir> <regex>` |
 | [lmt.mjs](mhgu/lmt.mjs) | `.lmt` 动作关键帧与 `+0x34` 四通道帧事件（v0x43） | `info <file>`、`dump <file> <motionIndex>`、`events <file> [motionIndex\|--all]`（详见 [玩家武器与 LMT 事件规格](../docs/reference/PLAYER-WEAPONS-AND-LMT-EVENTS-20261128.md)） |
-| [mod-diff.mjs](mhgu/mod-diff.mjs) | `.pchtxt` / IPS / IPS32 代码补丁与 `.arc`（内嵌 `LMT`/`HDP`/`HTS`）语义对比审计 | `patch <file>`、`arc <base.arc> <mod.arc>`、`mod <modRoot> --romfs <romfsDir> [--json]`、`--selftest`（配套回归 [arc-lmt-moddiff.selftest.mjs](mhgu/arc-lmt-moddiff.selftest.mjs)） |
+| [mod-diff.mjs](mhgu/mod-diff.mjs) | `.pchtxt` / IPS / IPS32 代码补丁与 `.arc`（内嵌 `LMT`/`HDP`/`HTS`/`PMA`/`FUP`/`PSL`）语义对比审计 | `patch <file>`、`arc <base.arc> <mod.arc>`、`mod <modRoot> --romfs <romfsDir> [--json]`、`--selftest`（配套回归 [arc-lmt-moddiff.selftest.mjs](mhgu/arc-lmt-moddiff.selftest.mjs)） |
+| [player-combat.mjs](mhgu/player-combat.mjs) | 玩家战斗资产读写库：碰撞体几何 `HTS\0`、多段判定时间表 `PMA`、武器参数表 `FUP\0`（字节级精确往返）与动作特效时间线 `PSL\0` | `hts\|pma\|fup\|psl <file>`（配套回归 [player-combat.selftest.mjs](mhgu/player-combat.selftest.mjs)） |
 | [mod.mjs](mhgu/mod.mjs) | `.mod` 三维模型（v212） | `info <file>`、`obj <file> <out.obj> [--lod=1]` |
 | [mrl.mjs](mhgu/mrl.mjs) | `.mrl` 材质库（v34） | 解析材质列表、着色器哈希与贴图槽位 |
 | [gmd.mjs](mhgu/gmd.mjs) | `.gmd` 多语言文本容器 | `list <file.gmd>`、`json <file.gmd> <out.json>`、`batch <dir> <outDir>` |

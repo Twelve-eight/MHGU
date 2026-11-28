@@ -18,6 +18,19 @@ import zlib from 'node:zlib';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { readArc, inflateEntry, packArc } from './arc.mjs';
 import { readLmt, EVENT_SLOT_OFFSETS } from './lmt.mjs';
+import {
+  TYPE_HTS,
+  TYPE_PMA,
+  TYPE_FUP,
+  TYPE_PSL,
+  readHts,
+  writeHts,
+  readPma,
+  writePma,
+  readFup,
+  writeFup,
+  readPsl,
+} from './player-combat.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = path.resolve(HERE, '..', '..', 'docs', 'data');
@@ -511,15 +524,246 @@ function summarizeHitTableDiff(baseBuf, modBuf) {
   return { magic: ha.magic, stride, baseCount: ha.count, modCount: hb.count, changedCount: changedRecords.length, changedRecords };
 }
 
+function roundNum(v) {
+  if (Object.is(v, -0)) return -0;
+  return Number.isFinite(v) ? Number(v.toFixed(4)) : v;
+}
+
+function sameVec3(a, b) {
+  return Object.is(a[0], b[0]) && Object.is(a[1], b[1]) && Object.is(a[2], b[2]);
+}
+
+function summarizeHtsDiff(baseData, modData) {
+  const a = readHts(baseData, 'base.hts');
+  const b = readHts(modData, 'mod.hts');
+  const maxGroups = Math.max(a.groups.length, b.groups.length);
+  const changedGroups = [];
+
+  for (let g = 0; g < maxGroups; g++) {
+    const ga = a.groups[g] ?? null;
+    const gb = b.groups[g] ?? null;
+    if (!ga || !gb) {
+      changedGroups.push({
+        group: g,
+        kind: ga ? 'REMOVED' : 'ADDED',
+        baseItemCount: ga?.itemCount ?? null,
+        modItemCount: gb?.itemCount ?? null,
+      });
+      continue;
+    }
+    const maxItems = Math.max(ga.items.length, gb.items.length);
+    const changedItems = [];
+    for (let i = 0; i < maxItems; i++) {
+      const ia = ga.items[i] ?? null;
+      const ib = gb.items[i] ?? null;
+      if (!ia || !ib) {
+        const ref = ia ?? ib;
+        changedItems.push({
+          item: i,
+          kind: ia ? 'REMOVED' : 'ADDED',
+          radius: roundNum(ref.radius),
+          p0: ref.p0.map(roundNum),
+          p1: ref.p1.map(roundNum),
+        });
+        continue;
+      }
+      const diffs = {};
+      if (ia.boneA !== ib.boneA) diffs.boneA = [ia.boneA, ib.boneA];
+      if (ia.boneB !== ib.boneB) diffs.boneB = [ia.boneB, ib.boneB];
+      if (ia.shapeType !== ib.shapeType) diffs.shapeType = [ia.shapeType, ib.shapeType];
+      if (ia.subFlags !== ib.subFlags) diffs.subFlags = [ia.subFlags, ib.subFlags];
+      if (ia.condFlags !== ib.condFlags) diffs.condFlags = [ia.condFlags, ib.condFlags];
+      if (!Object.is(ia.radius, ib.radius)) diffs.radius = [roundNum(ia.radius), roundNum(ib.radius)];
+      if (!sameVec3(ia.p0, ib.p0)) diffs.p0 = [ia.p0.map(roundNum), ib.p0.map(roundNum)];
+      if (!Object.is(ia.pad0, ib.pad0)) diffs.pad0 = [roundNum(ia.pad0), roundNum(ib.pad0)];
+      if (!sameVec3(ia.p1, ib.p1)) diffs.p1 = [ia.p1.map(roundNum), ib.p1.map(roundNum)];
+      if (!Object.is(ia.pad1, ib.pad1)) diffs.pad1 = [roundNum(ia.pad1), roundNum(ib.pad1)];
+      if (Object.keys(diffs).length > 0) {
+        changedItems.push({ item: i, kind: 'MODIFIED', ...diffs });
+      }
+    }
+    if (ga.itemCount !== gb.itemCount || changedItems.length > 0) {
+      changedGroups.push({
+        group: g,
+        kind: 'MODIFIED',
+        baseItemCount: ga.itemCount,
+        modItemCount: gb.itemCount,
+        changedItems,
+      });
+    }
+  }
+  return {
+    baseGroupCount: a.groupCount,
+    modGroupCount: b.groupCount,
+    baseTotalItems: a.totalItems,
+    modTotalItems: b.totalItems,
+    changedCount: changedGroups.length,
+    changedGroups,
+  };
+}
+
+function summarizePmaDiff(baseData, modData) {
+  const a = readPma(baseData, 'base.pma');
+  const b = readPma(modData, 'mod.pma');
+  const maxCount = Math.max(a.records.length, b.records.length);
+  const changedRecords = [];
+  for (let i = 0; i < maxCount; i++) {
+    const ra = a.records[i] ?? null;
+    const rb = b.records[i] ?? null;
+    if (!ra || !rb) {
+      const ref = ra ?? rb;
+      changedRecords.push({
+        index: i,
+        kind: ra ? 'REMOVED' : 'ADDED',
+        frame: roundNum(ref.frame),
+        hitDataIndex: ref.hitDataIndex,
+        hitWorkId: ref.hitWorkId,
+        atkType: ref.atkType,
+      });
+      continue;
+    }
+    const diffs = {};
+    if (!Object.is(ra.frame, rb.frame)) diffs.frame = [roundNum(ra.frame), roundNum(rb.frame)];
+    if (ra.hitDataIndex !== rb.hitDataIndex) diffs.hitDataIndex = [ra.hitDataIndex, rb.hitDataIndex];
+    if (ra.hitWorkId !== rb.hitWorkId) diffs.hitWorkId = [ra.hitWorkId, rb.hitWorkId];
+    if (ra.atkType !== rb.atkType) diffs.atkType = [ra.atkType, rb.atkType];
+    if (Object.keys(diffs).length > 0) {
+      changedRecords.push({ index: i, kind: 'MODIFIED', ...diffs });
+    }
+  }
+  return {
+    baseCount: a.count,
+    modCount: b.count,
+    changedCount: changedRecords.length,
+    changedRecords,
+  };
+}
+
+function diffParamSlots(arrA, arrB, equalFn, mapFn) {
+  const maxLen = Math.max(arrA.length, arrB.length);
+  const changes = [];
+  for (let i = 0; i < maxLen; i++) {
+    const hasA = i < arrA.length;
+    const hasB = i < arrB.length;
+    if (!hasA || !hasB) {
+      changes.push({
+        index: i,
+        kind: hasA ? 'REMOVED' : 'ADDED',
+        base: hasA ? mapFn(arrA[i]) : null,
+        mod: hasB ? mapFn(arrB[i]) : null,
+      });
+      continue;
+    }
+    if (!equalFn(arrA[i], arrB[i])) {
+      changes.push({
+        index: i,
+        kind: 'MODIFIED',
+        base: mapFn(arrA[i]),
+        mod: mapFn(arrB[i]),
+      });
+    }
+  }
+  return changes;
+}
+
+function summarizeFupDiff(baseData, modData) {
+  const a = readFup(baseData, 'base.fup');
+  const b = readFup(modData, 'mod.fup');
+  const changedInts = diffParamSlots(a.ints, b.ints, Object.is, x => x);
+  const changedFloats = diffParamSlots(a.floats, b.floats, Object.is, roundNum);
+  const changedVecs = diffParamSlots(a.vecs, b.vecs, sameVec3, v => v.map(roundNum));
+  return {
+    baseCounts: { ints: a.intCount, floats: a.floatCount, vecs: a.vec3Count },
+    modCounts: { ints: b.intCount, floats: b.floatCount, vecs: b.vec3Count },
+    changedIntCount: changedInts.length,
+    changedFloatCount: changedFloats.length,
+    changedVecCount: changedVecs.length,
+    changedInts,
+    changedFloats,
+    changedVecs,
+  };
+}
+
+function summarizePslSlot(s) {
+  return {
+    frameCount: s.frameCount,
+    param4: s.param4,
+    param6: s.param6,
+    flags: s.flags,
+    reserved: s.reserved,
+    channelFlags: s.sub?.channelFlags ?? null,
+    uniqueIds: s.sub?.uniqueIds ?? [],
+    timelineCount: s.sub?.timelineCount ?? null,
+    timeline: s.sub?.timeline ?? null,
+  };
+}
+
+function summarizePslDiff(baseData, modData) {
+  const a = readPsl(baseData, 'base.psl');
+  const b = readPsl(modData, 'mod.psl');
+  const maxSlots = Math.max(a.slots.length, b.slots.length);
+  const changedSlots = [];
+  for (let i = 0; i < maxSlots; i++) {
+    const sa = a.slots[i] ?? null;
+    const sb = b.slots[i] ?? null;
+    if (!sa && !sb) continue;
+    if (!sa || !sb) {
+      changedSlots.push({
+        slot: i,
+        kind: sa ? 'REMOVED' : 'ADDED',
+        base: sa ? summarizePslSlot(sa) : null,
+        mod: sb ? summarizePslSlot(sb) : null,
+      });
+      continue;
+    }
+    const pa = summarizePslSlot(sa);
+    const pb = summarizePslSlot(sb);
+    const diffs = {};
+    if (pa.frameCount !== pb.frameCount) diffs.frameCount = [pa.frameCount, pb.frameCount];
+    if (pa.param4 !== pb.param4) diffs.param4 = [pa.param4, pb.param4];
+    if (pa.param6 !== pb.param6) diffs.param6 = [pa.param6, pb.param6];
+    if (pa.flags !== pb.flags) diffs.flags = [pa.flags, pb.flags];
+    if (pa.reserved !== pb.reserved) diffs.reserved = [pa.reserved, pb.reserved];
+    if (pa.channelFlags !== pb.channelFlags) diffs.channelFlags = [pa.channelFlags, pb.channelFlags];
+    if (pa.timelineCount !== pb.timelineCount) diffs.timelineCount = [pa.timelineCount, pb.timelineCount];
+    if (JSON.stringify(pa.uniqueIds) !== JSON.stringify(pb.uniqueIds)) diffs.uniqueIds = [pa.uniqueIds, pb.uniqueIds];
+    if (JSON.stringify(pa.timeline) !== JSON.stringify(pb.timeline)) diffs.timeline = [pa.timeline, pb.timeline];
+    if (Object.keys(diffs).length > 0) {
+      changedSlots.push({ slot: i, kind: 'MODIFIED', ...diffs });
+    }
+  }
+  return {
+    baseCount: a.count,
+    modCount: b.count,
+    baseNonEmptyCount: a.nonEmptyCount,
+    modNonEmptyCount: b.nonEmptyCount,
+    changedCount: changedSlots.length,
+    changedSlots,
+  };
+}
+
 function summarizeSemanticDiff(typeHash, baseData, modData) {
   try {
-    if (typeHash === TYPE_LMT || (baseData.toString('latin1', 0, 3) === 'LMT' && modData.toString('latin1', 0, 3) === 'LMT')) {
+    const th = typeHash >>> 0;
+    if (th === TYPE_LMT || (baseData.toString('latin1', 0, 3) === 'LMT' && modData.toString('latin1', 0, 3) === 'LMT')) {
       return { kind: 'LMT', ...summarizeLmtDiff(baseData, modData) };
     }
     const mA = baseData.subarray(0, 4).toString('latin1');
     const mB = modData.subarray(0, 4).toString('latin1');
-    if (typeHash === TYPE_HDP || ((mA === 'HDP\0' || mA === 'HDE\0') && mA === mB)) {
+    if (th === TYPE_HDP || ((mA === 'HDP\0' || mA === 'HDE\0') && mA === mB)) {
       return { kind: mA.replace('\0', ''), ...summarizeHitTableDiff(baseData, modData) };
+    }
+    if (th === TYPE_HTS || (mA === 'HTS\0' && mA === mB)) {
+      return { kind: 'HTS', ...summarizeHtsDiff(baseData, modData) };
+    }
+    if (th === TYPE_PMA) {
+      return { kind: 'PMA', ...summarizePmaDiff(baseData, modData) };
+    }
+    if (th === TYPE_FUP || (mA === 'FUP\0' && mA === mB)) {
+      return { kind: 'FUP', ...summarizeFupDiff(baseData, modData) };
+    }
+    if (th === TYPE_PSL || (mA === 'PSL\0' && mA === mB)) {
+      return { kind: 'PSL', ...summarizePslDiff(baseData, modData) };
     }
   } catch (err) {
     return { kind: 'PARSE_ERROR', error: err.message };
@@ -728,6 +972,16 @@ function formatArcMarkdown(d, label = 'ARC Diff') {
       }
     } else if (m.semantic.kind === 'HDP' || m.semantic.kind === 'HDE') {
       lines.push(`  - ${m.semantic.changedCount ?? 0} changed record(s) (stride=${m.semantic.stride ?? '?'})`);
+    } else if (m.semantic.kind === 'HTS') {
+      lines.push(`  - groups ${m.semantic.baseGroupCount}->${m.semantic.modGroupCount}, items ${m.semantic.baseTotalItems}->${m.semantic.modTotalItems}, changedGroups=${m.semantic.changedCount}`);
+    } else if (m.semantic.kind === 'PMA') {
+      lines.push(`  - triggers ${m.semantic.baseCount}->${m.semantic.modCount}, changedRecords=${m.semantic.changedCount}`);
+    } else if (m.semantic.kind === 'FUP') {
+      lines.push(`  - changed ints=${m.semantic.changedIntCount}, floats=${m.semantic.changedFloatCount}, vecs=${m.semantic.changedVecCount}`);
+    } else if (m.semantic.kind === 'PSL') {
+      lines.push(`  - nonEmpty slots ${m.semantic.baseNonEmptyCount}->${m.semantic.modNonEmptyCount}, changedSlots=${m.semantic.changedCount}`);
+    } else if (m.semantic.kind === 'PARSE_ERROR') {
+      lines.push(`  - parse error: ${m.semantic.error ?? 'unknown error'}`);
     }
   }
   return lines.join('\n');
@@ -837,10 +1091,50 @@ export async function runSelfTest() {
     return b;
   }
 
+  function makeSyntheticPsl(slotFlags, uniqueId, timelineMask) {
+    const b = Buffer.alloc(0x320, 0);
+    b.write('PSL\0', 0, 'latin1');
+    b.writeUInt16LE(2, 4);
+    b.writeUInt16LE(2, 6);
+    b.writeUInt32LE(0x10, 8); // slot[0] @ 0x10
+    if (slotFlags !== null) b.writeUInt32LE(0x20, 12); // slot[1] @ 0x20
+    const writeSlot = (eOff, subOff, uid, mask) => {
+      b.writeUInt32LE(30, eOff);
+      b[eOff + 7] = 0;
+      b.writeUInt32LE(subOff, eOff + 8);
+      b.writeUInt32LE(uid ? 1 : 0, subOff);
+      b.writeUInt16LE(uid, subOff + 4);
+      b.writeUInt32LE(1, subOff + 0x144);
+      const tlOff = subOff + 0x14c;
+      b.writeUInt32LE(tlOff, subOff + 0x148);
+      b.writeUInt32LE(mask, tlOff);
+      b.writeUInt32LE(30, tlOff + 4);
+    };
+    writeSlot(0x10, 0x30, 100, 1);
+    if (slotFlags !== null) {
+      writeSlot(0x20, 0x190, uniqueId, timelineMask);
+      b[0x20 + 7] = slotFlags;
+    }
+    return b;
+  }
+
+  const htsA = writeHts({ groups: [{ items: [{ boneA: 8, boneB: 8, shapeType: 1, subFlags: 0, condFlags: 0, radius: 52, p0: [0, 0, 100], pad0: 0, p1: [0, 0, 220], pad1: 0 }] }] });
+  const htsB = writeHts({ groups: [{ items: [{ boneA: 8, boneB: 8, shapeType: 1, subFlags: 0, condFlags: 0, radius: 75, p0: [0, 0, 100], pad0: 0, p1: [0, 0, 260], pad1: 0 }] }] });
+  const pmaA = writePma({ records: [{ frame: 10, hitDataIndex: 5, hitWorkId: 0, atkType: 1 }] });
+  const pmaB = writePma({ records: [{ frame: 12, hitDataIndex: 9, hitWorkId: 0, atkType: 1 }, { frame: 20, hitDataIndex: 10, hitWorkId: 1, atkType: 2 }] });
+  const fupA = writeFup({ ints: [-1, 5], floats: [1.0, 2.5], vecs: [[1, 2, 3]] });
+  const fupB = writeFup({ ints: [-1, 9], floats: [1.0, 3.5], vecs: [[1, 2, 4]] });
+  const pslA = makeSyntheticPsl(null, 0, 0);
+  const pslB = makeSyntheticPsl(0, 213, 1);
+
   const arcA = packArc([
     { name: 'player\\mot\\w07\\w07', typeHash: TYPE_LMT, data: makeSyntheticLmt(0x1, 0x11) },
     { name: 'player\\mot\\w07\\w07_kf', typeHash: TYPE_LMT, data: makeSyntheticLmt(0x1, 0x11) },
     { name: 'player\\hit\\pl_we07_hitdata', typeHash: TYPE_HDP, data: makeSyntheticHdp(28) },
+    { name: 'player\\hit\\pl_we07_hitsize', typeHash: TYPE_HTS, data: htsA },
+    { name: 'player\\pma\\w07\\w07_000', typeHash: TYPE_PMA, data: pmaA },
+    { name: 'player\\param\\pl_w07', typeHash: TYPE_FUP, data: fupA },
+    { name: 'effect\\psl\\player\\mot\\w07\\w07', typeHash: TYPE_PSL, data: pslA },
     { name: 'old\\removed', typeHash: 0x11111111, data: Buffer.from('old') },
     { name: 'same\\keep', typeHash: 0x22222222, data: Buffer.from('same') },
   ]);
@@ -849,6 +1143,10 @@ export async function runSelfTest() {
     { name: 'player\\mot\\w07\\w07', typeHash: TYPE_LMT, data: makeSyntheticLmt(0x2, 0x11) },
     { name: 'player\\mot\\w07\\w07_kf', typeHash: TYPE_LMT, data: makeSyntheticLmt(0x1, 0x99) }, // keyframes only!
     { name: 'player\\hit\\pl_we07_hitdata', typeHash: TYPE_HDP, data: makeSyntheticHdp(42) },
+    { name: 'player\\hit\\pl_we07_hitsize', typeHash: TYPE_HTS, data: htsB },
+    { name: 'player\\pma\\w07\\w07_000', typeHash: TYPE_PMA, data: pmaB },
+    { name: 'player\\param\\pl_w07', typeHash: TYPE_FUP, data: fupB },
+    { name: 'effect\\psl\\player\\mot\\w07\\w07', typeHash: TYPE_PSL, data: pslB },
     { name: 'new\\added', typeHash: 0x33333333, data: Buffer.from('new') },
   ]);
   const arcDiff = diffArcs(arcA, arcB);
@@ -856,19 +1154,64 @@ export async function runSelfTest() {
   assert(arcDiff.orderChanged === true && arcDiff.reorderedCount > 0, 'arc diff detects reordering');
   assert(arcDiff.added.length === 1 && arcDiff.added[0].name === 'new\\added', 'arc diff ADDED detected');
   assert(arcDiff.removed.length === 1 && arcDiff.removed[0].name === 'old\\removed', 'arc diff REMOVED detected');
-  assert(arcDiff.modified.length === 3, 'arc diff MODIFIED count = 3');
+  assert(arcDiff.modified.length === 7, 'arc diff MODIFIED count = 7');
   const lmtMod = arcDiff.modified.find(m => m.name === 'player\\mot\\w07\\w07');
   assert(lmtMod && lmtMod.semantic.changedMotions[0].eventSlots[0].modEntries[0].mask === 0x2, 'LMT +0x34 event diff detected');
   const lmtKfMod = arcDiff.modified.find(m => m.name === 'player\\mot\\w07\\w07_kf');
   assert(lmtKfMod && lmtKfMod.semantic.changedCount === 1 && lmtKfMod.semantic.changedMotions[0].trackDataChanged === true, 'LMT keyframe-only change detected');
   const hdpMod = arcDiff.modified.find(m => m.semantic.kind === 'HDP');
   assert(hdpMod && hdpMod.semantic.changedRecords[0].wordDiffs[0].modU32 === 42, 'HDP record diff detected');
+  const htsMod = arcDiff.modified.find(m => m.semantic.kind === 'HTS');
+  assert(htsMod && htsMod.semantic.changedGroups[0].changedItems[0].radius[1] === 75, 'HTS radius/coords diff detected');
+  const pmaMod = arcDiff.modified.find(m => m.semantic.kind === 'PMA');
+  assert(pmaMod && pmaMod.semantic.changedCount === 2 && pmaMod.semantic.changedRecords[0].hitDataIndex[1] === 9 && pmaMod.semantic.changedRecords[1].kind === 'ADDED', 'PMA trigger diff detected');
+  const fupMod = arcDiff.modified.find(m => m.semantic.kind === 'FUP');
+  assert(fupMod && fupMod.semantic.changedInts[0].mod === 9 && fupMod.semantic.changedFloats[0].mod === 3.5 && fupMod.semantic.changedVecs[0].mod[2] === 4, 'FUP slot diff detected');
+  const pslMod = arcDiff.modified.find(m => m.semantic.kind === 'PSL');
+  assert(pslMod && pslMod.semantic.changedSlots[0].slot === 1 && pslMod.semantic.changedSlots[0].kind === 'ADDED' && pslMod.semantic.changedSlots[0].mod.uniqueIds[0].uniqueId === 213, 'PSL non-empty slot diff detected');
 
   let badArcThrew = false;
   try { diffArcs(Buffer.from('NOPE00000000'), arcB); } catch { badArcThrew = true; }
   assert(badArcThrew, 'negative: bad ARC magic rejected');
 
-  return { ok: failures.length === 0, checks: 18, failures };
+  // 5. Edge-case semantic diffs: NaN/-0 stability, HTS pad0/pad1, PSL flags&2 timelineCount, PARSE_ERROR markdown
+  const fupEdgeA = writeFup({ ints: [1], floats: [Number.NaN, 0.0], vecs: [[Number.NaN, -0.0, 1.0]] });
+  const fupEdgeB = writeFup({ ints: [2], floats: [Number.NaN, -0.0], vecs: [[Number.NaN, 0.0, 1.0]] });
+  const htsPadA = writeHts({ groups: [{ items: [{ boneA: 1, boneB: 1, shapeType: 0, subFlags: 0, condFlags: 0, radius: 10, p0: [0, 0, 0], pad0: 0, p1: [0, 0, 0], pad1: 0 }] }] });
+  const htsPadB = writeHts({ groups: [{ items: [{ boneA: 1, boneB: 1, shapeType: 0, subFlags: 0, condFlags: 0, radius: 10, p0: [0, 0, 0], pad0: 5, p1: [0, 0, 0], pad1: 6 }] }] });
+  const pslFlag2A = makeSyntheticPsl(2, 10, 1);
+  const pslFlag2B = Buffer.from(pslFlag2A);
+  pslFlag2B.writeUInt32LE(5, 0x190 + 0x144); // mutate timelineCount under flags&2
+  const edgeArcA = packArc([
+    { name: 'player\\param\\edge', typeHash: TYPE_FUP, data: fupEdgeA },
+    { name: 'player\\hit\\pad', typeHash: TYPE_HTS, data: htsPadA },
+    { name: 'effect\\psl\\flag2', typeHash: TYPE_PSL, data: pslFlag2A },
+    { name: 'broken\\pma', typeHash: TYPE_PMA, data: Buffer.from('BADPMA00') },
+  ]);
+  const edgeArcB = packArc([
+    { name: 'player\\param\\edge', typeHash: TYPE_FUP, data: fupEdgeB },
+    { name: 'player\\hit\\pad', typeHash: TYPE_HTS, data: htsPadB },
+    { name: 'effect\\psl\\flag2', typeHash: TYPE_PSL, data: pslFlag2B },
+    { name: 'broken\\pma', typeHash: TYPE_PMA, data: Buffer.from('BADPMA01') },
+  ]);
+  const edgeDiff = diffArcs(edgeArcA, edgeArcB);
+  const fupEdgeMod = edgeDiff.modified.find(m => m.name === 'player\\param\\edge');
+  assert(
+    fupEdgeMod
+    && fupEdgeMod.semantic.changedFloats.length === 1 && fupEdgeMod.semantic.changedFloats[0].index === 1
+    && fupEdgeMod.semantic.changedVecs.length === 1 && fupEdgeMod.semantic.changedVecs[0].index === 0,
+    'NaN === NaN ignored and -0 vs +0 detected in FUP floats/vecs'
+  );
+  const htsPadMod = edgeDiff.modified.find(m => m.name === 'player\\hit\\pad');
+  assert(htsPadMod && htsPadMod.semantic.changedGroups[0].changedItems[0].pad0[1] === 5 && htsPadMod.semantic.changedGroups[0].changedItems[0].pad1[1] === 6, 'HTS pad0/pad1 diff detected');
+  const pslFlag2Mod = edgeDiff.modified.find(m => m.name === 'effect\\psl\\flag2');
+  assert(pslFlag2Mod && pslFlag2Mod.semantic.changedSlots[0].timelineCount[1] === 5, 'PSL flags&2 timelineCount diff detected');
+  const parseErrMod = edgeDiff.modified.find(m => m.name === 'broken\\pma');
+  assert(parseErrMod && parseErrMod.semantic.kind === 'PARSE_ERROR' && typeof parseErrMod.semantic.error === 'string', 'corrupt entry degrades to PARSE_ERROR');
+  const edgeMd = formatArcMarkdown(edgeDiff, 'Edge');
+  assert(edgeMd.includes('parse error:'), 'formatArcMarkdown prints PARSE_ERROR detail');
+
+  return { ok: failures.length === 0, checks: 27, failures };
 }
 
 function usage(msg) {
