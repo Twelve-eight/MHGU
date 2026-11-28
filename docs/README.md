@@ -20,9 +20,11 @@
 | `analysis/save-io/` | 序列化与尾部（读/写调度、尾部容器、校验和取证）| ✅ |
 | `analysis/dumps/` | 反汇编原始转储（证据，非结论）| ✅ |
 | `analysis/external/` | 外部项目吸收：SUYU-GURecomp（GPL-3.0，**只记事实不抄代码**，每条带出处 + 本机反汇编核验状态）；入口 `suyu-addr-check.md` / `suyu-gs-part1.md` / `chunks/spk-format.md` / 审计 `suyu-gurecomp-audit.md` | ✅（事实已核验）|
-| `mechanics/` | 游戏机制综述（据 mhgu.db + wiki 校验后整理）| ✅ |
-| `data/` | `mhgu.db`(18MB 权威数据)、viewer 表、派生 JSON | 混合：db 权威，JSON 可再生 |
-| `reference/` | 前人知识库（mhxx-wiki HTML/文本）——**只做交叉验证，不改动、不作为结论来源** | ❌ 外部资料 |
+| `mechanics/` | 游戏机制综述（据 mhgu.db + ARM32 机器码校验整理）| ✅ |
+| `wiki/` | **玩家向 46 篇机制百科**（肉质、部位破坏、动作值、武器树、狩技与全任务，索引见 [`wiki/README.md`](wiki/README.md)）| ✅ |
+| `formats/` | **MT Framework Switch (NX) 容器二进制规范**（[`GUI-AND-SOUND-MOTION-SEQUENCE-20261128.md`](formats/GUI-AND-SOUND-MOTION-SEQUENCE-20261128.md)、[`CLOTH-CHAIN-AND-STAGE-COLLISION-20261128.md`](formats/CLOTH-CHAIN-AND-STAGE-COLLISION-20261128.md)）| ✅ |
+| `data/` | 派生 TSV/JSON 权威表（18 MB `mhgu.db` 属本地私有输入，见 `PRIVATE-DATA.md`）| 混合：db 权威，TSV/JSON 可复算 |
+| `reference/` | **自研底层机器码权威参考**（[`DEVIANTS-MECHANICS-RESEARCH-20261127.md`](reference/DEVIANTS-MECHANICS-RESEARCH-20261127.md)、[`PLAYER-WEAPONS-AND-LMT-EVENTS-20261128.md`](reference/PLAYER-WEAPONS-AND-LMT-EVENTS-20261128.md)、[`ENGINE-SINGLETONS-PLAYER-AND-NRO-ABI-20261128.md`](reference/ENGINE-SINGLETONS-PLAYER-AND-NRO-ABI-20261128.md) 与 `formats/dttune.md`）；历史外部 wiki 缓存置于私有区只做交叉核对 | ✅（自研规范）|
 | `history/` | 历史存档 | — |
 | `tools/`（仓库根） | 反汇编、清单、覆盖率流水线与 `audit/check.mjs` 等脚本 | ✅ |
 | `forge/`、`editor/`（仓库根） | 道具箱扩容实验（debug 端口 / box probe / v7 构建）与存档编辑器源码 | ✅ |

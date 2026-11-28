@@ -40,8 +40,10 @@
 |---|---|---|
 | [arc.mjs](mhgu/arc.mjs) | `.arc` 容器（`ARC\0` v0x11）解包与保序重打包 | `list <file.arc>`、`extract <file.arc> <outdir> [regex]`（写出 `_arc_order.json`）、`pack <indir> <out.arc>`（保序或 `TEX->MRL->MOD` 阶段序）、`roundtrip-check <file.arc>`、`find <romfsDir> <regex>` |
 | [lmt.mjs](mhgu/lmt.mjs) | `.lmt` 动作关键帧与 `+0x34` 四通道帧事件（v0x43） | `info <file>`、`dump <file> <motionIndex>`、`events <file> [motionIndex\|--all]`（详见 [玩家武器与 LMT 事件规格](../docs/reference/PLAYER-WEAPONS-AND-LMT-EVENTS-20261128.md)） |
-| [mod-diff.mjs](mhgu/mod-diff.mjs) | `.pchtxt` / IPS / IPS32 代码补丁与 `.arc`（内嵌 `LMT`/`HDP`/`HTS`/`PMA`/`FUP`/`PSL`）语义对比审计 | `patch <file>`、`arc <base.arc> <mod.arc>`、`mod <modRoot> --romfs <romfsDir> [--json]`、`--selftest`（配套回归 [arc-lmt-moddiff.selftest.mjs](mhgu/arc-lmt-moddiff.selftest.mjs)） |
+| [mod-diff.mjs](mhgu/mod-diff.mjs) | `.pchtxt` / IPS / IPS32 代码补丁与 `.arc`（内嵌 `LMT`/`HDP`/`HTS`/`PMA`/`FUP`/`PSL`/`GUI`/`MSS`/`CTC`/`SBC`）语义对比审计 | `patch <file>`、`arc <base.arc> <mod.arc>`、`mod <modRoot> --romfs <romfsDir> [--json]`、`--selftest`（配套回归 [arc-lmt-moddiff.selftest.mjs](mhgu/arc-lmt-moddiff.selftest.mjs)） |
 | [player-combat.mjs](mhgu/player-combat.mjs) | 玩家战斗资产读写库：碰撞体几何 `HTS\0`、多段判定时间表 `PMA`、武器参数表 `FUP\0`（字节级精确往返）与动作特效时间线 `PSL\0` | `hts\|pma\|fup\|psl <file>`（配套回归 [player-combat.selftest.mjs](mhgu/player-combat.selftest.mjs)） |
+| [gui-mss.mjs](mhgu/gui-mss.mjs) | UI 布局 `rGUI` (`GUI\0`) 与动作音效序列 `rFestaSoundSequence` (`MSS\0`) 字节级无损读写与语义差分 | `inspect\|verify-roundtrip\|diff <file>`（配套回归 [gui-mss.selftest.mjs](mhgu/gui-mss.selftest.mjs)） |
+| [ctc-sbc.mjs](mhgu/ctc-sbc.mjs) | 布料物理链 `rCnsTinyChain` (`CTC\0` v0x16) 与舞台碰撞网格 `rCollision` (`SBC\xff` + `BVHC` + `grco`) 字节级无损读写与差分 | `inspect\|verify-roundtrip\|diff <file>`（配套回归 [ctc-sbc.selftest.mjs](mhgu/ctc-sbc.selftest.mjs)） |
 | [mod.mjs](mhgu/mod.mjs) | `.mod` 三维模型（v212） | `info <file>`、`obj <file> <out.obj> [--lod=1]` |
 | [mrl.mjs](mhgu/mrl.mjs) | `.mrl` 材质库（v34） | 解析材质列表、着色器哈希与贴图槽位 |
 | [gmd.mjs](mhgu/gmd.mjs) | `.gmd` 多语言文本容器 | `list <file.gmd>`、`json <file.gmd> <out.json>`、`batch <dir> <outDir>` |

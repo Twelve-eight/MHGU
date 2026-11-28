@@ -31,5 +31,6 @@
 
 ## 3. 近期清理与工作规则
 
-- 完整工作区历史状态与改进路线见 [CURRENT-STATUS-20261121.md](../docs/reference/CURRENT-STATUS-20261121.md) 与 [WORKSPACE-NEXT.md](../docs/project/WORKSPACE-NEXT.md)。
+- 完整工作区当前状态与推进队列见 [CURRENT-STATUS-20261128.md](../docs/reference/CURRENT-STATUS-20261128.md) 与 [WORKSPACE-NEXT.md](../docs/project/WORKSPACE-NEXT.md)（历史留档见 [2026-11-28 归档包](../archive/workspace-history/2026-11-28-compaction/README.md)）。
+- 洁净室开发铁律：外部模组统一置于 `MHGU-private/external-mods/` 仅做只读格式/地址事实对账，公开仓 `tools/mhgu/*.mjs`（MIT）严禁复制任何 GPL/ARR 代码，且每个新格式解析器均须附带无镜像合成自测 + 私有 RomFS 无损往返校验并接入 `mod-diff.mjs`。
 - 对话中提及反汇编工具注意：`tools/mhgu/arm32.mjs` 的 `disasm(vaddr, count)` 第二参数是指令条数，非结束地址。

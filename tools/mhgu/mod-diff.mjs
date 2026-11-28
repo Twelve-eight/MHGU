@@ -32,6 +32,19 @@ import {
   readPsl,
 } from './player-combat.mjs';
 
+import {
+  TYPE_GUI,
+  TYPE_MSS,
+  summarizeGuiDiff,
+  summarizeMssDiff,
+} from './gui-mss.mjs';
+import {
+  TYPE_CTC,
+  TYPE_SBC,
+  summarizeCtcDiff,
+  summarizeSbcDiff,
+} from './ctc-sbc.mjs';
+
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = path.resolve(HERE, '..', '..', 'docs', 'data');
 const DEFAULT_FUNCTIONS_CSV = path.join(DATA_DIR, 'functions-retile.csv.gz');
@@ -765,6 +778,18 @@ function summarizeSemanticDiff(typeHash, baseData, modData) {
     if (th === TYPE_PSL || (mA === 'PSL\0' && mA === mB)) {
       return { kind: 'PSL', ...summarizePslDiff(baseData, modData) };
     }
+    if (th === TYPE_GUI || (mA === 'GUI\0' && mA === mB)) {
+      return { kind: 'GUI', ...summarizeGuiDiff(baseData, modData) };
+    }
+    if (th === TYPE_MSS || (mA === 'MSS\0' && mA === mB)) {
+      return { kind: 'MSS', ...summarizeMssDiff(baseData, modData) };
+    }
+    if (th === TYPE_CTC || (mA === 'CTC\0' && mA === mB)) {
+      return { kind: 'CTC', ...summarizeCtcDiff(baseData, modData) };
+    }
+    if (th === TYPE_SBC || (mA.startsWith('SBC') && mB.startsWith('SBC'))) {
+      return { kind: 'SBC', ...summarizeSbcDiff(baseData, modData) };
+    }
   } catch (err) {
     return { kind: 'PARSE_ERROR', error: err.message };
   }
@@ -980,6 +1005,14 @@ function formatArcMarkdown(d, label = 'ARC Diff') {
       lines.push(`  - changed ints=${m.semantic.changedIntCount}, floats=${m.semantic.changedFloatCount}, vecs=${m.semantic.changedVecCount}`);
     } else if (m.semantic.kind === 'PSL') {
       lines.push(`  - nonEmpty slots ${m.semantic.baseNonEmptyCount}->${m.semantic.modNonEmptyCount}, changedSlots=${m.semantic.changedCount}`);
+    } else if (m.semantic.kind === 'GUI') {
+      lines.push(`  - layout ${m.semantic.baseResolution}->${m.semantic.modResolution}, objects ${m.semantic.baseObjectCount}->${m.semantic.modObjectCount}, changedObjects=${m.semantic.changedObjectCount}`);
+    } else if (m.semantic.kind === 'MSS') {
+      lines.push(`  - sequences ${m.semantic.baseSeqCount}->${m.semantic.modSeqCount}, changedMotions=${m.semantic.changedCount}, changedLut=${m.semantic.changedLutCount}`);
+    } else if (m.semantic.kind === 'CTC') {
+      lines.push(`  - chains ${m.semantic.baseGroupCount}->${m.semantic.modGroupCount}, nodes ${m.semantic.baseNodeCount}->${m.semantic.modNodeCount}, changedGroups=${m.semantic.changedGroupCount}, changedNodes=${m.semantic.changedNodeCount}`);
+    } else if (m.semantic.kind === 'SBC') {
+      lines.push(`  - groups ${m.semantic.baseGroupCount}->${m.semantic.modGroupCount}, faces ${m.semantic.baseFaceCount}->${m.semantic.modFaceCount}, verts ${m.semantic.baseVertexCount}->${m.semantic.modVertexCount}, changedFaces=${m.semantic.changedFaceCount}, changedVerts=${m.semantic.changedVertexCount}`);
     } else if (m.semantic.kind === 'PARSE_ERROR') {
       lines.push(`  - parse error: ${m.semantic.error ?? 'unknown error'}`);
     }
@@ -1211,7 +1244,85 @@ export async function runSelfTest() {
   const edgeMd = formatArcMarkdown(edgeDiff, 'Edge');
   assert(edgeMd.includes('parse error:'), 'formatArcMarkdown prints PARSE_ERROR detail');
 
-  return { ok: failures.length === 0, checks: 27, failures };
+  // 6. GUI (`0x22948394`) and MSS (`0x10ebe843` / `MSS\0`) semantic diff integration
+  const { serializeGui, serializeMss, MSS_LUT_SLOTS } = await import('./gui-mss.mjs');
+  const lut = new Array(MSS_LUT_SLOTS).fill(0xffff);
+  lut[0] = 0;
+  const mssBase = serializeMss({
+    slotCount: 512,
+    motionToSeq: lut,
+    sequences: [{
+      motionId: 5002,
+      maxFrame: 70,
+      flags: -1,
+      frameGroups: [{ frame: 16, calls: [{ soundId: 358, args: [3, 6], params: [{ code: 3, width: 2, value: 12 }, { code: 6, width: 2, value: 1 }] }] }],
+    }],
+  });
+  const mssMod = serializeMss({
+    slotCount: 512,
+    motionToSeq: lut,
+    sequences: [{
+      motionId: 5002,
+      maxFrame: 70,
+      flags: -1,
+      frameGroups: [{ frame: 20, calls: [{ soundId: 360, args: [3, 6], params: [{ code: 3, width: 2, value: 19 }, { code: 6, width: 2, value: 1 }] }] }],
+    }],
+  });
+  const guiBase = serializeGui({ screenWidth: 1280, screenHeight: 720, objects: [{ name: 'HudRoot', typeId: 1, paramCount: 1 }], strings: ['HudRoot'] });
+  const guiMod = serializeGui({ screenWidth: 1920, screenHeight: 1080, objects: [{ name: 'HudRoot', typeId: 1, paramCount: 2 }], strings: ['HudRoot', 'NewTag'] });
+  const gmDiff = diffArcs(
+    packArc([
+      { name: 'sound\\call\\pl\\pl_wp07', typeHash: TYPE_MSS, data: mssBase },
+      { name: 'GUI\\01_quest\\hud', typeHash: TYPE_GUI, data: guiBase },
+    ]),
+    packArc([
+      { name: 'sound\\call\\pl\\pl_wp07', typeHash: TYPE_MSS, data: mssMod },
+      { name: 'GUI\\01_quest\\hud', typeHash: TYPE_GUI, data: guiMod },
+    ]),
+  );
+  const gmMss = gmDiff.modified.find(m => m.semantic.kind === 'MSS');
+  const gmGui = gmDiff.modified.find(m => m.semantic.kind === 'GUI');
+  assert(gmMss && gmMss.semantic.changedCount === 1 && gmMss.semantic.changedMotions[0].changedFrames.length === 2, 'MSS SFX timing diff detected');
+  assert(gmGui && gmGui.semantic.modResolution === '1920x1080' && gmGui.semantic.addedStrings.includes('NewTag'), 'GUI layout diff detected');
+
+  // 7. CTC (`0x535d969f`) and SBC (`0x51fc779f`) semantic diff integration
+  const { serializeCtc, serializeSbc, SBC_BVHC_MAGIC, SBC_BVHC_VERSION, SBC_GRCO_MAGIC, SBC_GRCO_VERSION } = await import('./ctc-sbc.mjs');
+  const ctcBase = serializeCtc({
+    groups: [{ chainNodeCount: 1, damping: 0.25, stiffness: 0.75, windScale: 0.0 }],
+    nodes: [{ boneId: 202, radius: 5.0, angleLimit: 1.5, mass: 1.0 }],
+  });
+  const ctcMod = serializeCtc({
+    groups: [{ chainNodeCount: 1, damping: 0.4, stiffness: 0.9, windScale: 0.2 }],
+    nodes: [{ boneId: 202, radius: 7.5, angleLimit: 1.5, mass: 1.0 }],
+  });
+  const makeSbc = (zCoord, attr) => serializeSbc({
+    bboxMin: [-10, 0, -10, 0],
+    bboxMax: [10, 5, zCoord, 0],
+    groups: [{ bboxMin: [-10, 0, -10, 0], bboxMax: [10, 5, zCoord, 0], subBoxCount: 1, faceCount: 1, adjCount: 1 }],
+    groupAux: [{ kind: 'subBoxes', subBoxes: [{ min: [-10, 0, -10], flags: 0, max: [10, 5, zCoord] }] }],
+    topAux: { kind: 'bvhc', bvhc: { magic: SBC_BVHC_MAGIC, version: SBC_BVHC_VERSION, mode: 1, boxCount: 0, boxStride: 112 } },
+    faces: [{ normal: [0, 1, 0], v0: 0, v1: 1, v2: 2, surfaceAttr: attr }],
+    vertices: [[0, 0, 0, 0], [10, 0, 0, 0], [0, 0, zCoord, 0]],
+    links: [],
+    adjacencies: [{ faceIndex: 0, edges: [-1, -1, -1], flags: 0 }],
+    groupGrids: [{ magic: SBC_GRCO_MAGIC, version: SBC_GRCO_VERSION, bboxMin: [-10, 0, -10, 0], bboxMax: [10, 5, zCoord, 0], gridX: 1, gridZ: 1, indexType: 1, hasFlatCells: 1, cellsHex: '0000000001000000', indexCount: 1, indicesHex: '0000' }],
+  });
+  const csDiff = diffArcs(
+    packArc([
+      { name: 'enemy\\em085\\em085_00\\mod\\em085_00', typeHash: TYPE_CTC, data: ctcBase },
+      { name: 'stage\\m00d\\m00a02d\\collision\\m00a02d-a-g00-s00', typeHash: TYPE_SBC, data: makeSbc(10, 1) },
+    ]),
+    packArc([
+      { name: 'enemy\\em085\\em085_00\\mod\\em085_00', typeHash: TYPE_CTC, data: ctcMod },
+      { name: 'stage\\m00d\\m00a02d\\collision\\m00a02d-a-g00-s00', typeHash: TYPE_SBC, data: makeSbc(18, 4) },
+    ]),
+  );
+  const csCtc = csDiff.modified.find(m => m.semantic.kind === 'CTC');
+  const csSbc = csDiff.modified.find(m => m.semantic.kind === 'SBC');
+  assert(csCtc && csCtc.semantic.changedGroupCount === 1 && csCtc.semantic.changedNodeCount === 1, 'CTC chain/node diff detected');
+  assert(csSbc && csSbc.semantic.bboxChanged === true && csSbc.semantic.changedFaceCount === 1 && csSbc.semantic.changedVertexCount === 1, 'SBC geometry/surfaceAttr/AABB diff detected');
+
+  return { ok: failures.length === 0, checks: 31, failures };
 }
 
 function usage(msg) {
